@@ -19,4 +19,4 @@ Login / Functional / Positive Testing
 - Đăng nhập thất bại và hiển thị thông báo lỗi "Invalid email or password" (hoặc thông báo lỗi chung không tiết lộ nguyên nhân cụ thể).
 - Giá trị `login_attempts` trong database phải tăng lên **đúng 1 đơn vị** (từ 0 lên 1).
 ## Status / Related bugs
-Failed / Bug #1: login_attempts incremented by 2 instead of 1
+Failed / #1

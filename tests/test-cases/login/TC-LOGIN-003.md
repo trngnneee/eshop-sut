@@ -22,4 +22,4 @@ Login / Functional / Boundary Value Analysis / State Transition Testing
 - Khi tài khoản đang bị khóa, bất kỳ nỗ lực đăng nhập nào (kể cả dùng đúng mật khẩu) đều phải bị từ chối với thông báo lỗi phù hợp (ví dụ: "Tài khoản đã bị khóa. Vui lòng thử lại sau.").
 - Sau 30 giây, tài khoản được mở khóa tự động và đăng nhập bình thường khi nhập đúng mật khẩu.
 ## Status / Related bugs
-Failed / Bug #2: Account locked for 180 seconds instead of 30 seconds
+Failed / #2

@@ -1,0 +1,34 @@
+{
+  "feature_name": "FR-01",
+  "module_name": "register",
+  "inputs": [
+    {
+      "name": "Họ Tên",
+      "type": "string",
+      "required": true,
+      "min_length": 1,
+      "max_length": 255
+    },
+    {
+      "name": "Email",
+      "type": "string",
+      "required": true,
+      "min_length": 5,
+      "max_length": 100
+    },
+    {
+      "name": "Mật khẩu",
+      "type": "string",
+      "required": true,
+      "min_length": 8,
+      "max_length": 50
+    },
+    {
+      "name": "Xác nhận mật khẩu",
+      "type": "string",
+      "required": true,
+      "min_length": 8,
+      "max_length": 50
+    }
+  ]
+}
