@@ -96,6 +96,10 @@ Khi kích hoạt kỹ năng này, Agent sẽ:
 2. Tự động liệt kê các phân vùng tương đương và các giá trị biên dưới dạng bảng để người dùng xác nhận.
 3. Sau khi người dùng xác nhận, Agent sẽ tạo các file test case tương ứng vào đúng thư mục `tests/test-cases/[module]/`.
 4. Cập nhật ma trận truy vết `tests/test-summary/traceability-matrix.md`.
+5. **Đăng ký Bug khi phát hiện lỗi:** Khi phát hiện ra bất kỳ lỗi (bug) nào trong quá trình thực thi test case, Agent bắt buộc phải:
+   * Tạo một **Bug Issue** tương ứng trên trang GitHub Issues của nhóm (đính kèm mô tả chi tiết, các bước tái hiện và ảnh chụp màn hình làm minh chứng).
+   * Cập nhật mã Bug (ví dụ: `#18`) vào mục `Status / Related bugs` trong file test case bị Fail.
+   * Đồng bộ liên kết Bug này vào báo cáo lượt chạy test `sprint-X-test-run.md` và ma trận truy vết `traceability-matrix.md`.
 
 ---
 
