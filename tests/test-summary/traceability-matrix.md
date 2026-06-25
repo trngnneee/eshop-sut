@@ -13,3 +13,11 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-09 (Discount coupons) | [TC-COUPON-008](../test-cases/coupon/TC-COUPON-008.md) | Fail | [BUG-COUPON-003](../bug-reports/BUG-COUPON-003.md) | Open |
 | FR-09 (Discount coupons) | [TC-COUPON-009](../test-cases/coupon/TC-COUPON-009.md) | Pass | None | Done |
 | FR-09 (Discount coupons) | [TC-COUPON-010](../test-cases/coupon/TC-COUPON-010.md) | Pass | None | Done |
+| FR-09 (Discount coupons) | [TC-COUPON-011](../test-cases/coupon/TC-COUPON-011.md) | Pass | None | Done |
+| FR-09 (Discount coupons) | [TC-COUPON-012](../test-cases/coupon/TC-COUPON-012.md) | Pass | None | Done |
+| FR-09 (Discount coupons) | [TC-COUPON-013](../test-cases/coupon/TC-COUPON-013.md) | Pass | None | Done |
+| FR-09 (Discount coupons) | [TC-COUPON-014](../test-cases/coupon/TC-COUPON-014.md) | Pass | None | Done |
+| FR-09 (Discount coupons) | [TC-COUPON-015](../test-cases/coupon/TC-COUPON-015.md) | Pass | None | Done |
+| FR-09 (Discount coupons) | [TC-COUPON-016](../test-cases/coupon/TC-COUPON-016.md) | Fail | [BUG-COUPON-005](../bug-reports/BUG-COUPON-005.md) | Open |
+| FR-09 (Discount coupons) | [TC-COUPON-017](../test-cases/coupon/TC-COUPON-017.md) | Fail | [BUG-COUPON-005](../bug-reports/BUG-COUPON-005.md) | Open |
+| FR-09 (Discount coupons) | [TC-COUPON-018](../test-cases/coupon/TC-COUPON-018.md) | Fail | [BUG-COUPON-005](../bug-reports/BUG-COUPON-005.md) | Open |

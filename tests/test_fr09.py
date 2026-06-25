@@ -280,6 +280,142 @@ def run_tests():
     else:
         print("  => KẾT QUẢ: FAILED")
 
+    # -------------------------------------------------------------
+    # 11. TC-COUPON-011: Áp dụng mã giảm giá thất bại do mã tồn tại nhưng bị tắt (is_active = 0)
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-011] Áp dụng mã tồn tại nhưng bị tắt (is_active = 0)")
+    # Thêm mã INACTIVE bị tắt vào DB
+    execute_db_write("INSERT OR REPLACE INTO coupons (code, type, discount_value, min_order_amount, expired_at, is_active, max_uses_per_user) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                     ("INACTIVE", "percent", 15, 100000, "2099-12-31", 0, 1))
+    
+    status, res = make_request("/api/apply-coupon", data={
+        "code": "INACTIVE",
+        "total_amount": 200000,
+        "user_id": user_id
+    }, token=token)
+    
+    # KỲ VỌNG: HTTP 404
+    print(f"  - Phản hồi: HTTP {status} | {res}")
+    if status == 404 and "error" in res:
+        print("  => KẾT QUẢ: PASSED")
+    else:
+        print("  => KẾT QUẢ: FAILED")
+        
+    # Xóa mã test INACTIVE
+    execute_db_write("DELETE FROM coupons WHERE code = 'INACTIVE'")
+
+    # -------------------------------------------------------------
+    # 12. TC-COUPON-012: Áp dụng mã giảm giá thất bại tại biên thời gian hết hạn (date = expired_at)
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-012] Áp dụng mã tại biên thời gian hết hạn (date = expired_at)")
+    # Tạo mã EXP_BORDER có expired_at = thời điểm hiện tại
+    import datetime
+    current_time_iso = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+    
+    execute_db_write("INSERT OR REPLACE INTO coupons (code, type, discount_value, min_order_amount, expired_at, is_active, max_uses_per_user) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                     ("EXP_BORDER", "percent", 10, 100000, current_time_iso, 1, 1))
+                     
+    status, res = make_request("/api/apply-coupon", data={
+        "code": "EXP_BORDER",
+        "total_amount": 200000,
+        "user_id": user_id
+    }, token=token)
+    
+    # KỲ VỌNG: HTTP 400 và báo hết hạn
+    print(f"  - Phản hồi: HTTP {status} | {res}")
+    if status == 400 and "error" in res:
+        print("  => KẾT QUẢ: PASSED")
+    else:
+        print("  => KẾT QUẢ: FAILED")
+        
+    # Xóa mã test EXP_BORDER
+    execute_db_write("DELETE FROM coupons WHERE code = 'EXP_BORDER'")
+
+    # -------------------------------------------------------------
+    # 13. TC-COUPON-013: Áp dụng mã giảm giá thất bại khi số lần sử dụng trong CSDL đã vượt hạn mức tối đa (used_count > max_uses_per_user)
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-013] Áp dụng mã khi used_count > max_uses_per_user (Vượt quá giới hạn)")
+    # SAVE10 có max_uses = 1. Ta add 2 bản ghi sử dụng cho user này.
+    save10_id = query_db("SELECT id FROM coupons WHERE code = 'SAVE10'")[0][0]
+    execute_db_write("INSERT INTO coupon_usage (coupon_id, user_id) VALUES (?, ?)", (save10_id, user_id))
+    execute_db_write("INSERT INTO coupon_usage (coupon_id, user_id) VALUES (?, ?)", (save10_id, user_id))
+    
+    status, res = make_request("/api/apply-coupon", data={
+        "code": "SAVE10",
+        "total_amount": 350000,
+        "user_id": user_id
+    }, token=token)
+    
+    # KỲ VỌNG: HTTP 400
+    print(f"  - Phản hồi: HTTP {status} | {res}")
+    if status == 400 and "error" in res:
+        print("  => KẾT QUẢ: PASSED")
+    else:
+        print("  => KẾT QUẢ: FAILED")
+
+    # -------------------------------------------------------------
+    # 14. TC-COUPON-014: Áp dụng mã giảm giá thất bại do mã coupon là chuỗi rỗng
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-014] Áp dụng mã coupon là chuỗi rỗng")
+    status, res = make_request("/api/apply-coupon", data={
+        "code": "",
+        "total_amount": 350000,
+        "user_id": user_id
+    }, token=token)
+    print(f"  - Phản hồi: HTTP {status} | {res}")
+    if status == 400 and res.get("error") == "Vui lòng nhập mã giảm giá":
+        print("  => KẾT QUẢ: PASSED")
+    else:
+        print("  => KẾT QUẢ: FAILED")
+
+    # -------------------------------------------------------------
+    # 15. TC-COUPON-015: Áp dụng mã giảm giá thất bại do mã coupon chứa ký tự đặc biệt
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-015] Áp dụng mã coupon chứa ký tự đặc biệt")
+    status, res = make_request("/api/apply-coupon", data={
+        "code": "SAVE10!@#",
+        "total_amount": 350000,
+        "user_id": user_id
+    }, token=token)
+    print(f"  - Phản hồi: HTTP {status} | {res}")
+    if status == 404 and "error" in res:
+        print("  => KẾT QUẢ: PASSED")
+    else:
+        print("  => KẾT QUẢ: FAILED")
+
+    # -------------------------------------------------------------
+    # 16. TC-COUPON-017: Áp dụng mã giảm giá thất bại do tổng đơn hàng (total_amount) là chuỗi không thể quy đổi thành số
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-016] Áp dụng mã với total_amount là chuỗi không thể quy đổi")
+    status, res = make_request("/api/apply-coupon", data={
+        "code": "SAVE10",
+        "total_amount": "invalid_number",
+        "user_id": user_id
+    }, token=token)
+    print(f"  - Phản hồi: HTTP {status} | {res}")
+
+    # -------------------------------------------------------------
+    # 17. TC-COUPON-017: Áp dụng mã giảm giá thất bại do thiếu tham số tổng đơn hàng (total_amount = null)
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-017] Áp dụng mã với total_amount = null")
+    status, res = make_request("/api/apply-coupon", data={
+        "code": "SAVE10",
+        "total_amount": None,
+        "user_id": user_id
+    }, token=token)
+    print(f"  - Phản hồi: HTTP {status} | {res}")
+
+    # -------------------------------------------------------------
+    # 18. TC-COUPON-018: Áp dụng mã giảm giá thất bại do tổng đơn hàng có giá trị âm (total_amount < 0)
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-018] Áp dụng mã với total_amount < 0")
+    status, res = make_request("/api/apply-coupon", data={
+        "code": "SAVE10",
+        "total_amount": -50000,
+        "user_id": user_id
+    }, token=token)
+    print(f"  - Phản hồi: HTTP {status} | {res}")
+
     # Dọn dẹp DB sau khi test
     execute_db_write("DELETE FROM coupon_usage WHERE user_id = ?", (user_id,))
     execute_db_write("DELETE FROM users WHERE id = ?", (user_id,))

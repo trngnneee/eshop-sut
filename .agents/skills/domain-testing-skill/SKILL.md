@@ -11,7 +11,7 @@ Kỹ năng này kết hợp toàn bộ quy trình kiểm thử miền (Domain Te
 
 1. **Bước 1: Phân tích & Xác định Lớp tương đương (EP):**
    * Phân tích *đầy đủ* yêu cầu của chức năng đang xét/cấu trúc dữ liệu liên quan, từ đó xác định *TẤT CẢ* các biến đầu vào/đầu ra của chức năng cụ thể trên EShop.
-   * Với mỗi biến, xác định các lớp tương đương **Hợp lệ (Valid)** và **Không hợp lệ (Invalid)** của biến đó. 
+   * Với mỗi biến, xác định các lớp tương đương **Hợp lệ (Valid)** và **Không hợp lệ (Invalid)** (vượt ngưỡng hợp lệ, khác kiểu giá trị, chuỗi rỗng, ký tự đặc biệt, v.v) của biến đó. 
    * Với mỗi biến, mỗi lớp tương đương của nó được xác định 1 giá trị đại diện.
 2. **Bước 2: Phân tích Giá trị Biên (BVA):**
    * Với mỗi biến, từ các miền giá trị đã xác định ở bước 1, xác định các giá trị biên của các miền giá trị (sử dụng chiến lược biên 2 điểm hoặc 3 điểm).
