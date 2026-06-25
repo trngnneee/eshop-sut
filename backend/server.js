@@ -29,33 +29,8 @@ app.post("/api/register", (req, res) => {
   );
 });
 
-// Simple In-Memory Rate Limiter for Login API
-const loginLimiterMap = new Map();
-const loginRateLimiter = (req, res, next) => {
-  const ip = req.ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-  const now = Date.now();
-  const limitWindow = 60000; // 1 minute
-  const maxRequests = 20;
-
-  if (!loginLimiterMap.has(ip)) {
-    loginLimiterMap.set(ip, []);
-  }
-
-  const timestamps = loginLimiterMap.get(ip).filter((time) => now - time < limitWindow);
-  if (timestamps.length >= maxRequests) {
-    return res.status(429).json({ error: "Too many login attempts. Please try again after a minute." });
-  }
-
-  timestamps.push(now);
-  loginLimiterMap.set(ip, timestamps);
-  next();
-};
-
-app.post("/api/login", loginRateLimiter, (req, res) => {
-  let { email, password } = req.body;
-  if (typeof email === "string") {
-    email = email.trim();
-  }
+app.post("/api/login", (req, res) => {
+  const { email, password } = req.body;
 
   db.get("SELECT * FROM users WHERE email = ?", [email], (err, user) => {
     if (err) return res.status(500).json({ error: err.message });
@@ -72,26 +47,20 @@ app.post("/api/login", loginRateLimiter, (req, res) => {
       db.run(
         "UPDATE users SET login_attempts = 0, locked_until = NULL WHERE id = ?",
         [user.id],
-        (err) => {
-          if (err) return res.status(500).json({ error: err.message });
-          const token = jwt.sign({ id: user.id, role: user.role }, SECRET_KEY, { expiresIn: "24h" });
-          res.json({ message: "Login successful", token, user });
-        }
       );
+      const token = jwt.sign({ id: user.id, role: user.role }, SECRET_KEY);
+      res.json({ message: "Login successful", token, user });
     } else {
-      const newAttempts = user.login_attempts + 1;
+      const newAttempts = user.login_attempts + 2;
       let lockedUntil = null;
       if (newAttempts >= 3) {
-        lockedUntil = new Date(Date.now() + 30000).toISOString();
+        lockedUntil = new Date(Date.now() + 180000).toISOString();
       }
       db.run(
         "UPDATE users SET login_attempts = ?, locked_until = ? WHERE id = ?",
         [newAttempts, lockedUntil, user.id],
-        (err) => {
-          if (err) return res.status(500).json({ error: err.message });
-          res.status(401).json({ error: "Invalid email or password" });
-        }
       );
+      res.status(401).json({ error: "Invalid email or password" });
     }
   });
 });

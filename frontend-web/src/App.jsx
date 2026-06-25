@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { useCart } from './context/CartContext';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -11,22 +11,6 @@ import ForgotPassword from './pages/ForgotPassword';
 import Profile from './pages/Profile';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
-
-function PublicOnlyRoute({ children }) {
-  const { token } = useAuth();
-  if (token) {
-    return <Navigate to="/" replace />;
-  }
-  return children;
-}
-
-function PrivateRoute({ children }) {
-  const { token } = useAuth();
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-  return children;
-}
 
 function Header() {
   const { user, logout } = useAuth();
@@ -65,13 +49,13 @@ function App() {
             <main className="flex-grow p-4 container mx-auto max-w-5xl">
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/login" element={<PublicOnlyRoute><Login /></PublicOnlyRoute>} />
-                <Route path="/register" element={<PublicOnlyRoute><Register /></PublicOnlyRoute>} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+                <Route path="/profile" element={<Profile />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/cart" element={<Cart />} />
-                <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
+                <Route path="/checkout" element={<Checkout />} />
               </Routes>
             </main>
             <footer className="bg-gray-800 text-white text-center p-4 mt-8">

@@ -123,14 +123,21 @@ Khi kích hoạt kỹ năng này, Agent sẽ:
 
 ## 6. Quy trình & Template Báo cáo Lỗi (Bug Report)
 
-Khi phát hiện ra lỗi (bug) trong quá trình kiểm thử, bên cạnh việc đăng ký GitHub Issue, Agent phải lập báo cáo lỗi chi tiết dưới định dạng bảng sau để thống nhất quản lý:
+Khi phát hiện ra lỗi (bug) trong quá trình kiểm thử, bên cạnh việc đăng ký GitHub Issue, Agent phải lập báo cáo lỗi chi tiết.
+
+### Quy ước đặt mã và Thư mục Lưu trữ Lỗi (Bug Files)
+* **Thư mục lưu trữ lỗi:** Lưu vào thư mục `tests/bug/[tên-feature]/` ở thư mục gốc của dự án.
+  * Ví dụ: `tests/bug/login/`
+* **Quy ước đặt tên file lỗi (viết liền không dấu ngoặc vuông):** `BUG-[Mã FR]-[Ký tự Pool]-[Số thứ tự].md`
+  * Ví dụ: `BUG-FR02-A-01.md`
+  * Trong đó: Pool được tra cứu trong tài liệu [Requirements.pdf](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/Requirements/Requirements.pdf) (ví dụ: `FR-02` thuộc `Pool A` nên ký tự pool là `A`).
 
 ### Template Chi Tiết Lỗi (Bug Report Template)
 
 | Tên trường (Field) | Mô tả & Định dạng (Description & Format) |
 | :--- | :--- |
 | **No.** | Số thứ tự của lỗi phát hiện (ví dụ: `01`, `02`) |
-| **BugID** | Mã định danh lỗi duy nhất (định dạng: `BG-[MODULE]-[NUMBER]`, ví dụ: `BG-LOGIN-001`) |
+| **BugID** | Mã định danh lỗi duy nhất (định dạng: `BUG-[Mã FR]-[Ký tự Pool]-[Số thứ tự]`, ví dụ: `BUG-FR02-A-01`) |
 | **Status** | Trạng thái hiện tại của lỗi (ví dụ: `New`, `Open`, `In Progress`, `Resolved`, `Closed`) |
 | **Requirement Name** | Tên yêu cầu nghiệp vụ bị lỗi (ví dụ: `FR-02 Đăng nhập & Khóa tài khoản`) |
 | **Summary** | Tiêu đề tóm tắt ngắn gọn lỗi (ví dụ: `Mật khẩu hiển thị dạng clear text thay vì dấu chấm ẩn`) |
