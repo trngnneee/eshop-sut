@@ -1,4 +1,4 @@
-# [BUG][Coupon] Lỗi so sánh nghiêm ngặt tại ngưỡng đơn hàng tối thiểu (min_order_amount)
+Title: [BUG][Coupon] Lỗi so sánh nghiêm ngặt tại ngưỡng đơn hàng tối thiểu (min_order_amount)
 
 ## Found by Test Case
 TC-COUPON-001, TC-COUPON-004
@@ -10,30 +10,21 @@ FR-09: Discount coupons (Điều kiện C3)
 Major / P1
 
 ## Environment
-Backend Node.js API, SQLite Database
+Chrome, Windows, Backend Node.js API, SQLite Database
 
 ## Steps to reproduce
-1. Thực hiện cuộc gọi API POST đến `/api/apply-coupon` với các tham số:
-   ```json
-   {
-     "code": "SAVE10",
-     "total_amount": 300000,
-     "user_id": 1
-   }
-   ```
-   *(Ngưỡng tối thiểu của mã SAVE10 là 300,000 ₫)*
+1. Thêm vào giỏ `Sản phẩm thử nghiệm 300k`.
+2. Nhập mã "SAVE10".
+3. Nhấn "Áp dụng".
 
 ## Expected result
-- Trả về mã HTTP 200.
-- Áp dụng thành công mã giảm giá.
+Hệ thống áp dụng thành công mã giảm giá và trả về HTTP 200.
 
 ## Actual result
-- Trả về mã HTTP 400.
-- Báo lỗi: "Đơn hàng chưa đủ giá trị tối thiểu 300,000 ₫ để áp dụng mã này".
+Hệ thống từ chối áp dụng mã giảm giá, trả về HTTP 400 và báo lỗi: `"Đơn hàng chưa đủ giá trị tối thiểu 300,000 ₫ để áp dụng mã này"`.
 
-## Cause analysis (Nguyên nhân)
-Tại `backend/server.js` dòng 379:
-```javascript
-if (total_amount > coupon.min_order_amount)
-```
-Hệ thống sử dụng toán tử so sánh lớn hơn (`>`) thay vì lớn hơn hoặc bằng (`>=`), dẫn đến việc từ chối áp dụng khi đơn hàng đạt chính xác giá trị ngưỡng tối thiểu.
+## Evidence
+![BUG-COUPON-001 Screenshot](../bugs-screenshots/BUG-COUPON-001.png)
+
+---
+*Nhãn (Labels) cần gắn:* `type: bug`, `module: coupon`, `severity: major`, `priority: P1`, `status: new`, `found-by: test-case`
