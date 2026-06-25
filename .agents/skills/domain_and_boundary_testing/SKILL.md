@@ -119,3 +119,26 @@ Khi kích hoạt kỹ năng này, Agent sẽ:
    * Agent cần đọc và bổ sung các test case kiểm thử logic phức tạp hơn (ví dụ: định dạng email hợp lệ, so sánh trường mật khẩu nhập lại có trùng khớp không, kiểm tra các trạng thái nghiệp vụ đặc thù) bằng tay vào các file test case tương ứng hoặc tạo mới.
    * Xóa file cấu hình JSON tạm sau khi hoàn tất để giữ thư mục sạch sẽ.
 
+---
+
+## 6. Quy trình & Template Báo cáo Lỗi (Bug Report)
+
+Khi phát hiện ra lỗi (bug) trong quá trình kiểm thử, bên cạnh việc đăng ký GitHub Issue, Agent phải lập báo cáo lỗi chi tiết dưới định dạng bảng sau để thống nhất quản lý:
+
+### Template Chi Tiết Lỗi (Bug Report Template)
+
+| Tên trường (Field) | Mô tả & Định dạng (Description & Format) |
+| :--- | :--- |
+| **No.** | Số thứ tự của lỗi phát hiện (ví dụ: `01`, `02`) |
+| **BugID** | Mã định danh lỗi duy nhất (định dạng: `BG-[MODULE]-[NUMBER]`, ví dụ: `BG-LOGIN-001`) |
+| **Status** | Trạng thái hiện tại của lỗi (ví dụ: `New`, `Open`, `In Progress`, `Resolved`, `Closed`) |
+| **Requirement Name** | Tên yêu cầu nghiệp vụ bị lỗi (ví dụ: `FR-02 Đăng nhập & Khóa tài khoản`) |
+| **Summary** | Tiêu đề tóm tắt ngắn gọn lỗi (ví dụ: `Mật khẩu hiển thị dạng clear text thay vì dấu chấm ẩn`) |
+| **Steps to reproduce** | Các bước chi tiết để tái hiện lỗi:<br>1. Truy cập vào trang...<br>2. Điền thông tin...<br>3. Bấm vào nút... |
+| **Severity** | Mức độ nghiêm trọng của lỗi (ví dụ: `Critical`, `Major`, `Minor`, `Cosmetic`) |
+| **Frequency** | Tần suất lặp lại của lỗi (ví dụ: `Always`, `Intermittent`, `Rare`) |
+| **Priority** | Độ ưu tiên xử lý của lỗi (ví dụ: `High`, `Medium`, `Low`) |
+| **Attachment (Link to file)** | Ảnh chụp màn hình, video hoặc log lỗi ([Link to file](file:///path/to/attachment)) |
+| **Date** | Ngày phát hiện lỗi (định dạng: `YYYY-MM-DD`, ví dụ: `2026-06-25`) |
+| **Reporter** | Tên người thực hiện test và phát hiện lỗi (ví dụ: `AI Tester (Antigravity)`) |
+

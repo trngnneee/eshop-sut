@@ -40,18 +40,34 @@ def query_db(query, params=()):
     conn.close()
     return result
 
+def execute_db(query, params=()):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute(query, params)
+    conn.commit()
+    conn.close()
+
 def run_tests():
     print("=" * 60)
     print("KỊCH BẢN KIỂM THỬ FR-02: ĐĂNG NHẬP & KHÓA TÀI KHOẢN")
     print("=" * 60)
     
-    # -------------------------------------------------------------
-    # 0. ĐĂNG KÝ TÀI KHOẢN TRƯỚC (Requirement: Đăng ký trước khi đăng nhập)
-    # -------------------------------------------------------------
     email_success = "fr02_success@eshop.com"
     email_fail = "fr02_fail@eshop.com"
     password = "Test1234!"
     
+    # -------------------------------------------------------------
+    # Cleanup Database before running tests
+    # -------------------------------------------------------------
+    try:
+        execute_db("DELETE FROM users WHERE email IN (?, ?)", (email_success, email_fail))
+        print("  - Đã dọn dẹp các tài khoản test cũ khỏi Database.")
+    except Exception as e:
+        print(f"  - Lỗi khi dọn dẹp Database: {e}")
+        
+    # -------------------------------------------------------------
+    # 0. ĐĂNG KÝ TÀI KHOẢN TRƯỚC (Requirement: Đăng ký trước khi đăng nhập)
+    # -------------------------------------------------------------
     print("\n[Bước 0] Đăng ký các tài khoản thử nghiệm...")
     
     # Đăng ký tài khoản 1 (dùng cho test login thành công)
@@ -123,19 +139,25 @@ def run_tests():
     # -------------------------------------------------------------
     print("\n[TC-LOGIN-003] Kiểm tra tạm khóa tài khoản")
     
-    # Vì bộ đếm tăng thêm 2 đơn vị sau lần 1 (do bug), hiện tại attempts = 2.
-    # Ta thực hiện đăng nhập sai lần 2 để tăng attempts lên >= 3 và kích hoạt khóa.
-    print("  - Tiến hành đăng nhập sai lần 2 (để đạt/vượt ngưỡng khóa)...")
+    # Thực hiện đăng nhập sai lần 2
+    print("  - Tiến hành đăng nhập sai lần 2...")
+    make_request("/api/login", data={
+        "email": email_fail,
+        "password": "WrongPassword123!"
+    })
+    
+    # Thực hiện đăng nhập sai lần 3 để đạt ngưỡng khóa (>= 3)
+    print("  - Tiến hành đăng nhập sai lần 3...")
     status, res = make_request("/api/login", data={
         "email": email_fail,
         "password": "WrongPassword123!"
     })
     
     user_data = query_db("SELECT login_attempts, locked_until FROM users WHERE email = ?", (email_fail,))
-    attempts_after_2, locked_until_after_2 = user_data[0]
-    print(f"  - Sau lần 2 sai: login_attempts = {attempts_after_2}, locked_until = {locked_until_after_2}")
+    attempts_after_3, locked_until_after_3 = user_data[0]
+    print(f"  - Sau lần 3 sai: login_attempts = {attempts_after_3}, locked_until = {locked_until_after_3}")
     
-    if locked_until_after_2:
+    if locked_until_after_3:
         print("  - Xác nhận tài khoản ĐÃ bị khóa trong DB.")
         
         # Thử đăng nhập lại bằng thông tin đúng NGAY LẬP TỨC để xem có bị chặn không
@@ -147,26 +169,11 @@ def run_tests():
         print(f"  - Phản hồi: HTTP {status_correct} | {res_correct}")
         
         # Phân tích thời gian khóa
-        # Lấy thời gian khóa từ DB và so sánh với thời điểm hiện tại
         try:
-            locked_until_time = time.mktime(time.strptime(locked_until_after_2.split(".")[0], "%Y-%m-%dT%H:%M:%S"))
-            # SQLite stores DATETIME in UTC or ISO. Let's calculate duration from locked_until - current_time
-            # Note: Server uses Date.now() + 180000 or similar
-            current_time = time.time()
-            # Server is on local time or UTC. Let's parse locked_until_after_2 manually or check the exact duration.
-            # In node: Date.now() + 180000. Let's inspect the diff from DB locked_until and time of lock.
-            # Since server just updated it, we can estimate lock duration by subtracting current epoch from locked_until epoch
-            # Let's calculate the duration of the lock
-            # Date.now() in JS is UTC millisecond.
-            # In node: lockedUntil = new Date(Date.now() + 180000).toISOString()
-            # Python time.time() is UTC epoch seconds.
-            # ISO timestamp: 2026-06-23T06:27:15.123Z (let's strip Z and parse)
-            iso_str = locked_until_after_2.replace("Z", "")
+            iso_str = locked_until_after_3.replace("Z", "")
             if "." in iso_str:
                 iso_str = iso_str.split(".")[0]
             lock_epoch = time.mktime(time.strptime(iso_str, "%Y-%m-%dT%H:%M:%S"))
-            # python time.timezone/altzone adjusts to local time.
-            # Let's calculate difference by looking at current time in UTC
             utc_now = time.gmtime()
             utc_now_epoch = time.mktime(utc_now)
             duration = lock_epoch - utc_now_epoch
@@ -178,7 +185,7 @@ def run_tests():
                 print("  => KẾT QUẢ THỜI GIAN KHÓA: FAILED")
                 print(f"    - BUG PHÁT HIỆN: Tài khoản bị khóa trong {round(duration)} giây (~{round(duration/60)} phút) thay vì 30 giây!")
         except Exception as e:
-            print(f"  - Không thể tính toán chính xác giây khóa tự động ({e}). Trực tiếp kiểm tra giá trị trong DB: {locked_until_after_2}")
+            print(f"  - Không thể tính toán chính xác giây khóa tự động ({e}). Trực tiếp kiểm tra giá trị trong DB: {locked_until_after_3}")
             
         if status_correct == 403:
             print("  => KẾT QUẢ CHẶN ĐĂNG NHẬP: PASSED (Bị chặn đăng nhập đúng với mã 403)")
