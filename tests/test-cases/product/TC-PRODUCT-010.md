@@ -50,19 +50,14 @@ Trang kết quả tìm kiếm vẫn chỉ có đúng 1 thẻ h1.
 
 ## Actual Result
 
-Chưa thực thi.
+Trang kết quả tìm kiếm có 2 thẻ h1.
 
 
 ## Status
 
-NOT EXECUTED
+FAILED
 
 
 ## Bug Reference
 
-None
-
-
-## Tester Notes
-
-Không có.
+[BUG][Product] Lỗi số lượng thẻ h1 trong trang tìm kiếm

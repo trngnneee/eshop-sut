@@ -49,19 +49,14 @@ Trang chủ chỉ có đúng 1 thẻ h1.
 
 ## Actual Result
 
-Chưa thực thi.
+Trang có đến 2 thẻ h1.
 
 
 ## Status
 
-NOT EXECUTED
+FAILED
 
 
 ## Bug Reference
 
-None
-
-
-## Tester Notes
-
-Không có.
+[BUG][Product] Lỗi số lượng thẻ h1

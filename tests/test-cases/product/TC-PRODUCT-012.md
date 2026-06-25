@@ -50,19 +50,14 @@ Kiểm tra ảnh sản phẩm hiển thị đúng tỷ lệ chuẩn và không b
 
 ## Actual Result
 
-Chưa thực thi.
+Ảnh sản phẩm không bị méo hoặc sai tỷ lệ.
 
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
 
 None
-
-
-## Tester Notes
-
-Không có.

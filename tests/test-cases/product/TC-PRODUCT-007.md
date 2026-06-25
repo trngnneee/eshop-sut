@@ -50,19 +50,14 @@ Danh sách kết quả hiển thị sản phẩm có tên phù hợp với từ 
 
 ## Actual Result
 
-Chưa thực thi.
+Hiển thị sản phẩm khớp với từ khóa.
 
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
 
 None
-
-
-## Tester Notes
-
-Không có.

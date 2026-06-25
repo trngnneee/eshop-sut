@@ -50,19 +50,13 @@ Tất cả sản phẩm trả về được hiển thị trên lưới sản ph�
 
 ## Actual Result
 
-Chưa thực thi.
+Số sản phẩm trả về được hiển thị đầy đủ.
 
 
 ## Status
 
-NOT EXECUTED
-
+PASSED
 
 ## Bug Reference
 
 None
-
-
-## Tester Notes
-
-Không có.

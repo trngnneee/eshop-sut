@@ -33,7 +33,7 @@ Kiểm tra giá sản phẩm hiển thị đúng đơn vị ₫ và có phân c�
 
 | Parameter | Value |
 |-|-|
-| Giá sản phẩm | 1234567 |
+| Giá sản phẩm | 1.234.567 ₫ |
 
 
 ## Test Steps
@@ -45,24 +45,20 @@ Kiểm tra giá sản phẩm hiển thị đúng đơn vị ₫ và có phân c�
 
 ## Expected Result
 
-Giá được hiển thị theo định dạng tiền tệ Việt Nam, có ký hiệu ₫ và phân cách hàng nghìn.
+Giá được hiển thị theo định dạng tiền tệ Việt Nam, có ký hiệu ₫ và phân cách hàng nghìn dùng dấu (.) theo quy định của Điều 11 Luật Kế toán 2015 quy định về chữ viết, chữ số sử dụng trong kế toán.
 
 
 ## Actual Result
-
-Chưa thực thi.
+Giá sản phẩm hiển thị là 28,000,000 VND.
+- Dùng dấu phẩy (,) để phân cách hàng nghìn.
+- Hiển thị đơn vị tiền tệ là VND.
 
 
 ## Status
 
-NOT EXECUTED
+FAILED
 
 
 ## Bug Reference
 
-None
-
-
-## Tester Notes
-
-Không có.
+[BUG][Product] Lỗi hiển thị đơn vị tiền tệ của sản phẩm

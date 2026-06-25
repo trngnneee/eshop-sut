@@ -50,12 +50,12 @@ Từ khóa được hiển thị như văn bản thuần, không render HTML và
 
 ## Actual Result
 
-Chưa thực thi.
+Không thực thi script.
 
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference

@@ -50,19 +50,14 @@ Tên sản phẩm được hiển thị rõ ràng trên card sản phẩm.
 
 ## Actual Result
 
-Chưa thực thi.
+Tên sản phẩm được hiển thị đúng.
 
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
 
 None
-
-
-## Tester Notes
-
-Không có.

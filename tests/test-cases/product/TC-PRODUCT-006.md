@@ -50,19 +50,15 @@ Hệ thống hiển thị thông báo empty state phù hợp khi không có kế
 
 ## Actual Result
 
-Chưa thực thi.
+Khi không có sản phẩm thì trang hiển thị màn hình trắng, không hiển thị thông tin là không có sản phẩm cho người dùng.
 
 
 ## Status
 
-NOT EXECUTED
+FAILED
 
 
 ## Bug Reference
 
-None
+[BUG][Product] Lỗi hiển thị không tìm được sản phẩm
 
-
-## Tester Notes
-
-Không có.

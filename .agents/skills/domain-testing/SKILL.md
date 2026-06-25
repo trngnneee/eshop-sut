@@ -447,14 +447,14 @@ Create Markdown files.
 Storage location:
 
 
-/eshop-sut/tests/test-cases/[module]/
+/tests/test-cases/[module]/
 
 
 
 Example:
 
 
-/eshop-sut/tests/test-cases/register/
+/tests/test-cases/register/
 
 
 

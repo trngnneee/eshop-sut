@@ -38,31 +38,26 @@ Kiểm tra mỗi sản phẩm có ảnh và alt text mô tả.
 
 ## Test Steps
 
-1. Truy cập trang chủ.
+1. Truy cập trang chủ. 
 2. Quan sát ảnh của một sản phẩm bất kỳ.
-3. Kiểm tra thuộc tính alt của ảnh.
-
 
 ## Expected Result
 
-Ảnh sản phẩm được hiển thị và có alt text mô tả phù hợp.
+- Hình ảnh sản phẩm được hiển thị đúng trên danh sách sản phẩm.
+- Khi hình ảnh không thể tải, nội dung mô tả thay thế (alt text) được hiển thị.
 
 
 ## Actual Result
 
-Chưa thực thi.
-
+- Hình ảnh sản phẩm được hiển thị đúng.
+- Khi hình ảnh không thể tải, nội dung mô tả thay thế (alt text) không được hiển thị.
 
 ## Status
 
-NOT EXECUTED
+FAILED
 
 
 ## Bug Reference
 
-None
+[BUG][Product] Lỗi hiển thị alt text
 
-
-## Tester Notes
-
-Không có.

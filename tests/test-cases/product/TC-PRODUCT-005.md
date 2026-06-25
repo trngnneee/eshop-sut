@@ -50,19 +50,14 @@ Giao diện hiển thị trạng thái loading trong lúc dữ liệu đang tả
 
 ## Actual Result
 
-Chưa thực thi.
+Trang hiển thị màn hình trắng cho đến khi dữ liệu được tải xong.
 
 
 ## Status
 
-NOT EXECUTED
+FAILED
 
 
 ## Bug Reference
 
-None
-
-
-## Tester Notes
-
-Không có.
+[BUG][Product] Lỗi hiển thị trạng thái loading

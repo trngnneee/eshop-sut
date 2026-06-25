@@ -50,19 +50,14 @@ Danh sách sản phẩm được hiển thị theo dạng lưới trên trang ch
 
 ## Actual Result
 
-Chưa thực thi.
+Sản phẩm được hiển thị đúng chuẩn dạng lưới.
 
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
 
 None
-
-
-## Tester Notes
-
-Không có.
