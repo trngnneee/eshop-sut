@@ -8,7 +8,7 @@ Tài liệu này tổng hợp toàn bộ các kỹ thuật kiểm thử miền (
 Tổ chức thư mục kiểm thử trong dự án phục vụ cho việc kiểm tra, review và thống kê:
 
 ```
-project-root/
+eshop-sut/
 ├── src/                    # Mã nguồn ứng dụng
 ├── tests/
 │   ├── test-cases/         # Chứa thiết kế các test case chính thức
