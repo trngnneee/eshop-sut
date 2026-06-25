@@ -22,4 +22,4 @@ OAuth / Security Testing
 - Backend phát hiện state mismatch, từ chối đăng nhập để ngăn chặn tấn công CSRF.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #45

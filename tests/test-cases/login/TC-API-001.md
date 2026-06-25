@@ -22,4 +22,4 @@ API Contract / Equivalence Partitioning (EP)
 - Response chứa thông điệp lỗi chỉ rõ thiếu trường email.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #52

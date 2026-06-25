@@ -22,4 +22,4 @@ OAuth / Functional Testing
 - Hiển thị thông báo phù hợp hoặc không báo lỗi crash hệ thống.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #45

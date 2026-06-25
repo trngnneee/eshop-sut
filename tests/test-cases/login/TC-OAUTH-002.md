@@ -23,4 +23,4 @@ OAuth / Functional Testing
 - Đăng nhập thành công và chuyển hướng về Dashboard.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #45

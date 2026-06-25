@@ -22,4 +22,4 @@ OAuth / Security Testing
 - Không tạo thêm session trùng lặp hoặc crash.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #45

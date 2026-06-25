@@ -25,4 +25,4 @@ Remember Me / Session Testing
 - Hệ thống yêu cầu đăng nhập lại (phiên làm việc bị xóa sau khi đóng trình duyệt).
 
 ## Status / Related bugs
-Not Run / None
+Failed / #50

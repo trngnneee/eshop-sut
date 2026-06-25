@@ -20,4 +20,4 @@ Remember Me / Cookie Security
 - Cookie phải được thiết lập các cờ bảo mật: HttpOnly (ngăn XSS đọc cookie), Secure (chỉ gửi qua HTTPS), và SameSite (chống CSRF).
 
 ## Status / Related bugs
-Not Run / None
+Failed / #50

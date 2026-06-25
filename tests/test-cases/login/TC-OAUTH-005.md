@@ -22,4 +22,4 @@ OAuth / Security Testing
 - Hiển thị thông báo yêu cầu xác minh email trước khi sử dụng OAuth.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #45

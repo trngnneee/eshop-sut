@@ -22,4 +22,4 @@ JWT / Security Testing
 - Có thể thu hồi toàn bộ session liên quan để ngăn chặn tấn công chiếm đoạt phiên.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #51

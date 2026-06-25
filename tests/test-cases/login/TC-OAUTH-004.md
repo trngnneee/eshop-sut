@@ -21,4 +21,4 @@ OAuth / Security Testing
 - Backend từ chối xác thực và trả về lỗi HTTP 400 hoặc 401.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #45

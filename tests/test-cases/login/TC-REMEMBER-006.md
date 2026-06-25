@@ -21,4 +21,4 @@ Remember Me / Security Testing
 - Hệ thống từ chối hoặc phát hiện bất thường (ví dụ thay đổi IP/User-Agent bất ngờ) và yêu cầu xác thực lại.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #50

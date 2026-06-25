@@ -21,4 +21,4 @@ Remember Me / Session Testing
 - Điều hướng người dùng về trang Đăng nhập.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #50

@@ -21,4 +21,4 @@ Remember Me / Security Testing
 - Hệ thống phát hiện token không hợp lệ, xóa token lỗi và yêu cầu đăng nhập lại.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #50

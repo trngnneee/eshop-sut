@@ -21,4 +21,4 @@ OAuth / Functional Testing
 - Hệ thống từ chối đăng nhập và trả về thông báo lỗi tài khoản đã bị vô hiệu hóa.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #45

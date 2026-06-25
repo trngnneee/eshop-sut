@@ -25,4 +25,4 @@ Remember Me / Session Testing
 - Người dùng vẫn ở trạng thái đăng nhập và truy cập thành công vào Dashboard mà không cần login lại.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #50

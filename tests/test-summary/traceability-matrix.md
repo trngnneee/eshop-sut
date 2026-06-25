@@ -71,25 +71,25 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | SEC-02 (JWT Cross-Access) | [TC-JWT-005](../test-cases/login/TC-JWT-005.md) | Not Run | None | Open |
 | SEC-01 (JWT URL Exposure) | [TC-JWT-006](../test-cases/login/TC-JWT-006.md) | Not Run | None | Open |
 | FR-02 (JWT Multiple Login) | [TC-JWT-007](../test-cases/login/TC-JWT-007.md) | Not Run | None | Open |
-| SEC-02 (JWT Refresh Expired) | [TC-JWT-009](../test-cases/login/TC-JWT-009.md) | Not Run | None | Open |
-| SEC-02 (JWT Refresh Rotation) | [TC-JWT-010](../test-cases/login/TC-JWT-010.md) | Not Run | None | Open |
-| FR-02 (Remember Me Disabled Close) | [TC-REMEMBER-001](../test-cases/login/TC-REMEMBER-001.md) | Not Run | None | Open |
-| FR-02 (Remember Me Enabled Close) | [TC-REMEMBER-002](../test-cases/login/TC-REMEMBER-002.md) | Not Run | None | Open |
-| FR-02 (Remember Me Token Expired) | [TC-REMEMBER-004](../test-cases/login/TC-REMEMBER-004.md) | Not Run | None | Open |
-| SEC-02 (Remember Me Token Modified) | [TC-REMEMBER-005](../test-cases/login/TC-REMEMBER-005.md) | Not Run | None | Open |
-| SEC-02 (Remember Me Token Steal) | [TC-REMEMBER-006](../test-cases/login/TC-REMEMBER-006.md) | Not Run | None | Open |
-| SEC-01 (Remember Me Cookie Flags) | [TC-REMEMBER-007](../test-cases/login/TC-REMEMBER-007.md) | Not Run | None | Open |
-| SEC-02 (Remember Me Post Password Change) | [TC-REMEMBER-008](../test-cases/login/TC-REMEMBER-008.md) | Not Run | None | Open |
-| FR-02 (Google OAuth Exist Email) | [TC-OAUTH-001](../test-cases/login/TC-OAUTH-001.md) | Not Run | None | Open |
-| FR-02 (Google OAuth New Email) | [TC-OAUTH-002](../test-cases/login/TC-OAUTH-002.md) | Not Run | None | Open |
-| FR-02 (Google OAuth Consent Cancel) | [TC-OAUTH-003](../test-cases/login/TC-OAUTH-003.md) | Not Run | None | Open |
-| FR-02, SEC-02 (Google OAuth Bad Code) | [TC-OAUTH-004](../test-cases/login/TC-OAUTH-004.md) | Not Run | None | Open |
-| SEC-02 (Google OAuth Unverified) | [TC-OAUTH-005](../test-cases/login/TC-OAUTH-005.md) | Not Run | None | Open |
-| FR-02 (Google OAuth Locked) | [TC-OAUTH-006](../test-cases/login/TC-OAUTH-006.md) | Not Run | None | Open |
-| FR-02 (Google OAuth Disabled) | [TC-OAUTH-007](../test-cases/login/TC-OAUTH-007.md) | Not Run | None | Open |
-| SEC-02 (Google OAuth Replay Attack) | [TC-OAUTH-008](../test-cases/login/TC-OAUTH-008.md) | Not Run | None | Open |
-| SEC-02 (Google OAuth CSRF State) | [TC-OAUTH-009](../test-cases/login/TC-OAUTH-009.md) | Not Run | None | Open |
-| SEC-02 (Google OAuth Bad Redirect) | [TC-OAUTH-010](../test-cases/login/TC-OAUTH-010.md) | Not Run | None | Open |
+| SEC-02 (JWT Refresh Expired) | [TC-JWT-009](../test-cases/login/TC-JWT-009.md) | Fail | #51 | Open |
+| SEC-02 (JWT Refresh Rotation) | [TC-JWT-010](../test-cases/login/TC-JWT-010.md) | Fail | #51 | Open |
+| FR-02 (Remember Me Disabled Close) | [TC-REMEMBER-001](../test-cases/login/TC-REMEMBER-001.md) | Fail | #50 | Open |
+| FR-02 (Remember Me Enabled Close) | [TC-REMEMBER-002](../test-cases/login/TC-REMEMBER-002.md) | Fail | #50 | Open |
+| FR-02 (Remember Me Token Expired) | [TC-REMEMBER-004](../test-cases/login/TC-REMEMBER-004.md) | Fail | #50 | Open |
+| SEC-02 (Remember Me Token Modified) | [TC-REMEMBER-005](../test-cases/login/TC-REMEMBER-005.md) | Fail | #50 | Open |
+| SEC-02 (Remember Me Token Steal) | [TC-REMEMBER-006](../test-cases/login/TC-REMEMBER-006.md) | Fail | #50 | Open |
+| SEC-01 (Remember Me Cookie Flags) | [TC-REMEMBER-007](../test-cases/login/TC-REMEMBER-007.md) | Fail | #50 | Open |
+| SEC-02 (Remember Me Post Password Change) | [TC-REMEMBER-008](../test-cases/login/TC-REMEMBER-008.md) | Fail | #50 | Open |
+| FR-02 (Google OAuth Exist Email) | [TC-OAUTH-001](../test-cases/login/TC-OAUTH-001.md) | Fail | #45 | Open |
+| FR-02 (Google OAuth New Email) | [TC-OAUTH-002](../test-cases/login/TC-OAUTH-002.md) | Fail | #45 | Open |
+| FR-02 (Google OAuth Consent Cancel) | [TC-OAUTH-003](../test-cases/login/TC-OAUTH-003.md) | Fail | #45 | Open |
+| FR-02, SEC-02 (Google OAuth Bad Code) | [TC-OAUTH-004](../test-cases/login/TC-OAUTH-004.md) | Fail | #45 | Open |
+| SEC-02 (Google OAuth Unverified) | [TC-OAUTH-005](../test-cases/login/TC-OAUTH-005.md) | Fail | #45 | Open |
+| FR-02 (Google OAuth Locked) | [TC-OAUTH-006](../test-cases/login/TC-OAUTH-006.md) | Fail | #45 | Open |
+| FR-02 (Google OAuth Disabled) | [TC-OAUTH-007](../test-cases/login/TC-OAUTH-007.md) | Fail | #45 | Open |
+| SEC-02 (Google OAuth Replay Attack) | [TC-OAUTH-008](../test-cases/login/TC-OAUTH-008.md) | Fail | #45 | Open |
+| SEC-02 (Google OAuth CSRF State) | [TC-OAUTH-009](../test-cases/login/TC-OAUTH-009.md) | Fail | #45 | Open |
+| SEC-02 (Google OAuth Bad Redirect) | [TC-OAUTH-010](../test-cases/login/TC-OAUTH-010.md) | Fail | #45 | Open |
 | FR-22 (Error Email Not Exist) | [TC-ERR-001](../test-cases/login/TC-ERR-001.md) | Not Run | None | Open |
 | FR-22 (Error Wrong Password) | [TC-ERR-002](../test-cases/login/TC-ERR-002.md) | Not Run | None | Open |
 | FR-22 (Error Account Locked) | [TC-ERR-003](../test-cases/login/TC-ERR-003.md) | Not Run | None | Open |
@@ -97,8 +97,8 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-24 (Error HTTP 500 Friendliness) | [TC-ERR-005](../test-cases/login/TC-ERR-005.md) | Not Run | None | Open |
 | FR-22 (Error Multi-field Validation) | [TC-ERR-006](../test-cases/login/TC-ERR-006.md) | Not Run | None | Open |
 | FR-22, FR-24 (Error Tech Exposure) | [TC-ERR-007](../test-cases/login/TC-ERR-007.md) | Not Run | None | Open |
-| SEC-01 (API Missing Email) | [TC-API-001](../test-cases/login/TC-API-001.md) | Not Run | None | Open |
-| SEC-01 (API Missing Password) | [TC-API-002](../test-cases/login/TC-API-002.md) | Not Run | None | Open |
+| SEC-01 (API Missing Email) | [TC-API-001](../test-cases/login/TC-API-001.md) | Fail | #52 | Open |
+| SEC-01 (API Missing Password) | [TC-API-002](../test-cases/login/TC-API-002.md) | Fail | #52 | Open |
 | SEC-01 (API Invalid JSON format) | [TC-API-003](../test-cases/login/TC-API-003.md) | Not Run | None | Open |
 | SEC-01 (API Invalid Content-Type) | [TC-API-004](../test-cases/login/TC-API-004.md) | Not Run | None | Open |
 | SEC-01 (API Extra fields ignore) | [TC-API-005](../test-cases/login/TC-API-005.md) | Not Run | None | Open |

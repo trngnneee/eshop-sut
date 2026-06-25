@@ -22,4 +22,4 @@ OAuth / Functional Testing
 - Trả về mã lỗi HTTP 403 và báo tài khoản đang bị khóa.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #45

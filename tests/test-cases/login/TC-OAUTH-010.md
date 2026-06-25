@@ -21,4 +21,4 @@ OAuth / Security Testing
 - Google OAuth API hoặc backend EShop từ chối xử lý yêu cầu (Redirect URI mismatch).
 
 ## Status / Related bugs
-Not Run / None
+Failed / #45

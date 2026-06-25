@@ -22,4 +22,4 @@ JWT / Session Testing
 - Trả về HTTP 401 và yêu cầu người dùng đăng nhập lại từ đầu.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #51

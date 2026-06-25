@@ -21,4 +21,4 @@ Remember Me / Security Testing
 - Hệ thống phải yêu cầu đăng nhập lại vì token cũ đã bị invalid/thu hồi sau khi mật khẩu thay đổi.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #50

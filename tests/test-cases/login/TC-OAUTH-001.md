@@ -23,4 +23,4 @@ OAuth / Functional Testing
 - Liên kết tài khoản Google với tài khoản thường và cấp JWT token.
 
 ## Status / Related bugs
-Not Run / None
+Failed / #45
