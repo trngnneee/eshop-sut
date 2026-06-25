@@ -3,15 +3,15 @@
 ## Requirement ID
 FR-04
 
-## Module / Loại test / Kỹ thuật
+## Module / Test type / Technique
 Profile Management - Số điện thoại / Functional / Phân vùng tương đương (Domain Testing)
 
-## Tiền điều kiện
+## Preconditions
 - Người dùng đã đăng nhập bằng tài khoản hợp lệ.
 - Có JWT token hợp lệ để gọi API `GET /api/users/me` và `PUT /api/users/me`.
 - Các field không nằm trong phạm vi test dùng dữ liệu hợp lệ hiện có.
 
-## Dữ liệu kiểm thử
+## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
 | Input đang kiểm thử | Số điện thoại |
@@ -19,18 +19,18 @@ Profile Management - Số điện thoại / Functional / Phân vùng tương đ�
 | Lớp/biên | P6 - Thiếu thuộc tính |
 | Giá trị | Không gửi thuộc tính `phone` |
 
-## Các bước kiểm thử
+## Test steps
 1. Đăng nhập bằng tài khoản hợp lệ và lấy JWT token.
 2. Gửi request `PUT /api/users/me` với các field profile còn lại hợp lệ.
 3. Không gửi thuộc tính `phone` trong JSON body.
 4. Gửi request cập nhật hồ sơ.
 5. Gọi `GET /api/users/me` để kiểm tra dữ liệu profile sau cập nhật.
 
-## Kết quả mong đợi
+## Expected result
 - API từ chối request; số điện thoại cũ không đổi.
 
-## Kết quả thực tế
+## Actual result
 - API chấp nhận request và cập nhật profile.
 
-## Trạng thái / Bug liên quan
+## Status / Related bugs
 Fail / BUG-FR04-P-02

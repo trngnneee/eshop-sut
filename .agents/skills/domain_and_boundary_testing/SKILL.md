@@ -45,9 +45,13 @@ Khi nhận được yêu cầu thiết kế test case cho một FR cụ thể, A
 ## 2. Quy ước đặt mã và Thư mục Lưu trữ
 
 * **Thư mục lưu trữ:** Lưu các file test case dưới định dạng Markdown (`.md`) vào thư mục `tests/test-cases/[tên-module]/`.
-  * Ví dụ: `tests/test-cases/register/TC-REGISTER-001.md`
-* **Quy ước mã Test Case:** `TC-[MODULE]-[NUMBER]`
-  * Ví dụ: `TC-REGISTER-001`, `TC-REGISTER-002`, `TC-CART-001`.
+  * Ví dụ: `tests/test-cases/profile_management/FR04-N-TC01.md`
+* **Quy ước mã Test Case cho Domain Testing:** `FR[NN]-[FIELD]-TC[NN]`
+  * Ví dụ: `FR04-N-TC01`, `FR04-P-TC01`, `FR04-A-TC01`.
+* **Quy ước mã Test Case cho Boundary Value Analysis:** `FR[NN]-[FIELD]-BVA-TC[NN]`
+  * Ví dụ: `FR04-N-BVA-TC01`, `FR04-P-BVA-TC01`, `FR04-A-BVA-TC01`.
+* **Mã field ngắn:** dùng một chữ cái đại diện cho input hoặc nhóm input đang kiểm thử.
+  * Ví dụ với FR-04: `N` = Name, `P` = Phone, `A` = Address.
 
 ---
 
@@ -56,7 +60,9 @@ Khi nhận được yêu cầu thiết kế test case cho một FR cụ thể, A
 Mỗi file test case được tạo ra phải tuân thủ chính xác định dạng sau:
 
 ```markdown
-# TC-[MODULE]-[NUMBER]: [Tiêu đề ngắn gọn mô tả mục đích test]
+# FR[NN]-[FIELD]-TC[NN]: [Tiêu đề ngắn gọn mô tả mục đích test]
+
+<!-- Với BVA dùng format: FR[NN]-[FIELD]-BVA-TC[NN] -->
 
 ## Requirement ID
 [Mã FR liên quan, ví dụ: FR-01]
@@ -94,7 +100,7 @@ Not Run / None
 Khi kích hoạt kỹ năng này, Agent sẽ:
 1. Hỏi người dùng cung cấp tài liệu đặc tả hoặc mô tả yêu cầu của chức năng cần test (nếu chưa có trong README.md).
 2. Tự động liệt kê các phân vùng tương đương và các giá trị biên dưới dạng bảng để người dùng xác nhận.
-3. Sau khi người dùng xác nhận, Agent sẽ tạo các file test case tương ứng vào đúng thư mục `tests/test-cases/[module]/`.
+3. Sau khi người dùng xác nhận, Agent sẽ tạo các file test case tương ứng vào đúng thư mục `tests/test-cases/[module]/` với mã test case theo format `FR[NN]-[FIELD]-TC[NN]` hoặc `FR[NN]-[FIELD]-BVA-TC[NN]`.
 4. Cập nhật ma trận truy vết `tests/test-summary/traceability-matrix.md`.
 
 ---
@@ -114,4 +120,3 @@ Khi kích hoạt kỹ năng này, Agent sẽ:
    * Script sẽ tự động tạo các test case biên cơ bản tại thư mục `tests/test-cases/[module_name]/`.
    * Agent cần đọc và bổ sung các test case kiểm thử logic phức tạp hơn (ví dụ: định dạng email hợp lệ, so sánh trường mật khẩu nhập lại có trùng khớp không, kiểm tra các trạng thái nghiệp vụ đặc thù) bằng tay vào các file test case tương ứng hoặc tạo mới.
    * Xóa file cấu hình JSON tạm sau khi hoàn tất để giữ thư mục sạch sẽ.
-
