@@ -1,0 +1,24 @@
+# TC-IMPORT-033: Từ chối khi category_id chứa lệnh SQL Injection
+
+## Requirement ID
+FR-16: Import Sản phẩm từ CSV
+
+## Module / Test type / Technique
+Import / Functional / Security Testing
+
+## Preconditions
+- Admin đăng nhập hệ thống và lấy JWT token.
+
+## Test data
+Dòng sản phẩm có name: "SP1", price: 100000, description: "Mô tả", imageUrl: "", category_id chứa `"' OR 1=1 --"`
+
+## Test steps
+1. Admin đăng nhập hệ thống và lấy JWT token.
+2. Tải lên file CSV chứa dòng sản phẩm có category_id chứa SQL Injection payload.
+3. Nhấn nút "Import".
+
+## Expected result
+- Hệ thống từ chối áp dụng, báo lỗi danh mục không hợp lệ. Trả về HTTP 400 Bad Request.
+
+## Status / Related bugs
+Fail / [BUG-IMPORT-023](../../bug-reports/BUG-IMPORT-023.md)

@@ -23,19 +23,6 @@ Frontend Admin Web Dashboard
 - Hệ thống chia cột tại dấu phẩy bên trong dấu nháy kép, dẫn đến việc vỡ cấu trúc cột của dòng đó.
 
 ## Evidence
-![BUG-IMPORT-006 Screenshot](../bugs-screenshots/BUG-IMPORT-006.png)
-
-## Cause analysis (Nguyên nhân)
-Tại `frontend-admin/src/App.jsx` dòng 371:
-Hệ thống sử dụng hàm tách chuỗi thô sơ `line.split(",")` mà không phân tích cú pháp RFC 4180.
-
-## Cách sửa đề xuất
-Sử dụng biểu thức chính quy Regex chuẩn để tách các trường CSV tuân thủ RFC 4180:
-```javascript
-const values = line.match(/("[^"]*"|[^",
-]+|[^",
-]*)(?=\s*,|\s*$)/g).map(v => v.replace(/^"|"$/g, '').trim());
-```
-
+![Ảnh chụp minh chứng](../bugs-screenshots/BUG-IMPORT-006.png)
 ---
 *Nhãn (Labels) cần gắn:* `type: bug`, `module: admin`, `severity: major`, `priority: P1`, `status: new`, `found-by: test-case`

@@ -34,22 +34,7 @@ Backend Node.js API, SQLite Database
 - Hai sản phẩm "SP Hợp Lệ 1" và "SP Hợp Lệ 3" vẫn được insert thành công vào CSDL, chỉ bỏ qua dòng 2 bị lỗi. Ràng buộc all-or-nothing bị vi phạm.
 
 ## Evidence
-![BUG-IMPORT-001 Screenshot](../bugs-screenshots/BUG-IMPORT-001.png)
-
-## Cause analysis (Nguyên nhân)
-Tại `backend/server.js` dòng 213-232:
-Hệ thống duyệt qua mảng sản phẩm bằng `rows.forEach` và thực hiện `stmt.run` độc lập cho từng sản phẩm mà không đặt trong một Transaction (BEGIN/COMMIT) của SQLite. Bất kỳ dòng nào thành công sẽ được commit vĩnh viễn.
-
-## Cách sửa đề xuất
-Sử dụng giao dịch SQLite để thực hiện rollback khi có lỗi:
-```javascript
-db.serialize(() => {
-  db.run('BEGIN TRANSACTION');
-  // Thực hiện insert...
-  // Nếu có lỗi: db.run('ROLLBACK');
-  // Nếu thành công tất cả: db.run('COMMIT');
-});
-```
-
+![Phản hồi API thành công](../bugs-screenshots/BUG-IMPORT-001a.png)
+![Dữ liệu lưu trữ trong database](../bugs-screenshots/BUG-IMPORT-001b.png)
 ---
 *Nhãn (Labels) cần gắn:* `type: bug`, `module: admin`, `severity: critical`, `priority: P0`, `status: new`, `found-by: test-case`

@@ -78,3 +78,25 @@
 | [TC-IMPORT-010](../test-cases/import/TC-IMPORT-010.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-006](../bug-reports/BUG-IMPORT-006.md) | Tách cột sai khi giá trị chứa dấu phẩy được bọc nháy kép (RFC 4180) |
 | [TC-IMPORT-011](../test-cases/import/TC-IMPORT-011.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-003](../bug-reports/BUG-IMPORT-003.md) | Frontend cho phép import tệp trống không có dữ liệu |
 | [TC-IMPORT-012](../test-cases/import/TC-IMPORT-012.md) | Import | Thịnh   | Pass   | None                         | Import thành công sản phẩm với giá tối thiểu (0.01) |
+| [TC-IMPORT-013](../test-cases/import/TC-IMPORT-013.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-007](../bug-reports/BUG-IMPORT-007.md) | Cho phép import khi tên chỉ chứa khoảng trắng |
+| [TC-IMPORT-014](../test-cases/import/TC-IMPORT-014.md) | Import | Thịnh   | Pass   | None                         | Import thành công khi tên sản phẩm dài đúng 255 ký tự |
+| [TC-IMPORT-015](../test-cases/import/TC-IMPORT-015.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-008](../bug-reports/BUG-IMPORT-008.md) | Cho phép import khi tên sản phẩm dài 256 ký tự |
+| [TC-IMPORT-016](../test-cases/import/TC-IMPORT-016.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-009](../bug-reports/BUG-IMPORT-009.md) | Cho phép import tên chứa thẻ HTML/mã độc XSS vào CSDL |
+| [TC-IMPORT-017](../test-cases/import/TC-IMPORT-017.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-010](../bug-reports/BUG-IMPORT-010.md) | Cho phép import price chứa payload SQL Injection |
+| [TC-IMPORT-018](../test-cases/import/TC-IMPORT-018.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-011](../bug-reports/BUG-IMPORT-011.md) | Không hỗ trợ tự động chuẩn hóa/từ chối khi header viết hoa |
+| [TC-IMPORT-019](../test-cases/import/TC-IMPORT-019.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-012](../bug-reports/BUG-IMPORT-012.md) | Lệch cấu trúc và category_id bị NaN khi mô tả có dấu phẩy không bọc nháy |
+| [TC-IMPORT-020](../test-cases/import/TC-IMPORT-020.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-013](../bug-reports/BUG-IMPORT-013.md) | Cho phép import sản phẩm thiếu trường giá (price) |
+| [TC-IMPORT-021](../test-cases/import/TC-IMPORT-021.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-014](../bug-reports/BUG-IMPORT-014.md) | Chấp nhận category_id không tồn tại trong hệ thống |
+| [TC-IMPORT-022](../test-cases/import/TC-IMPORT-022.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-015](../bug-reports/BUG-IMPORT-015.md) | Cho phép import sản phẩm thiếu category_id |
+| [TC-IMPORT-023](../test-cases/import/TC-IMPORT-023.md) | Import | Thịnh   | Pass   | None                         | Từ chối chính xác khi tệp CSV trống (0 bytes) |
+| [TC-IMPORT-024](../test-cases/import/TC-IMPORT-024.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-016](../bug-reports/BUG-IMPORT-016.md) | Không rollback toàn bộ khi tệp CSV chứa dòng trống ở giữa |
+| [TC-IMPORT-025](../test-cases/import/TC-IMPORT-025.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-001](../bug-reports/BUG-IMPORT-001.md) | Không rollback toàn bộ CSDL khi dòng thứ 3 bị price âm |
+| [TC-IMPORT-026](../test-cases/import/TC-IMPORT-026.md) | Import | Thịnh   | Pass   | None                         | Import thành công hoàn toàn với các dòng dữ liệu hợp lệ |
+| [TC-IMPORT-027](../test-cases/import/TC-IMPORT-027.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-017](../bug-reports/BUG-IMPORT-017.md) | Cho phép lưu trữ mã độc XSS nguyên bản vào database trong trường description |
+| [TC-IMPORT-028](../test-cases/import/TC-IMPORT-028.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-018](../bug-reports/BUG-IMPORT-018.md) | Cho phép lưu trữ SQL Injection payload trong trường description |
+| [TC-IMPORT-029](../test-cases/import/TC-IMPORT-029.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-019](../bug-reports/BUG-IMPORT-019.md) | Lưu trữ URI nguy hiểm javascript: trong trường imageUrl |
+| [TC-IMPORT-030](../test-cases/import/TC-IMPORT-030.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-020](../bug-reports/BUG-IMPORT-020.md) | Cho phép lưu trữ SQL Injection payload trong trường imageUrl |
+| [TC-IMPORT-031](../test-cases/import/TC-IMPORT-031.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-021](../bug-reports/BUG-IMPORT-021.md) | Lưu trữ mã độc XSS nguyên bản vào database trong cột price |
+| [TC-IMPORT-032](../test-cases/import/TC-IMPORT-032.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-022](../bug-reports/BUG-IMPORT-022.md) | Lưu trữ mã độc XSS nguyên bản vào database trong cột category_id |
+| [TC-IMPORT-033](../test-cases/import/TC-IMPORT-033.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-023](../bug-reports/BUG-IMPORT-023.md) | Cho phép lưu trữ SQL Injection payload trong cột category_id |
+

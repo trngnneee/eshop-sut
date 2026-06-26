@@ -75,3 +75,25 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-010](../test-cases/import/TC-IMPORT-010.md) | Fail | [BUG-IMPORT-006](../bug-reports/BUG-IMPORT-006.md) | Open |
 | FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-011](../test-cases/import/TC-IMPORT-011.md) | Fail | [BUG-IMPORT-003](../bug-reports/BUG-IMPORT-003.md) | Open |
 | FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-012](../test-cases/import/TC-IMPORT-012.md) | Pass | None | Done |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-013](../test-cases/import/TC-IMPORT-013.md) | Fail | [BUG-IMPORT-007](../bug-reports/BUG-IMPORT-007.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-014](../test-cases/import/TC-IMPORT-014.md) | Pass | None | Done |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-015](../test-cases/import/TC-IMPORT-015.md) | Fail | [BUG-IMPORT-008](../bug-reports/BUG-IMPORT-008.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-016](../test-cases/import/TC-IMPORT-016.md) | Fail | [BUG-IMPORT-009](../bug-reports/BUG-IMPORT-009.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-017](../test-cases/import/TC-IMPORT-017.md) | Fail | [BUG-IMPORT-010](../bug-reports/BUG-IMPORT-010.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-018](../test-cases/import/TC-IMPORT-018.md) | Fail | [BUG-IMPORT-011](../bug-reports/BUG-IMPORT-011.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-019](../test-cases/import/TC-IMPORT-019.md) | Fail | [BUG-IMPORT-012](../bug-reports/BUG-IMPORT-012.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-020](../test-cases/import/TC-IMPORT-020.md) | Fail | [BUG-IMPORT-013](../bug-reports/BUG-IMPORT-013.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-021](../test-cases/import/TC-IMPORT-021.md) | Fail | [BUG-IMPORT-014](../bug-reports/BUG-IMPORT-014.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-022](../test-cases/import/TC-IMPORT-022.md) | Fail | [BUG-IMPORT-015](../bug-reports/BUG-IMPORT-015.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-023](../test-cases/import/TC-IMPORT-023.md) | Pass | None | Done |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-024](../test-cases/import/TC-IMPORT-024.md) | Fail | [BUG-IMPORT-016](../bug-reports/BUG-IMPORT-016.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-025](../test-cases/import/TC-IMPORT-025.md) | Fail | [BUG-IMPORT-001](../bug-reports/BUG-IMPORT-001.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-026](../test-cases/import/TC-IMPORT-026.md) | Pass | None | Done |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-027](../test-cases/import/TC-IMPORT-027.md) | Fail | [BUG-IMPORT-017](../bug-reports/BUG-IMPORT-017.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-028](../test-cases/import/TC-IMPORT-028.md) | Fail | [BUG-IMPORT-018](../bug-reports/BUG-IMPORT-018.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-029](../test-cases/import/TC-IMPORT-029.md) | Fail | [BUG-IMPORT-019](../bug-reports/BUG-IMPORT-019.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-030](../test-cases/import/TC-IMPORT-030.md) | Fail | [BUG-IMPORT-020](../bug-reports/BUG-IMPORT-020.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-031](../test-cases/import/TC-IMPORT-031.md) | Fail | [BUG-IMPORT-021](../bug-reports/BUG-IMPORT-021.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-032](../test-cases/import/TC-IMPORT-032.md) | Fail | [BUG-IMPORT-022](../bug-reports/BUG-IMPORT-022.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-033](../test-cases/import/TC-IMPORT-033.md) | Fail | [BUG-IMPORT-023](../bug-reports/BUG-IMPORT-023.md) | Open |
+

@@ -22,21 +22,6 @@ Backend Node.js API, SQLite Database
 - Hệ thống chấp nhận đăng ký thành công, lưu trực tiếp các giá trị không hợp lệ này vào CSDL SQLite.
 
 ## Evidence
-![BUG-IMPORT-005 Screenshot](../bugs-screenshots/BUG-IMPORT-005.png)
-
-## Cause analysis (Nguyên nhân)
-Tại `backend/server.js` dòng 213-232:
-Hệ thống hoàn toàn bỏ qua việc kiểm định miền giá trị của `price` trước khi chạy lệnh SQL insert.
-
-## Cách sửa đề xuất
-Thêm kiểm tra tính hợp lệ của `price`:
-```javascript
-const priceNum = Number(row.price);
-if (isNaN(priceNum) || priceNum <= 0) {
-  errors.push(`Hàng ${index + 2}: Giá sản phẩm phải là số thực dương`);
-  return;
-}
-```
-
+![Ảnh chụp minh chứng](../bugs-screenshots/BUG-IMPORT-005.png)
 ---
 *Nhãn (Labels) cần gắn:* `type: bug`, `module: admin`, `severity: critical`, `priority: P0`, `status: new`, `found-by: test-case`

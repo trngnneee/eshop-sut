@@ -1,0 +1,4 @@
+name,price,description,imageUrl,category_id
+Imported Atomicity Dòng 1,100000,Dòng 1,,1
+,120000,Dòng 2 bị lỗi,,1
+Imported Atomicity Dòng 3,150000,Dòng 3,,1

@@ -1,0 +1,2 @@
+name,price,description,imageUrl,category_id
+Imported XSS Cat,100000,Mô tả,,"<script>alert('XSS_cat')</script>"

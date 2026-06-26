@@ -23,22 +23,6 @@ Frontend Admin Web Dashboard
 - Hệ thống vẫn tiến hành parse và gửi mảng JSON chứa các giá trị `undefined` lên API Backend.
 
 ## Evidence
-![BUG-IMPORT-003 Screenshot](../bugs-screenshots/BUG-IMPORT-003.png)
-
-## Cause analysis (Nguyên nhân)
-Tại `frontend-admin/src/App.jsx` dòng 364:
-Hàm xử lý sự kiện `onChange` chỉ cắt dòng đầu tiên làm header mà không so sánh đối chiếu với danh sách các cột bắt buộc phải có.
-
-## Cách sửa đề xuất
-Kiểm tra sự tồn tại của các cột bắt buộc trong header:
-```javascript
-const requiredHeaders = ['name', 'price'];
-const hasAll = requiredHeaders.every(h => headers.includes(h));
-if (!hasAll) {
-  alert('File CSV thiếu cột bắt buộc!');
-  return;
-}
-```
-
+![Ảnh chụp minh chứng](../bugs-screenshots/BUG-IMPORT-003.png)
 ---
 *Nhãn (Labels) cần gắn:* `type: bug`, `module: admin`, `severity: medium`, `priority: P2`, `status: new`, `found-by: test-case`

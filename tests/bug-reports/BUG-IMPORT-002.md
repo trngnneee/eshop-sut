@@ -24,20 +24,6 @@ Frontend Admin Web Dashboard (Chrome / Firefox)
 - Giao diện Admin chấp nhận tệp tải lên và thực hiện đọc/parse nội dung tệp thô bằng FileReader.
 
 ## Evidence
-![BUG-IMPORT-002 Screenshot](../bugs-screenshots/BUG-IMPORT-002.png)
-
-## Cause analysis (Nguyên nhân)
-Tại `frontend-admin/src/App.jsx` dòng 356:
-Thẻ `<input type="file" />` thiếu thuộc tính `accept=".csv"` và hàm `onChange` không kiểm tra đuôi mở rộng `file.name` trước khi đọc tệp.
-
-## Cách sửa đề xuất
-Thêm thuộc tính `accept=".csv"` cho input file và kiểm tra tên tệp trước khi đọc:
-```javascript
-if (!file.name.endsWith('.csv')) {
-  alert('Chỉ chấp nhận file .csv');
-  return;
-}
-```
-
+![Ảnh chụp minh chứng](../bugs-screenshots/BUG-IMPORT-002.png)
 ---
 *Nhãn (Labels) cần gắn:* `type: bug`, `module: admin`, `severity: medium`, `priority: P2`, `status: new`, `found-by: test-case`

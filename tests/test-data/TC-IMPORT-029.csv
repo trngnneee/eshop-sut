@@ -1,0 +1,2 @@
+name,price,description,imageUrl,category_id
+Imported XSS Image,100000,Mô tả,javascript:alert(1),1

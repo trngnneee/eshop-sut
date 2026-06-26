@@ -1,0 +1,4 @@
+name,price,description,imageUrl,category_id
+Imported SP Hợp Lệ 1,100000,Mô tả,,1
+Imported SP Hợp Lệ 2,200000,Mô tả,,1
+Imported SP Lỗi Âm,-50000,Mô tả lỗi,,1
