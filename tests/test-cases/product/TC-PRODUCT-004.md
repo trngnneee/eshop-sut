@@ -59,5 +59,6 @@ FAILED
 
 ## Bug Reference
 
-[BUG][Product] Lỗi hiển thị alt text
+[BUG-FR05-02](https://github.com/trngnneee/eshop-sut/issues/26#issue-4746328476)
+
 

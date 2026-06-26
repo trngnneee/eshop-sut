@@ -60,4 +60,4 @@ FAILED
 
 ## Bug Reference
 
-[BUG][Product] Lỗi hiển thị trạng thái loading
+[BUG-FR05-03](https://github.com/trngnneee/eshop-sut/issues/27#issue-4746377610)

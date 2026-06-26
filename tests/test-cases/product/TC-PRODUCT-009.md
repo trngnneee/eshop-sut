@@ -59,4 +59,5 @@ FAILED
 
 ## Bug Reference
 
-[BUG][Product] Lỗi số lượng thẻ h1
+[BUG-FR05-05](https://github.com/trngnneee/eshop-sut/issues/29#issue-4746987185)
+ 

@@ -44,7 +44,7 @@ https://github.com/trngnneee/eshop-sut/issues/28#issue-4746603879
 ## BUG-FR05-05
 
 **Short Description:**  
-Trang chủ có đến 2 thẻ `<h1>`. Trong khi đặc tả yêu cầu Trang chủ chỉ có đúng một thẻ `<h1>`.
+Trang chủ có đến 2 thẻ `<h1>`. Trong khi đặc tả yêu cầu trang chủ chỉ có đúng một thẻ `<h1>`.
 
 **GitHub Issue:**  
 https://github.com/trngnneee/eshop-sut/issues/29#issue-4746987185
@@ -54,7 +54,26 @@ https://github.com/trngnneee/eshop-sut/issues/29#issue-4746987185
 ## BUG-FR05-06
 
 **Short Description:**  
-Trang chủ có đến 2 thẻ `<h1>`. Trong khi đặc tả yêu cầu Trang chủ chỉ có đúng một thẻ `<h1>`.
+Sau khi tìm kiếm sản phẩm, trang kết quả hiển thị có 2 thẻ `<h1>`. Trong khi đặc yêu cầu mỗi trang chỉ có 1 thẻ `<h1>` duy nhất.
 
 **GitHub Issue:**  
 https://github.com/trngnneee/eshop-sut/issues/30#issue-4747029719
+
+
+## BUG-FR05-07
+
+**Short Description:**  
+Chức năng tìm kiếm không sanitize input, dẫn đến việc JavaScript trong dữ liệu nhập vào được thực thi trên trình duyệt (XSS vulnerability).
+
+**GitHub Issue:**  
+https://github.com/trngnneee/eshop-sut/issues/53#issue-4748338316
+
+
+
+## BUG-FR05-08
+
+**Short Description:**  
+Chức năng tìm kiếm không xử lý đúng input đặc biệt, dẫn đến điều kiện truy vấn bị thay đổi và trả về toàn bộ dữ liệu sản phẩm trong database (SQL Injection vulnerability).
+
+**GitHub Issue:**  
+https://github.com/trngnneee/eshop-sut/issues/60#issue-4753686069

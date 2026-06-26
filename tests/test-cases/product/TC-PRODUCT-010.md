@@ -60,4 +60,5 @@ FAILED
 
 ## Bug Reference
 
-[BUG][Product] Lỗi số lượng thẻ h1 trong trang tìm kiếm
+[BUG-FR05-06](https://github.com/trngnneee/eshop-sut/issues/30#issue-4747029719)
+

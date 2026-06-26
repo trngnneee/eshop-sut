@@ -38,7 +38,7 @@ Kiểm tra từ khóa tìm kiếm chứa HTML được hiển thị an toàn.
 ## Test Steps
 
 1. Truy cập trang chủ.
-2. Nhập từ khóa có chứa HTML/JS vào ô tìm kiếm.
+2. Nhập từ khóa có chứa `<script>alert(1)</script>` vào ô tìm kiếm.
 3. Thực hiện tìm kiếm.
 4. Quan sát cách giao diện hiển thị chuỗi nhập vào.
 
@@ -61,8 +61,3 @@ PASSED
 ## Bug Reference
 
 None
-
-
-## Tester Notes
-
-Không có.

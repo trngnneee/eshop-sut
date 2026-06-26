@@ -61,4 +61,4 @@ FAILED
 
 ## Bug Reference
 
-[BUG][Product] Lỗi hiển thị đơn vị tiền tệ của sản phẩm
+[BUG-FR05-01](https://github.com/trngnneee/eshop-sut/issues/25#issue-4746056657)

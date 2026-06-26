@@ -60,5 +60,5 @@ FAILED
 
 ## Bug Reference
 
-[BUG][Product] Lỗi hiển thị không tìm được sản phẩm
+[BUG-FR05-04](https://github.com/trngnneee/eshop-sut/issues/28#issue-4746603879)
 
