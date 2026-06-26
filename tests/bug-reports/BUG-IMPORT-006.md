@@ -1,0 +1,41 @@
+Title: [BUG][Import][Frontend] Không hỗ trợ dấu phẩy bọc trong dấu nháy kép (RFC 4180)
+
+## Found by Test Case
+TC-IMPORT-010
+
+## Requirement liên quan
+FR-16: Import Sản phẩm từ CSV (Hỗ trợ các trường có chứa dấu phẩy nếu được bọc trong dấu nháy kép)
+
+## Severity / Priority
+Major / P1
+
+## Environment
+Frontend Admin Web Dashboard
+
+## Steps to reproduce
+1. Tải lên file CSV chứa sản phẩm có tên: `"Sản phẩm, đặc biệt"` (được bọc trong nháy kép).
+2. Nhấn nút "Import".
+
+## Expected result
+- Hệ thống nhận diện đúng đây là một cột dữ liệu duy nhất và hiển thị/import đúng tên.
+
+## Actual result
+- Hệ thống chia cột tại dấu phẩy bên trong dấu nháy kép, dẫn đến việc vỡ cấu trúc cột của dòng đó.
+
+## Evidence
+![BUG-IMPORT-006 Screenshot](../bugs-screenshots/BUG-IMPORT-006.png)
+
+## Cause analysis (Nguyên nhân)
+Tại `frontend-admin/src/App.jsx` dòng 371:
+Hệ thống sử dụng hàm tách chuỗi thô sơ `line.split(",")` mà không phân tích cú pháp RFC 4180.
+
+## Cách sửa đề xuất
+Sử dụng biểu thức chính quy Regex chuẩn để tách các trường CSV tuân thủ RFC 4180:
+```javascript
+const values = line.match(/("[^"]*"|[^",
+]+|[^",
+]*)(?=\s*,|\s*$)/g).map(v => v.replace(/^"|"$/g, '').trim());
+```
+
+---
+*Nhãn (Labels) cần gắn:* `type: bug`, `module: admin`, `severity: major`, `priority: P1`, `status: new`, `found-by: test-case`

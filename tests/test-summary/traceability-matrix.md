@@ -63,3 +63,15 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-01 (Account registration) | [TC-REG-040](../test-cases/register/TC-REG-040.md) | Fail | [BUG-REG-014](../bug-reports/BUG-REG-014.md) | Open |
 | FR-01 (Account registration) | [TC-REG-041](../test-cases/register/TC-REG-041.md) | Pass | None | Done |
 | FR-01 (Account registration) | [TC-REG-042](../test-cases/register/TC-REG-042.md) | Fail | [BUG-REG-016](../bug-reports/BUG-REG-016.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-001](../test-cases/import/TC-IMPORT-001.md) | Pass | None | Done |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-002](../test-cases/import/TC-IMPORT-002.md) | Fail | [BUG-IMPORT-002](../bug-reports/BUG-IMPORT-002.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-003](../test-cases/import/TC-IMPORT-003.md) | Fail | [BUG-IMPORT-003](../bug-reports/BUG-IMPORT-003.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-004](../test-cases/import/TC-IMPORT-004.md) | Fail | [BUG-IMPORT-003](../bug-reports/BUG-IMPORT-003.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-005](../test-cases/import/TC-IMPORT-005.md) | Fail | [BUG-IMPORT-004](../bug-reports/BUG-IMPORT-004.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-006](../test-cases/import/TC-IMPORT-006.md) | Fail | [BUG-IMPORT-005](../bug-reports/BUG-IMPORT-005.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-007](../test-cases/import/TC-IMPORT-007.md) | Fail | [BUG-IMPORT-005](../bug-reports/BUG-IMPORT-005.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-008](../test-cases/import/TC-IMPORT-008.md) | Fail | [BUG-IMPORT-005](../bug-reports/BUG-IMPORT-005.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-009](../test-cases/import/TC-IMPORT-009.md) | Fail | [BUG-IMPORT-001](../bug-reports/BUG-IMPORT-001.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-010](../test-cases/import/TC-IMPORT-010.md) | Fail | [BUG-IMPORT-006](../bug-reports/BUG-IMPORT-006.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-011](../test-cases/import/TC-IMPORT-011.md) | Fail | [BUG-IMPORT-003](../bug-reports/BUG-IMPORT-003.md) | Open |
+| FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-012](../test-cases/import/TC-IMPORT-012.md) | Pass | None | Done |

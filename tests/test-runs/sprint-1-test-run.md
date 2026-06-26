@@ -66,3 +66,15 @@
 | [TC-REG-040](../test-cases/register/TC-REG-040.md) | Register | Thịnh   | Fail   | [BUG-REG-014](../bug-reports/BUG-REG-014.md) | Cho phép nhập lệnh SQL Injection trong Xác nhận mật khẩu |
 | [TC-REG-041](../test-cases/register/TC-REG-041.md) | Register | Thịnh   | Pass   | None                         | Hệ thống lưu CSDL thành công khi mất mạng lúc redirect |
 | [TC-REG-042](../test-cases/register/TC-REG-042.md) | Register | Thịnh   | Fail   | [BUG-REG-016](../bug-reports/BUG-REG-016.md) | Lỗi regex mật khẩu mạnh chặn ký tự đặc biệt thực tế và thiếu trường xác nhận mật khẩu ở Frontend |
+| [TC-IMPORT-001](../test-cases/import/TC-IMPORT-001.md) | Import | Thịnh   | Pass   | None                         | Import thành công tệp CSV gồm nhiều sản phẩm |
+| [TC-IMPORT-002](../test-cases/import/TC-IMPORT-002.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-002](../bug-reports/BUG-IMPORT-002.md) | Frontend cho phép chọn và tải lên tệp không phải .csv |
+| [TC-IMPORT-003](../test-cases/import/TC-IMPORT-003.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-003](../bug-reports/BUG-IMPORT-003.md) | Frontend cho phép import tệp thiếu dòng header định dạng |
+| [TC-IMPORT-004](../test-cases/import/TC-IMPORT-004.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-003](../bug-reports/BUG-IMPORT-003.md) | Frontend cho phép import tệp có header sai tên cột bắt buộc |
+| [TC-IMPORT-005](../test-cases/import/TC-IMPORT-005.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-004](../bug-reports/BUG-IMPORT-004.md) | Backend trả về HTTP 200 OK khi có sản phẩm trống tên |
+| [TC-IMPORT-006](../test-cases/import/TC-IMPORT-006.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-005](../bug-reports/BUG-IMPORT-005.md) | Cho phép import sản phẩm có giá price bằng 0 |
+| [TC-IMPORT-007](../test-cases/import/TC-IMPORT-007.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-005](../bug-reports/BUG-IMPORT-005.md) | Cho phép import sản phẩm có giá price âm |
+| [TC-IMPORT-008](../test-cases/import/TC-IMPORT-008.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-005](../bug-reports/BUG-IMPORT-005.md) | Cho phép import sản phẩm có giá price không phải là số |
+| [TC-IMPORT-009](../test-cases/import/TC-IMPORT-009.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-001](../bug-reports/BUG-IMPORT-001.md) | Không thực hiện rollback khi có dòng lỗi (thiếu tính nguyên tử) |
+| [TC-IMPORT-010](../test-cases/import/TC-IMPORT-010.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-006](../bug-reports/BUG-IMPORT-006.md) | Tách cột sai khi giá trị chứa dấu phẩy được bọc nháy kép (RFC 4180) |
+| [TC-IMPORT-011](../test-cases/import/TC-IMPORT-011.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-003](../bug-reports/BUG-IMPORT-003.md) | Frontend cho phép import tệp trống không có dữ liệu |
+| [TC-IMPORT-012](../test-cases/import/TC-IMPORT-012.md) | Import | Thịnh   | Pass   | None                         | Import thành công sản phẩm với giá tối thiểu (0.01) |
