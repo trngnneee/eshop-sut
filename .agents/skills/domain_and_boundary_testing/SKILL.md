@@ -125,12 +125,13 @@ __Môi trường thử nghiệm__: [Môi trường thử nghiệm]
 
 Khi kích hoạt kỹ năng này, Agent sẽ:
 
-1. Hỏi người dùng cung cấp tài liệu đặc tả hoặc mô tả yêu cầu của chức năng cần test (nếu chưa có trong README.md).
+1. Hỏi người dùng cung cấp tài liệu đặc tả hoặc mô tả yêu cầu của chức năng cần test.
 2. Tự động liệt kê các phân vùng tương đương và các giá trị biên dưới dạng bảng để người dùng xác nhận.
-3. Sau khi người dùng xác nhận, Agent sẽ tạo các file test case tương ứng vào đúng thư mục `tests/test-cases/[module]/` với mã test case theo format `FR[NN]-[FIELD]-TC[NN]` hoặc `FR[NN]-[FIELD]-BVA-TC[NN]`.
-4. Tạo hoặc kiểm tra template test run tương ứng trong `tests/test-runs/`. Nếu file test run đã tồn tại và có kết quả thật, không ghi đè mặc định; chỉ ghi đè khi người dùng yêu cầu rõ.
-5. Cập nhật ma trận truy vết `tests/test-summary/traceability-matrix.md`.
-6. Tự động lưu vết (Auto-Logging): Cuối mỗi câu trả lời, Agent BẮT BUỘC phải tự động tạo một block Markdown chứa thông tin log để người dùng copy vào phụ lục AI Audit Report. Đoạn log phải tuân thủ chính xác định dạng mã code sau:
+3. Xuất báo cáo tổng hợp: Trình bày toàn bộ kết quả phân tích (4 bước Domain và 3 bước BVA) cùng các bảng biểu test case dưới dạng Markdown liền mạch để người dùng có thể dễ dàng copy và dán (append) thẳng vào file báo cáo tổng (ví dụ: file `23127438.md`).
+4. Tách file Test Case độc lập: Sau khi xuất báo cáo tổng hợp, Agent tự động sử dụng các test case vừa tạo để tách riêng từng test case ra thành các file Markdown độc lập (`.md`). Các file này phải được lưu vào đúng thư mục `tests/test-cases/[module]/`, với tên file trùng với mã test case (ví dụ: `FR04-N-TC01.md`, `FR10-S-BVA-TC01.md`).
+5. Tạo hoặc kiểm tra template test run tương ứng trong `tests/test-runs/`. Nếu file test run đã tồn tại và có kết quả thật, không ghi đè mặc định; chỉ ghi đè khi người dùng yêu cầu rõ.
+6. Cập nhật ma trận truy vết `tests/test-summary/traceability-matrix.md`.
+7. Tự động lưu vết (Auto-Logging): Cuối mỗi câu trả lời, Agent BẮT BUỘC phải tự động tạo một block Markdown chứa thông tin log để người dùng copy vào phụ lục AI Audit Report. Đoạn log phải tuân thủ chính xác định dạng mã code sau:
 
 ```markdown
 Name of the AI tool: [Tên công cụ, VD: ChatGPT-4o / Claude 3.5]

@@ -27,6 +27,59 @@ def format_value(value):
     return str(value)
 
 
+def string_value_for_length(inp, length):
+    values_by_length = inp.get("valid_values_by_length", {})
+    if str(length) in values_by_length:
+        return values_by_length[str(length)]
+    if length in values_by_length:
+        return values_by_length[length]
+    if length <= 0:
+        return "[Để trống]"
+
+    prefix = inp.get("sample_prefix", "")
+    sample_char = inp.get("sample_char", "a") or "a"
+    if len(sample_char) != 1:
+        sample_char = sample_char[0]
+
+    if prefix:
+        if len(prefix) >= length:
+            return prefix[:length]
+        return prefix + (sample_char * (length - len(prefix)))
+    return sample_char * length
+
+
+def length_boundaries(min_len, max_len, nominal_length=None):
+    candidates = []
+    if min_len is not None:
+        candidates.extend(
+            [
+                ("Min-1", min_len - 1, False),
+                ("Min", min_len, True),
+                ("Min+1", min_len + 1, True),
+            ]
+        )
+    if min_len is not None and max_len is not None and max_len - min_len > 2:
+        nominal = nominal_length or ((min_len + max_len) // 2)
+        candidates.append(("Nominal", nominal, True))
+    if max_len is not None:
+        candidates.extend(
+            [
+                ("Max-1", max_len - 1, True),
+                ("Max", max_len, True),
+                ("Max+1", max_len + 1, False),
+            ]
+        )
+
+    seen = set()
+    boundaries = []
+    for boundary_type, value, accepted in candidates:
+        if value in seen:
+            continue
+        seen.add(value)
+        boundaries.append((boundary_type, value, accepted))
+    return boundaries
+
+
 def normalize_feature_code(feature_name):
     return str(feature_name).replace("-", "").replace(" ", "").upper()
 
@@ -325,6 +378,88 @@ Sau khi chạy test, cập nhật các test case `Fail` vào bảng dưới đâ
     print(f"-> Đã tạo test run template: {filename}")
 
 
+def traceability_config(config):
+    raw = config.get("traceability_matrix", {})
+    if raw is False:
+        return {"enabled": False}
+    if raw is True or raw is None:
+        return {"enabled": True}
+    if not isinstance(raw, dict):
+        raise ValueError("traceability_matrix must be a boolean or an object")
+    return raw
+
+
+def resolve_traceability_file(config):
+    raw_config = traceability_config(config)
+    file_name = raw_config.get("file", "tests/test-summary/traceability-matrix.md")
+    path = Path(file_name)
+    if path.is_absolute():
+        return path
+    return PROJECT_ROOT / path
+
+
+def write_traceability_matrix(test_cases, config):
+    raw_config = traceability_config(config)
+    if raw_config.get("enabled", True) is False:
+        return
+
+    filename = resolve_traceability_file(config)
+    filename.parent.mkdir(parents=True, exist_ok=True)
+
+    feature_code = config.get("feature_code") or normalize_feature_code(
+        config["feature_name"]
+    )
+    feature_title = raw_config.get(
+        "title",
+        f"{config['feature_name']} - {config.get('feature_title', config['module_name'])}",
+    )
+    requirement = raw_config.get("requirement", config["feature_name"])
+    source = raw_config.get("source", "README.md")
+    begin_marker = f"<!-- BEGIN {feature_code} -->"
+    end_marker = f"<!-- END {feature_code} -->"
+
+    rows = []
+    for test_case in test_cases:
+        rows.append(
+            "| {requirement} | [{tc_id}](../test-cases/{module}/{tc_id}.md) | {technique} | {coverage} | {source} |".format(
+                requirement=requirement,
+                tc_id=test_case["id"],
+                module=config["module_name"],
+                technique=test_case.get("technique", ""),
+                coverage=test_case.get("coverage") or test_case.get("title", ""),
+                source=source,
+            )
+        )
+
+    block = "\n".join(
+        [
+            begin_marker,
+            f"## {feature_title}",
+            "",
+            "| Requirement ID | Test Case ID | Technique | Coverage | Source |",
+            "| :--- | :--- | :--- | :--- | :--- |",
+            *rows,
+            end_marker,
+        ]
+    )
+
+    if filename.exists():
+        content = filename.read_text(encoding="utf-8")
+        if begin_marker in content and end_marker in content:
+            before = content.split(begin_marker, 1)[0].rstrip()
+            after = content.split(end_marker, 1)[1].lstrip()
+            content = f"{before}\n\n{block}\n"
+            if after:
+                content += f"\n{after}"
+        else:
+            content = f"{content.rstrip()}\n\n{block}\n"
+    else:
+        content = f"# Traceability Matrix\n\n{block}\n"
+
+    filename.write_text(content, encoding="utf-8")
+    print(f"-> Đã cập nhật traceability matrix: {filename}")
+
+
 def generate_input_cases(config):
     feature_name = config["feature_name"]
     module_name = config["module_name"]
@@ -366,90 +501,70 @@ def generate_input_cases(config):
         if inp_type == "string":
             min_len = inp.get("min_length")
             max_len = inp.get("max_length")
+            nominal_length = inp.get("nominal_length")
 
-            if min_len is not None:
+            for boundary_type, value, accepted in length_boundaries(
+                min_len, max_len, nominal_length=nominal_length
+            ):
                 tc_id = next_tc_id(counters, feature_code, field_code, is_bva=True)
-                test_cases.append(
-                    {
-                        "id": tc_id,
-                        "title": f"Kiểm thử {name} với độ dài dưới tối thiểu ({min_len - 1} ký tự)",
-                        "feature_name": feature_name,
-                        "module_name": module_name_display,
-                        "technique": "Boundary Value Analysis",
-                        "preconditions": [f"Người dùng đang ở form của {feature_name}"],
-                        "data": {
-                            name: "a" * (min_len - 1) if min_len > 1 else "[Để trống]"
-                        },
-                        "steps": [
-                            f"Mở form {feature_name}.",
-                            f"Nhập {name} có độ dài {min_len - 1} ký tự.",
-                            "Bấm nút Submit.",
-                        ],
-                        "expected": [
-                            f"Hệ thống báo lỗi độ dài {name} tối thiểu là {min_len} ký tự."
-                        ],
-                    }
-                )
-                tc_id = next_tc_id(counters, feature_code, field_code, is_bva=True)
-                test_cases.append(
-                    {
-                        "id": tc_id,
-                        "title": f"Kiểm thử {name} với độ dài biên tối thiểu ({min_len} ký tự)",
-                        "feature_name": feature_name,
-                        "module_name": module_name_display,
-                        "technique": "Boundary Value Analysis",
-                        "preconditions": [f"Người dùng đang ở form của {feature_name}"],
-                        "data": {name: "a" * min_len},
-                        "steps": [
-                            f"Mở form {feature_name}.",
-                            f"Nhập {name} có độ dài đúng {min_len} ký tự.",
-                            "Bấm nút Submit.",
-                        ],
-                        "expected": [
-                            f"Hệ thống chấp nhận giá trị và không báo lỗi độ dài ở trường {name}."
-                        ],
-                    }
-                )
+                if boundary_type == "Min-1":
+                    title = (
+                        f"Kiểm thử {name} với độ dài dưới tối thiểu ({value} ký tự)"
+                    )
+                    expected = (
+                        f"Hệ thống báo lỗi độ dài {name} tối thiểu là {min_len} ký tự."
+                    )
+                elif boundary_type == "Max+1":
+                    title = (
+                        f"Kiểm thử {name} với độ dài vượt quá tối đa ({value} ký tự)"
+                    )
+                    expected = (
+                        f"Hệ thống báo lỗi độ dài {name} vượt quá giới hạn tối đa {max_len} ký tự."
+                    )
+                elif boundary_type == "Min":
+                    title = (
+                        f"Kiểm thử {name} với độ dài biên tối thiểu ({value} ký tự)"
+                    )
+                    expected = (
+                        f"Hệ thống chấp nhận giá trị và không báo lỗi độ dài ở trường {name}."
+                    )
+                elif boundary_type == "Max":
+                    title = f"Kiểm thử {name} với độ dài biên tối đa ({value} ký tự)"
+                    expected = (
+                        f"Hệ thống chấp nhận giá trị và không báo lỗi độ dài ở trường {name}."
+                    )
+                else:
+                    title = f"Kiểm thử {name} với độ dài {boundary_type} ({value} ký tự)"
+                    expected = (
+                        f"Hệ thống chấp nhận giá trị và không báo lỗi độ dài ở trường {name}."
+                    )
 
-            if max_len is not None:
-                tc_id = next_tc_id(counters, feature_code, field_code, is_bva=True)
+                if not accepted:
+                    expected_status = inp.get(
+                        "invalid_length_expected",
+                        expected,
+                    )
+                else:
+                    expected_status = inp.get(
+                        "valid_length_expected",
+                        expected,
+                    )
+
                 test_cases.append(
                     {
                         "id": tc_id,
-                        "title": f"Kiểm thử {name} với độ dài biên tối đa ({max_len} ký tự)",
+                        "title": title,
                         "feature_name": feature_name,
                         "module_name": module_name_display,
                         "technique": "Boundary Value Analysis",
                         "preconditions": [f"Người dùng đang ở form của {feature_name}"],
-                        "data": {name: "a" * max_len},
+                        "data": {name: string_value_for_length(inp, value)},
                         "steps": [
                             f"Mở form {feature_name}.",
-                            f"Nhập {name} có độ dài đúng {max_len} ký tự.",
+                            f"Nhập {name} có độ dài {value} ký tự.",
                             "Bấm nút Submit.",
                         ],
-                        "expected": [
-                            f"Hệ thống chấp nhận giá trị và không báo lỗi độ dài ở trường {name}."
-                        ],
-                    }
-                )
-                tc_id = next_tc_id(counters, feature_code, field_code, is_bva=True)
-                test_cases.append(
-                    {
-                        "id": tc_id,
-                        "title": f"Kiểm thử {name} với độ dài vượt quá tối đa ({max_len + 1} ký tự)",
-                        "feature_name": feature_name,
-                        "module_name": module_name_display,
-                        "technique": "Boundary Value Analysis",
-                        "preconditions": [f"Người dùng đang ở form của {feature_name}"],
-                        "data": {name: "a" * (max_len + 1)},
-                        "steps": [
-                            f"Mở form {feature_name}.",
-                            f"Nhập {name} có độ dài {max_len + 1} ký tự.",
-                            "Bấm nút Submit.",
-                        ],
-                        "expected": [
-                            f"Hệ thống báo lỗi độ dài {name} vượt quá giới hạn tối đa {max_len} ký tự."
-                        ],
+                        "expected": [expected_status],
                     }
                 )
 
@@ -524,6 +639,35 @@ def generate_input_cases(config):
                             "expected": [expected],
                         }
                     )
+
+    return test_cases
+
+
+def generate_custom_cases(config):
+    feature_name = config["feature_name"]
+    module_name_display = config.get("module_display_name") or module_display_name(
+        config["module_name"]
+    )
+    test_cases = []
+
+    for raw_case in config.get("custom_cases", []):
+        test_cases.append(
+            {
+                "id": raw_case["id"],
+                "title": raw_case["title"],
+                "feature_name": raw_case.get("feature_name", feature_name),
+                "module_name": raw_case.get("module_name", module_name_display),
+                "technique": raw_case.get("technique", "Equivalence Partitioning"),
+                "preconditions": raw_case.get("preconditions", []),
+                "data": raw_case.get("data", {}),
+                "steps": raw_case.get("steps", []),
+                "expected": raw_case.get("expected", []),
+                "field_code": raw_case.get("field_code"),
+                "group_name": raw_case.get("group_name"),
+                "run_module": raw_case.get("run_module"),
+                "coverage": raw_case.get("coverage"),
+            }
+        )
 
     return test_cases
 
@@ -691,10 +835,14 @@ def generate_state_transition_cases(config):
 def build_cases(config):
     test_model = config.get("test_model", "input_boundary")
     if test_model == "state_transition":
-        return generate_state_transition_cases(config)
-    if test_model == "input_boundary":
-        return generate_input_cases(config)
-    raise ValueError(f"Unsupported test_model: {test_model}")
+        test_cases = generate_state_transition_cases(config)
+    elif test_model == "input_boundary":
+        test_cases = generate_input_cases(config)
+    else:
+        raise ValueError(f"Unsupported test_model: {test_model}")
+
+    test_cases.extend(generate_custom_cases(config))
+    return test_cases
 
 
 def main():
@@ -758,6 +906,7 @@ def main():
         output_root=output_root,
     )
     write_test_run_template(test_cases, config, output_root=output_root)
+    write_traceability_matrix(test_cases, config)
 
 
 if __name__ == "__main__":

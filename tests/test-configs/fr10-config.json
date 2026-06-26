@@ -1,0 +1,299 @@
+{
+  "feature_name": "FR-10",
+  "feature_code": "FR10",
+  "feature_title": "Trạng thái Đơn hàng (Order State Machine)",
+  "module_name": "order_state_machine",
+  "module_display_name": "Order State Machine",
+  "test_model": "state_transition",
+  "field_code": "S",
+  "field_name": "Status Transition",
+  "output_root": "tests/test-cases",
+  "assumptions": [
+    "README.md FR-10 quy định 5 trạng thái hợp lệ: pending, confirmed, shipping, delivered, canceled.",
+    "README.md FR-10 quy định delivered và canceled là final states, không được chuyển sang trạng thái khác.",
+    "api_specification.md định nghĩa Admin cập nhật trạng thái bằng PUT /api/admin/orders/:id/status và User hủy đơn bằng PUT /api/orders/:id/cancel.",
+    "Order ID trên path parameter phải là số nguyên dương đại diện cho đơn hàng tồn tại; dùng biên tối thiểu 1 để áp dụng BVA cho FR-10."
+  ],
+  "states": [
+    "pending",
+    "confirmed",
+    "shipping",
+    "delivered",
+    "canceled"
+  ],
+  "final_states": [
+    "delivered",
+    "canceled"
+  ],
+  "actors": {
+    "admin": {
+      "endpoint": "PUT /api/admin/orders/:id/status"
+    },
+    "user": {
+      "endpoint": "PUT /api/orders/:id/cancel"
+    }
+  },
+  "field_labels": {
+    "S": "Status Transition",
+    "O": "Order ID"
+  },
+  "test_run": {
+    "title": "Test Run - FR-10 Order State Machine",
+    "file_name": "fr10-order-state-machine-test-run.md",
+    "tester": "[Tên người test]",
+    "environment": "[Local Web/API, backend http://localhost:3000, frontend/admin/mobile theo luồng kiểm thử]",
+    "overwrite": true
+  },
+  "traceability_matrix": {
+    "enabled": true,
+    "file": "tests/test-summary/traceability-matrix.md",
+    "title": "FR-10 - Trạng thái Đơn hàng (Order State Machine)",
+    "requirement": "FR-10",
+    "source": "README.md:141-162"
+  },
+  "valid_transitions": [
+    {
+      "actor": "admin",
+      "from": "pending",
+      "to": "confirmed",
+      "title": "Admin xác nhận đơn hàng từ pending sang confirmed",
+      "coverage": "Valid transition: pending -> confirmed by admin"
+    },
+    {
+      "actor": "admin",
+      "from": "confirmed",
+      "to": "shipping",
+      "title": "Admin giao hàng từ confirmed sang shipping",
+      "coverage": "Valid transition: confirmed -> shipping by admin"
+    },
+    {
+      "actor": "admin",
+      "from": "shipping",
+      "to": "delivered",
+      "title": "Admin hoàn tất đơn hàng từ shipping sang delivered",
+      "coverage": "Valid transition: shipping -> delivered by admin"
+    },
+    {
+      "actor": "user",
+      "from": "pending",
+      "to": "canceled",
+      "title": "User hủy đơn hàng ở trạng thái pending",
+      "coverage": "Valid transition: pending -> canceled by user",
+      "expected": [
+        "Hệ thống trả về HTTP 200.",
+        "Trạng thái đơn hàng được cập nhật thành `canceled`."
+      ]
+    },
+    {
+      "actor": "admin",
+      "from": "pending",
+      "to": "canceled",
+      "title": "Admin hủy đơn hàng ở trạng thái pending",
+      "coverage": "Valid transition: pending -> canceled by admin"
+    },
+    {
+      "actor": "user",
+      "from": "confirmed",
+      "to": "canceled",
+      "title": "User hủy đơn hàng ở trạng thái confirmed",
+      "coverage": "Valid transition: confirmed -> canceled by user",
+      "expected": [
+        "Hệ thống trả về HTTP 200.",
+        "Trạng thái đơn hàng được cập nhật thành `canceled`."
+      ]
+    },
+    {
+      "actor": "admin",
+      "from": "confirmed",
+      "to": "canceled",
+      "title": "Admin hủy đơn hàng ở trạng thái confirmed",
+      "coverage": "Valid transition: confirmed -> canceled by admin"
+    }
+  ],
+  "invalid_transitions": [
+    {
+      "actor": "admin",
+      "from": "pending",
+      "to": "shipping",
+      "title": "Từ chối Admin chuyển tắt pending sang shipping",
+      "coverage": "Invalid transition: pending -> shipping skips confirmed"
+    },
+    {
+      "actor": "admin",
+      "from": "confirmed",
+      "to": "delivered",
+      "title": "Từ chối Admin chuyển tắt confirmed sang delivered",
+      "coverage": "Invalid transition: confirmed -> delivered skips shipping"
+    },
+    {
+      "actor": "admin",
+      "from": "shipping",
+      "to": "confirmed",
+      "title": "Từ chối Admin chuyển ngược shipping sang confirmed",
+      "coverage": "Invalid transition: shipping -> confirmed"
+    },
+    {
+      "actor": "admin",
+      "from": "shipping",
+      "to": "canceled",
+      "title": "Từ chối Admin hủy đơn hàng đang shipping",
+      "coverage": "Invalid transition: shipping -> canceled"
+    },
+    {
+      "actor": "user",
+      "from": "shipping",
+      "to": "canceled",
+      "title": "Từ chối User tự hủy đơn hàng đang shipping",
+      "coverage": "Invalid transition: user cannot cancel shipping order"
+    },
+    {
+      "actor": "user",
+      "from": "delivered",
+      "to": "canceled",
+      "title": "Từ chối User hủy đơn hàng đã delivered",
+      "coverage": "Invalid final-state transition: delivered -> canceled by user"
+    },
+    {
+      "actor": "user",
+      "from": "canceled",
+      "to": "canceled",
+      "title": "Từ chối User hủy lại đơn hàng đã canceled",
+      "coverage": "Invalid final-state transition: canceled remains final for user"
+    },
+    {
+      "actor": "admin",
+      "from": "delivered",
+      "to": "canceled",
+      "title": "Từ chối Admin chuyển delivered sang canceled",
+      "coverage": "Invalid final-state transition: delivered -> canceled by admin"
+    },
+    {
+      "actor": "admin",
+      "from": "canceled",
+      "to": "delivered",
+      "title": "Từ chối Admin chuyển canceled sang delivered",
+      "coverage": "Invalid final-state transition: canceled -> delivered by admin"
+    },
+    {
+      "actor": "admin",
+      "from": "pending",
+      "to": "pending",
+      "title": "Từ chối Admin cập nhật pending sang chính pending",
+      "coverage": "Invalid transition: no-op status update pending -> pending"
+    }
+  ],
+  "invalid_status_values": [
+    {
+      "actor": "admin",
+      "from": "pending",
+      "value": "refund",
+      "title": "Từ chối status không nằm trong state machine: refund",
+      "coverage": "Invalid status value: refund"
+    },
+    {
+      "actor": "admin",
+      "from": "pending",
+      "value": "",
+      "title": "Từ chối status rỗng",
+      "coverage": "Invalid status value: empty string"
+    },
+    {
+      "actor": "admin",
+      "from": "pending",
+      "value": null,
+      "title": "Từ chối status null",
+      "coverage": "Invalid status value: null"
+    }
+  ],
+  "boundary_cases": [
+    {
+      "field_code": "O",
+      "field_name": "Order ID",
+      "group_name": "Order ID",
+      "title": "Kiểm thử Order ID ngay dưới biên tối thiểu",
+      "preconditions": [
+        "Admin đã đăng nhập.",
+        "Có ít nhất một đơn hàng hợp lệ trong hệ thống để đối chiếu trạng thái không bị ảnh hưởng."
+      ],
+      "data": {
+        "Actor": "admin",
+        "Order ID": 0,
+        "Current status": "[Không tồn tại]",
+        "Requested status": "confirmed",
+        "Endpoint": "PUT /api/admin/orders/0/status",
+        "Body": {
+          "status": "confirmed"
+        }
+      },
+      "steps": [
+        "Đăng nhập bằng tài khoản `admin` hợp lệ.",
+        "Gửi request `PUT /api/admin/orders/0/status` với body `{\"status\":\"confirmed\"}`.",
+        "Kiểm tra response và danh sách đơn hàng sau request."
+      ],
+      "expected": [
+        "Hệ thống trả về HTTP 400 hoặc 404 với thông báo lỗi phù hợp.",
+        "Không có trạng thái đơn hàng nào bị thay đổi."
+      ]
+    },
+    {
+      "field_code": "O",
+      "field_name": "Order ID",
+      "group_name": "Order ID",
+      "title": "Kiểm thử Order ID tại biên tối thiểu",
+      "preconditions": [
+        "Admin đã đăng nhập.",
+        "Có đơn hàng hợp lệ với `id = 1` đang ở trạng thái `pending`."
+      ],
+      "data": {
+        "Actor": "admin",
+        "Order ID": 1,
+        "Current status": "pending",
+        "Requested status": "confirmed",
+        "Endpoint": "PUT /api/admin/orders/1/status",
+        "Body": {
+          "status": "confirmed"
+        }
+      },
+      "steps": [
+        "Đăng nhập bằng tài khoản `admin` hợp lệ.",
+        "Chuẩn bị đơn hàng `id = 1` ở trạng thái `pending`.",
+        "Gửi request `PUT /api/admin/orders/1/status` với body `{\"status\":\"confirmed\"}`.",
+        "Tải lại thông tin đơn hàng `id = 1`."
+      ],
+      "expected": [
+        "Hệ thống trả về HTTP 200.",
+        "Trạng thái đơn hàng `id = 1` được cập nhật thành `confirmed`."
+      ]
+    },
+    {
+      "field_code": "O",
+      "field_name": "Order ID",
+      "group_name": "Order ID",
+      "title": "Kiểm thử Order ID ngay trên biên tối thiểu",
+      "preconditions": [
+        "Admin đã đăng nhập.",
+        "Có đơn hàng hợp lệ với `id = 2` đang ở trạng thái `pending`."
+      ],
+      "data": {
+        "Actor": "admin",
+        "Order ID": 2,
+        "Current status": "pending",
+        "Requested status": "confirmed",
+        "Endpoint": "PUT /api/admin/orders/2/status",
+        "Body": {
+          "status": "confirmed"
+        }
+      },
+      "steps": [
+        "Đăng nhập bằng tài khoản `admin` hợp lệ.",
+        "Chuẩn bị đơn hàng `id = 2` ở trạng thái `pending`.",
+        "Gửi request `PUT /api/admin/orders/2/status` với body `{\"status\":\"confirmed\"}`.",
+        "Tải lại thông tin đơn hàng `id = 2`."
+      ],
+      "expected": [
+        "Hệ thống trả về HTTP 200.",
+        "Trạng thái đơn hàng `id = 2` được cập nhật thành `confirmed`."
+      ]
+    }
+  ]
+}

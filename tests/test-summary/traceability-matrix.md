@@ -1,62 +1,68 @@
-# Traceability Matrix: FR-04 Profile Management
+# Traceability Matrix
 
-Bảng truy vết này đã được làm lại để chỉ thể hiện phần kiểm thử của Dang Truong Nguyen (23127438) cho **FR-04: Quản lý hồ sơ cá nhân**.
+## FR-04 - Quản lý hồ sơ cá nhân
 
-| Requirement | Test Case | Result | Bug Issue | Status |
+| Requirement ID | Test Case ID | Technique | Coverage | Source |
 | :--- | :--- | :--- | :--- | :--- |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-TC01](../test-cases/profile_management/FR04-N-TC01.md) | Pass | None | Done |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-TC02](../test-cases/profile_management/FR04-N-TC02.md) | Pass | None | Done |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-TC03](../test-cases/profile_management/FR04-N-TC03.md) | Fail | BUG-FR04-N-01 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-TC04](../test-cases/profile_management/FR04-N-TC04.md) | Fail | BUG-FR04-N-02 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-TC05](../test-cases/profile_management/FR04-N-TC05.md) | Fail | BUG-FR04-N-02 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-TC06](../test-cases/profile_management/FR04-N-TC06.md) | Fail | BUG-FR04-N-03 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-TC07](../test-cases/profile_management/FR04-N-TC07.md) | Fail | BUG-FR04-N-03 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-TC08](../test-cases/profile_management/FR04-N-TC08.md) | Fail | BUG-FR04-N-03 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-TC09](../test-cases/profile_management/FR04-N-TC09.md) | Fail | BUG-FR04-N-04 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-TC10](../test-cases/profile_management/FR04-N-TC10.md) | Fail | BUG-FR04-N-05 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-TC11](../test-cases/profile_management/FR04-N-TC11.md) | Fail | BUG-FR04-N-05 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-BVA-TC01](../test-cases/profile_management/FR04-N-BVA-TC01.md) | Fail | BUG-FR04-N-02 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-BVA-TC02](../test-cases/profile_management/FR04-N-BVA-TC02.md) | Pass | None | Done |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-BVA-TC03](../test-cases/profile_management/FR04-N-BVA-TC03.md) | Pass | None | Done |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-BVA-TC04](../test-cases/profile_management/FR04-N-BVA-TC04.md) | Pass | None | Done |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-BVA-TC05](../test-cases/profile_management/FR04-N-BVA-TC05.md) | Pass | None | Done |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-BVA-TC06](../test-cases/profile_management/FR04-N-BVA-TC06.md) | Pass | None | Done |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-N-BVA-TC07](../test-cases/profile_management/FR04-N-BVA-TC07.md) | Fail | BUG-FR04-N-06 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-TC01](../test-cases/profile_management/FR04-P-TC01.md) | Fail | BUG-FR04-P-01 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-TC02](../test-cases/profile_management/FR04-P-TC02.md) | Fail | BUG-FR04-P-01 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-TC03](../test-cases/profile_management/FR04-P-TC03.md) | Fail | BUG-FR04-P-01 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-TC04](../test-cases/profile_management/FR04-P-TC04.md) | Fail | BUG-FR04-P-04 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-TC05](../test-cases/profile_management/FR04-P-TC05.md) | Fail | BUG-FR04-P-04 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-TC06](../test-cases/profile_management/FR04-P-TC06.md) | Fail | BUG-FR04-P-02 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-TC07](../test-cases/profile_management/FR04-P-TC07.md) | Fail | BUG-FR04-P-04 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-TC08](../test-cases/profile_management/FR04-P-TC08.md) | Fail | BUG-FR04-P-04 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-TC09](../test-cases/profile_management/FR04-P-TC09.md) | Fail | BUG-FR04-P-03 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-TC10](../test-cases/profile_management/FR04-P-TC10.md) | Fail | BUG-FR04-P-04 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-TC11](../test-cases/profile_management/FR04-P-TC11.md) | Fail | BUG-FR04-P-04 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-TC12](../test-cases/profile_management/FR04-P-TC12.md) | Fail | BUG-FR04-P-02 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-BVA-TC01](../test-cases/profile_management/FR04-P-BVA-TC01.md) | Fail | BUG-FR04-P-03 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-BVA-TC02](../test-cases/profile_management/FR04-P-BVA-TC02.md) | Fail | BUG-FR04-P-01 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-BVA-TC03](../test-cases/profile_management/FR04-P-BVA-TC03.md) | Fail | BUG-FR04-P-01 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-BVA-TC04](../test-cases/profile_management/FR04-P-BVA-TC04.md) | Fail | BUG-FR04-P-01 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-BVA-TC05](../test-cases/profile_management/FR04-P-BVA-TC05.md) | Fail | BUG-FR04-P-01 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-BVA-TC06](../test-cases/profile_management/FR04-P-BVA-TC06.md) | Fail | BUG-FR04-P-01 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-P-BVA-TC07](../test-cases/profile_management/FR04-P-BVA-TC07.md) | Fail | BUG-FR04-P-04 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-TC01](../test-cases/profile_management/FR04-A-TC01.md) | Pass | None | Done |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-TC02](../test-cases/profile_management/FR04-A-TC02.md) | Pass | None | Done |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-TC03](../test-cases/profile_management/FR04-A-TC03.md) | Fail | BUG-FR04-A-01 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-TC04](../test-cases/profile_management/FR04-A-TC04.md) | Fail | BUG-FR04-A-02 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-TC05](../test-cases/profile_management/FR04-A-TC05.md) | Fail | BUG-FR04-A-02 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-TC06](../test-cases/profile_management/FR04-A-TC06.md) | Fail | BUG-FR04-A-02 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-TC07](../test-cases/profile_management/FR04-A-TC07.md) | Fail | BUG-FR04-A-03 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-TC08](../test-cases/profile_management/FR04-A-TC08.md) | Fail | BUG-FR04-A-03 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-TC09](../test-cases/profile_management/FR04-A-TC09.md) | Fail | BUG-FR04-A-04 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-TC10](../test-cases/profile_management/FR04-A-TC10.md) | Fail | BUG-FR04-A-04 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-TC11](../test-cases/profile_management/FR04-A-TC11.md) | Fail | BUG-FR04-A-05 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-TC12](../test-cases/profile_management/FR04-A-TC12.md) | Fail | BUG-FR04-A-05 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-BVA-TC01](../test-cases/profile_management/FR04-A-BVA-TC01.md) | Fail | BUG-FR04-A-02 | Open |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-BVA-TC02](../test-cases/profile_management/FR04-A-BVA-TC02.md) | Pass | None | Done |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-BVA-TC03](../test-cases/profile_management/FR04-A-BVA-TC03.md) | Pass | None | Done |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-BVA-TC04](../test-cases/profile_management/FR04-A-BVA-TC04.md) | Pass | None | Done |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-BVA-TC05](../test-cases/profile_management/FR04-A-BVA-TC05.md) | Pass | None | Done |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-BVA-TC06](../test-cases/profile_management/FR04-A-BVA-TC06.md) | Pass | None | Done |
-| FR-04 (Quản lý hồ sơ cá nhân) | [FR04-A-BVA-TC07](../test-cases/profile_management/FR04-A-BVA-TC07.md) | Fail | BUG-FR04-A-06 | Open |
+| FR-04 | [FR04-N-TC01](../test-cases/profile_management/FR04-N-TC01.md) | Equivalence Partitioning | Kiểm thử Họ Tên để trống | README.md:62-68 |
+| FR-04 | [FR04-N-BVA-TC01](../test-cases/profile_management/FR04-N-BVA-TC01.md) | Boundary Value Analysis | Kiểm thử Họ Tên với độ dài dưới tối thiểu (0 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-N-BVA-TC02](../test-cases/profile_management/FR04-N-BVA-TC02.md) | Boundary Value Analysis | Kiểm thử Họ Tên với độ dài biên tối thiểu (1 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-N-BVA-TC03](../test-cases/profile_management/FR04-N-BVA-TC03.md) | Boundary Value Analysis | Kiểm thử Họ Tên với độ dài Min+1 (2 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-N-BVA-TC04](../test-cases/profile_management/FR04-N-BVA-TC04.md) | Boundary Value Analysis | Kiểm thử Họ Tên với độ dài Nominal (25 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-N-BVA-TC05](../test-cases/profile_management/FR04-N-BVA-TC05.md) | Boundary Value Analysis | Kiểm thử Họ Tên với độ dài Max-1 (49 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-N-BVA-TC06](../test-cases/profile_management/FR04-N-BVA-TC06.md) | Boundary Value Analysis | Kiểm thử Họ Tên với độ dài biên tối đa (50 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-N-BVA-TC07](../test-cases/profile_management/FR04-N-BVA-TC07.md) | Boundary Value Analysis | Kiểm thử Họ Tên với độ dài vượt quá tối đa (51 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-P-TC01](../test-cases/profile_management/FR04-P-TC01.md) | Equivalence Partitioning | Kiểm thử Số điện thoại để trống | README.md:62-68 |
+| FR-04 | [FR04-P-BVA-TC01](../test-cases/profile_management/FR04-P-BVA-TC01.md) | Boundary Value Analysis | Kiểm thử Số điện thoại với độ dài dưới tối thiểu (9 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-P-BVA-TC02](../test-cases/profile_management/FR04-P-BVA-TC02.md) | Boundary Value Analysis | Kiểm thử Số điện thoại với độ dài biên tối thiểu (10 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-P-BVA-TC03](../test-cases/profile_management/FR04-P-BVA-TC03.md) | Boundary Value Analysis | Kiểm thử Số điện thoại với độ dài Min+1 (11 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-P-BVA-TC04](../test-cases/profile_management/FR04-P-BVA-TC04.md) | Boundary Value Analysis | Kiểm thử Số điện thoại với độ dài vượt quá tối đa (12 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-A-TC01](../test-cases/profile_management/FR04-A-TC01.md) | Equivalence Partitioning | Kiểm thử Địa chỉ giao hàng mặc định để trống | README.md:62-68 |
+| FR-04 | [FR04-A-BVA-TC01](../test-cases/profile_management/FR04-A-BVA-TC01.md) | Boundary Value Analysis | Kiểm thử Địa chỉ giao hàng mặc định với độ dài dưới tối thiểu (4 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-A-BVA-TC02](../test-cases/profile_management/FR04-A-BVA-TC02.md) | Boundary Value Analysis | Kiểm thử Địa chỉ giao hàng mặc định với độ dài biên tối thiểu (5 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-A-BVA-TC03](../test-cases/profile_management/FR04-A-BVA-TC03.md) | Boundary Value Analysis | Kiểm thử Địa chỉ giao hàng mặc định với độ dài Min+1 (6 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-A-BVA-TC04](../test-cases/profile_management/FR04-A-BVA-TC04.md) | Boundary Value Analysis | Kiểm thử Địa chỉ giao hàng mặc định với độ dài Nominal (130 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-A-BVA-TC05](../test-cases/profile_management/FR04-A-BVA-TC05.md) | Boundary Value Analysis | Kiểm thử Địa chỉ giao hàng mặc định với độ dài Max-1 (254 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-A-BVA-TC06](../test-cases/profile_management/FR04-A-BVA-TC06.md) | Boundary Value Analysis | Kiểm thử Địa chỉ giao hàng mặc định với độ dài biên tối đa (255 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-A-BVA-TC07](../test-cases/profile_management/FR04-A-BVA-TC07.md) | Boundary Value Analysis | Kiểm thử Địa chỉ giao hàng mặc định với độ dài vượt quá tối đa (256 ký tự) | README.md:62-68 |
+| FR-04 | [FR04-N-TC02](../test-cases/profile_management/FR04-N-TC02.md) | Equivalence Partitioning | Valid name partition | README.md:62-68 |
+| FR-04 | [FR04-P-TC02](../test-cases/profile_management/FR04-P-TC02.md) | Equivalence Partitioning | Valid phone partition: 0 + 10 digits | README.md:62-68 |
+| FR-04 | [FR04-P-TC03](../test-cases/profile_management/FR04-P-TC03.md) | Equivalence Partitioning | Valid phone partition: 0 + 11 digits | README.md:62-68 |
+| FR-04 | [FR04-P-TC04](../test-cases/profile_management/FR04-P-TC04.md) | Equivalence Partitioning | Invalid phone partition: missing leading 0 | README.md:62-68 |
+| FR-04 | [FR04-P-TC05](../test-cases/profile_management/FR04-P-TC05.md) | Equivalence Partitioning | Invalid phone partition: non-digit characters | README.md:62-68 |
+| FR-04 | [FR04-A-TC02](../test-cases/profile_management/FR04-A-TC02.md) | Equivalence Partitioning | Valid address partition | README.md:62-68 |
+| FR-04 | [FR04-A-TC03](../test-cases/profile_management/FR04-A-TC03.md) | Equivalence Partitioning | Invalid address partition: whitespace-only value | README.md:62-68 |
+| FR-04 | [FR04-E-TC01](../test-cases/profile_management/FR04-E-TC01.md) | Equivalence Partitioning | Email immutable via UI | README.md:62-68 |
+| FR-04 | [FR04-R-TC01](../test-cases/profile_management/FR04-R-TC01.md) | Equivalence Partitioning / Security | Invalid role tampering partition | README.md:62-68 |
+| FR-04 | [FR04-U-TC01](../test-cases/profile_management/FR04-U-TC01.md) | Equivalence Partitioning / Authorization | Invalid authentication partition | README.md:62-68 |
+| FR-04 | [FR04-U-TC02](../test-cases/profile_management/FR04-U-TC02.md) | Equivalence Partitioning / Authorization | Invalid ownership partition | README.md:62-68 |
+
+## FR-10 - Trạng thái Đơn hàng (Order State Machine)
+
+| Requirement ID | Test Case ID | Technique | Coverage | Source |
+| :--- | :--- | :--- | :--- | :--- |
+| FR-10 | [FR10-S-TC01](../test-cases/order_state_machine/FR10-S-TC01.md) | Equivalence Partitioning / State Transition | Admin xác nhận đơn hàng từ pending sang confirmed | README.md:141-162 |
+| FR-10 | [FR10-S-TC02](../test-cases/order_state_machine/FR10-S-TC02.md) | Equivalence Partitioning / State Transition | Admin giao hàng từ confirmed sang shipping | README.md:141-162 |
+| FR-10 | [FR10-S-TC03](../test-cases/order_state_machine/FR10-S-TC03.md) | Equivalence Partitioning / State Transition | Admin hoàn tất đơn hàng từ shipping sang delivered | README.md:141-162 |
+| FR-10 | [FR10-S-TC04](../test-cases/order_state_machine/FR10-S-TC04.md) | Equivalence Partitioning / State Transition | User hủy đơn hàng ở trạng thái pending | README.md:141-162 |
+| FR-10 | [FR10-S-TC05](../test-cases/order_state_machine/FR10-S-TC05.md) | Equivalence Partitioning / State Transition | Admin hủy đơn hàng ở trạng thái pending | README.md:141-162 |
+| FR-10 | [FR10-S-TC06](../test-cases/order_state_machine/FR10-S-TC06.md) | Equivalence Partitioning / State Transition | User hủy đơn hàng ở trạng thái confirmed | README.md:141-162 |
+| FR-10 | [FR10-S-TC07](../test-cases/order_state_machine/FR10-S-TC07.md) | Equivalence Partitioning / State Transition | Admin hủy đơn hàng ở trạng thái confirmed | README.md:141-162 |
+| FR-10 | [FR10-S-TC08](../test-cases/order_state_machine/FR10-S-TC08.md) | Equivalence Partitioning / State Transition | Từ chối Admin chuyển tắt pending sang shipping | README.md:141-162 |
+| FR-10 | [FR10-S-TC09](../test-cases/order_state_machine/FR10-S-TC09.md) | Equivalence Partitioning / State Transition | Từ chối Admin chuyển tắt confirmed sang delivered | README.md:141-162 |
+| FR-10 | [FR10-S-TC10](../test-cases/order_state_machine/FR10-S-TC10.md) | Equivalence Partitioning / State Transition | Từ chối Admin chuyển ngược shipping sang confirmed | README.md:141-162 |
+| FR-10 | [FR10-S-TC11](../test-cases/order_state_machine/FR10-S-TC11.md) | Equivalence Partitioning / State Transition | Từ chối Admin hủy đơn hàng đang shipping | README.md:141-162 |
+| FR-10 | [FR10-S-TC12](../test-cases/order_state_machine/FR10-S-TC12.md) | Equivalence Partitioning / State Transition | Từ chối User tự hủy đơn hàng đang shipping | README.md:141-162 |
+| FR-10 | [FR10-S-TC13](../test-cases/order_state_machine/FR10-S-TC13.md) | Equivalence Partitioning / State Transition | Từ chối User hủy đơn hàng đã delivered | README.md:141-162 |
+| FR-10 | [FR10-S-TC14](../test-cases/order_state_machine/FR10-S-TC14.md) | Equivalence Partitioning / State Transition | Từ chối User hủy lại đơn hàng đã canceled | README.md:141-162 |
+| FR-10 | [FR10-S-TC15](../test-cases/order_state_machine/FR10-S-TC15.md) | Equivalence Partitioning / State Transition | Từ chối Admin chuyển delivered sang canceled | README.md:141-162 |
+| FR-10 | [FR10-S-TC16](../test-cases/order_state_machine/FR10-S-TC16.md) | Equivalence Partitioning / State Transition | Từ chối Admin chuyển canceled sang delivered | README.md:141-162 |
+| FR-10 | [FR10-S-TC17](../test-cases/order_state_machine/FR10-S-TC17.md) | Equivalence Partitioning / State Transition | Từ chối Admin cập nhật pending sang chính pending | README.md:141-162 |
+| FR-10 | [FR10-S-TC18](../test-cases/order_state_machine/FR10-S-TC18.md) | Equivalence Partitioning | Từ chối status không nằm trong state machine: refund | README.md:141-162 |
+| FR-10 | [FR10-S-TC19](../test-cases/order_state_machine/FR10-S-TC19.md) | Equivalence Partitioning | Từ chối status rỗng | README.md:141-162 |
+| FR-10 | [FR10-S-TC20](../test-cases/order_state_machine/FR10-S-TC20.md) | Equivalence Partitioning | Từ chối status null | README.md:141-162 |
+| FR-10 | [FR10-O-BVA-TC01](../test-cases/order_state_machine/FR10-O-BVA-TC01.md) | Boundary Value Analysis | Kiểm thử Order ID ngay dưới biên tối thiểu | README.md:141-162 |
+| FR-10 | [FR10-O-BVA-TC02](../test-cases/order_state_machine/FR10-O-BVA-TC02.md) | Boundary Value Analysis | Kiểm thử Order ID tại biên tối thiểu | README.md:141-162 |
+| FR-10 | [FR10-O-BVA-TC03](../test-cases/order_state_machine/FR10-O-BVA-TC03.md) | Boundary Value Analysis | Kiểm thử Order ID ngay trên biên tối thiểu | README.md:141-162 |
+
+<!-- END FR10 -->

@@ -1,0 +1,370 @@
+{
+  "feature_name": "FR-04",
+  "feature_code": "FR04",
+  "feature_title": "Quản lý hồ sơ cá nhân",
+  "module_name": "profile_management",
+  "module_display_name": "Profile Management",
+  "test_model": "input_boundary",
+  "output_root": "tests/test-cases",
+  "assumptions": [
+    "README.md FR-04 quy định cụ thể phone phải bắt đầu bằng 0 và dài 10-11 chữ số.",
+    "README.md FR-04 không quy định giới hạn độ dài name; bộ test dùng assumption name bắt buộc, 1-50 ký tự để có cơ sở BVA.",
+    "README.md FR-04 không quy định giới hạn độ dài address; bộ test dùng assumption address bắt buộc, 5-255 ký tự sau khi trim để có cơ sở BVA."
+  ],
+  "field_labels": {
+    "N": "Name Input",
+    "P": "Phone Input",
+    "A": "Address Input",
+    "E": "Email Immutability",
+    "R": "Role Protection",
+    "U": "User Ownership/Auth"
+  },
+  "test_run": {
+    "title": "Test Run - FR-04 Profile Management",
+    "file_name": "fr04-profile-management-test-run.md",
+    "tester": "[Tên người test]",
+    "environment": "[Local Web/API, backend http://localhost:3000, frontend http://localhost:5173]",
+    "overwrite": true
+  },
+  "traceability_matrix": {
+    "enabled": true,
+    "file": "tests/test-summary/traceability-matrix.md",
+    "title": "FR-04 - Quản lý hồ sơ cá nhân",
+    "requirement": "FR-04",
+    "source": "README.md:62-68"
+  },
+  "inputs": [
+    {
+      "name": "Họ Tên",
+      "field_code": "N",
+      "group_name": "Name Input",
+      "type": "string",
+      "required": true,
+      "min_length": 1,
+      "max_length": 50,
+      "nominal_length": 25,
+      "sample_char": "N"
+    },
+    {
+      "name": "Số điện thoại",
+      "field_code": "P",
+      "group_name": "Phone Input",
+      "type": "string",
+      "required": true,
+      "min_length": 10,
+      "max_length": 11,
+      "valid_values_by_length": {
+        "9": "012345678",
+        "10": "0123456789",
+        "11": "01234567890",
+        "12": "012345678901"
+      },
+      "valid_length_expected": "Hệ thống chấp nhận số điện thoại bắt đầu bằng 0 và có 10-11 chữ số.",
+      "invalid_length_expected": "Hệ thống từ chối số điện thoại vì phải bắt đầu bằng 0 và có 10-11 chữ số."
+    },
+    {
+      "name": "Địa chỉ giao hàng mặc định",
+      "field_code": "A",
+      "group_name": "Address Input",
+      "type": "string",
+      "required": true,
+      "min_length": 5,
+      "max_length": 255,
+      "nominal_length": 130,
+      "sample_char": "A"
+    }
+  ],
+  "custom_cases": [
+    {
+      "id": "FR04-N-TC02",
+      "field_code": "N",
+      "group_name": "Name Input",
+      "title": "Cập nhật họ tên hợp lệ",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Valid name partition",
+      "preconditions": [
+        "Người dùng đã đăng nhập bằng JWT hợp lệ.",
+        "Người dùng đang ở trang Hồ sơ."
+      ],
+      "data": {
+        "name": "Nguyen Van A",
+        "phone": "0123456789",
+        "shipping_address": "123 Nguyen Hue, Quan 1, TP.HCM"
+      },
+      "steps": [
+        "Mở trang Hồ sơ.",
+        "Nhập họ tên hợp lệ và giữ phone/address hợp lệ.",
+        "Bấm nút Cập nhật.",
+        "Tải lại hồ sơ người dùng."
+      ],
+      "expected": [
+        "Hệ thống cập nhật hồ sơ thành công.",
+        "Tên mới được hiển thị trong hồ sơ của chính người dùng."
+      ]
+    },
+    {
+      "id": "FR04-P-TC02",
+      "field_code": "P",
+      "group_name": "Phone Input",
+      "title": "Cập nhật số điện thoại hợp lệ 10 chữ số bắt đầu bằng 0",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Valid phone partition: 0 + 10 digits",
+      "preconditions": [
+        "Người dùng đã đăng nhập bằng JWT hợp lệ.",
+        "Các trường name/address hợp lệ."
+      ],
+      "data": {
+        "phone": "0123456789"
+      },
+      "steps": [
+        "Mở trang Hồ sơ.",
+        "Nhập số điện thoại `0123456789`.",
+        "Bấm nút Cập nhật.",
+        "Tải lại hồ sơ người dùng."
+      ],
+      "expected": [
+        "Hệ thống chấp nhận số điện thoại.",
+        "Số điện thoại được lưu đúng cho hồ sơ của người dùng hiện tại."
+      ]
+    },
+    {
+      "id": "FR04-P-TC03",
+      "field_code": "P",
+      "group_name": "Phone Input",
+      "title": "Cập nhật số điện thoại hợp lệ 11 chữ số bắt đầu bằng 0",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Valid phone partition: 0 + 11 digits",
+      "preconditions": [
+        "Người dùng đã đăng nhập bằng JWT hợp lệ.",
+        "Các trường name/address hợp lệ."
+      ],
+      "data": {
+        "phone": "01234567890"
+      },
+      "steps": [
+        "Mở trang Hồ sơ.",
+        "Nhập số điện thoại `01234567890`.",
+        "Bấm nút Cập nhật.",
+        "Tải lại hồ sơ người dùng."
+      ],
+      "expected": [
+        "Hệ thống chấp nhận số điện thoại.",
+        "Số điện thoại được lưu đúng cho hồ sơ của người dùng hiện tại."
+      ]
+    },
+    {
+      "id": "FR04-P-TC04",
+      "field_code": "P",
+      "group_name": "Phone Input",
+      "title": "Từ chối số điện thoại không bắt đầu bằng 0",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Invalid phone partition: missing leading 0",
+      "preconditions": [
+        "Người dùng đã đăng nhập bằng JWT hợp lệ.",
+        "Các trường name/address hợp lệ."
+      ],
+      "data": {
+        "phone": "9123456789"
+      },
+      "steps": [
+        "Mở trang Hồ sơ.",
+        "Nhập số điện thoại `9123456789`.",
+        "Bấm nút Cập nhật."
+      ],
+      "expected": [
+        "Hệ thống từ chối submit và hiển thị thông báo lỗi phone.",
+        "Số điện thoại cũ trong hồ sơ không bị thay đổi."
+      ]
+    },
+    {
+      "id": "FR04-P-TC05",
+      "field_code": "P",
+      "group_name": "Phone Input",
+      "title": "Từ chối số điện thoại chứa ký tự không phải chữ số",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Invalid phone partition: non-digit characters",
+      "preconditions": [
+        "Người dùng đã đăng nhập bằng JWT hợp lệ.",
+        "Các trường name/address hợp lệ."
+      ],
+      "data": {
+        "phone": "01234abcde"
+      },
+      "steps": [
+        "Mở trang Hồ sơ.",
+        "Nhập số điện thoại `01234abcde`.",
+        "Bấm nút Cập nhật."
+      ],
+      "expected": [
+        "Hệ thống từ chối submit và hiển thị thông báo lỗi phone.",
+        "Số điện thoại cũ trong hồ sơ không bị thay đổi."
+      ]
+    },
+    {
+      "id": "FR04-A-TC02",
+      "field_code": "A",
+      "group_name": "Address Input",
+      "title": "Cập nhật địa chỉ giao hàng hợp lệ",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Valid address partition",
+      "preconditions": [
+        "Người dùng đã đăng nhập bằng JWT hợp lệ.",
+        "Các trường name/phone hợp lệ."
+      ],
+      "data": {
+        "shipping_address": "123 Nguyen Hue, Quan 1, TP.HCM"
+      },
+      "steps": [
+        "Mở trang Hồ sơ.",
+        "Nhập địa chỉ giao hàng mặc định hợp lệ.",
+        "Bấm nút Cập nhật.",
+        "Tải lại hồ sơ người dùng."
+      ],
+      "expected": [
+        "Hệ thống cập nhật hồ sơ thành công.",
+        "Địa chỉ giao hàng mặc định mới được lưu cho người dùng hiện tại."
+      ]
+    },
+    {
+      "id": "FR04-A-TC03",
+      "field_code": "A",
+      "group_name": "Address Input",
+      "title": "Từ chối địa chỉ chỉ gồm khoảng trắng",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Invalid address partition: whitespace-only value",
+      "preconditions": [
+        "Người dùng đã đăng nhập bằng JWT hợp lệ.",
+        "Các trường name/phone hợp lệ."
+      ],
+      "data": {
+        "shipping_address": "     "
+      },
+      "steps": [
+        "Mở trang Hồ sơ.",
+        "Nhập địa chỉ chỉ gồm khoảng trắng.",
+        "Bấm nút Cập nhật."
+      ],
+      "expected": [
+        "Hệ thống từ chối submit và hiển thị thông báo lỗi address.",
+        "Địa chỉ giao hàng cũ không bị thay đổi."
+      ]
+    },
+    {
+      "id": "FR04-E-TC01",
+      "field_code": "E",
+      "group_name": "Email Immutability",
+      "title": "Email không thể thay đổi qua giao diện hồ sơ",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Email immutable via UI",
+      "preconditions": [
+        "Người dùng đã đăng nhập bằng JWT hợp lệ.",
+        "Người dùng đang ở trang Hồ sơ."
+      ],
+      "data": {
+        "current_email": "test@eshop.com",
+        "attempted_email": "changed@eshop.com"
+      },
+      "steps": [
+        "Mở trang Hồ sơ.",
+        "Quan sát trường Email.",
+        "Thử chỉnh sửa email qua giao diện.",
+        "Cập nhật các trường hồ sơ hợp lệ còn lại."
+      ],
+      "expected": [
+        "Trường Email không cho phép chỉnh sửa qua giao diện.",
+        "Sau khi cập nhật hồ sơ, email vẫn là giá trị ban đầu."
+      ]
+    },
+    {
+      "id": "FR04-R-TC01",
+      "field_code": "R",
+      "group_name": "Role Protection",
+      "title": "Không cho phép user tự thay đổi role",
+      "technique": "Equivalence Partitioning / Security",
+      "coverage": "Invalid role tampering partition",
+      "preconditions": [
+        "User thường đã đăng nhập bằng JWT hợp lệ.",
+        "User hiện tại có role = `user`."
+      ],
+      "data": {
+        "endpoint": "PUT /api/users/me",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0123456789",
+          "shipping_address": "123 Nguyen Hue, Quan 1, TP.HCM",
+          "role": "admin"
+        }
+      },
+      "steps": [
+        "Gửi request `PUT /api/users/me` kèm JWT của user thường.",
+        "Trong body gửi thêm `role=admin` cùng các trường hồ sơ hợp lệ.",
+        "Tải lại thông tin user hiện tại."
+      ],
+      "expected": [
+        "Hệ thống từ chối hoặc bỏ qua trường `role` từ client.",
+        "Role của user vẫn là `user` và không bị nâng thành `admin`."
+      ]
+    },
+    {
+      "id": "FR04-U-TC01",
+      "field_code": "U",
+      "group_name": "User Ownership/Auth",
+      "title": "Từ chối cập nhật hồ sơ khi chưa đăng nhập",
+      "technique": "Equivalence Partitioning / Authorization",
+      "coverage": "Invalid authentication partition",
+      "preconditions": [
+        "Client không có JWT hoặc JWT không hợp lệ."
+      ],
+      "data": {
+        "endpoint": "PUT /api/users/me",
+        "Authorization": "[Không gửi]",
+        "body": {
+          "name": "Nguyen Van A",
+          "phone": "0123456789",
+          "shipping_address": "123 Nguyen Hue, Quan 1, TP.HCM"
+        }
+      },
+      "steps": [
+        "Gửi request `PUT /api/users/me` không kèm header Authorization.",
+        "Quan sát status code và tải lại hồ sơ nếu có thể."
+      ],
+      "expected": [
+        "Hệ thống từ chối request với lỗi xác thực phù hợp.",
+        "Không có hồ sơ người dùng nào bị thay đổi."
+      ]
+    },
+    {
+      "id": "FR04-U-TC02",
+      "field_code": "U",
+      "group_name": "User Ownership/Auth",
+      "title": "Không cho phép cập nhật hồ sơ của user khác",
+      "technique": "Equivalence Partitioning / Authorization",
+      "coverage": "Invalid ownership partition",
+      "preconditions": [
+        "Có hai user A và B trong hệ thống.",
+        "User A đã đăng nhập bằng JWT hợp lệ.",
+        "User B có hồ sơ khác với user A."
+      ],
+      "data": {
+        "endpoint": "PUT /api/users/me",
+        "token_owner": "User A",
+        "attempted_target_user_id": "User B",
+        "body": {
+          "id": "{user_b_id}",
+          "name": "Hacked User B",
+          "phone": "0123456789",
+          "shipping_address": "Dia chi bi thay doi"
+        }
+      },
+      "steps": [
+        "Gửi request cập nhật hồ sơ bằng JWT của User A.",
+        "Trong body cố tình gửi thêm `id` của User B.",
+        "Tải lại hồ sơ của User A và User B."
+      ],
+      "expected": [
+        "Hệ thống chỉ cho phép User A cập nhật hồ sơ của chính mình hoặc từ chối request.",
+        "Hồ sơ của User B không bị thay đổi."
+      ]
+    }
+  ]
+}
