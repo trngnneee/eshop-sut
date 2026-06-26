@@ -26,4 +26,4 @@ Profile Management / Functional / Equivalence Partitioning / Security
 - Role của user vẫn là `user` và không bị nâng thành `admin`.
 
 ## Status / Related bugs
-Not Run / None
+Failed / BUG-FR04-R-01 - API cho phép tự đổi role

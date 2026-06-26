@@ -25,4 +25,4 @@ Profile Management / Functional / Equivalence Partitioning
 - Số điện thoại cũ trong hồ sơ không bị thay đổi.
 
 ## Status / Related bugs
-Not Run / None
+Passed / None

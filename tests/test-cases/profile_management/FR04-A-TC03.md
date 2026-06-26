@@ -25,4 +25,4 @@ Profile Management / Functional / Equivalence Partitioning
 - Địa chỉ giao hàng cũ không bị thay đổi.
 
 ## Status / Related bugs
-Not Run / None
+Failed / BUG-FR04-A-01 - Thiếu validate Địa chỉ giao hàng

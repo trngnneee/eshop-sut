@@ -26,4 +26,4 @@ Profile Management / Functional / Equivalence Partitioning
 - Số điện thoại được lưu đúng cho hồ sơ của người dùng hiện tại.
 
 ## Status / Related bugs
-Not Run / None
+Failed / BUG-FR04-P-01 - Sai rule validate Số điện thoại

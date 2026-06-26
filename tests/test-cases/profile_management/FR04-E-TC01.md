@@ -27,4 +27,4 @@ Profile Management / Functional / Equivalence Partitioning
 - Sau khi cập nhật hồ sơ, email vẫn là giá trị ban đầu.
 
 ## Status / Related bugs
-Not Run / None
+Passed / None

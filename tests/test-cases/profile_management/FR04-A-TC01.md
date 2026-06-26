@@ -23,4 +23,4 @@ Profile Management / Functional / Equivalence Partitioning
 - Hệ thống từ chối submit và hiển thị thông báo lỗi bắt buộc nhập cho trường Địa chỉ giao hàng mặc định.
 
 ## Status / Related bugs
-Not Run / None
+Failed / BUG-FR04-A-01 - Thiếu validate Địa chỉ giao hàng

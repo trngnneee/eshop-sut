@@ -23,4 +23,4 @@ Profile Management / Functional / Boundary Value Analysis
 - Hệ thống chấp nhận giá trị và không báo lỗi độ dài ở trường Họ Tên.
 
 ## Status / Related bugs
-Not Run / None
+Passed / None

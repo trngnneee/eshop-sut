@@ -23,4 +23,4 @@ Profile Management / Functional / Boundary Value Analysis
 - Hệ thống từ chối số điện thoại vì phải bắt đầu bằng 0 và có 10-11 chữ số.
 
 ## Status / Related bugs
-Not Run / None
+Passed / None

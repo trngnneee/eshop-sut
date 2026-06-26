@@ -23,4 +23,4 @@ Profile Management / Functional / Boundary Value Analysis
 - Hệ thống báo lỗi độ dài Họ Tên tối thiểu là 1 ký tự.
 
 ## Status / Related bugs
-Not Run / None
+Passed / None

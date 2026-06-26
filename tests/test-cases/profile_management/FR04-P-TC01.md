@@ -23,4 +23,4 @@ Profile Management / Functional / Equivalence Partitioning
 - Hệ thống từ chối submit và hiển thị thông báo lỗi bắt buộc nhập cho trường Số điện thoại.
 
 ## Status / Related bugs
-Not Run / None
+Passed / None

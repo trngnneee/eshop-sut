@@ -23,4 +23,4 @@ Profile Management / Functional / Boundary Value Analysis
 - Hệ thống báo lỗi độ dài Địa chỉ giao hàng mặc định tối thiểu là 5 ký tự.
 
 ## Status / Related bugs
-Not Run / None
+Failed / BUG-FR04-A-01 - Thiếu validate Địa chỉ giao hàng

@@ -26,4 +26,4 @@ Profile Management / Functional / Equivalence Partitioning
 - Địa chỉ giao hàng mặc định mới được lưu cho người dùng hiện tại.
 
 ## Status / Related bugs
-Not Run / None
+Passed / None

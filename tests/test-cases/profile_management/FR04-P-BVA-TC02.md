@@ -23,4 +23,4 @@ Profile Management / Functional / Boundary Value Analysis
 - Hệ thống chấp nhận số điện thoại bắt đầu bằng 0 và có 10-11 chữ số.
 
 ## Status / Related bugs
-Not Run / None
+Failed / BUG-FR04-P-01 - Sai rule validate Số điện thoại

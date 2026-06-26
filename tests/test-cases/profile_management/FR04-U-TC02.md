@@ -29,4 +29,4 @@ Profile Management / Functional / Equivalence Partitioning / Authorization
 - Hồ sơ của User B không bị thay đổi.
 
 ## Status / Related bugs
-Not Run / None
+Passed / None

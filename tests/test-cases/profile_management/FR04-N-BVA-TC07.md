@@ -23,4 +23,4 @@ Profile Management / Functional / Boundary Value Analysis
 - Hệ thống báo lỗi độ dài Họ Tên vượt quá giới hạn tối đa 50 ký tự.
 
 ## Status / Related bugs
-Not Run / None
+Failed / BUG-FR04-N-01 - Thiếu validate độ dài tối đa Họ Tên
