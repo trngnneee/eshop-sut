@@ -12,6 +12,6 @@
 | **Frequency** | Always |
 | **Priority** | Medium |
 | **Attachment (Link to file)** | [Login.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Login.jsx#L37) |
-| **Evidence (Screenshot)** | ![Screenshot](../evidence/BUG-FR02-A-05_screenshot.png) |
+| **Evidence (Screenshot)** | ![Screenshot](evidences/BUG-FR02-A-05.png) |
 | **Date** | 2026-06-23 |
 | **Reporter** | AI Tester (Antigravity) |

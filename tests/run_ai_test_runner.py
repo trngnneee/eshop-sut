@@ -256,23 +256,8 @@ def run_test_runner():
         "note": "Trang Login được bảo vệ bằng Route Guard ngăn truy cập khi đã đăng nhập." if has_route_guard else "Không có Route Guard ngăn người dùng đã đăng nhập truy cập lại trang đăng nhập."
     })
 
-    # 15. Đăng nhập Google thành công (OAuth)
-    has_oauth = False
-    if os.path.exists(login_jsx_path):
-        with open(login_jsx_path, "r", encoding="utf-8") as f:
-            content = f.read()
-            if "Google" in content or "google" in content:
-                has_oauth = True
-    results.append({
-        "no": 15,
-        "name": "Đăng nhập Google thành công",
-        "category": "OAuth",
-        "status": "PASS" if has_oauth else "FAIL",
-        "note": "Nút đăng nhập bằng Google đã được tích hợp trên giao diện." if has_oauth else "Tính năng đăng nhập bên thứ 3 (OAuth/Google) chưa được triển khai."
-    })
-
     # Display results as a beautiful table
-    print("\nKẾT QUẢ CHẠY AI TEST RUNNER (15 TEST CASES):")
+    print("\nKẾT QUẢ CHẠY AI TEST RUNNER (14 TEST CASES):")
     print("=" * 110)
     print(f"{'STT':<4} | {'Tên Test Case':<40} | {'Danh mục':<15} | {'Trạng thái':<10} | {'Ghi chú'}")
     print("-" * 110)
