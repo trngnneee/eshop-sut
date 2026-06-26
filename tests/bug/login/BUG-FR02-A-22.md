@@ -12,5 +12,6 @@
 | **Frequency** | Always |
 | **Priority** | Low |
 | **Attachment (Link to file)** | [server.js](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/backend/server.js#L35) |
+| **Evidence (Screenshot)** | ![Screenshot](../evidence/BUG-FR02-A-22_screenshot.png) |
 | **Date** | 2026-06-26 |
 | **Reporter** | AI Tester (Antigravity) |

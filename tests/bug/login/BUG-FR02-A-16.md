@@ -12,5 +12,6 @@
 | **Frequency** | Always |
 | **Priority** | High |
 | **Attachment (Link to file)** | [App.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-admin/src/App.jsx#L195-L211) |
+| **Evidence (Screenshot)** | ![Screenshot](../evidence/BUG-FR02-A-16_screenshot.png) |
 | **Date** | 2026-06-26 |
 | **Reporter** | AI Tester (Antigravity) |
