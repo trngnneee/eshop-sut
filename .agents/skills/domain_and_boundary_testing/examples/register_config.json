@@ -1,9 +1,14 @@
 {
   "feature_name": "FR-01",
+  "feature_code": "FR01",
   "module_name": "register",
+  "module_display_name": "Register",
+  "test_model": "input_boundary",
+  "output_root": "tests/test-cases",
   "inputs": [
     {
       "name": "Họ Tên",
+      "field_code": "N",
       "type": "string",
       "required": true,
       "min_length": 1,
@@ -11,6 +16,7 @@
     },
     {
       "name": "Email",
+      "field_code": "E",
       "type": "string",
       "required": true,
       "min_length": 5,
@@ -18,6 +24,7 @@
     },
     {
       "name": "Mật khẩu",
+      "field_code": "P",
       "type": "string",
       "required": true,
       "min_length": 8,
@@ -25,6 +32,7 @@
     },
     {
       "name": "Xác nhận mật khẩu",
+      "field_code": "C",
       "type": "string",
       "required": true,
       "min_length": 8,
