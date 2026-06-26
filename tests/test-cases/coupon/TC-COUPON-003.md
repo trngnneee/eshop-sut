@@ -27,4 +27,4 @@ Coupon / Functional / Boundary Value Analysis (3-Point)
 - Số tiền thanh toán cuối cùng hiển thị: `270,001 ₫`.
 
 ## Status / Related bugs
-Not Run / None
+Pass / None

@@ -26,4 +26,4 @@ Coupon / Functional / Equivalence Partitioning
 - Số tiền thanh toán cuối cùng giữ nguyên: `300,000 ₫`.
 
 ## Status / Related bugs
-Not Run / None
+Pass / None
