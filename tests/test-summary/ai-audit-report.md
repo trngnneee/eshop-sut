@@ -45,6 +45,18 @@ Tài liệu này ghi lại nhật ký tương tác với công cụ AI và phầ
 - **Kết quả AI sinh ra:**
   - Tạo tệp phụ lục [ai-audit-report.md](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-summary/ai-audit-report.md) bao gồm nhật ký tương tác và báo cáo tự phê bình.
 
+### Lượt tương tác 4
+- **Tên công cụ AI:** Antigravity (Gemini-based AI Coding Assistant)
+- **Thời gian thực hiện:** 2026-06-26 14:16
+- **Nhiệm vụ:** Tự động sinh cấu trúc và nội dung chi tiết cho 47 test case thuộc FR-07 (Giỏ hàng Web) theo đặc tả yêu cầu, cập nhật ma trận truy vết (traceability matrix) và báo cáo tương tác AI.
+- **Prompt đầu vào:**
+  ```text
+  [Bảng danh sách 47 test case cho FR-07: Giỏ hàng Web từ người dùng]
+  ```
+- **Kết quả AI sinh ra:**
+  - Viết và thực thi script Python tự động tạo 47 tệp test case từ [TC-CART-001.md](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/cart/TC-CART-001.md) đến [TC-CART-047.md](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/cart/TC-CART-047.md) trong thư mục `tests/test-cases/cart/`.
+  - Cập nhật ma trận truy vết [traceability-matrix.md](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-summary/traceability-matrix.md) để ánh xạ 47 test case này với các FR-07, FR-21, FR-23 và FR-24.
+
 ---
 
 ## 2. Báo cáo Tự phê bình AI (AI Critique)
