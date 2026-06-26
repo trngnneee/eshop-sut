@@ -31,4 +31,4 @@ Order State Machine / Functional / Boundary Value Analysis
 - Trạng thái đơn hàng `id = 1` được cập nhật thành `confirmed`.
 
 ## Status / Related bugs
-Not Run / None
+Passed / None

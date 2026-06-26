@@ -31,4 +31,4 @@ Order State Machine / Functional / Equivalence Partitioning / State Transition
 - Trạng thái đơn hàng vẫn giữ nguyên là `shipping`.
 
 ## Status / Related bugs
-Not Run / None
+Passed / None

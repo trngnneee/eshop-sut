@@ -30,4 +30,4 @@ Order State Machine / Functional / Boundary Value Analysis
 - Không có trạng thái đơn hàng nào bị thay đổi.
 
 ## Status / Related bugs
-Not Run / None
+Passed / None

@@ -31,4 +31,4 @@ Order State Machine / Functional / Equivalence Partitioning / State Transition
 - Trạng thái đơn hàng vẫn giữ nguyên là `canceled`.
 
 ## Status / Related bugs
-Not Run / None
+Failed / BUG-FR10-S-02 - Admin có thể chuyển final state canceled sang delivered
