@@ -1,23 +1,19 @@
-# TC-LOGIN-015: Kiểm tra tự động mở khóa tài khoản sau khi hết thời gian khóa 30 giây
+# TC-LOGIN-015: Kiểm tra định dạng Email không hợp lệ ở cấp độ Backend
 ## Requirement ID
-FR-02
+FR-02, FR-22
 ## Module / Test type / Technique
-Login / Functional / Boundary Value Analysis (Time Boundary)
+Login / Security & Functional / Equivalence Partitioning (Invalid Input)
 ## Preconditions
-- Người dùng đã có tài khoản hợp lệ: `test@eshop.com` / `Test1234!`
-- Tài khoản vừa bị khóa do nhập sai mật khẩu 3 lần liên tiếp.
+- Người dùng bypass giao diện HTML5 của trình duyệt bằng cách gửi yêu cầu HTTP POST trực tiếp đến `/api/login`.
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Email | test@eshop.com |
+| Email | invalidemailform |
 | Password | Test1234! |
 ## Test steps
-1. Ngay khi tài khoản bị khóa, đợi đúng 29 giây (ngay dưới biên dưới 30s).
-2. Thử đăng nhập lại bằng mật khẩu đúng `Test1234!`. Xác nhận hệ thống vẫn chặn đăng nhập với HTTP 403.
-3. Đợi thêm 1 giây (đủ 30 giây - ngay tại biên dưới 30s).
-4. Thử đăng nhập lại bằng mật khẩu đúng `Test1234!`.
+1. Gửi trực tiếp yêu cầu HTTP POST đến `/api/login` với dữ liệu email `invalidemailform` và mật khẩu `Test1234!`.
+2. Quan sát mã phản hồi HTTP và thông báo lỗi trả về từ Backend.
 ## Expected result
-- Tại bước 2 (29 giây): Đăng nhập thất bại, hiển thị thông báo tài khoản đang bị khóa (HTTP 403).
-- Tại bước 4 (30 giây): Đăng nhập thành công, hệ thống cấp JWT token và chuyển hướng về trang chủ.
+- Backend phải kiểm tra định dạng email và từ chối xử lý với lỗi yêu cầu không hợp lệ (ví dụ: HTTP 400 Bad Request) thay vì trực tiếp thực hiện truy vấn cơ sở dữ liệu.
 ## Status / Related bugs
-Failed / BUG-FR02-A-02
+Failed / None

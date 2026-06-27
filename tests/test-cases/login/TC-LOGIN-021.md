@@ -1,21 +1,19 @@
-# TC-LOGIN-021: Kiểm tra thứ tự di chuyển tiêu điểm (Tab Order) và khả năng tiếp cận bàn phím
+# TC-LOGIN-021: Kiểm tra tính tương thích với trình quản lý mật khẩu tự động điền (Autofill)
 ## Requirement ID
-FR-21, FR-22
+FR-22
 ## Module / Test type / Technique
-Login / UI/UX & Accessibility / Accessibility Testing
+Login / UI/UX / Boundary Value Analysis (Input Attributes)
 ## Preconditions
-- Người dùng đang ở trang đăng nhập của Web hoặc Admin.
-- Không sử dụng chuột, chỉ sử dụng bàn phím.
+- Người dùng sử dụng trình duyệt hỗ trợ lưu mật khẩu (Chrome, Firefox, Safari) và đã lưu tài khoản e-shop.
 ## Test data
-Không yêu cầu dữ liệu nhập cụ thể.
+Thông tin tài khoản đã lưu trong trình duyệt.
 ## Test steps
-1. Nhấn phím `Tab` để di chuyển tiêu điểm (focus) vào trang đăng nhập.
-2. Nhấn liên tục phím `Tab` và quan sát thứ tự di chuyển của tiêu điểm qua các phần tử.
-3. Kiểm tra xem tiêu điểm có di chuyển tuần tự từ trên xuống dưới, từ trái sang phải hay không.
-4. Kiểm tra xem có thể nhấn `Space` hoặc `Enter` để kích hoạt các nút bấm (Login, Toggle hiện mật khẩu) hay không.
+1. Truy cập vào trang đăng nhập của Web và Admin.
+2. Kiểm tra xem trình duyệt có hiển thị gợi ý tự động điền tài khoản/mật khẩu lên form hay không.
+3. Nhấp đúp hoặc bấm vào gợi ý để thực hiện điền tự động.
+4. Kiểm tra xem các trường `<input>` có đầy đủ thuộc tính định danh chuẩn (`name` và `autocomplete`) không.
 ## Expected result
-- Tiêu điểm phải bắt đầu ở trường nhập Email -> Mật khẩu -> Nút Toggle -> Nút Submit (Đăng nhập) theo đúng thứ tự logic.
-- Không được xảy ra tình trạng nút Submit được focus trước các ô nhập liệu (lỗi `tabIndex={1}` thiết lập sai vị trí).
-- Có thể dùng bàn phím để kích hoạt toàn bộ tính năng trên form đăng nhập.
+- Trình quản lý mật khẩu nhận diện đúng biểu mẫu đăng nhập để hiển thị gợi ý tự động điền.
+- Các trường nhập liệu có thuộc tính `name="email"` / `autocomplete="username"` và `name="password"` / `autocomplete="current-password"` để tương thích tối đa với các tiện ích mở rộng quản lý mật khẩu.
 ## Status / Related bugs
-Failed / BUG-FR02-A-16
+Failed / BUG-FR02-A-15

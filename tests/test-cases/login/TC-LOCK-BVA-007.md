@@ -1,4 +1,4 @@
-# TC-LOCK-BVA-007: Kiểm tra reset bộ đếm khi hết thời gian khóa và sai tiếp lần đầu
+# TC-LOCK-BVA-007: Kiểm tra bộ đếm đăng nhập sai không tăng vô hạn khi tài khoản đang bị khóa
 
 ## Requirement ID
 FR-02
@@ -7,7 +7,7 @@ FR-02
 Lockout / Boundary Value Analysis (BVA)
 
 ## Preconditions
-- Tài khoản đã bị khóa, và thời gian khóa 30 giây đã hết hoàn toàn.
+- Tài khoản đang bị khóa.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -16,13 +16,12 @@ Lockout / Boundary Value Analysis (BVA)
 | Mật khẩu sai | WrongPassword1! |
 
 ## Test steps
-1. Chờ hết 30 giây khóa.
-2. Thực hiện đăng nhập sai mật khẩu 1 lần.
-3. Kiểm tra bộ đếm `login_attempts` trong CSDL.
+1. Tiếp tục gửi thêm 5 yêu cầu login sai khi tài khoản đang bị tạm khóa.
+2. Truy vấn CSDL kiểm tra trường `login_attempts`.
 
 ## Expected result
-- Yêu cầu bị từ chối đăng nhập nhưng tài khoản không bị khóa lại ngay lập tức.
-- Bộ đếm `login_attempts` được reset và tính lại từ 1.
+- Mọi yêu cầu đều bị từ chối với HTTP 403.
+- Bộ đếm `login_attempts` không tăng thêm vô hạn (giữ nguyên ở ngưỡng khóa).
 
 ## Status / Related bugs
 Not Run / None

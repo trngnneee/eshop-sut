@@ -1,4 +1,4 @@
-# TC-LOGIN-040: Đăng nhập thất bại khi Email hợp lệ nhưng chưa tồn tại
+# TC-LOGIN-040: Đăng nhập thất bại khi Email tồn tại nhưng password sai
 
 ## Requirement ID
 FR-02, FR-22
@@ -7,22 +7,22 @@ FR-02, FR-22
 Login / Equivalence Partitioning (EP)
 
 ## Preconditions
-- Email `notexist@eshop.com` chưa đăng ký trên hệ thống.
+- Tài khoản `test@eshop.com` đã tồn tại trên hệ thống.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Email | notexist@eshop.com |
-| Mật khẩu | ValidPassword1! |
+| Email | test@eshop.com |
+| Mật khẩu | IncorrectPass1! |
 
 ## Test steps
-1. Nhập email hợp lệ nhưng chưa được đăng ký.
-2. Nhập mật khẩu bất kỳ.
+1. Nhập email đúng.
+2. Nhập sai mật khẩu.
 3. Nhấn 'Đăng nhập'.
 
 ## Expected result
 - Đăng nhập thất bại.
-- Hiển thị thông báo lỗi chung chung để đảm bảo bảo mật: 'Invalid email or password'.
+- Hiển thị thông báo lỗi bảo mật chung: 'Invalid email or password'.
 
 ## Status / Related bugs
 Not Run / None

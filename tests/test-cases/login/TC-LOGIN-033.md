@@ -1,4 +1,4 @@
-# TC-LOGIN-033: Đăng nhập thất bại khi Email chỉ chứa khoảng trắng
+# TC-LOGIN-033: Đăng nhập thất bại khi Email thiếu ký tự @
 
 ## Requirement ID
 FR-02, FR-22
@@ -12,17 +12,16 @@ Login / Equivalence Partitioning (EP)
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Email |     |
+| Email | invalidemail.com |
 | Mật khẩu | ValidPassword1! |
 
 ## Test steps
-1. Nhập chuỗi chỉ gồm các khoảng trắng vào trường Email.
-2. Nhập mật khẩu đúng.
-3. Nhấn nút 'Đăng nhập'.
+1. Nhập email thiếu ký tự '@'.
+2. Nhập mật khẩu.
+3. Nhấp nút 'Đăng nhập'.
 
 ## Expected result
-- Hệ thống hiển thị lỗi bắt buộc hoặc định dạng không hợp lệ.
-- Ngăn không cho gửi yêu cầu lên backend.
+- Hệ thống báo lỗi định dạng email không hợp lệ (ví dụ: 'Please enter a valid email address').
 
 ## Status / Related bugs
 Not Run / None

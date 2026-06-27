@@ -1,17 +1,17 @@
-# BUG-FR02-A-16: Giao diện đăng nhập Admin thiếu nhãn thông tin, thiếu dấu * bắt buộc và nút hiện mật khẩu
+# BUG-FR02-A-16: Thông báo lỗi đăng nhập Admin sử dụng alert() gây hiển thị chữ "Code" và vi phạm vị trí thông báo
 
 | Tên trường (Field) | Giá trị (Value) |
 | :--- | :--- |
 | **No.** | 16 |
 | **BugID** | `BUG-FR02-A-16` |
 | **Status** | **Open** |
-| **Requirement Name** | FR-02 Đăng nhập & Khóa tài khoản, FR-21 Tiêu chuẩn Giao diện, FR-22 Form Requirements |
-| **Summary** | Giao diện Đăng nhập Admin (`http://localhost:5174/`) thiếu nhãn label mô tả trường thông tin (khiến placeholder biến mất khi nhập liệu), thiếu dấu hoa thị đỏ `*` bắt buộc, thiếu nút Toggle ẩn/hiện mật khẩu, nút submit bằng tiếng Anh và thiếu thuộc tính `type="email"` ở trường Email. |
-| **Steps to reproduce** | 1. Di chuyển vào `frontend-admin` và khởi chạy giao diện admin bằng `npm run dev`.<br>2. Truy cập `http://localhost:5174/` trên trình duyệt.<br>3. Nhập dữ liệu `admin@eshop.com` vào trường Email (quan sát thấy gợi ý placeholder biến mất và không có nhãn label bên ngoài để hướng dẫn người dùng).<br>4. Kiểm tra sự xuất hiện của dấu `*`, nút ẩn/hiện mật khẩu và ngôn ngữ nút bấm submit. |
+| **Requirement Name** | FR-02 Đăng nhập & Khóa tài khoản, FR-22 Form Requirements |
+| **Summary** | Khi đăng nhập thất bại tại trang Admin (`http://localhost:5174/`), hệ thống sử dụng hàm `alert()` mặc định của trình duyệt để hiển thị lỗi. Việc này khiến tiêu đề hộp thoại hiển thị chữ `"Code"` (hoặc tên miền chạy local), đồng thời vi phạm đặc tả **FR-22** (yêu cầu thông báo lỗi phải hiển thị dạng chữ phía trên nút submit). |
+| **Steps to reproduce** | 1. Truy cập trang đăng nhập Web Admin tại `http://localhost:5174/`.<br>2. Nhập thông tin tài khoản sai (ví dụ: `wrong@eshop.com` / `WrongPass123`).<br>3. Bấm nút submit.<br>4. Quan sát hộp thoại thông báo lỗi hiện lên trên màn hình. |
 | **Severity** | Major |
 | **Frequency** | Always |
-| **Priority** | High |
-| **Attachment (Link to file)** | [App.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-admin/src/App.jsx#L195-L211) |
+| **Priority** | Medium |
+| **Attachment (Link to file)** | [App.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-admin/src/App.jsx#L71-L73) |
 | **Evidence (Screenshot)** | ![Screenshot](../evidence/BUG-FR02-A-16_screenshot.png) |
 | **Date** | 2026-06-26 |
 | **Reporter** | AI Tester (Antigravity) |

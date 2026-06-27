@@ -1,20 +1,20 @@
-# TC-LOGIN-019: Chặn truyền thông tin đăng nhập nhạy cảm qua URL Query Parameters
+# TC-LOGIN-019: Kiểm tra chặn JWT Token giả mạo thuật toán ký (None Algorithm Bypass)
 ## Requirement ID
-FR-02, SEC-01
+SEC-02, SEC-03
 ## Module / Test type / Technique
-Login / Security / Equivalence Partitioning (Input Channel Testing)
+Login / Security / Equivalence Partitioning (Token Tampering)
 ## Preconditions
-- Người dùng chưa đăng nhập.
+- Hệ thống đang hoạt động và người dùng thực hiện gửi yêu cầu có xác thực.
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| URL | `http://localhost:5173/login?email=test@eshop.com&password=Test1234!` |
+| JWT Token giả mạo | Phần header: `{"alg": "none", "typ": "JWT"}`<br>Phần payload: `{"id": 1, "role": "admin"}`<br>Chữ ký: (Bỏ trống) |
 ## Test steps
-1. Nhập trực tiếp đường dẫn chứa tham số nhạy cảm vào thanh địa chỉ của trình duyệt: `http://localhost:5173/login?email=test@eshop.com&password=Test1234!` và nhấn Enter.
-2. Kiểm tra xem giao diện có tự động điền (autofill) hoặc tự động submit đăng nhập bằng các giá trị trên hay không.
-3. Kiểm tra xem URL trên thanh địa chỉ có hiển thị rõ mật khẩu hay không.
+1. Tạo một JWT token giả mạo với thuật toán ký là `none` và payload tự nhận là quyền admin.
+2. Gửi yêu cầu HTTP GET đến API cần xác thực `/api/users/me` hoặc API admin `/api/admin/users`, chèn token giả này vào header `Authorization: Bearer <token>`.
+3. Quan sát phản hồi và mã trạng thái HTTP từ Backend.
 ## Expected result
-- Giao diện không tự động trích xuất thông tin nhạy cảm từ URL để điền vào form hoặc tự động đăng nhập (tránh rò rỉ thông tin qua lịch sử trình duyệt hoặc log máy chủ web).
-- Mật khẩu tuyệt đối không được xuất hiện trên URL dưới dạng rõ (Plaintext).
+- Backend phải từ chối yêu cầu và trả về lỗi xác thực (ví dụ: HTTP 403 Forbidden hoặc HTTP 401 Unauthorized).
+- Tuyệt đối không được chấp nhận token sử dụng thuật toán `none` để truy cập tài nguyên.
 ## Status / Related bugs
 Passed / None

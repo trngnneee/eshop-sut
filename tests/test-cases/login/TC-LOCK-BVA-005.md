@@ -1,26 +1,26 @@
-# TC-LOCK-BVA-005: Kiểm tra đăng nhập đúng chính xác tại giây thứ 30 sau khi bị khóa
+# TC-LOCK-BVA-005: Kiểm tra gửi nhiều yêu cầu đăng nhập sai cùng lúc (Concurrent Requests)
 
 ## Requirement ID
-FR-02
+FR-02, SEC-02
 
 ## Module / Test type / Technique
-Lockout / Boundary Value Analysis (BVA)
+Lockout / Stress & Security Testing
 
 ## Preconditions
-- Tài khoản đang bị khóa do nhập sai mật khẩu 3 lần liên tiếp.
+- Tài khoản đang hoạt động bình thường, `login_attempts = 0`.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
 | Email | test@eshop.com |
-| Mật khẩu đúng | ValidPassword1! |
+| Mật khẩu sai | WrongPassword1! |
 
 ## Test steps
-1. Chờ đúng 30 giây kể từ lúc bị khóa.
-2. Gửi yêu cầu đăng nhập bằng mật khẩu đúng.
+1. Sử dụng script gửi đồng thời 10 yêu cầu POST login sai trong cùng 1 giây.
 
 ## Expected result
-- Đăng nhập thành công (hoặc thất bại tùy theo logic hệ thống quy định >= 30s hay > 30s).
+- Bộ đếm ghi nhận chính xác trạng thái khóa và chuyển sang khóa sau 3 yêu cầu đầu tiên.
+- Không xảy ra lỗi race condition hoặc crash DB.
 
 ## Status / Related bugs
 Not Run / None

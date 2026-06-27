@@ -1,32 +1,28 @@
-# TC-LOGIN-031: Đặt lại mật khẩu thành công phải giải phóng trạng thái khóa tài khoản và reset bộ đếm lần đăng nhập sai
+# TC-LOGIN-031: Đăng nhập thất bại khi để Email rỗng
 
 ## Requirement ID
-FR-02
+FR-02, FR-22
 
 ## Module / Test type / Technique
-Login / Functional / State Transition Testing
+Login / Equivalence Partitioning (EP)
 
 ## Preconditions
-- Đã đăng ký tài khoản `test_tc31@eshop.com` với mật khẩu `ValidPassword1!` trên hệ thống.
-- Tài khoản đã bị khóa do đăng nhập sai mật khẩu 3 lần liên tiếp.
+- Trang đăng nhập đang mở.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Email | test_tc31@eshop.com |
-| Mật khẩu mới | NewPassword123! |
+| Email | [Để trống] |
+| Mật khẩu | ValidPassword1! |
 
 ## Test steps
-1. Tài khoản đang bị khóa (kiểm tra `locked_until` khác `NULL` và `login_attempts >= 3` trong DB).
-2. Thực hiện yêu cầu đặt lại mật khẩu thông qua API `/api/forgot-password` để nhận reset token.
-3. Thực hiện cập nhật mật khẩu mới thông qua API `/api/reset-password` bằng reset token vừa nhận.
-4. Gửi yêu cầu đăng nhập POST tới `/api/login` với mật khẩu mới.
-5. Kiểm tra xem đăng nhập có thành công ngay lập tức không và kiểm tra trường `locked_until`, `login_attempts` trong CSDL.
+1. Để trống trường Email.
+2. Nhập mật khẩu đúng.
+3. Nhấn nút 'Đăng nhập'.
 
 ## Expected result
-- Đặt lại mật khẩu thành công.
-- Trạng thái khóa tài khoản phải bị loại bỏ lập tức (`locked_until` trở lại `NULL`, `login_attempts` reset về `0`).
-- Người dùng có thể đăng nhập ngay lập tức bằng mật khẩu mới mà không cần chờ hết thời gian khóa.
+- Hệ thống hiển thị thông báo lỗi bắt buộc nhập email (ví dụ: 'Email/Username is required').
+- Ngăn chặn gửi yêu cầu API lên server.
 
 ## Status / Related bugs
-Failed / #49
+Not Run / None

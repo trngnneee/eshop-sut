@@ -1,33 +1,29 @@
-# TC-LOGIN-025: Kiểm tra đặt lại bộ đếm đăng nhập sai khi đăng nhập đúng xen kẽ (không liên tiếp)
+# TC-LOGIN-025: Kiểm tra biên thời gian khóa (không mở khóa tự động ở giây thứ 29)
 
 ## Requirement ID
 FR-02
 
 ## Module / Test type / Technique
-Login / Functional / State Transition Testing
+Login / Functional / Boundary Value Analysis (BVA)
 
 ## Preconditions
-- Đã đăng ký tài khoản `test_tc25@eshop.com` với mật khẩu `ValidPassword1!` trên hệ thống.
-- Trạng thái ban đầu của tài khoản có `login_attempts = 0` và không bị khóa.
+- Đã đăng ký tài khoản `test_tc26@eshop.com` với mật khẩu `ValidPassword1!` trên hệ thống.
+- Tài khoản đã bị khóa do nhập sai mật khẩu 3 lần liên tiếp.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Email | test_tc25@eshop.com |
-| Mật khẩu sai | WrongPass123! |
+| Email | test_tc26@eshop.com |
 | Mật khẩu đúng | ValidPassword1! |
 
 ## Test steps
-1. Thực hiện đăng nhập sai 2 lần liên tiếp bằng `test_tc25@eshop.com` và mật khẩu sai `WrongPass123!`.
-2. Đăng nhập thành công bằng mật khẩu đúng `ValidPassword1!`.
-3. Kiểm tra DB xem `login_attempts` đã được reset về `0` chưa.
-4. Đăng xuất (hoặc trực tiếp gửi yêu cầu login mới).
-5. Thực hiện đăng nhập sai 2 lần liên tiếp bằng mật khẩu sai `WrongPass123!`.
-6. Kiểm tra xem tài khoản có bị khóa không.
+1. Chờ đợi đúng 29 giây kể từ khi tài khoản bị khóa.
+2. Gửi yêu cầu đăng nhập bằng mật khẩu đúng `ValidPassword1!`.
+3. Kiểm tra mã phản hồi HTTP và nội dung lỗi trả về.
 
 ## Expected result
-- Bộ đếm đăng nhập sai phải được reset về `0` ngay sau khi đăng nhập thành công.
-- Ở các lần đăng nhập sai sau đó, tài khoản không bị khóa vì số lần sai liên tiếp mới chỉ là 2 (chưa đạt ngưỡng khóa 3 lần).
+- Ở giây thứ 29 (dưới thời hạn khóa 30 giây), yêu cầu đăng nhập bằng mật khẩu đúng vẫn bị chặn.
+- Server trả về HTTP 403 Forbidden cùng thông báo: "Tài khoản đã bị khóa. Vui lòng thử lại sau."
 
 ## Status / Related bugs
-Failed / #33
+Failed / #32

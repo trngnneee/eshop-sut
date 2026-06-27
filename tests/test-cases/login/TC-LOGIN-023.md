@@ -1,18 +1,30 @@
-# TC-LOGIN-023: Kiểm tra giới hạn kích thước gói tin gửi lên API Đăng nhập (DoS Protection)
+# TC-LOGIN-023: Kiểm tra biên dưới của số lần đăng nhập sai (2 lần liên tiếp không làm khóa tài khoản)
+
 ## Requirement ID
-SEC-01
+FR-02
+
 ## Module / Test type / Technique
-Login / Security & Reliability / Stress Testing (Body Size Limits)
+Login / Functional / Boundary Value Analysis (BVA)
+
 ## Preconditions
-- Sử dụng công cụ gửi yêu cầu API (như Postman, curl, hoặc python script).
+- Đã đăng ký tài khoản `test_tc24@eshop.com` với mật khẩu `ValidPassword1!` trên hệ thống.
+- Trạng thái ban đầu của tài khoản có `login_attempts = 0` và không bị khóa.
+
 ## Test data
-- Gói tin JSON gửi lên API `/api/login` với trường mật khẩu chứa chuỗi ngẫu nhiên có kích thước `5MB`.
+| Tham số | Giá trị thử nghiệm |
+| :--- | :--- |
+| Email | test_tc24@eshop.com |
+| Mật khẩu sai | WrongPass123! |
+| Mật khẩu đúng | ValidPassword1! |
+
 ## Test steps
-1. Tạo một HTTP POST request đến `/api/login`.
-2. Truyền payload JSON chứa địa chỉ email và mật khẩu có kích thước cực lớn `5MB`.
-3. Gửi yêu cầu và quan sát mã phản hồi HTTP trả về từ server Node.js.
+1. Thực hiện đăng nhập sai 2 lần liên tiếp bằng `test_tc24@eshop.com` và mật khẩu sai `WrongPass123!`.
+2. Kiểm tra trạng thái tài khoản trong Database để đảm bảo `login_attempts = 2` và `locked_until` vẫn là `NULL`.
+3. Gửi yêu cầu đăng nhập thứ 3 bằng mật khẩu đúng `ValidPassword1!`.
+
 ## Expected result
-- Server không bị cạn kiệt bộ nhớ hoặc bị crash (Denial of Service).
-- Backend phải từ chối yêu cầu với lỗi kích thước dữ liệu quá giới hạn (ví dụ: HTTP 413 Payload Too Large) thông qua cơ chế giới hạn Body Parser.
+- Sau 2 lần đăng nhập sai, tài khoản không bị khóa.
+- Ở lần thứ 3, người dùng đăng nhập thành công với mật khẩu đúng.
+
 ## Status / Related bugs
-Passed / None
+Failed / #31, #33

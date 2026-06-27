@@ -1,29 +1,32 @@
-# TC-LOGIN-030: Kiểm tra bộ đếm đăng nhập sai không tăng khi đăng nhập thành công
+# TC-LOGIN-030: Đặt lại mật khẩu thành công phải giải phóng trạng thái khóa tài khoản và reset bộ đếm lần đăng nhập sai
 
 ## Requirement ID
 FR-02
 
 ## Module / Test type / Technique
-Login / Functional / Positive Testing
+Login / Functional / State Transition Testing
 
 ## Preconditions
-- Đã đăng ký tài khoản `test_tc30@eshop.com` với mật khẩu `ValidPassword1!` trên hệ thống.
-- Trạng thái ban đầu: `login_attempts = 0`.
+- Đã đăng ký tài khoản `test_tc31@eshop.com` với mật khẩu `ValidPassword1!` trên hệ thống.
+- Tài khoản đã bị khóa do đăng nhập sai mật khẩu 3 lần liên tiếp.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Email | test_tc30@eshop.com |
-| Mật khẩu đúng | ValidPassword1! |
+| Email | test_tc31@eshop.com |
+| Mật khẩu mới | NewPassword123! |
 
 ## Test steps
-1. Gửi yêu cầu đăng nhập POST tới `/api/login` với email và mật khẩu đúng.
-2. Kiểm tra phản hồi HTTP thành công.
-3. Truy vấn cơ sở dữ liệu để kiểm tra giá trị của trường `login_attempts` đối với tài khoản `test_tc30@eshop.com`.
+1. Tài khoản đang bị khóa (kiểm tra `locked_until` khác `NULL` và `login_attempts >= 3` trong DB).
+2. Thực hiện yêu cầu đặt lại mật khẩu thông qua API `/api/forgot-password` để nhận reset token.
+3. Thực hiện cập nhật mật khẩu mới thông qua API `/api/reset-password` bằng reset token vừa nhận.
+4. Gửi yêu cầu đăng nhập POST tới `/api/login` với mật khẩu mới.
+5. Kiểm tra xem đăng nhập có thành công ngay lập tức không và kiểm tra trường `locked_until`, `login_attempts` trong CSDL.
 
 ## Expected result
-- Đăng nhập thành công (HTTP 200).
-- Trường `login_attempts` trong cơ sở dữ liệu phải giữ nguyên bằng `0` (không tăng).
+- Đặt lại mật khẩu thành công.
+- Trạng thái khóa tài khoản phải bị loại bỏ lập tức (`locked_until` trở lại `NULL`, `login_attempts` reset về `0`).
+- Người dùng có thể đăng nhập ngay lập tức bằng mật khẩu mới mà không cần chờ hết thời gian khóa.
 
 ## Status / Related bugs
-Passed / None
+Failed / #49

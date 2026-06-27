@@ -1,26 +1,27 @@
-# TC-LOGIN-038: Đăng nhập với Email có ký tự Unicode
+# TC-LOGIN-038: Đăng nhập thành công với Email chứa subdomain
 
 ## Requirement ID
-FR-02, FR-22
+FR-02
 
 ## Module / Test type / Technique
 Login / Equivalence Partitioning (EP)
 
 ## Preconditions
-- Trang đăng nhập đang mở.
+- Tài khoản với email `user@mail.company.com` đã đăng ký thành công.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Email | tést@gmail.com |
+| Email | user@mail.company.com |
 | Mật khẩu | ValidPassword1! |
 
 ## Test steps
-1. Nhập email chứa ký tự Unicode tiếng Việt có dấu.
-2. Nhấn 'Đăng nhập'.
+1. Nhập email có định dạng chứa subdomain.
+2. Nhập mật khẩu đúng.
+3. Nhấn 'Đăng nhập'.
 
 ## Expected result
-- Hệ thống chấp nhận nếu cấu hình hỗ trợ Unicode, hoặc báo lỗi định dạng email không hợp lệ.
+- Hệ thống cho phép đăng nhập thành công và cấp JWT token.
 
 ## Status / Related bugs
 Not Run / None

@@ -54,7 +54,7 @@ def execute_db(query, params=()):
 
 def run_advanced_tests():
     print("=" * 70)
-    print("KỊCH BẢN KIỂM THỬ NÂNG CAO FR-02 (TC-LOGIN-014 -> TC-LOGIN-023)")
+    print("KỊCH BẢN KIỂM THỬ NÂNG CAO FR-02 (TC-LOGIN-013 -> TC-LOGIN-022)")
     print("=" * 70)
     
     email = "adv_test@eshop.com"
@@ -69,8 +69,8 @@ def run_advanced_tests():
     # Đăng ký tài khoản thử nghiệm
     make_request("/api/register", data={"name": "Adv User", "email": email, "password": password})
 
-    # 1. TC-LOGIN-014: Reset attempts counter on successful login
-    print("\n[TC-LOGIN-014] Kiểm tra reset bộ đếm khi đăng nhập đúng")
+    # 1. TC-LOGIN-013: Reset attempts counter on successful login
+    print("\n[TC-LOGIN-013] Kiểm tra reset bộ đếm khi đăng nhập đúng")
     # Đăng nhập sai 1 lần để tăng attempts
     make_request("/api/login", data={"email": email, "password": "WrongPassword"})
     # Đăng nhập đúng ngay lập tức
@@ -85,8 +85,8 @@ def run_advanced_tests():
     else:
         print("  => KẾT QUẢ: FAILED (Ghi DB bất đồng bộ không callback gây race condition khiến attempts chưa được reset về 0)")
 
-    # 2. TC-LOGIN-015: Automatic unlock after 30s lockout duration
-    print("\n[TC-LOGIN-015] Kiểm tra tự động mở khóa sau 30 giây")
+    # 2. TC-LOGIN-014: Automatic unlock after 30s lockout duration
+    print("\n[TC-LOGIN-014] Kiểm tra tự động mở khóa sau 30 giây")
     # Đăng nhập sai liên tiếp để kích hoạt khóa
     make_request("/api/login", data={"email": email, "password": "WrongPassword"})
     make_request("/api/login", data={"email": email, "password": "WrongPassword"})
@@ -113,8 +113,8 @@ def run_advanced_tests():
     else:
         print("  => KẾT QUẢ: FAILED (Tài khoản chưa bị khóa)")
 
-    # 3. TC-LOGIN-016: Invalid email format validation at API level
-    print("\n[TC-LOGIN-016] Kiểm tra validate email không hợp lệ ở Backend")
+    # 3. TC-LOGIN-015: Invalid email format validation at API level
+    print("\n[TC-LOGIN-015] Kiểm tra validate email không hợp lệ ở Backend")
     status, res = make_request("/api/login", data={"email": "invalidemailform", "password": password})
     print(f"  - Phản hồi Backend: HTTP {status} | {res}")
     if status == 400:
@@ -122,8 +122,8 @@ def run_advanced_tests():
     else:
         print("  => KẾT QUẢ: FAILED (Backend không tự kiểm tra định dạng email và trả về HTTP 401 thay vì 400 Bad Request)")
 
-    # 4. TC-LOGIN-017: XSS injection check
-    print("\n[TC-LOGIN-017] Kiểm tra chống tấn công XSS trên trường Đăng nhập")
+    # 4. TC-LOGIN-016: XSS injection check
+    print("\n[TC-LOGIN-016] Kiểm tra chống tấn công XSS trên trường Đăng nhập")
     status, res = make_request("/api/login", data={"email": "<script>alert('XSS')</script>", "password": "password"})
     print(f"  - Phản hồi: HTTP {status} | {res}")
     # Trả về 401 thông thường mà không crash server
@@ -132,8 +132,8 @@ def run_advanced_tests():
     else:
         print("  => KẾT QUẢ: FAILED")
 
-    # 5. TC-LOGIN-019: URL parameters authentication check
-    print("\n[TC-LOGIN-019] Kiểm tra chặn truyền thông tin đăng nhập qua URL GET parameters")
+    # 5. TC-LOGIN-018: URL parameters authentication check
+    print("\n[TC-LOGIN-018] Kiểm tra chặn truyền thông tin đăng nhập qua URL GET parameters")
     status, res = make_request(f"/api/login?email={email}&password={password}", method="GET")
     print(f"  - Phản hồi GET: HTTP {status} | {res}")
     if status in [404, 405]:
@@ -141,8 +141,8 @@ def run_advanced_tests():
     else:
         print("  => KẾT QUẢ: FAILED")
 
-    # 6. TC-LOGIN-020: None Algorithm JWT bypass check
-    print("\n[TC-LOGIN-020] Kiểm tra chặn JWT Token thuật toán none")
+    # 6. TC-LOGIN-019: None Algorithm JWT bypass check
+    print("\n[TC-LOGIN-019] Kiểm tra chặn JWT Token thuật toán none")
     # Header: {"alg":"none","typ":"JWT"}, Payload: {"id":1,"role":"admin"}
     # Base64 encoded: eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpZCI6MSwicm9sZSI6ImFkbWluIn0.
     fake_token = "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpZCI6MSwicm9sZSI6ImFkbWluIn0."
@@ -153,8 +153,8 @@ def run_advanced_tests():
     else:
         print("  => KẾT QUẢ: FAILED (Chấp nhận token thuật toán none)")
 
-    # 7. TC-LOGIN-021: Keyboard navigation & Tab Order static check
-    print("\n[TC-LOGIN-021] Kiểm tra thứ tự di chuyển tiêu điểm (Tab Order) tĩnh")
+    # 7. TC-LOGIN-020: Keyboard navigation & Tab Order static check
+    print("\n[TC-LOGIN-020] Kiểm tra thứ tự di chuyển tiêu điểm (Tab Order) tĩnh")
     login_jsx_path = os.path.join("frontend-web", "src", "pages", "Login.jsx")
     tab_bug = False
     if os.path.exists(login_jsx_path):
@@ -168,8 +168,8 @@ def run_advanced_tests():
     else:
         print("  => KẾT QUẢ: FAILED")
 
-    # 8. TC-LOGIN-022: Autofill compatibility static check
-    print("\n[TC-LOGIN-022] Kiểm tra thuộc tính name & autocomplete tương thích Autofill")
+    # 8. TC-LOGIN-021: Autofill compatibility static check
+    print("\n[TC-LOGIN-021] Kiểm tra thuộc tính name & autocomplete tương thích Autofill")
     has_autofill_attrs = False
     if os.path.exists(login_jsx_path):
         with open(login_jsx_path, "r", encoding="utf-8") as f:
@@ -181,8 +181,8 @@ def run_advanced_tests():
     else:
         print("  => KẾT QUẢ: FAILED (Thiếu thuộc tính name và autocomplete trên các thẻ input)")
 
-    # 9. TC-LOGIN-023: Large payload body size limit check (150kb payload)
-    print("\n[TC-LOGIN-023] Kiểm tra giới hạn kích thước gói tin gửi lên API (150KB)")
+    # 9. TC-LOGIN-022: Large payload body size limit check (150kb payload)
+    print("\n[TC-LOGIN-022] Kiểm tra giới hạn kích thước gói tin gửi lên API (150KB)")
     large_password = "A" * 150000 # 150KB
     status, res = make_request("/api/login", data={"email": email, "password": large_password})
     print(f"  - Phản hồi khi gửi payload lớn: HTTP {status} | {res.get('error', res)}")
@@ -196,8 +196,8 @@ def run_advanced_tests():
         else:
             print("  => KẾT QUẢ: FAILED (Cho phép truyền tải dữ liệu kích thước lớn vượt giới hạn an toàn)")
 
-    # 10. TC-LOGIN-024: Lower boundary of failed attempts
-    print("\n[TC-LOGIN-024] Kiểm tra biên dưới của số lần đăng nhập sai (2 lần liên tiếp không khóa)")
+    # 10. TC-LOGIN-023: Lower boundary of failed attempts
+    print("\n[TC-LOGIN-023] Kiểm tra biên dưới của số lần đăng nhập sai (2 lần liên tiếp không khóa)")
     email24 = "test_tc24@eshop.com"
     pwd24 = "ValidPassword1!"
     execute_db("DELETE FROM users WHERE email = ?", (email24,))
@@ -218,8 +218,8 @@ def run_advanced_tests():
     else:
         print("  => KẾT QUẢ: FAILED (Tài khoản bị khóa hoặc đăng nhập thất bại sau 2 lần sai)")
 
-    # 11. TC-LOGIN-025: Reset attempts on success when interleaved
-    print("\n[TC-LOGIN-025] Kiểm tra đặt lại bộ đếm đăng nhập sai khi đăng nhập đúng xen kẽ")
+    # 11. TC-LOGIN-024: Reset attempts on success when interleaved
+    print("\n[TC-LOGIN-024] Kiểm tra đặt lại bộ đếm đăng nhập sai khi đăng nhập đúng xen kẽ")
     email25 = "test_tc25@eshop.com"
     pwd25 = "ValidPassword1!"
     execute_db("DELETE FROM users WHERE email = ?", (email25,))
@@ -244,8 +244,8 @@ def run_advanced_tests():
     else:
         print("  => KẾT QUẢ: FAILED")
 
-    # 12. TC-LOGIN-026: Lockout duration boundary
-    print("\n[TC-LOGIN-026] Kiểm tra biên thời gian khóa (không mở khóa tự động ở giây thứ 29)")
+    # 12. TC-LOGIN-025: Lockout duration boundary
+    print("\n[TC-LOGIN-025] Kiểm tra biên thời gian khóa (không mở khóa tự động ở giây thứ 29)")
     email26 = "test_tc26@eshop.com"
     pwd26 = "ValidPassword1!"
     execute_db("DELETE FROM users WHERE email = ?", (email26,))
@@ -278,8 +278,8 @@ def run_advanced_tests():
     else:
         print("  => KẾT QUẢ: FAILED (Tài khoản chưa bị khóa)")
 
-    # 13. TC-LOGIN-027: Block JWT token creation in locked state
-    print("\n[TC-LOGIN-027] Chặn tạo mới token JWT khi đang đăng nhập đúng trong thời gian khóa")
+    # 13. TC-LOGIN-026: Block JWT token creation in locked state
+    print("\n[TC-LOGIN-026] Chặn tạo mới token JWT khi đang đăng nhập đúng trong thời gian khóa")
     email27 = "test_tc27@eshop.com"
     pwd27 = "ValidPassword1!"
     execute_db("DELETE FROM users WHERE email = ?", (email27,))
@@ -296,8 +296,8 @@ def run_advanced_tests():
     else:
         print("  => KẾT QUẢ: FAILED (Trả về token hoặc sai mã HTTP)")
 
-    # 14. TC-LOGIN-028: Multi-client lockout synchronization
-    print("\n[TC-LOGIN-028] Đồng bộ trạng thái khóa tài khoản khi có nhiều thiết bị/phiên truy cập đồng thời")
+    # 14. TC-LOGIN-027: Multi-client lockout synchronization
+    print("\n[TC-LOGIN-027] Đồng bộ trạng thái khóa tài khoản khi có nhiều thiết bị/phiên truy cập đồng thời")
     email28 = "test_tc28@eshop.com"
     pwd28 = "ValidPassword1!"
     execute_db("DELETE FROM users WHERE email = ?", (email28,))
@@ -314,8 +314,8 @@ def run_advanced_tests():
     else:
         print("  => KẾT QUẢ: FAILED")
 
-    # 15. TC-LOGIN-029: Mixed casing email login and lockout check
-    print("\n[TC-LOGIN-029] Kiểm tra đăng nhập với email viết hoa/thường xen kẽ")
+    # 15. TC-LOGIN-028: Mixed casing email login and lockout check
+    print("\n[TC-LOGIN-028] Kiểm tra đăng nhập với email viết hoa/thường xen kẽ")
     email29 = "test_tc29@eshop.com"
     mixed_email29 = "TeSt_tC29@eShOp.CoM"
     pwd29 = "ValidPassword1!"
@@ -337,8 +337,8 @@ def run_advanced_tests():
     else:
         print("  => KẾT QUẢ: FAILED (Không hỗ trợ case-insensitive email đăng nhập hoặc cơ chế khóa tương ứng)")
 
-    # 16. TC-LOGIN-030: Failed attempts counter does not increase on success
-    print("\n[TC-LOGIN-030] Kiểm tra bộ đếm đăng nhập sai không tăng khi đăng nhập thành công")
+    # 16. TC-LOGIN-029: Failed attempts counter does not increase on success
+    print("\n[TC-LOGIN-029] Kiểm tra bộ đếm đăng nhập sai không tăng khi đăng nhập thành công")
     email30 = "test_tc30@eshop.com"
     pwd30 = "ValidPassword1!"
     execute_db("DELETE FROM users WHERE email = ?", (email30,))
@@ -353,8 +353,8 @@ def run_advanced_tests():
     else:
         print("  => KẾT QUẢ: FAILED")
 
-    # 17. TC-LOGIN-031: Password reset clears attempts and lockout
-    print("\n[TC-LOGIN-031] Đặt lại mật khẩu thành công phải giải phóng trạng thái khóa tài khoản và reset bộ đếm")
+    # 17. TC-LOGIN-030: Password reset clears attempts and lockout
+    print("\n[TC-LOGIN-030] Đặt lại mật khẩu thành công phải giải phóng trạng thái khóa tài khoản và reset bộ đếm")
     email31 = "test_tc31@eshop.com"
     pwd31 = "ValidPassword1!"
     new_pwd31 = "NewPassword123!"

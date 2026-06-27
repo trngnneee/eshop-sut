@@ -1,4 +1,4 @@
-# TC-LOGIN-035: Đăng nhập thất bại khi Email thiếu domain
+# TC-LOGIN-035: Đăng nhập thất bại khi Email thiếu local-part
 
 ## Requirement ID
 FR-02, FR-22
@@ -12,15 +12,15 @@ Login / Equivalence Partitioning (EP)
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Email | user@ |
+| Email | @gmail.com |
 | Mật khẩu | ValidPassword1! |
 
 ## Test steps
-1. Nhập email có phần local-part và dấu '@' nhưng thiếu phần domain.
+1. Nhập email bắt đầu bằng dấu '@' và domain nhưng thiếu local-part.
 2. Nhấn 'Đăng nhập'.
 
 ## Expected result
-- Hệ thống trả về thông báo lỗi định dạng email không hợp lệ.
+- Hệ thống báo lỗi định dạng email không hợp lệ.
 
 ## Status / Related bugs
 Not Run / None

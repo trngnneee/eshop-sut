@@ -1,20 +1,21 @@
-# TC-LOGIN-020: Kiểm tra chặn JWT Token giả mạo thuật toán ký (None Algorithm Bypass)
+# TC-LOGIN-020: Kiểm tra thứ tự di chuyển tiêu điểm (Tab Order) và khả năng tiếp cận bàn phím
 ## Requirement ID
-SEC-02, SEC-03
+FR-21, FR-22
 ## Module / Test type / Technique
-Login / Security / Equivalence Partitioning (Token Tampering)
+Login / UI/UX & Accessibility / Accessibility Testing
 ## Preconditions
-- Hệ thống đang hoạt động và người dùng thực hiện gửi yêu cầu có xác thực.
+- Người dùng đang ở trang đăng nhập của Web hoặc Admin.
+- Không sử dụng chuột, chỉ sử dụng bàn phím.
 ## Test data
-| Tham số | Giá trị thử nghiệm |
-| :--- | :--- |
-| JWT Token giả mạo | Phần header: `{"alg": "none", "typ": "JWT"}`<br>Phần payload: `{"id": 1, "role": "admin"}`<br>Chữ ký: (Bỏ trống) |
+Không yêu cầu dữ liệu nhập cụ thể.
 ## Test steps
-1. Tạo một JWT token giả mạo với thuật toán ký là `none` và payload tự nhận là quyền admin.
-2. Gửi yêu cầu HTTP GET đến API cần xác thực `/api/users/me` hoặc API admin `/api/admin/users`, chèn token giả này vào header `Authorization: Bearer <token>`.
-3. Quan sát phản hồi và mã trạng thái HTTP từ Backend.
+1. Nhấn phím `Tab` để di chuyển tiêu điểm (focus) vào trang đăng nhập.
+2. Nhấn liên tục phím `Tab` và quan sát thứ tự di chuyển của tiêu điểm qua các phần tử.
+3. Kiểm tra xem tiêu điểm có di chuyển tuần tự từ trên xuống dưới, từ trái sang phải hay không.
+4. Kiểm tra xem có thể nhấn `Space` hoặc `Enter` để kích hoạt các nút bấm (Login, Toggle hiện mật khẩu) hay không.
 ## Expected result
-- Backend phải từ chối yêu cầu và trả về lỗi xác thực (ví dụ: HTTP 403 Forbidden hoặc HTTP 401 Unauthorized).
-- Tuyệt đối không được chấp nhận token sử dụng thuật toán `none` để truy cập tài nguyên.
+- Tiêu điểm phải bắt đầu ở trường nhập Email -> Mật khẩu -> Nút Toggle -> Nút Submit (Đăng nhập) theo đúng thứ tự logic.
+- Không được xảy ra tình trạng nút Submit được focus trước các ô nhập liệu (lỗi `tabIndex={1}` thiết lập sai vị trí).
+- Có thể dùng bàn phím để kích hoạt toàn bộ tính năng trên form đăng nhập.
 ## Status / Related bugs
-Passed / None
+Failed / BUG-FR02-A-15

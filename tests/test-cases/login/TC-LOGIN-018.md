@@ -1,23 +1,20 @@
-# TC-LOGIN-018: Kiểm tra ngắt kết nối mạng khi đang gửi yêu cầu Đăng nhập
+# TC-LOGIN-018: Chặn truyền thông tin đăng nhập nhạy cảm qua URL Query Parameters
 ## Requirement ID
-FR-02, FR-24
+FR-02, SEC-01
 ## Module / Test type / Technique
-Login / Reliability & Functional / State Transition (Exception Handling)
+Login / Security / Equivalence Partitioning (Input Channel Testing)
 ## Preconditions
-- Người dùng đang ở trang đăng nhập của Frontend Web.
+- Người dùng chưa đăng nhập.
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Email | test@eshop.com |
-| Password | Test1234! |
+| URL | `http://localhost:5173/login?email=test@eshop.com&password=Test1234!` |
 ## Test steps
-1. Nhập thông tin đăng nhập hợp lệ.
-2. Nhấp nút "Đăng nhập".
-3. Ngay lập tức ngắt kết nối mạng (Disconnect Internet / Simulation offline) khi yêu cầu HTTP đang được gửi đi và chưa nhận được phản hồi từ backend.
-4. Quan sát phản hồi của giao diện người dùng (Frontend) sau khi timeout hoặc kết nối mạng bị đứt.
+1. Nhập trực tiếp đường dẫn chứa tham số nhạy cảm vào thanh địa chỉ của trình duyệt: `http://localhost:5173/login?email=test@eshop.com&password=Test1234!` và nhấn Enter.
+2. Kiểm tra xem giao diện có tự động điền (autofill) hoặc tự động submit đăng nhập bằng các giá trị trên hay không.
+3. Kiểm tra xem URL trên thanh địa chỉ có hiển thị rõ mật khẩu hay không.
 ## Expected result
-- Giao diện không bị crash hay đứng màn hình (frozen).
-- Trạng thái loading kết thúc, nút "Đăng nhập" được khôi phục về trạng thái active (bỏ disabled).
-- Hiển thị thông báo lỗi thân thiện với người dùng về sự cố kết nối mạng (ví dụ: "Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại mạng.") thay vì in lỗi raw code/exception.
+- Giao diện không tự động trích xuất thông tin nhạy cảm từ URL để điền vào form hoặc tự động đăng nhập (tránh rò rỉ thông tin qua lịch sử trình duyệt hoặc log máy chủ web).
+- Mật khẩu tuyệt đối không được xuất hiện trên URL dưới dạng rõ (Plaintext).
 ## Status / Related bugs
-Failed / None
+Passed / None

@@ -1,4 +1,4 @@
-# TC-LOGIN-041: Đăng nhập thất bại khi Email tồn tại nhưng password sai
+# TC-LOGIN-041: Đăng nhập thất bại khi Email có khoảng trắng ở giữa
 
 ## Requirement ID
 FR-02, FR-22
@@ -7,22 +7,20 @@ FR-02, FR-22
 Login / Equivalence Partitioning (EP)
 
 ## Preconditions
-- Tài khoản `test@eshop.com` đã tồn tại trên hệ thống.
+- Trang đăng nhập đang mở.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Email | test@eshop.com |
-| Mật khẩu | IncorrectPass1! |
+| Email | user name@gmail.com |
+| Mật khẩu | ValidPassword1! |
 
 ## Test steps
-1. Nhập email đúng.
-2. Nhập sai mật khẩu.
-3. Nhấn 'Đăng nhập'.
+1. Nhập email có chứa khoảng trắng ở giữa phần local-part.
+2. Nhấn 'Đăng nhập'.
 
 ## Expected result
-- Đăng nhập thất bại.
-- Hiển thị thông báo lỗi bảo mật chung: 'Invalid email or password'.
+- Hệ thống báo lỗi định dạng email không hợp lệ và chặn submit.
 
 ## Status / Related bugs
 Not Run / None

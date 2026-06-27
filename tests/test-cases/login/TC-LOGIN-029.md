@@ -1,31 +1,29 @@
-# TC-LOGIN-029: Kiểm tra đăng nhập với email viết hoa/thường xen kẽ để xác minh tính đồng nhất của email và cơ chế khóa
+# TC-LOGIN-029: Kiểm tra bộ đếm đăng nhập sai không tăng khi đăng nhập thành công
 
 ## Requirement ID
 FR-02
 
 ## Module / Test type / Technique
-Login / Functional / Equivalence Partitioning
+Login / Functional / Positive Testing
 
 ## Preconditions
-- Đã đăng ký tài khoản `test_tc29@eshop.com` với mật khẩu `ValidPassword1!` trên hệ thống (đăng ký bằng chữ thường hoàn toàn).
+- Đã đăng ký tài khoản `test_tc30@eshop.com` với mật khẩu `ValidPassword1!` trên hệ thống.
+- Trạng thái ban đầu: `login_attempts = 0`.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Email gốc | test_tc29@eshop.com |
-| Email nhập liệu | TeSt_tC29@eShOp.CoM |
+| Email | test_tc30@eshop.com |
 | Mật khẩu đúng | ValidPassword1! |
-| Mật khẩu sai | WrongPass123! |
 
 ## Test steps
-1. Gửi yêu cầu đăng nhập bằng email viết hoa/thường xen kẽ `TeSt_tC29@eShOp.CoM` và mật khẩu đúng `ValidPassword1!`. Xác minh đăng nhập thành công.
-2. Thực hiện đăng xuất.
-3. Gửi yêu cầu đăng nhập sai 3 lần liên tiếp bằng email viết hoa/thường xen kẽ `TeSt_tC29@eShOp.CoM` và mật khẩu sai `WrongPass123!`.
-4. Xác minh xem tài khoản gốc `test_tc29@eshop.com` có bị khóa hay không (bằng cách thử đăng nhập bằng email thường `test_tc29@eshop.com` với mật khẩu đúng).
+1. Gửi yêu cầu đăng nhập POST tới `/api/login` với email và mật khẩu đúng.
+2. Kiểm tra phản hồi HTTP thành công.
+3. Truy vấn cơ sở dữ liệu để kiểm tra giá trị của trường `login_attempts` đối với tài khoản `test_tc30@eshop.com`.
 
 ## Expected result
-- Email không phân biệt chữ hoa chữ thường. Việc đăng nhập bằng `TeSt_tC29@eShOp.CoM` và mật khẩu đúng phải thành công.
-- 3 lần đăng nhập sai bằng `TeSt_tC29@eShOp.CoM` phải làm khóa tài khoản gốc `test_tc29@eshop.com`. Khi tài khoản đã bị khóa, việc đăng nhập lại bằng email viết thường `test_tc29@eshop.com` với mật khẩu đúng phải bị chặn với lỗi HTTP 403.
+- Đăng nhập thành công (HTTP 200).
+- Trường `login_attempts` trong cơ sở dữ liệu phải giữ nguyên bằng `0` (không tăng).
 
 ## Status / Related bugs
-Failed / #48
+Passed / None

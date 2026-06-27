@@ -1,22 +1,23 @@
-# TC-LOGIN-014: Kiểm tra đặt lại bộ đếm đăng nhập sai sau khi đăng nhập thành công
+# TC-LOGIN-014: Kiểm tra tự động mở khóa tài khoản sau khi hết thời gian khóa 30 giây
 ## Requirement ID
 FR-02
 ## Module / Test type / Technique
-Login / Functional / Domain Testing (State Transition)
+Login / Functional / Boundary Value Analysis (Time Boundary)
 ## Preconditions
 - Người dùng đã có tài khoản hợp lệ: `test@eshop.com` / `Test1234!`
-- Tài khoản hiện đang có bộ đếm `login_attempts > 0` (ví dụ: đã nhập sai 1 hoặc 2 lần trước đó) và không bị khóa.
-- Người dùng đang ở trang đăng nhập.
+- Tài khoản vừa bị khóa do nhập sai mật khẩu 3 lần liên tiếp.
 ## Test data
+| Tham số | Giá trị thử nghiệm |
+| :--- | :--- |
 | Email | test@eshop.com |
 | Password | Test1234! |
 ## Test steps
-1. Nhập email hợp lệ `test@eshop.com` và mật khẩu đúng `Test1234!`.
-2. Nhấp nút "Đăng nhập".
-3. Xác minh đăng nhập thành công và chuyển hướng đến trang chủ.
-4. Truy vấn CSDL bảng `users` để kiểm tra trường `login_attempts` của tài khoản này.
+1. Ngay khi tài khoản bị khóa, đợi đúng 29 giây (ngay dưới biên dưới 30s).
+2. Thử đăng nhập lại bằng mật khẩu đúng `Test1234!`. Xác nhận hệ thống vẫn chặn đăng nhập với HTTP 403.
+3. Đợi thêm 1 giây (đủ 30 giây - ngay tại biên dưới 30s).
+4. Thử đăng nhập lại bằng mật khẩu đúng `Test1234!`.
 ## Expected result
-- Đăng nhập thành công và chuyển hướng thành công.
-- Bộ đếm đăng nhập sai `login_attempts` trong CSDL được đặt lại về **0** ngay lập tức.
+- Tại bước 2 (29 giây): Đăng nhập thất bại, hiển thị thông báo tài khoản đang bị khóa (HTTP 403).
+- Tại bước 4 (30 giây): Đăng nhập thành công, hệ thống cấp JWT token và chuyển hướng về trang chủ.
 ## Status / Related bugs
-Failed / BUG-FR02-A-03
+Failed / BUG-FR02-A-02

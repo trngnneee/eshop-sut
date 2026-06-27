@@ -22,4 +22,4 @@ API Contract / Equivalence Partitioning (EP)
 - Response chứa thông điệp lỗi chỉ rõ thiếu trường password.
 
 ## Status / Related bugs
-Failed / #52
+Passed / None

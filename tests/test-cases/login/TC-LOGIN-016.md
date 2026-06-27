@@ -1,19 +1,22 @@
-# TC-LOGIN-016: Kiểm tra định dạng Email không hợp lệ ở cấp độ Backend
+# TC-LOGIN-016: Kiểm tra khả năng chống tấn công Cross-Site Scripting (XSS) trên form Đăng nhập
 ## Requirement ID
-FR-02, FR-22
+FR-02, SEC-04
 ## Module / Test type / Technique
-Login / Security & Functional / Equivalence Partitioning (Invalid Input)
+Login / Security / Equivalence Partitioning (Malicious Input)
 ## Preconditions
-- Người dùng bypass giao diện HTML5 của trình duyệt bằng cách gửi yêu cầu HTTP POST trực tiếp đến `/api/login`.
+- Người dùng đang ở trang đăng nhập.
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Email | invalidemailform |
-| Password | Test1234! |
+| Email | `<script>alert('XSS_Email')</script>` |
+| Password | `<img src=x onerror=alert('XSS_Password')>` |
 ## Test steps
-1. Gửi trực tiếp yêu cầu HTTP POST đến `/api/login` với dữ liệu email `invalidemailform` và mật khẩu `Test1234!`.
-2. Quan sát mã phản hồi HTTP và thông báo lỗi trả về từ Backend.
+1. Nhập payload XSS `<script>alert('XSS_Email')</script>` vào trường Email.
+2. Nhập payload XSS `<img src=x onerror=alert('XSS_Password')>` vào trường Mật khẩu.
+3. Nhấp nút "Đăng nhập".
+4. Quan sát xem trình duyệt có hiển thị hộp thoại alert hay thực thi mã script hay không.
 ## Expected result
-- Backend phải kiểm tra định dạng email và từ chối xử lý với lỗi yêu cầu không hợp lệ (ví dụ: HTTP 400 Bad Request) thay vì trực tiếp thực hiện truy vấn cơ sở dữ liệu.
+- Hệ thống từ chối đăng nhập (hiển thị thông báo lỗi tài khoản/mật khẩu không chính xác hoặc lỗi định dạng email).
+- Không có đoạn mã JavaScript nào được thực thi, không xuất hiện hộp thoại cảnh báo (alert) trên trình duyệt (dữ liệu đầu vào được React render an toàn dưới dạng chuỗi thuần túy).
 ## Status / Related bugs
-Failed / None
+Passed / None

@@ -1,23 +1,27 @@
-# TC-JWT-006: Kiểm tra Token JWT không lộ trên URL trình duyệt sau khi đăng nhập
+# TC-JWT-006: Kiểm tra đăng nhập nhiều lần liên tiếp sinh ra các Token JWT khác nhau
 
 ## Requirement ID
-SEC-01
+FR-02
 
 ## Module / Test type / Technique
-JWT / Security Testing
+JWT / Functional Testing
 
 ## Preconditions
-- Đăng nhập thành công và chuyển hướng về trang Dashboard.
+- Tài khoản hoạt động bình thường.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
+| Email | test@eshop.com |
+| Mật khẩu | ValidPassword1! |
 
 ## Test steps
-1. Quan sát thanh địa chỉ (URL) của trình duyệt sau khi chuyển hướng.
+1. Thực hiện đăng nhập thành công lần 1, lưu token 1.
+2. Thực hiện đăng nhập thành công lần 2 trên tab/thiết bị khác, lưu token 2.
 
 ## Expected result
-- URL không chứa bất kỳ JWT token hoặc thông tin session nhạy cảm nào dưới dạng query string.
+- Token 1 và Token 2 khác nhau (do timestamp khác nhau).
+- Cả hai token đều hoạt động song song hoặc token cũ bị thu hồi tùy chính sách hệ thống.
 
 ## Status / Related bugs
 Not Run / None

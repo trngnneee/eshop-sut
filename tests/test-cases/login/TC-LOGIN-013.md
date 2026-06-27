@@ -1,23 +1,22 @@
-# TC-LOGIN-013: Kiểm tra tính năng Đăng nhập bên thứ ba (Google OAuth)
-
+# TC-LOGIN-013: Kiểm tra đặt lại bộ đếm đăng nhập sai sau khi đăng nhập thành công
 ## Requirement ID
 FR-02
-
 ## Module / Test type / Technique
-Login / OAuth / Integration Testing
-
+Login / Functional / Domain Testing (State Transition)
 ## Preconditions
-- Người dùng ở trang Đăng nhập.
-
+- Người dùng đã có tài khoản hợp lệ: `test@eshop.com` / `Test1234!`
+- Tài khoản hiện đang có bộ đếm `login_attempts > 0` (ví dụ: đã nhập sai 1 hoặc 2 lần trước đó) và không bị khóa.
+- Người dùng đang ở trang đăng nhập.
 ## Test data
-- Tài khoản Google hợp lệ.
-
+| Email | test@eshop.com |
+| Password | Test1234! |
 ## Test steps
-1. Tìm nút bấm Đăng nhập bằng Google trên màn hình đăng nhập.
-2. Click chọn và thực hiện luồng đăng nhập của Google.
-
+1. Nhập email hợp lệ `test@eshop.com` và mật khẩu đúng `Test1234!`.
+2. Nhấp nút "Đăng nhập".
+3. Xác minh đăng nhập thành công và chuyển hướng đến trang chủ.
+4. Truy vấn CSDL bảng `users` để kiểm tra trường `login_attempts` của tài khoản này.
 ## Expected result
-- Hệ thống tích hợp thành công Google OAuth, cho phép xác thực tài khoản Google và điều hướng về trang chủ EShop với token hợp lệ.
-
+- Đăng nhập thành công và chuyển hướng thành công.
+- Bộ đếm đăng nhập sai `login_attempts` trong CSDL được đặt lại về **0** ngay lập tức.
 ## Status / Related bugs
-Failed / #15
+Failed / BUG-FR02-A-03

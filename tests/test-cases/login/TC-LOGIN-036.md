@@ -1,4 +1,4 @@
-# TC-LOGIN-036: Đăng nhập thất bại khi Email thiếu local-part
+# TC-LOGIN-036: Đăng nhập thất bại khi Email có nhiều ký tự @
 
 ## Requirement ID
 FR-02, FR-22
@@ -12,11 +12,11 @@ Login / Equivalence Partitioning (EP)
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Email | @gmail.com |
+| Email | user@@gmail.com |
 | Mật khẩu | ValidPassword1! |
 
 ## Test steps
-1. Nhập email bắt đầu bằng dấu '@' và domain nhưng thiếu local-part.
+1. Nhập email chứa 2 dấu '@' liên tiếp.
 2. Nhấn 'Đăng nhập'.
 
 ## Expected result

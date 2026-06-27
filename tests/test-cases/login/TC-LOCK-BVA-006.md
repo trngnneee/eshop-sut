@@ -1,4 +1,4 @@
-# TC-LOCK-BVA-009: Kiểm tra đăng nhập đúng thời điểm khóa vừa hết hạn
+# TC-LOCK-BVA-006: Kiểm tra đăng nhập đúng thời điểm khóa vừa hết hạn
 
 ## Requirement ID
 FR-02
