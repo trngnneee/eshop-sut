@@ -68,36 +68,36 @@
 | [TC-CART-058](../test-cases/cart/TC-CART-058.md) | Cart | AI Tester | Fail |  | Backend cho phép thêm sản phẩm thiếu trường price (BUG-FR07-B-10). |
 | [TC-CART-059](../test-cases/cart/TC-CART-059.md) | Cart | AI Tester | Fail |  | Backend cho phép thêm sản phẩm với price <= 0 (BUG-FR07-B-10). |
 | [TC-CART-060](../test-cases/cart/TC-CART-060.md) | Cart | AI Tester | Fail | BUG-FR07-B-10 | Không hiển thị tồn kho khả dụng và thiếu cảnh báo (BUG-FR07-B-12). |
-| [TC-CART-061](../test-cases/cart/TC-CART-061.md) | Cart | AI Tester | Not Run |  | POST /api/cart với id sản phẩm không tồn tại. |
-| [TC-CART-062](../test-cases/cart/TC-CART-062.md) | Cart | AI Tester | Not Run |  | POST /api/cart với id hợp lệ nhưng name sai. |
-| [TC-CART-063](../test-cases/cart/TC-CART-063.md) | Cart | AI Tester | Not Run |  | POST /api/cart với id hợp lệ nhưng price bị sửa thấp hơn. |
-| [TC-CART-064](../test-cases/cart/TC-CART-064.md) | Cart | AI Tester | Not Run |  | POST /api/cart với price rất lớn. |
-| [TC-CART-065](../test-cases/cart/TC-CART-065.md) | Cart | AI Tester | Not Run |  | POST /api/cart với quantity rất lớn, ví dụ 999999999. |
-| [TC-CART-066](../test-cases/cart/TC-CART-066.md) | Cart | AI Tester | Not Run |  | POST /api/cart với quantity dạng chuỗi '2'. |
-| [TC-CART-067](../test-cases/cart/TC-CART-067.md) | Cart | AI Tester | Not Run |  | POST /api/cart với quantity: null. |
-| [TC-CART-068](../test-cases/cart/TC-CART-068.md) | Cart | AI Tester | Not Run |  | POST /api/cart với body rỗng {}. |
-| [TC-CART-069](../test-cases/cart/TC-CART-069.md) | Cart | AI Tester | Not Run |  | POST /api/cart với malformed JSON. |
-| [TC-CART-070](../test-cases/cart/TC-CART-070.md) | Cart | AI Tester | Not Run |  | POST /api/cart với extra fields như isAdmin, discount, totalPrice. |
-| [TC-CART-071](../test-cases/cart/TC-CART-071.md) | Cart | AI Tester | Not Run |  | Thêm sản phẩm rồi logout, login bằng user khác. |
-| [TC-CART-072](../test-cases/cart/TC-CART-072.md) | Cart | AI Tester | Not Run |  | Login user A thêm sản phẩm, logout, login lại user A. |
-| [TC-CART-073](../test-cases/cart/TC-CART-073.md) | Cart | AI Tester | Not Run |  | Mở 2 tab, tab A xóa sản phẩm, tab B vẫn đang ở giỏ hàng. |
-| [TC-CART-074](../test-cases/cart/TC-CART-074.md) | Cart | AI Tester | Not Run |  | Double click nút 'Thêm vào giỏ hàng' rất nhanh. |
-| [TC-CART-075](../test-cases/cart/TC-CART-075.md) | Cart | AI Tester | Not Run |  | Double click nút 'Xóa' rất nhanh. |
-| [TC-CART-076](../test-cases/cart/TC-CART-076.md) | Cart | AI Tester | Not Run |  | Nhấn checkout khi giỏ hàng trống. |
-| [TC-CART-077](../test-cases/cart/TC-CART-077.md) | Cart | AI Tester | Not Run |  | Nhấn checkout khi giỏ hàng có item quantity không hợp lệ do API tạo ra. |
-| [TC-CART-078](../test-cases/cart/TC-CART-078.md) | Cart | AI Tester | Not Run |  | Giỏ hàng chứa sản phẩm đã bị xóa khỏi hệ thống. |
-| [TC-CART-079](../test-cases/cart/TC-CART-079.md) | Cart | AI Tester | Not Run |  | Giỏ hàng chứa sản phẩm hết hàng. |
-| [TC-CART-080](../test-cases/cart/TC-CART-080.md) | Cart | AI Tester | Not Run |  | Giỏ hàng chứa sản phẩm bị thay đổi giá sau khi đã thêm. |
-| [TC-CART-081](../test-cases/cart/TC-CART-081.md) | Cart | AI Tester | Not Run |  | Tên sản phẩm rất dài. |
-| [TC-CART-082](../test-cases/cart/TC-CART-082.md) | Cart | AI Tester | Not Run |  | Tên sản phẩm chứa HTML/script. |
-| [TC-CART-083](../test-cases/cart/TC-CART-083.md) | Cart | AI Tester | Not Run |  | Ảnh sản phẩm lỗi URL hoặc không tải được. |
-| [TC-CART-084](../test-cases/cart/TC-CART-084.md) | Cart | AI Tester | Not Run |  | Giỏ hàng có nhiều sản phẩm, ví dụ 50–100 dòng. |
-| [TC-CART-085](../test-cases/cart/TC-CART-085.md) | Cart | AI Tester | Not Run |  | Tổng tiền có giá trị rất lớn. |
-| [TC-CART-086](../test-cases/cart/TC-CART-086.md) | Cart | AI Tester | Not Run |  | Gửi GET /api/cart với token sai định dạng. |
-| [TC-CART-087](../test-cases/cart/TC-CART-087.md) | Cart | AI Tester | Not Run |  | Gửi GET /api/cart với token của user A sau khi logout. |
-| [TC-CART-088](../test-cases/cart/TC-CART-088.md) | Cart | AI Tester | Not Run |  | Gửi request xóa/cập nhật item không thuộc giỏ hàng của user hiện tại. |
-| [TC-CART-089](../test-cases/cart/TC-CART-089.md) | Cart | AI Tester | Not Run |  | Refresh trang ngay sau khi thêm sản phẩm. |
-| [TC-CART-090](../test-cases/cart/TC-CART-090.md) | Cart | AI Tester | Not Run |  | Tắt mạng/server lỗi khi thêm vào giỏ. |
+| [TC-CART-061](../test-cases/cart/TC-CART-061.md) | Cart | AI Tester | Fail | BUG-FR07-B-10 | Backend cho phép thêm productId không tồn tại vào giỏ hàng. |
+| [TC-CART-062](../test-cases/cart/TC-CART-062.md) | Cart | AI Tester | Fail | BUG-FR07-B-10 | Backend tin cậy tên sản phẩm giả mạo truyền lên từ client. |
+| [TC-CART-063](../test-cases/cart/TC-CART-063.md) | Cart | AI Tester | Fail |  | Backend cho phép giả mạo đơn giá price = 1000đ thấp hơn giá gốc. |
+| [TC-CART-064](../test-cases/cart/TC-CART-064.md) | Cart | AI Tester | Fail |  | Backend cho phép thêm sản phẩm với price rất lớn mà không reject/limit. |
+| [TC-CART-065](../test-cases/cart/TC-CART-065.md) | Cart | AI Tester | Fail |  | Backend cho phép thêm sản phẩm với quantity rất lớn 999999999. |
+| [TC-CART-066](../test-cases/cart/TC-CART-066.md) | Cart | AI Tester | Fail |  | Backend cho phép quantity dạng chuỗi '2' mà không validate. |
+| [TC-CART-067](../test-cases/cart/TC-CART-067.md) | Cart | AI Tester | Fail |  | Backend cho phép quantity = null. |
+| [TC-CART-068](../test-cases/cart/TC-CART-068.md) | Cart | AI Tester | Fail |  | Backend cho phép body rỗng {}. |
+| [TC-CART-069](../test-cases/cart/TC-CART-069.md) | Cart | AI Tester | Pass |  | Server trả về HTTP 400 khi nhận malformed JSON. |
+| [TC-CART-070](../test-cases/cart/TC-CART-070.md) | Cart | AI Tester | Fail |  | Backend lưu trữ cả extra fields isAdmin, discount mà không lọc bỏ. |
+| [TC-CART-071](../test-cases/cart/TC-CART-071.md) | Cart | AI Tester | Pass |  | Tài khoản khác không nhìn thấy sản phẩm trong giỏ của tài khoản trước. |
+| [TC-CART-072](../test-cases/cart/TC-CART-072.md) | Cart | AI Tester | Pass |  | Giỏ hàng được lưu trữ bền vững theo tài khoản trên database. |
+| [TC-CART-073](../test-cases/cart/TC-CART-073.md) | Cart | AI Tester | Pass |  | Các tab tự động cập nhật giỏ hàng thống nhất sau khi reload. |
+| [TC-CART-074](../test-cases/cart/TC-CART-074.md) | Cart | AI Tester | Fail |  | Spam double submit nút thêm khiến tăng số lượng trùng lặp không được debounce. |
+| [TC-CART-075](../test-cases/cart/TC-CART-075.md) | Cart | AI Tester | Fail |  | Spam double click nút xóa khiến gửi liên tiếp request lỗi lên server. |
+| [TC-CART-076](../test-cases/cart/TC-CART-076.md) | Cart | AI Tester | Fail |  | Giao diện cho phép nhấn thanh toán và redirect sang /checkout khi giỏ hàng trống. |
+| [TC-CART-077](../test-cases/cart/TC-CART-077.md) | Cart | AI Tester | Fail |  | Trang checkout hiển thị và chấp nhận thông tin sản phẩm có số lượng/đơn giá âm từ API. |
+| [TC-CART-078](../test-cases/cart/TC-CART-078.md) | Cart | AI Tester | Fail |  | Không dọn dẹp hoặc hiển thị cảnh báo khi sản phẩm trong giỏ đã bị admin xóa khỏi hệ thống. |
+| [TC-CART-079](../test-cases/cart/TC-CART-079.md) | Cart | AI Tester | Fail |  | Không hiển thị cảnh báo out-of-stock khi sản phẩm trong giỏ đã hết hàng. |
+| [TC-CART-080](../test-cases/cart/TC-CART-080.md) | Cart | AI Tester | Fail |  | Không tự động đồng bộ hoặc cảnh báo khi sản phẩm trong giỏ bị thay đổi giá trên server. |
+| [TC-CART-081](../test-cases/cart/TC-CART-081.md) | Cart | AI Tester | Pass |  | Giao diện bảng giỏ hàng tự động xuống dòng khi tên sản phẩm quá dài. |
+| [TC-CART-082](../test-cases/cart/TC-CART-082.md) | Cart | AI Tester | Pass |  | React tự động escape tên sản phẩm chứa script tránh XSS. |
+| [TC-CART-083](../test-cases/cart/TC-CART-083.md) | Cart | AI Tester | Fail |  | Thiếu ảnh mặc định fallback khi ảnh sản phẩm bị lỗi URL. |
+| [TC-CART-084](../test-cases/cart/TC-CART-084.md) | Cart | AI Tester | Pass |  | Trang giỏ hàng hiển thị tốt danh sách dài từ 50-100 sản phẩm. |
+| [TC-CART-085](../test-cases/cart/TC-CART-085.md) | Cart | AI Tester | Pass |  | Tổng cộng hiển thị chính xác các giá trị tiền lớn mà không bị lỗi NaN/Infinity. |
+| [TC-CART-086](../test-cases/cart/TC-CART-086.md) | Cart | AI Tester | Pass |  | Server trả lỗi HTTP 403 khi Header Authorization sai định dạng. |
+| [TC-CART-087](../test-cases/cart/TC-CART-087.md) | Cart | AI Tester | Fail |  | Token vẫn gọi được API GET /api/cart sau khi người dùng bấm logout do cơ chế stateless JWT. |
+| [TC-CART-088](../test-cases/cart/TC-CART-088.md) | Cart | AI Tester | Pass |  | Server cách ly giỏ hàng theo req.user.id, không cho phép tác động giỏ hàng user khác. |
+| [TC-CART-089](../test-cases/cart/TC-CART-089.md) | Cart | AI Tester | Pass |  | Dữ liệu giỏ hàng chính xác sau khi nhấn refresh F5 tức thì. |
+| [TC-CART-090](../test-cases/cart/TC-CART-090.md) | Cart | AI Tester | Fail |  | Không hiển thị thông báo lỗi thân thiện khi server sập hoặc mất mạng, badge giỏ hàng tăng ảo. |
 
 ## Các Bug phát hiện chi tiết:
 1. **BUG-FR07-B-01:** Backend API `POST /api/cart` không validate quantity (chấp nhận 0, âm, thập phân, trống).

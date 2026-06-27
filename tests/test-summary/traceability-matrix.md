@@ -144,33 +144,33 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-07 | [TC-CART-058](../test-cases/cart/TC-CART-058.md) | Fail |  | Ready for Retest |
 | FR-07 | [TC-CART-059](../test-cases/cart/TC-CART-059.md) | Fail |  | Ready for Retest |
 | FR-07 | [TC-CART-060](../test-cases/cart/TC-CART-060.md) | Fail | BUG-FR07-B-10 | Ready for Retest |
-| FR-07 | [TC-CART-061](../test-cases/cart/TC-CART-061.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-062](../test-cases/cart/TC-CART-062.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-063](../test-cases/cart/TC-CART-063.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-064](../test-cases/cart/TC-CART-064.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-065](../test-cases/cart/TC-CART-065.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-066](../test-cases/cart/TC-CART-066.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-067](../test-cases/cart/TC-CART-067.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-068](../test-cases/cart/TC-CART-068.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-069](../test-cases/cart/TC-CART-069.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-070](../test-cases/cart/TC-CART-070.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-071](../test-cases/cart/TC-CART-071.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-072](../test-cases/cart/TC-CART-072.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-073](../test-cases/cart/TC-CART-073.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-074](../test-cases/cart/TC-CART-074.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-075](../test-cases/cart/TC-CART-075.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-076](../test-cases/cart/TC-CART-076.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-077](../test-cases/cart/TC-CART-077.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-078](../test-cases/cart/TC-CART-078.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-079](../test-cases/cart/TC-CART-079.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-080](../test-cases/cart/TC-CART-080.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-081](../test-cases/cart/TC-CART-081.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-082](../test-cases/cart/TC-CART-082.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-083](../test-cases/cart/TC-CART-083.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-084](../test-cases/cart/TC-CART-084.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-085](../test-cases/cart/TC-CART-085.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-086](../test-cases/cart/TC-CART-086.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-087](../test-cases/cart/TC-CART-087.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-088](../test-cases/cart/TC-CART-088.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-089](../test-cases/cart/TC-CART-089.md) | Not Run |  | Done |
-| FR-07 | [TC-CART-090](../test-cases/cart/TC-CART-090.md) | Not Run |  | Done |
+| FR-07 | [TC-CART-061](../test-cases/cart/TC-CART-061.md) | Fail | BUG-FR07-B-10 | Ready for Retest |
+| FR-07 | [TC-CART-062](../test-cases/cart/TC-CART-062.md) | Fail | BUG-FR07-B-10 | Ready for Retest |
+| FR-07 | [TC-CART-063](../test-cases/cart/TC-CART-063.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-064](../test-cases/cart/TC-CART-064.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-065](../test-cases/cart/TC-CART-065.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-066](../test-cases/cart/TC-CART-066.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-067](../test-cases/cart/TC-CART-067.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-068](../test-cases/cart/TC-CART-068.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-069](../test-cases/cart/TC-CART-069.md) | Pass |  | Done |
+| FR-07 | [TC-CART-070](../test-cases/cart/TC-CART-070.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-071](../test-cases/cart/TC-CART-071.md) | Pass |  | Done |
+| FR-07 | [TC-CART-072](../test-cases/cart/TC-CART-072.md) | Pass |  | Done |
+| FR-07 | [TC-CART-073](../test-cases/cart/TC-CART-073.md) | Pass |  | Done |
+| FR-07 | [TC-CART-074](../test-cases/cart/TC-CART-074.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-075](../test-cases/cart/TC-CART-075.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-076](../test-cases/cart/TC-CART-076.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-077](../test-cases/cart/TC-CART-077.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-078](../test-cases/cart/TC-CART-078.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-079](../test-cases/cart/TC-CART-079.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-080](../test-cases/cart/TC-CART-080.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-081](../test-cases/cart/TC-CART-081.md) | Pass |  | Done |
+| FR-07 | [TC-CART-082](../test-cases/cart/TC-CART-082.md) | Pass |  | Done |
+| FR-07 | [TC-CART-083](../test-cases/cart/TC-CART-083.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-084](../test-cases/cart/TC-CART-084.md) | Pass |  | Done |
+| FR-07 | [TC-CART-085](../test-cases/cart/TC-CART-085.md) | Pass |  | Done |
+| FR-07 | [TC-CART-086](../test-cases/cart/TC-CART-086.md) | Pass |  | Done |
+| FR-07 | [TC-CART-087](../test-cases/cart/TC-CART-087.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-088](../test-cases/cart/TC-CART-088.md) | Pass |  | Done |
+| FR-07 | [TC-CART-089](../test-cases/cart/TC-CART-089.md) | Pass |  | Done |
+| FR-07 | [TC-CART-090](../test-cases/cart/TC-CART-090.md) | Fail |  | Ready for Retest |
