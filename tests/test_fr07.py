@@ -115,7 +115,7 @@ def main():
     
     # TC-CART-050: Cart User A not visible to User B
     _, final_cart_b = make_request("/api/cart", method="GET", token=token_b)
-    tc_050_pass = (len(final_cart_b) == 0) # User B's cart should be empty even though A added items.
+    tc_050_pass = (len(final_cart_b) == 0)
     
     # TC-CART-060: POST `/api/cart` missing id
     status_060, res_060 = make_request("/api/cart", method="POST", data={"name": "No ID", "price": 100000, "quantity": 1}, token=token_a)
@@ -136,10 +136,14 @@ def main():
     print("[UI] Đang phân tích giao diện tĩnh frontend...")
     cart_jsx_path = os.path.join("frontend-web", "src", "pages", "Cart.jsx")
     context_jsx_path = os.path.join("frontend-web", "src", "context", "CartContext.jsx")
+    home_jsx_path = os.path.join("frontend-web", "src", "pages", "Home.jsx")
+    detail_jsx_path = os.path.join("frontend-web", "src", "pages", "ProductDetail.jsx")
     server_js_path = os.path.join("backend", "server.js")
     
     cart_jsx_content = ""
     context_jsx_content = ""
+    home_jsx_content = ""
+    detail_jsx_content = ""
     server_js_content = ""
     
     if os.path.exists(cart_jsx_path):
@@ -148,6 +152,12 @@ def main():
     if os.path.exists(context_jsx_path):
         with open(context_jsx_path, "r", encoding="utf-8") as f:
             context_jsx_content = f.read()
+    if os.path.exists(home_jsx_path):
+        with open(home_jsx_path, "r", encoding="utf-8") as f:
+            home_jsx_content = f.read()
+    if os.path.exists(detail_jsx_path):
+        with open(detail_jsx_path, "r", encoding="utf-8") as f:
+            detail_jsx_content = f.read()
     if os.path.exists(server_js_path):
         with open(server_js_path, "r", encoding="utf-8") as f:
             server_js_content = f.read()
@@ -166,19 +176,22 @@ def main():
     has_qty_adjust = ("+" in cart_jsx_content and "-" in cart_jsx_content and "onClick" in cart_jsx_content)
     # Check confirmation dialog before delete
     has_confirm_dialog = ("confirm(" in cart_jsx_content or "Modal" in cart_jsx_content or "xác nhận" in cart_jsx_content.lower())
-    
     # Check if Cart page checks user Auth or redirects on mount (Route Guard)
     has_cart_guard = ("if (!user)" in cart_jsx_content and "navigate('/login')" in cart_jsx_content and "useEffect" in cart_jsx_content)
-    
     # Check if there is an API delete endpoint on Backend
     has_delete_api = ("app.delete(\"/api/cart" in server_js_content or "app.delete('/api/cart" in server_js_content)
+    
+    # Check for toast/alert notifications on adding to cart
+    has_toast_home = ("alert(" in home_jsx_content or "toast" in home_jsx_content or "notification" in home_jsx_content)
+    has_toast_detail = ("alert(" in detail_jsx_content or "toast" in detail_jsx_content or "notification" in detail_jsx_content)
+    has_toast_feedback = (has_toast_home or has_toast_detail)
 
     # -------------------------------------------------------------------------
     # Step 3: Map All 62 Test Cases
     # -------------------------------------------------------------------------
     results = {}
     
-    # Group 1 to 7 (First 39 cases)
+    # Group 1 to 7
     results["TC-CART-001"] = ("Pass", "Hiển thị thông báo giỏ hàng trống chính xác.")
     results["TC-CART-002"] = ("Pass" if has_empty_icon else "Fail", "Không có hình ảnh/icon minh họa cho giỏ hàng trống (BUG-FR07-B-08).")
     results["TC-CART-003"] = ("Pass", "Nút Tiếp tục mua sắm điều hướng đúng về trang chủ.")
@@ -188,8 +201,8 @@ def main():
     results["TC-CART-007"] = ("Pass", "Đơn giá hiển thị đúng định dạng VND (100.000 ₫).")
     results["TC-CART-008"] = ("Pass", "Thành tiền hiển thị chính xác.")
     results["TC-CART-009"] = ("Pass" if has_tong_cong_label else "Fail", "Nhãn tổng tiền hiển thị 'Tổng tạm tính' thay vì 'Tổng cộng' (BUG-FR07-B-06).")
-    results["TC-CART-010"] = ("Pass", "Thêm sản phẩm thành công từ trang chủ, cập nhật badge và hiển thị toast.")
-    results["TC-CART-011"] = ("Pass", "Thêm sản phẩm thành công từ trang chi tiết.")
+    results["TC-CART-010"] = ("Pass" if has_toast_feedback else "Fail", "Thêm sản phẩm từ trang chủ thành công nhưng không có thông báo toast/popup phản hồi (BUG-FR07-B-13).")
+    results["TC-CART-011"] = ("Pass" if has_toast_feedback else "Fail", "Thêm sản phẩm từ trang chi tiết thành công nhưng không có thông báo toast/popup phản hồi (BUG-FR07-B-13).")
     results["TC-CART-012"] = ("Pass" if has_merge_logic else "Fail", "Hệ thống không cộng dồn số lượng khi thêm sản phẩm trùng ID (BUG-FR07-B-03).")
     results["TC-CART-013"] = ("Pass" if has_merge_logic else "Fail", "Tạo dòng mới trùng lặp khi thêm cùng sản phẩm nhiều lần (BUG-FR07-B-03).")
     results["TC-CART-014"] = ("Pass", "Sản phẩm khác ID được hiển thị dòng riêng biệt chính xác.")
@@ -211,7 +224,7 @@ def main():
     results["TC-CART-036"] = ("Pass", "Badge cập nhật đúng sau khi thêm sản phẩm.")
     results["TC-CART-037"] = ("Pass" if has_qty_adjust else "Fail", "Badge không thể cập nhật vì không có nút thay đổi quantity (BUG-FR07-B-04).")
     results["TC-CART-038"] = ("Pass", "Badge cập nhật chính xác sau khi xóa sản phẩm.")
-    results["TC-CART-039"] = ("Pass", "Toast thông báo hiển thị thành công khi thêm sản phẩm.")
+    results["TC-CART-039"] = ("Pass" if has_toast_feedback else "Fail", "Không hiển thị thông báo toast/popup phản hồi khi thêm giỏ hàng thành công (BUG-FR07-B-13).")
     
     # API Backend (40 - 47)
     results["TC-CART-040"] = ("Pass" if tc_040_pass else "Fail", "GET /api/cart không thành công hoặc lỗi.")
@@ -374,6 +387,15 @@ def main():
             "severity": "Major", "priority": "High",
             "evidence": "Ghi nhận response HTTP 200 OK thay vì HTTP 400 Bad Request.",
             "file": "backend/server.js#L290"
+        },
+        "BUG-FR07-B-13": {
+            "title": "Thiếu thông báo phản hồi (toast/alert) khi thêm sản phẩm vào giỏ hàng thành công",
+            "tc": "TC-CART-010, TC-CART-011, TC-CART-039",
+            "summary": "Giao diện không hiển thị bất kỳ thông báo (toast/alert/popup) nào để thông báo cho người dùng biết sản phẩm đã được thêm vào giỏ hàng thành công, vi phạm yêu cầu phản hồi trạng thái của FR-24.",
+            "steps": "1. Truy cập Trang chủ.\n2. Nhấn nút 'Thêm vào giỏ hàng' của một sản phẩm.\n3. Quan sát màn hình tìm thông báo phản hồi.",
+            "severity": "Minor", "priority": "Medium",
+            "evidence": "Không hiển thị thông báo toast/popup phản hồi khi thêm giỏ hàng thành công.",
+            "file": "frontend-web/src/pages/Home.jsx#L99"
         }
     }
     
@@ -448,6 +470,8 @@ def main():
                 related_bug = "BUG-FR07-B-11"
             elif i in [60, 61, 62]:
                 related_bug = "BUG-FR07-B-12"
+            elif i in [10, 11, 39]:
+                related_bug = "BUG-FR07-B-13"
                 
         run_content += f"| [{tc_id}](../test-cases/cart/{tc_id}.md) | Cart | AI Tester | {res_status} | {related_bug} | {note} |\n"
         
@@ -465,6 +489,7 @@ def main():
 10. **BUG-FR07-B-10:** Xóa sản phẩm ở frontend không đồng bộ lên server (reload trang sẽ hiển thị lại) do thiếu API xóa ở backend.
 11. **BUG-FR07-B-11:** Trang giỏ hàng không bảo vệ quyền truy cập và không redirect khi chưa đăng nhập.
 12. **BUG-FR07-B-12:** API `POST /api/cart` không validate tính toàn vẹn của request body (thiếu id, price hoặc price <= 0).
+13. **BUG-FR07-B-13:** Thiếu thông báo phản hồi (toast/alert) khi thêm sản phẩm vào giỏ hàng thành công.
 """
     with open(run_file, "w", encoding="utf-8") as f:
         f.write(run_content)
@@ -516,6 +541,8 @@ def main():
                             related_bug = "BUG-FR07-B-11"
                         elif i in [60, 61, 62]:
                             related_bug = "BUG-FR07-B-12"
+                        elif i in [10, 11, 39]:
+                            related_bug = "BUG-FR07-B-13"
                     
                     status_cell = "Ready for Retest" if res_status == "Fail" else "Done"
                     new_line = f"| {parts[1].strip()} | {parts[2].strip()} | {res_status} | {related_bug} | {status_cell} |\n"

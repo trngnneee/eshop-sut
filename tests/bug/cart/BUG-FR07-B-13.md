@@ -1,0 +1,19 @@
+# BUG-FR07-B-13: Thiếu thông báo phản hồi (toast/alert) khi thêm sản phẩm vào giỏ hàng thành công
+
+| Tên trường (Field) | Giá trị (Value) |
+| :--- | :--- |
+| **No.** | 13 |
+| **BugID** | `BUG-FR07-B-13` |
+| **Status** | **Open** |
+| **Requirement Name** | FR-07 Giỏ hàng & Điều hướng |
+| **Summary** | Giao diện không hiển thị bất kỳ thông báo (toast/alert/popup) nào để thông báo cho người dùng biết sản phẩm đã được thêm vào giỏ hàng thành công, vi phạm yêu cầu phản hồi trạng thái của FR-24. |
+| **Steps to reproduce** | 1. Truy cập Trang chủ.
+2. Nhấn nút 'Thêm vào giỏ hàng' của một sản phẩm.
+3. Quan sát màn hình tìm thông báo phản hồi. |
+| **Severity** | Minor |
+| **Frequency** | Always |
+| **Priority** | Medium |
+| **Attachment (Link to file)** | [Home.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Home.jsx#L99) |
+| **Evidence (Screenshot)** | Không hiển thị thông báo toast/popup phản hồi khi thêm giỏ hàng thành công. |
+| **Date** | 2026-06-27 |
+| **Reporter** | AI Tester (Antigravity) |

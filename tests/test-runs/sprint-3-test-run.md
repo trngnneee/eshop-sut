@@ -17,8 +17,8 @@
 | [TC-CART-007](../test-cases/cart/TC-CART-007.md) | Cart | AI Tester | Pass |  | Đơn giá hiển thị đúng định dạng VND (100.000 ₫). |
 | [TC-CART-008](../test-cases/cart/TC-CART-008.md) | Cart | AI Tester | Pass |  | Thành tiền hiển thị chính xác. |
 | [TC-CART-009](../test-cases/cart/TC-CART-009.md) | Cart | AI Tester | Fail | BUG-FR07-B-06 | Nhãn tổng tiền hiển thị 'Tổng tạm tính' thay vì 'Tổng cộng' (BUG-FR07-B-06). |
-| [TC-CART-010](../test-cases/cart/TC-CART-010.md) | Cart | AI Tester | Pass |  | Thêm sản phẩm thành công từ trang chủ, cập nhật badge và hiển thị toast. |
-| [TC-CART-011](../test-cases/cart/TC-CART-011.md) | Cart | AI Tester | Pass |  | Thêm sản phẩm thành công từ trang chi tiết. |
+| [TC-CART-010](../test-cases/cart/TC-CART-010.md) | Cart | AI Tester | Fail | BUG-FR07-B-13 | Thêm sản phẩm từ trang chủ thành công nhưng không có thông báo toast/popup phản hồi (BUG-FR07-B-13). |
+| [TC-CART-011](../test-cases/cart/TC-CART-011.md) | Cart | AI Tester | Fail | BUG-FR07-B-13 | Thêm sản phẩm từ trang chi tiết thành công nhưng không có thông báo toast/popup phản hồi (BUG-FR07-B-13). |
 | [TC-CART-012](../test-cases/cart/TC-CART-012.md) | Cart | AI Tester | Fail | BUG-FR07-B-03 | Hệ thống không cộng dồn số lượng khi thêm sản phẩm trùng ID (BUG-FR07-B-03). |
 | [TC-CART-013](../test-cases/cart/TC-CART-013.md) | Cart | AI Tester | Fail | BUG-FR07-B-03 | Tạo dòng mới trùng lặp khi thêm cùng sản phẩm nhiều lần (BUG-FR07-B-03). |
 | [TC-CART-014](../test-cases/cart/TC-CART-014.md) | Cart | AI Tester | Pass |  | Sản phẩm khác ID được hiển thị dòng riêng biệt chính xác. |
@@ -46,7 +46,7 @@
 | [TC-CART-036](../test-cases/cart/TC-CART-036.md) | Cart | AI Tester | Pass |  | Badge cập nhật đúng sau khi thêm sản phẩm. |
 | [TC-CART-037](../test-cases/cart/TC-CART-037.md) | Cart | AI Tester | Fail | BUG-FR07-B-04 | Badge không thể cập nhật vì không có nút thay đổi quantity (BUG-FR07-B-04). |
 | [TC-CART-038](../test-cases/cart/TC-CART-038.md) | Cart | AI Tester | Pass |  | Badge cập nhật chính xác sau khi xóa sản phẩm. |
-| [TC-CART-039](../test-cases/cart/TC-CART-039.md) | Cart | AI Tester | Pass |  | Toast thông báo hiển thị thành công khi thêm sản phẩm. |
+| [TC-CART-039](../test-cases/cart/TC-CART-039.md) | Cart | AI Tester | Fail | BUG-FR07-B-13 | Không hiển thị thông báo toast/popup phản hồi khi thêm giỏ hàng thành công (BUG-FR07-B-13). |
 | [TC-CART-040](../test-cases/cart/TC-CART-040.md) | Cart | AI Tester | Pass |  | GET /api/cart không thành công hoặc lỗi. |
 | [TC-CART-041](../test-cases/cart/TC-CART-041.md) | Cart | AI Tester | Pass |  | GET /api/cart không chặn request thiếu token. |
 | [TC-CART-042](../test-cases/cart/TC-CART-042.md) | Cart | AI Tester | Pass |  | POST /api/cart thêm sản phẩm lỗi. |
@@ -84,3 +84,4 @@
 10. **BUG-FR07-B-10:** Xóa sản phẩm ở frontend không đồng bộ lên server (reload trang sẽ hiển thị lại) do thiếu API xóa ở backend.
 11. **BUG-FR07-B-11:** Trang giỏ hàng không bảo vệ quyền truy cập và không redirect khi chưa đăng nhập.
 12. **BUG-FR07-B-12:** API `POST /api/cart` không validate tính toàn vẹn của request body (thiếu id, price hoặc price <= 0).
+13. **BUG-FR07-B-13:** Thiếu thông báo phản hồi (toast/alert) khi thêm sản phẩm vào giỏ hàng thành công.
