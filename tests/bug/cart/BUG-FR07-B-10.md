@@ -13,6 +13,6 @@
 | **Severity** | Major |
 | **Frequency** | Always |
 | **Priority** | High |
-| **Evidence (Screenshot)** | Ghi nhận response HTTP 200 OK thay vì HTTP 400 Bad Request. |
+| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-10.png) |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

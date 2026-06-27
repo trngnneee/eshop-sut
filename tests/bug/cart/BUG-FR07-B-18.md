@@ -12,6 +12,6 @@
 | **Severity** | Major |
 | **Frequency** | Always |
 | **Priority** | Medium |
-| **Evidence (Screenshot)** | Badge Navbar tăng ảo mặc dù API thêm giỏ hàng thất bại. |
+| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-18.png) |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

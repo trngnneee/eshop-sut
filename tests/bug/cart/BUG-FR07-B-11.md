@@ -13,6 +13,6 @@
 | **Severity** | Minor |
 | **Frequency** | Always |
 | **Priority** | Medium |
-| **Evidence (Screenshot)** | Không hiển thị thông báo toast/popup phản hồi khi thêm giỏ hàng thành công. |
+| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-11.png) |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

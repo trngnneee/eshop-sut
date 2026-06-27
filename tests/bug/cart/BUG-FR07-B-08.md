@@ -12,6 +12,6 @@
 | **Severity** | Minor |
 | **Frequency** | Always |
 | **Priority** | Low |
-| **Evidence (Screenshot)** | Trang trống hoặc trang bảng đều thiếu breadcrumb. |
+| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-08.png) |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

@@ -13,6 +13,6 @@
 | **Severity** | Major |
 | **Frequency** | Always |
 | **Priority** | High |
-| **Evidence (Screenshot)** | Các trường thừa được lưu trữ và trả về nguyên vẹn trong giỏ hàng. |
+| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-16.png) |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

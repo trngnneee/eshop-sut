@@ -12,6 +12,6 @@
 | **Severity** | Minor |
 | **Frequency** | Always |
 | **Priority** | Low |
-| **Evidence (Screenshot)** | Chỉ hiển thị chữ 'Giỏ hàng của bạn đang trống' dạng text thường. |
+| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-07.png) |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

@@ -13,6 +13,6 @@
 | **Severity** | Critical |
 | **Frequency** | Always |
 | **Priority** | High |
-| **Evidence (Screenshot)** | Lưu đơn giá giả mạo thành công vào giỏ hàng. |
+| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-13.png) |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

@@ -13,6 +13,6 @@
 | **Severity** | Major |
 | **Frequency** | Always |
 | **Priority** | High |
-| **Evidence (Screenshot)** | API trả về HTTP 200 OK và ghi nhận sản phẩm ma. |
+| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-14.png) |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

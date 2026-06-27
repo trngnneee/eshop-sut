@@ -13,6 +13,6 @@
 | **Severity** | Major |
 | **Frequency** | Always |
 | **Priority** | High |
-| **Evidence (Screenshot)** | Ghi nhận response HTTP 200 OK cho kiểu dữ liệu không hợp lệ. |
+| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-15.png) |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

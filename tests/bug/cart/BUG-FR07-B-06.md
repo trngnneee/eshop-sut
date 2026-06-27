@@ -12,6 +12,6 @@
 | **Severity** | Minor |
 | **Frequency** | Always |
 | **Priority** | Low |
-| **Evidence (Screenshot)** | Hiển thị chữ 'Tổng tạm tính:'. |
+| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-06.png) |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |
