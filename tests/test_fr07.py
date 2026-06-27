@@ -415,6 +415,78 @@ def main():
             "severity": "Minor", "priority": "Medium",
             "evidence": "Không hiển thị thông báo toast/popup phản hồi khi thêm giỏ hàng thành công.",
             "file": "frontend-web/src/pages/Home.jsx#L99"
+        },
+        "BUG-FR07-B-13": {
+            "title": "Backend API cho phép giả mạo đơn giá của sản phẩm (Price Tampering)",
+            "tc": "TC-CART-063, TC-CART-064, TC-CART-080",
+            "summary": "API `POST /api/cart` trực tiếp sử dụng giá trị `price` truyền từ Client-side và lưu vào giỏ hàng mà không đối chiếu với giá trị thực tế trong Cơ sở dữ liệu.",
+            "steps": "1. Đăng nhập và lấy token JWT.\n2. Gửi request POST tới `/api/cart` với body chứa `productId: 1`, `price: 1000` (giá gốc sản phẩm 1 là 100.000đ).\n3. Gọi GET `/api/cart` và kiểm tra giá trị đơn giá lưu trong giỏ.",
+            "severity": "Critical", "priority": "High",
+            "evidence": "Lưu đơn giá giả mạo thành công vào giỏ hàng.",
+            "file": "backend/server.js#L290"
+        },
+        "BUG-FR07-B-14": {
+            "title": "Backend API chấp nhận productId không tồn tại và tạo ra sản phẩm ma",
+            "tc": "TC-CART-061, TC-CART-062, TC-CART-078",
+            "summary": "API `POST /api/cart` không kiểm tra sự tồn tại của sản phẩm (`productId`) trong bảng cơ sở dữ liệu `products`, dẫn đến việc thêm các sản phẩm không có thực hoặc sai tên vào giỏ hàng.",
+            "steps": "1. Đăng nhập.\n2. Gửi request POST tới `/api/cart` với body chứa `productId: 999999` (không tồn tại).\n3. Kiểm tra phản hồi trả về từ API.",
+            "severity": "Major", "priority": "High",
+            "evidence": "API trả về HTTP 200 OK và ghi nhận sản phẩm ma.",
+            "file": "backend/server.js#L290"
+        },
+        "BUG-FR07-B-15": {
+            "title": "Backend API không kiểm tra kiểu dữ liệu của trường quantity (Type Validation)",
+            "tc": "TC-CART-065, TC-CART-066, TC-CART-067, TC-CART-068",
+            "summary": "API `POST /api/cart` chấp nhận lưu trữ các giá trị số lượng `quantity` không phải số nguyên như chuỗi ký tự `\"2\"` hoặc giá trị `null` mà không báo lỗi.",
+            "steps": "1. Đăng nhập.\n2. Gửi request POST tới `/api/cart` với body chứa `quantity: \"2\"`.\n3. Xác minh phản hồi từ API.",
+            "severity": "Major", "priority": "High",
+            "evidence": "Ghi nhận response HTTP 200 OK cho kiểu dữ liệu không hợp lệ.",
+            "file": "backend/server.js#L290"
+        },
+        "BUG-FR07-B-16": {
+            "title": "Lỗ hổng cho phép gán thuộc tính đặc quyền (Mass Assignment / Extra Fields)",
+            "tc": "TC-CART-070",
+            "summary": "API `POST /api/cart` chấp nhận lưu trữ và trả về tất cả các trường dữ liệu thừa gửi lên từ client-side như `isAdmin: true` hay `discount: 90` mà không thực hiện lọc bỏ.",
+            "steps": "1. Đăng nhập.\n2. Gửi request POST tới `/api/cart` với body chứa `{\"productId\": 1, \"quantity\": 1, \"isAdmin\": true}`.\n3. Gọi GET `/api/cart` và kiểm tra các trường trả về.",
+            "severity": "Major", "priority": "High",
+            "evidence": "Các trường thừa được lưu trữ và trả về nguyên vẹn trong giỏ hàng.",
+            "file": "backend/server.js#L290"
+        },
+        "BUG-FR07-B-17": {
+            "title": "Thiếu cơ chế thu hồi Token JWT cũ sau khi người dùng bấm đăng xuất",
+            "tc": "TC-CART-087",
+            "summary": "Hệ thống sử dụng cơ chế xác thực stateless JWT nhưng backend không triển khai danh sách đen (Blacklist) để thu hồi token sau khi người dùng bấm đăng xuất, khiến token cũ vẫn sử dụng được bình thường.",
+            "steps": "1. Đăng nhập tài khoản và lưu token JWT.\n2. Thực hiện hành động Đăng xuất (Logout) trên client.\n3. Dùng token JWT cũ gửi request gọi API `GET /api/cart`.",
+            "severity": "Major", "priority": "High",
+            "evidence": "Server vẫn trả dữ liệu giỏ hàng thành công (200 OK) thay vì 401 Unauthorized.",
+            "file": "backend/server.js#L120"
+        },
+        "BUG-FR07-B-18": {
+            "title": "Giao diện cho phép thanh toán (Checkout) khi giỏ hàng trống",
+            "tc": "TC-CART-076, TC-CART-077",
+            "summary": "Giao diện giỏ hàng `/cart` không vô hiệu hóa nút Thanh toán và không chặn chuyển hướng sang `/checkout` khi giỏ hàng hoàn toàn trống rỗng hoặc chứa số lượng sản phẩm không hợp lệ.",
+            "steps": "1. Đảm bảo giỏ hàng rỗng.\n2. Truy cập `/cart` và nhấp nút 'Thanh toán'.",
+            "severity": "Major", "priority": "Medium",
+            "evidence": "Nút Thanh toán vẫn hoạt động và chuyển hướng người dùng sang trang thanh toán.",
+            "file": "frontend-web/src/pages/Cart.jsx#L80"
+        },
+        "BUG-FR07-B-19": {
+            "title": "Thiếu hiển thị ảnh mặc định (Fallback image) khi URL ảnh sản phẩm bị lỗi",
+            "tc": "TC-CART-083",
+            "summary": "Giao diện trang giỏ hàng hiển thị biểu tượng ảnh vỡ và phá vỡ layout bảng hiển thị khi URL hình ảnh sản phẩm bị lỗi 404 hoặc không hợp lệ.",
+            "steps": "1. Thêm sản phẩm có URL ảnh bị lỗi vào giỏ.\n2. Truy cập `/cart` và quan sát ảnh sản phẩm.",
+            "severity": "Minor", "priority": "Low",
+            "evidence": "Hiển thị icon ảnh lỗi mà không load ảnh fallback.",
+            "file": "frontend-web/src/pages/Cart.jsx#L45"
+        },
+        "BUG-FR07-B-20": {
+            "title": "Thiếu xử lý lỗi kết nối mạng hoặc sập máy chủ trên giao diện",
+            "tc": "TC-CART-090",
+            "summary": "Khi API thêm sản phẩm thất bại do mất kết nối mạng hoặc sập server, Frontend vẫn tự động tăng số lượng badge trên Navbar mà không hiển thị thông báo lỗi phù hợp cho người dùng.",
+            "steps": "1. Tắt kết nối mạng hoặc server backend.\n2. Nhấn nút 'Thêm vào giỏ hàng' và quan sát badge Navbar.",
+            "severity": "Major", "priority": "Medium",
+            "evidence": "Badge Navbar tăng ảo mặc dù API thêm giỏ hàng thất bại.",
+            "file": "frontend-web/src/pages/ProductDetail.jsx#L66"
         }
     }
     
@@ -473,7 +545,7 @@ def main():
                 related_bug = "BUG-FR07-B-03"
             elif (15 <= i <= 26) or i == 37:
                 related_bug = "BUG-FR07-B-04"
-            elif (31 <= i <= 34) or i in [54, 55, 56]:
+            elif (31 <= i <= 34) or i in [54, 55, 56, 75]:
                 related_bug = "BUG-FR07-B-05"
             elif i == 9:
                 related_bug = "BUG-FR07-B-06"
@@ -487,10 +559,28 @@ def main():
                 related_bug = "BUG-FR07-B-10"
             elif i == 48:
                 related_bug = "BUG-FR07-B-09"
-            elif i in [60, 61, 62]:
+            elif i in [57, 58, 59]:
                 related_bug = "BUG-FR07-B-10"
-            elif i in [10, 11, 39]:
+            elif i in [10, 11, 38, 74]:
                 related_bug = "BUG-FR07-B-11"
+            elif i in [60, 79]:
+                related_bug = "BUG-FR07-B-12"
+            elif i in [63, 64, 80]:
+                related_bug = "BUG-FR07-B-13"
+            elif i in [61, 62, 78]:
+                related_bug = "BUG-FR07-B-14"
+            elif i in [65, 66, 67, 68]:
+                related_bug = "BUG-FR07-B-15"
+            elif i == 70:
+                related_bug = "BUG-FR07-B-16"
+            elif i == 87:
+                related_bug = "BUG-FR07-B-17"
+            elif i in [76, 77]:
+                related_bug = "BUG-FR07-B-18"
+            elif i == 83:
+                related_bug = "BUG-FR07-B-19"
+            elif i == 90:
+                related_bug = "BUG-FR07-B-20"
                 
         run_content += f"| [{tc_id}](../test-cases/cart/{tc_id}.md) | Cart | AI Tester | {res_status} | {related_bug} | {note} |\n"
         
@@ -542,7 +632,7 @@ def main():
                             related_bug = "BUG-FR07-B-03"
                         elif (15 <= i <= 26) or i == 37:
                             related_bug = "BUG-FR07-B-04"
-                        elif (31 <= i <= 34) or i in [54, 55, 56]:
+                        elif (31 <= i <= 34) or i in [54, 55, 56, 75]:
                             related_bug = "BUG-FR07-B-05"
                         elif i == 9:
                             related_bug = "BUG-FR07-B-06"
@@ -556,10 +646,28 @@ def main():
                             related_bug = "BUG-FR07-B-10"
                         elif i == 48:
                             related_bug = "BUG-FR07-B-09"
-                        elif i in [60, 61, 62]:
+                        elif i in [57, 58, 59]:
                             related_bug = "BUG-FR07-B-10"
-                        elif i in [10, 11, 39]:
+                        elif i in [10, 11, 38, 74]:
                             related_bug = "BUG-FR07-B-11"
+                        elif i in [60, 79]:
+                            related_bug = "BUG-FR07-B-12"
+                        elif i in [63, 64, 80]:
+                            related_bug = "BUG-FR07-B-13"
+                        elif i in [61, 62, 78]:
+                            related_bug = "BUG-FR07-B-14"
+                        elif i in [65, 66, 67, 68]:
+                            related_bug = "BUG-FR07-B-15"
+                        elif i == 70:
+                            related_bug = "BUG-FR07-B-16"
+                        elif i == 87:
+                            related_bug = "BUG-FR07-B-17"
+                        elif i in [76, 77]:
+                            related_bug = "BUG-FR07-B-18"
+                        elif i == 83:
+                            related_bug = "BUG-FR07-B-19"
+                        elif i == 90:
+                            related_bug = "BUG-FR07-B-20"
                     
                     status_cell = "Ready for Retest" if res_status == "Fail" else "Done"
                     new_line = f"| {parts[1].strip()} | {parts[2].strip()} | {res_status} | {related_bug} | {status_cell} |\n"

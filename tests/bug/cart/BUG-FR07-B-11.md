@@ -13,7 +13,6 @@
 | **Severity** | Minor |
 | **Frequency** | Always |
 | **Priority** | Medium |
-| **Attachment (Link to file)** | [Home.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Home.jsx#L99) |
 | **Evidence (Screenshot)** | Không hiển thị thông báo toast/popup phản hồi khi thêm giỏ hàng thành công. |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

@@ -13,7 +13,6 @@
 | **Severity** | Major |
 | **Frequency** | Always |
 | **Priority** | High |
-| **Attachment (Link to file)** | [server.js](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/backend/server.js#L290) |
 | **Evidence (Screenshot)** | Ghi nhận response HTTP 200 OK thay vì HTTP 400 Bad Request. |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |
