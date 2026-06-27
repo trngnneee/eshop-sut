@@ -83,21 +83,20 @@
 | [TC-CART-073](../test-cases/cart/TC-CART-073.md) | Cart | AI Tester | Pass |  | Các tab tự động cập nhật giỏ hàng thống nhất sau khi reload. |
 | [TC-CART-074](../test-cases/cart/TC-CART-074.md) | Cart | AI Tester | Fail | BUG-FR07-B-11 | Spam double submit nút thêm khiến tăng số lượng trùng lặp không được debounce. |
 | [TC-CART-075](../test-cases/cart/TC-CART-075.md) | Cart | AI Tester | Fail | BUG-FR07-B-05 | Spam double click nút xóa khiến gửi liên tiếp request lỗi lên server. |
-| [TC-CART-076](../test-cases/cart/TC-CART-076.md) | Cart | AI Tester | Fail | BUG-FR07-B-18 | Giao diện cho phép nhấn thanh toán và redirect sang /checkout khi giỏ hàng trống. |
-| [TC-CART-077](../test-cases/cart/TC-CART-077.md) | Cart | AI Tester | Fail | BUG-FR07-B-18 | Trang checkout hiển thị và chấp nhận thông tin sản phẩm có số lượng/đơn giá âm từ API. |
+| [TC-CART-076](../test-cases/cart/TC-CART-076.md) | Cart | AI Tester | Fail | BUG-FR07-B-17 | Giao diện cho phép nhấn thanh toán và redirect sang /checkout khi giỏ hàng trống. |
+| [TC-CART-077](../test-cases/cart/TC-CART-077.md) | Cart | AI Tester | Fail | BUG-FR07-B-17 | Trang checkout hiển thị và chấp nhận thông tin sản phẩm có số lượng/đơn giá âm từ API. |
 | [TC-CART-078](../test-cases/cart/TC-CART-078.md) | Cart | AI Tester | Fail | BUG-FR07-B-14 | Không dọn dẹp hoặc hiển thị cảnh báo khi sản phẩm trong giỏ đã bị admin xóa khỏi hệ thống. |
 | [TC-CART-079](../test-cases/cart/TC-CART-079.md) | Cart | AI Tester | Fail | BUG-FR07-B-12 | Không hiển thị cảnh báo out-of-stock khi sản phẩm trong giỏ đã hết hàng. |
 | [TC-CART-080](../test-cases/cart/TC-CART-080.md) | Cart | AI Tester | Fail | BUG-FR07-B-13 | Không tự động đồng bộ hoặc cảnh báo khi sản phẩm trong giỏ bị thay đổi giá trên server. |
 | [TC-CART-081](../test-cases/cart/TC-CART-081.md) | Cart | AI Tester | Pass |  | Giao diện bảng giỏ hàng tự động xuống dòng khi tên sản phẩm quá dài. |
 | [TC-CART-082](../test-cases/cart/TC-CART-082.md) | Cart | AI Tester | Pass |  | React tự động escape tên sản phẩm chứa script tránh XSS. |
-| [TC-CART-083](../test-cases/cart/TC-CART-083.md) | Cart | AI Tester | Fail | BUG-FR07-B-19 | Thiếu ảnh mặc định fallback khi ảnh sản phẩm bị lỗi URL. |
+| [TC-CART-083](../test-cases/cart/TC-CART-083.md) | Cart | AI Tester | Fail | BUG-FR07-B-18 | Thiếu ảnh mặc định fallback khi ảnh sản phẩm bị lỗi URL. |
 | [TC-CART-084](../test-cases/cart/TC-CART-084.md) | Cart | AI Tester | Pass |  | Trang giỏ hàng hiển thị tốt danh sách dài từ 50-100 sản phẩm. |
 | [TC-CART-085](../test-cases/cart/TC-CART-085.md) | Cart | AI Tester | Pass |  | Tổng cộng hiển thị chính xác các giá trị tiền lớn mà không bị lỗi NaN/Infinity. |
 | [TC-CART-086](../test-cases/cart/TC-CART-086.md) | Cart | AI Tester | Pass |  | Server trả lỗi HTTP 403 khi Header Authorization sai định dạng. |
-| [TC-CART-087](../test-cases/cart/TC-CART-087.md) | Cart | AI Tester | Fail | BUG-FR07-B-17 | Token vẫn gọi được API GET /api/cart sau khi người dùng bấm logout do cơ chế stateless JWT. |
-| [TC-CART-088](../test-cases/cart/TC-CART-088.md) | Cart | AI Tester | Pass |  | Server cách ly giỏ hàng theo req.user.id, không cho phép tác động giỏ hàng user khác. |
-| [TC-CART-089](../test-cases/cart/TC-CART-089.md) | Cart | AI Tester | Pass |  | Dữ liệu giỏ hàng chính xác sau khi nhấn refresh F5 tức thì. |
-| [TC-CART-090](../test-cases/cart/TC-CART-090.md) | Cart | AI Tester | Fail | BUG-FR07-B-20 | Không hiển thị thông báo lỗi thân thiện khi server sập hoặc mất mạng, badge giỏ hàng tăng ảo. |
+| [TC-CART-087](../test-cases/cart/TC-CART-087.md) | Cart | AI Tester | Pass |  | Server cách ly giỏ hàng theo req.user.id, không cho phép tác động giỏ hàng user khác. |
+| [TC-CART-088](../test-cases/cart/TC-CART-088.md) | Cart | AI Tester | Pass |  | Dữ liệu giỏ hàng chính xác sau khi nhấn refresh F5 tức thì. |
+| [TC-CART-089](../test-cases/cart/TC-CART-089.md) | Cart | AI Tester | Fail |  | Không hiển thị thông báo lỗi thân thiện khi server sập hoặc mất mạng, badge giỏ hàng tăng ảo. |
 
 ## Các Bug phát hiện chi tiết:
 1. **BUG-FR07-B-01:** Backend API `POST /api/cart` không validate quantity (chấp nhận 0, âm, thập phân, trống).

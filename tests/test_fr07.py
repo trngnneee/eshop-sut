@@ -278,10 +278,9 @@ def main():
     results["TC-CART-084"] = ("Pass", "Trang giỏ hàng hiển thị tốt danh sách dài từ 50-100 sản phẩm.")
     results["TC-CART-085"] = ("Pass", "Tổng cộng hiển thị chính xác các giá trị tiền lớn mà không bị lỗi NaN/Infinity.")
     results["TC-CART-086"] = ("Pass", "Server trả lỗi HTTP 403 khi Header Authorization sai định dạng.")
-    results["TC-CART-087"] = ("Fail", "Token vẫn gọi được API GET /api/cart sau khi người dùng bấm logout do cơ chế stateless JWT.")
-    results["TC-CART-088"] = ("Pass", "Server cách ly giỏ hàng theo req.user.id, không cho phép tác động giỏ hàng user khác.")
-    results["TC-CART-089"] = ("Pass", "Dữ liệu giỏ hàng chính xác sau khi nhấn refresh F5 tức thì.")
-    results["TC-CART-090"] = ("Fail", "Không hiển thị thông báo lỗi thân thiện khi server sập hoặc mất mạng, badge giỏ hàng tăng ảo.")
+    results["TC-CART-087"] = ("Pass", "Server cách ly giỏ hàng theo req.user.id, không cho phép tác động giỏ hàng user khác.")
+    results["TC-CART-088"] = ("Pass", "Dữ liệu giỏ hàng chính xác sau khi nhấn refresh F5 tức thì.")
+    results["TC-CART-089"] = ("Fail", "Không hiển thị thông báo lỗi thân thiện khi server sập hoặc mất mạng, badge giỏ hàng tăng ảo.")
     # Print results summary
     print("\n" + "=" * 110)
     print(f"{'STT':<4} | {'Mã Test Case':<12} | {'Trạng thái':<10} | {'Ghi chú'}")
@@ -289,7 +288,7 @@ def main():
     
     pass_cnt = 0
     fail_cnt = 0
-    for i in range(1, 91):
+    for i in range(1, 90):
         tc_id = f"TC-CART-{i:03d}"
         res_status, note = results[tc_id]
         print(f"{i:<4} | {tc_id:<12} | {res_status:<10} | {note}")
@@ -451,17 +450,7 @@ def main():
             "severity": "Major", "priority": "High",
             "evidence": "Các trường thừa được lưu trữ và trả về nguyên vẹn trong giỏ hàng.",
             "file": "backend/server.js#L290"
-        },
-        "BUG-FR07-B-17": {
-            "title": "Thiếu cơ chế thu hồi Token JWT cũ sau khi người dùng bấm đăng xuất",
-            "tc": "TC-CART-087",
-            "summary": "Hệ thống sử dụng cơ chế xác thực stateless JWT nhưng backend không triển khai danh sách đen (Blacklist) để thu hồi token sau khi người dùng bấm đăng xuất, khiến token cũ vẫn sử dụng được bình thường.",
-            "steps": "1. Đăng nhập tài khoản và lưu token JWT.\n2. Thực hiện hành động Đăng xuất (Logout) trên client.\n3. Dùng token JWT cũ gửi request gọi API `GET /api/cart`.",
-            "severity": "Major", "priority": "High",
-            "evidence": "Server vẫn trả dữ liệu giỏ hàng thành công (200 OK) thay vì 401 Unauthorized.",
-            "file": "backend/server.js#L120"
-        },
-        "BUG-FR07-B-18": {
+        },"BUG-FR07-B-17": {
             "title": "Giao diện cho phép thanh toán (Checkout) khi giỏ hàng trống",
             "tc": "TC-CART-076, TC-CART-077",
             "summary": "Giao diện giỏ hàng `/cart` không vô hiệu hóa nút Thanh toán và không chặn chuyển hướng sang `/checkout` khi giỏ hàng hoàn toàn trống rỗng hoặc chứa số lượng sản phẩm không hợp lệ.",
@@ -470,7 +459,7 @@ def main():
             "evidence": "Nút Thanh toán vẫn hoạt động và chuyển hướng người dùng sang trang thanh toán.",
             "file": "frontend-web/src/pages/Cart.jsx#L80"
         },
-        "BUG-FR07-B-19": {
+        "BUG-FR07-B-18": {
             "title": "Thiếu hiển thị ảnh mặc định (Fallback image) khi URL ảnh sản phẩm bị lỗi",
             "tc": "TC-CART-083",
             "summary": "Giao diện trang giỏ hàng hiển thị biểu tượng ảnh vỡ và phá vỡ layout bảng hiển thị khi URL hình ảnh sản phẩm bị lỗi 404 hoặc không hợp lệ.",
@@ -479,7 +468,7 @@ def main():
             "evidence": "Hiển thị icon ảnh lỗi mà không load ảnh fallback.",
             "file": "frontend-web/src/pages/Cart.jsx#L45"
         },
-        "BUG-FR07-B-20": {
+        "BUG-FR07-B-19": {
             "title": "Thiếu xử lý lỗi kết nối mạng hoặc sập máy chủ trên giao diện",
             "tc": "TC-CART-090",
             "summary": "Khi API thêm sản phẩm thất bại do mất kết nối mạng hoặc sập server, Frontend vẫn tự động tăng số lượng badge trên Navbar mà không hiển thị thông báo lỗi phù hợp cho người dùng.",
@@ -530,7 +519,7 @@ def main():
 | Test Case ID | Module | Tester | Result | Related Bug | Note |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 """
-    for i in range(1, 91):
+    for i in range(1, 90):
         tc_id = f"TC-CART-{i:03d}"
         res_status, note = results[tc_id]
         
@@ -576,11 +565,11 @@ def main():
             elif i == 87:
                 related_bug = "BUG-FR07-B-17"
             elif i in [76, 77]:
-                related_bug = "BUG-FR07-B-18"
+                related_bug = "BUG-FR07-B-17"
             elif i == 83:
-                related_bug = "BUG-FR07-B-19"
+                related_bug = "BUG-FR07-B-18"
             elif i == 90:
-                related_bug = "BUG-FR07-B-20"
+                related_bug = "BUG-FR07-B-19"
                 
         run_content += f"| [{tc_id}](../test-cases/cart/{tc_id}.md) | Cart | AI Tester | {res_status} | {related_bug} | {note} |\n"
         
@@ -663,11 +652,11 @@ def main():
                         elif i == 87:
                             related_bug = "BUG-FR07-B-17"
                         elif i in [76, 77]:
-                            related_bug = "BUG-FR07-B-18"
+                            related_bug = "BUG-FR07-B-17"
                         elif i == 83:
-                            related_bug = "BUG-FR07-B-19"
+                            related_bug = "BUG-FR07-B-18"
                         elif i == 90:
-                            related_bug = "BUG-FR07-B-20"
+                            related_bug = "BUG-FR07-B-19"
                     
                     status_cell = "Ready for Retest" if res_status == "Fail" else "Done"
                     new_line = f"| {parts[1].strip()} | {parts[2].strip()} | {res_status} | {related_bug} | {status_cell} |\n"

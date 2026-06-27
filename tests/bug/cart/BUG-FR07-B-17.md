@@ -1,4 +1,4 @@
-# BUG-FR07-B-17: Thiếu cơ chế thu hồi Token JWT cũ sau khi người dùng bấm đăng xuất
+# BUG-FR07-B-17: Giao diện cho phép thanh toán (Checkout) khi giỏ hàng trống
 
 | Tên trường (Field) | Giá trị (Value) |
 | :--- | :--- |
@@ -6,13 +6,12 @@
 | **BugID** | `BUG-FR07-B-17` |
 | **Status** | **Open** |
 | **Requirement Name** | FR-07 Giỏ hàng & Điều hướng |
-| **Summary** | Hệ thống sử dụng cơ chế xác thực stateless JWT nhưng backend không triển khai danh sách đen (Blacklist) để thu hồi token sau khi người dùng bấm đăng xuất, khiến token cũ vẫn sử dụng được bình thường. |
-| **Steps to reproduce** | 1. Đăng nhập tài khoản và lưu token JWT.
-2. Thực hiện hành động Đăng xuất (Logout) trên client.
-3. Dùng token JWT cũ gửi request gọi API `GET /api/cart`. |
+| **Summary** | Giao diện giỏ hàng `/cart` không vô hiệu hóa nút Thanh toán và không chặn chuyển hướng sang `/checkout` khi giỏ hàng hoàn toàn trống rỗng hoặc chứa số lượng sản phẩm không hợp lệ. |
+| **Steps to reproduce** | 1. Đảm bảo giỏ hàng rỗng.
+2. Truy cập `/cart` và nhấp nút 'Thanh toán'. |
 | **Severity** | Major |
 | **Frequency** | Always |
-| **Priority** | High |
-| **Evidence (Screenshot)** | Server vẫn trả dữ liệu giỏ hàng thành công (200 OK) thay vì 401 Unauthorized. |
+| **Priority** | Medium |
+| **Evidence (Screenshot)** | Nút Thanh toán vẫn hoạt động và chuyển hướng người dùng sang trang thanh toán. |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

@@ -1,4 +1,4 @@
-# TC-CART-089: Refresh trang ngay sau khi thêm sản phẩm
+# TC-CART-089: Tắt mạng/server lỗi khi thêm vào giỏ
 
 ## Requirement ID
 FR-07
@@ -7,7 +7,7 @@ FR-07
 Cart / Blackbox / Robustness & Integration
 
 ## Preconditions
-- Mạng có độ trễ nhẹ.
+- Giao diện đang mở.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -15,13 +15,13 @@ Cart / Blackbox / Robustness & Integration
 Không có
 
 ## Test steps
-1. Bấm thêm sản phẩm vào giỏ hàng.
-2. Nhấn F5 / làm mới trang lập tức khi API phản hồi chưa kết thúc.
-3. Kiểm tra xem số lượng và badge giỏ hàng có hiển thị nhất quán hay bị lỗi lệch dữ liệu.
+1. Ngắt kết nối mạng hoặc tắt server backend.
+2. Nhấn thêm sản phẩm vào giỏ hàng từ trang chủ.
+3. Quan sát xem giao diện hiển thị thông báo lỗi thân thiện hay không, badge số lượng trên navbar có bị tăng ảo hay không.
 
 
 ## Expected result
-- Giỏ hàng sau refresh vẫn đúng dữ liệu vừa thêm
+- Hiển thị lỗi, không cập nhật badge sai nếu thêm thất bại
 
 ## Status / Related bugs
 Not Run / None

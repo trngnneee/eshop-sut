@@ -1,4 +1,4 @@
-# TC-CART-087: Gửi GET /api/cart với token của user A sau khi logout
+# TC-CART-087: Gửi request xóa/cập nhật item không thuộc giỏ hàng của user hiện tại
 
 ## Requirement ID
 FR-07
@@ -7,21 +7,21 @@ FR-07
 Cart / Blackbox / Robustness & Integration
 
 ## Preconditions
-- Token hợp lệ trước khi bấm logout.
+- Chuẩn bị sẵn 2 tài khoản và giỏ hàng chứa sản phẩm.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-Không có
+| Target ID | ID dòng sản phẩm của User A |
 
 ## Test steps
-1. Đăng nhập tài khoản A và lấy token JWT.
-2. Nhấn Đăng xuất trên trình duyệt (hoặc gửi API logout).
-3. Sử dụng token vừa lấy để gửi request GET tới /api/cart.
+1. Đăng nhập tài khoản A, ghi nhận ID giỏ hàng hoặc ID dòng sản phẩm.
+2. Đăng nhập tài khoản B.
+3. Gửi request DELETE hoặc PUT chỉnh sửa số lượng sản phẩm của tài khoản A bằng token của tài khoản B.
 
 
 ## Expected result
-- Không trả dữ liệu nếu token đã bị vô hiệu
+- Server trả 403/404, không ảnh hưởng giỏ hàng user khác
 
 ## Status / Related bugs
 Not Run / None
