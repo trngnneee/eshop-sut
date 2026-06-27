@@ -1,4 +1,4 @@
-# TC-CART-085: Tổng tiền có giá trị rất lớn
+# TC-CART-085: Gửi GET /api/cart với token sai định dạng
 
 ## Requirement ID
 FR-07
@@ -7,20 +7,21 @@ FR-07
 Cart / Blackbox / Robustness & Integration
 
 ## Preconditions
-- Có sản phẩm giá trị cao.
+- Không đăng nhập.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-Không có
+| Authorization | `'Bearer invalid-token-format'` |
 
 ## Test steps
-1. Thêm các sản phẩm có giá trị cực lớn hoặc tăng số lượng để tổng tiền giỏ hàng đạt giá trị khổng lồ (ví dụ: vài chục tỷ đồng).
-2. Xác minh nhãn Tổng cộng hiển thị đúng định dạng tiền tệ và không hiển thị lỗi như NaN, Infinity.
+1. Gửi request GET tới /api/cart.
+2. Đính kèm Header Authorization chứa token sai định dạng (ví dụ: 'Bearer abcxyz' hoặc không có tiền tố Bearer).
+3. Xác minh server trả về 401 Unauthorized.
 
 
 ## Expected result
-- Format VND vẫn đúng, không hiển thị NaN, Infinity, số âm
+- Trả 401, không crash server
 
 ## Status / Related bugs
 Not Run / None

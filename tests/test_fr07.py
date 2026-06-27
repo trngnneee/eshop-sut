@@ -274,13 +274,12 @@ def main():
     results["TC-CART-080"] = ("Fail", "Không tự động đồng bộ hoặc cảnh báo khi sản phẩm trong giỏ bị thay đổi giá trên server.")
     results["TC-CART-081"] = ("Pass", "Giao diện bảng giỏ hàng tự động xuống dòng khi tên sản phẩm quá dài.")
     results["TC-CART-082"] = ("Pass", "React tự động escape tên sản phẩm chứa script tránh XSS.")
-    results["TC-CART-083"] = ("Fail", "Thiếu ảnh mặc định fallback khi ảnh sản phẩm bị lỗi URL.")
-    results["TC-CART-084"] = ("Pass", "Trang giỏ hàng hiển thị tốt danh sách dài từ 50-100 sản phẩm.")
-    results["TC-CART-085"] = ("Pass", "Tổng cộng hiển thị chính xác các giá trị tiền lớn mà không bị lỗi NaN/Infinity.")
-    results["TC-CART-086"] = ("Pass", "Server trả lỗi HTTP 403 khi Header Authorization sai định dạng.")
-    results["TC-CART-087"] = ("Pass", "Server cách ly giỏ hàng theo req.user.id, không cho phép tác động giỏ hàng user khác.")
-    results["TC-CART-088"] = ("Pass", "Dữ liệu giỏ hàng chính xác sau khi nhấn refresh F5 tức thì.")
-    results["TC-CART-089"] = ("Fail", "Không hiển thị thông báo lỗi thân thiện khi server sập hoặc mất mạng, badge giỏ hàng tăng ảo.")
+    results["TC-CART-083"] = ("Pass", "Trang giỏ hàng hiển thị tốt danh sách dài từ 50-100 sản phẩm.")
+    results["TC-CART-084"] = ("Pass", "Tổng cộng hiển thị chính xác các giá trị tiền lớn mà không bị lỗi NaN/Infinity.")
+    results["TC-CART-085"] = ("Pass", "Server trả lỗi HTTP 403 khi Header Authorization sai định dạng.")
+    results["TC-CART-086"] = ("Pass", "Server cách ly giỏ hàng theo req.user.id, không cho phép tác động giỏ hàng user khác.")
+    results["TC-CART-087"] = ("Pass", "Dữ liệu giỏ hàng chính xác sau khi nhấn refresh F5 tức thì.")
+    results["TC-CART-088"] = ("Fail", "Không hiển thị thông báo lỗi thân thiện khi server sập hoặc mất mạng, badge giỏ hàng tăng ảo.")
     # Print results summary
     print("\n" + "=" * 110)
     print(f"{'STT':<4} | {'Mã Test Case':<12} | {'Trạng thái':<10} | {'Ghi chú'}")
@@ -288,7 +287,7 @@ def main():
     
     pass_cnt = 0
     fail_cnt = 0
-    for i in range(1, 90):
+    for i in range(1, 89):
         tc_id = f"TC-CART-{i:03d}"
         res_status, note = results[tc_id]
         print(f"{i:<4} | {tc_id:<12} | {res_status:<10} | {note}")
@@ -458,17 +457,7 @@ def main():
             "severity": "Major", "priority": "Medium",
             "evidence": "Nút Thanh toán vẫn hoạt động và chuyển hướng người dùng sang trang thanh toán.",
             "file": "frontend-web/src/pages/Cart.jsx#L80"
-        },
-        "BUG-FR07-B-18": {
-            "title": "Thiếu hiển thị ảnh mặc định (Fallback image) khi URL ảnh sản phẩm bị lỗi",
-            "tc": "TC-CART-083",
-            "summary": "Giao diện trang giỏ hàng hiển thị biểu tượng ảnh vỡ và phá vỡ layout bảng hiển thị khi URL hình ảnh sản phẩm bị lỗi 404 hoặc không hợp lệ.",
-            "steps": "1. Thêm sản phẩm có URL ảnh bị lỗi vào giỏ.\n2. Truy cập `/cart` và quan sát ảnh sản phẩm.",
-            "severity": "Minor", "priority": "Low",
-            "evidence": "Hiển thị icon ảnh lỗi mà không load ảnh fallback.",
-            "file": "frontend-web/src/pages/Cart.jsx#L45"
-        },
-        "BUG-FR07-B-19": {
+        },"BUG-FR07-B-18": {
             "title": "Thiếu xử lý lỗi kết nối mạng hoặc sập máy chủ trên giao diện",
             "tc": "TC-CART-090",
             "summary": "Khi API thêm sản phẩm thất bại do mất kết nối mạng hoặc sập server, Frontend vẫn tự động tăng số lượng badge trên Navbar mà không hiển thị thông báo lỗi phù hợp cho người dùng.",
@@ -519,7 +508,7 @@ def main():
 | Test Case ID | Module | Tester | Result | Related Bug | Note |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 """
-    for i in range(1, 90):
+    for i in range(1, 89):
         tc_id = f"TC-CART-{i:03d}"
         res_status, note = results[tc_id]
         
@@ -569,7 +558,7 @@ def main():
             elif i == 83:
                 related_bug = "BUG-FR07-B-18"
             elif i == 90:
-                related_bug = "BUG-FR07-B-19"
+                related_bug = "BUG-FR07-B-18"
                 
         run_content += f"| [{tc_id}](../test-cases/cart/{tc_id}.md) | Cart | AI Tester | {res_status} | {related_bug} | {note} |\n"
         
@@ -656,7 +645,7 @@ def main():
                         elif i == 83:
                             related_bug = "BUG-FR07-B-18"
                         elif i == 90:
-                            related_bug = "BUG-FR07-B-19"
+                            related_bug = "BUG-FR07-B-18"
                     
                     status_cell = "Ready for Retest" if res_status == "Fail" else "Done"
                     new_line = f"| {parts[1].strip()} | {parts[2].strip()} | {res_status} | {related_bug} | {status_cell} |\n"

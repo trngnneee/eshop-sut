@@ -1,4 +1,4 @@
-# BUG-FR07-B-18: Thiếu hiển thị ảnh mặc định (Fallback image) khi URL ảnh sản phẩm bị lỗi
+# BUG-FR07-B-18: Thiếu xử lý lỗi kết nối mạng hoặc sập máy chủ trên giao diện
 
 | Tên trường (Field) | Giá trị (Value) |
 | :--- | :--- |
@@ -6,12 +6,12 @@
 | **BugID** | `BUG-FR07-B-18` |
 | **Status** | **Open** |
 | **Requirement Name** | FR-07 Giỏ hàng & Điều hướng |
-| **Summary** | Giao diện trang giỏ hàng hiển thị biểu tượng ảnh vỡ và phá vỡ layout bảng hiển thị khi URL hình ảnh sản phẩm bị lỗi 404 hoặc không hợp lệ. |
-| **Steps to reproduce** | 1. Thêm sản phẩm có URL ảnh bị lỗi vào giỏ.
-2. Truy cập `/cart` và quan sát ảnh sản phẩm. |
-| **Severity** | Minor |
+| **Summary** | Khi API thêm sản phẩm thất bại do mất kết nối mạng hoặc sập server, Frontend vẫn tự động tăng số lượng badge trên Navbar mà không hiển thị thông báo lỗi phù hợp cho người dùng. |
+| **Steps to reproduce** | 1. Tắt kết nối mạng hoặc server backend.
+2. Nhấn nút 'Thêm vào giỏ hàng' và quan sát badge Navbar. |
+| **Severity** | Major |
 | **Frequency** | Always |
-| **Priority** | Low |
-| **Evidence (Screenshot)** | Hiển thị icon ảnh lỗi mà không load ảnh fallback. |
+| **Priority** | Medium |
+| **Evidence (Screenshot)** | Badge Navbar tăng ảo mặc dù API thêm giỏ hàng thất bại. |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

@@ -1,4 +1,4 @@
-# TC-CART-087: Gửi request xóa/cập nhật item không thuộc giỏ hàng của user hiện tại
+# TC-CART-087: Refresh trang ngay sau khi thêm sản phẩm
 
 ## Requirement ID
 FR-07
@@ -7,21 +7,21 @@ FR-07
 Cart / Blackbox / Robustness & Integration
 
 ## Preconditions
-- Chuẩn bị sẵn 2 tài khoản và giỏ hàng chứa sản phẩm.
+- Mạng có độ trễ nhẹ.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Target ID | ID dòng sản phẩm của User A |
+Không có
 
 ## Test steps
-1. Đăng nhập tài khoản A, ghi nhận ID giỏ hàng hoặc ID dòng sản phẩm.
-2. Đăng nhập tài khoản B.
-3. Gửi request DELETE hoặc PUT chỉnh sửa số lượng sản phẩm của tài khoản A bằng token của tài khoản B.
+1. Bấm thêm sản phẩm vào giỏ hàng.
+2. Nhấn F5 / làm mới trang lập tức khi API phản hồi chưa kết thúc.
+3. Kiểm tra xem số lượng và badge giỏ hàng có hiển thị nhất quán hay bị lỗi lệch dữ liệu.
 
 
 ## Expected result
-- Server trả 403/404, không ảnh hưởng giỏ hàng user khác
+- Giỏ hàng sau refresh vẫn đúng dữ liệu vừa thêm
 
 ## Status / Related bugs
 Not Run / None

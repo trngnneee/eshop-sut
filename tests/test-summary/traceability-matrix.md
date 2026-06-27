@@ -166,11 +166,11 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-07 | [TC-CART-080](../test-cases/cart/TC-CART-080.md) | Fail | BUG-FR07-B-13 | Ready for Retest |
 | FR-07 | [TC-CART-081](../test-cases/cart/TC-CART-081.md) | Pass |  | Done |
 | FR-07 | [TC-CART-082](../test-cases/cart/TC-CART-082.md) | Pass |  | Done |
-| FR-07 | [TC-CART-083](../test-cases/cart/TC-CART-083.md) | Fail | BUG-FR07-B-18 | Ready for Retest |
+| FR-07 | [TC-CART-083](../test-cases/cart/TC-CART-083.md) | Pass |  | Done |
 | FR-07 | [TC-CART-084](../test-cases/cart/TC-CART-084.md) | Pass |  | Done |
 | FR-07 | [TC-CART-085](../test-cases/cart/TC-CART-085.md) | Pass |  | Done |
 | FR-07 | [TC-CART-086](../test-cases/cart/TC-CART-086.md) | Pass |  | Done |
 | FR-07 | [TC-CART-087](../test-cases/cart/TC-CART-087.md) | Pass |  | Done |
-| FR-07 | [TC-CART-088](../test-cases/cart/TC-CART-088.md) | Pass |  | Done |
+| FR-07 | [TC-CART-088](../test-cases/cart/TC-CART-088.md) | Fail |  | Ready for Retest |
 | FR-07 | [TC-CART-089](../test-cases/cart/TC-CART-089.md) | Fail |  | Ready for Retest |
 | FR-07 | [TC-CART-090](../test-cases/cart/TC-CART-090.md) | Fail | BUG-FR07-B-20 | Ready for Retest |

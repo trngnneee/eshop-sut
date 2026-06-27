@@ -1,4 +1,4 @@
-# TC-CART-086: Gửi GET /api/cart với token sai định dạng
+# TC-CART-086: Gửi request xóa/cập nhật item không thuộc giỏ hàng của user hiện tại
 
 ## Requirement ID
 FR-07
@@ -7,21 +7,21 @@ FR-07
 Cart / Blackbox / Robustness & Integration
 
 ## Preconditions
-- Không đăng nhập.
+- Chuẩn bị sẵn 2 tài khoản và giỏ hàng chứa sản phẩm.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Authorization | `'Bearer invalid-token-format'` |
+| Target ID | ID dòng sản phẩm của User A |
 
 ## Test steps
-1. Gửi request GET tới /api/cart.
-2. Đính kèm Header Authorization chứa token sai định dạng (ví dụ: 'Bearer abcxyz' hoặc không có tiền tố Bearer).
-3. Xác minh server trả về 401 Unauthorized.
+1. Đăng nhập tài khoản A, ghi nhận ID giỏ hàng hoặc ID dòng sản phẩm.
+2. Đăng nhập tài khoản B.
+3. Gửi request DELETE hoặc PUT chỉnh sửa số lượng sản phẩm của tài khoản A bằng token của tài khoản B.
 
 
 ## Expected result
-- Trả 401, không crash server
+- Server trả 403/404, không ảnh hưởng giỏ hàng user khác
 
 ## Status / Related bugs
 Not Run / None
