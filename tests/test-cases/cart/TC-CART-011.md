@@ -1,29 +1,28 @@
-# TC-CART-011: Thêm sản phẩm từ trang chi tiết sản phẩm
+# TC-CART-011: Cộng dồn sản phẩm trùng ID
 
 ## Requirement ID
-FR-07, FR-24
+FR-07
 
 ## Module / Test type / Technique
-Cart / Functional / Functional Testing
+Cart / Functional / State + Domain Testing
 
 ## Preconditions
-- Người dùng đã đăng nhập vào hệ thống.
-- Người dùng đang ở trang chi tiết của sản phẩm A (`/products/:id`).
+- Người dùng đã đăng nhập.
+- Sản phẩm A đã có trong giỏ hàng với số lượng ban đầu là 2.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
 | Sản phẩm | `Sản phẩm A` |
-| Số lượng thêm | `1` |
+| Số lượng thêm tiếp | `3` |
 
 ## Test steps
-1. Tại trang chi tiết sản phẩm A, chọn số lượng là 1.
-2. Nhấp vào nút 'Thêm vào giỏ hàng'.
-3. Kiểm tra giỏ hàng bằng cách vào trang `/cart`.
+1. Tìm sản phẩm A và thực hiện thêm vào giỏ hàng với số lượng là 3.
+2. Truy cập vào trang giỏ hàng `/cart` và kiểm tra dòng sản phẩm A.
 
 ## Expected result
-- Sản phẩm được thêm vào giỏ hàng ngay sau khi thực hiện thao tác click.
-- Toast thông báo thành công hiển thị và giỏ hàng ghi nhận sản phẩm A với số lượng tương ứng.
+- Trong giỏ hàng `/cart` chỉ hiển thị 1 dòng duy nhất cho sản phẩm A.
+- Số lượng sản phẩm A được cập nhật cộng dồn chính xác thành 5 (2 + 3 = 5).
 
 ## Status / Related bugs
 Not Run / None

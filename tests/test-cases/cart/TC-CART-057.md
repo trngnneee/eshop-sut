@@ -1,25 +1,25 @@
-# TC-CART-057: Nhấn “Thêm vào giỏ hàng” liên tục nhiều lần rất nhanh
+# TC-CART-057: POST /api/cart thiếu trường id
 
 ## Requirement ID
-FR-07, FR-24
+FR-07
 
 ## Module / Test type / Technique
-Cart / Functional / Robustness / Race Condition
+Cart / API Negative / API Negative
 
 ## Preconditions
-- Người dùng ở trang chủ.
+- Token JWT hợp lệ.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Không có | |
+| Body | `{"name": "No ID Product", "price": 100000, "quantity": 1}` |
 
 ## Test steps
-1. Nhấp liên tiếp 5 lần thật nhanh vào nút 'Thêm vào giỏ hàng' của sản phẩm A.
-2. Truy cập `/cart` kiểm tra số lượng.
+1. Gửi request `POST /api/cart` kèm token hợp lệ nhưng body lược bỏ hoàn toàn thuộc tính `id`.
 
 ## Expected result
-- Hệ thống xử lý bất đồng bộ chính xác, số lượng sản phẩm A được cộng dồn tăng đúng lên thêm 5 đơn vị.
+- API từ chối request và trả về mã lỗi HTTP 400 Bad Request.
+- Không lưu dữ liệu thiếu trường vào giỏ hàng.
 
 ## Status / Related bugs
 Not Run / None

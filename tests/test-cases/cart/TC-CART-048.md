@@ -1,27 +1,26 @@
-# TC-CART-048: Truy cập /cart khi chưa đăng nhập
+# TC-CART-048: Truy cập /cart với token hết hạn
 
 ## Requirement ID
 FR-07, FR-23
 
 ## Module / Test type / Technique
-Cart / Security / Access Control / Negative
+Cart / API / Security / API / Security
 
 ## Preconditions
-- Người dùng chưa thực hiện đăng nhập vào hệ thống.
-- Không có token JWT được lưu trữ trong cookies hoặc localStorage.
+- Token JWT của người dùng đã hết hạn.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Không có | |
+| Header | `Authorization: Bearer <expired_token>` |
 
 ## Test steps
-1. Mở trình duyệt ở chế độ ẩn danh hoặc xóa toàn bộ cookies/localStorage.
-2. Truy cập trực tiếp vào đường dẫn `/cart`.
+1. Cấu hình token JWT đã hết hạn ở client.
+2. Truy cập trang `/cart` và thực hiện gửi request lấy thông tin giỏ hàng.
 
 ## Expected result
-- Hệ thống không hiển thị giao diện giỏ hàng cá nhân.
-- Người dùng được điều hướng về trang đăng nhập `/login` hoặc nhận thông báo yêu cầu đăng nhập.
+- API `GET /api/cart` trả về mã trạng thái HTTP 401 Unauthorized.
+- Frontend xử lý logout sạch token cũ, không hiển thị dữ liệu giỏ hàng cũ và điều hướng về `/login`.
 
 ## Status / Related bugs
 Not Run / None

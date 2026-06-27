@@ -14,6 +14,6 @@ Login / Security & Functional / Equivalence Partitioning (Invalid Input)
 1. Gửi trực tiếp yêu cầu HTTP POST đến `/api/login` với dữ liệu email `invalidemailform` và mật khẩu `Test1234!`.
 2. Quan sát mã phản hồi HTTP và thông báo lỗi trả về từ Backend.
 ## Expected result
-- Backend phải kiểm tra định dạng email và từ chối xử lý với lỗi yêu cầu không hợp lệ (ví dụ: HTTP 400 Bad Request) thay vì trực tiếp thực hiện truy vấn cơ sở dữ liệu.
+- Backend phải kiểm tra định dạng email và từ chối xử lý với lỗi yêu cầu không hợp lệ (ví dụ: HTTP 400 Bad Request) thay vì trực tiếp thực hiện xác minh phản hồi của API.
 ## Status / Related bugs
 Failed / None

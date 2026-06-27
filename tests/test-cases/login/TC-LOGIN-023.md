@@ -8,7 +8,7 @@ Login / Functional / Boundary Value Analysis (BVA)
 
 ## Preconditions
 - Đã đăng ký tài khoản `test_tc24@eshop.com` với mật khẩu `ValidPassword1!` trên hệ thống.
-- Trạng thái ban đầu của tài khoản có `login_attempts = 0` và không bị khóa.
+- Trạng thái ban đầu của tài khoản có chưa nhập sai lần nào và không bị khóa.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -19,7 +19,7 @@ Login / Functional / Boundary Value Analysis (BVA)
 
 ## Test steps
 1. Thực hiện đăng nhập sai 2 lần liên tiếp bằng `test_tc24@eshop.com` và mật khẩu sai `WrongPass123!`.
-2. Kiểm tra trạng thái tài khoản trong Database để đảm bảo `login_attempts = 2` và `locked_until` vẫn là `NULL`.
+2. Kiểm tra xem tài khoản vẫn đăng nhập bình thường (chưa bị khóa) qua API.
 3. Gửi yêu cầu đăng nhập thứ 3 bằng mật khẩu đúng `ValidPassword1!`.
 
 ## Expected result

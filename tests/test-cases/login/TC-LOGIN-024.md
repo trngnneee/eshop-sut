@@ -8,7 +8,7 @@ Login / Functional / State Transition Testing
 
 ## Preconditions
 - Đã đăng ký tài khoản `test_tc25@eshop.com` với mật khẩu `ValidPassword1!` trên hệ thống.
-- Trạng thái ban đầu của tài khoản có `login_attempts = 0` và không bị khóa.
+- Trạng thái ban đầu của tài khoản có chưa nhập sai lần nào và không bị khóa.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -20,7 +20,7 @@ Login / Functional / State Transition Testing
 ## Test steps
 1. Thực hiện đăng nhập sai 2 lần liên tiếp bằng `test_tc25@eshop.com` và mật khẩu sai `WrongPass123!`.
 2. Đăng nhập thành công bằng mật khẩu đúng `ValidPassword1!`.
-3. Kiểm tra DB xem `login_attempts` đã được reset về `0` chưa.
+3. Thực hiện đăng nhập lại bằng mật khẩu đúng để xác nhận tài khoản không bị khóa.
 4. Đăng xuất (hoặc trực tiếp gửi yêu cầu login mới).
 5. Thực hiện đăng nhập sai 2 lần liên tiếp bằng mật khẩu sai `WrongPass123!`.
 6. Kiểm tra xem tài khoản có bị khóa không.

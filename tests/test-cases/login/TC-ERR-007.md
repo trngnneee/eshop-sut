@@ -7,7 +7,7 @@ FR-22, FR-24
 Privacy / Security Testing
 
 ## Preconditions
-- Backend gặp lỗi kết nối database và trả về lỗi kỹ thuật.
+- Backend gặp lỗi kết nối cơ sở dữ liệu và trả về lỗi kỹ thuật.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -18,7 +18,7 @@ Privacy / Security Testing
 
 ## Expected result
 - Frontend bắt lỗi và hiển thị thông điệp thân thiện với người dùng cuối.
-- Tuyệt đối không hiển thị lỗi database thô.
+- Tuyệt đối không hiển thị lỗi kỹ thuật thô.
 
 ## Status / Related bugs
 Not Run / None

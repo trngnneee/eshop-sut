@@ -17,11 +17,11 @@ Lockout / Boundary Value Analysis (BVA)
 
 ## Test steps
 1. Tiếp tục gửi thêm 5 yêu cầu login sai khi tài khoản đang bị tạm khóa.
-2. Truy vấn CSDL kiểm tra trường `login_attempts`.
+2. Kiểm tra số lần đăng nhập sai tối đa trước khi bị khóa.
 
 ## Expected result
 - Mọi yêu cầu đều bị từ chối với HTTP 403.
-- Bộ đếm `login_attempts` không tăng thêm vô hạn (giữ nguyên ở ngưỡng khóa).
+- Bộ đếm bộ đếm đăng nhập sai không tăng thêm vô hạn (giữ nguyên ở ngưỡng khóa).
 
 ## Status / Related bugs
 Not Run / None

@@ -85,19 +85,19 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | SEC-01 (API Success response schema) | [TC-API-006](../test-cases/login/TC-API-006.md) | Not Run | None | Open |
 | SEC-01 (API Fail response schema) | [TC-API-007](../test-cases/login/TC-API-007.md) | Not Run | None | Open |
 | FR-07 (Giỏ hàng Web) | [TC-CART-001](../test-cases/cart/TC-CART-001.md) | Pass |  | Done |
-| FR-07, FR-24 | [TC-CART-002](../test-cases/cart/TC-CART-002.md) | Fail | BUG-FR07-B-08 | Ready for Retest |
+| FR-07, FR-24 | [TC-CART-002](../test-cases/cart/TC-CART-002.md) | Fail | BUG-FR07-B-07 | Ready for Retest |
 | FR-07, FR-23 | [TC-CART-003](../test-cases/cart/TC-CART-003.md) | Pass |  | Done |
-| FR-23 (Navigation) | [TC-CART-004](../test-cases/cart/TC-CART-004.md) | Fail | BUG-FR07-B-09 | Ready for Retest |
+| FR-23 (Navigation) | [TC-CART-004](../test-cases/cart/TC-CART-004.md) | Fail | BUG-FR07-B-08 | Ready for Retest |
 | FR-07 (Giỏ hàng Web) | [TC-CART-005](../test-cases/cart/TC-CART-005.md) | Pass |  | Done |
-| FR-07 (Giỏ hàng Web) | [TC-CART-006](../test-cases/cart/TC-CART-006.md) | Fail | BUG-FR07-B-07 | Ready for Retest |
+| FR-07, FR-21 | [TC-CART-006](../test-cases/cart/TC-CART-006.md) | Pass |  | Done |
 | FR-07, FR-21 | [TC-CART-007](../test-cases/cart/TC-CART-007.md) | Pass |  | Done |
-| FR-07, FR-21 | [TC-CART-008](../test-cases/cart/TC-CART-008.md) | Pass |  | Done |
-| FR-07 (Giỏ hàng Web) | [TC-CART-009](../test-cases/cart/TC-CART-009.md) | Fail | BUG-FR07-B-06 | Ready for Retest |
-| FR-07, FR-23, FR-24 | [TC-CART-010](../test-cases/cart/TC-CART-010.md) | Fail | BUG-FR07-B-13 | Ready for Retest |
-| FR-07, FR-24 | [TC-CART-011](../test-cases/cart/TC-CART-011.md) | Fail | BUG-FR07-B-13 | Ready for Retest |
+| FR-07 (Giỏ hàng Web) | [TC-CART-008](../test-cases/cart/TC-CART-008.md) | Fail |  | Ready for Retest |
+| FR-07, FR-23, FR-24 | [TC-CART-009](../test-cases/cart/TC-CART-009.md) | Fail | BUG-FR07-B-06 | Ready for Retest |
+| FR-07, FR-24 | [TC-CART-010](../test-cases/cart/TC-CART-010.md) | Fail | BUG-FR07-B-11 | Ready for Retest |
+| FR-07 (Giỏ hàng Web) | [TC-CART-011](../test-cases/cart/TC-CART-011.md) | Fail | BUG-FR07-B-11 | Ready for Retest |
 | FR-07 (Giỏ hàng Web) | [TC-CART-012](../test-cases/cart/TC-CART-012.md) | Fail | BUG-FR07-B-03 | Ready for Retest |
-| FR-07 (Giỏ hàng Web) | [TC-CART-013](../test-cases/cart/TC-CART-013.md) | Fail | BUG-FR07-B-03 | Ready for Retest |
-| FR-07 (Giỏ hàng Web) | [TC-CART-014](../test-cases/cart/TC-CART-014.md) | Pass |  | Done |
+| FR-07 (Giỏ hàng Web) | [TC-CART-013](../test-cases/cart/TC-CART-013.md) | Pass |  | Done |
+| FR-07 (Giỏ hàng Web) | [TC-CART-014](../test-cases/cart/TC-CART-014.md) | Fail |  | Ready for Retest |
 | FR-07 (Giỏ hàng Web) | [TC-CART-015](../test-cases/cart/TC-CART-015.md) | Fail | BUG-FR07-B-04 | Ready for Retest |
 | FR-07 (Giỏ hàng Web) | [TC-CART-016](../test-cases/cart/TC-CART-016.md) | Fail | BUG-FR07-B-04 | Ready for Retest |
 | FR-07 (Giỏ hàng Web) | [TC-CART-017](../test-cases/cart/TC-CART-017.md) | Fail | BUG-FR07-B-04 | Ready for Retest |
@@ -109,41 +109,39 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-07 (Giỏ hàng Web) | [TC-CART-023](../test-cases/cart/TC-CART-023.md) | Fail | BUG-FR07-B-04 | Ready for Retest |
 | FR-07 (Giỏ hàng Web) | [TC-CART-024](../test-cases/cart/TC-CART-024.md) | Fail | BUG-FR07-B-04 | Ready for Retest |
 | FR-07 (Giỏ hàng Web) | [TC-CART-025](../test-cases/cart/TC-CART-025.md) | Fail | BUG-FR07-B-04 | Ready for Retest |
-| FR-07 (Giỏ hàng Web) | [TC-CART-026](../test-cases/cart/TC-CART-026.md) | Fail | BUG-FR07-B-04 | Ready for Retest |
+| FR-07 (Giỏ hàng Web) | [TC-CART-026](../test-cases/cart/TC-CART-026.md) | Pass |  | Done |
 | FR-07 (Giỏ hàng Web) | [TC-CART-027](../test-cases/cart/TC-CART-027.md) | Pass |  | Done |
 | FR-07 (Giỏ hàng Web) | [TC-CART-028](../test-cases/cart/TC-CART-028.md) | Pass |  | Done |
 | FR-07 (Giỏ hàng Web) | [TC-CART-029](../test-cases/cart/TC-CART-029.md) | Pass |  | Done |
-| FR-07 (Giỏ hàng Web) | [TC-CART-030](../test-cases/cart/TC-CART-030.md) | Pass |  | Done |
+| FR-07, FR-24 | [TC-CART-030](../test-cases/cart/TC-CART-030.md) | Fail |  | Ready for Retest |
 | FR-07, FR-24 | [TC-CART-031](../test-cases/cart/TC-CART-031.md) | Fail | BUG-FR07-B-05 | Ready for Retest |
 | FR-07, FR-24 | [TC-CART-032](../test-cases/cart/TC-CART-032.md) | Fail | BUG-FR07-B-05 | Ready for Retest |
 | FR-07, FR-24 | [TC-CART-033](../test-cases/cart/TC-CART-033.md) | Fail | BUG-FR07-B-05 | Ready for Retest |
-| FR-07, FR-24 | [TC-CART-034](../test-cases/cart/TC-CART-034.md) | Fail | BUG-FR07-B-05 | Ready for Retest |
-| FR-23 (Navigation) | [TC-CART-035](../test-cases/cart/TC-CART-035.md) | Pass |  | Done |
-| FR-23, FR-24 | [TC-CART-036](../test-cases/cart/TC-CART-036.md) | Pass |  | Done |
-| FR-23 (Navigation) | [TC-CART-037](../test-cases/cart/TC-CART-037.md) | Fail | BUG-FR07-B-04 | Ready for Retest |
-| FR-23 (Navigation) | [TC-CART-038](../test-cases/cart/TC-CART-038.md) | Pass |  | Done |
-| FR-24 (Feedback) | [TC-CART-039](../test-cases/cart/TC-CART-039.md) | Fail | BUG-FR07-B-13 | Ready for Retest |
+| FR-23 (Navigation) | [TC-CART-034](../test-cases/cart/TC-CART-034.md) | Pass |  | Done |
+| FR-23, FR-24 | [TC-CART-035](../test-cases/cart/TC-CART-035.md) | Pass |  | Done |
+| FR-23 (Navigation) | [TC-CART-036](../test-cases/cart/TC-CART-036.md) | Fail |  | Ready for Retest |
+| FR-23 (Navigation) | [TC-CART-037](../test-cases/cart/TC-CART-037.md) | Pass |  | Done |
+| FR-24 (Feedback) | [TC-CART-038](../test-cases/cart/TC-CART-038.md) | Fail |  | Ready for Retest |
+| FR-07 (Giỏ hàng Web) | [TC-CART-039](../test-cases/cart/TC-CART-039.md) | Pass |  | Done |
 | FR-07 (Giỏ hàng Web) | [TC-CART-040](../test-cases/cart/TC-CART-040.md) | Pass |  | Done |
 | FR-07 (Giỏ hàng Web) | [TC-CART-041](../test-cases/cart/TC-CART-041.md) | Pass |  | Done |
-| FR-07 (Giỏ hàng Web) | [TC-CART-042](../test-cases/cart/TC-CART-042.md) | Pass |  | Done |
+| FR-07 (Giỏ hàng Web) | [TC-CART-042](../test-cases/cart/TC-CART-042.md) | Fail |  | Ready for Retest |
 | FR-07 (Giỏ hàng Web) | [TC-CART-043](../test-cases/cart/TC-CART-043.md) | Fail | BUG-FR07-B-02 | Ready for Retest |
 | FR-07 (Giỏ hàng Web) | [TC-CART-044](../test-cases/cart/TC-CART-044.md) | Fail | BUG-FR07-B-01 | Ready for Retest |
 | FR-07 (Giỏ hàng Web) | [TC-CART-045](../test-cases/cart/TC-CART-045.md) | Fail | BUG-FR07-B-01 | Ready for Retest |
 | FR-07 (Giỏ hàng Web) | [TC-CART-046](../test-cases/cart/TC-CART-046.md) | Fail | BUG-FR07-B-01 | Ready for Retest |
-| FR-07 (Giỏ hàng Web) | [TC-CART-047](../test-cases/cart/TC-CART-047.md) | Fail | BUG-FR07-B-01 | Ready for Retest |
-| FR-07, FR-23 | [TC-CART-048](../test-cases/cart/TC-CART-048.md) | Fail | BUG-FR07-B-11 | Ready for Retest |
-| FR-07, FR-23 | [TC-CART-049](../test-cases/cart/TC-CART-049.md) | Pass |  | Done |
+| FR-07, FR-23 | [TC-CART-047](../test-cases/cart/TC-CART-047.md) | Fail | BUG-FR07-B-01 | Ready for Retest |
+| FR-07, FR-23 | [TC-CART-048](../test-cases/cart/TC-CART-048.md) | Pass |  | Done |
+| FR-07 | [TC-CART-049](../test-cases/cart/TC-CART-049.md) | Pass |  | Done |
 | FR-07 | [TC-CART-050](../test-cases/cart/TC-CART-050.md) | Pass |  | Done |
-| FR-07 | [TC-CART-051](../test-cases/cart/TC-CART-051.md) | Fail | BUG-FR07-B-10 | Ready for Retest |
-| FR-07 | [TC-CART-052](../test-cases/cart/TC-CART-052.md) | Pass |  | Done |
+| FR-07, FR-24 | [TC-CART-051](../test-cases/cart/TC-CART-051.md) | Fail | BUG-FR07-B-10 | Ready for Retest |
+| FR-07, FR-24 | [TC-CART-052](../test-cases/cart/TC-CART-052.md) | Fail |  | Ready for Retest |
 | FR-07 | [TC-CART-053](../test-cases/cart/TC-CART-053.md) | Fail | BUG-FR07-B-10 | Ready for Retest |
-| FR-07, FR-24 | [TC-CART-054](../test-cases/cart/TC-CART-054.md) | Fail | BUG-FR07-B-05 | Ready for Retest |
-| FR-07, FR-24 | [TC-CART-055](../test-cases/cart/TC-CART-055.md) | Fail | BUG-FR07-B-05 | Ready for Retest |
-| FR-07 | [TC-CART-056](../test-cases/cart/TC-CART-056.md) | Fail | BUG-FR07-B-05 | Ready for Retest |
-| FR-07, FR-24 | [TC-CART-057](../test-cases/cart/TC-CART-057.md) | Pass |  | Done |
-| FR-07, FR-21 | [TC-CART-058](../test-cases/cart/TC-CART-058.md) | Pass |  | Done |
-| FR-07, SEC-04 | [TC-CART-059](../test-cases/cart/TC-CART-059.md) | Pass |  | Done |
-| FR-07 | [TC-CART-060](../test-cases/cart/TC-CART-060.md) | Fail | BUG-FR07-B-12 | Ready for Retest |
-| FR-07 | [TC-CART-061](../test-cases/cart/TC-CART-061.md) | Fail | BUG-FR07-B-12 | Ready for Retest |
-| FR-07 | [TC-CART-062](../test-cases/cart/TC-CART-062.md) | Fail | BUG-FR07-B-12 | Ready for Retest |
-
+| FR-07, FR-24 | [TC-CART-054](../test-cases/cart/TC-CART-054.md) | Pass |  | Done |
+| FR-07, FR-21 | [TC-CART-055](../test-cases/cart/TC-CART-055.md) | Pass |  | Done |
+| FR-07, SEC-04 | [TC-CART-056](../test-cases/cart/TC-CART-056.md) | Pass |  | Done |
+| FR-07 | [TC-CART-057](../test-cases/cart/TC-CART-057.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-058](../test-cases/cart/TC-CART-058.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-059](../test-cases/cart/TC-CART-059.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-060](../test-cases/cart/TC-CART-060.md) | Fail | BUG-FR07-B-10 | Ready for Retest |
+| FR-07 | [TC-CART-061](../test-cases/cart/TC-CART-061.md) | Fail | BUG-FR07-B-10 | Ready for Retest |

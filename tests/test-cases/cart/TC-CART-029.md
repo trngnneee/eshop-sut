@@ -1,4 +1,4 @@
-# TC-CART-029: Tổng cộng cập nhật realtime khi đổi quantity
+# TC-CART-029: Tổng cộng cập nhật sau khi xóa sản phẩm
 
 ## Requirement ID
 FR-07
@@ -8,7 +8,8 @@ Cart / Functional / State Testing
 
 ## Preconditions
 - Người dùng đã đăng nhập.
-- Giỏ hàng có sản phẩm A (đơn giá 100000) với số lượng ban đầu là 1.
+- Giỏ hàng có Sản phẩm A (Thành tiền: 200.000 ₫) và Sản phẩm B (Thành tiền: 150.000 ₫).
+- Tổng cộng ban đầu là 350.000 ₫.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -17,11 +18,11 @@ Cart / Functional / State Testing
 
 ## Test steps
 1. Truy cập trang `/cart`.
-2. Nhấp vào nút '+' để tăng số lượng sản phẩm A lên 2.
-3. Quan sát giá trị hiển thị ở phần 'Tổng cộng'.
+2. Thực hiện xóa Sản phẩm A khỏi giỏ hàng (và xác nhận xóa).
+3. Quan sát giá trị tại dòng 'Tổng cộng'.
 
 ## Expected result
-- Giá trị tại dòng 'Tổng cộng' thay đổi lập tức sang '200.000 ₫' mà không cần reload/tải lại trang.
+- Sau khi sản phẩm A biến mất khỏi giỏ hàng, Tổng cộng cập nhật ngay về '150.000 ₫' chính xác theo các sản phẩm còn lại.
 
 ## Status / Related bugs
 Not Run / None

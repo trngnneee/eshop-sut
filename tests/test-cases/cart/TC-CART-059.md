@@ -1,26 +1,26 @@
-# TC-CART-059: Sản phẩm có tên chứa ký tự đặc biệt an toàn
+# TC-CART-059: POST /api/cart với price âm hoặc bằng 0
 
 ## Requirement ID
-FR-07, SEC-04
+FR-07
 
 ## Module / Test type / Technique
-Cart / Security / Security / XSS
+Cart / API Boundary / Negative / API Boundary / Negative
 
 ## Preconditions
-- Hệ thống có sản phẩm mang tên chứa mã độc XSS: `<script>alert('xss')</script>`.
+- Token JWT hợp lệ.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Không có | |
+| Body 1 | `{"id": 202, "name": "Zero Price", "price": 0, "quantity": 1}` |
+| Body 2 | `{"id": 203, "name": "Negative Price", "price": -50000, "quantity": 1}` |
 
 ## Test steps
-1. Thêm sản phẩm có tên chứa script trên vào giỏ hàng.
-2. Truy cập `/cart`.
+1. Gửi request `POST /api/cart` với `price = 0`.
+2. Gửi request `POST /api/cart` với `price = -50000`.
 
 ## Expected result
-- Mã script không được thực thi (không hiện popup alert).
-- Tên sản phẩm được hiển thị an toàn dưới dạng văn bản thô: `<script>alert('xss')</script>`.
+- API từ chối cả hai request và trả về lỗi HTTP 400 Bad Request.
 
 ## Status / Related bugs
 Not Run / None

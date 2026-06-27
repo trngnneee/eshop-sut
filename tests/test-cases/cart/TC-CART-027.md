@@ -1,4 +1,4 @@
-# TC-CART-027: Tính subtotal cho 1 sản phẩm
+# TC-CART-027: Tính tổng cộng cho nhiều sản phẩm
 
 ## Requirement ID
 FR-07
@@ -8,20 +8,20 @@ Cart / Functional / Domain Testing
 
 ## Preconditions
 - Người dùng đã đăng nhập.
-- Sản phẩm A có đơn giá 100000 và số lượng trong giỏ hàng là 3.
+- Giỏ hàng có 2 sản phẩm: Sản phẩm A (đơn giá 100000, số lượng 2), Sản phẩm B (đơn giá 50000, số lượng 3).
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Price | `100000` |
-| Quantity | `3` |
+| Sản phẩm A | `Giá 100000, SL 2` |
+| Sản phẩm B | `Giá 50000, SL 3` |
 
 ## Test steps
 1. Truy cập trang `/cart`.
-2. Quan sát cột Thành tiền của sản phẩm A.
+2. Quan sát dòng Tổng cộng giỏ hàng.
 
 ## Expected result
-- Thành tiền hiển thị chính xác là '300.000 ₫'.
+- Tổng cộng hiển thị chính xác là '350.000 ₫' (100.000 x 2 + 50.000 x 3 = 350.000).
 
 ## Status / Related bugs
 Not Run / None

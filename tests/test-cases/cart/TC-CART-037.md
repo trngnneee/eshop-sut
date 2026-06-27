@@ -1,4 +1,4 @@
-# TC-CART-037: Badge cập nhật sau khi tăng quantity
+# TC-CART-037: Badge cập nhật sau khi xóa sản phẩm
 
 ## Requirement ID
 FR-23
@@ -8,7 +8,7 @@ Cart / Functional / State Testing
 
 ## Preconditions
 - Người dùng đã đăng nhập.
-- Giỏ hàng hiện tại có 1 sản phẩm A với số lượng là 1. Badge hiển thị số 1.
+- Giỏ hàng đang có 2 sản phẩm A (SL 1) và B (SL 1). Badge hiển thị 2.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -17,11 +17,11 @@ Cart / Functional / State Testing
 
 ## Test steps
 1. Truy cập trang `/cart`.
-2. Nhấp vào nút '+' của sản phẩm A để tăng số lượng lên 2.
+2. Thực hiện xóa hoàn toàn sản phẩm B ra khỏi giỏ hàng.
 3. Quan sát badge giỏ hàng trên navbar.
 
 ## Expected result
-- Badge giỏ hàng trên navbar cập nhật theo tổng số lượng sản phẩm mới là 2.
+- Badge giỏ hàng lập tức cập nhật giảm xuống còn 1.
 
 ## Status / Related bugs
 Not Run / None

@@ -1,10 +1,10 @@
-# TC-CART-046: POST quantity thập phân
+# TC-CART-046: POST thiếu trường quantity
 
 ## Requirement ID
 FR-07
 
 ## Module / Test type / Technique
-Cart / API Negative Testing / API Negative + EP
+Cart / API Negative Testing / API Negative
 
 ## Preconditions
 - Người dùng có token JWT hợp lệ.
@@ -13,13 +13,14 @@ Cart / API Negative Testing / API Negative + EP
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
 | Header | `Authorization: Bearer <valid_token>` |
-| Body | `{"id": 1, "name": "Sản phẩm A", "price": 100000, "quantity": 1.5}` |
+| Body | `{"id": 1, "name": "Sản phẩm A", "price": 100000}` |
 
 ## Test steps
-1. Gửi request `POST /api/cart` với quantity là 1.5.
+1. Gửi request `POST /api/cart` nhưng lược bỏ hoàn toàn trường quantity trong body.
 
 ## Expected result
-- API từ chối request hoặc tự động ép kiểu thành số nguyên, hoặc trả về mã lỗi validation HTTP 400 Bad Request.
+- API trả về lỗi validation (HTTP 400 Bad Request) thông báo thiếu trường bắt buộc.
+- Không thực hiện thêm sản phẩm lỗi vào giỏ hàng.
 
 ## Status / Related bugs
 Not Run / None

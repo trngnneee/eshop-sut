@@ -7,7 +7,7 @@ FR-02
 Lockout / Boundary Value Analysis (BVA)
 
 ## Preconditions
-- Tài khoản đang hoạt động bình thường, `login_attempts = 0`.
+- Tài khoản đang hoạt động bình thường, chưa nhập sai lần nào.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -17,11 +17,11 @@ Lockout / Boundary Value Analysis (BVA)
 
 ## Test steps
 1. Nhập mật khẩu sai 1 lần.
-2. Kiểm tra trạng thái tài khoản trong database.
+2. Kiểm tra trạng thái đăng nhập của tài khoản.
 
 ## Expected result
 - Tài khoản không bị khóa.
-- Bộ đếm `login_attempts` trong CSDL bằng 1 (hoặc tăng thêm 1).
+- Bộ đếm số lần đăng nhập sai của hệ thống bằng 1 (hoặc tăng thêm 1).
 
 ## Status / Related bugs
 Not Run / None

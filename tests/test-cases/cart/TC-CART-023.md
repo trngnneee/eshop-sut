@@ -1,29 +1,27 @@
-# TC-CART-023: Để trống ô quantity
+# TC-CART-023: Nhấn nút `+` để tăng số lượng
 
 ## Requirement ID
 FR-07
 
 ## Module / Test type / Technique
-Cart / Functional / EP - Invalid
+Cart / Functional / Functional + State
 
 ## Preconditions
 - Người dùng đã đăng nhập.
-- Giỏ hàng có sản phẩm A.
+- Giỏ hàng có sản phẩm A với số lượng ban đầu là 1.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Quantity input | `` |
+| Không có | |
 
 ## Test steps
 1. Truy cập trang `/cart`.
-2. Xóa hết nội dung trong ô số lượng của sản phẩm A (để trống).
-3. Nhấn nhấp ra ngoài ô nhập.
+2. Nhấp vào nút '+' tương ứng với sản phẩm A.
 
 ## Expected result
-- Hành động không hợp lệ. Ô nhập không được để trống.
-- Số lượng tự động được phục hồi về giá trị hợp lệ trước đó hoặc hiển thị thông báo lỗi.
-- Subtotal và tổng cộng giỏ hàng không bị lỗi hiển thị (như NaN hay trống).
+- Số lượng sản phẩm tăng lên 2.
+- Thành tiền của sản phẩm A và Tổng cộng giỏ hàng cập nhật tăng lên tương ứng theo thời gian thực (realtime).
 
 ## Status / Related bugs
 Not Run / None

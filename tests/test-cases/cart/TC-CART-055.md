@@ -1,13 +1,13 @@
-# TC-CART-055: Đóng Confirm Dialog bằng phím ESC hoặc click ngoài vùng modal
+# TC-CART-055: Sản phẩm có tên tiếng Việt có dấu
 
 ## Requirement ID
-FR-07, FR-24
+FR-07, FR-21
 
 ## Module / Test type / Technique
-Cart / Functional / UI / UX
+Cart / Functional / Domain Testing
 
 ## Preconditions
-- Người dùng nhấp nút Xóa và hộp thoại Confirm Dialog đang hiển thị.
+- Hệ thống có sản phẩm tên 'Áo thun nam xuất khẩu có cổ'.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -15,11 +15,11 @@ Cart / Functional / UI / UX
 | Không có | |
 
 ## Test steps
-1. Nhấn phím ESC trên bàn phím hoặc nhấp chuột vào vùng nền bên ngoài hộp thoại modal.
+1. Thêm sản phẩm trên vào giỏ hàng.
+2. Truy cập `/cart`.
 
 ## Expected result
-- Hộp thoại modal tự động đóng lại.
-- Sản phẩm không bị xóa và vẫn nằm trong giỏ hàng.
+- Tên sản phẩm tiếng Việt hiển thị chính xác hoàn toàn, không bị lỗi font hoặc vỡ ký tự Unicode.
 
 ## Status / Related bugs
 Not Run / None

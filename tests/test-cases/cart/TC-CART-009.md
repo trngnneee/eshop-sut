@@ -1,26 +1,29 @@
-# TC-CART-009: Nhãn tổng tiền đúng đặc tả
+# TC-CART-009: Thêm sản phẩm từ trang chủ
 
 ## Requirement ID
-FR-07
+FR-07, FR-23, FR-24
 
 ## Module / Test type / Technique
-Cart / UI Requirement / UI Requirement
+Cart / Functional / Functional Testing
 
 ## Preconditions
 - Người dùng đã đăng nhập vào hệ thống.
-- Giỏ hàng có ít nhất 1 sản phẩm.
+- Người dùng đang ở Trang chủ (`/`).
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Không có | |
+| Sản phẩm | `Sản phẩm A` |
 
 ## Test steps
-1. Truy cập trang `/cart`.
-2. Quan sát khu vực chân trang hoặc khu vực tóm tắt thanh toán hiển thị tổng tiền giỏ hàng.
+1. Tại màn hình trang chủ, tìm đến sản phẩm A.
+2. Nhấp vào nút 'Thêm vào giỏ hàng' của sản phẩm A.
+3. Quan sát phản hồi trên màn hình (toast message) và số lượng hiển thị trên badge giỏ hàng ở navbar.
 
 ## Expected result
-- Nhãn của trường tổng tiền phải hiển thị chính xác là 'Tổng cộng' (không dùng các từ khác như 'Tổng tiền', 'Total', 'Thành tiền').
+- Hệ thống hiển thị thông báo (toast message) thành công ngay lập tức.
+- Số lượng sản phẩm trên badge giỏ hàng ở thanh điều hướng tăng lên chính xác.
+- Sản phẩm A được thêm vào giỏ hàng thành công.
 
 ## Status / Related bugs
 Not Run / None

@@ -1,4 +1,4 @@
-# BUG-FR07-B-08: Trạng thái giỏ hàng trống thiếu hình ảnh/icon minh họa trực quan
+# BUG-FR07-B-08: Trang giỏ hàng thiếu thanh breadcrumb điều hướng
 
 | Tên trường (Field) | Giá trị (Value) |
 | :--- | :--- |
@@ -6,13 +6,13 @@
 | **BugID** | `BUG-FR07-B-08` |
 | **Status** | **Open** |
 | **Requirement Name** | FR-07 Giỏ hàng & Điều hướng |
-| **Summary** | Khi giỏ hàng trống, giao diện chỉ hiển thị dòng chữ thông báo và nút quay về mà thiếu hình ảnh hoặc biểu tượng (icon) trực quan minh họa. |
-| **Steps to reproduce** | 1. Truy cập `/cart` khi chưa có sản phẩm.
-2. Quan sát phần hiển thị empty state. |
+| **Summary** | Giao diện trang `/cart` thiếu thanh breadcrumb dạng 'Trang chủ > Giỏ hàng' để định vị và giúp điều hướng ngược lại. |
+| **Steps to reproduce** | 1. Truy cập `/cart`.
+2. Tìm thanh breadcrumb phía trên tiêu đề chính. |
 | **Severity** | Minor |
 | **Frequency** | Always |
 | **Priority** | Low |
-| **Attachment (Link to file)** | [Cart.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Cart.jsx#L23) |
-| **Evidence (Screenshot)** | Chỉ hiển thị chữ 'Giỏ hàng của bạn đang trống' dạng text thường. |
+| **Attachment (Link to file)** | [Cart.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Cart.jsx#L30) |
+| **Evidence (Screenshot)** | Trang trống hoặc trang bảng đều thiếu breadcrumb. |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

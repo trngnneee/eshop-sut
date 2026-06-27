@@ -1,25 +1,24 @@
-# TC-CART-058: Sản phẩm có tên tiếng Việt có dấu
+# TC-CART-058: POST /api/cart thiếu trường price
 
 ## Requirement ID
-FR-07, FR-21
+FR-07
 
 ## Module / Test type / Technique
-Cart / Functional / Domain Testing
+Cart / API Negative / API Negative
 
 ## Preconditions
-- Hệ thống có sản phẩm tên 'Áo thun nam xuất khẩu có cổ'.
+- Token JWT hợp lệ.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Không có | |
+| Body | `{"id": 201, "name": "No Price Product", "quantity": 1}` |
 
 ## Test steps
-1. Thêm sản phẩm trên vào giỏ hàng.
-2. Truy cập `/cart`.
+1. Gửi request `POST /api/cart` kèm token hợp lệ nhưng body lược bỏ hoàn toàn thuộc tính `price`.
 
 ## Expected result
-- Tên sản phẩm tiếng Việt hiển thị chính xác hoàn toàn, không bị lỗi font hoặc vỡ ký tự Unicode.
+- API trả về lỗi HTTP 400 Bad Request, không cho phép lưu.
 
 ## Status / Related bugs
 Not Run / None

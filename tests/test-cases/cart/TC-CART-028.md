@@ -1,27 +1,27 @@
-# TC-CART-028: Tính tổng cộng cho nhiều sản phẩm
+# TC-CART-028: Tổng cộng cập nhật realtime khi đổi quantity
 
 ## Requirement ID
 FR-07
 
 ## Module / Test type / Technique
-Cart / Functional / Domain Testing
+Cart / Functional / State Testing
 
 ## Preconditions
 - Người dùng đã đăng nhập.
-- Giỏ hàng có 2 sản phẩm: Sản phẩm A (đơn giá 100000, số lượng 2), Sản phẩm B (đơn giá 50000, số lượng 3).
+- Giỏ hàng có sản phẩm A (đơn giá 100000) với số lượng ban đầu là 1.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Sản phẩm A | `Giá 100000, SL 2` |
-| Sản phẩm B | `Giá 50000, SL 3` |
+| Không có | |
 
 ## Test steps
 1. Truy cập trang `/cart`.
-2. Quan sát dòng Tổng cộng giỏ hàng.
+2. Nhấp vào nút '+' để tăng số lượng sản phẩm A lên 2.
+3. Quan sát giá trị hiển thị ở phần 'Tổng cộng'.
 
 ## Expected result
-- Tổng cộng hiển thị chính xác là '350.000 ₫' (100.000 x 2 + 50.000 x 3 = 350.000).
+- Giá trị tại dòng 'Tổng cộng' thay đổi lập tức sang '200.000 ₫' mà không cần reload/tải lại trang.
 
 ## Status / Related bugs
 Not Run / None

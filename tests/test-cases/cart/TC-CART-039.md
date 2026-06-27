@@ -1,26 +1,25 @@
-# TC-CART-039: Toast hiển thị sau khi thêm vào giỏ hàng
+# TC-CART-039: GET cart với token hợp lệ
 
 ## Requirement ID
-FR-24
+FR-07
 
 ## Module / Test type / Technique
-Cart / UI Feedback / UI Feedback
+Cart / API Testing / API Testing
 
 ## Preconditions
-- Người dùng đã đăng nhập.
-- Người dùng đang ở Trang chủ.
+- Người dùng có token JWT hợp lệ từ việc đăng nhập.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Sản phẩm | `Sản phẩm A` |
+| Header | `Authorization: Bearer <valid_token>` |
 
 ## Test steps
-1. Tìm sản phẩm A và click vào nút 'Thêm vào giỏ hàng'.
+1. Gửi request `GET /api/cart` kèm theo Authorization header chứa token hợp lệ.
 
 ## Expected result
-- Hệ thống ngay lập tức hiển thị một popup/toast thông báo thành công (ví dụ: 'Đã thêm sản phẩm vào giỏ hàng!') ở góc màn hình.
-- Toast tự động biến mất sau vài giây mà không cần người dùng tắt thủ công.
+- API phản hồi với mã trạng thái HTTP 200 OK.
+- Response body chứa thông tin chi tiết danh sách sản phẩm trong giỏ hàng của người dùng dưới dạng JSON.
 
 ## Status / Related bugs
 Not Run / None

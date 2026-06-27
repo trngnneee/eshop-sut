@@ -1,25 +1,25 @@
-# TC-CART-040: GET cart với token hợp lệ
+# TC-CART-040: GET cart không có token
 
 ## Requirement ID
 FR-07
 
 ## Module / Test type / Technique
-Cart / API Testing / API Testing
+Cart / API Negative Testing / API Negative Testing
 
 ## Preconditions
-- Người dùng có token JWT hợp lệ từ việc đăng nhập.
+- Không truyền JWT token trong request.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Header | `Authorization: Bearer <valid_token>` |
+| Header | `Không có` |
 
 ## Test steps
-1. Gửi request `GET /api/cart` kèm theo Authorization header chứa token hợp lệ.
+1. Gửi request `GET /api/cart` không truyền header Authorization.
 
 ## Expected result
-- API phản hồi với mã trạng thái HTTP 200 OK.
-- Response body chứa thông tin chi tiết danh sách sản phẩm trong giỏ hàng của người dùng dưới dạng JSON.
+- API trả về mã lỗi xác thực (HTTP 401 Unauthorized).
+- Không trả về bất kỳ dữ liệu giỏ hàng nào.
 
 ## Status / Related bugs
 Not Run / None

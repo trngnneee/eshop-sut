@@ -1,26 +1,27 @@
-# TC-CART-026: Nhấn nút `-` khi quantity = 1
+# TC-CART-026: Tính subtotal cho 1 sản phẩm
 
 ## Requirement ID
 FR-07
 
 ## Module / Test type / Technique
-Cart / Functional / BVA
+Cart / Functional / Domain Testing
 
 ## Preconditions
 - Người dùng đã đăng nhập.
-- Giỏ hàng có sản phẩm A với số lượng là 1.
+- Sản phẩm A có đơn giá 100000 và số lượng trong giỏ hàng là 3.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Không có | |
+| Price | `100000` |
+| Quantity | `3` |
 
 ## Test steps
 1. Truy cập trang `/cart`.
-2. Nhấp vào nút '-' hoặc kiểm tra trạng thái nút '-' của sản phẩm A.
+2. Quan sát cột Thành tiền của sản phẩm A.
 
 ## Expected result
-- Nút '-' bị vô hiệu hóa (disabled) hoặc khi click vào, hệ thống không cho phép giảm số lượng xuống 0.
+- Thành tiền hiển thị chính xác là '300.000 ₫'.
 
 ## Status / Related bugs
 Not Run / None

@@ -1,27 +1,27 @@
-# TC-CART-006: Hiển thị ảnh và tên sản phẩm
+# TC-CART-006: Đơn giá hiển thị đúng định dạng VND
 
 ## Requirement ID
-FR-07
+FR-07, FR-21
 
 ## Module / Test type / Technique
-Cart / UI Requirement / UI Requirement
+Cart / Functional / Domain Testing
 
 ## Preconditions
 - Người dùng đã đăng nhập vào hệ thống.
-- Giỏ hàng có ít nhất 1 sản phẩm.
+- Giỏ hàng có ít nhất 1 sản phẩm với giá trị số nguyên cụ thể.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Sản phẩm | `Sản phẩm A (có hình ảnh minh họa)` |
+| Đơn giá sản phẩm | `100000` |
 
 ## Test steps
 1. Truy cập trang `/cart`.
-2. Quan sát cột 'Sản phẩm' trong bảng giỏ hàng.
+2. Quan sát giá trị hiển thị tại cột 'Đơn giá'.
 
 ## Expected result
-- Cột 'Sản phẩm' hiển thị hình ảnh đại diện (thumbnail) của sản phẩm.
-- Tên sản phẩm hiển thị chính xác, rõ ràng bên cạnh hoặc bên dưới hình ảnh.
+- Đơn giá hiển thị đúng định dạng tiền tệ Việt Nam (VND).
+- Đơn giá hiển thị là '100.000 ₫', có ký hiệu '₫' ở cuối và có dấu chấm phân tách hàng nghìn.
 
 ## Status / Related bugs
 Not Run / None

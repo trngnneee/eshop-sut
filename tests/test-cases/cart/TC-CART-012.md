@@ -1,28 +1,27 @@
-# TC-CART-012: Cộng dồn sản phẩm trùng ID
+# TC-CART-012: Không tạo dòng mới khi thêm sản phẩm trùng
 
 ## Requirement ID
 FR-07
 
 ## Module / Test type / Technique
-Cart / Functional / State + Domain Testing
+Cart / Functional / State Testing
 
 ## Preconditions
 - Người dùng đã đăng nhập.
-- Sản phẩm A đã có trong giỏ hàng với số lượng ban đầu là 2.
+- Sản phẩm A đã có trong giỏ hàng.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
 | Sản phẩm | `Sản phẩm A` |
-| Số lượng thêm tiếp | `3` |
 
 ## Test steps
-1. Tìm sản phẩm A và thực hiện thêm vào giỏ hàng với số lượng là 3.
-2. Truy cập vào trang giỏ hàng `/cart` và kiểm tra dòng sản phẩm A.
+1. Thực hiện hành động thêm sản phẩm A vào giỏ hàng thêm nhiều lần nữa.
+2. Truy cập trang `/cart`.
 
 ## Expected result
-- Trong giỏ hàng `/cart` chỉ hiển thị 1 dòng duy nhất cho sản phẩm A.
-- Số lượng sản phẩm A được cập nhật cộng dồn chính xác thành 5 (2 + 3 = 5).
+- Bảng danh sách giỏ hàng không xuất hiện nhiều dòng sản phẩm trùng ID với sản phẩm A.
+- Chỉ có duy nhất một dòng cho sản phẩm A và số lượng tăng lên tương ứng.
 
 ## Status / Related bugs
 Not Run / None

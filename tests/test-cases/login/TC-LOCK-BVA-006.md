@@ -16,7 +16,7 @@ Lockout / Boundary Value Analysis (BVA)
 | Mật khẩu đúng | ValidPassword1! |
 
 ## Test steps
-1. Gửi yêu cầu login đúng chính xác vào mili-giây mà thời gian khóa kết thúc (so khớp trường `locked_until`).
+1. Gửi yêu cầu login đúng chính xác vào mili-giây mà thời gian khóa kết thúc (so khớp trường thời gian khóa).
 
 ## Expected result
 - Hệ thống xử lý an toàn, cho phép đăng nhập thành công, reset trạng thái khóa về mặc định.

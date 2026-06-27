@@ -1,14 +1,14 @@
-# TC-CART-050: Cart của user A không hiển thị cho user B
+# TC-CART-050: Mở cart ở tab khác sau khi thêm sản phẩm
 
 ## Requirement ID
 FR-07
 
 ## Module / Test type / Technique
-Cart / Security / State / Security
+Cart / Functional / Multi-tab State
 
 ## Preconditions
-- User A đã thêm một số sản phẩm vào giỏ hàng của mình.
-- User B đăng nhập bằng tài khoản khác.
+- Người dùng đăng nhập.
+- Thêm sản phẩm thành công vào giỏ hàng.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -16,13 +16,11 @@ Cart / Security / State / Security
 | Không có | |
 
 ## Test steps
-1. Đăng nhập tài khoản User A, thêm 'Sản phẩm A' vào giỏ hàng và đăng xuất.
-2. Đăng nhập tài khoản User B.
-3. Truy cập trang `/cart`.
+1. Mở một tab mới trên cùng một trình duyệt.
+2. Truy cập đường dẫn `http://localhost:5173/cart`.
 
 ## Expected result
-- User B không nhìn thấy bất kỳ sản phẩm nào từ giỏ hàng của User A.
-- Dữ liệu giỏ hàng của các user hoàn toàn độc lập và được phân quyền cô lập.
+- Tab mới hiển thị chính xác trạng thái giỏ hàng mới nhất chứa các sản phẩm đã thêm.
 
 ## Status / Related bugs
 Not Run / None

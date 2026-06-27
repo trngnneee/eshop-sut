@@ -79,53 +79,53 @@ def main():
     # -------------------------------------------------------------------------
     print("\n[API] Đang chạy kiểm thử API Backend...")
     
-    # TC-CART-040: GET cart with token
+    # TC-CART-039: GET cart with token
     status_040, res_040 = make_request("/api/cart", method="GET", token=token_a)
     tc_040_pass = (status_040 == 200 and isinstance(res_040, list))
     
-    # TC-CART-041: GET cart without token
+    # TC-CART-040: GET cart without token
     status_041, res_041 = make_request("/api/cart", method="GET")
     tc_041_pass = (status_041 == 401)
     
-    # TC-CART-042: POST add product
+    # TC-CART-041: POST add product
     prod_data = {"id": 101, "name": "Test Product", "price": 120000, "quantity": 1}
     status_042, res_042 = make_request("/api/cart", method="POST", data=prod_data, token=token_a)
     tc_042_pass = (status_042 == 200)
     
-    # TC-CART-043: POST add duplicate product (Check backend aggregation)
+    # TC-CART-042: POST add duplicate product (Check backend aggregation)
     status_043, res_043 = make_request("/api/cart", method="POST", data=prod_data, token=token_a)
     _, final_cart_a = make_request("/api/cart", method="GET", token=token_a)
     tc_043_pass = (len(final_cart_a) == 1 and final_cart_a[0].get("quantity") == 2)
     
-    # TC-CART-044: POST quantity = 0
+    # TC-CART-043: POST quantity = 0
     status_044, res_044 = make_request("/api/cart", method="POST", data={"id": 102, "name": "Zero Qty", "price": 50000, "quantity": 0}, token=token_a)
     tc_044_pass = (status_044 in [400, 422])
     
-    # TC-CART-045: POST quantity negative
+    # TC-CART-044: POST quantity negative
     status_045, res_045 = make_request("/api/cart", method="POST", data={"id": 103, "name": "Neg Qty", "price": 50000, "quantity": -1}, token=token_a)
     tc_045_pass = (status_045 in [400, 422])
     
-    # TC-CART-046: POST quantity decimal
+    # TC-CART-045: POST quantity decimal
     status_046, res_046 = make_request("/api/cart", method="POST", data={"id": 104, "name": "Dec Qty", "price": 50000, "quantity": 1.5}, token=token_a)
     tc_046_pass = (status_046 in [400, 422])
     
-    # TC-CART-047: POST missing quantity
+    # TC-CART-046: POST missing quantity
     status_047, res_047 = make_request("/api/cart", method="POST", data={"id": 105, "name": "No Qty", "price": 50000}, token=token_a)
     tc_047_pass = (status_047 in [400, 422])
     
-    # TC-CART-050: Cart User A not visible to User B
+    # TC-CART-049: Cart User A not visible to User B
     _, final_cart_b = make_request("/api/cart", method="GET", token=token_b)
     tc_050_pass = (len(final_cart_b) == 0)
     
-    # TC-CART-060: POST `/api/cart` missing id
+    # TC-CART-057: POST `/api/cart` missing id
     status_060, res_060 = make_request("/api/cart", method="POST", data={"name": "No ID", "price": 100000, "quantity": 1}, token=token_a)
     tc_060_pass = (status_060 in [400, 422])
     
-    # TC-CART-061: POST `/api/cart` missing price
+    # TC-CART-058: POST `/api/cart` missing price
     status_061, res_061 = make_request("/api/cart", method="POST", data={"id": 106, "name": "No Price", "quantity": 1}, token=token_a)
     tc_061_pass = (status_061 in [400, 422])
     
-    # TC-CART-062: POST `/api/cart` price <= 0
+    # TC-CART-059: POST `/api/cart` price <= 0
     status_062_1, res_062_1 = make_request("/api/cart", method="POST", data={"id": 107, "name": "Zero Price", "price": 0, "quantity": 1}, token=token_a)
     status_062_2, res_062_2 = make_request("/api/cart", method="POST", data={"id": 108, "name": "Neg Price", "price": -500, "quantity": 1}, token=token_a)
     tc_062_pass = (status_062_1 in [400, 422] and status_062_2 in [400, 422])
@@ -193,65 +193,64 @@ def main():
     
     # Group 1 to 7
     results["TC-CART-001"] = ("Pass", "Hiển thị thông báo giỏ hàng trống chính xác.")
-    results["TC-CART-002"] = ("Pass" if has_empty_icon else "Fail", "Không có hình ảnh/icon minh họa cho giỏ hàng trống (BUG-FR07-B-08).")
+    results["TC-CART-002"] = ("Pass" if has_empty_icon else "Fail", "Không có hình ảnh/icon minh họa cho giỏ hàng trống (BUG-FR07-B-07).")
     results["TC-CART-003"] = ("Pass", "Nút Tiếp tục mua sắm điều hướng đúng về trang chủ.")
-    results["TC-CART-004"] = ("Pass" if has_breadcrumb else "Fail", "Trang giỏ hàng thiếu thanh Breadcrumb điều hướng (BUG-FR07-B-09).")
+    results["TC-CART-004"] = ("Pass" if has_breadcrumb else "Fail", "Trang giỏ hàng thiếu thanh Breadcrumb điều hướng (BUG-FR07-B-08).")
     results["TC-CART-005"] = ("Pass", "Bảng hiển thị đủ các cột thông tin.")
     results["TC-CART-006"] = ("Pass" if has_product_image else "Fail", "Bảng sản phẩm thiếu ảnh minh họa sản phẩm (BUG-FR07-B-07).")
-    results["TC-CART-007"] = ("Pass", "Đơn giá hiển thị đúng định dạng VND (100.000 ₫).")
-    results["TC-CART-008"] = ("Pass", "Thành tiền hiển thị chính xác.")
-    results["TC-CART-009"] = ("Pass" if has_tong_cong_label else "Fail", "Nhãn tổng tiền hiển thị 'Tổng tạm tính' thay vì 'Tổng cộng' (BUG-FR07-B-06).")
-    results["TC-CART-010"] = ("Pass" if has_toast_feedback else "Fail", "Thêm sản phẩm từ trang chủ thành công nhưng không có thông báo toast/popup phản hồi (BUG-FR07-B-13).")
-    results["TC-CART-011"] = ("Pass" if has_toast_feedback else "Fail", "Thêm sản phẩm từ trang chi tiết thành công nhưng không có thông báo toast/popup phản hồi (BUG-FR07-B-13).")
-    results["TC-CART-012"] = ("Pass" if has_merge_logic else "Fail", "Hệ thống không cộng dồn số lượng khi thêm sản phẩm trùng ID (BUG-FR07-B-03).")
-    results["TC-CART-013"] = ("Pass" if has_merge_logic else "Fail", "Tạo dòng mới trùng lặp khi thêm cùng sản phẩm nhiều lần (BUG-FR07-B-03).")
-    results["TC-CART-014"] = ("Pass", "Sản phẩm khác ID được hiển thị dòng riêng biệt chính xác.")
+    results["TC-CART-006"] = ("Pass", "Đơn giá hiển thị đúng định dạng VND (100.000 ₫).")
+    results["TC-CART-007"] = ("Pass", "Thành tiền hiển thị chính xác.")
+    results["TC-CART-008"] = ("Pass" if has_tong_cong_label else "Fail", "Nhãn tổng tiền hiển thị 'Tổng tạm tính' thay vì 'Tổng cộng' (BUG-FR07-B-06).")
+    results["TC-CART-009"] = ("Pass" if has_toast_feedback else "Fail", "Thêm sản phẩm từ trang chủ thành công nhưng không có thông báo toast/popup phản hồi (BUG-FR07-B-11).")
+    results["TC-CART-010"] = ("Pass" if has_toast_feedback else "Fail", "Thêm sản phẩm từ trang chi tiết thành công nhưng không có thông báo toast/popup phản hồi (BUG-FR07-B-11).")
+    results["TC-CART-011"] = ("Pass" if has_merge_logic else "Fail", "Hệ thống không cộng dồn số lượng khi thêm sản phẩm trùng ID (BUG-FR07-B-03).")
+    results["TC-CART-012"] = ("Pass" if has_merge_logic else "Fail", "Tạo dòng mới trùng lặp khi thêm cùng sản phẩm nhiều lần (BUG-FR07-B-03).")
+    results["TC-CART-013"] = ("Pass", "Sản phẩm khác ID được hiển thị dòng riêng biệt chính xác.")
     
-    qty_tests = [f"TC-CART-{i:03d}" for i in range(15, 27)]
+    qty_tests = [f"TC-CART-{i:03d}" for i in range(14, 26)]
     for q_tc in qty_tests:
         results[q_tc] = ("Pass" if has_qty_adjust else "Fail", "Giao diện Cart thiếu các nút + / - và ô nhập để chỉnh sửa số lượng trực tiếp (BUG-FR07-B-04).")
         
-    results["TC-CART-027"] = ("Pass", "Tính subtotal chính xác.")
-    results["TC-CART-028"] = ("Pass", "Tính tổng cộng chính xác.")
-    results["TC-CART-029"] = ("Pass", "Tổng tiền cập nhật realtime.")
-    results["TC-CART-030"] = ("Pass", "Tổng tiền cập nhật đúng sau khi xóa.")
+    results["TC-CART-026"] = ("Pass", "Tính subtotal chính xác.")
+    results["TC-CART-027"] = ("Pass", "Tính tổng cộng chính xác.")
+    results["TC-CART-028"] = ("Pass", "Tổng tiền cập nhật realtime.")
+    results["TC-CART-029"] = ("Pass", "Tổng tiền cập nhật đúng sau khi xóa.")
     
-    delete_tests = ["TC-CART-031", "TC-CART-032", "TC-CART-033", "TC-CART-034"]
+    delete_tests = ["TC-CART-030", "TC-CART-031", "TC-CART-032", "TC-CART-033"]
     for d_tc in delete_tests:
         results[d_tc] = ("Pass" if has_confirm_dialog else "Fail", "Hệ thống thực hiện xóa ngay mà không hiển thị Confirm Dialog xác nhận (BUG-FR07-B-05).")
         
-    results["TC-CART-035"] = ("Pass", "Navbar hiển thị đúng badge giỏ hàng.")
-    results["TC-CART-036"] = ("Pass", "Badge cập nhật đúng sau khi thêm sản phẩm.")
-    results["TC-CART-037"] = ("Pass" if has_qty_adjust else "Fail", "Badge không thể cập nhật vì không có nút thay đổi quantity (BUG-FR07-B-04).")
-    results["TC-CART-038"] = ("Pass", "Badge cập nhật chính xác sau khi xóa sản phẩm.")
-    results["TC-CART-039"] = ("Pass" if has_toast_feedback else "Fail", "Không hiển thị thông báo toast/popup phản hồi khi thêm giỏ hàng thành công (BUG-FR07-B-13).")
+    results["TC-CART-034"] = ("Pass", "Navbar hiển thị đúng badge giỏ hàng.")
+    results["TC-CART-035"] = ("Pass", "Badge cập nhật đúng sau khi thêm sản phẩm.")
+    results["TC-CART-036"] = ("Pass" if has_qty_adjust else "Fail", "Badge không thể cập nhật vì không có nút thay đổi quantity (BUG-FR07-B-04).")
+    results["TC-CART-037"] = ("Pass", "Badge cập nhật chính xác sau khi xóa sản phẩm.")
+    results["TC-CART-038"] = ("Pass" if has_toast_feedback else "Fail", "Không hiển thị thông báo toast/popup phản hồi khi thêm giỏ hàng thành công (BUG-FR07-B-11).")
     
     # API Backend (40 - 47)
-    results["TC-CART-040"] = ("Pass" if tc_040_pass else "Fail", "GET /api/cart không thành công hoặc lỗi.")
-    results["TC-CART-041"] = ("Pass" if tc_041_pass else "Fail", "GET /api/cart không chặn request thiếu token.")
-    results["TC-CART-042"] = ("Pass" if tc_042_pass else "Fail", "POST /api/cart thêm sản phẩm lỗi.")
-    results["TC-CART-043"] = ("Pass" if tc_043_pass else "Fail", "Backend không cộng dồn số lượng sản phẩm trùng ID (BUG-FR07-B-02).")
-    results["TC-CART-044"] = ("Pass" if tc_044_pass else "Fail", "Backend cho phép thêm sản phẩm với quantity = 0 (BUG-FR07-B-01).")
-    results["TC-CART-045"] = ("Pass" if tc_045_pass else "Fail", "Backend cho phép thêm sản phẩm với quantity âm (BUG-FR07-B-01).")
-    results["TC-CART-046"] = ("Pass" if tc_046_pass else "Fail", "Backend cho phép thêm sản phẩm với quantity thập phân (BUG-FR07-B-01).")
-    results["TC-CART-047"] = ("Pass" if tc_047_pass else "Fail", "Backend cho phép thêm sản phẩm thiếu quantity (BUG-FR07-B-01).")
+    results["TC-CART-039"] = ("Pass" if tc_040_pass else "Fail", "GET /api/cart không thành công hoặc lỗi.")
+    results["TC-CART-040"] = ("Pass" if tc_041_pass else "Fail", "GET /api/cart không chặn request thiếu token.")
+    results["TC-CART-041"] = ("Pass" if tc_042_pass else "Fail", "POST /api/cart thêm sản phẩm lỗi.")
+    results["TC-CART-042"] = ("Pass" if tc_043_pass else "Fail", "Backend không cộng dồn số lượng sản phẩm trùng ID (BUG-FR07-B-02).")
+    results["TC-CART-043"] = ("Pass" if tc_044_pass else "Fail", "Backend cho phép thêm sản phẩm với quantity = 0 (BUG-FR07-B-01).")
+    results["TC-CART-044"] = ("Pass" if tc_045_pass else "Fail", "Backend cho phép thêm sản phẩm với quantity âm (BUG-FR07-B-01).")
+    results["TC-CART-045"] = ("Pass" if tc_046_pass else "Fail", "Backend cho phép thêm sản phẩm với quantity thập phân (BUG-FR07-B-01).")
+    results["TC-CART-046"] = ("Pass" if tc_047_pass else "Fail", "Backend cho phép thêm sản phẩm thiếu quantity (BUG-FR07-B-01).")
     
     # New cases (48 - 62)
-    results["TC-CART-048"] = ("Pass" if has_cart_guard else "Fail", "Trang giỏ hàng không bảo vệ quyền truy cập và không redirect khi chưa đăng nhập (BUG-FR07-B-11).")
-    results["TC-CART-049"] = ("Pass", "API trả về HTTP 401 Unauthorized khi token hết hạn/không hợp lệ.")
-    results["TC-CART-050"] = ("Pass" if tc_050_pass else "Fail", "Giỏ hàng bị lộ, User B xem được sản phẩm trong giỏ của User A.")
-    results["TC-CART-051"] = ("Pass" if has_delete_api else "Fail", "Reload trang khiến sản phẩm bị xóa quay trở lại do thiếu API xóa đồng bộ ở backend (BUG-FR07-B-10).")
-    results["TC-CART-052"] = ("Pass", "Đồng bộ đa tab hoạt động chính xác dựa trên fetch dữ liệu server.")
-    results["TC-CART-053"] = ("Pass" if has_delete_api else "Fail", "Xóa sản phẩm ở giữa danh sách bị phục hồi khi tải lại trang do thiếu API xóa (BUG-FR07-B-10).")
-    results["TC-CART-054"] = ("Pass" if has_confirm_dialog else "Fail", "Không hiển thị Confirm Dialog nên không thể hiện tên sản phẩm cần xóa (BUG-FR07-B-05).")
-    results["TC-CART-055"] = ("Pass" if has_confirm_dialog else "Fail", "Không có Confirm Dialog để kiểm tra ESC/click ngoài (BUG-FR07-B-05).")
-    results["TC-CART-056"] = ("Pass" if has_confirm_dialog else "Fail", "Không có Confirm Dialog để chống spam nút xóa (BUG-FR07-B-05).")
-    results["TC-CART-057"] = ("Pass", "Quantity tăng chính xác khi thêm liên tục.")
-    results["TC-CART-058"] = ("Pass", "Tên sản phẩm chứa tiếng Việt hiển thị chính xác.")
-    results["TC-CART-059"] = ("Pass", "React tự động escape nội dung an toàn chống XSS.")
-    results["TC-CART-060"] = ("Pass" if tc_060_pass else "Fail", "Backend cho phép thêm sản phẩm thiếu trường id (BUG-FR07-B-12).")
-    results["TC-CART-061"] = ("Pass" if tc_061_pass else "Fail", "Backend cho phép thêm sản phẩm thiếu trường price (BUG-FR07-B-12).")
-    results["TC-CART-062"] = ("Pass" if tc_062_pass else "Fail", "Backend cho phép thêm sản phẩm với price <= 0 (BUG-FR07-B-12).")
+    results["TC-CART-047"] = ("Pass" if has_cart_guard else "Fail", "Không cần đăng nhập vẫn cho phép thêm sản phẩm vào giỏ hàng (BUG-FR07-B-09).")
+    results["TC-CART-048"] = ("Pass", "API trả về HTTP 401 Unauthorized khi token hết hạn/không hợp lệ.")
+    results["TC-CART-049"] = ("Pass" if tc_050_pass else "Fail", "Giỏ hàng bị lộ, User B xem được sản phẩm trong giỏ của User A.")
+    results["TC-CART-050"] = ("Pass", "Đồng bộ đa tab hoạt động chính xác dựa trên fetch dữ liệu server.")
+    results["TC-CART-051"] = ("Pass" if has_confirm_dialog else "Fail", "Không hiển thị Confirm Dialog nên không thể hiện tên sản phẩm cần xóa (BUG-FR07-B-05).")
+    results["TC-CART-052"] = ("Pass" if has_confirm_dialog else "Fail", "Không có Confirm Dialog để kiểm tra ESC/click ngoài (BUG-FR07-B-05).")
+    results["TC-CART-053"] = ("Pass" if has_confirm_dialog else "Fail", "Không có Confirm Dialog để chống spam nút xóa (BUG-FR07-B-05).")
+    results["TC-CART-054"] = ("Pass", "Quantity tăng chính xác khi thêm liên tục.")
+    results["TC-CART-055"] = ("Pass", "Tên sản phẩm chứa tiếng Việt hiển thị chính xác.")
+    results["TC-CART-056"] = ("Pass", "React tự động escape nội dung an toàn chống XSS.")
+    results["TC-CART-057"] = ("Pass" if tc_060_pass else "Fail", "Backend cho phép thêm sản phẩm thiếu trường id (BUG-FR07-B-10).")
+    results["TC-CART-058"] = ("Pass" if tc_061_pass else "Fail", "Backend cho phép thêm sản phẩm thiếu trường price (BUG-FR07-B-10).")
+    results["TC-CART-059"] = ("Pass" if tc_062_pass else "Fail", "Backend cho phép thêm sản phẩm với price <= 0 (BUG-FR07-B-10).")
+    results["TC-CART-060"] = ("Fail", "Không hiển thị tồn kho khả dụng và thiếu cảnh báo (BUG-FR07-B-12).")
 
     # Print results summary
     print("\n" + "=" * 110)
@@ -260,7 +259,7 @@ def main():
     
     pass_cnt = 0
     fail_cnt = 0
-    for i in range(1, 63):
+    for i in range(1, 61):
         tc_id = f"TC-CART-{i:03d}"
         res_status, note = results[tc_id]
         print(f"{i:<4} | {tc_id:<12} | {res_status:<10} | {note}")
@@ -282,7 +281,7 @@ def main():
     bugs_to_write = {
         "BUG-FR07-B-01": {
             "title": "Backend API không validate số lượng sản phẩm thêm vào giỏ hàng",
-            "tc": "TC-CART-044, TC-CART-045, TC-CART-046, TC-CART-047",
+            "tc": "TC-CART-043, TC-CART-044, TC-CART-045, TC-CART-046",
             "summary": "Tại `backend/server.js`, API `POST /api/cart` trực tiếp ghi nhận mọi giá trị quantity gửi lên (như 0, âm, thập phân, hoặc trống) mà không validate điều kiện số nguyên dương.",
             "steps": "1. Đăng nhập và lấy token JWT.\n2. Gửi POST tới `/api/cart` với body chứa `quantity = -5`.\n3. Kiểm tra giỏ hàng bằng GET `/api/cart`.",
             "severity": "Major", "priority": "High",
@@ -291,7 +290,7 @@ def main():
         },
         "BUG-FR07-B-02": {
             "title": "Backend API không cộng dồn số lượng cho sản phẩm trùng ID",
-            "tc": "TC-CART-043",
+            "tc": "TC-CART-042",
             "summary": "Tại `backend/server.js`, API `POST /api/cart` thực hiện đẩy trực tiếp request body vào mảng cart mà không kiểm tra trùng lặp ID sản phẩm, dẫn đến tạo các bản ghi thừa thay vì cộng dồn.",
             "steps": "1. Gửi POST tới `/api/cart` thêm sản phẩm A với số lượng 1.\n2. Gửi tiếp POST tới `/api/cart` thêm sản phẩm A với số lượng 2.\n3. Gọi GET `/api/cart` kiểm tra cấu trúc dữ liệu trả về.",
             "severity": "Major", "priority": "High",
@@ -300,7 +299,7 @@ def main():
         },
         "BUG-FR07-B-03": {
             "title": "Frontend CartContext không cộng dồn số lượng khi thêm sản phẩm trùng",
-            "tc": "TC-CART-012, TC-CART-013",
+            "tc": "TC-CART-011, TC-CART-012",
             "summary": "Tại `frontend-web/src/context/CartContext.jsx`, hàm `addToCart` thêm trực tiếp sản phẩm vào state cart mà không kiểm tra trùng lặp ID, khiến giỏ hàng có nhiều dòng trùng lặp.",
             "steps": "1. Ở trang chủ, bấm thêm Sản phẩm A.\n2. Bấm thêm Sản phẩm A một lần nữa.\n3. Đi tới trang Giỏ hàng `/cart`.",
             "severity": "Major", "priority": "High",
@@ -309,7 +308,7 @@ def main():
         },
         "BUG-FR07-B-04": {
             "title": "Trang giỏ hàng thiếu nút tăng giảm số lượng (+/-) và nhập số lượng trực tiếp",
-            "tc": "TC-CART-015 đến TC-CART-026, TC-CART-037",
+            "tc": "TC-CART-014 đến TC-CART-025, TC-CART-036",
             "summary": "Trang giỏ hàng `/cart` hiển thị số lượng sản phẩm dưới dạng text tĩnh và không có các nút '+' / '-' hay ô nhập liệu, khiến người dùng không thể điều chỉnh số lượng.",
             "steps": "1. Thêm sản phẩm vào giỏ hàng.\n2. Truy cập `/cart`.\n3. Tìm nút '+' hoặc '-' hoặc ô nhập để thay đổi số lượng.",
             "severity": "Major", "priority": "High",
@@ -318,7 +317,7 @@ def main():
         },
         "BUG-FR07-B-05": {
             "title": "Thiếu Confirm Dialog xác nhận khi xóa sản phẩm khỏi giỏ hàng",
-            "tc": "TC-CART-031 đến TC-CART-034, TC-CART-054, TC-CART-055, TC-CART-056",
+            "tc": "TC-CART-030 đến TC-CART-033, TC-CART-051, TC-CART-052, TC-CART-053",
             "summary": "Nút 'Xóa' sản phẩm trực tiếp kích hoạt hàm `removeFromCart` xóa bản ghi ngay lập tức mà không hiển thị hộp thoại xác nhận (Confirm Dialog), tăng nguy cơ xóa nhầm dữ liệu.",
             "steps": "1. Truy cập `/cart` có sản phẩm.\n2. Nhấn nút 'Xóa'.\n3. Quan sát xem có modal/alert confirm hiển thị hay không.",
             "severity": "Minor", "priority": "Medium",
@@ -327,7 +326,7 @@ def main():
         },
         "BUG-FR07-B-06": {
             "title": "Nhãn hiển thị tổng tiền không đúng đặc tả ('Tổng tạm tính' thay vì 'Tổng cộng')",
-            "tc": "TC-CART-009",
+            "tc": "TC-CART-008",
             "summary": "Trang `/cart` hiển thị nhãn tổng số tiền của giỏ hàng là 'Tổng tạm tính' thay vì 'Tổng cộng' như yêu cầu trong đặc tả.",
             "steps": "1. Truy cập `/cart` có sản phẩm.\n2. Quan sát nhãn văn bản bên cạnh tổng tiền.",
             "severity": "Minor", "priority": "Low",
@@ -343,7 +342,7 @@ def main():
             "evidence": "Cột chỉ có text `{item.name}`, không có thẻ `<img>` hiển thị ảnh.",
             "file": "frontend-web/src/pages/Cart.jsx#L45"
         },
-        "BUG-FR07-B-08": {
+        "BUG-FR07-B-07": {
             "title": "Trạng thái giỏ hàng trống thiếu hình ảnh/icon minh họa trực quan",
             "tc": "TC-CART-002",
             "summary": "Khi giỏ hàng trống, giao diện chỉ hiển thị dòng chữ thông báo và nút quay về mà thiếu hình ảnh hoặc biểu tượng (icon) trực quan minh họa.",
@@ -352,7 +351,7 @@ def main():
             "evidence": "Chỉ hiển thị chữ 'Giỏ hàng của bạn đang trống' dạng text thường.",
             "file": "frontend-web/src/pages/Cart.jsx#L23"
         },
-        "BUG-FR07-B-09": {
+        "BUG-FR07-B-08": {
             "title": "Trang giỏ hàng thiếu thanh breadcrumb điều hướng",
             "tc": "TC-CART-004",
             "summary": "Giao diện trang `/cart` thiếu thanh breadcrumb dạng 'Trang chủ > Giỏ hàng' để định vị và giúp điều hướng ngược lại.",
@@ -360,37 +359,27 @@ def main():
             "severity": "Minor", "priority": "Low",
             "evidence": "Trang trống hoặc trang bảng đều thiếu breadcrumb.",
             "file": "frontend-web/src/pages/Cart.jsx#L30"
-        },
-        "BUG-FR07-B-10": {
-            "title": "Giỏ hàng không đồng bộ với Backend khi xóa sản phẩm",
-            "tc": "TC-CART-051, TC-CART-053",
-            "summary": "Nhấn nút 'Xóa' chỉ xóa sản phẩm ở React state phía Client. Backend không được thiết lập API xóa (`DELETE /api/cart`), dẫn đến việc khi reload (F5) trang, sản phẩm đã xóa lại tự động xuất hiện.",
-            "steps": "1. Thêm sản phẩm.\n2. Vào `/cart` và bấm nút Xóa sản phẩm đó.\n3. Nhấn F5 (reload trang).",
-            "severity": "Critical", "priority": "High",
-            "evidence": "Sản phẩm tự động hiển thị trở lại sau khi reload trang.",
+        },        "BUG-FR07-B-09": {
+            "title": "Không cần đăng nhập vẫn cho phép thêm sản phẩm vào giỏ hàng",
+            "tc": "TC-CART-047",
+            "summary": "Hệ thống cho phép người dùng chưa đăng nhập thực hiện thêm sản phẩm vào giỏ hàng thành công (không yêu cầu token xác thực hoặc không chặn ở Frontend/Backend), dẫn đến việc giỏ hàng hoạt động không có định danh người dùng.",
+            "steps": "1. Đảm bảo chưa đăng nhập (xóa token / dùng tab ẩn danh).\n2. Truy cập trang chi tiết sản phẩm hoặc gửi yêu cầu API POST /api/cart không có Header Authorization chứa token JWT.\n3. Nhấn 'Thêm vào giỏ hàng' hoặc gửi request qua Postman.",
+            "severity": "Major", "priority": "High",
+            "evidence": "API trả về 200 OK và sản phẩm được ghi nhận vào giỏ hàng thành công mà không yêu cầu xác thực người dùng.",
             "file": "backend/server.js#L280"
         },
-        "BUG-FR07-B-11": {
-            "title": "Trang giỏ hàng không bảo vệ quyền truy cập khi chưa đăng nhập",
-            "tc": "TC-CART-048",
-            "summary": "Trang giỏ hàng `/cart` không kiểm tra trạng thái đăng nhập khi được load (mount), cho phép người dùng chưa đăng nhập truy cập trực tiếp thay vì tự động chuyển hướng về `/login`.",
-            "steps": "1. Xóa token / dùng tab ẩn danh.\n2. Truy cập trực tiếp đường dẫn `/cart`.",
-            "severity": "Major", "priority": "High",
-            "evidence": "Giao diện trang giỏ hàng vẫn hiển thị thay vì redirect về trang Login.",
-            "file": "frontend-web/src/pages/Cart.jsx#L6"
-        },
-        "BUG-FR07-B-12": {
+        "BUG-FR07-B-10": {
             "title": "Backend API không validate tính toàn vẹn của sản phẩm thêm vào giỏ hàng",
-            "tc": "TC-CART-060, TC-CART-061, TC-CART-062",
+            "tc": "TC-CART-057, TC-CART-058, TC-CART-059",
             "summary": "API `POST /api/cart` không validate sự tồn tại và tính hợp lệ của các trường bắt buộc như `id` và `price`. Backend chấp nhận thêm sản phẩm thiếu ID, thiếu giá, hoặc giá <= 0 vào giỏ hàng.",
             "steps": "1. Đăng nhập và lấy token JWT.\n2. Gửi request POST tới `/api/cart` với body thiếu trường `id`.\n3. Kiểm tra giỏ hàng bằng GET `/api/cart`.",
             "severity": "Major", "priority": "High",
             "evidence": "Ghi nhận response HTTP 200 OK thay vì HTTP 400 Bad Request.",
             "file": "backend/server.js#L290"
         },
-        "BUG-FR07-B-13": {
+        "BUG-FR07-B-11": {
             "title": "Thiếu thông báo phản hồi (toast/alert) khi thêm sản phẩm vào giỏ hàng thành công",
-            "tc": "TC-CART-010, TC-CART-011, TC-CART-039",
+            "tc": "TC-CART-009, TC-CART-010, TC-CART-038",
             "summary": "Giao diện không hiển thị bất kỳ thông báo (toast/alert/popup) nào để thông báo cho người dùng biết sản phẩm đã được thêm vào giỏ hàng thành công, vi phạm yêu cầu phản hồi trạng thái của FR-24.",
             "steps": "1. Truy cập Trang chủ.\n2. Nhấn nút 'Thêm vào giỏ hàng' của một sản phẩm.\n3. Quan sát màn hình tìm thông báo phản hồi.",
             "severity": "Minor", "priority": "Medium",
@@ -439,7 +428,7 @@ def main():
 | Test Case ID | Module | Tester | Result | Related Bug | Note |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 """
-    for i in range(1, 63):
+    for i in range(1, 61):
         tc_id = f"TC-CART-{i:03d}"
         res_status, note = results[tc_id]
         
@@ -461,17 +450,17 @@ def main():
             elif i == 6:
                 related_bug = "BUG-FR07-B-07"
             elif i == 2:
-                related_bug = "BUG-FR07-B-08"
+                related_bug = "BUG-FR07-B-07"
             elif i == 4:
-                related_bug = "BUG-FR07-B-09"
+                related_bug = "BUG-FR07-B-08"
             elif i in [51, 53]:
                 related_bug = "BUG-FR07-B-10"
             elif i == 48:
-                related_bug = "BUG-FR07-B-11"
+                related_bug = "BUG-FR07-B-09"
             elif i in [60, 61, 62]:
-                related_bug = "BUG-FR07-B-12"
+                related_bug = "BUG-FR07-B-10"
             elif i in [10, 11, 39]:
-                related_bug = "BUG-FR07-B-13"
+                related_bug = "BUG-FR07-B-11"
                 
         run_content += f"| [{tc_id}](../test-cases/cart/{tc_id}.md) | Cart | AI Tester | {res_status} | {related_bug} | {note} |\n"
         
@@ -483,13 +472,11 @@ def main():
 4. **BUG-FR07-B-04:** Trang giỏ hàng `/cart` thiếu hoàn toàn các nút tăng giảm số lượng (+/-) và input chỉnh sửa.
 5. **BUG-FR07-B-05:** Trang giỏ hàng xóa sản phẩm ngay lập tức mà không hiển thị Confirm Dialog xác nhận.
 6. **BUG-FR07-B-06:** Nhãn hiển thị tổng tiền hiển thị sai là 'Tổng tạm tính' thay vì 'Tổng cộng'.
-7. **BUG-FR07-B-07:** Bảng giỏ hàng không hiển thị hình ảnh thu nhỏ (thumbnail) của sản phẩm.
-8. **BUG-FR07-B-08:** Trạng thái giỏ hàng trống thiếu hoàn toàn icon hoặc hình ảnh minh họa trực quan.
-9. **BUG-FR07-B-09:** Trang giỏ hàng thiếu thanh breadcrumb điều hướng 'Trang chủ > Giỏ hàng'.
-10. **BUG-FR07-B-10:** Xóa sản phẩm ở frontend không đồng bộ lên server (reload trang sẽ hiển thị lại) do thiếu API xóa ở backend.
-11. **BUG-FR07-B-11:** Trang giỏ hàng không bảo vệ quyền truy cập và không redirect khi chưa đăng nhập.
-12. **BUG-FR07-B-12:** API `POST /api/cart` không validate tính toàn vẹn của request body (thiếu id, price hoặc price <= 0).
-13. **BUG-FR07-B-13:** Thiếu thông báo phản hồi (toast/alert) khi thêm sản phẩm vào giỏ hàng thành công.
+7. **BUG-FR07-B-07:** Trạng thái giỏ hàng trống thiếu hoàn toàn icon hoặc hình ảnh minh họa trực quan.
+8. **BUG-FR07-B-08:** Trang giỏ hàng thiếu thanh breadcrumb điều hướng 'Trang chủ > Giỏ hàng'.
+9. **BUG-FR07-B-09:** Không cần đăng nhập vẫn cho phép thêm sản phẩm vào giỏ hàng.
+10. **BUG-FR07-B-10:** API `POST /api/cart` không validate tính toàn vẹn của request body (thiếu id, price hoặc price <= 0).
+11. **BUG-FR07-B-11:** Thiếu thông báo phản hồi (toast/alert) khi thêm sản phẩm vào giỏ hàng thành công.
 """
     with open(run_file, "w", encoding="utf-8") as f:
         f.write(run_content)
@@ -532,17 +519,17 @@ def main():
                         elif i == 6:
                             related_bug = "BUG-FR07-B-07"
                         elif i == 2:
-                            related_bug = "BUG-FR07-B-08"
+                            related_bug = "BUG-FR07-B-07"
                         elif i == 4:
-                            related_bug = "BUG-FR07-B-09"
+                            related_bug = "BUG-FR07-B-08"
                         elif i in [51, 53]:
                             related_bug = "BUG-FR07-B-10"
                         elif i == 48:
-                            related_bug = "BUG-FR07-B-11"
+                            related_bug = "BUG-FR07-B-09"
                         elif i in [60, 61, 62]:
-                            related_bug = "BUG-FR07-B-12"
+                            related_bug = "BUG-FR07-B-10"
                         elif i in [10, 11, 39]:
-                            related_bug = "BUG-FR07-B-13"
+                            related_bug = "BUG-FR07-B-11"
                     
                     status_cell = "Ready for Retest" if res_status == "Fail" else "Done"
                     new_line = f"| {parts[1].strip()} | {parts[2].strip()} | {res_status} | {related_bug} | {status_cell} |\n"

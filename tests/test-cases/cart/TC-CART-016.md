@@ -1,10 +1,10 @@
-# TC-CART-016: Nhập quantity = 2
+# TC-CART-016: Nhập quantity = 5
 
 ## Requirement ID
 FR-07
 
 ## Module / Test type / Technique
-Cart / Functional / BVA - Min + 1
+Cart / Functional / EP - Valid
 
 ## Preconditions
 - Người dùng đã đăng nhập.
@@ -13,16 +13,16 @@ Cart / Functional / BVA - Min + 1
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Quantity input | `2` |
+| Quantity input | `5` |
 
 ## Test steps
 1. Truy cập trang `/cart`.
-2. Nhập số '2' vào ô số lượng của sản phẩm A.
+2. Nhập số '5' vào ô số lượng của sản phẩm A.
 3. Nhấn Enter hoặc nhấp ra ngoài.
 
 ## Expected result
-- Số lượng được cập nhật thành 2.
-- Thành tiền và Tổng cộng giỏ hàng được cập nhật tương ứng chính xác.
+- Hợp lệ, số lượng cập nhật thành 5.
+- Thành tiền cập nhật bằng Đơn giá x 5, tổng cộng thay đổi tương ứng.
 
 ## Status / Related bugs
 Not Run / None

@@ -1,14 +1,14 @@
-# TC-CART-051: Reload trang /cart sau khi đã thêm sản phẩm
+# TC-CART-051: Confirm Dialog hiển thị đúng tên sản phẩm cần xóa
 
 ## Requirement ID
-FR-07
+FR-07, FR-24
 
 ## Module / Test type / Technique
-Cart / Functional / State Persistence
+Cart / Functional / UI / Confirmation
 
 ## Preconditions
-- Người dùng đã đăng nhập.
-- Giỏ hàng có một số sản phẩm.
+- Người dùng đăng nhập.
+- Giỏ hàng có sản phẩm tên 'Sản phẩm A'.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -16,12 +16,11 @@ Cart / Functional / State Persistence
 | Không có | |
 
 ## Test steps
-1. Truy cập trang `/cart` và thấy danh sách sản phẩm hiển thị.
-2. Nhấn phím F5 hoặc nút Reload của trình duyệt để tải lại trang.
-3. Quan sát bảng giỏ hàng sau khi tải xong.
+1. Truy cập `/cart`.
+2. Nhấp chọn nút 'Xóa' của 'Sản phẩm A'.
 
 ## Expected result
-- Giỏ hàng vẫn duy trì đầy đủ dữ liệu các sản phẩm đã thêm, không bị mất trạng thái hoặc bị reset về rỗng.
+- Hộp thoại xác nhận hiển thị chứa nội dung ghi rõ tên sản phẩm cần xóa (ví dụ: 'Bạn có chắc chắn muốn xóa Sản phẩm A khỏi giỏ hàng?').
 
 ## Status / Related bugs
 Not Run / None

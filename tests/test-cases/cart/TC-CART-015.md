@@ -1,28 +1,28 @@
-# TC-CART-015: Nhập quantity = 1
+# TC-CART-015: Nhập quantity = 2
 
 ## Requirement ID
 FR-07
 
 ## Module / Test type / Technique
-Cart / Functional / BVA - Min
+Cart / Functional / BVA - Min + 1
 
 ## Preconditions
 - Người dùng đã đăng nhập.
-- Giỏ hàng có sản phẩm A với số lượng ban đầu là 2.
+- Giỏ hàng có sản phẩm A.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Quantity input | `1` |
+| Quantity input | `2` |
 
 ## Test steps
 1. Truy cập trang `/cart`.
-2. Nhập trực tiếp số '1' vào ô nhập số lượng (quantity input) của sản phẩm A.
-3. Nhấn Enter hoặc nhấp ra ngoài ô nhập (blur) để hệ thống cập nhật.
+2. Nhập số '2' vào ô số lượng của sản phẩm A.
+3. Nhấn Enter hoặc nhấp ra ngoài.
 
 ## Expected result
-- Số lượng được chấp nhận và cập nhật thành 1 thành công.
-- Thành tiền của sản phẩm và Tổng cộng giỏ hàng được tính toán cập nhật chính xác theo số lượng 1.
+- Số lượng được cập nhật thành 2.
+- Thành tiền và Tổng cộng giỏ hàng được cập nhật tương ứng chính xác.
 
 ## Status / Related bugs
 Not Run / None

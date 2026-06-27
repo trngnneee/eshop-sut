@@ -1,26 +1,26 @@
-# TC-CART-035: Navbar hiển thị badge giỏ hàng
+# TC-CART-035: Badge cập nhật sau khi thêm sản phẩm
 
 ## Requirement ID
-FR-23
+FR-23, FR-24
 
 ## Module / Test type / Technique
-Cart / UI Requirement / UI Requirement
+Cart / Functional / State Testing
 
 ## Preconditions
 - Người dùng đã đăng nhập.
-- Giỏ hàng hiện có tổng cộng 3 sản phẩm (ví dụ: 1 sản phẩm A và 2 sản phẩm B).
+- Giỏ hàng hiện tại có 3 sản phẩm.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Không có | |
+| Sản phẩm thêm mới | `Sản phẩm C` |
 
 ## Test steps
-1. Truy cập hệ thống ở bất kỳ trang nào có thanh điều hướng (navbar).
-2. Quan sát liên kết/icon 'Giỏ hàng' trên thanh điều hướng.
+1. Tìm sản phẩm C và nhấn nút 'Thêm vào giỏ hàng'.
+2. Quan sát badge giỏ hàng trên thanh điều hướng.
 
 ## Expected result
-- Liên kết 'Giỏ hàng' hiển thị kèm badge số lượng tổng sản phẩm, cụ thể là 'Giỏ hàng (3)' hoặc icon giỏ hàng kèm badge số 3 đỏ/nổi bật.
+- Badge lập tức cập nhật tăng thêm 1 đơn vị thành 4.
 
 ## Status / Related bugs
 Not Run / None

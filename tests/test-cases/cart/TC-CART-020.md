@@ -1,4 +1,4 @@
-# TC-CART-020: Nhập quantity thập phân
+# TC-CART-020: Nhập quantity là chữ
 
 ## Requirement ID
 FR-07
@@ -13,16 +13,16 @@ Cart / Functional / EP - Invalid
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Quantity input | `1.5` |
+| Quantity input | `abc` |
 
 ## Test steps
 1. Truy cập trang `/cart`.
-2. Nhập số '1.5' vào ô số lượng của sản phẩm A.
+2. Nhập chuỗi chữ 'abc' vào ô số lượng của sản phẩm A.
 3. Nhấn Enter hoặc nhấp ra ngoài.
 
 ## Expected result
-- Hành động không hợp lệ. Hệ thống chỉ chấp nhận số nguyên dương.
-- Giá trị tự động làm tròn hoặc trả về số cũ, không thực hiện cập nhật giá trị số thập phân.
+- Hành động không hợp lệ, hệ thống không chấp nhận nhập ký tự không phải số.
+- Số lượng sản phẩm không thay đổi.
 
 ## Status / Related bugs
 Not Run / None

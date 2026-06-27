@@ -1,14 +1,14 @@
-# TC-CART-025: Nhấn nút `-` khi quantity > 1
+# TC-CART-025: Nhấn nút `-` khi quantity = 1
 
 ## Requirement ID
 FR-07
 
 ## Module / Test type / Technique
-Cart / Functional / Functional + State
+Cart / Functional / BVA
 
 ## Preconditions
 - Người dùng đã đăng nhập.
-- Giỏ hàng có sản phẩm A với số lượng ban đầu là 3.
+- Giỏ hàng có sản phẩm A với số lượng là 1.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -17,11 +17,10 @@ Cart / Functional / Functional + State
 
 ## Test steps
 1. Truy cập trang `/cart`.
-2. Nhấp vào nút '-' tương ứng với sản phẩm A.
+2. Nhấp vào nút '-' hoặc kiểm tra trạng thái nút '-' của sản phẩm A.
 
 ## Expected result
-- Số lượng sản phẩm giảm xuống còn 2.
-- Thành tiền của sản phẩm và Tổng cộng giỏ hàng cập nhật giảm đi tương ứng realtime.
+- Nút '-' bị vô hiệu hóa (disabled) hoặc khi click vào, hệ thống không cho phép giảm số lượng xuống 0.
 
 ## Status / Related bugs
 Not Run / None

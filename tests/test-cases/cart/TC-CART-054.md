@@ -1,14 +1,13 @@
-# TC-CART-054: Confirm Dialog hiển thị đúng tên sản phẩm cần xóa
+# TC-CART-054: Nhấn “Thêm vào giỏ hàng” liên tục nhiều lần rất nhanh
 
 ## Requirement ID
 FR-07, FR-24
 
 ## Module / Test type / Technique
-Cart / Functional / UI / Confirmation
+Cart / Functional / Robustness / Race Condition
 
 ## Preconditions
-- Người dùng đăng nhập.
-- Giỏ hàng có sản phẩm tên 'Sản phẩm A'.
+- Người dùng ở trang chủ.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -16,11 +15,11 @@ Cart / Functional / UI / Confirmation
 | Không có | |
 
 ## Test steps
-1. Truy cập `/cart`.
-2. Nhấp chọn nút 'Xóa' của 'Sản phẩm A'.
+1. Nhấp liên tiếp 5 lần thật nhanh vào nút 'Thêm vào giỏ hàng' của sản phẩm A.
+2. Truy cập `/cart` kiểm tra số lượng.
 
 ## Expected result
-- Hộp thoại xác nhận hiển thị chứa nội dung ghi rõ tên sản phẩm cần xóa (ví dụ: 'Bạn có chắc chắn muốn xóa Sản phẩm A khỏi giỏ hàng?').
+- Hệ thống xử lý bất đồng bộ chính xác, số lượng sản phẩm A được cộng dồn tăng đúng lên thêm 5 đơn vị.
 
 ## Status / Related bugs
 Not Run / None

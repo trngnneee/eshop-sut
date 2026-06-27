@@ -1,15 +1,14 @@
-# TC-CART-030: Tổng cộng cập nhật sau khi xóa sản phẩm
+# TC-CART-030: Nhấn nút Xóa hiển thị Confirm Dialog
 
 ## Requirement ID
-FR-07
+FR-07, FR-24
 
 ## Module / Test type / Technique
-Cart / Functional / State Testing
+Cart / Functional / Functional Testing
 
 ## Preconditions
 - Người dùng đã đăng nhập.
-- Giỏ hàng có Sản phẩm A (Thành tiền: 200.000 ₫) và Sản phẩm B (Thành tiền: 150.000 ₫).
-- Tổng cộng ban đầu là 350.000 ₫.
+- Giỏ hàng có ít nhất 1 sản phẩm.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -18,11 +17,11 @@ Cart / Functional / State Testing
 
 ## Test steps
 1. Truy cập trang `/cart`.
-2. Thực hiện xóa Sản phẩm A khỏi giỏ hàng (và xác nhận xóa).
-3. Quan sát giá trị tại dòng 'Tổng cộng'.
+2. Nhấp vào nút/icon Xóa (thùng rác hoặc dấu X) của sản phẩm.
 
 ## Expected result
-- Sau khi sản phẩm A biến mất khỏi giỏ hàng, Tổng cộng cập nhật ngay về '150.000 ₫' chính xác theo các sản phẩm còn lại.
+- Một hộp thoại xác nhận xóa (Confirm Dialog/Modal) hiển thị trên màn hình.
+- Hộp thoại có các tùy chọn xác nhận 'Đồng ý/Xác nhận' và hủy bỏ 'Hủy'.
 
 ## Status / Related bugs
 Not Run / None

@@ -1,27 +1,26 @@
-# TC-CART-038: Badge cập nhật sau khi xóa sản phẩm
+# TC-CART-038: Toast hiển thị sau khi thêm vào giỏ hàng
 
 ## Requirement ID
-FR-23
+FR-24
 
 ## Module / Test type / Technique
-Cart / Functional / State Testing
+Cart / UI Feedback / UI Feedback
 
 ## Preconditions
 - Người dùng đã đăng nhập.
-- Giỏ hàng đang có 2 sản phẩm A (SL 1) và B (SL 1). Badge hiển thị 2.
+- Người dùng đang ở Trang chủ.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Không có | |
+| Sản phẩm | `Sản phẩm A` |
 
 ## Test steps
-1. Truy cập trang `/cart`.
-2. Thực hiện xóa hoàn toàn sản phẩm B ra khỏi giỏ hàng.
-3. Quan sát badge giỏ hàng trên navbar.
+1. Tìm sản phẩm A và click vào nút 'Thêm vào giỏ hàng'.
 
 ## Expected result
-- Badge giỏ hàng lập tức cập nhật giảm xuống còn 1.
+- Hệ thống ngay lập tức hiển thị một popup/toast thông báo thành công (ví dụ: 'Đã thêm sản phẩm vào giỏ hàng!') ở góc màn hình.
+- Toast tự động biến mất sau vài giây mà không cần người dùng tắt thủ công.
 
 ## Status / Related bugs
 Not Run / None

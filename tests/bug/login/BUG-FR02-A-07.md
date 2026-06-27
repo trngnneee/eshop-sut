@@ -11,7 +11,6 @@
 | **Severity** | Critical |
 | **Frequency** | Always |
 | **Priority** | High |
-| **Attachment (Link to file)** | [Login.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Login.jsx#L52) |
 | **Evidence (Screenshot)** | ![Screenshot](evidences/BUG-FR02-A-07.png) |
 | **Date** | 2026-06-23 |
 | **Reporter** | AI Tester (Antigravity) |

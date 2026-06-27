@@ -1,4 +1,4 @@
-# TC-CART-007: Đơn giá hiển thị đúng định dạng VND
+# TC-CART-007: Thành tiền hiển thị đúng
 
 ## Requirement ID
 FR-07, FR-21
@@ -8,20 +8,21 @@ Cart / Functional / Domain Testing
 
 ## Preconditions
 - Người dùng đã đăng nhập vào hệ thống.
-- Giỏ hàng có ít nhất 1 sản phẩm với giá trị số nguyên cụ thể.
+- Giỏ hàng có sản phẩm có đơn giá 100000 và số lượng là 2.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Đơn giá sản phẩm | `100000` |
+| Đơn giá | `100000` |
+| Số lượng | `2` |
 
 ## Test steps
 1. Truy cập trang `/cart`.
-2. Quan sát giá trị hiển thị tại cột 'Đơn giá'.
+2. Quan sát giá trị hiển thị tại cột 'Thành tiền' của sản phẩm đó.
 
 ## Expected result
-- Đơn giá hiển thị đúng định dạng tiền tệ Việt Nam (VND).
-- Đơn giá hiển thị là '100.000 ₫', có ký hiệu '₫' ở cuối và có dấu chấm phân tách hàng nghìn.
+- Thành tiền hiển thị chính xác theo công thức: Đơn giá x Số lượng = 100.000 x 2 = 200.000.
+- Định dạng hiển thị là '200.000 ₫', có ký hiệu '₫' ở cuối.
 
 ## Status / Related bugs
 Not Run / None

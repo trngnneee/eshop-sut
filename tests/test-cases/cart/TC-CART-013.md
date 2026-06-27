@@ -1,27 +1,28 @@
-# TC-CART-013: Không tạo dòng mới khi thêm sản phẩm trùng
+# TC-CART-013: Sản phẩm khác ID được hiển thị thành dòng riêng
 
 ## Requirement ID
 FR-07
 
 ## Module / Test type / Technique
-Cart / Functional / State Testing
+Cart / Functional / Domain Testing
 
 ## Preconditions
 - Người dùng đã đăng nhập.
-- Sản phẩm A đã có trong giỏ hàng.
+- Giỏ hàng hiện tại trống.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Sản phẩm | `Sản phẩm A` |
+| Sản phẩm 1 | `Sản phẩm A (ID: 1)` |
+| Sản phẩm 2 | `Sản phẩm B (ID: 2)` |
 
 ## Test steps
-1. Thực hiện hành động thêm sản phẩm A vào giỏ hàng thêm nhiều lần nữa.
-2. Truy cập trang `/cart`.
+1. Thêm Sản phẩm A (ID: 1) vào giỏ hàng.
+2. Thêm Sản phẩm B (ID: 2) vào giỏ hàng.
+3. Truy cập trang `/cart`.
 
 ## Expected result
-- Bảng danh sách giỏ hàng không xuất hiện nhiều dòng sản phẩm trùng ID với sản phẩm A.
-- Chỉ có duy nhất một dòng cho sản phẩm A và số lượng tăng lên tương ứng.
+- Bảng giỏ hàng hiển thị 2 dòng sản phẩm riêng biệt dành riêng cho Sản phẩm A và Sản phẩm B.
 
 ## Status / Related bugs
 Not Run / None

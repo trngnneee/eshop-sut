@@ -1,14 +1,13 @@
-# TC-CART-052: Mở cart ở tab khác sau khi thêm sản phẩm
+# TC-CART-052: Đóng Confirm Dialog bằng phím ESC hoặc click ngoài vùng modal
 
 ## Requirement ID
-FR-07
+FR-07, FR-24
 
 ## Module / Test type / Technique
-Cart / Functional / Multi-tab State
+Cart / Functional / UI / UX
 
 ## Preconditions
-- Người dùng đăng nhập.
-- Thêm sản phẩm thành công vào giỏ hàng.
+- Người dùng nhấp nút Xóa và hộp thoại Confirm Dialog đang hiển thị.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -16,11 +15,11 @@ Cart / Functional / Multi-tab State
 | Không có | |
 
 ## Test steps
-1. Mở một tab mới trên cùng một trình duyệt.
-2. Truy cập đường dẫn `http://localhost:5173/cart`.
+1. Nhấn phím ESC trên bàn phím hoặc nhấp chuột vào vùng nền bên ngoài hộp thoại modal.
 
 ## Expected result
-- Tab mới hiển thị chính xác trạng thái giỏ hàng mới nhất chứa các sản phẩm đã thêm.
+- Hộp thoại modal tự động đóng lại.
+- Sản phẩm không bị xóa và vẫn nằm trong giỏ hàng.
 
 ## Status / Related bugs
 Not Run / None

@@ -1,19 +1,16 @@
-# BUG-FR07-B-12: Backend API không validate tính toàn vẹn của sản phẩm thêm vào giỏ hàng
+# BUG-FR07-B-12: Không hiển thị số lượng hàng tồn kho khả dụng và thiếu cảnh báo khi số lượng vượt quá hàng tồn
 
 | Tên trường (Field) | Giá trị (Value) |
 | :--- | :--- |
-| **No.** | 12 |
+| **No.** | TEMP1 |
 | **BugID** | `BUG-FR07-B-12` |
 | **Status** | **Open** |
 | **Requirement Name** | FR-07 Giỏ hàng & Điều hướng |
-| **Summary** | API `POST /api/cart` không validate sự tồn tại và tính hợp lệ của các trường bắt buộc như `id` và `price`. Backend chấp nhận thêm sản phẩm thiếu ID, thiếu giá, hoặc giá <= 0 vào giỏ hàng. |
-| **Steps to reproduce** | 1. Đăng nhập và lấy token JWT.
-2. Gửi request POST tới `/api/cart` với body thiếu trường `id`.
-3. Kiểm tra giỏ hàng bằng GET `/api/cart`. |
+| **Summary** | Trên giao diện chi tiết sản phẩm và giỏ hàng, hệ thống không hiển thị số lượng sản phẩm còn lại trong kho. Đồng thời, khi người dùng chọn hoặc nhập số lượng mua lớn hơn số lượng hàng tồn kho khả dụng thực tế, hệ thống vẫn cho phép thực hiện hoặc không hiển thị bất kỳ cảnh báo/lỗi nào để người dùng biết. |
+| **Steps to reproduce** | 1. Đăng nhập và truy cập trang chi tiết của một sản phẩm (ví dụ: sản phẩm chỉ còn 3 cái trong kho).<br>2. Quan sát giao diện (không thấy thông tin hiển thị số lượng sản phẩm khả dụng trong kho).<br>3. Thử tăng số lượng mua lên thành 10 cái (hoặc một số lượng bất kỳ vượt quá mức tồn kho).<br>4. Nhấp nút "Thêm vào giỏ hàng" hoặc quan sát phản hồi trên giao diện. |
 | **Severity** | Major |
 | **Frequency** | Always |
 | **Priority** | High |
-| **Attachment (Link to file)** | [server.js](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/backend/server.js#L290) |
-| **Evidence (Screenshot)** | Ghi nhận response HTTP 200 OK thay vì HTTP 400 Bad Request. |
+| **Evidence (Screenshot)** | Giao diện không giới hạn số lượng chọn, không hiển thị số lượng còn lại, và cho phép thêm số lượng vượt quá tồn kho vào giỏ hàng mà không cảnh báo. |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

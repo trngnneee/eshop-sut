@@ -1,4 +1,4 @@
-# BUG-FR07-B-09: Trang giỏ hàng thiếu thanh breadcrumb điều hướng
+# BUG-FR07-B-09: Không cần đăng nhập vẫn cho phép thêm sản phẩm vào giỏ hàng
 
 | Tên trường (Field) | Giá trị (Value) |
 | :--- | :--- |
@@ -6,13 +6,14 @@
 | **BugID** | `BUG-FR07-B-09` |
 | **Status** | **Open** |
 | **Requirement Name** | FR-07 Giỏ hàng & Điều hướng |
-| **Summary** | Giao diện trang `/cart` thiếu thanh breadcrumb dạng 'Trang chủ > Giỏ hàng' để định vị và giúp điều hướng ngược lại. |
-| **Steps to reproduce** | 1. Truy cập `/cart`.
-2. Tìm thanh breadcrumb phía trên tiêu đề chính. |
-| **Severity** | Minor |
+| **Summary** | Hệ thống cho phép người dùng chưa đăng nhập thực hiện thêm sản phẩm vào giỏ hàng thành công (không yêu cầu token xác thực hoặc không chặn ở Frontend/Backend), dẫn đến việc giỏ hàng hoạt động không có định danh người dùng. |
+| **Steps to reproduce** | 1. Đảm bảo chưa đăng nhập (xóa token / dùng tab ẩn danh).
+2. Truy cập trang chi tiết sản phẩm hoặc gửi yêu cầu API POST /api/cart không có Header Authorization chứa token JWT.
+3. Nhấn 'Thêm vào giỏ hàng' hoặc gửi request qua Postman. |
+| **Severity** | Major |
 | **Frequency** | Always |
-| **Priority** | Low |
-| **Attachment (Link to file)** | [Cart.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Cart.jsx#L30) |
-| **Evidence (Screenshot)** | Trang trống hoặc trang bảng đều thiếu breadcrumb. |
+| **Priority** | High |
+| **Attachment (Link to file)** | [server.js](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/backend/server.js#L280) |
+| **Evidence (Screenshot)** | API trả về 200 OK và sản phẩm được ghi nhận vào giỏ hàng thành công mà không yêu cầu xác thực người dùng. |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

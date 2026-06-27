@@ -7,7 +7,7 @@ FR-02, SEC-02
 Lockout / Stress & Security Testing
 
 ## Preconditions
-- Tài khoản đang hoạt động bình thường, `login_attempts = 0`.
+- Tài khoản đang hoạt động bình thường, chưa nhập sai lần nào.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -20,7 +20,7 @@ Lockout / Stress & Security Testing
 
 ## Expected result
 - Bộ đếm ghi nhận chính xác trạng thái khóa và chuyển sang khóa sau 3 yêu cầu đầu tiên.
-- Không xảy ra lỗi race condition hoặc crash DB.
+- Không xảy ra lỗi race condition hoặc lỗi hệ thống.
 
 ## Status / Related bugs
 Not Run / None

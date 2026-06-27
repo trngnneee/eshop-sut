@@ -1,4 +1,4 @@
-# BUG-FR07-B-07: Trang giỏ hàng không hiển thị hình ảnh đại diện sản phẩm
+# BUG-FR07-B-07: Trạng thái giỏ hàng trống thiếu hình ảnh/icon minh họa trực quan
 
 | Tên trường (Field) | Giá trị (Value) |
 | :--- | :--- |
@@ -6,13 +6,13 @@
 | **BugID** | `BUG-FR07-B-07` |
 | **Status** | **Open** |
 | **Requirement Name** | FR-07 Giỏ hàng & Điều hướng |
-| **Summary** | Cột 'Sản phẩm' trong bảng giỏ hàng chỉ hiển thị văn bản tên sản phẩm mà không hiển thị hình ảnh thumbnail như quy định. |
-| **Steps to reproduce** | 1. Truy cập `/cart`.
-2. Quan sát cột Sản phẩm. |
+| **Summary** | Khi giỏ hàng trống, giao diện chỉ hiển thị dòng chữ thông báo và nút quay về mà thiếu hình ảnh hoặc biểu tượng (icon) trực quan minh họa. |
+| **Steps to reproduce** | 1. Truy cập `/cart` khi chưa có sản phẩm.
+2. Quan sát phần hiển thị empty state. |
 | **Severity** | Minor |
 | **Frequency** | Always |
 | **Priority** | Low |
-| **Attachment (Link to file)** | [Cart.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Cart.jsx#L45) |
-| **Evidence (Screenshot)** | Cột chỉ có text `{item.name}`, không có thẻ `<img>` hiển thị ảnh. |
+| **Attachment (Link to file)** | [Cart.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Cart.jsx#L23) |
+| **Evidence (Screenshot)** | Chỉ hiển thị chữ 'Giỏ hàng của bạn đang trống' dạng text thường. |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

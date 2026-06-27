@@ -8,7 +8,7 @@ Login / Functional / Positive Testing
 
 ## Preconditions
 - Đã đăng ký tài khoản `test_tc30@eshop.com` với mật khẩu `ValidPassword1!` trên hệ thống.
-- Trạng thái ban đầu: `login_attempts = 0`.
+- Trạng thái ban đầu: chưa nhập sai lần nào.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -19,11 +19,11 @@ Login / Functional / Positive Testing
 ## Test steps
 1. Gửi yêu cầu đăng nhập POST tới `/api/login` với email và mật khẩu đúng.
 2. Kiểm tra phản hồi HTTP thành công.
-3. Truy vấn cơ sở dữ liệu để kiểm tra giá trị của trường `login_attempts` đối với tài khoản `test_tc30@eshop.com`.
+3. Kiểm tra trạng thái tài khoản bằng cách đăng nhập thử qua API.
 
 ## Expected result
 - Đăng nhập thành công (HTTP 200).
-- Trường `login_attempts` trong cơ sở dữ liệu phải giữ nguyên bằng `0` (không tăng).
+- Số lần đăng nhập sai của tài khoản phải giữ nguyên bằng `0` (không tăng).
 
 ## Status / Related bugs
 Passed / None

@@ -1,4 +1,4 @@
-# TC-CART-022: Nhập quantity là ký tự đặc biệt
+# TC-CART-022: Để trống ô quantity
 
 ## Requirement ID
 FR-07
@@ -13,15 +13,17 @@ Cart / Functional / EP - Invalid
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Quantity input | `@#$` |
+| Quantity input | `` |
 
 ## Test steps
 1. Truy cập trang `/cart`.
-2. Nhập các ký tự đặc biệt '@#$' vào ô nhập số lượng sản phẩm A.
-3. Nhấn Enter hoặc nhấp ra ngoài.
+2. Xóa hết nội dung trong ô số lượng của sản phẩm A (để trống).
+3. Nhấn nhấp ra ngoài ô nhập.
 
 ## Expected result
-- Hành động không hợp lệ, hệ thống từ chối cập nhật số lượng.
+- Hành động không hợp lệ. Ô nhập không được để trống.
+- Số lượng tự động được phục hồi về giá trị hợp lệ trước đó hoặc hiển thị thông báo lỗi.
+- Subtotal và tổng cộng giỏ hàng không bị lỗi hiển thị (như NaN hay trống).
 
 ## Status / Related bugs
 Not Run / None

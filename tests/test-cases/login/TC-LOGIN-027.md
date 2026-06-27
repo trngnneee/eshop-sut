@@ -23,7 +23,7 @@ Login / Security / Multi-client Synchronization Testing
 3. Kiểm tra phản hồi trả về từ Client B.
 
 ## Expected result
-- Trạng thái khóa tài khoản lưu trữ ở DB phải có hiệu lực lập tức trên toàn hệ thống.
+- Trạng thái khóa tài khoản phải có hiệu lực lập tức trên toàn hệ thống.
 - Client B phải nhận được phản hồi HTTP 403 Forbidden và bị chặn đăng nhập, mặc dù Client B không phải là bên thao tác sai và nhập đúng mật khẩu.
 
 ## Status / Related bugs

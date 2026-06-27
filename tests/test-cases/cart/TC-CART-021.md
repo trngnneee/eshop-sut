@@ -1,4 +1,4 @@
-# TC-CART-021: Nhập quantity là chữ
+# TC-CART-021: Nhập quantity là ký tự đặc biệt
 
 ## Requirement ID
 FR-07
@@ -13,16 +13,15 @@ Cart / Functional / EP - Invalid
 ## Test data
 | Tham số | Giá trị thử nghiệm |
 | :--- | :--- |
-| Quantity input | `abc` |
+| Quantity input | `@#$` |
 
 ## Test steps
 1. Truy cập trang `/cart`.
-2. Nhập chuỗi chữ 'abc' vào ô số lượng của sản phẩm A.
+2. Nhập các ký tự đặc biệt '@#$' vào ô nhập số lượng sản phẩm A.
 3. Nhấn Enter hoặc nhấp ra ngoài.
 
 ## Expected result
-- Hành động không hợp lệ, hệ thống không chấp nhận nhập ký tự không phải số.
-- Số lượng sản phẩm không thay đổi.
+- Hành động không hợp lệ, hệ thống từ chối cập nhật số lượng.
 
 ## Status / Related bugs
 Not Run / None

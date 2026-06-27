@@ -1,14 +1,13 @@
-# TC-CART-053: Xóa sản phẩm ở giữa danh sách nhiều sản phẩm
+# TC-CART-053: Nhấn nút Xóa liên tục nhiều lần
 
 ## Requirement ID
 FR-07
 
 ## Module / Test type / Technique
-Cart / Functional / State Testing
+Cart / Functional / Robustness
 
 ## Preconditions
-- Người dùng đăng nhập.
-- Giỏ hàng hiện có 3 sản phẩm: A (dòng 1), B (dòng 2), C (dòng 3).
+- Giỏ hàng đang có sản phẩm.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -17,12 +16,11 @@ Cart / Functional / State Testing
 
 ## Test steps
 1. Truy cập `/cart`.
-2. Nhấp nút 'Xóa' của Sản phẩm B ở giữa bảng.
-3. Xác nhận xóa trên hộp thoại.
+2. Nhấp đúp chuột thật nhanh (double click) hoặc click liên tục nhiều lần vào nút Xóa của một sản phẩm.
 
 ## Expected result
-- Chỉ duy nhất Sản phẩm B bị xóa khỏi giỏ hàng.
-- Sản phẩm A và C vẫn giữ nguyên vị trí, số lượng, đơn giá và không bị ảnh hưởng.
+- Hệ thống chỉ ghi nhận 1 yêu cầu xóa duy nhất và hiển thị 1 dialog.
+- Không xóa nhầm sản phẩm khác và giao diện không bị treo/crash.
 
 ## Status / Related bugs
 Not Run / None

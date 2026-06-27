@@ -1,4 +1,4 @@
-# BUG-FR07-B-11: Trang giỏ hàng không bảo vệ quyền truy cập khi chưa đăng nhập
+# BUG-FR07-B-11: Thiếu thông báo phản hồi (toast/alert) khi thêm sản phẩm vào giỏ hàng thành công
 
 | Tên trường (Field) | Giá trị (Value) |
 | :--- | :--- |
@@ -6,13 +6,14 @@
 | **BugID** | `BUG-FR07-B-11` |
 | **Status** | **Open** |
 | **Requirement Name** | FR-07 Giỏ hàng & Điều hướng |
-| **Summary** | Trang giỏ hàng `/cart` không kiểm tra trạng thái đăng nhập khi được load (mount), cho phép người dùng chưa đăng nhập truy cập trực tiếp thay vì tự động chuyển hướng về `/login`. |
-| **Steps to reproduce** | 1. Xóa token / dùng tab ẩn danh.
-2. Truy cập trực tiếp đường dẫn `/cart`. |
-| **Severity** | Major |
+| **Summary** | Giao diện không hiển thị bất kỳ thông báo (toast/alert/popup) nào để thông báo cho người dùng biết sản phẩm đã được thêm vào giỏ hàng thành công, vi phạm yêu cầu phản hồi trạng thái của FR-24. |
+| **Steps to reproduce** | 1. Truy cập Trang chủ.
+2. Nhấn nút 'Thêm vào giỏ hàng' của một sản phẩm.
+3. Quan sát màn hình tìm thông báo phản hồi. |
+| **Severity** | Minor |
 | **Frequency** | Always |
-| **Priority** | High |
-| **Attachment (Link to file)** | [Cart.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Cart.jsx#L6) |
-| **Evidence (Screenshot)** | Giao diện trang giỏ hàng vẫn hiển thị thay vì redirect về trang Login. |
+| **Priority** | Medium |
+| **Attachment (Link to file)** | [Home.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Home.jsx#L99) |
+| **Evidence (Screenshot)** | Không hiển thị thông báo toast/popup phản hồi khi thêm giỏ hàng thành công. |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

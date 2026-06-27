@@ -1,13 +1,13 @@
-# TC-CART-056: Nhấn nút Xóa liên tục nhiều lần
+# TC-CART-056: Sản phẩm có tên chứa ký tự đặc biệt an toàn
 
 ## Requirement ID
-FR-07
+FR-07, SEC-04
 
 ## Module / Test type / Technique
-Cart / Functional / Robustness
+Cart / Security / Security / XSS
 
 ## Preconditions
-- Giỏ hàng đang có sản phẩm.
+- Hệ thống có sản phẩm mang tên chứa mã độc XSS: `<script>alert('xss')</script>`.
 
 ## Test data
 | Tham số | Giá trị thử nghiệm |
@@ -15,12 +15,12 @@ Cart / Functional / Robustness
 | Không có | |
 
 ## Test steps
-1. Truy cập `/cart`.
-2. Nhấp đúp chuột thật nhanh (double click) hoặc click liên tục nhiều lần vào nút Xóa của một sản phẩm.
+1. Thêm sản phẩm có tên chứa script trên vào giỏ hàng.
+2. Truy cập `/cart`.
 
 ## Expected result
-- Hệ thống chỉ ghi nhận 1 yêu cầu xóa duy nhất và hiển thị 1 dialog.
-- Không xóa nhầm sản phẩm khác và giao diện không bị treo/crash.
+- Mã script không được thực thi (không hiện popup alert).
+- Tên sản phẩm được hiển thị an toàn dưới dạng văn bản thô: `<script>alert('xss')</script>`.
 
 ## Status / Related bugs
 Not Run / None
