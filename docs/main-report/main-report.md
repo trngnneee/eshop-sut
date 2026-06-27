@@ -8,7 +8,7 @@
 - Họ và tên: Nguyễn Thanh Gia Bảo
 - Mã số sinh viên: 23127158
 - Lớp: 23KTPM3
-- Môn học: Kiểm thử phần mềm / Cơ sở QA
+- Môn học: Kiểm thử phần mềm
 - Giảng viên: [Lecturer Name]
 
 ## 1.2 Thông tin bài tập

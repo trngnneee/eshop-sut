@@ -13,11 +13,11 @@ Always:
 1.
 Read requirements from:
 
-/eshop-sut/README.md
+/README.md
 
 or
 
-/eshop-sut/Requirements
+/Requirements
 
 
 
@@ -43,7 +43,6 @@ Include:
 - Requirement Analysis
 - Testing Technique
 - Test Cases
-- Human Review
 
 
 

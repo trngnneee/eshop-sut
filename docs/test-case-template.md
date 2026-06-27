@@ -61,8 +61,3 @@ PASS / FAIL / NOT EXECUTED
 
 
 ## Bug Reference
-
-
-
-## Tester Notes
-

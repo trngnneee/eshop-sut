@@ -1,107 +1,55 @@
-# Báo cáo Domain Testing - FR-05
+# Tóm tắt yêu cầu
 
-## Tóm tắt yêu cầu
+- **Chức năng:** Xem lịch sử đơn hàng (User)
+- **Requirement ID:** FR-11
+- **Module:** ORDER-HISTORY
+- **Mô tả:** Người dùng đã đăng nhập có thể xem lịch sử các đơn hàng của chính mình. Giao diện hiển thị các thông tin quan trọng của đơn hàng và chuyển đổi ngôn ngữ/màu sắc cho các trạng thái đơn hàng một cách trực quan.
+- **Input:** Trạng thái đăng nhập của người dùng, Lịch sử dữ liệu đơn hàng (0 hoặc nhiều).
+- **Ràng buộc:** Người dùng chỉ xem được đơn hàng của chính mình.
+- **Quy tắc validation:** Trạng thái đơn hàng phải được dịch sang tiếng Việt và có màu sắc phân biệt.
 
-Chức năng:
-Xem danh sách & Tìm kiếm sản phẩm
+# Giải thích Domain Testing
 
-Requirement ID:
-FR-05
+Domain Testing được áp dụng để phân tích các giá trị đầu vào hợp lệ và không hợp lệ (mặc dù với FR-11, input chủ yếu đến từ trạng thái hệ thống và authentication).
 
-Mô tả:
-Trang chủ hiển thị danh sách tất cả sản phẩm dạng lưới. Mỗi sản phẩm phải có ảnh, tên sản phẩm, giá hiển thị theo định dạng tiền tệ Việt Nam. Thanh tìm kiếm cho phép tìm theo tên sản phẩm. Trạng thái loading, empty state, an toàn khi hiển thị từ khóa tìm kiếm và quy định chỉ có đúng một thẻ h1 trên mỗi trang đều là yêu cầu bắt buộc.
+1. **Xác định input cần kiểm thử:** Trạng thái đăng nhập, số lượng đơn hàng, quyền sở hữu đơn hàng, và các giá trị trạng thái.
+2. **Xác định miền giá trị của input:** Như được mô tả trong bảng Domain Analysis.
+3. **Xác định dữ liệu hợp lệ:** Đã đăng nhập, truy cập đơn hàng của chính mình, các trạng thái hợp lệ.
+4. **Xác định dữ liệu không hợp lệ:** Chưa đăng nhập, cố gắng truy cập đơn hàng người khác.
+5. **Xác định các trường hợp cần kiểm thử:** Tạo ra các test case bao phủ toàn bộ các domain này.
 
-Input:
-Từ khóa tìm kiếm
-
-Ràng buộc:
-- Từ khóa tìm kiếm phải được hiển thị an toàn, không render HTML.
-- Trang chủ chỉ có đúng một thẻ h1.
-- Mỗi trang chỉ có 1 h1 duy nhất.
-- Mỗi sản phẩm phải hiển thị ảnh có alt text mô tả.
-- Giá phải hiển thị với đơn vị ₫ và có phân cách hàng nghìn.
-- Khi tải dữ liệu phải có trạng thái loading.
-- Khi không có kết quả phải có empty state phù hợp.
-
-Quy tắc validation:
-- Đặc tả không định nghĩa quy tắc này cho việc chuẩn hóa khoảng trắng, cách so khớp từ khóa và giới hạn độ dài của từ khóa tìm kiếm.
-- Số lượng h1 trên mỗi trang phải bằng 1.
-
-## Giải thích Domain Testing
-
-Domain Testing là kỹ thuật chia miền giá trị của input thành các nhóm hợp lệ, không hợp lệ và các trường hợp đại diện để thiết kế test case có độ bao phủ tốt. Với FR-05, kỹ thuật này được áp dụng cho từ khóa tìm kiếm, nội dung hiển thị trên card sản phẩm và số lượng thẻ h1 trên trang.
-
-## Phân tích miền dữ liệu
+## Domain analysis table
 
 | Biến | Domain | Loại giá trị | Khoảng giá trị | Mô tả |
-|-|-|-|-|-|
-| Từ khóa tìm kiếm | Chuỗi ký tự | Hợp lệ | Bất kỳ chuỗi tên sản phẩm hợp lệ | Dùng để tìm sản phẩm theo tên. |
-| Từ khóa tìm kiếm | Chuỗi ký tự | Không hợp lệ / rủi ro bảo mật | Chuỗi chứa HTML/JS như `<script>`, `<img onerror=...>` | Phải được hiển thị an toàn, không render HTML. |
-| Từ khóa tìm kiếm | Chuỗi ký tự | Không xác định trong đặc tả | Chuỗi có khoảng trắng đầu/cuối, chuỗi rất dài | Đặc tả không định nghĩa quy tắc này. |
-| Số lượng h1 trên trang | Số nguyên | Hợp lệ | 1 | Trang chỉ được có đúng một h1 duy nhất. |
-| Số lượng h1 trên trang | Số nguyên | Không hợp lệ | 0 hoặc lớn hơn 1 | Phát hiện lỗi cấu trúc trang và lỗi truy cập. |
-| Alt text ảnh sản phẩm | Chuỗi ký tự | Hợp lệ | Chuỗi mô tả ngắn, rõ nghĩa | Ảnh phải có alt text mô tả. |
-| Alt text ảnh sản phẩm | Chuỗi ký tự | Không hợp lệ | Rỗng hoặc null | Không đáp ứng yêu cầu mô tả ảnh. |
-| Giá sản phẩm hiển thị | Số tiền | Hợp lệ | Giá dương đã định dạng theo ₫ | Hiển thị giá theo chuẩn tiền tệ Việt Nam. |
-| Trạng thái dữ liệu | Trạng thái giao diện | Hợp lệ | loading, empty state, danh sách sản phẩm | Phải phản hồi đúng theo trạng thái dữ liệu. |
+|---|---|---|---|---|
+| Trạng thái đăng nhập | Authentication | Boolean | True, False | Kiểm soát việc truy cập trang lịch sử. |
+| Dữ liệu đơn hàng | Số lượng | Integer | 0, >0 | Đơn hàng của người dùng. |
+| Quyền truy cập (Authz) | Chủ sở hữu | Object Match | Khớp, Không khớp | Đảm bảo không xem được đơn của người khác. |
+| Trạng thái đơn hàng | Order State | Enum | pending, confirmed, shipping, delivered, canceled | Đảm bảo UI dịch ra tiếng Việt và phân biệt màu. |
 
-### Quy trình phân tích
+# Giải thích Boundary Value Analysis
 
-1. Xác định input cần kiểm thử: từ khóa tìm kiếm và các điều kiện hiển thị liên quan đến sản phẩm trên trang chủ.
-2. Xác định miền giá trị của input: chuỗi tìm kiếm, số lượng h1, nội dung alt text, giá hiển thị và trạng thái giao diện.
-3. Xác định dữ liệu hợp lệ: tên sản phẩm hợp lệ, một h1 duy nhất, alt text mô tả, giá được định dạng đúng.
-4. Xác định dữ liệu không hợp lệ: HTML/JS trong từ khóa, h1 bằng 0 hoặc lớn hơn 1, alt text rỗng.
-5. Xác định các trường hợp cần kiểm thử: hiển thị danh sách, tìm kiếm, empty state, loading state, an toàn hiển thị và kiểm tra cấu trúc DOM.
+- Kỹ thuật Boundary Value Analysis (BVA) được áp dụng cho **số lượng đơn hàng** mà một người dùng có.
+- **Minimum boundary:** Số lượng đơn hàng nhỏ nhất là 0.
+- **Boundary 1 (0):** Kiểm tra hiển thị giao diện trống (Empty state) khi chưa mua hàng.
+- **Boundary 2 (1):** Kiểm tra hiển thị danh sách khi vừa có 1 đơn hàng đầu tiên (min + 1). Không thể có -1 đơn hàng.
+- Việc áp dụng BVA giúp đảm bảo logic render danh sách và empty state hoạt động hoàn hảo ở các cạnh của dữ liệu.
 
-## Giải thích Boundary Value Analysis
+# Danh sách test case
 
-FR-05 không định nghĩa giới hạn số lượng ký tự của từ khóa tìm kiếm nên không có biên min/max cho trường này. Biên giá trị rõ ràng nhất của FR-05 là số lượng thẻ h1 trên mỗi trang phải bằng 1. Do đó, BVA được áp dụng cho quy tắc này để kiểm tra các giá trị sát biên:
+- `TC-ORDERHISTORY-001`: Kiểm tra người dùng chưa đăng nhập không thể xem lịch sử đơn hàng
+- `TC-ORDERHISTORY-002`: Kiểm tra hiển thị khi người dùng không có đơn hàng nào (BVA: 0 đơn hàng)
+- `TC-ORDERHISTORY-003`: Kiểm tra hiển thị khi người dùng có ít nhất 1 đơn hàng (BVA: 1 đơn hàng)
+- `TC-ORDERHISTORY-004`: Kiểm tra người dùng không thể xem đơn hàng của người khác
+- `TC-ORDERHISTORY-005`: Kiểm tra hiển thị đầy đủ và đúng định dạng các trường thông tin
+- `TC-ORDERHISTORY-006`: Kiểm tra hiển thị trạng thái "pending" (chờ xác nhận)
+- `TC-ORDERHISTORY-007`: Kiểm tra hiển thị trạng thái "confirmed" (đã xác nhận)
+- `TC-ORDERHISTORY-008`: Kiểm tra hiển thị trạng thái "shipping" (đang giao)
+- `TC-ORDERHISTORY-009`: Kiểm tra hiển thị trạng thái "delivered" (đã giao)
+- `TC-ORDERHISTORY-010`: Kiểm tra hiển thị trạng thái "canceled" (đã hủy)
 
-- min-1: 0 h1
-- min: 1 h1
-- min+1: 2 h1
+# Coverage summary
 
-### Boundary values
-
-| Biến | Constraint | Boundary | Ý nghĩa |
-|-|-|-|-|
-| Số lượng h1 trên trang | Chính xác 1 | 0 | Phát hiện thiếu heading chính. |
-| Số lượng h1 trên trang | Chính xác 1 | 1 | Trạng thái đúng theo yêu cầu. |
-| Số lượng h1 trên trang | Chính xác 1 | 2 | Phát hiện trùng heading chính. |
-
-### Vì sao chọn boundary này
-
-- 0 h1 cho thấy trang thiếu heading chính, có thể ảnh hưởng đến khả năng truy cập và SEO.
-- 1 h1 là giá trị hợp lệ duy nhất theo đặc tả.
-- 2 h1 cho thấy trang có heading chính trùng lặp, làm sai cấu trúc tài liệu.
-
-### Boundary này có thể phát hiện lỗi gì
-
-- Lỗi render cấu trúc trang.
-- Lỗi điều hướng nội dung hoặc component lồng sai.
-- Lỗi accessibility liên quan đến heading hierarchy.
-
-## Danh sách test case
-
-| Test Case ID | Mục tiêu kiểm thử | Kỹ thuật |
-|-|-|-|
-| TC-PRODUCT-001 | Hiển thị danh sách sản phẩm dạng grid | Domain Testing |
-| TC-PRODUCT-002 | Hiển thị tên sản phẩm trên card | Domain Testing |
-| TC-PRODUCT-003 | Hiển thị giá đúng định dạng ₫ và phân cách hàng nghìn | Domain Testing |
-| TC-PRODUCT-004 | Hiển thị ảnh sản phẩm với alt text mô tả | Domain Testing |
-| TC-PRODUCT-005 | Hiển thị trạng thái loading khi dữ liệu đang tải | Domain Testing |
-| TC-PRODUCT-006 | Hiển thị empty state khi không có kết quả tìm kiếm | Domain Testing |
-| TC-PRODUCT-007 | Tìm kiếm theo tên sản phẩm hợp lệ | Domain Testing |
-| TC-PRODUCT-008 | Hiển thị an toàn từ khóa chứa HTML | Domain Testing |
-| TC-PRODUCT-009 | Trang chủ chỉ có đúng một h1 | Boundary Value Analysis |
-| TC-PRODUCT-010 | Sau khi tìm kiếm vẫn chỉ có đúng một h1 | Boundary Value Analysis |
-| TC-PRODUCT-011 | Lưới hiển thị đầy đủ tất cả sản phẩm trả về | Domain Testing |
-| TC-PRODUCT-012 | Ảnh sản phẩm hiển thị đúng tỷ lệ, không méo | Domain Testing |
-
-## Coverage summary
-
-- Domain coverage: đầy đủ cho danh sách sản phẩm, tên sản phẩm, giá, ảnh, loading state, empty state, tìm kiếm và an toàn hiển thị.
-- Boundary coverage: đầy đủ cho quy tắc số lượng h1 với các giá trị 0, 1, 2.
-- Positive test cases: có.
-- Negative test cases: có.
-- Điểm chưa được đặc tả: chuẩn hóa khoảng trắng, cách so khớp từ khóa và giới hạn độ dài của từ khóa tìm kiếm.
+- **Domain Coverage:** 100% các miền giá trị (đã đăng nhập/chưa đăng nhập, sở hữu/không sở hữu, 5 trạng thái đơn hàng).
+- **Boundary Coverage:** Bao phủ trường hợp 0 đơn hàng và 1 đơn hàng.
+- **Positive & Negative:** Bao gồm cả trường hợp hợp lệ (đã đăng nhập, xem đơn mình) và không hợp lệ (chưa đăng nhập, xem đơn người khác).

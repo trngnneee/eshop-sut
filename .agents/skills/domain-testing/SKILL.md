@@ -1,7 +1,6 @@
 ---
 name: domain-testing
-description: Generate Domain Testing and Boundary Value Analysis test cases from EShop requirements.
-Use when analyzing features, creating test cases, writing testing reports, and preparing HW02 deliverables.
+description: Generate Domain Testing and Boundary Value Analysis test cases from EShop requirements. Use when analyzing features, creating test cases, writing testing reports, and preparing HW02 deliverables.
 ---
 
 # Domain Testing Agent
