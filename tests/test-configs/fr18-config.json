@@ -1,0 +1,513 @@
+{
+  "feature_name": "FR-18",
+  "feature_code": "FR18",
+  "feature_title": "Quản lý Đơn hàng (Admin)",
+  "module_name": "admin_order_management",
+  "module_display_name": "Admin Order Management",
+  "test_model": "state_transition",
+  "field_code": "S",
+  "field_name": "Admin Status Transition",
+  "output_root": "tests/test-cases",
+  "assumptions": [
+    "README.md FR-18 yêu cầu Admin xem toàn bộ đơn hàng của tất cả người dùng qua phân hệ Admin.",
+    "README.md FR-18 yêu cầu Admin chuyển trạng thái đơn hàng theo đúng State Machine đã định nghĩa ở FR-10.",
+    "README.md FR-18 yêu cầu địa chỉ giao hàng hiển thị an toàn, không render HTML; SEC-04 bổ sung yêu cầu escape dữ liệu user nhập và không dùng innerHTML trực tiếp.",
+    "README.md FR-12 và api_specification.md quy định mọi endpoint /api/admin/* phải yêu cầu JWT hợp lệ và role = admin.",
+    "api_specification.md định nghĩa endpoint GET /api/admin/orders và PUT /api/admin/orders/:id/status.",
+    "Order ID trên path parameter phải là số nguyên dương đại diện cho đơn hàng tồn tại; dùng biên tối thiểu 1 để áp dụng BVA cho FR-18."
+  ],
+  "states": [
+    "pending",
+    "confirmed",
+    "shipping",
+    "delivered",
+    "canceled"
+  ],
+  "final_states": [
+    "delivered",
+    "canceled"
+  ],
+  "actors": {
+    "admin": {
+      "endpoint": "PUT /api/admin/orders/:id/status"
+    }
+  },
+  "field_labels": {
+    "S": "Admin Status Transition",
+    "O": "Order ID",
+    "V": "Admin Order Visibility",
+    "A": "Admin Access Control",
+    "X": "Shipping Address Rendering"
+  },
+  "test_run": {
+    "title": "Test Run - FR-18 Admin Order Management",
+    "file_name": "fr18-admin-order-management-test-run.md",
+    "tester": "[Tên người test]",
+    "environment": "[Local Web/API, backend http://localhost:3000, frontend-admin http://localhost:5174]",
+    "overwrite": true
+  },
+  "traceability_matrix": {
+    "enabled": true,
+    "file": "tests/test-summary/traceability-matrix.md",
+    "title": "FR-18 - Quản lý Đơn hàng (Admin)",
+    "requirement": "FR-18",
+    "source": "README.md:141-162,174-179,218-222,274-281; api_specification.md:173-182"
+  },
+  "valid_transitions": [
+    {
+      "actor": "admin",
+      "from": "pending",
+      "to": "confirmed",
+      "title": "Admin xác nhận đơn hàng từ pending sang confirmed"
+    },
+    {
+      "actor": "admin",
+      "from": "pending",
+      "to": "canceled",
+      "title": "Admin hủy đơn hàng ở trạng thái pending"
+    },
+    {
+      "actor": "admin",
+      "from": "confirmed",
+      "to": "shipping",
+      "title": "Admin giao hàng từ confirmed sang shipping"
+    },
+    {
+      "actor": "admin",
+      "from": "confirmed",
+      "to": "canceled",
+      "title": "Admin hủy đơn hàng ở trạng thái confirmed"
+    },
+    {
+      "actor": "admin",
+      "from": "shipping",
+      "to": "delivered",
+      "title": "Admin hoàn tất đơn hàng từ shipping sang delivered"
+    }
+  ],
+  "invalid_transitions": [
+    {
+      "actor": "admin",
+      "from": "pending",
+      "to": "shipping",
+      "title": "Từ chối Admin chuyển tắt pending sang shipping"
+    },
+    {
+      "actor": "admin",
+      "from": "confirmed",
+      "to": "delivered",
+      "title": "Từ chối Admin chuyển tắt confirmed sang delivered"
+    },
+    {
+      "actor": "admin",
+      "from": "shipping",
+      "to": "confirmed",
+      "title": "Từ chối Admin chuyển ngược shipping sang confirmed"
+    },
+    {
+      "actor": "admin",
+      "from": "shipping",
+      "to": "canceled",
+      "title": "Từ chối Admin hủy đơn hàng đang shipping"
+    },
+    {
+      "actor": "admin",
+      "from": "delivered",
+      "to": "canceled",
+      "title": "Từ chối Admin chuyển delivered sang canceled"
+    },
+    {
+      "actor": "admin",
+      "from": "canceled",
+      "to": "delivered",
+      "title": "Từ chối Admin chuyển canceled sang delivered"
+    },
+    {
+      "actor": "admin",
+      "from": "pending",
+      "to": "pending",
+      "title": "Từ chối Admin cập nhật pending sang chính pending"
+    }
+  ],
+  "invalid_status_values": [
+    {
+      "actor": "admin",
+      "from": "pending",
+      "value": "refund",
+      "title": "Từ chối status không nằm trong state machine: refund"
+    },
+    {
+      "actor": "admin",
+      "from": "pending",
+      "value": "",
+      "title": "Từ chối status rỗng"
+    },
+    {
+      "actor": "admin",
+      "from": "pending",
+      "value": null,
+      "title": "Từ chối status null"
+    }
+  ],
+  "boundary_cases": [
+    {
+      "field_code": "O",
+      "field_name": "Order ID",
+      "group_name": "Order ID",
+      "title": "Kiểm thử Order ID ngay dưới biên tối thiểu",
+      "preconditions": [
+        "Admin đã đăng nhập.",
+        "Có ít nhất một đơn hàng hợp lệ trong hệ thống để đối chiếu trạng thái không bị ảnh hưởng."
+      ],
+      "data": {
+        "Actor": "admin",
+        "Order ID": 0,
+        "Current status": "[Không tồn tại]",
+        "Requested status": "confirmed",
+        "Endpoint": "PUT /api/admin/orders/0/status",
+        "Body": {
+          "status": "confirmed"
+        }
+      },
+      "steps": [
+        "Đăng nhập bằng tài khoản `admin` hợp lệ.",
+        "Gửi request `PUT /api/admin/orders/0/status` với body `{\"status\":\"confirmed\"}`.",
+        "Kiểm tra response và danh sách đơn hàng sau request."
+      ],
+      "expected": [
+        "Hệ thống trả về HTTP 400 hoặc 404 với thông báo lỗi phù hợp.",
+        "Không có trạng thái đơn hàng nào bị thay đổi."
+      ]
+    },
+    {
+      "field_code": "O",
+      "field_name": "Order ID",
+      "group_name": "Order ID",
+      "title": "Kiểm thử Order ID tại biên tối thiểu",
+      "preconditions": [
+        "Admin đã đăng nhập.",
+        "Có đơn hàng hợp lệ với `id = 1` đang ở trạng thái `pending`."
+      ],
+      "data": {
+        "Actor": "admin",
+        "Order ID": 1,
+        "Current status": "pending",
+        "Requested status": "confirmed",
+        "Endpoint": "PUT /api/admin/orders/1/status",
+        "Body": {
+          "status": "confirmed"
+        }
+      },
+      "steps": [
+        "Đăng nhập bằng tài khoản `admin` hợp lệ.",
+        "Chuẩn bị đơn hàng `id = 1` ở trạng thái `pending`.",
+        "Gửi request `PUT /api/admin/orders/1/status` với body `{\"status\":\"confirmed\"}`.",
+        "Tải lại thông tin đơn hàng `id = 1`."
+      ],
+      "expected": [
+        "Hệ thống trả về HTTP 200.",
+        "Trạng thái đơn hàng `id = 1` được cập nhật thành `confirmed`."
+      ]
+    },
+    {
+      "field_code": "O",
+      "field_name": "Order ID",
+      "group_name": "Order ID",
+      "title": "Kiểm thử Order ID ngay trên biên tối thiểu",
+      "preconditions": [
+        "Admin đã đăng nhập.",
+        "Có đơn hàng hợp lệ với `id = 2` đang ở trạng thái `pending`."
+      ],
+      "data": {
+        "Actor": "admin",
+        "Order ID": 2,
+        "Current status": "pending",
+        "Requested status": "confirmed",
+        "Endpoint": "PUT /api/admin/orders/2/status",
+        "Body": {
+          "status": "confirmed"
+        }
+      },
+      "steps": [
+        "Đăng nhập bằng tài khoản `admin` hợp lệ.",
+        "Chuẩn bị đơn hàng `id = 2` ở trạng thái `pending`.",
+        "Gửi request `PUT /api/admin/orders/2/status` với body `{\"status\":\"confirmed\"}`.",
+        "Tải lại thông tin đơn hàng `id = 2`."
+      ],
+      "expected": [
+        "Hệ thống trả về HTTP 200.",
+        "Trạng thái đơn hàng `id = 2` được cập nhật thành `confirmed`."
+      ]
+    }
+  ],
+  "custom_cases": [
+    {
+      "id": "FR18-V-TC01",
+      "field_code": "V",
+      "group_name": "Admin Order Visibility",
+      "title": "Admin xem toàn bộ đơn hàng của nhiều người dùng",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Valid admin order visibility partition: all users' orders",
+      "preconditions": [
+        "Admin đã đăng nhập bằng JWT hợp lệ.",
+        "Hệ thống có ít nhất 3 đơn hàng thuộc ít nhất 2 user khác nhau."
+      ],
+      "data": {
+        "Actor": "admin",
+        "Endpoint": "GET /api/admin/orders",
+        "Seed orders": [
+          {
+            "id": 101,
+            "user_id": 1,
+            "user_name": "Nguyen Van A",
+            "status": "pending",
+            "shipping_address": "12 Le Loi"
+          },
+          {
+            "id": 102,
+            "user_id": 2,
+            "user_name": "Tran Thi B",
+            "status": "confirmed",
+            "shipping_address": "34 Nguyen Hue"
+          },
+          {
+            "id": 103,
+            "user_id": 1,
+            "user_name": "Nguyen Van A",
+            "status": "shipping",
+            "shipping_address": "56 Pasteur"
+          }
+        ]
+      },
+      "steps": [
+        "Đăng nhập bằng tài khoản `admin` hợp lệ.",
+        "Gửi request `GET /api/admin/orders` hoặc mở tab Quản lý Đơn hàng trong Admin UI.",
+        "Đối chiếu danh sách trả về với dữ liệu seed của nhiều user."
+      ],
+      "expected": [
+        "Hệ thống trả về HTTP 200.",
+        "Danh sách hiển thị toàn bộ đơn hàng của tất cả user, không chỉ đơn của admin hoặc một user hiện tại.",
+        "Mỗi đơn hiển thị tối thiểu mã đơn, người đặt, tổng tiền, địa chỉ giao hàng và trạng thái hiện tại."
+      ]
+    },
+    {
+      "id": "FR18-V-TC02",
+      "field_code": "V",
+      "group_name": "Admin Order Visibility",
+      "title": "Danh sách đơn hàng Admin không lộ dữ liệu nhạy cảm ngoài phạm vi",
+      "technique": "Equivalence Partitioning / Security",
+      "coverage": "Invalid disclosure partition: sensitive fields in admin order list",
+      "preconditions": [
+        "Admin đã đăng nhập bằng JWT hợp lệ.",
+        "Hệ thống có đơn hàng gắn với user có password hash hoặc token trong bảng user nếu database seed có các trường này."
+      ],
+      "data": {
+        "Actor": "admin",
+        "Endpoint": "GET /api/admin/orders",
+        "Sensitive fields": [
+          "password",
+          "password_hash",
+          "reset_token",
+          "locked_until"
+        ]
+      },
+      "steps": [
+        "Đăng nhập bằng tài khoản `admin` hợp lệ.",
+        "Gửi request `GET /api/admin/orders`.",
+        "Kiểm tra payload response và dữ liệu hiển thị trên Admin UI."
+      ],
+      "expected": [
+        "Response không chứa password, password hash, reset token hoặc dữ liệu xác thực nhạy cảm của user.",
+        "Admin UI không hiển thị các trường nhạy cảm ngoài thông tin cần thiết cho quản lý đơn hàng."
+      ]
+    },
+    {
+      "id": "FR18-A-TC01",
+      "field_code": "A",
+      "group_name": "Admin Access Control",
+      "title": "Từ chối user thường xem danh sách đơn hàng Admin",
+      "technique": "Equivalence Partitioning / Authorization",
+      "coverage": "Invalid authorization partition: non-admin GET /api/admin/orders",
+      "preconditions": [
+        "User thường đã đăng nhập bằng JWT hợp lệ với `role = user`.",
+        "Hệ thống có ít nhất một đơn hàng của user khác."
+      ],
+      "data": {
+        "Actor": "user",
+        "Endpoint": "GET /api/admin/orders",
+        "Token role": "user"
+      },
+      "steps": [
+        "Đăng nhập bằng tài khoản user thường.",
+        "Gửi request `GET /api/admin/orders` với token user thường.",
+        "Kiểm tra response và đảm bảo dữ liệu đơn hàng không bị trả về."
+      ],
+      "expected": [
+        "Hệ thống trả về HTTP 403 hoặc lỗi quyền truy cập phù hợp.",
+        "Response không chứa danh sách đơn hàng toàn hệ thống."
+      ]
+    },
+    {
+      "id": "FR18-A-TC02",
+      "field_code": "A",
+      "group_name": "Admin Access Control",
+      "title": "Từ chối request không có token xem danh sách đơn hàng Admin",
+      "technique": "Equivalence Partitioning / Authorization",
+      "coverage": "Invalid authentication partition: missing token GET /api/admin/orders",
+      "preconditions": [
+        "Hệ thống có ít nhất một đơn hàng.",
+        "Không gửi header Authorization."
+      ],
+      "data": {
+        "Actor": "anonymous",
+        "Endpoint": "GET /api/admin/orders",
+        "Authorization": "[Không gửi]"
+      },
+      "steps": [
+        "Gửi request `GET /api/admin/orders` không kèm token.",
+        "Kiểm tra response và đảm bảo dữ liệu đơn hàng không bị trả về."
+      ],
+      "expected": [
+        "Hệ thống trả về HTTP 401 hoặc lỗi xác thực phù hợp.",
+        "Response không chứa danh sách đơn hàng."
+      ]
+    },
+    {
+      "id": "FR18-A-TC03",
+      "field_code": "A",
+      "group_name": "Admin Access Control",
+      "title": "Từ chối user thường cập nhật trạng thái đơn hàng qua endpoint Admin",
+      "technique": "Equivalence Partitioning / Authorization",
+      "coverage": "Invalid authorization partition: non-admin PUT /api/admin/orders/:id/status",
+      "preconditions": [
+        "User thường đã đăng nhập bằng JWT hợp lệ với `role = user`.",
+        "Có đơn hàng `id = 101` đang ở trạng thái `pending`."
+      ],
+      "data": {
+        "Actor": "user",
+        "Order ID": 101,
+        "Current status": "pending",
+        "Requested status": "confirmed",
+        "Endpoint": "PUT /api/admin/orders/101/status",
+        "Body": {
+          "status": "confirmed"
+        }
+      },
+      "steps": [
+        "Đăng nhập bằng tài khoản user thường.",
+        "Gửi request `PUT /api/admin/orders/101/status` với body `{\"status\":\"confirmed\"}`.",
+        "Tải lại thông tin đơn hàng `id = 101` bằng tài khoản admin để đối chiếu."
+      ],
+      "expected": [
+        "Hệ thống trả về HTTP 403 hoặc lỗi quyền truy cập phù hợp.",
+        "Trạng thái đơn hàng `id = 101` vẫn là `pending`."
+      ]
+    },
+    {
+      "id": "FR18-A-TC04",
+      "field_code": "A",
+      "group_name": "Admin Access Control",
+      "title": "Từ chối request không có token cập nhật trạng thái đơn hàng",
+      "technique": "Equivalence Partitioning / Authorization",
+      "coverage": "Invalid authentication partition: missing token PUT /api/admin/orders/:id/status",
+      "preconditions": [
+        "Có đơn hàng `id = 101` đang ở trạng thái `pending`.",
+        "Không gửi header Authorization."
+      ],
+      "data": {
+        "Actor": "anonymous",
+        "Order ID": 101,
+        "Current status": "pending",
+        "Requested status": "confirmed",
+        "Endpoint": "PUT /api/admin/orders/101/status",
+        "Body": {
+          "status": "confirmed"
+        }
+      },
+      "steps": [
+        "Gửi request `PUT /api/admin/orders/101/status` với body `{\"status\":\"confirmed\"}` nhưng không kèm token.",
+        "Tải lại thông tin đơn hàng bằng tài khoản admin để đối chiếu."
+      ],
+      "expected": [
+        "Hệ thống trả về HTTP 401 hoặc lỗi xác thực phù hợp.",
+        "Trạng thái đơn hàng `id = 101` vẫn là `pending`."
+      ]
+    },
+    {
+      "id": "FR18-X-TC01",
+      "field_code": "X",
+      "group_name": "Shipping Address Rendering",
+      "title": "Hiển thị địa chỉ giao hàng chứa thẻ script dưới dạng văn bản an toàn",
+      "technique": "Equivalence Partitioning / Security",
+      "coverage": "Invalid HTML rendering partition: script tag in shipping address",
+      "preconditions": [
+        "Admin đã đăng nhập bằng JWT hợp lệ.",
+        "Có đơn hàng với `shipping_address = <script>alert(\"xss\")</script>12 Le Loi`."
+      ],
+      "data": {
+        "Actor": "admin",
+        "Endpoint": "GET /api/admin/orders",
+        "shipping_address": "<script>alert(\"xss\")</script>12 Le Loi"
+      },
+      "steps": [
+        "Tạo hoặc seed một đơn hàng có shipping_address chứa `<script>alert(\"xss\")</script>12 Le Loi`.",
+        "Mở tab Quản lý Đơn hàng trong Admin UI.",
+        "Quan sát ô Địa chỉ của đơn hàng và kiểm tra console/browser alert."
+      ],
+      "expected": [
+        "Địa chỉ được hiển thị như text đã escape, ví dụ thấy nội dung `<script>alert(\"xss\")</script>12 Le Loi` dưới dạng chữ.",
+        "Browser không thực thi script, không bật alert và DOM không tạo node `<script>` từ shipping_address."
+      ]
+    },
+    {
+      "id": "FR18-X-TC02",
+      "field_code": "X",
+      "group_name": "Shipping Address Rendering",
+      "title": "Hiển thị địa chỉ giao hàng chứa HTML event handler dưới dạng văn bản an toàn",
+      "technique": "Equivalence Partitioning / Security",
+      "coverage": "Invalid HTML rendering partition: event handler in shipping address",
+      "preconditions": [
+        "Admin đã đăng nhập bằng JWT hợp lệ.",
+        "Có đơn hàng với `shipping_address = <img src=x onerror=alert(\"xss\")>34 Nguyen Hue`."
+      ],
+      "data": {
+        "Actor": "admin",
+        "Endpoint": "GET /api/admin/orders",
+        "shipping_address": "<img src=x onerror=alert(\"xss\")>34 Nguyen Hue"
+      },
+      "steps": [
+        "Tạo hoặc seed một đơn hàng có shipping_address chứa `<img src=x onerror=alert(\"xss\")>34 Nguyen Hue`.",
+        "Mở tab Quản lý Đơn hàng trong Admin UI.",
+        "Quan sát ô Địa chỉ của đơn hàng và kiểm tra console/browser alert."
+      ],
+      "expected": [
+        "Địa chỉ được hiển thị như text đã escape, không render thành thẻ ảnh.",
+        "Browser không thực thi onerror handler, không bật alert và DOM không tạo node `<img>` từ shipping_address."
+      ]
+    },
+    {
+      "id": "FR18-X-TC03",
+      "field_code": "X",
+      "group_name": "Shipping Address Rendering",
+      "title": "Hiển thị địa chỉ giao hàng hợp lệ bình thường",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Valid shipping address display partition",
+      "preconditions": [
+        "Admin đã đăng nhập bằng JWT hợp lệ.",
+        "Có đơn hàng với địa chỉ giao hàng văn bản bình thường."
+      ],
+      "data": {
+        "Actor": "admin",
+        "shipping_address": "12 Le Loi, Quan 1, TP.HCM"
+      },
+      "steps": [
+        "Mở tab Quản lý Đơn hàng trong Admin UI.",
+        "Tìm đơn hàng có địa chỉ `12 Le Loi, Quan 1, TP.HCM`."
+      ],
+      "expected": [
+        "Admin UI hiển thị đúng nguyên văn địa chỉ hợp lệ.",
+        "Địa chỉ không bị mất ký tự hoặc render sai định dạng."
+      ]
+    }
+  ]
+}
