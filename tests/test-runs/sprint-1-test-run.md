@@ -108,4 +108,23 @@
 | [TC-IMPORT-031](../test-cases/import/TC-IMPORT-031.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-021](../bug-reports/BUG-IMPORT-021.md) | Lưu trữ mã độc XSS nguyên bản vào database trong cột price |
 | [TC-IMPORT-032](../test-cases/import/TC-IMPORT-032.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-022](../bug-reports/BUG-IMPORT-022.md) | Lưu trữ mã độc XSS nguyên bản vào database trong cột category_id |
 | [TC-IMPORT-033](../test-cases/import/TC-IMPORT-033.md) | Import | Thịnh   | Fail   | [BUG-IMPORT-023](../bug-reports/BUG-IMPORT-023.md) | Cho phép lưu trữ SQL Injection payload trong cột category_id |
+| [TC-PROFILE-001](../test-cases/profile/TC-PROFILE-001.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-018](../bug-reports/BUG-PROFILE-018.md) | Giao diện báo lỗi số điện thoại 10 chữ số hợp lệ |
+| [TC-PROFILE-002](../test-cases/profile/TC-PROFILE-002.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-002](../bug-reports/BUG-PROFILE-002.md) | Cho phép cập nhật Họ Tên rỗng |
+| [TC-PROFILE-003](../test-cases/profile/TC-PROFILE-003.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-003](../bug-reports/BUG-PROFILE-003.md) | Cho phép cập nhật Họ Tên chỉ 1 ký tự (quá ngắn) |
+| [TC-PROFILE-004](../test-cases/profile/TC-PROFILE-004.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-004](../bug-reports/BUG-PROFILE-004.md) | Cho phép cập nhật Họ Tên dài 101 ký tự (quá dài) |
+| [TC-PROFILE-005](../test-cases/profile/TC-PROFILE-005.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-005](../bug-reports/BUG-PROFILE-005.md) | Cho phép Họ Tên chứa số |
+| [TC-PROFILE-006](../test-cases/profile/TC-PROFILE-006.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-006](../bug-reports/BUG-PROFILE-006.md) | Cho phép Họ Tên chứa ký tự đặc biệt |
+| [TC-PROFILE-007](../test-cases/profile/TC-PROFILE-007.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-007](../bug-reports/BUG-PROFILE-007.md) | Cho phép lưu trữ mã độc Stored XSS trong Họ Tên |
+| [TC-PROFILE-008](../test-cases/profile/TC-PROFILE-008.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-008](../bug-reports/BUG-PROFILE-008.md) | Cho phép lưu trữ SQL Injection payload trong Họ Tên |
+| [TC-PROFILE-009](../test-cases/profile/TC-PROFILE-009.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-009](../bug-reports/BUG-PROFILE-009.md) | Cho phép Số điện thoại trống |
+| [TC-PROFILE-010](../test-cases/profile/TC-PROFILE-010.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-010](../bug-reports/BUG-PROFILE-010.md) | Cho phép Số điện thoại không bắt đầu bằng số 0 |
+| [TC-PROFILE-011](../test-cases/profile/TC-PROFILE-011.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-011](../bug-reports/BUG-PROFILE-011.md) | Cho phép Số điện thoại chỉ có 9 chữ số (quá ngắn) |
+| [TC-PROFILE-012](../test-cases/profile/TC-PROFILE-012.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-012](../bug-reports/BUG-PROFILE-012.md) | Cho phép Số điện thoại dài 12 chữ số (quá dài) |
+| [TC-PROFILE-013](../test-cases/profile/TC-PROFILE-013.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-013](../bug-reports/BUG-PROFILE-013.md) | Cho phép Số điện thoại chứa ký tự chữ cái |
+| [TC-PROFILE-014](../test-cases/profile/TC-PROFILE-014.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-014](../bug-reports/BUG-PROFILE-014.md) | Cho phép Số điện thoại chứa khoảng trắng |
+| [TC-PROFILE-015](../test-cases/profile/TC-PROFILE-015.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-015](../bug-reports/BUG-PROFILE-015.md) | Cho phép Địa chỉ giao hàng trống |
+| [TC-PROFILE-016](../test-cases/profile/TC-PROFILE-016.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-001](../bug-reports/BUG-PROFILE-001.md) | Cho phép tự thay đổi thuộc tính role thành admin |
+| [TC-PROFILE-017](../test-cases/profile/TC-PROFILE-017.md) | Profile | Thịnh   | Pass   | None                         | Từ chối/bỏ qua cập nhật thuộc tính email |
+| [TC-PROFILE-018](../test-cases/profile/TC-PROFILE-018.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-016](../bug-reports/BUG-PROFILE-016.md) | Cho phép lưu trữ mã độc Stored XSS trong Địa chỉ giao hàng |
+| [TC-PROFILE-019](../test-cases/profile/TC-PROFILE-019.md) | Profile | Thịnh   | Fail   | [BUG-PROFILE-017](../bug-reports/BUG-PROFILE-017.md) | Cho phép lưu trữ SQL Injection payload trong Địa chỉ giao hàng |
 

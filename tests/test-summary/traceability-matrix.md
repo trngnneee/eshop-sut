@@ -105,4 +105,23 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-031](../test-cases/import/TC-IMPORT-031.md) | Fail | [BUG-IMPORT-021](../bug-reports/BUG-IMPORT-021.md) | Open |
 | FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-032](../test-cases/import/TC-IMPORT-032.md) | Fail | [BUG-IMPORT-022](../bug-reports/BUG-IMPORT-022.md) | Open |
 | FR-16 (Import Sản phẩm từ CSV) | [TC-IMPORT-033](../test-cases/import/TC-IMPORT-033.md) | Fail | [BUG-IMPORT-023](../bug-reports/BUG-IMPORT-023.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-001](../test-cases/profile/TC-PROFILE-001.md) | Fail | [BUG-PROFILE-018](../bug-reports/BUG-PROFILE-018.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-002](../test-cases/profile/TC-PROFILE-002.md) | Fail | [BUG-PROFILE-002](../bug-reports/BUG-PROFILE-002.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-003](../test-cases/profile/TC-PROFILE-003.md) | Fail | [BUG-PROFILE-003](../bug-reports/BUG-PROFILE-003.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-004](../test-cases/profile/TC-PROFILE-004.md) | Fail | [BUG-PROFILE-004](../bug-reports/BUG-PROFILE-004.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-005](../test-cases/profile/TC-PROFILE-005.md) | Fail | [BUG-PROFILE-005](../bug-reports/BUG-PROFILE-005.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-006](../test-cases/profile/TC-PROFILE-006.md) | Fail | [BUG-PROFILE-006](../bug-reports/BUG-PROFILE-006.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-007](../test-cases/profile/TC-PROFILE-007.md) | Fail | [BUG-PROFILE-007](../bug-reports/BUG-PROFILE-007.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-008](../test-cases/profile/TC-PROFILE-008.md) | Fail | [BUG-PROFILE-008](../bug-reports/BUG-PROFILE-008.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-009](../test-cases/profile/TC-PROFILE-009.md) | Fail | [BUG-PROFILE-009](../bug-reports/BUG-PROFILE-009.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-010](../test-cases/profile/TC-PROFILE-010.md) | Fail | [BUG-PROFILE-010](../bug-reports/BUG-PROFILE-010.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-011](../test-cases/profile/TC-PROFILE-011.md) | Fail | [BUG-PROFILE-011](../bug-reports/BUG-PROFILE-011.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-012](../test-cases/profile/TC-PROFILE-012.md) | Fail | [BUG-PROFILE-012](../bug-reports/BUG-PROFILE-012.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-013](../test-cases/profile/TC-PROFILE-013.md) | Fail | [BUG-PROFILE-013](../bug-reports/BUG-PROFILE-013.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-014](../test-cases/profile/TC-PROFILE-014.md) | Fail | [BUG-PROFILE-014](../bug-reports/BUG-PROFILE-014.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-015](../test-cases/profile/TC-PROFILE-015.md) | Fail | [BUG-PROFILE-015](../bug-reports/BUG-PROFILE-015.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-016](../test-cases/profile/TC-PROFILE-016.md) | Fail | [BUG-PROFILE-001](../bug-reports/BUG-PROFILE-001.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-017](../test-cases/profile/TC-PROFILE-017.md) | Pass | None | Done |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-018](../test-cases/profile/TC-PROFILE-018.md) | Fail | [BUG-PROFILE-016](../bug-reports/BUG-PROFILE-016.md) | Open |
+| FR-26 (Quản lý hồ sơ cá nhân) | [TC-PROFILE-019](../test-cases/profile/TC-PROFILE-019.md) | Fail | [BUG-PROFILE-017](../bug-reports/BUG-PROFILE-017.md) | Open |
 
