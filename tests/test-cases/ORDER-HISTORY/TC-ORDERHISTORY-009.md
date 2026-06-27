@@ -1,5 +1,3 @@
-# Test Case Template
-
 ## Test Case ID
 TC-ORDERHISTORY-009
 

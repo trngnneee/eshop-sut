@@ -1,5 +1,5 @@
 @BASE_URL=http://localhost:3000
-@TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6InVzZXIiLCJpYXQiOjE3ODI1Njg3Mjd9.bF_x84EXuayfP_dVXlCJjtjF9CWo8nNI7ryb8TpqfEs
+@TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6InVzZXIiLCJpYXQiOjE3ODI1NzQzNzR9.R3TYWMfwRnyFXVQ2If1p8JYmJgbjAM4Eyq9NmnqPjPQ
 @ORDER_ID=1
 
 
@@ -27,12 +27,12 @@ Authorization: Bearer {{TOKEN}}
 
 ### ==================================================
 ### TC-ORDERHISTORY-014
-### Kiểm tra xem chi tiết đơn hàng người khác
+### Kiểm tra xem thông tin đơn hàng người khác mà không cần token
 ### Expected: 403 hoặc 404
 ### ==================================================
 
 GET {{BASE_URL}}/api/orders/{{ORDER_ID}}
-Authorization: Bearer {{TOKEN}}
+
 
 
 
