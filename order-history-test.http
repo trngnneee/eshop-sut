@@ -1,0 +1,38 @@
+@BASE_URL=http://localhost:3000
+@TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6InVzZXIiLCJpYXQiOjE3ODI1Njg3Mjd9.bF_x84EXuayfP_dVXlCJjtjF9CWo8nNI7ryb8TpqfEs
+@ORDER_ID=1
+
+
+### ==================================================
+### TC-ORDERHISTORY-012
+### Kiểm tra lấy lịch sử đơn hàng khi không có token
+### Expected: 401 Unauthorized
+### ==================================================
+
+GET {{BASE_URL}}/api/orders/my-orders
+
+
+
+### ==================================================
+### TC-ORDERHISTORY-013
+### Kiểm tra user chỉ xem được đơn hàng của chính mình
+### User A token
+### Expected: Chỉ trả order của User A
+### ==================================================
+
+GET {{BASE_URL}}/api/orders/my-orders
+Authorization: Bearer {{TOKEN}}
+
+
+
+### ==================================================
+### TC-ORDERHISTORY-014
+### Kiểm tra xem chi tiết đơn hàng người khác
+### Expected: 403 hoặc 404
+### ==================================================
+
+GET {{BASE_URL}}/api/orders/{{ORDER_ID}}
+Authorization: Bearer {{TOKEN}}
+
+
+

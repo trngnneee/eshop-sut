@@ -32,9 +32,10 @@ Người dùng đã đăng nhập và có ít nhất 1 đơn hàng
 Mã đơn hiển thị rõ ràng. Ngày đặt đúng định dạng (VD: dd/mm/yyyy). Tổng tiền có định dạng phân cách hàng nghìn và kèm ký hiệu ₫. Trạng thái hiện tại rõ ràng.
 
 ## Actual Result
-(Chưa thực thi)
+Các trường thông tin hiển thị đúng định dạng
 
 ## Status
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

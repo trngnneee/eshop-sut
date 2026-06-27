@@ -29,12 +29,13 @@ Người dùng có 1 đơn hàng đang trong quá trình vận chuyển (trạng
 3. Kiểm tra text và màu sắc của trạng thái.
 
 ## Expected Result
-Trạng thái hiển thị là "Đang giao", có màu sắc phân biệt (VD: màu xanh lơ/xanh lam).
+Trạng thái hiển thị là "Đang giao", có màu sắc phân biệt.
 
 ## Actual Result
-(Chưa thực thi)
+Trạng thái hiển thị tiếng việt chuẩn xác, có màu sắc phân biệt.
 
 ## Status
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

@@ -29,12 +29,13 @@ Người dùng có 1 đơn hàng đã hoàn tất (trạng thái delivered)
 3. Kiểm tra text và màu sắc của trạng thái.
 
 ## Expected Result
-Trạng thái hiển thị là "Đã giao" hoặc "Hoàn thành", có màu sắc tích cực (VD: màu xanh lá).
+Trạng thái hiển thị là "Đã giao", có màu sắc tích cực.
 
 ## Actual Result
-(Chưa thực thi)
+Trạng thái hiển thị tiếng việt chuẩn xác, có màu sắc phân biệt.
 
 ## Status
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

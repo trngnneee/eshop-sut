@@ -91,6 +91,7 @@ function initDatabase() {
         const insertUser = db.prepare('INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)');
         insertUser.run('Admin User', 'admin@eshop.com', 'Admin123!', 'admin');
         insertUser.run('Test User', 'test@eshop.com', 'Test1234!', 'user');
+        insertUser.run('Another Test User', 'another@test.com', 'Another1234!', 'user');
         insertUser.finalize();
 
         // Seed Products

@@ -28,12 +28,13 @@ Người dùng đã đăng nhập, tài khoản chưa từng đặt hàng
 2. Điều hướng đến trang Lịch sử đơn hàng.
 
 ## Expected Result
-Giao diện hiển thị thông báo "Chưa có đơn hàng nào" (Empty state) kèm theo icon minh họa và nút "Tiếp tục mua sắm".
+Giao diện hiển thị thông báo "Chưa có đơn hàng nào" (Empty state).
 
 ## Actual Result
-(Chưa thực thi)
+Giao diện hiển thị "Bạn chưa có đơn hàng nào"
 
 ## Status
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

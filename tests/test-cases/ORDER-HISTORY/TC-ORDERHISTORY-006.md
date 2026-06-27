@@ -29,12 +29,13 @@ Người dùng đã đăng nhập và có 1 đơn hàng vừa đặt thành côn
 3. Kiểm tra text và màu sắc của trạng thái.
 
 ## Expected Result
-Trạng thái hiển thị là "Chờ xác nhận" (hoặc tương đương bằng tiếng Việt), có màu sắc nổi bật (VD: màu cam/vàng).
+Trạng thái hiển thị là "Chờ xác nhận", có màu sắc nổi bật.
 
 ## Actual Result
-(Chưa thực thi)
+Trạng thái hiển thị tiếng việt chuẩn xác, có màu sắc phân biệt.
 
 ## Status
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

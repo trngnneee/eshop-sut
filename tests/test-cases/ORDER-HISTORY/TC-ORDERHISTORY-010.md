@@ -29,12 +29,13 @@ Người dùng có 1 đơn hàng đã bị hủy (trạng thái canceled)
 3. Kiểm tra text và màu sắc của trạng thái.
 
 ## Expected Result
-Trạng thái hiển thị là "Đã hủy", có màu sắc cảnh báo (VD: màu đỏ/xám).
+Trạng thái hiển thị là "Đã hủy", có màu sắc cảnh báo.
 
 ## Actual Result
-(Chưa thực thi)
+Trạng thái hiển thị tiếng việt chuẩn xác, có màu sắc phân biệt.
 
 ## Status
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

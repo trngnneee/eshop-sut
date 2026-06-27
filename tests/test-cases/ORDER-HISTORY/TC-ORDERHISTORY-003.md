@@ -31,9 +31,10 @@ Người dùng đã đăng nhập, tài khoản có đúng 1 đơn hàng
 Hiển thị danh sách gồm 1 đơn hàng với đầy đủ thông tin: Mã đơn, Ngày đặt, Tổng tiền, Trạng thái.
 
 ## Actual Result
-(Chưa thực thi)
+Danh sách đơn hàng được hiển thị với đầy đủ thông tin.
 
 ## Status
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

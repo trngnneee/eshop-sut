@@ -32,9 +32,10 @@ Người dùng có 1 đơn hàng đã được Admin xác nhận (trạng thái 
 Trạng thái hiển thị là "Đã xác nhận", có màu sắc phân biệt (VD: màu xanh dương).
 
 ## Actual Result
-(Chưa thực thi)
+Trạng thái hiển thị tiếng việt chuẩn xác, có màu sắc phân biệt.
 
 ## Status
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None
