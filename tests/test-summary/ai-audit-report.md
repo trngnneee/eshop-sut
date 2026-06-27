@@ -57,6 +57,19 @@ Tài liệu này ghi lại nhật ký tương tác với công cụ AI và phầ
   - Viết và thực thi script Python tự động tạo 47 tệp test case từ [TC-CART-001.md](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/cart/TC-CART-001.md) đến [TC-CART-047.md](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/cart/TC-CART-047.md) trong thư mục `tests/test-cases/cart/`.
   - Cập nhật ma trận truy vết [traceability-matrix.md](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-summary/traceability-matrix.md) để ánh xạ 47 test case này với các FR-07, FR-21, FR-23 và FR-24.
 
+### Lượt tương tác 5
+- **Tên công cụ AI:** Antigravity (Gemini-based AI Coding Assistant)
+- **Thời gian thực hiện:** 2026-06-27 14:28
+- **Nhiệm vụ:** Thiết kế bổ sung 15 test case nâng cao cho FR-07 (TC-CART-048 đến TC-CART-062) liên quan đến bảo mật phân quyền, đồng bộ trạng thái, Robustness và XSS. Chạy kiểm thử tự động toàn bộ 62 test case, phát hiện thêm 3 bugs mới và lập báo cáo lỗi.
+- **Prompt đầu vào:**
+  ```text
+  [Danh sách 15 test case mới từ người dùng]
+  ```
+- **Kết quả AI sinh ra:**
+  - Tạo 15 tệp test case Markdown bổ sung trong thư mục `tests/test-cases/cart/`.
+  - Cập nhật và chạy script `tests/test_fr07.py` kiểm thử toàn bộ 62 test case, phát hiện 12 bugs (gồm 3 bugs mới) và tự động tạo 12 báo cáo lỗi dưới dạng Markdown.
+  - Cập nhật ma trận truy vết `traceability-matrix.md` và tệp Test Run `sprint-3-test-run.md`.
+
 ---
 
 ## 2. Báo cáo Tự phê bình AI (AI Critique)

@@ -14,5 +14,5 @@
 | **Priority** | Low |
 | **Attachment (Link to file)** | [Cart.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Cart.jsx#L63) |
 | **Evidence (Screenshot)** | Hiển thị chữ 'Tổng tạm tính:'. |
-| **Date** | 2026-06-26 |
+| **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

@@ -14,5 +14,5 @@
 | **Priority** | Low |
 | **Attachment (Link to file)** | [Cart.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Cart.jsx#L45) |
 | **Evidence (Screenshot)** | Cột chỉ có text `{item.name}`, không có thẻ `<img>` hiển thị ảnh. |
-| **Date** | 2026-06-26 |
+| **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

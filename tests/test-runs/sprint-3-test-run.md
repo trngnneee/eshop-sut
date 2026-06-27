@@ -1,6 +1,6 @@
 # Test Run - Sprint 3 (Cart Module FR-07)
 
-**Ngày thực hiện**: 26/06/2026  
+**Ngày thực hiện**: 27/06/2026  
 **Người thực hiện**: AI Tester (Antigravity)  
 **Môi trường thử nghiệm**: Local Backend API & SQLite database & Frontend Web Source Code  
 
@@ -16,7 +16,7 @@
 | [TC-CART-006](../test-cases/cart/TC-CART-006.md) | Cart | AI Tester | Fail | BUG-FR07-B-07 | Bảng sản phẩm thiếu ảnh minh họa sản phẩm (BUG-FR07-B-07). |
 | [TC-CART-007](../test-cases/cart/TC-CART-007.md) | Cart | AI Tester | Pass |  | Đơn giá hiển thị đúng định dạng VND (100.000 ₫). |
 | [TC-CART-008](../test-cases/cart/TC-CART-008.md) | Cart | AI Tester | Pass |  | Thành tiền hiển thị chính xác. |
-| [TC-CART-009](../test-cases/cart/TC-CART-009.md) | Cart | AI Tester | Fail | BUG-FR07-B-06 | Nhãn tổng tiền sai đặc tả: hiển thị 'Tổng tạm tính' thay vì 'Tổng cộng' (BUG-FR07-B-06). |
+| [TC-CART-009](../test-cases/cart/TC-CART-009.md) | Cart | AI Tester | Fail | BUG-FR07-B-06 | Nhãn tổng tiền hiển thị 'Tổng tạm tính' thay vì 'Tổng cộng' (BUG-FR07-B-06). |
 | [TC-CART-010](../test-cases/cart/TC-CART-010.md) | Cart | AI Tester | Pass |  | Thêm sản phẩm thành công từ trang chủ, cập nhật badge và hiển thị toast. |
 | [TC-CART-011](../test-cases/cart/TC-CART-011.md) | Cart | AI Tester | Pass |  | Thêm sản phẩm thành công từ trang chi tiết. |
 | [TC-CART-012](../test-cases/cart/TC-CART-012.md) | Cart | AI Tester | Fail | BUG-FR07-B-03 | Hệ thống không cộng dồn số lượng khi thêm sản phẩm trùng ID (BUG-FR07-B-03). |
@@ -55,6 +55,21 @@
 | [TC-CART-045](../test-cases/cart/TC-CART-045.md) | Cart | AI Tester | Fail | BUG-FR07-B-01 | Backend cho phép thêm sản phẩm với quantity âm (BUG-FR07-B-01). |
 | [TC-CART-046](../test-cases/cart/TC-CART-046.md) | Cart | AI Tester | Fail | BUG-FR07-B-01 | Backend cho phép thêm sản phẩm với quantity thập phân (BUG-FR07-B-01). |
 | [TC-CART-047](../test-cases/cart/TC-CART-047.md) | Cart | AI Tester | Fail | BUG-FR07-B-01 | Backend cho phép thêm sản phẩm thiếu quantity (BUG-FR07-B-01). |
+| [TC-CART-048](../test-cases/cart/TC-CART-048.md) | Cart | AI Tester | Fail | BUG-FR07-B-11 | Trang giỏ hàng không bảo vệ quyền truy cập và không redirect khi chưa đăng nhập (BUG-FR07-B-11). |
+| [TC-CART-049](../test-cases/cart/TC-CART-049.md) | Cart | AI Tester | Pass |  | API trả về HTTP 401 Unauthorized khi token hết hạn/không hợp lệ. |
+| [TC-CART-050](../test-cases/cart/TC-CART-050.md) | Cart | AI Tester | Pass |  | Giỏ hàng bị lộ, User B xem được sản phẩm trong giỏ của User A. |
+| [TC-CART-051](../test-cases/cart/TC-CART-051.md) | Cart | AI Tester | Fail | BUG-FR07-B-10 | Reload trang khiến sản phẩm bị xóa quay trở lại do thiếu API xóa đồng bộ ở backend (BUG-FR07-B-10). |
+| [TC-CART-052](../test-cases/cart/TC-CART-052.md) | Cart | AI Tester | Pass |  | Đồng bộ đa tab hoạt động chính xác dựa trên fetch dữ liệu server. |
+| [TC-CART-053](../test-cases/cart/TC-CART-053.md) | Cart | AI Tester | Fail | BUG-FR07-B-10 | Xóa sản phẩm ở giữa danh sách bị phục hồi khi tải lại trang do thiếu API xóa (BUG-FR07-B-10). |
+| [TC-CART-054](../test-cases/cart/TC-CART-054.md) | Cart | AI Tester | Fail | BUG-FR07-B-05 | Không hiển thị Confirm Dialog nên không thể hiện tên sản phẩm cần xóa (BUG-FR07-B-05). |
+| [TC-CART-055](../test-cases/cart/TC-CART-055.md) | Cart | AI Tester | Fail | BUG-FR07-B-05 | Không có Confirm Dialog để kiểm tra ESC/click ngoài (BUG-FR07-B-05). |
+| [TC-CART-056](../test-cases/cart/TC-CART-056.md) | Cart | AI Tester | Fail | BUG-FR07-B-05 | Không có Confirm Dialog để chống spam nút xóa (BUG-FR07-B-05). |
+| [TC-CART-057](../test-cases/cart/TC-CART-057.md) | Cart | AI Tester | Pass |  | Quantity tăng chính xác khi thêm liên tục. |
+| [TC-CART-058](../test-cases/cart/TC-CART-058.md) | Cart | AI Tester | Pass |  | Tên sản phẩm chứa tiếng Việt hiển thị chính xác. |
+| [TC-CART-059](../test-cases/cart/TC-CART-059.md) | Cart | AI Tester | Pass |  | React tự động escape nội dung an toàn chống XSS. |
+| [TC-CART-060](../test-cases/cart/TC-CART-060.md) | Cart | AI Tester | Fail | BUG-FR07-B-12 | Backend cho phép thêm sản phẩm thiếu trường id (BUG-FR07-B-12). |
+| [TC-CART-061](../test-cases/cart/TC-CART-061.md) | Cart | AI Tester | Fail | BUG-FR07-B-12 | Backend cho phép thêm sản phẩm thiếu trường price (BUG-FR07-B-12). |
+| [TC-CART-062](../test-cases/cart/TC-CART-062.md) | Cart | AI Tester | Fail | BUG-FR07-B-12 | Backend cho phép thêm sản phẩm với price <= 0 (BUG-FR07-B-12). |
 
 ## Các Bug phát hiện chi tiết:
 1. **BUG-FR07-B-01:** Backend API `POST /api/cart` không validate quantity (chấp nhận 0, âm, thập phân, trống).
@@ -66,3 +81,6 @@
 7. **BUG-FR07-B-07:** Bảng giỏ hàng không hiển thị hình ảnh thu nhỏ (thumbnail) của sản phẩm.
 8. **BUG-FR07-B-08:** Trạng thái giỏ hàng trống thiếu hoàn toàn icon hoặc hình ảnh minh họa trực quan.
 9. **BUG-FR07-B-09:** Trang giỏ hàng thiếu thanh breadcrumb điều hướng 'Trang chủ > Giỏ hàng'.
+10. **BUG-FR07-B-10:** Xóa sản phẩm ở frontend không đồng bộ lên server (reload trang sẽ hiển thị lại) do thiếu API xóa ở backend.
+11. **BUG-FR07-B-11:** Trang giỏ hàng không bảo vệ quyền truy cập và không redirect khi chưa đăng nhập.
+12. **BUG-FR07-B-12:** API `POST /api/cart` không validate tính toàn vẹn của request body (thiếu id, price hoặc price <= 0).

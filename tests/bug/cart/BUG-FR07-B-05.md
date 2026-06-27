@@ -15,5 +15,5 @@
 | **Priority** | Medium |
 | **Attachment (Link to file)** | [Cart.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Cart.jsx#L51) |
 | **Evidence (Screenshot)** | Sản phẩm biến mất ngay lập tức mà không có prompt xác nhận nào. |
-| **Date** | 2026-06-26 |
+| **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |
