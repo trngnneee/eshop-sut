@@ -21,6 +21,15 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-09 (Discount coupons) | [TC-COUPON-016](../test-cases/coupon/TC-COUPON-016.md) | Fail | [BUG-COUPON-005](../bug-reports/BUG-COUPON-005.md) | Open |
 | FR-09 (Discount coupons) | [TC-COUPON-017](../test-cases/coupon/TC-COUPON-017.md) | Fail | [BUG-COUPON-005](../bug-reports/BUG-COUPON-005.md) | Open |
 | FR-09 (Discount coupons) | [TC-COUPON-018](../test-cases/coupon/TC-COUPON-018.md) | Fail | [BUG-COUPON-005](../bug-reports/BUG-COUPON-005.md) | Open |
+| FR-09 (Discount coupons) | [TC-COUPON-020](../test-cases/coupon/TC-COUPON-020.md) | Fail | [BUG-COUPON-004](../bug-reports/BUG-COUPON-004.md) | Open |
+| FR-09 (Discount coupons) | [TC-COUPON-021](../test-cases/coupon/TC-COUPON-021.md) | Fail | [BUG-COUPON-004](../bug-reports/BUG-COUPON-004.md) | Open |
+| FR-09 (Discount coupons) | [TC-COUPON-022](../test-cases/coupon/TC-COUPON-022.md) | Fail | [BUG-COUPON-004](../bug-reports/BUG-COUPON-004.md) | Open |
+| FR-09 (Discount coupons) | [TC-COUPON-023](../test-cases/coupon/TC-COUPON-023.md) | Fail | [BUG-COUPON-006](../bug-reports/BUG-COUPON-006.md) | Open |
+| FR-09 (Discount coupons) | [TC-COUPON-024](../test-cases/coupon/TC-COUPON-024.md) | Fail | [BUG-COUPON-007](../bug-reports/BUG-COUPON-007.md) | Open |
+| FR-09 (Discount coupons) | [TC-COUPON-025](../test-cases/coupon/TC-COUPON-025.md) | Fail | [BUG-COUPON-008](../bug-reports/BUG-COUPON-008.md) | Open |
+| FR-09 (Discount coupons) | [TC-COUPON-026](../test-cases/coupon/TC-COUPON-026.md) | Fail | [BUG-COUPON-009](../bug-reports/BUG-COUPON-009.md) | Open |
+| FR-09 (Discount coupons) | [TC-COUPON-027](../test-cases/coupon/TC-COUPON-027.md) | Pass | None | Done |
+| FR-09 (Discount coupons) | [TC-COUPON-028](../test-cases/coupon/TC-COUPON-028.md) | Pass | None | Done |
 | FR-01 (Account registration) | [TC-REG-001](../test-cases/register/TC-REG-001.md) | Pass | None | Done |
 | FR-01 (Account registration) | [TC-REG-002](../test-cases/register/TC-REG-002.md) | Fail | [BUG-REG-002](../bug-reports/BUG-REG-002.md) | Open |
 | FR-01 (Account registration) | [TC-REG-003](../test-cases/register/TC-REG-003.md) | Fail | [BUG-REG-001](../bug-reports/BUG-REG-001.md) | Open |

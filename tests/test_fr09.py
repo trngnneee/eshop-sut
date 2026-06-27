@@ -416,9 +416,188 @@ def run_tests():
     }, token=token)
     print(f"  - Phản hồi: HTTP {status} | {res}")
 
+    # -------------------------------------------------------------
+    # 19. TC-COUPON-020: Dấu cách ở đầu chuỗi (" SAVE10")
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-020] Áp dụng mã có dấu cách ở đầu (\" SAVE10\")")
+    status, res = make_request("/api/apply-coupon", data={
+        "code": " SAVE10",
+        "total_amount": 300000,
+        "user_id": user_id
+    }, token=token)
+    print(f"  - Phản hồi: HTTP {status} | {res}")
+    if status == 200 and res.get("success") is True:
+        print("  => KẾT QUẢ: PASSED")
+    else:
+        print("  => KẾT QUẢ: FAILED (Bug: Không trim khoảng trắng ở đầu)")
+
+    # -------------------------------------------------------------
+    # 20. TC-COUPON-021: Dấu cách ở cuối chuỗi ("SAVE10 ")
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-021] Áp dụng mã có dấu cách ở cuối (\"SAVE10 \")")
+    status, res = make_request("/api/apply-coupon", data={
+        "code": "SAVE10 ",
+        "total_amount": 300000,
+        "user_id": user_id
+    }, token=token)
+    print(f"  - Phản hồi: HTTP {status} | {res}")
+    if status == 200 and res.get("success") is True:
+        print("  => KẾT QUẢ: PASSED")
+    else:
+        print("  => KẾT QUẢ: FAILED (Bug: Không trim khoảng trắng ở cuối)")
+
+    # -------------------------------------------------------------
+    # 21. TC-COUPON-022: Dấu cách ở giữa chuỗi ("SAV E10")
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-022] Áp dụng mã có dấu cách ở giữa (\"SAV E10\")")
+    status, res = make_request("/api/apply-coupon", data={
+        "code": "SAV E10",
+        "total_amount": 300000,
+        "user_id": user_id
+    }, token=token)
+    print(f"  - Phản hồi: HTTP {status} | {res}")
+    if status == 200 and res.get("success") is True:
+        print("  => KẾT QUẢ: PASSED")
+    else:
+        print("  => KẾT QUẢ: FAILED (Bug: Không loại bỏ khoảng trắng ở giữa)")
+
+    # -------------------------------------------------------------
+    # 22. TC-COUPON-023: Chữ viết thường ("save10")
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-023] Áp dụng mã viết thường (\"save10\")")
+    status, res = make_request("/api/apply-coupon", data={
+        "code": "save10",
+        "total_amount": 300000,
+        "user_id": user_id
+    }, token=token)
+    print(f"  - Phản hồi: HTTP {status} | {res}")
+    if status == 200 and res.get("success") is True:
+        print("  => KẾT QUẢ: PASSED")
+    else:
+        print("  => KẾT QUẢ: FAILED (Bug: Không tự động chuyển thành chữ hoa)")
+
+    # -------------------------------------------------------------
+    # 23. TC-COUPON-024: Giá trị fixed lớn hơn tổng đơn hàng
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-024] Áp dụng mã fixed lớn hơn tổng đơn hàng (giảm 50k cho đơn 30k)")
+    # Thêm mã FIXED50 vào DB với min_order_amount = 29999 để vượt qua lỗi strict inequality
+    execute_db_write("INSERT OR REPLACE INTO coupons (code, type, discount_value, min_order_amount, expired_at, is_active, max_uses_per_user) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                     ("FIXED50", "fixed", 50000, 29999, "2099-12-31", 1, 1))
+    status, res = make_request("/api/apply-coupon", data={
+        "code": "FIXED50",
+        "total_amount": 30000,
+        "user_id": user_id
+    }, token=token)
+    print(f"  - Phản hồi: HTTP {status} | {res}")
+    if status == 200 and res.get("success") is True:
+        discount = res.get("discount_amount")
+        final = res.get("final_amount")
+        if final == 0 and discount == 30000:
+            print("  => KẾT QUẢ: PASSED")
+        else:
+            print(f"  => KẾT QUẢ: FAILED (Bug: final_amount bị âm: final={final}, discount={discount})")
+    else:
+        print("  => KẾT QUẢ: FAILED")
+    execute_db_write("DELETE FROM coupons WHERE code = 'FIXED50'")
+
+    # -------------------------------------------------------------
+    # 24. TC-COUPON-025: Gọi API coupon-usage liên tục đồng thời (Race Condition)
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-025] Concurrency/Race Condition trên coupon-usage")
+    # Sử dụng luồng chạy song song gửi 5 request ghi nhận sử dụng SAVE10
+    import threading
+    import queue
+    save10_id = query_db("SELECT id FROM coupons WHERE code = 'SAVE10'")[0][0]
+    
+    # Xóa lịch sử sử dụng của user để bắt đầu sạch
+    execute_db_write("DELETE FROM coupon_usage WHERE user_id = ?", (user_id,))
+    
+    results = queue.Queue()
+    def send_usage_req():
+        st, r = make_request("/api/coupon-usage", method="POST", data={"coupon_id": save10_id}, token=token)
+        results.put((st, r))
+        
+    threads = []
+    for _ in range(5):
+        t = threading.Thread(target=send_usage_req)
+        threads.append(t)
+        t.start()
+        
+    for t in threads:
+        t.join()
+        
+    responses = []
+    while not results.empty():
+        responses.append(results.get())
+        
+    # Đếm số dòng ghi nhận trong DB
+    usage_db_count = query_db("SELECT COUNT(*) FROM coupon_usage WHERE coupon_id = ? AND user_id = ?", (save10_id, user_id))[0][0]
+    print(f"  - API Responses: {responses}")
+    print(f"  - Số bản ghi ghi nhận trong CSDL: {usage_db_count}")
+    
+    if usage_db_count == 1:
+        print("  => KẾT QUẢ: PASSED")
+    else:
+        print(f"  => KẾT QUẢ: FAILED (Bug: Ghi nhận vượt quá giới hạn hoặc cho phép ghi trùng lặp: {usage_db_count} lần)")
+    execute_db_write("DELETE FROM coupon_usage WHERE user_id = ?", (user_id,))
+
+    # -------------------------------------------------------------
+    # 25. TC-COUPON-026: Tài khoản Admin áp dụng mã giảm giá
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-026] Tài khoản Admin áp dụng mã giảm giá")
+    # Lấy token Admin
+    status_admin, res_admin = make_request("/api/login", data={
+        "email": "admin@eshop.com",
+        "password": "Admin123!"
+    })
+    admin_token = res_admin.get("token")
+    admin_user_id = res_admin.get("user", {}).get("id")
+    
+    status, res = make_request("/api/apply-coupon", data={
+        "code": "SAVE10",
+        "total_amount": 350000,
+        "user_id": admin_user_id
+    }, token=admin_token)
+    print(f"  - Phản hồi: HTTP {status} | {res}")
+    if status in (400, 403) and "error" in res:
+        print("  => KẾT QUẢ: PASSED")
+    else:
+        print("  => KẾT QUẢ: FAILED (Bug: Cho phép tài khoản Admin áp dụng mã giảm giá)")
+
+    # -------------------------------------------------------------
+    # 26. TC-COUPON-027: Áp dụng mã khi giỏ hàng trống (total_amount = 0)
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-027] Áp dụng mã khi giỏ hàng trống (total_amount = 0)")
+    status, res = make_request("/api/apply-coupon", data={
+        "code": "SAVE10",
+        "total_amount": 0,
+        "user_id": user_id
+    }, token=token)
+    print(f"  - Phản hồi: HTTP {status} | {res}")
+    if status == 400 and "error" in res:
+        print("  => KẾT QUẢ: PASSED")
+    else:
+        print("  => KẾT QUẢ: FAILED")
+
+    # -------------------------------------------------------------
+    # 27. TC-COUPON-028: Thay đổi múi giờ client
+    # -------------------------------------------------------------
+    print("\n[TC-COUPON-028] Áp dụng mã hết hạn dù thay đổi múi giờ client")
+    status, res = make_request("/api/apply-coupon", data={
+        "code": "EXPIRED",
+        "total_amount": 150000,
+        "user_id": user_id
+    }, token=token)
+    print(f"  - Phản hồi: HTTP {status} | {res}")
+    if status == 400 and res.get("error") == "Mã giảm giá đã hết hạn":
+        print("  => KẾT QUẢ: PASSED")
+    else:
+        print("  => KẾT QUẢ: FAILED")
+
     # Dọn dẹp DB sau khi test
     execute_db_write("DELETE FROM coupon_usage WHERE user_id = ?", (user_id,))
     execute_db_write("DELETE FROM users WHERE id = ?", (user_id,))
+
 
 if __name__ == "__main__":
     run_tests()

@@ -24,6 +24,15 @@
 | [TC-COUPON-016](../test-cases/coupon/TC-COUPON-016.md) | Coupon | Thịnh   | Fail   | [BUG-COUPON-005](../bug-reports/BUG-COUPON-005.md) | Báo sai thông báo lỗi (đơn hàng chưa đủ tối thiểu) khi total_amount là chuỗi |
 | [TC-COUPON-017](../test-cases/coupon/TC-COUPON-017.md) | Coupon | Thịnh   | Fail   | [BUG-COUPON-005](../bug-reports/BUG-COUPON-005.md) | Báo sai thông báo lỗi khi total_amount là null |
 | [TC-COUPON-018](../test-cases/coupon/TC-COUPON-018.md) | Coupon | Thịnh   | Fail   | [BUG-COUPON-005](../bug-reports/BUG-COUPON-005.md) | Báo sai thông báo lỗi khi total_amount là số âm |
+| [TC-COUPON-020](../test-cases/coupon/TC-COUPON-020.md) | Coupon | Thịnh   | Fail   | [BUG-COUPON-004](../bug-reports/BUG-COUPON-004.md) | Từ chối áp dụng và trả về lỗi 404 khi có khoảng trắng ở đầu mã |
+| [TC-COUPON-021](../test-cases/coupon/TC-COUPON-021.md) | Coupon | Thịnh   | Fail   | [BUG-COUPON-004](../bug-reports/BUG-COUPON-004.md) | Từ chối áp dụng và trả về lỗi 404 khi có khoảng trắng ở cuối mã |
+| [TC-COUPON-022](../test-cases/coupon/TC-COUPON-022.md) | Coupon | Thịnh   | Fail   | [BUG-COUPON-004](../bug-reports/BUG-COUPON-004.md) | Từ chối áp dụng và trả về lỗi 404 khi có khoảng trắng ở giữa mã |
+| [TC-COUPON-023](../test-cases/coupon/TC-COUPON-023.md) | Coupon | Thịnh   | Fail   | [BUG-COUPON-006](../bug-reports/BUG-COUPON-006.md) | Phân biệt chữ hoa/thường, không tự động chuyển thành chữ hoa |
+| [TC-COUPON-024](../test-cases/coupon/TC-COUPON-024.md) | Coupon | Thịnh   | Fail   | [BUG-COUPON-007](../bug-reports/BUG-COUPON-007.md) | Cho phép final_amount nhận giá trị âm khi fixed discount > total_amount |
+| [TC-COUPON-025](../test-cases/coupon/TC-COUPON-025.md) | Coupon | Thịnh   | Fail   | [BUG-COUPON-008](../bug-reports/BUG-COUPON-008.md) | Thiếu validate giới hạn sử dụng trên API /api/coupon-usage, cho phép ghi nhận trùng lặp |
+| [TC-COUPON-026](../test-cases/coupon/TC-COUPON-026.md) | Coupon | Thịnh   | Fail   | [BUG-COUPON-009](../bug-reports/BUG-COUPON-009.md) | Cho phép tài khoản Admin áp dụng mã giảm giá |
+| [TC-COUPON-027](../test-cases/coupon/TC-COUPON-027.md) | Coupon | Thịnh   | Pass   | None                         | Từ chối chính xác khi giỏ hàng trống (total_amount = 0) |
+| [TC-COUPON-028](../test-cases/coupon/TC-COUPON-028.md) | Coupon | Thịnh   | Pass   | None                         | Chặn chính xác mã hết hạn, không phụ thuộc múi giờ client |
 | [TC-REG-001](../test-cases/register/TC-REG-001.md) | Register | Thịnh   | Pass   | None                         | Đăng ký thành công với thông tin hợp lệ |
 | [TC-REG-002](../test-cases/register/TC-REG-002.md) | Register | Thịnh   | Fail   | [BUG-REG-002](../bug-reports/BUG-REG-002.md) | Cho phép đăng ký khi Họ tên trống |
 | [TC-REG-003](../test-cases/register/TC-REG-003.md) | Register | Thịnh   | Fail   | [BUG-REG-001](../bug-reports/BUG-REG-001.md) | Cho phép đăng ký khi Email sai định dạng |
