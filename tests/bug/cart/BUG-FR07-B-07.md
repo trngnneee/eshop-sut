@@ -13,6 +13,6 @@
 | **Frequency** | Always |
 | **Priority** | Low |
 | **Attachment (Link to file)** | [Cart.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Cart.jsx#L23) |
-| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-07.png) |
+| **Evidence (Screenshot)** | Chỉ hiển thị chữ 'Giỏ hàng của bạn đang trống' dạng text thường. |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

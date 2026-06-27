@@ -14,6 +14,6 @@
 | **Frequency** | Always |
 | **Priority** | High |
 | **Attachment (Link to file)** | [Cart.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Cart.jsx#L47) |
-| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-04.png) |
+| **Evidence (Screenshot)** | Số lượng hiển thị dạng văn bản tĩnh `{item.quantity}` không thể thay đổi. |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

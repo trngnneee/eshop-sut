@@ -252,6 +252,36 @@ def main():
     results["TC-CART-059"] = ("Pass" if tc_062_pass else "Fail", "Backend cho phép thêm sản phẩm với price <= 0 (BUG-FR07-B-10).")
     results["TC-CART-060"] = ("Fail", "Không hiển thị tồn kho khả dụng và thiếu cảnh báo (BUG-FR07-B-12).")
 
+    results["TC-CART-061"] = ("Not Run", "POST /api/cart với id sản phẩm không tồn tại.")
+    results["TC-CART-062"] = ("Not Run", "POST /api/cart với id hợp lệ nhưng name sai.")
+    results["TC-CART-063"] = ("Not Run", "POST /api/cart với id hợp lệ nhưng price bị sửa thấp hơn.")
+    results["TC-CART-064"] = ("Not Run", "POST /api/cart với price rất lớn.")
+    results["TC-CART-065"] = ("Not Run", "POST /api/cart với quantity rất lớn, ví dụ 999999999.")
+    results["TC-CART-066"] = ("Not Run", "POST /api/cart với quantity dạng chuỗi '2'.")
+    results["TC-CART-067"] = ("Not Run", "POST /api/cart với quantity: null.")
+    results["TC-CART-068"] = ("Not Run", "POST /api/cart với body rỗng {}.")
+    results["TC-CART-069"] = ("Not Run", "POST /api/cart với malformed JSON.")
+    results["TC-CART-070"] = ("Not Run", "POST /api/cart với extra fields như isAdmin, discount, totalPrice.")
+    results["TC-CART-071"] = ("Not Run", "Thêm sản phẩm rồi logout, login bằng user khác.")
+    results["TC-CART-072"] = ("Not Run", "Login user A thêm sản phẩm, logout, login lại user A.")
+    results["TC-CART-073"] = ("Not Run", "Mở 2 tab, tab A xóa sản phẩm, tab B vẫn đang ở giỏ hàng.")
+    results["TC-CART-074"] = ("Not Run", "Double click nút 'Thêm vào giỏ hàng' rất nhanh.")
+    results["TC-CART-075"] = ("Not Run", "Double click nút 'Xóa' rất nhanh.")
+    results["TC-CART-076"] = ("Not Run", "Nhấn checkout khi giỏ hàng trống.")
+    results["TC-CART-077"] = ("Not Run", "Nhấn checkout khi giỏ hàng có item quantity không hợp lệ do API tạo ra.")
+    results["TC-CART-078"] = ("Not Run", "Giỏ hàng chứa sản phẩm đã bị xóa khỏi hệ thống.")
+    results["TC-CART-079"] = ("Not Run", "Giỏ hàng chứa sản phẩm hết hàng.")
+    results["TC-CART-080"] = ("Not Run", "Giỏ hàng chứa sản phẩm bị thay đổi giá sau khi đã thêm.")
+    results["TC-CART-081"] = ("Not Run", "Tên sản phẩm rất dài.")
+    results["TC-CART-082"] = ("Not Run", "Tên sản phẩm chứa HTML/script.")
+    results["TC-CART-083"] = ("Not Run", "Ảnh sản phẩm lỗi URL hoặc không tải được.")
+    results["TC-CART-084"] = ("Not Run", "Giỏ hàng có nhiều sản phẩm, ví dụ 50–100 dòng.")
+    results["TC-CART-085"] = ("Not Run", "Tổng tiền có giá trị rất lớn.")
+    results["TC-CART-086"] = ("Not Run", "Gửi GET /api/cart với token sai định dạng.")
+    results["TC-CART-087"] = ("Not Run", "Gửi GET /api/cart với token của user A sau khi logout.")
+    results["TC-CART-088"] = ("Not Run", "Gửi request xóa/cập nhật item không thuộc giỏ hàng của user hiện tại.")
+    results["TC-CART-089"] = ("Not Run", "Refresh trang ngay sau khi thêm sản phẩm.")
+    results["TC-CART-090"] = ("Not Run", "Tắt mạng/server lỗi khi thêm vào giỏ.")
     # Print results summary
     print("\n" + "=" * 110)
     print(f"{'STT':<4} | {'Mã Test Case':<12} | {'Trạng thái':<10} | {'Ghi chú'}")
@@ -259,7 +289,7 @@ def main():
     
     pass_cnt = 0
     fail_cnt = 0
-    for i in range(1, 61):
+    for i in range(1, 91):
         tc_id = f"TC-CART-{i:03d}"
         res_status, note = results[tc_id]
         print(f"{i:<4} | {tc_id:<12} | {res_status:<10} | {note}")
@@ -428,7 +458,7 @@ def main():
 | Test Case ID | Module | Tester | Result | Related Bug | Note |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 """
-    for i in range(1, 61):
+    for i in range(1, 91):
         tc_id = f"TC-CART-{i:03d}"
         res_status, note = results[tc_id]
         

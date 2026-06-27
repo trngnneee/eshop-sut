@@ -13,6 +13,6 @@
 | **Frequency** | Always |
 | **Priority** | Low |
 | **Attachment (Link to file)** | [Cart.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Cart.jsx#L30) |
-| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-08.png) |
+| **Evidence (Screenshot)** | Trang trống hoặc trang bảng đều thiếu breadcrumb. |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

@@ -14,6 +14,6 @@
 | **Frequency** | Always |
 | **Priority** | High |
 | **Attachment (Link to file)** | [server.js](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/backend/server.js#L280) |
-| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-09.png) |
+| **Evidence (Screenshot)** | API trả về 200 OK và sản phẩm được ghi nhận vào giỏ hàng thành công mà không yêu cầu xác thực người dùng. |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |
