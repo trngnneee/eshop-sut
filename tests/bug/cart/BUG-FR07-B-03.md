@@ -14,6 +14,6 @@
 | **Frequency** | Always |
 | **Priority** | High |
 | **Attachment (Link to file)** | [CartContext.jsx](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/context/CartContext.jsx#L8) |
-| **Evidence (Screenshot)** | Bảng giỏ hàng hiển thị 2 dòng sản phẩm A trùng nhau. |
+| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-03.png) |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

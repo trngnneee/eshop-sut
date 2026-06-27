@@ -11,6 +11,6 @@
 | **Severity** | Major |
 | **Frequency** | Always |
 | **Priority** | High |
-| **Evidence (Screenshot)** | Giao diện không giới hạn số lượng chọn, không hiển thị số lượng còn lại, và cho phép thêm số lượng vượt quá tồn kho vào giỏ hàng mà không cảnh báo. |
+| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-12.png) |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |

@@ -14,6 +14,6 @@
 | **Frequency** | Always |
 | **Priority** | High |
 | **Attachment (Link to file)** | [server.js](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/backend/server.js#L290) |
-| **Evidence (Screenshot)** | Trả về 2 dòng sản phẩm riêng biệt thay vì 1 dòng có quantity = 3. |
+| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-02.png) |
 | **Date** | 2026-06-27 |
 | **Reporter** | AI Tester (Antigravity) |
