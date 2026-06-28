@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "name": "email",
+    "type": "string",
+    "required": true,
+    "constraints": {
+      "max_length": 254,
+      "format": "RFC 5322"
+    },
+    "classes": [
+      {"id": "EC-EM-01", "desc": "Typical valid email",       "type": "valid",   "value": "alice@example.com"},
+      {"id": "EC-EM-02", "desc": "Valid — minimum length",    "type": "valid",   "value": "a@b.co"},
+      {"id": "EC-EM-03", "desc": "Missing @ symbol",          "type": "invalid", "value": "aliceexample.com"},
+      {"id": "EC-EM-04", "desc": "Missing domain part",       "type": "invalid", "value": "alice@"},
+      {"id": "EC-EM-05", "desc": "Multiple @ symbols",        "type": "invalid", "value": "al@@ice@ex.com"},
+      {"id": "EC-EM-06", "desc": "Empty string",              "type": "invalid", "value": ""},
+      {"id": "EC-EM-07", "desc": "Whitespace only",           "type": "invalid", "value": "   "},
+      {"id": "EC-EM-08", "desc": "Already registered email",  "type": "invalid", "value": "existing@user.com"}
+    ],
+    "boundaries": [
+      {
+        "name": "length",
+        "min": 6,
+        "max": 254,
+        "unit": "char",
+        "on_low":   "a@b.co",
+        "off_low":  "a@b.c",
+        "in_val":   "alice@example.com",
+        "on_high":  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@b.com",
+        "off_high": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@b.com",
+        "out_low":  "",
+        "out_high": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@b.com"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "password",
+    "type": "string",
+    "required": true,
+    "constraints": {
+      "min_length": 8,
+      "max_length": 32,
+      "rules": ["at least 1 uppercase", "at least 1 digit"]
+    },
+    "classes": [
+      {"id": "EC-PW-01", "desc": "Valid — typical",           "type": "valid",   "value": "Abcdef1!"},
+      {"id": "EC-PW-02", "desc": "Too short (< 8 chars)",     "type": "invalid", "value": "Ab1!"},
+      {"id": "EC-PW-03", "desc": "Too long (> 32 chars)",     "type": "invalid", "value": "Abcdefghij1234!ABCDEabcdefghij123"},
+      {"id": "EC-PW-04", "desc": "No uppercase letter",       "type": "invalid", "value": "abcdef1!"},
+      {"id": "EC-PW-05", "desc": "No digit",                  "type": "invalid", "value": "Abcdefg!"},
+      {"id": "EC-PW-06", "desc": "Empty",                     "type": "invalid", "value": ""}
+    ],
+    "boundaries": [
+      {
+        "name": "length",
+        "min": 8,
+        "max": 32,
+        "unit": "char",
+        "on_low":   "Abcdef1!",
+        "off_low":  "Abcde1!",
+        "in_val":   "Abcdefghij1234!ABCDE",
+        "on_high":  "Abcdefghij1234!ABCDEabcdefghij12",
+        "off_high": "Abcdefghij1234!ABCDEabcdefghij123",
+        "out_low":  "",
+        "out_high": "Abcdefghij1234!ABCDEabcdefghij12345678901234567890"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "confirm_password",
+    "type": "string",
+    "required": true,
+    "constraints": {
+      "must_equal": "password"
+    },
+    "classes": [
+      {"id": "EC-CP-01", "desc": "Matches password",          "type": "valid",   "value": "Abcdef1!"},
+      {"id": "EC-CP-02", "desc": "Does not match password",   "type": "invalid", "value": "Different1!"},
+      {"id": "EC-CP-03", "desc": "Empty",                     "type": "invalid", "value": ""}
+    ],
+    "boundaries": []
+  }
+]
