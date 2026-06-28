@@ -1,0 +1,554 @@
+{
+  "feature_name": "FR-20",
+  "feature_code": "FR20",
+  "feature_title": "Mobile - Xem danh sách và Tìm kiếm sản phẩm",
+  "module_name": "mobile_product_list_search",
+  "module_display_name": "Mobile Product List & Search",
+  "test_model": "input_boundary",
+  "output_root": "tests/test-cases",
+  "inputs": [],
+  "assumptions": [
+    "README.md FR-20 yêu cầu mobile có chức năng Xem sản phẩm; phần hành vi chi tiết cho danh sách và tìm kiếm sản phẩm kế thừa từ README.md FR-05.",
+    "api_specification.md định nghĩa `GET /api/products` và query tùy chọn `?search=keyword` để tìm kiếm theo tên sản phẩm.",
+    "frontend-mobile/App.js gọi `GET /api/products?search=${query}` khi tải danh sách hoặc bấm nút Tìm.",
+    "Từ khóa rỗng là hợp lệ và phải trả về toàn bộ danh sách sản phẩm.",
+    "BVA dùng giới hạn kiểm thử 0-255 ký tự cho từ khóa tìm kiếm; 256 ký tự được xem là vượt giới hạn và phải được xử lý an toàn.",
+    "Môi trường kiểm thử có dữ liệu seed sản phẩm như `iPhone 15 Pro Max`, `Samsung Galaxy S24 Ultra`, `MacBook Pro M3`, `Tai nghe AirPods Pro 2`, `Bàn phím cơ Keychron Q1`."
+  ],
+  "field_labels": {
+    "L": "Product List Display",
+    "S": "Search Keyword",
+    "E": "Empty Search Result",
+    "X": "Search Safety"
+  },
+  "test_run": {
+    "title": "Test Run - FR-20 Mobile Product List & Search",
+    "file_name": "fr20-mobile-product-list-search-test-run.md",
+    "tester": "[Tên người test]",
+    "environment": "[Local API backend http://localhost:3000, Expo/Frontend Mobile on iOS/Android simulator or real device]",
+    "overwrite": false
+  },
+  "traceability_matrix": {
+    "enabled": true,
+    "file": "tests/test-summary/traceability-matrix.md",
+    "title": "FR-20 - Mobile Product List & Search",
+    "requirement": "FR-20",
+    "source": "README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532"
+  },
+  "custom_cases": [
+    {
+      "id": "FR20-L-TC01",
+      "field_code": "L",
+      "group_name": "Product List Display",
+      "title": "Mobile hiển thị danh sách tất cả sản phẩm khi vào trang chủ",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Valid product list partition: empty search loads all products",
+      "preconditions": [
+        "Backend API đang chạy và mobile app kết nối được tới `API_URL`.",
+        "Database có tối thiểu 5 sản phẩm seed.",
+        "Người dùng mở app mobile ở màn hình Home."
+      ],
+      "data": {
+        "Platform": "Mobile React Native / Expo",
+        "Endpoint": "GET /api/products",
+        "Search keyword": "",
+        "Expected seed products": [
+          "iPhone 15 Pro Max",
+          "Samsung Galaxy S24 Ultra",
+          "MacBook Pro M3",
+          "Tai nghe AirPods Pro 2",
+          "Bàn phím cơ Keychron Q1"
+        ]
+      },
+      "steps": [
+        "Khởi chạy backend và frontend-mobile.",
+        "Mở app mobile và ở màn hình `Danh sách sản phẩm`.",
+        "Không nhập từ khóa tìm kiếm.",
+        "Quan sát danh sách sản phẩm sau khi trạng thái loading kết thúc."
+      ],
+      "expected": [
+        "Mobile app gọi `GET /api/products` hoặc `GET /api/products?search=` thành công.",
+        "Danh sách hiển thị tất cả sản phẩm seed.",
+        "Màn hình không hiển thị lỗi HTML hoặc lỗi mạng.",
+        "Dòng tổng kết hiển thị đúng số lượng sản phẩm đang được render."
+      ]
+    },
+    {
+      "id": "FR20-L-TC02",
+      "field_code": "L",
+      "group_name": "Product List Display",
+      "title": "Mobile card sản phẩm hiển thị đủ ảnh, tên và giá",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Valid product card display partition: required fields rendered",
+      "preconditions": [
+        "Backend API đang chạy.",
+        "Danh sách sản phẩm đã tải thành công trên mobile."
+      ],
+      "data": {
+        "Platform": "Mobile React Native / Expo",
+        "Sample product": {
+          "name": "iPhone 15 Pro Max",
+          "price": 30000000,
+          "imageUrl": "https://placehold.co/300x300/png?text=iPhone+15"
+        }
+      },
+      "steps": [
+        "Mở app mobile ở màn hình `Danh sách sản phẩm`.",
+        "Tìm card của sản phẩm `iPhone 15 Pro Max`.",
+        "Kiểm tra các thành phần hiển thị trên card."
+      ],
+      "expected": [
+        "Card hiển thị ảnh sản phẩm.",
+        "Card hiển thị tên sản phẩm.",
+        "Giá hiển thị với ký hiệu `₫` và định dạng phân cách hàng nghìn.",
+        "Card có thao tác `Xem chi tiết` và `Thêm vào giỏ`."
+      ]
+    },
+    {
+      "id": "FR20-L-TC03",
+      "field_code": "L",
+      "group_name": "Product List Display",
+      "title": "Mobile hiển thị trạng thái loading khi đang tải danh sách",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Valid loading state partition while product request is pending",
+      "preconditions": [
+        "Có thể mô phỏng mạng chậm bằng throttling hoặc delay backend.",
+        "Mobile app đang ở màn hình Home."
+      ],
+      "data": {
+        "Platform": "Mobile React Native / Expo",
+        "Endpoint": "GET /api/products",
+        "Network": "Slow 3G / delayed response"
+      },
+      "steps": [
+        "Bật chế độ mạng chậm hoặc thêm delay cho request `GET /api/products`.",
+        "Mở app mobile hoặc kéo reload luồng tải danh sách nếu có.",
+        "Quan sát màn hình trong lúc request chưa hoàn tất."
+      ],
+      "expected": [
+        "Màn hình hiển thị thông báo `Đang tải...` trong lúc request đang pending.",
+        "Sau khi request hoàn tất, loading biến mất và danh sách hoặc empty state được hiển thị phù hợp."
+      ]
+    },
+    {
+      "id": "FR20-S-TC01",
+      "field_code": "S",
+      "group_name": "Search Keyword",
+      "title": "Mobile tìm kiếm sản phẩm theo từ khóa khớp một phần tên",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Valid search partition: partial product name keyword",
+      "preconditions": [
+        "Backend API đang chạy.",
+        "Database có sản phẩm `iPhone 15 Pro Max`."
+      ],
+      "data": {
+        "Platform": "Mobile React Native / Expo",
+        "Endpoint": "GET /api/products?search=iPhone",
+        "Search keyword": "iPhone"
+      },
+      "steps": [
+        "Mở app mobile ở màn hình `Danh sách sản phẩm`.",
+        "Nhập `iPhone` vào ô `Tìm kiếm...`.",
+        "Bấm nút `Tìm`.",
+        "Quan sát danh sách kết quả."
+      ],
+      "expected": [
+        "Mobile app gửi request tìm kiếm theo tên sản phẩm.",
+        "Danh sách chỉ hiển thị các sản phẩm có tên chứa `iPhone`.",
+        "Nhãn `Kết quả tìm kiếm cho: iPhone` hiển thị an toàn dưới dạng text."
+      ]
+    },
+    {
+      "id": "FR20-S-TC02",
+      "field_code": "S",
+      "group_name": "Search Keyword",
+      "title": "Mobile tìm kiếm sản phẩm bằng từ khóa chữ thường",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Valid search partition: lowercase keyword matching product name",
+      "preconditions": [
+        "Backend API đang chạy.",
+        "Database có sản phẩm `Samsung Galaxy S24 Ultra`."
+      ],
+      "data": {
+        "Platform": "Mobile React Native / Expo",
+        "Endpoint": "GET /api/products?search=samsung",
+        "Search keyword": "samsung"
+      },
+      "steps": [
+        "Mở app mobile ở màn hình `Danh sách sản phẩm`.",
+        "Nhập `samsung` vào ô tìm kiếm.",
+        "Bấm nút `Tìm`.",
+        "Quan sát danh sách kết quả."
+      ],
+      "expected": [
+        "Hệ thống tìm kiếm theo tên sản phẩm không phụ thuộc chữ hoa/thường cho dữ liệu Latin thông dụng.",
+        "Danh sách hiển thị `Samsung Galaxy S24 Ultra`.",
+        "Không hiển thị sản phẩm không khớp từ khóa."
+      ]
+    },
+    {
+      "id": "FR20-S-TC03",
+      "field_code": "S",
+      "group_name": "Search Keyword",
+      "title": "Mobile tìm kiếm với từ khóa rỗng để quay về toàn bộ danh sách",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Valid search partition: blank keyword resets to full product list",
+      "preconditions": [
+        "Backend API đang chạy.",
+        "Mobile app đang hiển thị kết quả của một lần tìm kiếm trước đó."
+      ],
+      "data": {
+        "Platform": "Mobile React Native / Expo",
+        "Endpoint": "GET /api/products?search=",
+        "Search keyword": ""
+      },
+      "steps": [
+        "Mở app mobile ở màn hình `Danh sách sản phẩm`.",
+        "Tìm kiếm với từ khóa `iPhone` để thu hẹp kết quả.",
+        "Xóa toàn bộ nội dung ô tìm kiếm.",
+        "Bấm nút `Tìm`."
+      ],
+      "expected": [
+        "Mobile app gửi request với từ khóa rỗng hoặc gọi lại danh sách sản phẩm.",
+        "Danh sách quay về hiển thị toàn bộ sản phẩm.",
+        "Không còn nhãn kết quả tìm kiếm cho từ khóa cũ."
+      ]
+    },
+    {
+      "id": "FR20-S-TC04",
+      "field_code": "S",
+      "group_name": "Search Keyword",
+      "title": "Mobile xử lý từ khóa có ký tự đặc biệt không khớp sản phẩm",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Invalid search partition: special characters that should not match product names",
+      "preconditions": [
+        "Backend API đang chạy.",
+        "Không có sản phẩm nào có tên chứa chuỗi `@@@###`."
+      ],
+      "data": {
+        "Platform": "Mobile React Native / Expo",
+        "Endpoint": "GET /api/products?search=%40%40%40%23%23%23",
+        "Search keyword": "@@@###"
+      },
+      "steps": [
+        "Mở app mobile ở màn hình `Danh sách sản phẩm`.",
+        "Nhập `@@@###` vào ô tìm kiếm.",
+        "Bấm nút `Tìm`.",
+        "Quan sát response và UI."
+      ],
+      "expected": [
+        "Hệ thống xử lý từ khóa đặc biệt an toàn, không crash và không trả HTML lỗi.",
+        "Danh sách không hiển thị sản phẩm không khớp.",
+        "Mobile app hiển thị empty state phù hợp khi không có kết quả."
+      ]
+    },
+    {
+      "id": "FR20-E-TC01",
+      "field_code": "E",
+      "group_name": "Empty Search Result",
+      "title": "Mobile hiển thị empty state khi tìm kiếm không có kết quả",
+      "technique": "Equivalence Partitioning",
+      "coverage": "Invalid/no-result partition: search keyword has zero matching products",
+      "preconditions": [
+        "Backend API đang chạy.",
+        "Không có sản phẩm nào có tên chứa `ZZZ_NOT_FOUND_2026`."
+      ],
+      "data": {
+        "Platform": "Mobile React Native / Expo",
+        "Endpoint": "GET /api/products?search=ZZZ_NOT_FOUND_2026",
+        "Search keyword": "ZZZ_NOT_FOUND_2026"
+      },
+      "steps": [
+        "Mở app mobile ở màn hình `Danh sách sản phẩm`.",
+        "Nhập `ZZZ_NOT_FOUND_2026` vào ô tìm kiếm.",
+        "Bấm nút `Tìm`.",
+        "Quan sát vùng danh sách sau khi request hoàn tất."
+      ],
+      "expected": [
+        "Danh sách sản phẩm rỗng.",
+        "Mobile app hiển thị thông báo empty state phù hợp, ví dụ `Không tìm thấy sản phẩm phù hợp`.",
+        "Không hiển thị count sai như đang có sản phẩm."
+      ]
+    },
+    {
+      "id": "FR20-X-TC01",
+      "field_code": "X",
+      "group_name": "Search Safety",
+      "title": "Mobile hiển thị an toàn từ khóa dạng script tag",
+      "technique": "Equivalence Partitioning / Security",
+      "coverage": "Invalid HTML rendering partition: script tag in search keyword",
+      "preconditions": [
+        "Backend API đang chạy.",
+        "Mobile app đang ở màn hình `Danh sách sản phẩm`."
+      ],
+      "data": {
+        "Platform": "Mobile React Native / Expo",
+        "Endpoint": "GET /api/products?search=%3Cscript%3Ealert(1)%3C%2Fscript%3E",
+        "Search keyword": "<script>alert(1)</script>"
+      },
+      "steps": [
+        "Mở app mobile ở màn hình `Danh sách sản phẩm`.",
+        "Nhập `<script>alert(1)</script>` vào ô tìm kiếm.",
+        "Bấm nút `Tìm`.",
+        "Quan sát nhãn kết quả tìm kiếm và vùng danh sách."
+      ],
+      "expected": [
+        "Từ khóa được hiển thị như text thuần trong React Native, không được render như HTML.",
+        "Không có alert/script nào được thực thi.",
+        "App không hiển thị HTML lỗi từ backend."
+      ]
+    },
+    {
+      "id": "FR20-X-TC02",
+      "field_code": "X",
+      "group_name": "Search Safety",
+      "title": "Mobile hiển thị an toàn từ khóa có HTML event handler",
+      "technique": "Equivalence Partitioning / Security",
+      "coverage": "Invalid HTML rendering partition: event handler payload in search keyword",
+      "preconditions": [
+        "Backend API đang chạy.",
+        "Mobile app đang ở màn hình `Danh sách sản phẩm`."
+      ],
+      "data": {
+        "Platform": "Mobile React Native / Expo",
+        "Endpoint": "GET /api/products?search=%3Cimg%20src%3Dx%20onerror%3Dalert(1)%3E",
+        "Search keyword": "<img src=x onerror=alert(1)>"
+      },
+      "steps": [
+        "Mở app mobile ở màn hình `Danh sách sản phẩm`.",
+        "Nhập `<img src=x onerror=alert(1)>` vào ô tìm kiếm.",
+        "Bấm nút `Tìm`.",
+        "Quan sát nhãn kết quả tìm kiếm và vùng danh sách."
+      ],
+      "expected": [
+        "Payload được hiển thị như text hoặc được xử lý an toàn.",
+        "Không có HTML/event handler nào được thực thi.",
+        "Mobile app không crash và không hiển thị lỗi backend thô."
+      ]
+    },
+    {
+      "id": "FR20-X-TC03",
+      "field_code": "X",
+      "group_name": "Search Safety",
+      "title": "Mobile chống SQL injection qua từ khóa tìm kiếm",
+      "technique": "Equivalence Partitioning / Security",
+      "coverage": "Invalid injection partition: SQL-like payload must not broaden product results",
+      "preconditions": [
+        "Backend API đang chạy.",
+        "Database có nhiều sản phẩm seed để phát hiện trường hợp query bị broaden."
+      ],
+      "data": {
+        "Platform": "Mobile React Native / Expo",
+        "Endpoint": "GET /api/products?search=%25'%20OR%20'1'%3D'1",
+        "Search keyword": "%' OR '1'='1"
+      },
+      "steps": [
+        "Mở app mobile ở màn hình `Danh sách sản phẩm`.",
+        "Nhập `%' OR '1'='1` vào ô tìm kiếm.",
+        "Bấm nút `Tìm`.",
+        "Đối chiếu danh sách trả về với kết quả tìm kiếm theo tên sản phẩm thực tế."
+      ],
+      "expected": [
+        "Backend phải xử lý từ khóa bằng truy vấn parameterized hoặc escape an toàn.",
+        "Payload không được làm query trả về toàn bộ sản phẩm ngoài tiêu chí tên sản phẩm.",
+        "Mobile app không hiển thị dữ liệu sai phạm vi hoặc HTML lỗi."
+      ]
+    },
+    {
+      "id": "FR20-S-BVA-TC01",
+      "field_code": "S",
+      "group_name": "Search Keyword",
+      "title": "Kiểm thử Search Keyword tại biên rỗng 0 ký tự",
+      "technique": "Boundary Value Analysis",
+      "coverage": "Search keyword length boundary: 0 characters accepted as full list",
+      "preconditions": [
+        "Backend API đang chạy.",
+        "Mobile app đang ở màn hình `Danh sách sản phẩm`."
+      ],
+      "data": {
+        "Boundary type": "Min",
+        "Search keyword length": 0,
+        "Search keyword": "",
+        "Endpoint": "GET /api/products?search="
+      },
+      "steps": [
+        "Xóa toàn bộ nội dung ô tìm kiếm.",
+        "Bấm nút `Tìm`.",
+        "Quan sát danh sách sản phẩm sau khi request hoàn tất."
+      ],
+      "expected": [
+        "Từ khóa rỗng được chấp nhận.",
+        "Mobile app hiển thị toàn bộ danh sách sản phẩm.",
+        "Không hiển thị lỗi validate cho ô tìm kiếm."
+      ]
+    },
+    {
+      "id": "FR20-S-BVA-TC02",
+      "field_code": "S",
+      "group_name": "Search Keyword",
+      "title": "Kiểm thử Search Keyword với độ dài 1 ký tự",
+      "technique": "Boundary Value Analysis",
+      "coverage": "Search keyword length boundary: 1 character accepted",
+      "preconditions": [
+        "Backend API đang chạy.",
+        "Mobile app đang ở màn hình `Danh sách sản phẩm`."
+      ],
+      "data": {
+        "Boundary type": "Min+1",
+        "Search keyword length": 1,
+        "Search keyword": "i",
+        "Endpoint": "GET /api/products?search=i"
+      },
+      "steps": [
+        "Nhập `i` vào ô tìm kiếm.",
+        "Bấm nút `Tìm`.",
+        "Quan sát danh sách kết quả."
+      ],
+      "expected": [
+        "Từ khóa 1 ký tự được chấp nhận.",
+        "Danh sách chỉ hiển thị sản phẩm có tên chứa ký tự `i` theo rule tìm kiếm.",
+        "App không crash hoặc trả HTML lỗi."
+      ]
+    },
+    {
+      "id": "FR20-S-BVA-TC03",
+      "field_code": "S",
+      "group_name": "Search Keyword",
+      "title": "Kiểm thử Search Keyword với độ dài 2 ký tự",
+      "technique": "Boundary Value Analysis",
+      "coverage": "Search keyword length boundary: 2 characters accepted",
+      "preconditions": [
+        "Backend API đang chạy.",
+        "Mobile app đang ở màn hình `Danh sách sản phẩm`."
+      ],
+      "data": {
+        "Boundary type": "Min+2",
+        "Search keyword length": 2,
+        "Search keyword": "ip",
+        "Endpoint": "GET /api/products?search=ip"
+      },
+      "steps": [
+        "Nhập `ip` vào ô tìm kiếm.",
+        "Bấm nút `Tìm`.",
+        "Quan sát danh sách kết quả."
+      ],
+      "expected": [
+        "Từ khóa 2 ký tự được chấp nhận.",
+        "Danh sách chỉ hiển thị sản phẩm khớp từ khóa.",
+        "Nhãn kết quả tìm kiếm hiển thị đúng từ khóa `ip`."
+      ]
+    },
+    {
+      "id": "FR20-S-BVA-TC04",
+      "field_code": "S",
+      "group_name": "Search Keyword",
+      "title": "Kiểm thử Search Keyword với độ dài danh nghĩa 20 ký tự",
+      "technique": "Boundary Value Analysis",
+      "coverage": "Search keyword length boundary: nominal 20 characters accepted",
+      "preconditions": [
+        "Backend API đang chạy.",
+        "Mobile app đang ở màn hình `Danh sách sản phẩm`."
+      ],
+      "data": {
+        "Boundary type": "Nominal",
+        "Search keyword length": 20,
+        "Search keyword": "iphone pro max query",
+        "Endpoint": "GET /api/products?search=iphone%20pro%20max%20query"
+      },
+      "steps": [
+        "Nhập từ khóa 20 ký tự `iphone pro max query` vào ô tìm kiếm.",
+        "Bấm nút `Tìm`.",
+        "Quan sát response và UI."
+      ],
+      "expected": [
+        "Từ khóa 20 ký tự được xử lý an toàn.",
+        "Mobile app hiển thị danh sách khớp hoặc empty state phù hợp.",
+        "Không có lỗi encoding khoảng trắng trong URL query."
+      ]
+    },
+    {
+      "id": "FR20-S-BVA-TC05",
+      "field_code": "S",
+      "group_name": "Search Keyword",
+      "title": "Kiểm thử Search Keyword ngay dưới biên tối đa 254 ký tự",
+      "technique": "Boundary Value Analysis",
+      "coverage": "Search keyword length boundary: Max-1 254 characters accepted",
+      "preconditions": [
+        "Backend API đang chạy.",
+        "Mobile app đang ở màn hình `Danh sách sản phẩm`."
+      ],
+      "data": {
+        "Boundary type": "Max-1",
+        "Search keyword length": 254,
+        "Search keyword": "[Chuỗi 254 ký tự chữ a]",
+        "Endpoint": "GET /api/products?search=[254_a]"
+      },
+      "steps": [
+        "Nhập chuỗi 254 ký tự chữ `a` vào ô tìm kiếm.",
+        "Bấm nút `Tìm`.",
+        "Quan sát response và UI."
+      ],
+      "expected": [
+        "Từ khóa 254 ký tự được chấp nhận theo giới hạn kiểm thử.",
+        "Mobile app xử lý an toàn, không treo UI và không crash.",
+        "Nếu không có sản phẩm khớp, app hiển thị empty state phù hợp."
+      ]
+    },
+    {
+      "id": "FR20-S-BVA-TC06",
+      "field_code": "S",
+      "group_name": "Search Keyword",
+      "title": "Kiểm thử Search Keyword tại biên tối đa 255 ký tự",
+      "technique": "Boundary Value Analysis",
+      "coverage": "Search keyword length boundary: Max 255 characters accepted",
+      "preconditions": [
+        "Backend API đang chạy.",
+        "Mobile app đang ở màn hình `Danh sách sản phẩm`."
+      ],
+      "data": {
+        "Boundary type": "Max",
+        "Search keyword length": 255,
+        "Search keyword": "[Chuỗi 255 ký tự chữ a]",
+        "Endpoint": "GET /api/products?search=[255_a]"
+      },
+      "steps": [
+        "Nhập chuỗi 255 ký tự chữ `a` vào ô tìm kiếm.",
+        "Bấm nút `Tìm`.",
+        "Quan sát response và UI."
+      ],
+      "expected": [
+        "Từ khóa 255 ký tự được chấp nhận theo giới hạn kiểm thử.",
+        "Mobile app xử lý an toàn, không treo UI và không crash.",
+        "Nếu không có sản phẩm khớp, app hiển thị empty state phù hợp."
+      ]
+    },
+    {
+      "id": "FR20-S-BVA-TC07",
+      "field_code": "S",
+      "group_name": "Search Keyword",
+      "title": "Kiểm thử Search Keyword vượt biên tối đa 256 ký tự",
+      "technique": "Boundary Value Analysis",
+      "coverage": "Search keyword length boundary: Max+1 256 characters rejected or safely handled",
+      "preconditions": [
+        "Backend API đang chạy.",
+        "Mobile app đang ở màn hình `Danh sách sản phẩm`."
+      ],
+      "data": {
+        "Boundary type": "Max+1",
+        "Search keyword length": 256,
+        "Search keyword": "[Chuỗi 256 ký tự chữ a]",
+        "Endpoint": "GET /api/products?search=[256_a]"
+      },
+      "steps": [
+        "Nhập chuỗi 256 ký tự chữ `a` vào ô tìm kiếm.",
+        "Bấm nút `Tìm`.",
+        "Quan sát validation, response và UI."
+      ],
+      "expected": [
+        "Hệ thống từ chối từ khóa vượt giới hạn bằng validation hoặc xử lý request an toàn với lỗi phù hợp.",
+        "Mobile app không treo UI, không crash và không hiển thị HTML lỗi thô.",
+        "Không trả về danh sách sản phẩm sai phạm vi."
+      ]
+    }
+  ]
+}

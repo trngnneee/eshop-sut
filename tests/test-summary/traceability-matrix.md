@@ -100,3 +100,28 @@
 | FR-18 | [FR18-X-TC02](../test-cases/admin_order_management/FR18-X-TC02.md) | Equivalence Partitioning / Security | Invalid HTML rendering partition: event handler in shipping address | README.md:141-162,174-179,218-222,274-281; api_specification.md:173-182 |
 | FR-18 | [FR18-X-TC03](../test-cases/admin_order_management/FR18-X-TC03.md) | Equivalence Partitioning | Valid shipping address display partition | README.md:141-162,174-179,218-222,274-281; api_specification.md:173-182 |
 <!-- END FR18 -->
+
+<!-- BEGIN FR20 -->
+## FR-20 - Mobile Product List & Search
+
+| Requirement ID | Test Case ID | Technique | Coverage | Source |
+| :--- | :--- | :--- | :--- | :--- |
+| FR-20 | [FR20-L-TC01](../test-cases/mobile_product_list_search/FR20-L-TC01.md) | Equivalence Partitioning | Valid product list partition: empty search loads all products | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-L-TC02](../test-cases/mobile_product_list_search/FR20-L-TC02.md) | Equivalence Partitioning | Valid product card display partition: required fields rendered | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-L-TC03](../test-cases/mobile_product_list_search/FR20-L-TC03.md) | Equivalence Partitioning | Valid loading state partition while product request is pending | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-S-TC01](../test-cases/mobile_product_list_search/FR20-S-TC01.md) | Equivalence Partitioning | Valid search partition: partial product name keyword | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-S-TC02](../test-cases/mobile_product_list_search/FR20-S-TC02.md) | Equivalence Partitioning | Valid search partition: lowercase keyword matching product name | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-S-TC03](../test-cases/mobile_product_list_search/FR20-S-TC03.md) | Equivalence Partitioning | Valid search partition: blank keyword resets to full product list | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-S-TC04](../test-cases/mobile_product_list_search/FR20-S-TC04.md) | Equivalence Partitioning | Invalid search partition: special characters that should not match product names | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-E-TC01](../test-cases/mobile_product_list_search/FR20-E-TC01.md) | Equivalence Partitioning | Invalid/no-result partition: search keyword has zero matching products | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-X-TC01](../test-cases/mobile_product_list_search/FR20-X-TC01.md) | Equivalence Partitioning / Security | Invalid HTML rendering partition: script tag in search keyword | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-X-TC02](../test-cases/mobile_product_list_search/FR20-X-TC02.md) | Equivalence Partitioning / Security | Invalid HTML rendering partition: event handler payload in search keyword | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-X-TC03](../test-cases/mobile_product_list_search/FR20-X-TC03.md) | Equivalence Partitioning / Security | Invalid injection partition: SQL-like payload must not broaden product results | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-S-BVA-TC01](../test-cases/mobile_product_list_search/FR20-S-BVA-TC01.md) | Boundary Value Analysis | Search keyword length boundary: 0 characters accepted as full list | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-S-BVA-TC02](../test-cases/mobile_product_list_search/FR20-S-BVA-TC02.md) | Boundary Value Analysis | Search keyword length boundary: 1 character accepted | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-S-BVA-TC03](../test-cases/mobile_product_list_search/FR20-S-BVA-TC03.md) | Boundary Value Analysis | Search keyword length boundary: 2 characters accepted | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-S-BVA-TC04](../test-cases/mobile_product_list_search/FR20-S-BVA-TC04.md) | Boundary Value Analysis | Search keyword length boundary: nominal 20 characters accepted | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-S-BVA-TC05](../test-cases/mobile_product_list_search/FR20-S-BVA-TC05.md) | Boundary Value Analysis | Search keyword length boundary: Max-1 254 characters accepted | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-S-BVA-TC06](../test-cases/mobile_product_list_search/FR20-S-BVA-TC06.md) | Boundary Value Analysis | Search keyword length boundary: Max 255 characters accepted | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+| FR-20 | [FR20-S-BVA-TC07](../test-cases/mobile_product_list_search/FR20-S-BVA-TC07.md) | Boundary Value Analysis | Search keyword length boundary: Max+1 256 characters rejected or safely handled | README.md:73-79,233-236; api_specification.md:80-82; frontend-mobile/App.js:84-111,455-532 |
+<!-- END FR20 -->
