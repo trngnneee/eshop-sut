@@ -1,9 +1,3 @@
-# FR-20 Bug Issue List
-
-Các bug dưới đây được map từ `eshop-sut/tests/test-runs/fr20-mobile-product-list-search-test-run.md`. Phần `Evidence` để trống để bổ sung screenshot/video/log sau.
-
----
-
 ## BUG-FR20-X-01 - SQL injection qua từ khóa tìm kiếm trả về toàn bộ danh sách sản phẩm
 
 **GitHub issue title:** `[BUG][FR-20][Mobile Product Search][Security] SQL injection qua từ khóa tìm kiếm trả về toàn bộ danh sách sản phẩm`
@@ -61,4 +55,4 @@ Critical / P0
 
 ## Evidence
 
-- [Bổ sung evidence sau]
+<img width="946" height="2047" alt="Image" src="https://github.com/user-attachments/assets/851d7ff2-7fcd-4ff5-adb2-0fd43fcc5510" />
