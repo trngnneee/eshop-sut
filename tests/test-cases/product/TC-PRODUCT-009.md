@@ -59,5 +59,6 @@ FAILED
 
 ## Bug Reference
 
-[BUG-FR05-05](https://github.com/trngnneee/eshop-sut/issues/29#issue-4746987185)
+[[BUG][Product] Trang chủ chứa nhiều hơn một thẻ h1
+](https://github.com/trngnneee/eshop-sut/issues/29#issue-4746987185)
  

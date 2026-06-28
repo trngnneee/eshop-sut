@@ -42,8 +42,11 @@ Kiểm tra hiển thị danh sách khi hệ thống có đúng 0 người dùng 
 
 ## Actual Result
 
+Giao diện chỉ hiển thị tài khoản Admin.
+
 ## Status
 
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

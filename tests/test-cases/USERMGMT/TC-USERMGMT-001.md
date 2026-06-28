@@ -34,7 +34,7 @@ Kiểm tra Admin đã đăng nhập hợp lệ có thể xem danh sách tất c�
 ## Test Steps
 
 1. Đăng nhập vào hệ thống với tài khoản Admin.
-2. Điều hướng tới trang Quản lý Người dùng (Admin Panel > Users).
+2. Điều hướng tới trang Quản lý Người dùng.
 3. Quan sát danh sách người dùng được hiển thị.
 
 ## Expected Result
@@ -45,8 +45,11 @@ Kiểm tra Admin đã đăng nhập hợp lệ có thể xem danh sách tất c�
 
 ## Actual Result
 
+Danh sách người dùng hiển thị thành công, đủ thông tin và không lộ mật khẩu.
+
 ## Status
 
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

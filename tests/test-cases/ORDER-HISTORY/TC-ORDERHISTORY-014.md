@@ -61,6 +61,6 @@ API vẫn trả về thông tin chi tiết đơn hàng mặc dù request không 
 FAILED
 
 ## Bug Reference
-[BUG-FR11-02](https://github.com/trngnneee/eshop-sut/issues/65#issue-4758951568)
+[[BUG][Order History] API xem chi tiết đơn hàng không yêu cầu xác thực người dùng](https://github.com/trngnneee/eshop-sut/issues/65#issue-4758951568)
 
 

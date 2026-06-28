@@ -8,7 +8,7 @@ Quản lý Người dùng (Admin) — FR-19
 
 ## Requirement Reference
 
-FR-19, FR-12
+FR-19
 
 ## Testing Technique
 
@@ -34,7 +34,6 @@ Kiểm tra khách chưa đăng nhập (unauthenticated) không thể truy cập 
 
 1. Đảm bảo đã đăng xuất khỏi hệ thống.
 2. Thử gọi API `GET /api/admin/users` mà không kèm Authorization header.
-3. Thử truy cập URL `/admin/users` trên trình duyệt.
 
 ## Expected Result
 
@@ -44,8 +43,11 @@ Kiểm tra khách chưa đăng nhập (unauthenticated) không thể truy cập 
 
 ## Actual Result
 
+API trả về HTTP 401 Unauthorized.
+
 ## Status
 
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

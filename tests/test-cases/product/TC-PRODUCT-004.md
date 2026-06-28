@@ -59,6 +59,7 @@ FAILED
 
 ## Bug Reference
 
-[BUG-FR05-02](https://github.com/trngnneee/eshop-sut/issues/26#issue-4746328476)
+[[BUG][Product] Hình ảnh sản phẩm lỗi không hiển thị nội dung thay thế
+](https://github.com/trngnneee/eshop-sut/issues/26#issue-4746328476)
 
 

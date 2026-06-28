@@ -45,8 +45,11 @@ Kiểm tra rằng mật khẩu của người dùng không bị lộ trong danh 
 
 ## Actual Result
 
+Giao diện không hiển thị mật khẩu và API response không chứa trường password
+
 ## Status
 
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

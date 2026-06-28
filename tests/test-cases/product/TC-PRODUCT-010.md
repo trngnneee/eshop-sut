@@ -60,5 +60,5 @@ FAILED
 
 ## Bug Reference
 
-[BUG-FR05-06](https://github.com/trngnneee/eshop-sut/issues/30#issue-4747029719)
+[[BUG][Search] Trang kết quả tìm kiếm chứa nhiều hơn một thẻ h1](https://github.com/trngnneee/eshop-sut/issues/30#issue-4747029719)
 

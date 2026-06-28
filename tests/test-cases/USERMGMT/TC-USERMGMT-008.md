@@ -35,8 +35,7 @@ Kiểm tra Admin KHÔNG THỂ tự xóa chính tài khoản của mình đang đ
 1. Đăng nhập với tài khoản Admin (`admin@eshop.com`).
 2. Điều hướng tới trang Quản lý Người dùng.
 3. Tìm và chọn chính tài khoản Admin đang đăng nhập trong danh sách.
-4. Nhấn nút "Xóa" (nếu nút hiển thị).
-5. Hoặc gọi API `DELETE /api/admin/users/{admin_id}` với token của Admin đó.
+4. Nhấn nút "Xóa".
 
 ## Expected Result
 
@@ -48,8 +47,11 @@ Kiểm tra Admin KHÔNG THỂ tự xóa chính tài khoản của mình đang đ
 
 ## Actual Result
 
+Hệ thống xóa thành công tài khoản admin.
+
 ## Status
 
-NOT EXECUTED
+FAILED
 
 ## Bug Reference
+[\[BUG\]\[User Management\] Admin có thể tự xóa chính tài khoản đang đăng nhập](https://github.com/trngnneee/eshop-sut/issues/148#issue-4761415336)

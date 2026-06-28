@@ -8,7 +8,7 @@ Quản lý Người dùng (Admin) — FR-19
 
 ## Requirement Reference
 
-FR-19, FR-12
+FR-19
 
 ## Testing Technique
 
@@ -27,27 +27,28 @@ Kiểm tra người dùng có role `user` không thể truy cập API/trang Qu�
 
 | Parameter | Value |
 |-|-|
-| Tài khoản | test@eshop.com / Test1234! |
+| Loại tài khoản | User thường |
 | Role | user |
+| Authorization Token | JWT Token của user thường |
 | Endpoint | GET /api/admin/users |
 
 ## Test Steps
 
 1. Đăng nhập với tài khoản user thường (`test@eshop.com`).
-2. Thử truy cập URL `/admin/users` trực tiếp trên trình duyệt.
-3. Hoặc gọi API `GET /api/admin/users` với JWT Token của user thường.
-4. Quan sát kết quả.
+2. Hoặc gọi API `GET /api/admin/users` với JWT Token của user thường.
+3. Quan sát kết quả.
 
 ## Expected Result
-
-- Trình duyệt chuyển hướng về trang lỗi / trang đăng nhập / hiển thị thông báo "Không có quyền truy cập".
 - API trả về HTTP 403 Forbidden.
 - Dữ liệu người dùng không được tiết lộ.
 
 ## Actual Result
 
+User thường vẫn xem được toàn bộ dữ liệu người dùng khác.
+
 ## Status
 
-NOT EXECUTED
+FAILED
 
 ## Bug Reference
+[\[BUG\]\[User Management\] User thường có thể truy cập API quản lý người dùng của Admin](https://github.com/trngnneee/eshop-sut/issues/147#issue-4761377756)

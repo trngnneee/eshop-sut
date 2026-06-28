@@ -60,5 +60,6 @@ FAILED
 
 ## Bug Reference
 
-[BUG-FR05-04](https://github.com/trngnneee/eshop-sut/issues/28#issue-4746603879)
+[[BUG][Product] Không hiển thị thông báo khi danh sách sản phẩm trống
+](https://github.com/trngnneee/eshop-sut/issues/28#issue-4746603879)
 

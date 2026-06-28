@@ -42,9 +42,14 @@ Kiểm tra hiển thị danh sách khi hệ thống có đúng 1 người dùng 
 - Mật khẩu không được hiển thị.
 
 ## Actual Result
+- Danh sách hiển thị đúng 1 người dùng thường (`test@eshop.com`).
+- Không hiển thị trường mật khẩu.
+- Không xảy ra lỗi giao diện hoặc lỗi tải dữ liệu.
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+
+None

@@ -36,3 +36,20 @@ GET {{BASE_URL}}/api/orders/{{ORDER_ID}}
 
 
 
+### ==================================================
+### Kiểm tra người dùng có role `user` không thể 
+### truy cập API/trang Quản lý Người dùng của Admin.
+### Expected: 403 hoặc 404
+### ==================================================
+GET {{BASE_URL}}/api/admin/users
+Authorization: Bearer {{TOKEN}}
+
+
+
+
+### ==================================================
+### Xóa người dùng với với token của user thường
+### Expected: 403 Forbidden
+### ==================================================
+DELETE {{BASE_URL}}/api/admin/users/7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6InVzZXIiLCJpYXQiOjE3ODI1NzQzNzR9.R3TYWMfwRnyFXVQ2If1p8JYmJgbjAM4Eyq9NmnqPjPQ

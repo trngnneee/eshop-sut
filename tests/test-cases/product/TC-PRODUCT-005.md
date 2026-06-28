@@ -60,4 +60,5 @@ FAILED
 
 ## Bug Reference
 
-[BUG-FR05-03](https://github.com/trngnneee/eshop-sut/issues/27#issue-4746377610)
+[[BUG][Product] Trang hiển thị màn hình trắng khi đang tải dữ liệu
+](https://github.com/trngnneee/eshop-sut/issues/27#issue-4746377610)

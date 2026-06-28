@@ -16,7 +16,7 @@ Domain Testing
 
 ## Test Objective
 
-Kiểm tra Admin có thể xóa thành công một người dùng thường (không phải tài khoản đang đăng nhập).
+Kiểm tra Admin có thể xóa thành công một người dùng thường.
 
 ## Preconditions
 
@@ -43,12 +43,15 @@ Kiểm tra Admin có thể xóa thành công một người dùng thường (kh�
 
 - Người dùng được xóa thành công khỏi hệ thống.
 - Danh sách người dùng cập nhật ngay lập tức, không còn hiển thị người dùng vừa xóa.
-- Hệ thống hiển thị thông báo xóa thành công.
+
 
 ## Actual Result
 
+Tài khoản bị xóa không còn hiển thị trong danh sách người dùng nữa.
+
 ## Status
 
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

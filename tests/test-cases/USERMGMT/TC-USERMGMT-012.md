@@ -44,8 +44,11 @@ Kiểm tra danh sách người dùng hiển thị đầy đủ thông tin cần 
 
 ## Actual Result
 
+Danh sách hiển thị đủ các trường: ID người dùng, Họ tên, Email, Role và không có trường mật khẩu.
+
 ## Status
 
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

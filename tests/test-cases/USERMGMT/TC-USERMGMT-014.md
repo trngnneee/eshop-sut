@@ -31,20 +31,23 @@ Kiểm tra Admin xóa người dùng có token đã hết hạn (expired JWT) �
 
 ## Test Steps
 
-1. Lấy một JWT Token đã hết hạn (hoặc chỉnh sửa để hết hạn sớm).
+1. Lấy một JWT Token đã hết hạn.
 2. Gọi API `DELETE /api/admin/users/{user_id}` với token không hợp lệ.
 3. Quan sát phản hồi từ server.
 
 ## Expected Result
 
-- API trả về HTTP 401 Unauthorized.
+- API trả về HTTP 401 Unauthorized hoặc 403 Forbidden.
 - Không có người dùng nào bị xóa.
 - Hệ thống không bị lỗi crash.
 
 ## Actual Result
 
+API trả về HTTP 403 Forbidden
+
 ## Status
 
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

@@ -66,4 +66,4 @@ FAILED
 
 ## Bug Reference
 
-None
+[\[BUG\]\[Search\] Chức năng tìm kiếm không xử lý input đặc biệt dẫn đến SQL Injection vulnerability](https://github.com/trngnneee/eshop-sut/issues/60#issue-4753686069)

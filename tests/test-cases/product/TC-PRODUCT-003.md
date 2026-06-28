@@ -61,4 +61,5 @@ FAILED
 
 ## Bug Reference
 
-[BUG-FR05-01](https://github.com/trngnneee/eshop-sut/issues/25#issue-4746056657)
+[[BUG][Product] Giá sản phẩm không hiển thị đúng định dạng tiền tệ Việt Nam
+](https://github.com/trngnneee/eshop-sut/issues/25#issue-4746056657)

@@ -12,7 +12,7 @@ FR-19
 
 ## Testing Technique
 
-Domain Testing / Boundary Value Analysis (BVA)
+Boundary Value Analysis (BVA)
 
 ## Test Objective
 
@@ -40,12 +40,14 @@ Kiểm tra hành vi khi xóa người dùng có user_id = 0 (boundary — giá t
 
 - API trả về HTTP 400 Bad Request hoặc HTTP 404 Not Found.
 - Hệ thống không bị crash.
-- Không có dữ liệu nào bị xóa.
 
 ## Actual Result
 
+API trả về HTTP 200 OK. Hệ thống thông báo xóa thành công
+
 ## Status
 
-NOT EXECUTED
+FAILED
 
 ## Bug Reference
+[\[BUG\]\[User Management\] API xóa người dùng trả về thành công khi user_id không tồn tại](https://github.com/trngnneee/eshop-sut/issues/149#issue-4761431614)

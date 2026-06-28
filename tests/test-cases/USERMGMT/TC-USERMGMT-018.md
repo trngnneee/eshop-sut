@@ -12,7 +12,7 @@ FR-19
 
 ## Testing Technique
 
-Domain Testing / Boundary Value Analysis (BVA)
+Boundary Value Analysis (BVA)
 
 ## Test Objective
 
@@ -44,8 +44,11 @@ Kiểm tra xóa người dùng với user_id = 2 (BVA: min+1, ID hợp lệ kế
 
 ## Actual Result
 
+Xóa thành công user thường.
+
 ## Status
 
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

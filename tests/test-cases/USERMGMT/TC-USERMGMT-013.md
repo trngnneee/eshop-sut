@@ -46,8 +46,11 @@ Kiểm tra Admin xóa người dùng, sau đó danh sách được cập nhật 
 
 ## Actual Result
 
+Sau khi xóa thì danh sách người dùng được cập nhật ngay mà không cần reload trang.
+
 ## Status
 
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

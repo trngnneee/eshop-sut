@@ -8,7 +8,7 @@ Quản lý Người dùng (Admin) — FR-19
 
 ## Requirement Reference
 
-FR-19, FR-12
+FR-19
 
 ## Testing Technique
 
@@ -45,8 +45,11 @@ Kiểm tra user thường cố gắng xóa người dùng khác qua API — ph�
 
 ## Actual Result
 
+API trả về HTTP 200 OK
+
 ## Status
 
-NOT EXECUTED
+FAILED
 
 ## Bug Reference
+[\[BUG\]\[User Management\] User thường có thể xóa tài khoản khác thông qua API Admin](https://github.com/trngnneee/eshop-sut/issues/152#issue-4762394237)

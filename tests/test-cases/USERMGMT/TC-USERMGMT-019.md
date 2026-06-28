@@ -44,8 +44,11 @@ Kiểm tra rằng dữ liệu mật khẩu không bị lộ qua API response khi
 
 ## Actual Result
 
+Response JSON không có trường `password`.
+
 ## Status
 
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

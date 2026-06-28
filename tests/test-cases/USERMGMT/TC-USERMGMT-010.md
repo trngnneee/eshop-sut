@@ -44,8 +44,11 @@ Kiểm tra hành vi khi cố gắng xóa người dùng với `user_id` có ki�
 
 ## Actual Result
 
+API trả về 200 OK với thông báo user được xóa thành công.
+
 ## Status
 
-NOT EXECUTED
+FAILED
 
 ## Bug Reference
+[\[BUG\]\[User Management\] API xóa người dùng chấp nhận user_id không hợp lệ và trả về thành công](https://github.com/trngnneee/eshop-sut/issues/150#issue-4762344302)

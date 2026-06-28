@@ -11,8 +11,7 @@ Quản lý Người dùng (Admin) — FR-19
 FR-19
 
 ## Testing Technique
-
-Domain Testing / Boundary Value Analysis (BVA)
+Boundary Value Analysis (BVA)
 
 ## Test Objective
 
@@ -46,8 +45,11 @@ Kiểm tra xóa người dùng với user_id = 1 (boundary — giá trị ID h�
 
 ## Actual Result
 
+user_id = 1 là Admin và vẫn xóa thành công.
+
 ## Status
 
-NOT EXECUTED
+FAILED
 
 ## Bug Reference
+[\[BUG\]\[User Management\] Admin có thể tự xóa chính tài khoản đang đăng nhập](https://github.com/trngnneee/eshop-sut/issues/148#issue-4761415336)

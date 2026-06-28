@@ -61,6 +61,6 @@ Hệ thống trả về toàn bộ đơn hàng, không có phân trang
 FAILED
 
 ## Bug Reference
-[BUG-FR11-01](https://github.com/trngnneee/eshop-sut/issues/64#issue-4758846657)
+[[BUG][Order History] API lịch sử đơn hàng bỏ qua tham số phân trang](https://github.com/trngnneee/eshop-sut/issues/64#issue-4758846657)
 
 

@@ -46,8 +46,11 @@ Kiểm tra Admin có thể xóa đúng người dùng mong muốn mà không ả
 
 ## Actual Result
 
+Hệ thống xóa đúng user. Không xóa nhầm tài khoản khác.
+
 ## Status
 
-NOT EXECUTED
+PASSED
 
 ## Bug Reference
+None

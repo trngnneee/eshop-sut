@@ -64,6 +64,6 @@ FAILED
 
 ## Bug Reference
 
-[BUG-FR05-07](https://github.com/trngnneee/eshop-sut/issues/53#issue-4748338316)
+[[BUG][Search] Chức năng tìm kiếm không sanitize input dẫn đến XSS vulnerability](https://github.com/trngnneee/eshop-sut/issues/53#issue-4748338316)
 
 
