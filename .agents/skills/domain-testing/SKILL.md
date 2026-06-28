@@ -68,6 +68,7 @@ Allowed sources:
 - README.md
 - /Requirements
 - Feature documentation
+- api_specification.md
 
 
 
