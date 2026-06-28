@@ -9,7 +9,7 @@
 - Mã số sinh viên: 23127158
 - Lớp: 23KTPM3
 - Môn học: Kiểm thử phần mềm
-- Giảng viên: [Lecturer Name]
+- Giảng viên: MSc. Tran Thi Bich Hanh / MSc. Truong Phuoc Loc / MSc. Ho Tuan Thanh
 
 ## 1.2 Thông tin bài tập
 - Bài tập: HW02 – Domain Testing & Boundary Value Analysis
@@ -458,7 +458,7 @@ Các giá trị biên giúp phát hiện:
 | TC-USERMGMT-018     | Xóa user với user_id = 2                                                                    | Boundary Value Analysis |
 | TC-USERMGMT-019     | API không trả về password field                                                             | Domain Testing          |
 | TC-USERMGMT-020     | Xóa đúng user mục tiêu, không ảnh hưởng user khác                                           | Domain Testing          |
-| TC-USERMGMT-021 | Xóa user có dữ liệu liên quan (order, cart, history) và kiểm tra xử lý dữ liệu liên kết** | Domain Testing      |
+| TC-USERMGMT-021 | Xóa user có dữ liệu liên quan (order, cart, history) và kiểm tra xử lý dữ liệu liên kết | Domain Testing      |
 | TC-USERMGMT-022 | API xóa user không trả về dữ liệu nhạy cảm sau khi xóa                                  | Domain Testing     |
 
 
@@ -483,6 +483,225 @@ Các giá trị biên giúp phát hiện:
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | TC-USERMGMT-021     | AI tập trung vào luồng chính của chức năng xóa user (xóa thành công, không tìm thấy user, không có quyền) nhưng chưa mở rộng phân tích mối quan hệ dữ liệu giữa user và các module khác như order, cart, history. Việc bỏ sót xảy ra do requirement FR-19 chỉ mô tả thao tác xóa người dùng mà không mô tả rõ các ràng buộc về dữ liệu liên kết. |
 | TC-USERMGMT-022     | AI kiểm tra việc không hiển thị password trong danh sách user nhưng chưa mở rộng sang kiểm tra dữ liệu trả về sau thao tác delete API. AI có thể xem thao tác xóa chỉ là hành động thay đổi trạng thái dữ liệu và chưa xem xét khả năng response API vô tình làm lộ thông tin nhạy cảm.                                                          |
+
+---
+
+# 5. FR-10, FR-20: Trạng thái Đơn hàng (Mobile — Hủy đơn hàng)
+
+## 5.1 Tổng quan yêu cầu
+
+Chức năng cho phép người dùng thao tác với trạng thái đơn hàng trên phân hệ Mobile.
+
+Hệ thống EShop sử dụng mô hình trạng thái đơn hàng gồm 5 trạng thái:
+
+* `pending`
+* `confirmed`
+* `shipping`
+* `delivered`
+* `canceled`
+
+Trên ứng dụng Mobile:
+
+* User được phép hủy đơn khi trạng thái là:
+
+  * `pending`
+  * `confirmed`
+
+* User không được phép hủy đơn khi:
+
+  * `shipping`
+  * `delivered`
+  * `canceled`
+
+* `delivered` và `canceled` là Final State, không thể chuyển sang trạng thái khác.
+
+Hệ thống phải đảm bảo:
+
+* Nút Hủy chỉ hiển thị khi trạng thái cho phép.
+* Nút Hủy phải được ẩn với các trạng thái không hợp lệ.
+* Khi hủy đơn phải có dialog xác nhận.
+* Sau khi hủy thành công trạng thái cập nhật thành `canceled`.
+* Trạng thái đơn hàng phải hiển thị tiếng Việt.
+* Mỗi trạng thái phải có màu sắc phân biệt.
+* User chỉ thao tác với đơn hàng thuộc tài khoản của mình.
+
+### Input:
+
+* Trạng thái hiện tại của đơn hàng.
+* Trạng thái đăng nhập.
+* Quyền sở hữu đơn hàng.
+* Nút Hủy trên UI.
+* Dialog xác nhận hủy.
+* Dữ liệu hiển thị của đơn hàng.
+
+### Ràng buộc:
+
+* User chỉ hủy được đơn ở trạng thái `pending` hoặc `confirmed`.
+* `shipping` không được phép User tự hủy.
+* `delivered` và `canceled` không thể thay đổi.
+* User chưa đăng nhập không được xem lịch sử đơn hàng.
+* User chỉ thao tác trên đơn hàng của chính mình.
+
+
+### Quy tắc validation:
+
+* Nút Hủy hiển thị khi:
+
+```
+status = pending
+status = confirmed
+```
+
+* Nút Hủy ẩn khi:
+
+```
+status = shipping
+status = delivered
+status = canceled
+```
+
+* Phải hiển thị dialog xác nhận trước khi hủy.
+* Sau khi hủy:
+
+```
+pending/confirmed → canceled
+```
+
+
+## 5.2 Domain Testing
+
+Domain Testing được áp dụng để phân tích các miền giá trị liên quan đến trạng thái đơn hàng, quyền thao tác và dữ liệu hiển thị trên Mobile.
+
+### Domain Analysis Table
+
+| Biến                  | Domain         | Loại giá trị | Khoảng giá trị                                    | Mô tả                           |
+| --------------------- | -------------- | ------------ | ------------------------------------------------- | ------------------------------- |
+| Trạng thái đơn hàng   | Order State    | Enum         | pending, confirmed, shipping, delivered, canceled | Quyết định khả năng hủy đơn.    |
+| Hiển thị nút Hủy      | UI Action      | Boolean      | Hiển thị, Ẩn                                      | Kiểm tra UI theo trạng thái.    |
+| Trạng thái đăng nhập  | Authentication | Boolean      | True, False                                       | Kiểm tra quyền truy cập.        |
+| Quyền sở hữu đơn hàng | Authorization  | Boolean      | Chủ đơn, Không phải chủ đơn                       | User chỉ thao tác đơn của mình. |
+| Text trạng thái       | Localization   | Enum         | Tiếng Việt                                        | Kiểm tra dịch trạng thái.       |
+| Màu trạng thái        | UI Color       | Enum         | 5 màu tương ứng                                   | Kiểm tra phân biệt trạng thái.  |
+| Thông tin đơn hàng    | Display Data   | Object       | Mã đơn, ngày đặt, tổng tiền, trạng thái           | Kiểm tra dữ liệu hiển thị.      |
+
+### Phân tích domain
+
+1. Xác định input cần kiểm thử:
+
+    * Trạng thái hiện tại của đơn hàng.
+    * Quyền hủy đơn.
+    * Authentication.
+    * Ownership.
+    * Hiển thị trạng thái.
+    * Màu sắc trạng thái.
+    * Dữ liệu đơn hàng trên UI.
+
+2. Xác định miền giá trị:
+
+    * pending / confirmed / shipping / delivered / canceled.
+    * User đăng nhập / chưa đăng nhập.
+    * Chủ đơn / không phải chủ đơn.
+
+3. Xác định dữ liệu hợp lệ:
+
+    * User đã đăng nhập.
+    * Đơn hàng thuộc User.
+    * Trạng thái pending hoặc confirmed.
+    * Nút Hủy hiển thị.
+    * Dialog xác nhận xuất hiện.
+
+4. Xác định dữ liệu không hợp lệ:
+
+    * Chưa đăng nhập.
+    * Trạng thái shipping.
+    * Trạng thái delivered.
+    * Trạng thái canceled.
+    * Truy cập đơn hàng người khác.
+
+5. Xác định trường hợp kiểm thử:
+
+    * Kiểm tra khả năng hủy đơn.
+    * Kiểm tra trạng thái Final State.
+    * Kiểm tra hiển thị UI.
+    * Kiểm tra quyền truy cập dữ liệu.
+
+
+## 5.3 Boundary Value Analysis
+
+FR-10/FR-20 áp dụng Boundary Value Analysis cho **ranh giới trạng thái có thể hủy đơn**.
+
+### BVA: State Boundary
+
+| Boundary      | Trạng thái | Nút Hủy  | Test Case           | Ý nghĩa                                  |
+| ------------- | ---------- | -------- | ------------------- | ---------------------------------------- |
+| Min boundary  | pending    | Hiển thị | TC-MOBILE-ORDER-001 | Trạng thái đầu tiên được phép hủy.       |
+| Max boundary  | confirmed  | Hiển thị | TC-MOBILE-ORDER-002 | Trạng thái cuối cùng được phép hủy.      |
+| Vượt boundary | shipping   | Ẩn       | TC-MOBILE-ORDER-003 | Trạng thái đầu tiên không được phép hủy. |
+| Final State   | delivered  | Ẩn       | TC-MOBILE-ORDER-004 | Không thể thay đổi trạng thái.           |
+| Final State   | canceled   | Ẩn       | TC-MOBILE-ORDER-005 | Không thể hủy lại.                       |
+
+### Lý do chọn boundary:
+
+**pending**
+
+* Kiểm tra trạng thái đầu tiên cho phép thao tác.
+
+**confirmed**
+
+* Kiểm tra trạng thái cuối cùng trước khi khóa thao tác.
+
+**shipping**
+
+* Là boundary quan trọng nhất:
+
+  * confirmed → cho phép hủy
+  * shipping → không cho phép hủy
+
+**delivered/canceled**
+
+* Kiểm tra Final State.
+
+## 5.4 Danh sách Test Case
+
+| Test Case ID        | Mục tiêu kiểm thử                                       | Kỹ thuật       |
+| ------------------- | ------------------------------------------------------- | -------------- |
+| TC-MOBILE-ORDER-001 | User hủy đơn trạng thái pending thành công              | Domain Testing |
+| TC-MOBILE-ORDER-002 | User hủy đơn trạng thái confirmed thành công            | Domain Testing |
+| TC-MOBILE-ORDER-003 | User không thể hủy đơn trạng thái shipping              | Domain Testing |
+| TC-MOBILE-ORDER-004 | User không thể hủy đơn delivered                        | Domain Testing |
+| TC-MOBILE-ORDER-005 | User không thể hủy đơn canceled                         | Domain Testing |
+| TC-MOBILE-ORDER-006 | Nút Hủy bị ẩn khi trạng thái shipping                   | Boundary Value Analysis |
+| TC-MOBILE-ORDER-007 | Nút Hủy bị ẩn khi trạng thái delivered                  | Boundary Value Analysis |
+| TC-MOBILE-ORDER-008 | Nút Hủy bị ẩn khi trạng thái canceled                   | Boundary Value Analysis |
+| TC-MOBILE-ORDER-009 | Nút Hủy hiển thị khi trạng thái pending                 | Boundary Value Analysis |
+| TC-MOBILE-ORDER-010 | Nút Hủy hiển thị khi trạng thái confirmed               | Boundary Value Analysis |
+| TC-MOBILE-ORDER-011 | Sau khi hủy trạng thái chuyển thành canceled            | Domain Testing |
+| TC-MOBILE-ORDER-012 | Không thể hủy lại đơn đã canceled                       | Domain Testing |
+| TC-MOBILE-ORDER-013 | User chưa đăng nhập không xem được lịch sử đơn hàng     | Domain Testing |
+| TC-MOBILE-ORDER-014 | Hiển thị pending bằng tiếng Việt                        | Domain Testing |
+| TC-MOBILE-ORDER-015 | Hiển thị confirmed bằng tiếng Việt                      | Domain Testing |
+| TC-MOBILE-ORDER-016 | Hiển thị shipping bằng tiếng Việt                       | Domain Testing |
+| TC-MOBILE-ORDER-017 | Hiển thị delivered bằng tiếng Việt                      | Domain Testing |
+| TC-MOBILE-ORDER-018 | Hiển thị canceled bằng tiếng Việt                       | Domain Testing |
+| TC-MOBILE-ORDER-019 | Mỗi trạng thái có màu sắc riêng                         | Domain Testing |
+| TC-MOBILE-ORDER-020 | User chỉ xem đơn hàng của chính mình                    | Domain Testing |
+| TC-MOBILE-ORDER-021 | Hiển thị đầy đủ mã đơn, ngày đặt, tổng tiền, trạng thái | Domain Testing |
+| TC-MOBILE-ORDER-022 | Dialog xác nhận xuất hiện trước khi hủy                 | Domain Testing |
+
+
+## 5.5 Phân tích khoảng trống kiểm thử do AI hỗ trợ
+
+
+Một số test case bị trùng objective hoặc overlap:
+
+| Test Case                                 | Trùng với           | Vấn đề                                                                                                                  |
+| ----------------------------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| TC-MOBILE-ORDER-003                       | TC-MOBILE-ORDER-006 | Cùng kiểm tra `shipping` không được hủy. Một cái test quyền hủy, một cái test ẩn nút → có thể gộp nếu chỉ tập trung UI. |
+| TC-MOBILE-ORDER-004                       | TC-MOBILE-ORDER-007 | Cùng kiểm tra `delivered` không thể hủy + ẩn nút hủy.                                                                   |
+| TC-MOBILE-ORDER-005                       | TC-MOBILE-ORDER-008 | Cùng kiểm tra `canceled` không thể hủy + ẩn nút hủy.                                                                    |
+| TC-MOBILE-ORDER-014 → TC-MOBILE-ORDER-018 | TC-MOBILE-ORDER-019 | Đều liên quan hiển thị trạng thái. Có thể gom thành 1 test case kiểm tra mapping trạng thái + màu sắc.                  |
+| TC-MOBILE-ORDER-009                       | TC-MOBILE-ORDER-001 | Cùng liên quan `pending` cho phép hủy. Một test UI, một test action.                                                    |
+| TC-MOBILE-ORDER-010                       | TC-MOBILE-ORDER-002 | Cùng liên quan `confirmed` cho phép hủy.                                                                                |
 
 ---
 
