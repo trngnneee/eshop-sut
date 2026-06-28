@@ -42,7 +42,8 @@ GET {{BASE_URL}}/api/orders/{{ORDER_ID}}
 ### Expected: 403 hoặc 404
 ### ==================================================
 GET {{BASE_URL}}/api/admin/users
-Authorization: Bearer {{TOKEN}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6InVzZXIiLCJpYXQiOjE3ODI1NzQzNzR9.R3TYWMfwRnyFXVQ2If1p8JYmJgbjAM4Eyq9NmnqPjPH
+//{{TOKEN}}
 
 
 
