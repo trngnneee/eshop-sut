@@ -113,6 +113,7 @@
 | BUG-FR07-B-16 | Lỗ hổng cho phép gán thuộc tính đặc quyền (Mass Assignment / Extra Fields) | TC-CART-070 | Major | High | N/A | [Evidence](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/bug/cart/evidences/BUG-FR07-B-16.png) |
 | BUG-FR07-B-17 | Giao diện cho phép thanh toán (Checkout) khi giỏ hàng trống | TC-CART-076, TC-CART-077 | Major | Medium | N/A | [Evidence](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/bug/cart/evidences/BUG-FR07-B-17.png) |
 | BUG-FR07-B-18 | Thiếu xử lý lỗi kết nối mạng hoặc sập máy chủ trên giao diện | TC-CART-... | Major | Medium | N/A | [Evidence](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/bug/cart/evidences/BUG-FR07-B-18.png) |
+| BUG-FR07-B-19 | Giỏ hàng không được làm sạch sau khi thanh toán thành công (checkout success) | TC-CART-089 | Major | High | N/A | [App.jsx / Checkout.jsx] |
 
 ## 6. AI Gap Analysis Summary
 - What AI missed: Lỗi không validate tính toàn vẹn của body JSON (thiếu id, price), cho phép giả mạo giá tiền của admin để mua rẻ.
@@ -124,3 +125,80 @@
 - Screenshot folder: [tests/bug/cart/evidences/](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/bug/cart/evidences/)
 - Video/demo link nếu có: N/A
 - GitHub Issue links: N/A (local execution)
+
+---
+
+# FR-13 – Dashboard
+
+## 1. Feature Overview
+- Pool: Pool C (Web Admin)
+- Actor: Admin User
+- Related UI: `/` (Web Admin home tab) or `/admin/dashboard`
+- Related API: `GET /api/admin/orders`, `GET /api/admin/users`, `GET /api/products`, `GET /api/categories`, `GET /api/coupons`
+- Preconditions:
+  - Tài khoản Admin đã tồn tại và đăng nhập thành công.
+  - JWT token được lưu trữ tại client.
+  - Database đã có dữ liệu mẫu.
+- Business Rules:
+  - Chỉ admin được truy cập dashboard.
+  - Doanh thu chỉ tính tổng `total_amount` từ các đơn hàng có trạng thái `delivered`.
+  - Các số liệu thống kê không được âm.
+  - Định dạng tiền tệ phải chuẩn VND (ví dụ: `150,000 ₫`).
+  - Xử lý mượt mà khi database rỗng hoặc API gặp sự cố.
+
+## 2. Domain Testing Summary
+- Link/detail: [tests/test-cases/dashboard/](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/dashboard/)
+- Number of Domain Test Cases: 24
+- Main valid partitions:
+  - Admin truy cập thành công với token hợp lệ và hiển thị thông tin chính xác.
+  - UI xử lý chính xác khi không có dữ liệu (Empty Database) hoặc có dữ liệu các đơn hàng không phải delivered.
+  - Co giãn giao diện tốt trên nhiều viewport (Desktop/Tablet/Mobile).
+  - Regression retest thành công đối với lỗi nhân đôi doanh thu và lỗi backend admin APIs phân quyền.
+- Main invalid partitions:
+  - Khách hàng thường (customer) hoặc khách vãng lai (guest) bị chặn truy cập.
+  - Token sai chữ ký hoặc hết hạn, hoặc token bị chỉnh sửa role từ client.
+  - API orders/users bị lỗi 500 hoặc trả về sai định dạng dữ liệu (object thay vì array, thiếu thuộc tính total_amount).
+  - Đơn hàng trả về có số tiền âm hoặc mang giá trị `null`/`NaN`.
+- Human review notes: AI và sinh viên phát hiện lỗi bảo mật cực kỳ nghiêm trọng ở API backend (thiếu kiểm tra role của user khi gọi API admin) và lỗi tính sai doanh thu ở frontend (đơn hàng delivered bị nhân đôi giá trị).
+
+## 3. Boundary Value Analysis Summary
+- Link/detail: [tests/test-cases/dashboard/](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/dashboard/)
+- Boundary variables: Tổng số đơn hàng, Tổng doanh thu, API Response Time, Số đơn hàng gần đây hiển thị, Breakpoint kích thước màn hình tablet, Số users/products âm hoặc thập phân.
+- Number of BVA Test Cases: 22
+- Important boundary values:
+  - Tổng số đơn hàng: `-1` (invalid), `0` (min), `1` (min+1), `100,000` (max).
+  - Tổng doanh thu: `-1 ₫` (invalid), `0 ₫` (min), `1 ₫` (min+1), `999,999,999,999 ₫` (max), cực đại `> Number.MAX_SAFE_INTEGER`.
+  - API Response Time: `4900ms` (cận timeout), `5000ms` (đúng biên timeout), `5100ms` (quá timeout).
+  - Số lượng đơn hàng gần đây hiển thị: `0` (min), `1` (min+1), `displayLimit` (max), `displayLimit+1` (vượt max).
+  - Kích thước màn hình: `767px` (dưới breakpoint), `768px` (breakpoint tablet), `769px` (trên breakpoint).
+  - Các số liệu thống kê khác: `-1` users, `10.5` products.
+- Human review notes: Kiểm thử biên doanh thu 1 ₫ phát hiện ra giá trị hiển thị bị nhân đôi thành 2 ₫ trên giao diện thực tế.
+
+## 4. Test Execution Summary
+| Total TC | Executed | Passed | Failed | Blocked | Not Executed |
+|---|---:|---:|---:|---:|---:|
+| 46 | 22 | 19 | 3 | 0 | 24 |
+
+## 5. Bugs Found
+| Bug ID | Title | Related Test Case | Severity | Priority | GitHub Issue | Evidence |
+|---|---|---|---|---|---|---|
+| BUG-FR13-C-01 | Giao diện Dashboard hiển thị Tổng doanh thu bị nhân đôi | TC-DASHBOARD-DT-001, TC-DASHBOARD-BVA-006, TC-DASHBOARD-DT-023 | Major | High | N/A | [App.jsx:L218](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-admin/src/App.jsx#L217-L220) |
+| BUG-FR13-C-02 | Backend API `/api/admin/orders` và `/api/admin/users` thiếu kiểm soát phân quyền (role) | TC-DASHBOARD-DT-004, TC-DASHBOARD-DT-013, TC-DASHBOARD-DT-014, TC-DASHBOARD-DT-024 | Critical | High | N/A | [server.js:L510-L523](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/backend/server.js#L510-L523) |
+| BUG-FR13-C-03 | Lỗi API `/api/admin/users` 500 ngắt toàn bộ tiến trình fetchData của dashboard | TC-DASHBOARD-DT-017 | Medium | Medium | N/A | [App.jsx:L41-L59](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-admin/src/App.jsx#L41-L59) |
+| BUG-FR13-C-04 | Order thiếu `total_amount` dẫn đến tính toán ra `NaN ₫` hiển thị trên giao diện | TC-DASHBOARD-DT-020 | Medium | Medium | N/A | [App.jsx:L217-L220](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-admin/src/App.jsx#L217-L220) |
+| BUG-FR13-C-05 | Giao diện hiển thị trực tiếp số liệu thống kê âm hoặc thập phân mà không kiểm tra tính hợp lệ dữ liệu | TC-DASHBOARD-BVA-018, TC-DASHBOARD-BVA-019 | Minor | Low | N/A | [Static Analysis Audit] |
+
+> [!NOTE]
+> Các bug trên đã được kiểm chứng thực tế thông qua quá trình thực hiện test run chính thức bởi Khoa.
+
+## 6. AI Gap Analysis Summary
+- What AI missed: AI ban đầu nếu chỉ đọc spec có thể không lường trước được việc frontend admin tự fetch toàn bộ orders rồi tự tính toán doanh thu bằng code JS thay vì gọi qua một endpoint statistics chuyên biệt.
+- What human corrected: Sinh viên kiểm tra thực tế file App.jsx và phát hiện bug nhân đôi doanh thu (`total_amount * 2`) cũng như lỗ hổng bỏ sót kiểm tra vai trò admin ở server.js.
+- Why the gap happened: AI không có quyền truy cập động trực tiếp và trải nghiệm UI/API của môi trường runtime nếu không được định hướng kết hợp phân tích tĩnh mã nguồn.
+- Lesson learned: Luôn luôn phải đối soát mã nguồn thực tế (static analysis) song song với đặc tả yêu cầu khi thiết kế kịch bản test.
+
+## 7. Evidence
+- Screenshot folder: [tests/bug/dashboard/evidences/](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/bug/dashboard/evidences/)
+- Video/demo link nếu có: N/A
+- GitHub Issue links: N/A
+

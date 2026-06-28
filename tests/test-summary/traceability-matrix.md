@@ -172,5 +172,53 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-07 | [TC-CART-086](../test-cases/cart/TC-CART-086.md) | Pass |  | Done |
 | FR-07 | [TC-CART-087](../test-cases/cart/TC-CART-087.md) | Pass |  | Done |
 | FR-07 | [TC-CART-088](../test-cases/cart/TC-CART-088.md) | Fail |  | Ready for Retest |
-| FR-07 | [TC-CART-089](../test-cases/cart/TC-CART-089.md) | Fail |  | Ready for Retest |
+| FR-07 | [TC-CART-089](../test-cases/cart/TC-CART-089.md) | Fail | BUG-FR07-B-19 | Ready for Retest |
 | FR-07 | [TC-CART-090](../test-cases/cart/TC-CART-090.md) | Fail | BUG-FR07-B-20 | Ready for Retest |
+| FR-13 (Dashboard) | [TC-DASHBOARD-DT-001](../test-cases/dashboard/TC-DASHBOARD-DT-001.md) | Fail | BUG-FR13-C-01 | Open |
+| FR-13 (Access Guest) | [TC-DASHBOARD-DT-002](../test-cases/dashboard/TC-DASHBOARD-DT-002.md) | Pass | None | Done |
+| FR-13 (Access Cust) | [TC-DASHBOARD-DT-003](../test-cases/dashboard/TC-DASHBOARD-DT-003.md) | Pass | None | Done |
+| FR-13 (API Auth Check) | [TC-DASHBOARD-DT-004](../test-cases/dashboard/TC-DASHBOARD-DT-004.md) | Fail | BUG-FR13-C-02 | Open |
+| FR-13 (Token Change) | [TC-DASHBOARD-DT-005](../test-cases/dashboard/TC-DASHBOARD-DT-005.md) | Pass | None | Done |
+| FR-13 (Empty State) | [TC-DASHBOARD-DT-006](../test-cases/dashboard/TC-DASHBOARD-DT-006.md) | Pass | None | Done |
+| FR-13 (Non-delivered) | [TC-DASHBOARD-DT-007](../test-cases/dashboard/TC-DASHBOARD-DT-007.md) | Pass | None | Done |
+| FR-13 (API Lỗi 500) | [TC-DASHBOARD-DT-008](../test-cases/dashboard/TC-DASHBOARD-DT-008.md) | Pass | None | Done |
+| FR-13 (Doanh thu âm) | [TC-DASHBOARD-DT-009](../test-cases/dashboard/TC-DASHBOARD-DT-009.md) | Pass | None | Done |
+| FR-13 (Số tiền Null/NaN) | [TC-DASHBOARD-DT-010](../test-cases/dashboard/TC-DASHBOARD-DT-010.md) | Pass | None | Done |
+| FR-13 (API Sai Format) | [TC-DASHBOARD-DT-011](../test-cases/dashboard/TC-DASHBOARD-DT-011.md) | Pass | None | Done |
+| FR-13 (Responsive UI) | [TC-DASHBOARD-DT-012](../test-cases/dashboard/TC-DASHBOARD-DT-012.md) | Pass | None | Done |
+| FR-13 (Order Count BVA Min) | [TC-DASHBOARD-BVA-001](../test-cases/dashboard/TC-DASHBOARD-BVA-001.md) | Pass | None | Done |
+| FR-13 (Order Count BVA Min+1) | [TC-DASHBOARD-BVA-002](../test-cases/dashboard/TC-DASHBOARD-BVA-002.md) | Pass | None | Done |
+| FR-13 (Order Count BVA Min-1) | [TC-DASHBOARD-BVA-003](../test-cases/dashboard/TC-DASHBOARD-BVA-003.md) | Pass | None | Done |
+| FR-13 (Order Count BVA Max) | [TC-DASHBOARD-BVA-004](../test-cases/dashboard/TC-DASHBOARD-BVA-004.md) | Pass | None | Done |
+| FR-13 (Revenue BVA Min) | [TC-DASHBOARD-BVA-005](../test-cases/dashboard/TC-DASHBOARD-BVA-005.md) | Pass | None | Done |
+| FR-13 (Revenue BVA Min+1) | [TC-DASHBOARD-BVA-006](../test-cases/dashboard/TC-DASHBOARD-BVA-006.md) | Fail | BUG-FR13-C-01 | Open |
+| FR-13 (Revenue BVA Min-1) | [TC-DASHBOARD-BVA-007](../test-cases/dashboard/TC-DASHBOARD-BVA-007.md) | Pass | None | Done |
+| FR-13 (Revenue BVA Max) | [TC-DASHBOARD-BVA-008](../test-cases/dashboard/TC-DASHBOARD-BVA-008.md) | Pass | None | Done |
+| FR-13 (Response Delay BVA Min) | [TC-DASHBOARD-BVA-009](../test-cases/dashboard/TC-DASHBOARD-BVA-009.md) | Pass | None | Done |
+| FR-13 (Response Delay BVA Max) | [TC-DASHBOARD-BVA-010](../test-cases/dashboard/TC-DASHBOARD-BVA-010.md) | Pass | None | Done |
+| FR-13 (Security API Users) | [TC-DASHBOARD-DT-013](../test-cases/dashboard/TC-DASHBOARD-DT-013.md) | Fail | BUG-FR13-C-02 | Open |
+| FR-13 (Security API Orders) | [TC-DASHBOARD-DT-014](../test-cases/dashboard/TC-DASHBOARD-DT-014.md) | Fail | BUG-FR13-C-02 | Open |
+| FR-13 (Security Token Tamper) | [TC-DASHBOARD-DT-015](../test-cases/dashboard/TC-DASHBOARD-DT-015.md) | Pass | None | Done |
+| FR-13 (Empty Orders Array) | [TC-DASHBOARD-DT-016](../test-cases/dashboard/TC-DASHBOARD-DT-016.md) | Pass | None | Done |
+| FR-13 (API Users Error 500) | [TC-DASHBOARD-DT-017](../test-cases/dashboard/TC-DASHBOARD-DT-017.md) | Fail | BUG-FR13-C-03 | Open |
+| FR-13 (Pending Orders Only) | [TC-DASHBOARD-DT-018](../test-cases/dashboard/TC-DASHBOARD-DT-018.md) | Pass | None | Done |
+| FR-13 (Cancelled Orders Only) | [TC-DASHBOARD-DT-019](../test-cases/dashboard/TC-DASHBOARD-DT-019.md) | Pass | None | Done |
+| FR-13 (Missing Field Amount) | [TC-DASHBOARD-DT-020](../test-cases/dashboard/TC-DASHBOARD-DT-020.md) | Fail | BUG-FR13-C-04 | Open |
+| FR-13 (Hide API Raw Error) | [TC-DASHBOARD-DT-021](../test-cases/dashboard/TC-DASHBOARD-DT-021.md) | Pass | None | Done |
+| FR-13 (Navigation Click) | [TC-DASHBOARD-DT-022](../test-cases/dashboard/TC-DASHBOARD-DT-022.md) | Pass | None | Done |
+| FR-13 (Regression Revenue) | [TC-DASHBOARD-DT-023](../test-cases/dashboard/TC-DASHBOARD-DT-023.md) | Fail | BUG-FR13-C-01 | Open |
+| FR-13 (Regression Auth) | [TC-DASHBOARD-DT-024](../test-cases/dashboard/TC-DASHBOARD-DT-024.md) | Fail | BUG-FR13-C-02 | Open |
+| FR-13 (Recent Orders BVA Min) | [TC-DASHBOARD-BVA-011](../test-cases/dashboard/TC-DASHBOARD-BVA-011.md) | Pass | None | Done |
+| FR-13 (Recent Orders BVA Min+1) | [TC-DASHBOARD-BVA-012](../test-cases/dashboard/TC-DASHBOARD-BVA-012.md) | Pass | None | Done |
+| FR-13 (Recent Orders BVA Max) | [TC-DASHBOARD-BVA-013](../test-cases/dashboard/TC-DASHBOARD-BVA-013.md) | Pass | None | Done |
+| FR-13 (Recent Orders BVA Max+1) | [TC-DASHBOARD-BVA-014](../test-cases/dashboard/TC-DASHBOARD-BVA-014.md) | Pass | None | Done |
+| FR-13 (Revenue BVA UI Limit) | [TC-DASHBOARD-BVA-015](../test-cases/dashboard/TC-DASHBOARD-BVA-015.md) | Pass | None | Done |
+| FR-13 (Revenue BVA BigInt) | [TC-DASHBOARD-BVA-016](../test-cases/dashboard/TC-DASHBOARD-BVA-016.md) | Pass | None | Done |
+| FR-13 (Response Threshold BVA) | [TC-DASHBOARD-BVA-017](../test-cases/dashboard/TC-DASHBOARD-BVA-017.md) | Pass | None | Done |
+| FR-13 (Users Count Negative) | [TC-DASHBOARD-BVA-018](../test-cases/dashboard/TC-DASHBOARD-BVA-018.md) | Fail | BUG-FR13-C-05 | Open |
+| FR-13 (Products Count Decimal) | [TC-DASHBOARD-BVA-019](../test-cases/dashboard/TC-DASHBOARD-BVA-019.md) | Fail | BUG-FR13-C-05 | Open |
+| FR-13 (Responsive Breakpoint) | [TC-DASHBOARD-BVA-020](../test-cases/dashboard/TC-DASHBOARD-BVA-020.md) | Pass | None | Done |
+| FR-13 (Responsive Breakpoint-1) | [TC-DASHBOARD-BVA-021](../test-cases/dashboard/TC-DASHBOARD-BVA-021.md) | Pass | None | Done |
+| FR-13 (Responsive Breakpoint+1) | [TC-DASHBOARD-BVA-022](../test-cases/dashboard/TC-DASHBOARD-BVA-022.md) | Pass | None | Done |
+
+

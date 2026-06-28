@@ -46,8 +46,8 @@ Tài liệu tổng hợp danh sách toàn bộ lỗi phát hiện được trong
 | BUG-FR07-B-14 | Backend API chấp nhận productId không tồn tại và tạo ra sản phẩm ma | Major | High | [`TC-CART-061`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/cart/TC-CART-061.md), [`TC-CART-062`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/cart/TC-CART-062.md), [`TC-CART-078`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/cart/TC-CART-078.md) | N/A |
 | BUG-FR07-B-15 | Backend API không kiểm tra kiểu dữ liệu của trường quantity (Type Validation) | Major | High | [`TC-CART-065`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/cart/TC-CART-065.md), [`TC-CART-066`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/cart/TC-CART-066.md), [`TC-CART-067`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/cart/TC-CART-067.md), [`TC-CART-068`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/cart/TC-CART-068.md) | N/A |
 | BUG-FR07-B-16 | Lỗ hổng cho phép gán thuộc tính đặc quyền (Mass Assignment / Extra Fields) | Major | High | [`TC-CART-070`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/cart/TC-CART-070.md) | N/A |
-| BUG-FR07-B-17 | Giao diện cho phép thanh toán (Checkout) khi giỏ hàng trống | Major | Medium | [`TC-CART-076`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/cart/TC-CART-076.md), [`TC-CART-077`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/cart/TC-CART-077.md) | N/A |
 | BUG-FR07-B-18 | Thiếu xử lý lỗi kết nối mạng hoặc sập máy chủ trên giao diện | Major | Medium | [`TC-CART-...`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/cart/TC-CART-....md) | N/A |
+| BUG-FR07-B-19 | Giỏ hàng không được làm sạch sau khi thanh toán thành công (checkout success) | Major | High | [`TC-CART-089`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/cart/TC-CART-089.md) | N/A |
 
 ---
 
@@ -1569,4 +1569,245 @@ Khi API thêm sản phẩm thất bại do mất kết nối mạng hoặc sập
 - Labels: type:bug
 
 ---
+
+# BUG-FR07-B-19: Giỏ hàng không được làm sạch sau khi thanh toán thành công (checkout success)
+
+## Feature
+FR-07 – Giỏ hàng (Shopping Cart)
+
+## Found by Test Case
+`TC-CART-089`
+
+## Severity / Priority
+Major / High
+
+## Environment
+- OS: Windows 11
+- Browser: Chrome
+- App URL: http://localhost:5173
+- Backend/API URL: http://localhost:3000
+- Commit hash: N/A
+
+## Preconditions
+- User has logged in and has items in their cart.
+- User is on the checkout page `/checkout`.
+
+## Steps to Reproduce
+1. Đăng nhập và thêm sản phẩm vào giỏ hàng.
+2. Nhấn nút Thanh toán để chuyển sang trang `/checkout`.
+3. Bấm nút Thanh toán trên trang checkout để hoàn thành đơn hàng.
+4. Nhận thông báo "Thanh toán thành công!".
+5. Nhấp nút "Quay lại trang chủ" và mở lại trang giỏ hàng `/cart` hoặc xem badge giỏ hàng trên Navbar.
+
+## Expected Result
+Giỏ hàng phải được xóa sạch hoàn toàn sau khi thanh toán thành công, badge giỏ hàng hiển thị số 0.
+
+## Actual Result
+Hàm `handleCheckout` trong `Checkout.jsx` sau khi thanh toán thành công không thực hiện gọi hàm `clearCart()` để làm trống giỏ hàng, khiến các sản phẩm đã thanh toán vẫn hiển thị trong giỏ hàng.
+
+## Evidence
+- File location: [Checkout.jsx:L41-L67](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-web/src/pages/Checkout.jsx#L41-L67)
+
+---
+
+## 3. Summary of Dashboard Bugs (FR-13)
+
+| Bug ID | Title | Severity | Priority | Related Test Case | GitHub Issue |
+|---|---|---|---|---|---|
+| BUG-FR13-C-01 | Giao diện Dashboard hiển thị Tổng doanh thu bị nhân đôi | Major | High | [`TC-DASHBOARD-DT-001`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/dashboard/TC-DASHBOARD-DT-001.md), [`TC-DASHBOARD-BVA-006`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/dashboard/TC-DASHBOARD-BVA-006.md), [`TC-DASHBOARD-DT-023`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/dashboard/TC-DASHBOARD-DT-023.md) | N/A |
+| BUG-FR13-C-02 | Backend API `/api/admin/orders` và `/api/admin/users` thiếu kiểm soát phân quyền (role) | Critical | High | [`TC-DASHBOARD-DT-004`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/dashboard/TC-DASHBOARD-DT-004.md), [`TC-DASHBOARD-DT-013`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/dashboard/TC-DASHBOARD-DT-013.md), [`TC-DASHBOARD-DT-014`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/dashboard/TC-DASHBOARD-DT-014.md), [`TC-DASHBOARD-DT-024`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/dashboard/TC-DASHBOARD-DT-024.md) | N/A |
+| BUG-FR13-C-03 | Lỗi API `/api/admin/users` 500 ngắt toàn bộ tiến trình fetchData của dashboard | Medium | Medium | [`TC-DASHBOARD-DT-017`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/dashboard/TC-DASHBOARD-DT-017.md) | N/A |
+| BUG-FR13-C-04 | Order thiếu `total_amount` dẫn đến tính toán ra `NaN ₫` hiển thị trên giao diện | Medium | Medium | [`TC-DASHBOARD-DT-020`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/dashboard/TC-DASHBOARD-DT-020.md) | N/A |
+| BUG-FR13-C-05 | Giao diện hiển thị trực tiếp số liệu thống kê âm hoặc thập phân mà không kiểm tra tính hợp lệ dữ liệu | Minor | Low | [`TC-DASHBOARD-BVA-018`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/dashboard/TC-DASHBOARD-BVA-018.md), [`TC-DASHBOARD-BVA-019`](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/tests/test-cases/dashboard/TC-DASHBOARD-BVA-019.md) | N/A |
+
+---
+
+## 4. Detailed Bug Reports for Dashboard (FR-13)
+
+# BUG-FR13-C-01: Giao diện Dashboard hiển thị Tổng doanh thu bị nhân đôi
+
+## Feature
+FR-13 – Dashboard
+
+## Found by Test Case
+`TC-DASHBOARD-DT-001, TC-DASHBOARD-BVA-006`
+
+## Severity / Priority
+Major / High
+
+## Environment
+- OS: Windows
+- Browser: Chrome
+- App URL: http://localhost:5174 (Web Admin)
+- Backend/API URL: http://localhost:3000
+- Commit hash: N/A (Static analysis)
+
+## Preconditions
+- Admin logged in and navigating to Dashboard.
+
+## Steps to Reproduce
+1. Open file `frontend-admin/src/App.jsx`.
+2. Inspect line 218: `if (o.status === "delivered") return sum + o.total_amount * 2;`
+
+## Expected Result
+Doanh thu hiển thị bằng đúng tổng `total_amount` của các đơn hàng có trạng thái `delivered` (không nhân 2).
+
+## Actual Result
+Doanh thu hiển thị bị nhân đôi.
+
+## Evidence
+- File location: [App.jsx:L218](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-admin/src/App.jsx#L217-L220)
+
+---
+
+# BUG-FR13-C-02: Backend API `/api/admin/orders` và `/api/admin/users` thiếu kiểm soát phân quyền (role)
+
+## Feature
+FR-13 – Dashboard (Security)
+
+## Found by Test Case
+`TC-DASHBOARD-DT-004`
+
+## Severity / Priority
+Critical / High
+
+## Environment
+- OS: Windows
+- App URL: http://localhost:5174 (Web Admin)
+- Backend/API URL: http://localhost:3000
+- Commit hash: N/A (Static analysis)
+
+## Preconditions
+- User has logged in and has a valid JWT token, but user role is customer/user (not admin).
+
+## Steps to Reproduce
+1. Open file `backend/server.js`.
+2. Inspect route registration at lines 494 and 510.
+3. Observe that these routes only utilize `authenticateToken` middleware and do not check `req.user.role === 'admin'`.
+
+## Expected Result
+Backend trả về mã lỗi HTTP 403 Forbidden cho tài khoản không có quyền Admin.
+
+## Actual Result
+Backend trả về HTTP 200 OK kèm danh sách dữ liệu nhạy cảm.
+
+## Evidence
+- File location: [server.js:L510-L523](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/backend/server.js#L510-L523)
+
+# BUG-FR13-C-03: Lỗi API /api/admin/users 500 ngắt toàn bộ tiến trình fetchData của dashboard
+
+## Feature
+FR-13 – Dashboard (Robustness)
+
+## Found by Test Case
+`TC-DASHBOARD-DT-017`
+
+## Severity / Priority
+Medium / Medium
+
+## Environment
+- OS: Windows
+- Browser: Chrome
+- App URL: http://localhost:5174 (Web Admin)
+- Backend/API URL: http://localhost:3000
+- Commit hash: N/A (Static analysis)
+
+## Preconditions
+- Admin logged in.
+- API `/api/admin/users` returns HTTP 500.
+
+## Steps to Reproduce
+1. Đăng nhập admin.
+2. Giả lập hoặc mock API `/api/admin/users` trả về mã lỗi HTTP 500.
+3. Mở giao diện Dashboard.
+4. Quan sát hiển thị của các card doanh thu, đơn hàng, danh mục (chúng không hiển thị số liệu hoặc giữ số liệu cũ).
+
+## Expected Result
+Một API lỗi không được làm ngắt quãng các API độc lập khác. Giao diện vẫn hiển thị bình thường dữ liệu doanh thu, đơn hàng... và hiển thị fallback lỗi ở riêng card người dùng.
+
+## Actual Result
+Tiến trình fetchData bị ngắt hoàn toàn khi gọi API đầu tiên bị lỗi, làm trắng Dashboard hoặc mất số liệu của tất cả các card khác.
+
+## Evidence
+- File location: [App.jsx:L41-L59](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-admin/src/App.jsx#L41-L59)
+
+---
+
+# BUG-FR13-C-04: Order thiếu total_amount dẫn đến tính toán ra NaN hiển thị trên giao diện
+
+## Feature
+FR-13 – Dashboard (Robustness)
+
+## Found by Test Case
+`TC-DASHBOARD-DT-020`
+
+## Severity / Priority
+Medium / Medium
+
+## Environment
+- OS: Windows
+- App URL: http://localhost:5174 (Web Admin)
+- Backend/API URL: http://localhost:3000
+- Commit hash: N/A (Static analysis)
+
+## Preconditions
+- Admin logged in.
+- Orders in API response contain at least one order object missing `total_amount`.
+
+## Steps to Reproduce
+1. Đăng nhập admin.
+2. Mock API `/api/admin/orders` trả về mảng orders chứa order thiếu thuộc tính `total_amount` (ví dụ: `undefined` hoặc `null`).
+3. Mở Dashboard.
+4. Quan sát số hiển thị ở 'Tổng doanh thu (Delivered)' hiển thị `NaN ₫`.
+
+## Expected Result
+Dashboard bỏ qua order lỗi hoặc mặc định giá trị bằng 0 và không bị tính toán ra `NaN`.
+
+## Actual Result
+Doanh thu hiển thị là `NaN ₫` do phép cộng với `undefined` trong hàm `reduce`.
+
+## Evidence
+- File location: [App.jsx:L217-L220](file:///c:/My%20Workspace/HCMUS/Test/Week%203/Hw2/frontend-admin/src/App.jsx#L217-L220)
+
+---
+
+# BUG-FR13-C-05: Giao diện hiển thị trực tiếp số liệu thống kê âm hoặc thập phân mà không kiểm tra tính hợp lệ dữ liệu
+
+## Feature
+FR-13 – Dashboard (UI/UX)
+
+## Found by Test Case
+`TC-DASHBOARD-BVA-018, TC-DASHBOARD-BVA-019`
+
+## Severity / Priority
+Minor / Low
+
+## Environment
+- OS: Windows
+- App URL: http://localhost:5174 (Web Admin)
+- Backend/API URL: http://localhost:3000
+- Commit hash: N/A (Static analysis)
+
+## Preconditions
+- Admin logged in.
+- Mock API trả về số lượng users = -1, số lượng products = 10.5.
+
+## Steps to Reproduce
+1. Đăng nhập admin.
+2. Giả lập API users/products trả về số lượng `-1` hoặc số lượng `10.5`.
+3. Mở Dashboard.
+4. Quan sát card số lượng người dùng hiển thị `-1` và số lượng sản phẩm hiển thị `10.5`.
+
+## Expected Result
+UI có validate để làm tròn số lượng (sản phẩm) hoặc fallback về 0 (đối với số âm), không hiển thị các giá trị bất hợp lý.
+
+## Actual Result
+UI hiển thị trực tiếp giá trị thô nhận được từ API: `-1` người dùng và `10.5` sản phẩm.
+
+## Evidence
+- [Static Analysis Audit]
+
+---
+
+
 

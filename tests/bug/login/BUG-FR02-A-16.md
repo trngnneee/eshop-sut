@@ -13,4 +13,4 @@
 | **Priority** | Medium |
 | **Evidence (Screenshot)** | ![Screenshot](../evidence/BUG-FR02-A-16_screenshot.png) |
 | **Date** | 2026-06-26 |
-| **Reporter** | AI Tester (Antigravity) |
+| **Reporter** | Khoa |

@@ -14,4 +14,4 @@
 | **Priority** | Low |
 | **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-08.png) |
 | **Date** | 2026-06-27 |
-| **Reporter** | AI Tester (Antigravity) |
+| **Reporter** | Khoa |
