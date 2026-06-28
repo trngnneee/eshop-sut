@@ -156,3 +156,27 @@ Chức năng xóa người dùng không kiểm tra hoặc xử lý các dữ li�
 
 **GitHub Issue:**
 https://github.com/trngnneee/eshop-sut/issues/153#issue-4762495069
+
+
+---
+
+## FR-20: Phân hệ mobile & FR-10: Trạng thái Đơn hàng (Order State Machine)
+
+
+### [BUG][Mobile Order] Trạng thái đơn hàng không có màu sắc phân biệt trên ứng dụng Mobile
+
+**Short Description:**
+Màn hình lịch sử đơn hàng trên Mobile không hiển thị trạng thái đơn hàng dưới dạng badge hoặc màu sắc phân biệt, khiến các trạng thái như `pending`, `confirmed`, `shipping`, `delivered`, `canceled` khó nhận biết nhanh và làm giảm trải nghiệm người dùng.
+
+**GitHub Issue:**
+https://github.com/trngnneee/eshop-sut/issues/154#issue-4763031532
+
+
+
+### [BUG][Mobile Order] Không hiển thị dialog xác nhận trước khi hủy đơn hàng trên Mobile
+
+**Short Description:**
+Chức năng hủy đơn hàng trên Mobile thực hiện thao tác ngay lập tức mà không hiển thị dialog xác nhận, dẫn đến việc người dùng có thể vô tình hủy đơn hàng do thao tác nhầm và không có bước kiểm tra trước khi thực hiện hành động không thể hoàn tác.
+
+**GitHub Issue:**
+https://github.com/trngnneee/eshop-sut/issues/155#issue-4763038399
