@@ -141,22 +141,7 @@ FR-05 không định nghĩa giới hạn số lượng ký tự của từ khóa
 | TC-PRODUCT-014 | AI tập trung phân tích chức năng tìm kiếm ở góc nhìn frontend (nhập từ khóa và hiển thị kết quả), nhưng chưa mở rộng sang hành vi xử lý dữ liệu ở backend/database. Việc bỏ sót xảy ra do requirement không mô tả trực tiếp về query database và cần có tư duy kiểm thử bảo mật bổ sung. |
 
 
-### Tổng kết
-
-AI đã bao phủ được các test case chính liên quan đến:
-- Hiển thị danh sách sản phẩm.
-- Hiển thị thông tin sản phẩm.
-- Tìm kiếm theo tên sản phẩm.
-- Các trạng thái giao diện như loading và empty state.
-- Kiểm tra cấu trúc HTML của trang.
-
-Tuy nhiên, AI còn thiếu các kiểm thử mở rộng về:
-- Security testing với payload thực tế.
-- Khả năng xử lý input không an toàn.
-- Kiểm tra tương tác giữa frontend input và backend query.
-
-Các test case bổ sung giúp tăng độ bao phủ về **bảo mật và input validation** cho FR-05.
-
+---
 
 # 3. FR-11: Xem lịch sử đơn hàng (User)
 
@@ -265,8 +250,6 @@ FR-11 áp dụng Boundary Value Analysis chủ yếu cho **số lượng đơn h
 * Lỗi hiển thị nhiều đơn hàng.
 * Không hỗ trợ phân trang khi dữ liệu lớn.
 
----
-
 # 3.4 Danh sách test case
 
 | Test Case ID        | Mục tiêu kiểm thử                                                            | Kỹ thuật                |
@@ -309,18 +292,198 @@ FR-11 áp dụng Boundary Value Analysis chủ yếu cho **số lượng đơn h
 | TC-ORDERHISTORY-014 | AI tập trung vào luồng chính “xem lịch sử đơn hàng”, chưa mở rộng sang các endpoint liên quan như `/api/orders/:id`, dẫn đến thiếu kiểm thử authentication bypass ở chức năng chi tiết đơn hàng. Ngoài ra, agent skill chưa yêu cầu đọc API docs nên AI không nhận diện được các API liên quan trong module Order cần được kiểm thử bảo mật. |
 
 
-### Tổng kết
+---
 
-AI đã bao phủ được các nhóm kiểm thử chính:
-- Hiển thị danh sách đơn hàng.
-- Trạng thái đơn hàng.
-- Empty state và boundary cơ bản.
-- Kiểm tra logic hiển thị UI.
+# 4. FR-19: Quản lý Người dùng (Admin)
 
-Tuy nhiên, còn thiếu các kiểm thử quan trọng liên quan đến:
-- Scalability (phân trang khi dữ liệu lớn).
-- Authentication ở API level.
-- Authorization giữa nhiều người dùng.
-- Kiểm thử các endpoint liên quan ngoài luồng UI chính.
+## 4.1 Tổng quan yêu cầu
 
-Các test case bổ sung giúp tăng độ bao phủ về **bảo mật, hiệu năng và phân quyền hệ thống**.
+Chức năng cho phép tài khoản Admin quản lý người dùng trong hệ thống.
+
+Admin có thể:
+
+* Xem danh sách tất cả người dùng.
+* Xem thông tin người dùng nhưng không được phép lộ mật khẩu.
+* Xóa người dùng bất kỳ trong hệ thống.
+
+Hệ thống phải đảm bảo:
+
+* Chỉ người dùng có quyền `role = admin` mới được truy cập chức năng quản lý người dùng.
+* Người dùng thường hoặc khách chưa đăng nhập không thể truy cập API/trang Admin.
+* Dữ liệu mật khẩu không được trả về trong response.
+* Admin không được phép xóa chính tài khoản Admin đang đăng nhập.
+* Xóa user phải đúng đối tượng được yêu cầu, không ảnh hưởng đến tài khoản khác.
+* Hệ thống phải xử lý đúng khi danh sách người dùng rỗng hoặc có nhiều dữ liệu.
+
+---
+
+## 4.2 Domain Testing
+
+Với FR-19, Domain Testing được áp dụng để phân tích các input liên quan đến authentication, authorization, user identity, token và dữ liệu người dùng.
+
+### Phân tích miền dữ liệu
+
+| Biến                              | Domain                | Loại giá trị   | Khoảng giá trị                   | Mô tả                                     |
+| --------------------------------- | --------------------- | -------------- | -------------------------------- | ----------------------------------------- |
+| Trạng thái đăng nhập              | Authentication        | Boolean        | True, False                      | Kiểm soát quyền truy cập chức năng Admin. |
+| Role người dùng                   | Authorization         | Enum           | admin, user                      | Chỉ Admin được phép quản lý user.         |
+| JWT Token                         | Authentication Header | Enum           | Valid, Expired, Missing, Invalid | Kiểm tra xác thực API.                    |
+| user_id mục tiêu xóa              | Identity              | Integer/String | >=1, 0, âm, không tồn tại, chuỗi | Kiểm tra dữ liệu đầu vào khi xóa user.    |
+| Quan hệ giữa Admin và user bị xóa | Ownership             | Boolean        | Trùng, Không trùng               | Kiểm tra rule không được tự xóa.          |
+| Số lượng người dùng               | Count                 | Integer        | 0, 1, >1                         | Kiểm tra hiển thị danh sách.              |
+| Password trong response           | Data Exposure         | Boolean        | Có, Không                        | Kiểm tra bảo mật dữ liệu nhạy cảm.        |
+
+
+### Quy trình phân tích
+
+1. Xác định input cần kiểm thử:
+
+    * JWT Token.
+    * Role người dùng.
+    * user_id cần xóa.
+    * Số lượng user trong hệ thống.
+    * Dữ liệu trả về từ API.
+
+2. Xác định miền giá trị:
+
+    * Admin / User / Guest.
+    * Token hợp lệ / hết hạn / không tồn tại.
+    * user_id tồn tại / không tồn tại / sai kiểu dữ liệu.
+    * Xóa chính mình / xóa user khác.
+    * Danh sách user rỗng / có dữ liệu.
+
+3. Xác định dữ liệu hợp lệ:
+
+    * User đăng nhập bằng tài khoản Admin.
+    * JWT hợp lệ.
+    * Role = admin.
+    * user_id tồn tại.
+    * user_id khác admin_id hiện tại.
+
+4. Xác định dữ liệu không hợp lệ:
+
+    * Không có token.
+    * Token hết hạn.
+    * User thường gọi API Admin.
+    * Xóa chính tài khoản Admin.
+    * user_id không tồn tại.
+    * user_id không phải số.
+
+5. Xác định các trường hợp kiểm thử:
+
+    * Kiểm tra quyền truy cập Admin.
+    * Kiểm tra bảo mật dữ liệu user.
+    * Kiểm tra thao tác xóa user.
+    * Kiểm tra validation input.
+    * Kiểm tra API security.
+
+
+## 4.3 Boundary Value Analysis
+
+FR-19 áp dụng Boundary Value Analysis cho:
+
+* Số lượng người dùng trong hệ thống.
+* Giá trị `user_id` khi thực hiện xóa.
+
+---
+
+### BVA 1: Số lượng người dùng hiển thị
+
+| Biến       | Constraint | Boundary   | Ý nghĩa                                  |
+| ---------- | ---------- | ---------- | ---------------------------------------- |
+| User count | >=0        | 0          | Không có user khác, hiển thị empty state |
+| User count | >=0        | 1          | Có đúng 1 user                           |
+| User count | >1         | Nhiều user | Kiểm tra render dữ liệu lớn              |
+
+### Vì sao chọn boundary này:
+
+**0 user**
+
+* Kiểm tra hệ thống không crash khi danh sách rỗng.
+* Đảm bảo hiển thị trạng thái không có dữ liệu.
+
+**1 user**
+
+* Kiểm tra trường hợp nhỏ nhất có dữ liệu.
+
+**Nhiều user**
+
+* Kiểm tra khả năng xử lý danh sách lớn.
+* Phát hiện lỗi hiển thị hoặc thiếu pagination.
+
+---
+
+### BVA 2: user_id mục tiêu xóa
+
+| Boundary      | Giá trị | Test Case       | Ý nghĩa                   |
+| ------------- | ------- | --------------- | ------------------------- |
+| min-1         | 0       | TC-USERMGMT-016 | ID nhỏ hơn giá trị hợp lệ |
+| min           | 1       | TC-USERMGMT-017 | ID hợp lệ nhỏ nhất        |
+| min+1         | 2       | TC-USERMGMT-018 | ID hợp lệ tiếp theo       |
+| Không tồn tại | 999999  | TC-USERMGMT-009 | ID vượt ngoài dữ liệu     |
+| Sai kiểu      | "abc"   | TC-USERMGMT-010 | Không phải số nguyên      |
+
+### Vì sao chọn boundary này:
+
+`user_id` là dữ liệu quan trọng trong thao tác DELETE.
+
+Các giá trị biên giúp phát hiện:
+
+* Backend không validate input.
+* SQL query lỗi.
+* Xóa nhầm dữ liệu.
+* Xử lý exception không đúng.
+
+## 4.4 Danh sách Test Case
+
+| Test Case ID        | Mục tiêu kiểm thử                                                                           | Kỹ thuật                |
+| ------------------- | ------------------------------------------------------------------------------------------- | ----------------------- |
+| TC-USERMGMT-001     | Admin xem danh sách người dùng thành công                                                   | Domain Testing          |
+| TC-USERMGMT-002     | Danh sách không hiển thị password                                                           | Domain Testing          |
+| TC-USERMGMT-003     | User thường không truy cập được trang Admin User                                            | Domain Testing          |
+| TC-USERMGMT-004     | Người chưa đăng nhập không xem được danh sách user                                          | Domain Testing          |
+| TC-USERMGMT-005     | Hiển thị empty state khi có 0 user                                                          | Boundary Value Analysis |
+| TC-USERMGMT-006     | Hiển thị đúng khi có 1 user                                                                 | Boundary Value Analysis |
+| TC-USERMGMT-007     | Admin xóa user thành công                                                                   | Domain Testing          |
+| TC-USERMGMT-008     | Admin không thể tự xóa tài khoản của mình                                                   | Domain Testing          |
+| TC-USERMGMT-009     | Xóa user với ID không tồn tại                                                               | Domain Testing          |
+| TC-USERMGMT-010     | Xóa user với ID sai kiểu dữ liệu                                                            | Domain Testing          |
+| TC-USERMGMT-011     | Hiển thị danh sách nhiều user                                                               | Boundary Value Analysis |
+| TC-USERMGMT-012     | Danh sách hiển thị đầy đủ thông tin user                                                    | Domain Testing          |
+| TC-USERMGMT-013     | Danh sách cập nhật sau khi xóa user                                                         | Domain Testing          |
+| TC-USERMGMT-014     | Token hết hạn không được phép xóa user                                                      | Domain Testing          |
+| TC-USERMGMT-015     | User thường gọi API delete user bị từ chối                                                  | Domain Testing          |
+| TC-USERMGMT-016     | Xóa user với user_id = 0                                                                    | Boundary Value Analysis |
+| TC-USERMGMT-017     | Xóa user với user_id = 1                                                                    | Boundary Value Analysis |
+| TC-USERMGMT-018     | Xóa user với user_id = 2                                                                    | Boundary Value Analysis |
+| TC-USERMGMT-019     | API không trả về password field                                                             | Domain Testing          |
+| TC-USERMGMT-020     | Xóa đúng user mục tiêu, không ảnh hưởng user khác                                           | Domain Testing          |
+| TC-USERMGMT-021 | Xóa user có dữ liệu liên quan (order, cart, history) và kiểm tra xử lý dữ liệu liên kết** | Domain Testing      |
+| TC-USERMGMT-022 | API xóa user không trả về dữ liệu nhạy cảm sau khi xóa                                  | Domain Testing     |
+
+
+
+
+
+
+## 4.5 Phân tích khoảng trống kiểm thử do AI hỗ trợ
+
+### Bổ sung test case bị AI bỏ sót
+
+| Test Case ID    | Test Objective                                                                                                                | Testing Technique | Lý do bổ sung                                                                                                                                                                                 |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TC-USERMGMT-021 | Kiểm tra Admin xóa user đang có dữ liệu liên quan (order, cart, history) và đảm bảo hệ thống xử lý dữ liệu liên kết đúng cách | Domain Testing    | Kiểm tra trường hợp xóa user có quan hệ dữ liệu với các module khác. Đảm bảo thao tác xóa không gây lỗi database, mất dữ liệu ngoài mong muốn hoặc ảnh hưởng đến dữ liệu của người dùng khác. |
+| TC-USERMGMT-022 | Kiểm tra API xóa user không trả về dữ liệu nhạy cảm sau khi thực hiện thao tác xóa                                            | Domain Testing    | Kiểm tra khả năng bảo vệ dữ liệu nhạy cảm trong response API, đảm bảo password, token hoặc thông tin bảo mật không bị lộ sau thao tác quản lý người dùng.                                     |
+
+
+
+### AI Gap Analysis - Lý do AI bỏ sót 2 test case
+
+| Test Case bị bỏ sót | Lý do AI có thể bỏ sót                                                                                                                                                                                                                                                                                                                           |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| TC-USERMGMT-021     | AI tập trung vào luồng chính của chức năng xóa user (xóa thành công, không tìm thấy user, không có quyền) nhưng chưa mở rộng phân tích mối quan hệ dữ liệu giữa user và các module khác như order, cart, history. Việc bỏ sót xảy ra do requirement FR-19 chỉ mô tả thao tác xóa người dùng mà không mô tả rõ các ràng buộc về dữ liệu liên kết. |
+| TC-USERMGMT-022     | AI kiểm tra việc không hiển thị password trong danh sách user nhưng chưa mở rộng sang kiểm tra dữ liệu trả về sau thao tác delete API. AI có thể xem thao tác xóa chỉ là hành động thay đổi trạng thái dữ liệu và chưa xem xét khả năng response API vô tình làm lộ thông tin nhạy cảm.                                                          |
+
+---
+
+
