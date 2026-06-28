@@ -2,6 +2,8 @@
 
 **GitHub issue title:** `[BUG][FR-04][Security] API cập nhật hồ sơ cho phép client tự thay đổi role`
 
+**GitHub issue:** [#57](https://github.com/trngnneee/eshop-sut/issues/57)
+
 **Labels:** `type: bug`, `status: new`, `found-by: test-case`
 
 ## Found by Test Case

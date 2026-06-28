@@ -2,6 +2,8 @@
 
 **GitHub issue title:** `[BUG][FR-10][Order State Machine] User có thể hủy đơn hàng đang shipping`
 
+**GitHub issue:** [#58](https://github.com/trngnneee/eshop-sut/issues/58)
+
 **Labels:** `type: bug`, `status: new`, `found-by: test-case`
 
 ## Found by Test Case

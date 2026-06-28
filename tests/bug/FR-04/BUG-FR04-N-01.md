@@ -2,6 +2,8 @@
 
 **GitHub issue title:** `[BUG][FR-04][Profile Management] Thiếu validate độ dài tối đa Họ Tên`
 
+**GitHub issue:** [#54](https://github.com/trngnneee/eshop-sut/issues/54)
+
 **Labels:** `type: bug`, `status: new`, `found-by: test-case`
 
 ## Found by Test Case

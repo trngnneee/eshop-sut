@@ -22,6 +22,7 @@ Khi nhận được yêu cầu thiết kế test case cho một FR cụ thể, A
 ### Bước 2: Phân tích Phân vùng tương đương (Equivalence Partitioning - EP)
 
 * Phân chia mỗi tham số đầu vào hoặc điều kiện thành các phân vùng tương đương:
+
    * **Phân vùng hợp lệ (Valid Partitions):** Các giá trị được hệ thống chấp nhận và xử lý bình thường.
    * **Phân vùng không hợp lệ (Invalid Partitions):** Các giá trị bị hệ thống từ chối hoặc báo lỗi.
 
@@ -52,15 +53,19 @@ Khi nhận được yêu cầu thiết kế test case cho một FR cụ thể, A
 ## 2. Quy ước đặt mã và Thư mục Lưu trữ
 
 * **Thư mục lưu trữ:** Lưu các file test case dưới định dạng Markdown (`.md`) vào thư mục `tests/test-cases/[tên-module]/`.
+
    * Ví dụ: `tests/test-cases/profile_management/FR04-N-TC01.md`
 
 * **Quy ước mã Test Case cho Domain Testing:** `FR[NN]-[FIELD]-TC[NN]`
+
    * Ví dụ: `FR04-N-TC01`, `FR04-P-TC01`, `FR04-A-TC01`.
 
 * **Quy ước mã Test Case cho Boundary Value Analysis:** `FR[NN]-[FIELD]-BVA-TC[NN]`
+
    * Ví dụ: `FR04-N-BVA-TC01`, `FR04-P-BVA-TC01`, `FR04-A-BVA-TC01`.
 
 * **Mã field ngắn:** dùng một chữ cái đại diện cho input hoặc nhóm input đang kiểm thử.
+
    * Ví dụ với FR-04: `N` = Name, `P` = Phone, `A` = Address.
    * Ví dụ với FR-10: `S` = Status transition, `O` = Order ID.
 
@@ -74,16 +79,13 @@ Mỗi lần phân tích và tạo test case, Agent phải dùng các bảng Mark
 | :--- | :--- | :--- | :--- | :--- |
 | [Class ID] | [Valid/Invalid domain class] | [Representative values] | [Accepted/Rejected] | [Reason] |
 
-
 | TC ID | Domain Class | Test Data | Steps | Expected Result |
 | :--- | :--- | :--- | :--- | :--- |
 | [TC ID] | [Class ID / Domain Class] | [Test data] | [Execution steps] | [Expected result] |
 
-
 | Boundary Type | Value | Test Data | Expected Status | Reason |
 | :--- | :--- | :--- | :--- | :--- |
 | [Min/Min-1/Min+1/Max-1/Max/Max+1/Nominal] | [Boundary value] | [Test data] | [Accepted/Rejected] | [Reason] |
-
 
 | TC ID | Boundary Type | Test Data | Steps | Expected Result |
 | :--- | :--- | :--- | :--- | :--- |
@@ -131,14 +133,6 @@ Khi kích hoạt kỹ năng này, Agent sẽ:
 4. Tách file Test Case độc lập: Sau khi xuất báo cáo tổng hợp, Agent tự động sử dụng các test case vừa tạo để tách riêng từng test case ra thành các file Markdown độc lập (`.md`). Các file này phải được lưu vào đúng thư mục `tests/test-cases/[module]/`, với tên file trùng với mã test case (ví dụ: `FR04-N-TC01.md`, `FR10-S-BVA-TC01.md`).
 5. Tạo hoặc kiểm tra template test run tương ứng trong `tests/test-runs/`. Nếu file test run đã tồn tại và có kết quả thật, không ghi đè mặc định; chỉ ghi đè khi người dùng yêu cầu rõ.
 6. Cập nhật ma trận truy vết `tests/test-summary/traceability-matrix.md`.
-7. Tự động lưu vết (Auto-Logging): Cuối mỗi câu trả lời, Agent BẮT BUỘC phải tự động tạo một block Markdown chứa thông tin log để người dùng copy vào phụ lục AI Audit Report. Đoạn log phải tuân thủ chính xác định dạng mã code sau:
-
-```markdown
-Name of the AI tool: [Tên công cụ, VD: ChatGPT-4o / Claude 3.5]
-Date and time: [Thời gian hệ thống hiện tại]
-Your prompt: [Tóm tắt lại yêu cầu của người dùng]
-The AI output: [Ghi chú: Toàn bộ bảng biểu test case được sinh ra ở trên]
-```
 
 ---
 
@@ -149,10 +143,12 @@ The AI output: [Ghi chú: Toàn bộ bảng biểu test case được sinh ra �
 ### Các bước thực hiện:
 
 1. **Xác định mô hình kiểm thử** của chức năng:
+
    * Dùng `test_model: "input_boundary"` cho form/input có `required`, độ dài chuỗi, hoặc biên số.
    * Dùng `test_model: "state_transition"` cho chức năng dạng state machine như FR-10 Order State Machine.
 
 2. **Tạo một file cấu hình JSON** mô tả chức năng:
+
    * Với input/form, tham khảo `examples/register_config.json`. File JSON chứa `feature_name`, `module_name`, và mảng `inputs` với `name`, `field_code`, `type`, `required`, `min_length`, `max_length`, `min_value`, `max_value`.
    * Với state machine, tham khảo `examples/fr10_order_state_machine_config.json`. File JSON chứa `states`, `final_states`, `actors`, `valid_transitions`, `invalid_transitions`, `invalid_status_values`, và `boundary_cases`.
 
@@ -162,10 +158,10 @@ The AI output: [Ghi chú: Toàn bộ bảng biểu test case được sinh ra �
 python ".agents/skills/domain_and_boundary_testing/scripts/generate_test_cases.py" --config "[đường-dẫn-đến-file-json-cấu-hình]"
 ```
 
-   * Script mặc định sẽ sinh cả test case và template test run.
-   * Dùng `--skip-test-run` nếu chỉ muốn sinh test case.
-   * Dùng `--overwrite-test-run` nếu người dùng yêu cầu tạo lại file test run đã tồn tại.
-   * Có thể dùng `--test-run-output-root` hoặc `--test-run-file` để đổi thư mục/tên file test run khi cần.
+* Script mặc định sẽ sinh cả test case và template test run.
+* Dùng `--skip-test-run` nếu chỉ muốn sinh test case.
+* Dùng `--overwrite-test-run` nếu người dùng yêu cầu tạo lại file test run đã tồn tại.
+* Có thể dùng `--test-run-output-root` hoặc `--test-run-file` để đổi thư mục/tên file test run khi cần.
 
 4. **Hậu xử lý (Post-processing):**
    * Script sẽ tự động tạo test case tại `tests/test-cases/[module_name]/` theo đúng mã `FR[NN]-[FIELD]-TC[NN]` hoặc `FR[NN]-[FIELD]-BVA-TC[NN]`.

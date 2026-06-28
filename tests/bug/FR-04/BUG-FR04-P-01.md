@@ -2,6 +2,8 @@
 
 **GitHub issue title:** `[BUG][FR-04][Profile Management] Sai rule validate Số điện thoại so với yêu cầu`
 
+**GitHub issue:** [#55](https://github.com/trngnneee/eshop-sut/issues/55)
+
 **Labels:** `type: bug`, `status: new`, `found-by: test-case`
 
 ## Found by Test Case

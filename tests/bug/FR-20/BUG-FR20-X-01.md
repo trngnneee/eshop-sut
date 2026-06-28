@@ -2,6 +2,8 @@
 
 **GitHub issue title:** `[BUG][FR-20][Mobile Product Search][Security] SQL injection qua từ khóa tìm kiếm trả về toàn bộ danh sách sản phẩm`
 
+**GitHub issue:** [#146](https://github.com/trngnneee/eshop-sut/issues/146)
+
 **Labels:** `type: bug`, `status: new`, `found-by: test-case`, `security`
 
 ## Found by Test Case

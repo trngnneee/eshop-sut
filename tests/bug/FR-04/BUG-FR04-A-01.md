@@ -2,6 +2,8 @@
 
 **GitHub issue title:** `[BUG][FR-04][Profile Management] Thiếu validate bắt buộc và độ dài Địa chỉ giao hàng`
 
+**GitHub issue:** [#56](https://github.com/trngnneee/eshop-sut/issues/56)
+
 **Labels:** `type: bug`, `status: new`, `found-by: test-case`
 
 ## Found by Test Case

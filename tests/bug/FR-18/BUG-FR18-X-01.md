@@ -2,6 +2,8 @@
 
 **GitHub issue title:** `[BUG][FR-18][Admin Order Management] Admin UI không hiển thị địa chỉ giao hàng`
 
+**GitHub issue:** [#63](https://github.com/trngnneee/eshop-sut/issues/63)
+
 **Labels:** `type: bug`, `status: new`, `found-by: test-case`
 
 ## Found by Test Case

@@ -2,6 +2,8 @@
 
 **GitHub issue title:** `[BUG][FR-18][Security] API Admin không kiểm tra role admin khi quản lý đơn hàng`
 
+**GitHub issue:** [#62](https://github.com/trngnneee/eshop-sut/issues/62)
+
 **Labels:** `type: bug`, `status: new`, `found-by: test-case`, `security`
 
 ## Found by Test Case

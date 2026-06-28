@@ -2,6 +2,8 @@
 
 **GitHub issue title:** `[BUG][FR-18][Admin Order Management] Admin có thể chuyển final state canceled sang delivered`
 
+**GitHub issue:** [#61](https://github.com/trngnneee/eshop-sut/issues/61)
+
 **Labels:** `type: bug`, `status: new`, `found-by: test-case`
 
 ## Found by Test Case

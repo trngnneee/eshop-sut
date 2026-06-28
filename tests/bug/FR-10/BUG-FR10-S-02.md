@@ -2,6 +2,8 @@
 
 **GitHub issue title:** `[BUG][FR-10][Order State Machine] Admin có thể chuyển final state canceled sang delivered`
 
+**GitHub issue:** [#59](https://github.com/trngnneee/eshop-sut/issues/59)
+
 **Labels:** `type: bug`, `status: new`, `found-by: test-case`
 
 ## Found by Test Case
