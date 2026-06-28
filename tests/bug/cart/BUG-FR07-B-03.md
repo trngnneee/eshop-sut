@@ -13,6 +13,7 @@
 | **Severity** | Major |
 | **Frequency** | Always |
 | **Priority** | High |
-| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-03.png) |
+| **Attachment (Link to file)** | [CartContext.jsx](../../../frontend-web/src/context/CartContext.jsx#L8) |
+| **Evidence (Screenshot)** | Bảng giỏ hàng hiển thị 2 dòng sản phẩm A trùng nhau. |
 | **Date** | 2026-06-27 |
-| **Reporter** | Khoa |
+| **Reporter** | AI Tester (Antigravity) |

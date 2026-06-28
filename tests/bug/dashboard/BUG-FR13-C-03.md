@@ -6,7 +6,7 @@
 | **BugID** | `BUG-FR13-C-03` |
 | **Status** | **Open** |
 | **Requirement Name** | FR-13 Dashboard (Robustness) |
-| **Summary** | Tại `frontend-admin/src/App.jsx:41-59`, hàm `fetchData` thực hiện nhiều cuộc gọi API tuần tự bằng `await` trong cùng một khối `try-catch`. Khi một API (ví dụ: `/admin/users`) trả về lỗi 500, khối `try-catch` sẽ bắt lỗi và ngắt tiến trình `fetchData` ngay lập tức, khiến các API phía sau như `/admin/orders` không được thực thi. Điều này làm hỏng toàn bộ hiển thị số liệu Dashboard. |
+| **Summary** | Khi một trong các API phục vụ Dashboard (ví dụ: API lấy danh sách người dùng `/api/admin/users`) gặp lỗi hệ thống (HTTP 500), giao diện Admin Dashboard bị ngắt tiến trình tải và không thể hiển thị số liệu của các mục khác (như doanh thu, đơn hàng, danh mục) mặc dù các API tương ứng vẫn hoạt động bình thường. |
 | **Steps to reproduce** | 1. Đăng nhập admin.<br>2. Giả lập/mock API `/api/admin/users` trả về lỗi HTTP 500.<br>3. Truy cập Dashboard.<br>4. Quan sát số liệu ở các card doanh thu, đơn hàng, danh mục (chúng sẽ trống trơn hoặc giữ giá trị cũ thay vì hiển thị dữ liệu thực tế). |
 | **Severity** | Medium |
 | **Frequency** | Always |

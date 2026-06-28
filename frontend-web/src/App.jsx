@@ -15,12 +15,20 @@ import { CartProvider } from './context/CartContext';
 function Header() {
   const { user, logout } = useAuth();
   const { cart } = useCart ? useCart() : { cart: [] };
+  const totalQuantity = cart ? cart.reduce((total, item) => total + item.quantity, 0) : 0;
 
   return (
     <header className="bg-blue-600 text-white p-4 flex justify-between items-center">
       <Link to="/" className="text-2xl font-bold">EShop</Link>
       <nav className="flex gap-4 items-center">
-        <Link to="/cart" className="hover:underline">Giỏ hàng</Link>
+        <Link to="/cart" className="hover:underline flex items-center gap-1">
+          Giỏ hàng
+          {totalQuantity > 0 && (
+            <span className="bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+              {totalQuantity}
+            </span>
+          )}
+        </Link>
         {user ? (
           <div className="flex gap-4 items-center">
             <Link to="/profile" className="hover:underline text-yellow-300">

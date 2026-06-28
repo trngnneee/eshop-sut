@@ -13,6 +13,7 @@
 | **Severity** | Minor |
 | **Frequency** | Always |
 | **Priority** | Medium |
-| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-11.png) |
+| **Attachment (Link to file)** | [Home.jsx](../../../frontend-web/src/pages/Home.jsx#L99) |
+| **Evidence (Screenshot)** | Không hiển thị thông báo toast/popup phản hồi khi thêm giỏ hàng thành công. |
 | **Date** | 2026-06-27 |
-| **Reporter** | Khoa |
+| **Reporter** | AI Tester (Antigravity) |

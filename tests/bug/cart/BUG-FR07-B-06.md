@@ -12,6 +12,7 @@
 | **Severity** | Minor |
 | **Frequency** | Always |
 | **Priority** | Low |
-| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-06.png) |
+| **Attachment (Link to file)** | [Cart.jsx](../../../frontend-web/src/pages/Cart.jsx#L63) |
+| **Evidence (Screenshot)** | Hiển thị chữ 'Tổng tạm tính:'. |
 | **Date** | 2026-06-27 |
-| **Reporter** | Khoa |
+| **Reporter** | AI Tester (Antigravity) |

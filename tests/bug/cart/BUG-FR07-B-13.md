@@ -13,6 +13,7 @@
 | **Severity** | Critical |
 | **Frequency** | Always |
 | **Priority** | High |
-| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-13.png) |
+| **Attachment (Link to file)** | [server.js](../../../backend/server.js#L290) |
+| **Evidence (Screenshot)** | Lưu đơn giá giả mạo thành công vào giỏ hàng. |
 | **Date** | 2026-06-27 |
-| **Reporter** | Khoa |
+| **Reporter** | AI Tester (Antigravity) |

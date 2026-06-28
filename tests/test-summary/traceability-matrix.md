@@ -94,8 +94,8 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-07 (Giỏ hàng Web) | [TC-CART-008](../test-cases/cart/TC-CART-008.md) | Fail |  | Ready for Retest |
 | FR-07, FR-23, FR-24 | [TC-CART-009](../test-cases/cart/TC-CART-009.md) | Fail | BUG-FR07-B-06 | Ready for Retest |
 | FR-07, FR-24 | [TC-CART-010](../test-cases/cart/TC-CART-010.md) | Fail | BUG-FR07-B-11 | Ready for Retest |
-| FR-07 (Giỏ hàng Web) | [TC-CART-011](../test-cases/cart/TC-CART-011.md) | Fail | BUG-FR07-B-11 | Ready for Retest |
-| FR-07 (Giỏ hàng Web) | [TC-CART-012](../test-cases/cart/TC-CART-012.md) | Fail | BUG-FR07-B-03 | Ready for Retest |
+| FR-07 (Giỏ hàng Web) | [TC-CART-011](../test-cases/cart/TC-CART-011.md) | Pass |  | Done |
+| FR-07 (Giỏ hàng Web) | [TC-CART-012](../test-cases/cart/TC-CART-012.md) | Pass |  | Done |
 | FR-07 (Giỏ hàng Web) | [TC-CART-013](../test-cases/cart/TC-CART-013.md) | Pass |  | Done |
 | FR-07 (Giỏ hàng Web) | [TC-CART-014](../test-cases/cart/TC-CART-014.md) | Fail |  | Ready for Retest |
 | FR-07 (Giỏ hàng Web) | [TC-CART-015](../test-cases/cart/TC-CART-015.md) | Fail | BUG-FR07-B-04 | Ready for Retest |
@@ -125,7 +125,7 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-07 (Giỏ hàng Web) | [TC-CART-039](../test-cases/cart/TC-CART-039.md) | Pass |  | Done |
 | FR-07 (Giỏ hàng Web) | [TC-CART-040](../test-cases/cart/TC-CART-040.md) | Pass |  | Done |
 | FR-07 (Giỏ hàng Web) | [TC-CART-041](../test-cases/cart/TC-CART-041.md) | Pass |  | Done |
-| FR-07 (Giỏ hàng Web) | [TC-CART-042](../test-cases/cart/TC-CART-042.md) | Fail |  | Ready for Retest |
+| FR-07 (Giỏ hàng Web) | [TC-CART-042](../test-cases/cart/TC-CART-042.md) | Pass |  | Done |
 | FR-07 (Giỏ hàng Web) | [TC-CART-043](../test-cases/cart/TC-CART-043.md) | Fail | BUG-FR07-B-02 | Ready for Retest |
 | FR-07 (Giỏ hàng Web) | [TC-CART-044](../test-cases/cart/TC-CART-044.md) | Fail | BUG-FR07-B-01 | Ready for Retest |
 | FR-07 (Giỏ hàng Web) | [TC-CART-045](../test-cases/cart/TC-CART-045.md) | Fail | BUG-FR07-B-01 | Ready for Retest |
@@ -220,5 +220,46 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-13 (Responsive Breakpoint) | [TC-DASHBOARD-BVA-020](../test-cases/dashboard/TC-DASHBOARD-BVA-020.md) | Pass | None | Done |
 | FR-13 (Responsive Breakpoint-1) | [TC-DASHBOARD-BVA-021](../test-cases/dashboard/TC-DASHBOARD-BVA-021.md) | Pass | None | Done |
 | FR-13 (Responsive Breakpoint+1) | [TC-DASHBOARD-BVA-022](../test-cases/dashboard/TC-DASHBOARD-BVA-022.md) | Pass | None | Done |
-
-
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-001](../test-cases/mobile-cart/TC-MOBILE-CART-DT-001.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-002](../test-cases/mobile-cart/TC-MOBILE-CART-DT-002.md) | Pass | None | Done |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-003](../test-cases/mobile-cart/TC-MOBILE-CART-DT-003.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-004](../test-cases/mobile-cart/TC-MOBILE-CART-DT-004.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-005](../test-cases/mobile-cart/TC-MOBILE-CART-DT-005.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-006](../test-cases/mobile-cart/TC-MOBILE-CART-DT-006.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-007](../test-cases/mobile-cart/TC-MOBILE-CART-DT-007.md) | Not Run | BUG-FR21-D-02 | Open (Issue #162) |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-008](../test-cases/mobile-cart/TC-MOBILE-CART-DT-008.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-009](../test-cases/mobile-cart/TC-MOBILE-CART-DT-009.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-010](../test-cases/mobile-cart/TC-MOBILE-CART-DT-010.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-011](../test-cases/mobile-cart/TC-MOBILE-CART-DT-011.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-012](../test-cases/mobile-cart/TC-MOBILE-CART-DT-012.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-013](../test-cases/mobile-cart/TC-MOBILE-CART-DT-013.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-014](../test-cases/mobile-cart/TC-MOBILE-CART-DT-014.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-015](../test-cases/mobile-cart/TC-MOBILE-CART-DT-015.md) | Not Run | BUG-FR21-D-03 | Open (Issue #163) |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-016](../test-cases/mobile-cart/TC-MOBILE-CART-DT-016.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-017](../test-cases/mobile-cart/TC-MOBILE-CART-DT-017.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-018](../test-cases/mobile-cart/TC-MOBILE-CART-DT-018.md) | Not Run | BUG-FR21-D-04 | Open (Issue #164) |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-019](../test-cases/mobile-cart/TC-MOBILE-CART-DT-019.md) | Not Run | BUG-FR21-D-01 | Open (Issue #161) |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-001](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-001.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-002](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-002.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-003](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-003.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-004](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-004.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-005](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-005.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-006](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-006.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-007](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-007.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-008](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-008.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-009](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-009.md) | Not Run | BUG-FR21-D-03 | Open (Issue #163) |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-010](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-010.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-011](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-011.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-012](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-012.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-013](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-013.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-014](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-014.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-015](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-015.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-016](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-016.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-017](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-017.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-018](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-018.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-019](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-019.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-020](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-020.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-021](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-021.md) | Not Run | None | Open |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-022](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-022.md) | Pass | None | Done |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-BVA-023](../test-cases/mobile-cart/TC-MOBILE-CART-BVA-023.md) | Fail | BUG-FR21-D-05 | Open (Issue #165) |
+| FR-21 (Mobile Cart & Checkout) | [TC-MOBILE-CART-DT-020](../test-cases/mobile-cart/TC-MOBILE-CART-DT-020.md) | Fail | BUG-FR21-D-06 | Open (Issue #166) |

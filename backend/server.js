@@ -290,7 +290,13 @@ app.get("/api/cart", authenticateToken, (req, res) => {
 app.post("/api/cart", authenticateToken, (req, res) => {
   const userId = req.user.id;
   if (!userCarts[userId]) userCarts[userId] = [];
-  userCarts[userId].push(req.body);
+  const item = req.body;
+  const existingItem = userCarts[userId].find((i) => i.id === item.id);
+  if (existingItem) {
+    existingItem.quantity = (existingItem.quantity || 0) + (item.quantity || 0);
+  } else {
+    userCarts[userId].push(item);
+  }
   res.json({ message: "Added to cart" });
 });
 

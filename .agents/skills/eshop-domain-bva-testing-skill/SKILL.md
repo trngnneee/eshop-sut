@@ -186,71 +186,32 @@ Nếu không có bug, ghi rõ:
 - GitHub Issue links:
 ```
 
-#### 2. Cập nhật hoặc tạo `bug-report.md`
+#### 2. Tạo các tệp báo cáo lỗi riêng biệt cho từng bug (`BUG-[BUG_ID].md`)
 
-Nếu có test case Failed, Agent phải tạo bug report cho từng bug trong:
+Nếu có test case Failed, Agent phải tạo tệp báo cáo lỗi riêng biệt cho từng bug lưu trong thư mục `tests/bug/<FEATURE_FOLDER>/` (ví dụ: `tests/bug/dashboard/BUG-FR13-C-01.md`).
 
-```text
-reports/<FEATURE_ID>/bug-report.md
-```
-
-Mỗi bug phải có format:
+Mỗi tệp báo cáo lỗi riêng lẻ phải sử dụng định dạng bảng Markdown sau:
 
 ```markdown
 # <BUG_ID>: <Bug Title>
 
-## Feature
-<FEATURE_ID> – <FEATURE_NAME>
-
-## Found by Test Case
-<TC-ID>
-
-## Severity / Priority
-<Severity> / <Priority>
-
-## Environment
-- OS:
-- Browser:
-- App URL:
-- Backend/API URL:
-- Commit hash:
-
-## Preconditions
-...
-
-## Steps to Reproduce
-1. ...
-2. ...
-3. ...
-
-## Expected Result
-...
-
-## Actual Result
-...
-
-## Evidence
-- Screenshot:
-- Video:
-- Console/API log nếu có:
-
-## GitHub Issue
-- Link:
-- Labels:
+| Tên trường (Field) | Giá trị (Value) |
+| :--- | :--- |
+| **No.** | <Số thứ tự, ví dụ: 01> |
+| **BugID** | `<BUG_ID>` |
+| **Status** | **Open** |
+| **Requirement Name** | <Requirement Name / Tên tính năng> |
+| **Summary** | <Tóm tắt lỗi ngắn gọn kèm vị trí dòng code bị lỗi nếu xác định được> |
+| **Steps to reproduce** | <Các bước tái hiện lỗi (dùng dấu <br> để xuống dòng trong bảng)> |
+| **Severity** | <Critical / Major / Medium / Minor / Cosmetic> |
+| **Frequency** | <Always / Intermittent> |
+| **Priority** | <High / Medium / Low> |
+| **Evidence (Screenshot)** | <Ảnh screenshot bằng chứng lỗi, ví dụ: ![Evidence](evidences/BUG-ID.png)> |
+| **Date** | <Ngày phát hiện dạng YYYY-MM-DD> |
+| **Reporter** | Khoa |
 ```
 
-Nếu không có bug, vẫn tạo file:
-
-```markdown
-# Bug Report – <FEATURE_ID>
-
-No bugs were found for this feature after test execution.
-
-## Execution Evidence
-- Test run file:
-- Date:
-- Tester:
-```
+Nếu không tìm thấy lỗi nào sau khi chạy test, không cần sinh các file báo cáo lỗi riêng lẻ này.
 
 #### 3. Cập nhật `ai-audit-report.md`
 
@@ -286,10 +247,10 @@ Files to commit for <FEATURE_ID>:
 - reports/<FEATURE_ID>/domain-testing.md
 - reports/<FEATURE_ID>/boundary-value-analysis.md
 - reports/<FEATURE_ID>/ai-gap-analysis.md
-- reports/<FEATURE_ID>/bug-report.md
+- tests/bug/<FEATURE_FOLDER>/BUG-*.md (nếu có bug)
 - ai-audit-report.md
 - README.md hoặc test-summary.md
-- screenshots/<FEATURE_ID>/ nếu có
+- screenshots/<FEATURE_ID>/ hoặc tests/bug/<FEATURE_FOLDER>/evidences/ nếu có
 ```
 
 Gợi ý commit message:
@@ -308,7 +269,7 @@ Agent KHÔNG ĐƯỢC chuyển sang feature tiếp theo nếu chưa xác nhận 
 [ ] domain-testing.md đã hoàn tất
 [ ] boundary-value-analysis.md đã hoàn tất
 [ ] test-run/result đã được cập nhật
-[ ] bug-report.md đã tạo, kể cả khi không có bug
+[ ] Các file báo cáo lỗi riêng lẻ BUG-*.md đã được tạo cho các test case Failed (nếu có)
 [ ] GitHub Issue link đã cập nhật cho bug failed nếu có
 [ ] Screenshot/evidence đã liên kết nếu có bug
 [ ] ai-gap-analysis.md đã hoàn tất

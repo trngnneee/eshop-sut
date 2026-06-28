@@ -1,10 +1,10 @@
-# TC-DASHBOARD-DT-023: Kiểm tra doanh thu không bị nhân đôi sau khi fix BUG-FR13-C-01
+# TC-DASHBOARD-DT-023: Kiểm tra doanh thu không bị nhân đôi (regression test)
 ## Requirement ID
 FR-13
 ## Module / Test type / Technique
 Dashboard / Functional / Regression / Equivalence Partitioning
 ## Preconditions
-- Lỗi hiển thị doanh thu nhân đôi (BUG-FR13-C-01) đã được sửa đổi trong source code.
+- Lỗi hiển thị doanh thu nhân đôi (BUG-FR13-C-01) đã được khắc phục trên hệ thống.
 - Admin đã đăng nhập thành công.
 - Database có 1 đơn hàng đã giao (`delivered`) với số tiền cụ thể.
 ## Test data

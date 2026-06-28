@@ -13,6 +13,7 @@
 | **Severity** | Minor |
 | **Frequency** | Always |
 | **Priority** | Medium |
-| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-05.png) |
+| **Attachment (Link to file)** | [Cart.jsx](../../../frontend-web/src/pages/Cart.jsx#L51) |
+| **Evidence (Screenshot)** | Sản phẩm biến mất ngay lập tức mà không có prompt xác nhận nào. |
 | **Date** | 2026-06-27 |
-| **Reporter** | Khoa |
+| **Reporter** | AI Tester (Antigravity) |

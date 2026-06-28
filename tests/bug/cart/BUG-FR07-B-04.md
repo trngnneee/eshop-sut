@@ -13,6 +13,7 @@
 | **Severity** | Major |
 | **Frequency** | Always |
 | **Priority** | High |
-| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-04.png) |
+| **Attachment (Link to file)** | [Cart.jsx](../../../frontend-web/src/pages/Cart.jsx#L47) |
+| **Evidence (Screenshot)** | Số lượng hiển thị dạng văn bản tĩnh `{item.quantity}` không thể thay đổi. |
 | **Date** | 2026-06-27 |
-| **Reporter** | Khoa |
+| **Reporter** | AI Tester (Antigravity) |

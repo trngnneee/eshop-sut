@@ -12,6 +12,7 @@
 | **Severity** | Major |
 | **Frequency** | Always |
 | **Priority** | Medium |
-| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-17.png) |
+| **Attachment (Link to file)** | [Cart.jsx](../../../frontend-web/src/pages/Cart.jsx#L80) |
+| **Evidence (Screenshot)** | Nút Thanh toán vẫn hoạt động và chuyển hướng người dùng sang trang thanh toán. |
 | **Date** | 2026-06-27 |
-| **Reporter** | Khoa |
+| **Reporter** | AI Tester (Antigravity) |

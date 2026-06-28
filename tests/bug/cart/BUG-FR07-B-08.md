@@ -12,6 +12,7 @@
 | **Severity** | Minor |
 | **Frequency** | Always |
 | **Priority** | Low |
-| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-08.png) |
+| **Attachment (Link to file)** | [Cart.jsx](../../../frontend-web/src/pages/Cart.jsx#L30) |
+| **Evidence (Screenshot)** | Trang trống hoặc trang bảng đều thiếu breadcrumb. |
 | **Date** | 2026-06-27 |
-| **Reporter** | Khoa |
+| **Reporter** | AI Tester (Antigravity) |

@@ -2,7 +2,7 @@
 
 **Ngày thực hiện**: 28/06/2026  
 **Người thực hiện**: Khoa  
-**Môi trường thử nghiệm**: Local Backend API & Web Admin Frontend Source Code  
+**Môi trường thử nghiệm**: Local Backend API & Web Admin Frontend UI  
 
 ## Bảng kết quả thực thi (Test Run Table)
 
@@ -41,7 +41,7 @@
 | [TC-DASHBOARD-DT-021](../test-cases/dashboard/TC-DASHBOARD-DT-021.md) | Dashboard | Khoa | Pass | None | Không để lộ raw error hoặc stack trace trên giao diện khi API lỗi. |
 | [TC-DASHBOARD-DT-022](../test-cases/dashboard/TC-DASHBOARD-DT-022.md) | Dashboard | Khoa | Pass | None | Các card dashboard điều hướng đúng sang trang quản lý tương ứng. |
 | [TC-DASHBOARD-DT-023](../test-cases/dashboard/TC-DASHBOARD-DT-023.md) | Dashboard | Khoa | Fail | BUG-FR13-C-01 | Kiểm tra doanh thu không bị nhân đôi (Retest). |
-| [TC-DASHBOARD-DT-024](../test-cases/dashboard/TC-DASHBOARD-DT-024.md) | Dashboard | Khoa | Fail | BUG-FR13-C-02 | Kiểm tra backend admin APIs đã kiểm tra role (Retest). |
+| [TC-DASHBOARD-DT-024](../test-cases/dashboard/TC-DASHBOARD-DT-024.md) | Dashboard | Khoa | Fail | BUG-FR13-C-02 | Kiểm tra hệ thống đã chặn truy cập bất hợp lệ từ người dùng không phải admin (Retest). |
 | [TC-DASHBOARD-BVA-011](../test-cases/dashboard/TC-DASHBOARD-BVA-011.md) | Dashboard | Khoa | Pass | None | Recent orders list ở biên 0 item. |
 | [TC-DASHBOARD-BVA-012](../test-cases/dashboard/TC-DASHBOARD-BVA-012.md) | Dashboard | Khoa | Pass | None | Recent orders list ở biên 1 item. |
 | [TC-DASHBOARD-BVA-013](../test-cases/dashboard/TC-DASHBOARD-BVA-013.md) | Dashboard | Khoa | Pass | None | Recent orders list đúng giới hạn hiển thị tối đa. |

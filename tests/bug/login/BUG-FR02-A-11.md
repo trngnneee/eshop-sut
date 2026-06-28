@@ -11,6 +11,6 @@
 | **Severity** | Minor |
 | **Frequency** | Always |
 | **Priority** | Medium |
-| **Evidence (Screenshot)** | ![Screenshot](../evidence/BUG-FR02-A-11_screenshot.png) |
+| **Evidence (Screenshot)** | ![Screenshot](evidences/BUG-FR02-A-11.png) |
 | **Date** | 2026-06-23 |
 | **Reporter** | Khoa |

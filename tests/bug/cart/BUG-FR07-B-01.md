@@ -13,6 +13,7 @@
 | **Severity** | Major |
 | **Frequency** | Always |
 | **Priority** | High |
-| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-01.png) |
+| **Attachment (Link to file)** | [server.js](../../../backend/server.js#L290) |
+| **Evidence (Screenshot)** | Ghi nhận response HTTP 200 OK thay vì HTTP 400 Bad Request. |
 | **Date** | 2026-06-27 |
-| **Reporter** | Khoa |
+| **Reporter** | AI Tester (Antigravity) |

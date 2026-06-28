@@ -13,6 +13,7 @@
 | **Severity** | Major |
 | **Frequency** | Always |
 | **Priority** | High |
-| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-09.png) |
+| **Attachment (Link to file)** | [server.js](../../../backend/server.js#L280) |
+| **Evidence (Screenshot)** | API trả về 200 OK và sản phẩm được ghi nhận vào giỏ hàng thành công mà không yêu cầu xác thực người dùng. |
 | **Date** | 2026-06-27 |
-| **Reporter** | Khoa |
+| **Reporter** | AI Tester (Antigravity) |

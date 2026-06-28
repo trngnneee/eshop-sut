@@ -13,6 +13,7 @@
 | **Severity** | Major |
 | **Frequency** | Always |
 | **Priority** | High |
-| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-02.png) |
+| **Attachment (Link to file)** | [server.js](../../../backend/server.js#L290) |
+| **Evidence (Screenshot)** | Trả về 2 dòng sản phẩm riêng biệt thay vì 1 dòng có quantity = 3. |
 | **Date** | 2026-06-27 |
-| **Reporter** | Khoa |
+| **Reporter** | AI Tester (Antigravity) |

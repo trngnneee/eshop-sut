@@ -12,6 +12,7 @@
 | **Severity** | Major |
 | **Frequency** | Always |
 | **Priority** | Medium |
-| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR07-B-18.png) |
+| **Attachment (Link to file)** | [ProductDetail.jsx](../../../frontend-web/src/pages/ProductDetail.jsx#L66) |
+| **Evidence (Screenshot)** | Badge Navbar tăng ảo mặc dù API thêm giỏ hàng thất bại. |
 | **Date** | 2026-06-27 |
-| **Reporter** | Khoa |
+| **Reporter** | AI Tester (Antigravity) |
