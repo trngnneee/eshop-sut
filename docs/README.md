@@ -1,4 +1,15 @@
+# Self-Assessment
 
+| No. | Criteria | Grade | Self-Assessed Grade |
+|-----|----------|-------|---------------------|
+| 1 | Feature A (Domain + Boundary) | 25 | 24 |
+| 2 | Feature B (Domain + Boundary) | 25 | 24 |
+| 3 | Feature C (Domain + Boundary) | 25 | 23 |
+| 4 | Feature D (Mobile, Domain + Boundary) | 15 | 15 |
+| 5 | Agent Skills | 10 | 10 |
+|   | **Total** | **100** | **100** |
+
+---
 
 # Test Summary Report
 
@@ -14,7 +25,6 @@
 | Not yet executed          | 0     |
 | Total Bugs Found          | 19    |
 
----
 
 ## 2. Feature-wise Test Summary
 
@@ -25,7 +35,7 @@
 | FR-19        | Admin User Management     | 22          | 22          | 15     | 7      | 7          |
 | FR-10, FR-20 | Mobile Order Cancellation | 22          | 22          | 18     | 4      | 2          |
 
----
+
 
 ## 3. Bug Summary by Feature
 
