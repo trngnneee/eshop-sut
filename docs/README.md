@@ -47,3 +47,6 @@
 | FR-10, FR-20 | Mobile Order Cancellation | 2          | Medium               | Low        |
 
 ---
+
+# Link Demo Agent Skill
+https://youtu.be/LFP-gBDRv9c
