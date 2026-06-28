@@ -13,7 +13,7 @@ Lịch sử đơn hàng trên phân hệ Mobile
 
 ## Requirement Reference
 
-FR-10, FR-11, FR-20
+FR-10, FR-20
 
 
 ## Testing Technique
@@ -23,7 +23,7 @@ Domain Testing
 
 ## Test Objective
 
-Kiểm tra trang lịch sử đơn hàng trên mobile hiển thị đầy đủ thông tin: Mã đơn, Ngày đặt, Tổng tiền, Trạng thái hiện tại. Theo FR-11.
+Kiểm tra trang lịch sử đơn hàng trên mobile hiển thị đầy đủ thông tin: Mã đơn, Ngày đặt, Tổng tiền, Trạng thái hiện tại.
 
 
 ## Preconditions
@@ -62,11 +62,11 @@ Kiểm tra trang lịch sử đơn hàng trên mobile hiển thị đầy đủ 
 
 ## Actual Result
 
-
+Mỗi đơn hàng hiển thị đầy đủ trường thông tin.
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference

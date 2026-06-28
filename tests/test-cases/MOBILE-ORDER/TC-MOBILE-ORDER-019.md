@@ -13,7 +13,7 @@ Hiển thị trạng thái đơn hàng trên phân hệ Mobile
 
 ## Requirement Reference
 
-FR-10, FR-11, FR-20
+FR-10, FR-20
 
 
 ## Testing Technique
@@ -23,7 +23,7 @@ Domain Testing
 
 ## Test Objective
 
-Kiểm tra mỗi trạng thái đơn hàng có màu sắc phân biệt rõ ràng trên ứng dụng mobile. Theo FR-11, trạng thái phải được phân biệt bằng màu sắc.
+Kiểm tra mỗi trạng thái đơn hàng có màu sắc phân biệt rõ ràng trên ứng dụng mobile.
 
 
 ## Preconditions
@@ -64,12 +64,13 @@ Kiểm tra mỗi trạng thái đơn hàng có màu sắc phân biệt rõ ràng
 
 ## Actual Result
 
-
+Các trạng thái không có phân biệt màu sắc chỉ hiển thị dạng text bình thường.
 
 ## Status
 
-NOT EXECUTED
+FAILED
 
 
 ## Bug Reference
 
+[\[BUG\]\[Mobile Order\] Trạng thái đơn hàng không có màu sắc phân biệt trên ứng dụng Mobile](https://github.com/trngnneee/eshop-sut/issues/154#issue-4763031532)

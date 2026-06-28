@@ -62,19 +62,19 @@ Kiểm tra ứng dụng mobile hiển thị dialog xác nhận trước khi th�
 ## Expected Result
 
 - Sau khi nhấn nút Hủy, hệ thống hiển thị dialog xác nhận trước khi thực hiện.
-- Dialog có nội dung rõ ràng bằng tiếng Việt (VD: "Bạn có chắc chắn muốn hủy đơn hàng này?").
+- Dialog có nội dung rõ ràng bằng tiếng Việt.
 - Nếu chọn "Không" → đơn hàng giữ nguyên trạng thái.
 - Nếu chọn "Có" → đơn hàng được chuyển sang `canceled`.
 
 
 ## Actual Result
 
-
+Không có dialog để xác nhận trước khi thực hiện hủy đơn.
 
 ## Status
 
-NOT EXECUTED
+FAILED
 
 
 ## Bug Reference
-
+[\[BUG\]\[Mobile Order\] Không hiển thị dialog xác nhận trước khi hủy đơn hàng trên Mobile](https://github.com/trngnneee/eshop-sut/issues/155#issue-4763038399)

@@ -64,12 +64,12 @@ Kiểm tra sau khi hủy đơn hàng thành công trên mobile, trạng thái đ
 
 ## Actual Result
 
-
+Trạng thái hủy đơn được cập nhật ngay trên giao diện mobile và nút hủy đơn biến mất.
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
-
+None

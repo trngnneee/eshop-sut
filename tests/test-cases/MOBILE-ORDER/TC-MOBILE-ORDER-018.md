@@ -61,12 +61,13 @@ Kiểm tra trạng thái `canceled` được hiển thị bằng tiếng Việt 
 
 ## Actual Result
 
-
+Trạng thái hiển thị bằng tiếng Việt rõ ràng.
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
 
+None

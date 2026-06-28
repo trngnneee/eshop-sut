@@ -58,12 +58,12 @@ Kiểm tra User chưa đăng nhập không thể truy cập mục Lịch sử đ
 
 ## Actual Result
 
-
+Khi chưa đăng nhập thì không hiển thị nút để xem lịch sử đơn hàng.
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
-
+None

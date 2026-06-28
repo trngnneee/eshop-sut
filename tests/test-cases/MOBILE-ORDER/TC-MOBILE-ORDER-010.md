@@ -63,11 +63,11 @@ Kiểm tra ứng dụng mobile hiển thị nút Hủy đơn hàng khi đơn hà
 
 ## Actual Result
 
-
+Nút hủy đơn hiển thị rõ ràng, có nhãn tiếng việt và màu sắc phù hợp.
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference

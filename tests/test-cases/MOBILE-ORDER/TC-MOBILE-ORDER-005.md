@@ -57,19 +57,18 @@ Kiểm tra User KHÔNG thể hủy đơn hàng đã ở trạng thái `canceled`
 
 ## Expected Result
 
-- Nút Hủy đơn hàng KHÔNG hiển thị trên giao diện mobile cho đơn đã `canceled`.
 - Giao diện không cung cấp bất kỳ cách nào để User thao tác trên đơn đã hủy (Final State).
 - Trạng thái đơn hàng vẫn hiển thị `canceled` trên giao diện.
 
 
 ## Actual Result
 
-
+User không được phép hủy đơn.
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
-
+None

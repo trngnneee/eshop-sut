@@ -88,9 +88,7 @@ sử dụng skill domain-testing để phân tích FR-10: Trạng thái Đơn h�
 Phân tích đặc tả FR-10 (Order State Machine) kết hợp FR-20 (Tính năng Mobile), áp dụng Domain Testing và Boundary Value Analysis cho phân hệ Mobile. Ban đầu sinh 30 test case bao gồm cả kiểm thử API, sau đó được chỉnh sửa trong Interaction 006.
 
 ### Human Review
-Accepted:
-Modified: Yêu cầu bỏ các test case hướng API, chỉ giữ UI testing.
-Rejected:
+Yêu cầu bỏ các test case hướng API, chỉ giữ UI testing.
 
 ## Interaction 006
 

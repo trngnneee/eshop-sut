@@ -13,7 +13,7 @@ Hiển thị trạng thái đơn hàng trên phân hệ Mobile
 
 ## Requirement Reference
 
-FR-10, FR-11, FR-20
+FR-10, FR-20
 
 
 ## Testing Technique
@@ -23,8 +23,7 @@ Domain Testing
 
 ## Test Objective
 
-Kiểm tra trạng thái `pending` được hiển thị bằng tiếng Việt rõ ràng trên ứng dụng mobile. Theo FR-11, trạng thái phải được dịch sang tiếng Việt.
-
+Kiểm tra trạng thái `pending` được hiển thị bằng tiếng Việt rõ ràng trên ứng dụng mobile.
 
 ## Preconditions
 
@@ -54,19 +53,20 @@ Kiểm tra trạng thái `pending` được hiển thị bằng tiếng Việt r
 
 ## Expected Result
 
-- Trạng thái `pending` được hiển thị bằng tiếng Việt rõ ràng (VD: "Chờ xác nhận").
+- Trạng thái `pending` được hiển thị bằng tiếng Việt rõ ràng.
 - KHÔNG hiển thị chuỗi tiếng Anh gốc "pending".
 - Nhãn trạng thái dễ đọc và dễ hiểu cho người dùng Việt Nam.
 
 
 ## Actual Result
 
-
+Trạng thái hiển thị bằng tiếng Việt rõ ràng.
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
 
+None

@@ -64,12 +64,13 @@ Kiểm tra sau khi đơn hàng đã bị hủy (canceled), User không thể h�
 
 ## Actual Result
 
-
+Không có nút hủy đơn hiển thị trên giao diện mobile.
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
 
+None

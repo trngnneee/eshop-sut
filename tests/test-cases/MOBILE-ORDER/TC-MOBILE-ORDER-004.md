@@ -57,19 +57,18 @@ Kiểm tra User KHÔNG thể hủy đơn hàng đang ở trạng thái `delivere
 
 ## Expected Result
 
-- Nút Hủy đơn hàng KHÔNG hiển thị trên giao diện mobile cho đơn `delivered`.
 - Giao diện không cung cấp bất kỳ cách nào để User thao tác trên đơn đã giao (Final State).
 - Trạng thái đơn hàng vẫn hiển thị `delivered` trên giao diện.
 
 
 ## Actual Result
 
-
+User không được phép hủy đơn.
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
-
+None

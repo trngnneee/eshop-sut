@@ -13,7 +13,7 @@ Lịch sử đơn hàng trên phân hệ Mobile
 
 ## Requirement Reference
 
-FR-10, FR-11, FR-20
+FR-10, FR-20
 
 
 ## Testing Technique
@@ -65,12 +65,12 @@ Kiểm tra lịch sử đơn hàng trên mobile chỉ hiển thị đơn hàng c
 
 ## Actual Result
 
-
+Không lẫn đơn hàng của user khác khi hiển thị danh sách đơn hàng cho user hiện tại.
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
-
+None

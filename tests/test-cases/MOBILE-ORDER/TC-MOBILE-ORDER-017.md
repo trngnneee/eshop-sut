@@ -54,19 +54,20 @@ Kiểm tra trạng thái `delivered` được hiển thị bằng tiếng Việt
 
 ## Expected Result
 
-- Trạng thái `delivered` được hiển thị bằng tiếng Việt rõ ràng (VD: "Đã giao hàng").
+- Trạng thái `delivered` được hiển thị bằng tiếng Việt rõ ràng.
 - KHÔNG hiển thị chuỗi tiếng Anh gốc "delivered".
 - Nhãn trạng thái dễ đọc và dễ hiểu cho người dùng Việt Nam.
 
 
 ## Actual Result
 
+Trạng thái hiển thị bằng tiếng Việt rõ ràng.
 
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
-
+None

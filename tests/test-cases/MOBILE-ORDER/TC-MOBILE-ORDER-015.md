@@ -54,19 +54,19 @@ Kiểm tra trạng thái `confirmed` được hiển thị bằng tiếng Việt
 
 ## Expected Result
 
-- Trạng thái `confirmed` được hiển thị bằng tiếng Việt rõ ràng (VD: "Đã xác nhận").
+- Trạng thái `confirmed` được hiển thị bằng tiếng Việt rõ ràng.
 - KHÔNG hiển thị chuỗi tiếng Anh gốc "confirmed".
 - Nhãn trạng thái dễ đọc và dễ hiểu cho người dùng Việt Nam.
 
 
 ## Actual Result
 
-
+Trạng thái hiển thị bằng tiếng Việt rõ ràng.
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
-
+None

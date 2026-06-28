@@ -64,12 +64,12 @@ Kiểm tra User có thể hủy đơn hàng đang ở trạng thái `confirmed` 
 
 ## Actual Result
 
-
+Hệ thống hiển thị trạng thái `Đã hủy`.
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
-
+None

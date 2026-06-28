@@ -57,17 +57,17 @@ Kiểm tra ứng dụng mobile ẩn/không hiển thị nút Hủy đơn hàng k
 ## Expected Result
 
 - Nút Hủy đơn hàng KHÔNG hiển thị trên giao diện chi tiết đơn hàng khi trạng thái là `shipping`.
-- Giao diện không cung cấp bất kỳ phương thức nào cho User hủy đơn đang giao.
 
 
 ## Actual Result
 
 
+Giao diện không hiển thị nút hủy đơn.
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
-
+None

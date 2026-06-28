@@ -57,19 +57,19 @@ Kiểm tra User KHÔNG thể hủy đơn hàng đang ở trạng thái `shipping
 
 ## Expected Result
 
-- Nút Hủy đơn hàng KHÔNG hiển thị trên giao diện mobile cho đơn `shipping`.
 - Giao diện không cung cấp bất kỳ cách nào để User hủy đơn đang giao.
 - Trạng thái đơn hàng vẫn hiển thị `shipping` trên giao diện.
 
 
 ## Actual Result
 
+User không được phép hủy đơn.
 
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
-
+None

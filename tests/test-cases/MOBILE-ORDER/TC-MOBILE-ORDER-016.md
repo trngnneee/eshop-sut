@@ -54,19 +54,19 @@ Kiểm tra trạng thái `shipping` được hiển thị bằng tiếng Việt 
 
 ## Expected Result
 
-- Trạng thái `shipping` được hiển thị bằng tiếng Việt rõ ràng (VD: "Đang giao hàng").
+- Trạng thái `shipping` được hiển thị bằng tiếng Việt rõ ràng.
 - KHÔNG hiển thị chuỗi tiếng Anh gốc "shipping".
 - Nhãn trạng thái dễ đọc và dễ hiểu cho người dùng Việt Nam.
 
 
 ## Actual Result
 
-
+Trạng thái hiển thị bằng tiếng Việt rõ ràng.
 
 ## Status
 
-NOT EXECUTED
+PASSED
 
 
 ## Bug Reference
-
+None
