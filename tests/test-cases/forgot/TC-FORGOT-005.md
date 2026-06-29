@@ -33,4 +33,4 @@ SD-O01 (OTP rỗng)
 Invalid
 
 ## Status / Related bugs
-Not Run / None
+Fail / None

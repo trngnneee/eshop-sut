@@ -29,4 +29,4 @@ SD-UI02 (nút quay lại đăng nhập)
 Valid
 
 ## Status / Related bugs
-Not Run / None
+Fail / #9

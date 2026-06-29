@@ -35,4 +35,4 @@ SD-O07 (OTP hợp lệ nhưng gắn với email khác)
 Invalid
 
 ## Status / Related bugs
-Not Run / None
+Pass / None

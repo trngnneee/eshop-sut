@@ -33,4 +33,4 @@ SD-P05 (thiếu chữ số)
 Invalid
 
 ## Status / Related bugs
-Not Run / None
+Fail / #7

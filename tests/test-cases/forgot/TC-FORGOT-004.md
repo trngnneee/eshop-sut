@@ -31,4 +31,4 @@ SD-E03 (email hợp lệ định dạng nhưng chưa đăng ký)
 Invalid
 
 ## Status / Related bugs
-Not Run / None
+Fail / None

@@ -33,4 +33,4 @@ SD-P01 (mật khẩu mới rỗng)
 Invalid
 
 ## Status / Related bugs
-Not Run / None
+Fail / #4, #7

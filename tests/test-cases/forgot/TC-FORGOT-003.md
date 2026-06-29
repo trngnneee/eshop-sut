@@ -30,4 +30,4 @@ SD-E02 (email sai định dạng)
 Invalid
 
 ## Status / Related bugs
-Not Run / None
+Fail / #8

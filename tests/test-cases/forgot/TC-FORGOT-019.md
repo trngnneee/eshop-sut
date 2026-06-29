@@ -31,4 +31,4 @@ SD-UI01 (step indicator hiển thị đúng theo bước)
 Valid
 
 ## Status / Related bugs
-Not Run / None
+Fail / #5

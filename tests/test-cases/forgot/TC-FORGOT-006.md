@@ -33,4 +33,4 @@ SD-O02 (OTP chứa ký tự không phải số)
 Invalid
 
 ## Status / Related bugs
-Not Run / None
+Fail / #6

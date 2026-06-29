@@ -33,4 +33,4 @@ SD-P06 (thiếu ký tự đặc biệt)
 Invalid
 
 ## Status / Related bugs
-Not Run / None
+Fail / #7

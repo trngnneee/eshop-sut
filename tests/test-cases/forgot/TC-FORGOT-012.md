@@ -33,4 +33,4 @@ SD-P02 (mật khẩu quá ngắn)
 Invalid
 
 ## Status / Related bugs
-Not Run / None
+Fail / #7

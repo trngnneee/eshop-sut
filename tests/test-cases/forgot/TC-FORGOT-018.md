@@ -33,4 +33,4 @@ SD-C02 (xác nhận mật khẩu không khớp)
 Invalid
 
 ## Status / Related bugs
-Not Run / None
+Fail / #4

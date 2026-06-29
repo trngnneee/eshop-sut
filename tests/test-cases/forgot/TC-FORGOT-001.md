@@ -37,4 +37,4 @@ SD-E04 (email đã đăng ký, hợp lệ), SD-O06 (OTP đúng), SD-P07 (mật k
 Valid
 
 ## Status / Related bugs
-Not Run / None
+Fail / #4, #7

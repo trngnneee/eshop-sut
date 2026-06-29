@@ -30,4 +30,4 @@ SD-E01 (email rỗng)
 Invalid
 
 ## Status / Related bugs
-Not Run / None
+Fail / None

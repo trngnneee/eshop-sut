@@ -33,4 +33,4 @@ SD-P04 (thiếu chữ thường)
 Invalid
 
 ## Status / Related bugs
-Not Run / None
+Fail / #7

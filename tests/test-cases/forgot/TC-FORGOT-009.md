@@ -34,4 +34,4 @@ SD-O05 (OTP đúng định dạng nhưng sai giá trị)
 Invalid
 
 ## Status / Related bugs
-Not Run / None
+Fail / #7

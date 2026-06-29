@@ -33,4 +33,4 @@ SD-P03 (thiếu chữ hoa)
 Invalid
 
 ## Status / Related bugs
-Not Run / None
+Fail / #7

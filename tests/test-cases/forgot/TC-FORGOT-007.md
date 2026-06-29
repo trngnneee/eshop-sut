@@ -33,4 +33,4 @@ SD-O03 (OTP độ dài < 6)
 Invalid
 
 ## Status / Related bugs
-Not Run / None
+Fail / #6

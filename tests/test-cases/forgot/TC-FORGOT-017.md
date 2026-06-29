@@ -33,4 +33,4 @@ SD-C01 (xác nhận mật khẩu rỗng)
 Invalid
 
 ## Status / Related bugs
-Not Run / None
+Fail / #4
