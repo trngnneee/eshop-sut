@@ -1,0 +1,26 @@
+# .github/workflows/e2e.yml
+name: E2E Tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: Start SUT
+        working-directory: .     # root of eshop-sut repo
+        run: bash run_servers.sh &
+      - name: Wait for SUT
+        run: npx wait-on http://localhost:5173 --timeout 30000
+      - name: Install test deps
+        working-directory: eshop-tests
+        run: npm ci && npx playwright install --with-deps chromium
+      - name: Run tests
+        working-directory: eshop-tests
+        run: npm run test:all
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: eshop-tests/playwright-report/
