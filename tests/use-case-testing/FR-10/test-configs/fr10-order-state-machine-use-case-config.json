@@ -1,0 +1,229 @@
+{
+  "generated_with_skill": "use-case-testing",
+  "feature_name": "FR-10",
+  "feature_title": "Trạng thái Đơn hàng (Order State Machine)",
+  "module_name": "order_state_machine",
+  "module_display_name": "Order State Machine",
+  "technique": "Use Case Testing",
+  "sources": [
+    "README.md:141-162",
+    "README.md:218-222",
+    "README.md:233-236",
+    "api_specification.md:141-148",
+    "api_specification.md:173-182",
+    "backend/server.js:321-341",
+    "backend/server.js:525-559"
+  ],
+  "output_root": "use-case-testing/FR-10",
+  "use_cases": [
+    {
+      "id": "UC-01",
+      "actor": "admin",
+      "goal": "Cập nhật tiến trình xử lý đơn hàng theo đúng state machine.",
+      "trigger": "Admin chọn action trạng thái trong Admin UI hoặc gọi Admin API.",
+      "preconditions": "Admin đã đăng nhập; đơn hàng tồn tại ở trạng thái nguồn của flow.",
+      "postcondition": "Đơn hàng chuyển sang trạng thái kế tiếp hợp lệ hoặc bị từ chối và giữ nguyên trạng thái."
+    },
+    {
+      "id": "UC-02",
+      "actor": "user",
+      "goal": "Hủy đơn hàng của chính mình khi đơn còn ở trạng thái được phép hủy.",
+      "trigger": "User bấm Hủy đơn trên Web/Mobile hoặc gọi API hủy đơn.",
+      "preconditions": "User đã đăng nhập; đơn hàng thuộc user hiện tại.",
+      "postcondition": "Đơn hợp lệ được chuyển sang `canceled`; flow không hợp lệ bị từ chối và giữ nguyên trạng thái."
+    },
+    {
+      "id": "UC-03",
+      "actor": "admin",
+      "goal": "Hủy đơn hàng cho khách khi đơn còn ở trạng thái được phép hủy.",
+      "trigger": "Admin chọn Hủy trong Admin UI hoặc gọi Admin status API.",
+      "preconditions": "Admin đã đăng nhập; đơn hàng tồn tại.",
+      "postcondition": "Đơn đủ điều kiện được chuyển sang `canceled`; đơn không đủ điều kiện bị từ chối và giữ nguyên trạng thái."
+    }
+  ],
+  "test_cases": [
+    {
+      "id": "FR10-UC01-TC01",
+      "use_case": "UC-01",
+      "flow_id": "UC-01-MAIN",
+      "flow_type": "Main success",
+      "actor": "admin",
+      "expected_status": "Accepted",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC01-TC01.md"
+    },
+    {
+      "id": "FR10-UC01-TC02",
+      "use_case": "UC-01",
+      "flow_id": "UC-01-ALT-01",
+      "flow_type": "Alternate",
+      "actor": "admin",
+      "expected_status": "Accepted",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC01-TC02.md"
+    },
+    {
+      "id": "FR10-UC01-TC03",
+      "use_case": "UC-01",
+      "flow_id": "UC-01-ALT-02",
+      "flow_type": "Alternate",
+      "actor": "admin",
+      "expected_status": "Accepted",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC01-TC03.md"
+    },
+    {
+      "id": "FR10-UC01-TC04",
+      "use_case": "UC-01",
+      "flow_id": "UC-01-EXC-01",
+      "flow_type": "Exception",
+      "actor": "admin",
+      "expected_status": "Rejected",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC01-TC04.md"
+    },
+    {
+      "id": "FR10-UC01-TC05",
+      "use_case": "UC-01",
+      "flow_id": "UC-01-EXC-02",
+      "flow_type": "Exception",
+      "actor": "admin",
+      "expected_status": "Rejected",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC01-TC05.md"
+    },
+    {
+      "id": "FR10-UC01-TC06",
+      "use_case": "UC-01",
+      "flow_id": "UC-01-EXC-03",
+      "flow_type": "Exception",
+      "actor": "admin",
+      "expected_status": "Rejected",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC01-TC06.md"
+    },
+    {
+      "id": "FR10-UC01-TC07",
+      "use_case": "UC-01",
+      "flow_id": "UC-01-EXC-04",
+      "flow_type": "Exception",
+      "actor": "user",
+      "expected_status": "Rejected",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC01-TC07.md"
+    },
+    {
+      "id": "FR10-UC01-TC08",
+      "use_case": "UC-01",
+      "flow_id": "UC-01-EXC-05",
+      "flow_type": "Exception",
+      "actor": "admin",
+      "expected_status": "Rejected",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC01-TC08.md"
+    },
+    {
+      "id": "FR10-UC02-TC01",
+      "use_case": "UC-02",
+      "flow_id": "UC-02-MAIN",
+      "flow_type": "Main success",
+      "actor": "user",
+      "expected_status": "Accepted",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC02-TC01.md"
+    },
+    {
+      "id": "FR10-UC02-TC02",
+      "use_case": "UC-02",
+      "flow_id": "UC-02-ALT-01",
+      "flow_type": "Alternate",
+      "actor": "user",
+      "expected_status": "Accepted",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC02-TC02.md"
+    },
+    {
+      "id": "FR10-UC02-TC03",
+      "use_case": "UC-02",
+      "flow_id": "UC-02-ALT-02",
+      "flow_type": "Alternate",
+      "actor": "user",
+      "expected_status": "Accepted",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC02-TC03.md"
+    },
+    {
+      "id": "FR10-UC02-TC04",
+      "use_case": "UC-02",
+      "flow_id": "UC-02-EXC-01",
+      "flow_type": "Exception",
+      "actor": "user",
+      "expected_status": "Rejected",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC02-TC04.md"
+    },
+    {
+      "id": "FR10-UC02-TC05",
+      "use_case": "UC-02",
+      "flow_id": "UC-02-EXC-02",
+      "flow_type": "Exception",
+      "actor": "user",
+      "expected_status": "Rejected",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC02-TC05.md"
+    },
+    {
+      "id": "FR10-UC02-TC06",
+      "use_case": "UC-02",
+      "flow_id": "UC-02-EXC-03",
+      "flow_type": "Exception",
+      "actor": "user",
+      "expected_status": "Rejected",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC02-TC06.md"
+    },
+    {
+      "id": "FR10-UC02-TC07",
+      "use_case": "UC-02",
+      "flow_id": "UC-02-EXC-04",
+      "flow_type": "Exception",
+      "actor": "guest",
+      "expected_status": "Rejected",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC02-TC07.md"
+    },
+    {
+      "id": "FR10-UC02-TC08",
+      "use_case": "UC-02",
+      "flow_id": "UC-02-EXC-05",
+      "flow_type": "Exception",
+      "actor": "user",
+      "expected_status": "Rejected",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC02-TC08.md"
+    },
+    {
+      "id": "FR10-UC03-TC01",
+      "use_case": "UC-03",
+      "flow_id": "UC-03-MAIN",
+      "flow_type": "Main success",
+      "actor": "admin",
+      "expected_status": "Accepted",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC03-TC01.md"
+    },
+    {
+      "id": "FR10-UC03-TC02",
+      "use_case": "UC-03",
+      "flow_id": "UC-03-ALT-01",
+      "flow_type": "Alternate",
+      "actor": "admin",
+      "expected_status": "Accepted",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC03-TC02.md"
+    },
+    {
+      "id": "FR10-UC03-TC03",
+      "use_case": "UC-03",
+      "flow_id": "UC-03-EXC-01",
+      "flow_type": "Exception",
+      "actor": "admin",
+      "expected_status": "Rejected",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC03-TC03.md"
+    },
+    {
+      "id": "FR10-UC03-TC04",
+      "use_case": "UC-03",
+      "flow_id": "UC-03-EXC-02",
+      "flow_type": "Exception",
+      "actor": "admin",
+      "expected_status": "Rejected",
+      "path": "use-case-testing/FR-10/test-cases/order_state_machine/FR10-UC03-TC04.md"
+    }
+  ],
+  "summary_file": "use-case-testing/FR-10/test-summary/fr10-order-state-machine-use-case-summary.md",
+  "test_run_file": "use-case-testing/FR-10/test-runs/fr10-order-state-machine-test-run.md",
+  "traceability_matrix": "use-case-testing/FR-10/test-summary/traceability-matrix.md"
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "State Transition Testing"
+  short_description: "Design state-machine test artifacts"
+  default_prompt: "Use $state-transition-testing to review EShop requirements, confirm candidate features, then generate state transition test artifacts."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Decision Table Pairwise Testing"
+  short_description: "Gen decision-table cases and test runs"
+  default_prompt: "Use $decision-table-pairwise-testing to design Decision Table test cases for this EShop feature, write each testcase as Markdown, and create a test-run template."

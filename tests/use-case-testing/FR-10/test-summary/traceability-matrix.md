@@ -1,0 +1,26 @@
+# Traceability Matrix - Use Case Testing FR-10
+
+## FR-10 - Trạng thái Đơn hàng (Order State Machine)
+
+| Requirement ID | Test Case ID | Technique | Coverage Item | Source | Result | Related Bug |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| FR-10 | [FR10-UC01-TC01](../test-cases/order_state_machine/FR10-UC01-TC01.md) | Use Case Testing | UC-01 + UC-01-MAIN | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Passed | None |
+| FR-10 | [FR10-UC01-TC02](../test-cases/order_state_machine/FR10-UC01-TC02.md) | Use Case Testing | UC-01 + UC-01-ALT-01 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Passed | None |
+| FR-10 | [FR10-UC01-TC03](../test-cases/order_state_machine/FR10-UC01-TC03.md) | Use Case Testing | UC-01 + UC-01-ALT-02 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Passed | None |
+| FR-10 | [FR10-UC01-TC04](../test-cases/order_state_machine/FR10-UC01-TC04.md) | Use Case Testing | UC-01 + UC-01-EXC-01 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Passed | None |
+| FR-10 | [FR10-UC01-TC05](../test-cases/order_state_machine/FR10-UC01-TC05.md) | Use Case Testing | UC-01 + UC-01-EXC-02 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Failed | BUG-FR10-UC01-TC05 - Admin API cho phép chuyển final state canceled sang delivered |
+| FR-10 | [FR10-UC01-TC06](../test-cases/order_state_machine/FR10-UC01-TC06.md) | Use Case Testing | UC-01 + UC-01-EXC-03 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Failed | BUG-FR10-UC01-TC06 - Admin UI hiển thị action chuyển tiếp cho đơn đã canceled |
+| FR-10 | [FR10-UC01-TC07](../test-cases/order_state_machine/FR10-UC01-TC07.md) | Use Case Testing | UC-01 + UC-01-EXC-04 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Failed | BUG-FR10-UC01-TC07 - User thường có thể gọi Admin status API |
+| FR-10 | [FR10-UC01-TC08](../test-cases/order_state_machine/FR10-UC01-TC08.md) | Use Case Testing | UC-01 + UC-01-EXC-05 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Passed | None |
+| FR-10 | [FR10-UC02-TC01](../test-cases/order_state_machine/FR10-UC02-TC01.md) | Use Case Testing | UC-02 + UC-02-MAIN | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Passed | None |
+| FR-10 | [FR10-UC02-TC02](../test-cases/order_state_machine/FR10-UC02-TC02.md) | Use Case Testing | UC-02 + UC-02-ALT-01 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Passed | None |
+| FR-10 | [FR10-UC02-TC03](../test-cases/order_state_machine/FR10-UC02-TC03.md) | Use Case Testing | UC-02 + UC-02-ALT-02 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Passed | None |
+| FR-10 | [FR10-UC02-TC04](../test-cases/order_state_machine/FR10-UC02-TC04.md) | Use Case Testing | UC-02 + UC-02-EXC-01 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Failed | BUG-FR10-UC02-TC04 - User có thể hủy đơn hàng đang shipping |
+| FR-10 | [FR10-UC02-TC05](../test-cases/order_state_machine/FR10-UC02-TC05.md) | Use Case Testing | UC-02 + UC-02-EXC-02 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Passed | None |
+| FR-10 | [FR10-UC02-TC06](../test-cases/order_state_machine/FR10-UC02-TC06.md) | Use Case Testing | UC-02 + UC-02-EXC-03 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Passed | None |
+| FR-10 | [FR10-UC02-TC07](../test-cases/order_state_machine/FR10-UC02-TC07.md) | Use Case Testing | UC-02 + UC-02-EXC-04 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Passed | None |
+| FR-10 | [FR10-UC02-TC08](../test-cases/order_state_machine/FR10-UC02-TC08.md) | Use Case Testing | UC-02 + UC-02-EXC-05 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Failed | BUG-FR10-UC02-TC08 - Web UI hiển thị nút hủy cho đơn đang shipping |
+| FR-10 | [FR10-UC03-TC01](../test-cases/order_state_machine/FR10-UC03-TC01.md) | Use Case Testing | UC-03 + UC-03-MAIN | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Passed | None |
+| FR-10 | [FR10-UC03-TC02](../test-cases/order_state_machine/FR10-UC03-TC02.md) | Use Case Testing | UC-03 + UC-03-ALT-01 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Passed | None |
+| FR-10 | [FR10-UC03-TC03](../test-cases/order_state_machine/FR10-UC03-TC03.md) | Use Case Testing | UC-03 + UC-03-EXC-01 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Passed | None |
+| FR-10 | [FR10-UC03-TC04](../test-cases/order_state_machine/FR10-UC03-TC04.md) | Use Case Testing | UC-03 + UC-03-EXC-02 | README.md:141-162; api_specification.md:141-148,173-182; backend/server.js:321-341,525-559 | Passed | None |

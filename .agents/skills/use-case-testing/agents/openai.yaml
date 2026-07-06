@@ -1,0 +1,4 @@
+interface:
+  display_name: "Use Case Testing"
+  short_description: "Sinh test case theo use case cho EShop"
+  default_prompt: "Use $use-case-testing to analyze EShop specs, shortlist suitable features, and generate use-case test artifacts."
