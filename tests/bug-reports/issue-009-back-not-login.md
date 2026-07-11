@@ -2,8 +2,8 @@
 
 **Title:** [BUG][Forgot Password] Back control does not return to login
 
-**Found by Test Case:** TC-FORGOT-020  
-**Requirement:** FR-03  
+**Found by Test Case:** TC-FORGOT-020; **Mobile:** TC-MFORGOT-020  
+**Requirement:** FR-03, FR-22  
 **Severity / Priority:** Minor / P2  
 **Environment:** Windows 11 · Chromium · `http://localhost:5173`  
 **Reported by:** QA / manual + spec review  

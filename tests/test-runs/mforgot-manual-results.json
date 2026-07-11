@@ -1,0 +1,259 @@
+{
+  "runAt": "2026-06-29T03:17:18.201Z",
+  "results": {
+    "TC-MFORGOT-SUP-001": {
+      "result": "Fail",
+      "bugs": "#6",
+      "detail": {
+        "token": "5439",
+        "apiOk": false,
+        "labelBad": true
+      }
+    },
+    "TC-MFORGOT-SUP-002": {
+      "result": "Fail",
+      "bugs": "#6",
+      "detail": {
+        "demoShowsOtp": null
+      }
+    },
+    "TC-MFORGOT-SUP-003": {
+      "result": "Fail",
+      "bugs": "#10",
+      "detail": {
+        "status": 200
+      }
+    },
+    "TC-MFORGOT-SUP-004": {
+      "result": "Pass",
+      "bugs": "None",
+      "detail": {
+        "first": 200,
+        "second": 400
+      }
+    },
+    "TC-MFORGOT-SUP-005": {
+      "result": "Fail",
+      "bugs": "#4",
+      "detail": {
+        "secureCount": 1,
+        "hasConfirmLabel": false
+      }
+    },
+    "TC-MFORGOT-SUP-006": {
+      "result": "Fail",
+      "bugs": "None",
+      "detail": {
+        "usesAlertOnReset": true
+      }
+    },
+    "TC-MFORGOT-SUP-007": {
+      "result": "Fail",
+      "bugs": "#7",
+      "detail": {
+        "clientAcceptsPlus": true,
+        "regex": "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z\\d]).{8,}$/"
+      }
+    },
+    "TC-MFORGOT-001": {
+      "result": "Fail",
+      "bugs": "#4, #6, #7"
+    },
+    "TC-MFORGOT-002": {
+      "result": "Fail",
+      "bugs": "None"
+    },
+    "TC-MFORGOT-003": {
+      "result": "Fail",
+      "bugs": "None"
+    },
+    "TC-MFORGOT-004": {
+      "result": "Pass",
+      "bugs": "None"
+    },
+    "TC-MFORGOT-005": {
+      "result": "Fail",
+      "bugs": "None"
+    },
+    "TC-MFORGOT-006": {
+      "result": "Fail",
+      "bugs": "#6"
+    },
+    "TC-MFORGOT-007": {
+      "result": "Fail",
+      "bugs": "#6"
+    },
+    "TC-MFORGOT-008": {
+      "result": "Fail",
+      "bugs": "#6"
+    },
+    "TC-MFORGOT-009": {
+      "result": "Fail",
+      "bugs": "#7"
+    },
+    "TC-MFORGOT-010": {
+      "result": "Pass",
+      "bugs": "None"
+    },
+    "TC-MFORGOT-011": {
+      "result": "Fail",
+      "bugs": "#4, #7"
+    },
+    "TC-MFORGOT-012": {
+      "result": "Fail",
+      "bugs": "#7"
+    },
+    "TC-MFORGOT-013": {
+      "result": "Fail",
+      "bugs": "#7"
+    },
+    "TC-MFORGOT-014": {
+      "result": "Fail",
+      "bugs": "#7"
+    },
+    "TC-MFORGOT-015": {
+      "result": "Fail",
+      "bugs": "#7"
+    },
+    "TC-MFORGOT-016": {
+      "result": "Fail",
+      "bugs": "#7"
+    },
+    "TC-MFORGOT-017": {
+      "result": "Fail",
+      "bugs": "#4"
+    },
+    "TC-MFORGOT-018": {
+      "result": "Fail",
+      "bugs": "#4"
+    },
+    "TC-MFORGOT-019": {
+      "result": "Fail",
+      "bugs": "#5"
+    },
+    "TC-MFORGOT-020": {
+      "result": "Fail",
+      "bugs": "#9"
+    },
+    "TC-MFORGOT-021": {
+      "result": "Fail",
+      "bugs": "None",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-022": {
+      "result": "Pass",
+      "bugs": "None",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-023": {
+      "result": "Pass",
+      "bugs": "None",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-024": {
+      "result": "Pass",
+      "bugs": "None",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-025": {
+      "result": "Pass",
+      "bugs": "None",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-026": {
+      "result": "Fail",
+      "bugs": "None",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-027": {
+      "result": "Fail",
+      "bugs": "#6",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-028": {
+      "result": "Fail",
+      "bugs": "#7",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-029": {
+      "result": "Fail",
+      "bugs": "#6",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-030": {
+      "result": "Fail",
+      "bugs": "#7",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-031": {
+      "result": "Fail",
+      "bugs": "#7",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-032": {
+      "result": "Fail",
+      "bugs": "#7",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-033": {
+      "result": "Fail",
+      "bugs": "#7",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-034": {
+      "result": "Fail",
+      "bugs": "#7",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-035": {
+      "result": "Fail",
+      "bugs": "#7",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-036": {
+      "result": "Fail",
+      "bugs": "#4",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-037": {
+      "result": "Fail",
+      "bugs": "#7",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-038": {
+      "result": "Fail",
+      "bugs": "#7",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-039": {
+      "result": "Fail",
+      "bugs": "#7",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-040": {
+      "result": "Fail",
+      "bugs": "#7",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-041": {
+      "result": "Fail",
+      "bugs": "#4",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-042": {
+      "result": "Fail",
+      "bugs": "#7",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-043": {
+      "result": "Fail",
+      "bugs": "#7",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    },
+    "TC-MFORGOT-044": {
+      "result": "Fail",
+      "bugs": "#4",
+      "detail": "mirrored from web FR-03 execution + mobile UI parity"
+    }
+  }
+}

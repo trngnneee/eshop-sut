@@ -2,8 +2,8 @@
 
 **Title:** [BUG][Forgot Password] API accepts weak passwords on reset
 
-**Found by Test Case:** TC-FORGOT-SUP-002  
-**Requirement:** FR-03, FR-01  
+**Found by Test Case:** TC-FORGOT-SUP-002; **Mobile:** TC-MFORGOT-SUP-003  
+**Requirement:** FR-03, FR-22, FR-01  
 **Severity / Priority:** Major / P2  
 **Environment:** API `http://localhost:3000`  
 **Reported by:** QA / gap analysis supplementary TC  

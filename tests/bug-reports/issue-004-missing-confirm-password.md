@@ -2,8 +2,8 @@
 
 **Title:** [BUG][Forgot Password] Step 2 missing confirm-password field
 
-**Found by Test Case:** TC-FORGOT-001, TC-FORGOT-017, TC-FORGOT-018  
-**Requirement:** FR-03  
+**Found by Test Case:** TC-FORGOT-001, TC-FORGOT-017, TC-FORGOT-018; **Mobile:** TC-MFORGOT-SUP-005, TC-MFORGOT-001, TC-MFORGOT-017, TC-MFORGOT-018  
+**Requirement:** FR-03, FR-22  
 **Severity / Priority:** Major / P1  
 **Environment:** Windows 11 · Chromium (Playwright 1.44) · `http://localhost:5173` · branch `tram`  
 **Reported by:** QA / Playwright automation  

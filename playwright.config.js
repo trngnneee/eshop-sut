@@ -26,9 +26,28 @@ module.exports = defineConfig({
   projects: [
     {
       name: 'chromium',
+      testIgnore: '**/forgot-password-mobile.spec.js',
       use: { ...devices['Desktop Chrome'] },
     },
+    {
+      name: 'mobile-chromium',
+      testMatch: '**/forgot-password-mobile.spec.js',
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: process.env.MOBILE_URL || 'http://localhost:8081',
+      },
+    },
   ],
+
+  webServer: process.env.SKIP_MOBILE_SERVER
+    ? undefined
+    : {
+        command: 'npx expo start --web --port 8081',
+        cwd: './frontend-mobile',
+        url: 'http://localhost:8081',
+        reuseExistingServer: true,
+        timeout: 120_000,
+      },
 
   // Uncomment if you want Playwright to start the SUT automatically:
   // webServer: {

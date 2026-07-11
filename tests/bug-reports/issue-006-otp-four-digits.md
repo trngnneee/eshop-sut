@@ -2,8 +2,8 @@
 
 **Title:** [BUG][Forgot Password] OTP is 4 digits not 6
 
-**Found by Test Case:** TC-FORGOT-007, TC-FORGOT-008, TC-FORGOT-SUP-001  
-**Requirement:** FR-03  
+**Found by Test Case:** TC-FORGOT-007, TC-FORGOT-008, TC-FORGOT-SUP-001; **Mobile:** TC-MFORGOT-SUP-001, TC-MFORGOT-006–008, TC-MFORGOT-028  
+**Requirement:** FR-03, FR-22  
 **Severity / Priority:** Major / P1  
 **Environment:** Windows 11 · Chromium · API `http://localhost:3000`  
 **Reported by:** QA / Playwright automation  
@@ -30,6 +30,7 @@
 
 - `server.js:72`: `Math.floor(1000 + Math.random() * 9000)` → 4 chữ số.
 - `ForgotPassword.jsx:70`: label "Mã OTP (4 số)".
+- `frontend-mobile/App.js:862`: label "Mã OTP (4 số)" (Mobile FR-22).
 
 ## Evidence
 
