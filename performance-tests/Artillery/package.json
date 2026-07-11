@@ -1,0 +1,17 @@
+{
+  "name": "eshop-artillery-performance-tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Artillery performance tests for EShop SUT (baseline + spike)",
+  "scripts": {
+    "test:baseline": "artillery run baseline.yml",
+    "test:spike": "artillery run spike.yml",
+    "report:baseline": "node generate-report.js reports/baseline-report.json reports/baseline-report.html \"EShop Artillery — Baseline Load Test\"",
+    "report:spike": "node generate-report.js reports/spike-report.json reports/spike-report.html \"EShop Artillery — Spike Test\"",
+    "test:baseline:report": "artillery run --output reports/baseline-report.json baseline.yml && npm run report:baseline",
+    "test:spike:report": "artillery run --output reports/spike-report.json spike.yml && npm run report:spike"
+  },
+  "devDependencies": {
+    "artillery": "^2.0.33"
+  }
+}

@@ -1,0 +1,149 @@
+# EShop Baseline Load Test
+# Profile: 50 concurrent VUs | ramp-up 1m | steady 3m | ramp-down 1m
+# Workload: Browse 60% | View 25% | Add to Cart 10% | Checkout 5%
+
+config:
+  target: "http://localhost:3000"
+  processor: "./helpers.js"
+  phases:
+    - name: "ramp-up"
+      duration: 60
+      arrivalRate: 5
+      rampTo: 50
+      maxVusers: 50
+    - name: "steady-state"
+      duration: 180
+      arrivalRate: 50
+      maxVusers: 50
+    - name: "ramp-down"
+      duration: 60
+      arrivalRate: 20
+      rampTo: 1
+      maxVusers: 50
+  defaults:
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+  http:
+    timeout: 30
+  variables:
+    email: "test@eshop.com"
+    password: "Test1234!"
+    shippingAddress: "123 Le Loi, Q1, TP.HCM"
+
+scenarios:
+  # --------------------------------------------------
+  # Browse / Search Products — 60%
+  # --------------------------------------------------
+  - name: "Browse/Search Products"
+    weight: 60
+    flow:
+      - function: "pickSearchKeyword"
+      - get:
+          url: "/api/products"
+          name: "GET /api/products (catalog)"
+      - think: 1
+      - get:
+          url: "/api/categories"
+          name: "GET /api/categories"
+      - think: 1
+      - get:
+          url: "/api/products?search={{ keyword }}"
+          name: "GET /api/products?search"
+      - think: 2
+
+  # --------------------------------------------------
+  # View Product Details — 25%
+  # --------------------------------------------------
+  - name: "View Product Details"
+    weight: 25
+    flow:
+      - get:
+          url: "/api/products"
+          name: "GET /api/products (before detail)"
+          afterResponse: "pickRandomProduct"
+      - think: 1
+      - get:
+          url: "/api/products/{{ productId }}"
+          name: "GET /api/products/:id"
+      - think: 2
+
+  # --------------------------------------------------
+  # Add to Cart — 10%
+  # --------------------------------------------------
+  - name: "Add to Cart"
+    weight: 10
+    flow:
+      - post:
+          url: "/api/login"
+          name: "POST /api/login"
+          json:
+            email: "{{ email }}"
+            password: "{{ password }}"
+          capture:
+            - json: "$.token"
+              as: "token"
+      - think: 1
+      - get:
+          url: "/api/products"
+          name: "GET /api/products (before cart)"
+          afterResponse: "pickRandomProduct"
+      - think: 1
+      - post:
+          url: "/api/cart"
+          name: "POST /api/cart"
+          headers:
+            Authorization: "Bearer {{ token }}"
+          json:
+            id: "{{ productId }}"
+            name: "{{ productName }}"
+            price: "{{ productPrice }}"
+            quantity: "{{ quantity }}"
+      - get:
+          url: "/api/cart"
+          name: "GET /api/cart"
+          headers:
+            Authorization: "Bearer {{ token }}"
+      - think: 1
+
+  # --------------------------------------------------
+  # Checkout Flow — 5%
+  # --------------------------------------------------
+  - name: "Checkout Flow"
+    weight: 5
+    flow:
+      - post:
+          url: "/api/login"
+          name: "POST /api/login (checkout)"
+          json:
+            email: "{{ email }}"
+            password: "{{ password }}"
+          capture:
+            - json: "$.token"
+              as: "token"
+      - think: 1
+      - get:
+          url: "/api/products"
+          name: "GET /api/products (before checkout)"
+          afterResponse: "pickRandomProduct"
+      - function: "setCheckoutPayload"
+      - post:
+          url: "/api/cart"
+          name: "POST /api/cart (checkout)"
+          headers:
+            Authorization: "Bearer {{ token }}"
+          json:
+            id: "{{ productId }}"
+            name: "{{ productName }}"
+            price: "{{ productPrice }}"
+            quantity: "{{ quantity }}"
+      - think: 1
+      - post:
+          url: "/api/checkout"
+          name: "POST /api/checkout"
+          headers:
+            Authorization: "Bearer {{ token }}"
+          json:
+            total_amount: "{{ totalAmount }}"
+            shipping_address: "{{ shippingAddress }}"
+      - think: 1
