@@ -22,7 +22,7 @@ async function loginViaUI(page, email = ACCOUNTS.user.email, password = ACCOUNTS
  * Faster than UI login — use for tests where the login flow itself is NOT under test.
  */
 async function loginViaAPI(page, email = ACCOUNTS.user.email, password = ACCOUNTS.user.password) {
-  const response = await page.request.post(`${API_URL}/api/auth/login`, {
+  const response = await page.request.post(`${API_URL}/api/login`, {
     data: { email, password },
   });
   if (!response.ok()) {

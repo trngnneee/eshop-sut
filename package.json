@@ -17,10 +17,14 @@
     "test:checkout": "playwright test tests/e2e/checkout.spec.js",
     "test:product": "playwright test tests/e2e/admin-product.spec.js",
     "test:gui": "playwright test tests/e2e/gui-requirements.spec.js",
+    "test:mforgot": "playwright test tests/e2e/forgot-password-mobile.spec.js --project=mobile-chromium",
     "test:fr03": "playwright test tests/e2e/forgot-password.spec.js",
+    "test:fr22": "playwright test tests/e2e/forgot-password-mobile.spec.js --project=mobile-chromium",
     "test:fr08": "playwright test tests/e2e/checkout.spec.js",
     "test:fr15": "playwright test tests/e2e/admin-product.spec.js",
-    "test:fr22": "playwright test tests/e2e/gui-requirements.spec.js"
+    "test:fr12": "playwright test tests/e2e/fr12-access-control.spec.js",
+    "test:fr07": "playwright test tests/e2e/fr07-cart-use-case.spec.js",
+    "test:fr07-st": "playwright test tests/e2e/fr07-cart-state-transition.spec.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.44.0"

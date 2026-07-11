@@ -2,7 +2,7 @@
 
 **Title:** [BUG][Forgot Password] Email input uses type text not email
 
-**Found by Test Case:** TC-FORGOT-003, TC-FORGOT-SUP-003  
+**Found by Test Case:** TC-FORGOT-003, TC-FORGOT-SUP-003, TC-GUI-004  
 **Requirement:** FR-22, FR-03  
 **Severity / Priority:** Minor / P2  
 **Environment:** Windows 11 · Chromium · `http://localhost:5173`  
@@ -31,7 +31,7 @@ Trường Email ở Bước 1 dùng `type="text"` thay vì `type="email"` theo F
 
 ## Evidence
 
-- Playwright TC-FORGOT-007 (automation): expects `type="email"` — Received `text`.
+- Playwright TC-FORGOT-007 / TC-GUI-004: expects `type="email"` — Received `text`.
 
 ## Suggested Labels
 

@@ -61,43 +61,75 @@ const PROFILE = {
 
 
 // ── Forgot-password / Reset-password test data (FR-03) ───────────────────────
+// Aligned with tests/test-cases/forgot/TC-FORGOT-001 … TC-FORGOT-044
 const FORGOT = {
-  registeredEmail:    'test@eshop.com',      // exists in SUT seed data
-  unregisteredEmail:  'ghost_fr03@test.com', // must NOT exist
-  // BVA: new password length (same rules as FR-01, min = 8 chars)
-  newPwdMin7:   'Abc@123',        // 7 chars  → invalid (min−)
-  newPwdMin8:   'Abc@1234',       // 8 chars  → valid   (min on-point)
-  newPwdMin9:   'Abc@12345',      // 9 chars  → valid   (min+)
-  newPwdValid:  'NewPass@99',     // clearly valid — use for positive flows
-  // OTP edge cases
-  otpWrongLength5: '12345',       // 5 digits  → invalid (BVA: OTP length min−)
-  otpWrongLength7: '1234567',     // 7 digits  → invalid (BVA: OTP length max+)
-  otpAllZeros:     '000000',      // valid length, wrong value
-  otpNonNumeric:   'ABC123',      // non-numeric → invalid sub-domain
+  registeredEmail:   'test@eshop.com',
+  adminEmail:        'admin@eshop.com',
+  unregisteredEmail: 'unknown.user@eshop.com',
+  malformedEmail:    'not-an-email',
+
+  newPwdValid:     'NewPass1!',
+  newPwdAlt:       'NewPass2!',
+  newPwdTooShort:  'Test1!@',      // 7 chars (TC-FORGOT-012, TC-FORGOT-030)
+  newPwdMin7:      'Abc@123',      // 7 chars BVA
+  newPwdMin8:      'Abc@1234',     // 8 chars BVA min on-point
+  newPwdMin9:      'Abc@12345',    // 9 chars BVA min+
+  newPwdNoUpper:   'test1234!',
+  newPwdNoLower:   'TEST1234!',
+  newPwdNoDigit:   'TestTest!',
+  newPwdNoSpecial: 'Test1234',
+  pwdMax49:        'Aa1!' + 'x'.repeat(45),
+  pwdMax50:        'Aa1!' + 'x'.repeat(46),
+  pwdMax51:        'Aa1!' + 'x'.repeat(47),
+
+  otpWrongLength5: '12345',
+  otpWrongLength7: '1234567',
+  otpAllZeros:     '000000',
+  otpNonNumeric:   '12AB56',
+
+  emailMin4:  'aaaa',
+  emailMin5:  'aaaaa',
+  emailMin6:  'aaaaaa',
+  emailMax99: 'a'.repeat(99),
+  emailMax100:'a'.repeat(100),
+  emailMax101:'a'.repeat(101),
 };
 
 // ── Checkout test data (FR-08) ────────────────────────────────────────────────
+// Aligned with tests/test-cases/checkout/TC-CHECKOUT-001 … TC-CHECKOUT-044
 const CHECKOUT = {
-  // FR-08: only logged-in users; backend must recalculate total
-  tamperedTotal: 1,               // client-sent tampered amount (should be rejected)
+  tamperedTotal: 1,
+  tamperedZero: 0,
+  tamperedNegative: -1,
+  tamperedString: 'abc',
+  sampleTotal: 100_000,
 };
 
 // ── Product management test data (FR-15, Admin) ───────────────────────────────
 const PRODUCT = {
+  // EP on-point (TC-PRODUCT-001)
+  nameOnPoint:    'Áo thun nam basic',
+  priceOnPoint:   199000,
   // BVA: product name length (max = 255 chars per spec)
   nameValid:      'Valid Product Name',
   nameEmpty:      '',
+  nameMin1:       'X',                // 1 char → valid (min on-point)
+  nameMin2:       'XY',               // 2 chars → valid (min+)
   nameMax255:     'A'.repeat(255),    // 255 chars → valid (max on-point)
   nameMax256:     'A'.repeat(256),    // 256 chars → invalid (max+)
   nameMax254:     'A'.repeat(254),    // 254 chars → valid (max−)
   // Domain: price values
   priceZero:      0,                  // 0  → invalid (must be > 0)
   priceNegative:  -1,                 // negative → invalid
-  priceMin:       0.01,               // smallest positive → valid (min on-point)
-  priceValid:     99000,              // clearly valid
-  priceString:    'abc',              // non-numeric → invalid
+  priceOne:       1,                  // min on-point integer
+  priceTwo:       2,                  // min+ integer
+  priceMin:       0.01,               // smallest positive decimal
+  priceValid:     100000,             // BVA / helper default
+  priceString:    'mười nghìn',       // non-numeric (TC-PRODUCT-007)
+  nameWhitespace: '   ',             // whitespace-only (TC-PRODUCT-SUP-008)
   // Domain: category
   validCategoryId: 1,                 // assumed to exist; confirmed at runtime
+  invalidCategoryId: 99999,           // non-existent (TC-PRODUCT-SUP-001)
 };
 
 // ── GUI / Form requirements test data (FR-22) ─────────────────────────────────

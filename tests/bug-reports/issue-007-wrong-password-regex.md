@@ -2,8 +2,8 @@
 
 **Title:** [BUG][Forgot Password] Password regex rejects valid special chars
 
-**Found by Test Case:** TC-FORGOT-001, TC-FORGOT-009  
-**Requirement:** FR-03, FR-01  
+**Found by Test Case:** TC-FORGOT-001, TC-FORGOT-009; **Mobile:** TC-MFORGOT-SUP-007, TC-MFORGOT-028, TC-MFORGOT-031  
+**Requirement:** FR-03, FR-22, FR-01  
 **Severity / Priority:** Major / P1  
 **Environment:** Windows 11 · Chromium · `http://localhost:5173`  
 **Reported by:** QA / Playwright automation  

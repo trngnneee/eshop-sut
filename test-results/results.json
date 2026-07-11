@@ -1,0 +1,201 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\Repo\\eshop-sut\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/e2e/fr07-cart-state-transition.spec.js",
+      "-g",
+      "ST-010"
+    ],
+    "configFile": "C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\Repo\\eshop-sut\\playwright.config.js",
+    "rootDir": "C:/DiskD/HCMUS/Semester9/SoftwareTesting/Repo/eshop-sut/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/DiskD/HCMUS/Semester9/SoftwareTesting/Repo/eshop-sut/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/DiskD/HCMUS/Semester9/SoftwareTesting/Repo/eshop-sut/tests/e2e",
+        "testIgnore": [
+          "**/forgot-password-mobile.spec.js"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/DiskD/HCMUS/Semester9/SoftwareTesting/Repo/eshop-sut/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile-chromium",
+        "name": "mobile-chromium",
+        "testDir": "C:/DiskD/HCMUS/Semester9/SoftwareTesting/Repo/eshop-sut/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/forgot-password-mobile.spec.js"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.61.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "fr07-cart-state-transition.spec.js",
+      "file": "fr07-cart-state-transition.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "FR-07 · Cart — State Transition Testing (ST-001 … ST-INV-03)",
+          "file": "fr07-cart-state-transition.spec.js",
+          "line": 12,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-CART-ST-010 · T-08 · confirm delete with other lines → HAS_ITEMS (1-switch)",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4164,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n    at C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\Repo\\eshop-sut\\tests\\e2e\\fr07-cart-state-transition.spec.js:132:24",
+                        "location": {
+                          "file": "C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\Repo\\eshop-sut\\tests\\e2e\\fr07-cart-state-transition.spec.js",
+                          "column": 24,
+                          "line": 132
+                        },
+                        "snippet": "  130 |     await page.locator('table tbody button:has-text(\"Xóa\")').first().click();\n  131 |     await page.waitForTimeout(600);\n> 132 |     expect(dialogSeen).toBe(true);\n      |                        ^\n  133 |     expect(await cart.getRowCount()).toBe(1);\n  134 |     await expect(page.locator('table tbody tr td').first()).toHaveText(nameB ?? '');\n  135 |   });"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\Repo\\eshop-sut\\tests\\e2e\\fr07-cart-state-transition.spec.js",
+                            "column": 24,
+                            "line": 132
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\n  130 |     await page.locator('table tbody button:has-text(\"Xóa\")').first().click();\n  131 |     await page.waitForTimeout(600);\n> 132 |     expect(dialogSeen).toBe(true);\n      |                        ^\n  133 |     expect(await cart.getRowCount()).toBe(1);\n  134 |     await expect(page.locator('table tbody tr td').first()).toHaveText(nameB ?? '');\n  135 |   });\n    at C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\Repo\\eshop-sut\\tests\\e2e\\fr07-cart-state-transition.spec.js:132:24"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-06T09:43:32.260Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\Repo\\eshop-sut\\test-results\\fr07-cart-state-transition-72fbf-lines-→-HAS-ITEMS-1-switch--chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\Repo\\eshop-sut\\test-results\\fr07-cart-state-transition-72fbf-lines-→-HAS-ITEMS-1-switch--chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\Repo\\eshop-sut\\test-results\\fr07-cart-state-transition-72fbf-lines-→-HAS-ITEMS-1-switch--chromium\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\Repo\\eshop-sut\\test-results\\fr07-cart-state-transition-72fbf-lines-→-HAS-ITEMS-1-switch--chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\Repo\\eshop-sut\\tests\\e2e\\fr07-cart-state-transition.spec.js",
+                        "column": 24,
+                        "line": 132
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "eecd80ccc43f23f2e3ef-653d7ae739f414b61ad2",
+              "file": "fr07-cart-state-transition.spec.js",
+              "line": 121,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-07-06T09:43:31.722Z",
+    "duration": 4964.099999999999,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}
