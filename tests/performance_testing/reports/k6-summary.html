@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>EShop k6 Performance Report</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 32px; color: #1f2937; }
+    table { border-collapse: collapse; width: 100%; max-width: 840px; }
+    th, td { border: 1px solid #d1d5db; padding: 10px 12px; text-align: left; }
+    th { background: #f3f4f6; }
+  </style>
+</head>
+<body>
+  <h1>EShop k6 Performance Report</h1>
+  <table>
+    <tr><th>Metric</th><th>Value</th></tr>
+    <tr><td>Profile</td><td>spike</td></tr>
+    <tr><td>Total requests</td><td>45943</td></tr>
+    <tr><td>Completed iterations</td><td>45941</td></tr>
+    <tr><td>Throughput</td><td>378.43 req/s</td></tr>
+    <tr><td>Average response time</td><td>1.15 ms</td></tr>
+    <tr><td>Median response time</td><td>0.70 ms</td></tr>
+    <tr><td>p95 latency</td><td>3.73 ms</td></tr>
+    <tr><td>p99 latency</td><td>5.95 ms</td></tr>
+    <tr><td>Error rate</td><td>0.00%</td></tr>
+    <tr><td>Check pass rate</td><td>100.00%</td></tr>
+  </table>
+  <h2>Workload Action Distribution</h2>
+  <table>
+    <tr><th>Action</th><th>Target Mix</th><th>Observed Count</th></tr>
+    <tr><td>Browse/Search Products</td><td>60%</td><td>27558</td></tr>
+    <tr><td>View Product Details</td><td>25%</td><td>11605</td></tr>
+    <tr><td>Add to Cart</td><td>10%</td><td>4448</td></tr>
+    <tr><td>Checkout Flow</td><td>5%</td><td>2330</td></tr>
+  </table>
+</body>
+</html>

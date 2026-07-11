@@ -1,0 +1,12 @@
+{
+  "name": "eshop-performance-testing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Reusable k6 performance tests for the EShop backend.",
+  "scripts": {
+    "k6:smoke": "mkdir -p reports && K6_PROFILE=custom K6_VUS=${K6_VUS:-1} K6_RAMP_UP=${K6_RAMP_UP:-5s} K6_STEADY=${K6_STEADY:-10s} K6_RAMP_DOWN=${K6_RAMP_DOWN:-5s} k6 run scripts/eshop.k6.js",
+    "k6:load": "npm run k6:baseline",
+    "k6:baseline": "mkdir -p reports && K6_PROFILE=baseline k6 run scripts/eshop.k6.js",
+    "k6:spike": "mkdir -p reports && K6_PROFILE=spike k6 run scripts/eshop.k6.js"
+  }
+}

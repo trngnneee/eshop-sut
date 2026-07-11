@@ -1,0 +1,497 @@
+{
+  "state": {
+    "isStdOutTTY": false,
+    "isStdErrTTY": false,
+    "testRunDurationMs": 121404.582058
+  },
+  "metrics": {
+    "vus_max": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "value": 500,
+        "min": 500,
+        "max": 500
+      }
+    },
+    "iterations": {
+      "values": {
+        "rate": 378.41240603301185,
+        "count": 45941
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "checks": {
+      "values": {
+        "rate": 1,
+        "passes": 91884,
+        "fails": 0
+      },
+      "thresholds": {
+        "rate>0.95": {
+          "ok": true
+        }
+      },
+      "type": "rate",
+      "contains": "default"
+    },
+    "http_req_duration{expected_response:true}": {
+      "values": {
+        "p(99)": 5.953378600000001,
+        "avg": 1.1505400313214091,
+        "min": 0.173683,
+        "med": 0.698186,
+        "max": 19.222704,
+        "p(90)": 3.2459282000000016,
+        "p(95)": 3.7263139000000005
+      },
+      "type": "trend",
+      "contains": "time"
+    },
+    "browse_search_response_time": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 1.0136066688076062,
+        "min": 0.173683,
+        "med": 0.6743985,
+        "max": 19.215977,
+        "p(90)": 1.984145599999999,
+        "p(95)": 3.550047849999999,
+        "p(99)": 5.638512990000002
+      }
+    },
+    "http_req_receiving": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 0.024909362187928816,
+        "min": 0.006464,
+        "med": 0.022517,
+        "max": 0.431551,
+        "p(90)": 0.04012160000000001,
+        "p(95)": 0.04657850000000001,
+        "p(99)": 0.06240146000000015
+      }
+    },
+    "browse_search_actions": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 27558,
+        "rate": 226.99307993856772
+      }
+    },
+    "iteration_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 1003.886292,
+        "p(95)": 1004.476248,
+        "p(99)": 1006.6035194,
+        "avg": 1001.7829150310434,
+        "min": 1000.282306,
+        "med": 1001.417316,
+        "max": 1019.444294
+      }
+    },
+    "business_success_rate": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 1,
+        "passes": 45941,
+        "fails": 0
+      },
+      "thresholds": {
+        "rate>0.95": {
+          "ok": true
+        }
+      }
+    },
+    "vus": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "value": 11,
+        "min": 11,
+        "max": 500
+      }
+    },
+    "data_sent": {
+      "contains": "data",
+      "values": {
+        "count": 5993506,
+        "rate": 49368.037831855916
+      },
+      "type": "counter"
+    },
+    "group_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "max": 19.292857,
+        "p(90)": 3.345432,
+        "p(95)": 3.825691,
+        "p(99)": 6.059986999999997,
+        "avg": 1.2445663558041724,
+        "min": 0.226731,
+        "med": 0.797918
+      }
+    },
+    "http_reqs": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 378.4288798758116,
+        "count": 45943
+      }
+    },
+    "http_req_connecting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 0,
+        "p(95)": 0,
+        "p(99)": 0.08886522000000009,
+        "avg": 0.001849586139346579,
+        "min": 0,
+        "med": 0,
+        "max": 8.705625
+      }
+    },
+    "http_req_duration": {
+      "contains": "time",
+      "values": {
+        "med": 0.698186,
+        "max": 19.222704,
+        "p(90)": 3.2459282000000016,
+        "p(95)": 3.7263139000000005,
+        "p(99)": 5.953378600000001,
+        "avg": 1.1505400313214091,
+        "min": 0.173683
+      },
+      "thresholds": {
+        "p(95)<1000": {
+          "ok": true
+        }
+      },
+      "type": "trend"
+    },
+    "http_req_sending": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 0.00317,
+        "med": 0.009289,
+        "max": 3.113808,
+        "p(90)": 0.014829800000000002,
+        "p(95)": 0.0176409,
+        "p(99)": 0.03552686000000003,
+        "avg": 0.010469550094682468
+      }
+    },
+    "http_req_waiting": {
+      "values": {
+        "p(99)": 5.907685520000002,
+        "avg": 1.1151611190388153,
+        "min": 0.154553,
+        "med": 0.66022,
+        "max": 19.199083,
+        "p(90)": 3.2062206000000026,
+        "p(95)": 3.6894097000000006
+      },
+      "type": "trend",
+      "contains": "time"
+    },
+    "checkout_actions": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 2330,
+        "rate": 19.192026861777443
+      }
+    },
+    "add_to_cart_actions": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 4448,
+        "rate": 36.63782638677514
+      }
+    },
+    "http_req_failed": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "passes": 0,
+        "fails": 45943
+      },
+      "thresholds": {
+        "rate<0.05": {
+          "ok": true
+        }
+      }
+    },
+    "data_received": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 24395655,
+        "rate": 200945.0927341868
+      }
+    },
+    "product_detail_response_time": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "max": 14.178734,
+        "p(90)": 3.2150564000000004,
+        "p(95)": 3.7744003999999998,
+        "p(99)": 6.019886399999999,
+        "avg": 1.1369151423524326,
+        "min": 0.177677,
+        "med": 0.715429
+      }
+    },
+    "checkout_response_time": {
+      "values": {
+        "p(90)": 5.4085066,
+        "p(95)": 5.990156049999998,
+        "p(99)": 8.26619205,
+        "avg": 3.7007992549356215,
+        "min": 2.528404,
+        "med": 3.3487415,
+        "max": 19.222704
+      },
+      "type": "trend",
+      "contains": "time"
+    },
+    "http_req_tls_handshaking": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 0,
+        "min": 0,
+        "med": 0,
+        "max": 0,
+        "p(90)": 0,
+        "p(95)": 0,
+        "p(99)": 0
+      }
+    },
+    "http_req_blocked": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 0.004889,
+        "p(95)": 0.005582800000000003,
+        "p(99)": 0.12621420000000008,
+        "avg": 0.00596445099362255,
+        "min": 0.001134,
+        "med": 0.003437,
+        "max": 8.772473
+      }
+    },
+    "add_to_cart_response_time": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 0.6982167416816527,
+        "min": 0.218996,
+        "med": 0.6221975,
+        "max": 6.759431,
+        "p(90)": 0.9832999,
+        "p(95)": 1.1451565,
+        "p(99)": 2.8000933899999954
+      }
+    },
+    "view_detail_actions": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 11605,
+        "rate": 95.58947284589152
+      }
+    }
+  },
+  "setup_data": {
+    "products": [
+      {
+        "imageUrl": "https://placehold.co/300x300/png?text=iPhone+15",
+        "name": "iPhone 15 Pro Max",
+        "price": 30000000,
+        "category_id": 1,
+        "description": "Điện thoại cao cấp của Apple",
+        "id": 1
+      },
+      {
+        "id": 2,
+        "imageUrl": "https://placehold.co/300x300/png?text=Samsung+S24",
+        "name": "Samsung Galaxy S24 Ultra",
+        "price": 28000000,
+        "category_id": 1,
+        "description": "Màn hình hiển thị xuất sắc, camera siêu zoom"
+      },
+      {
+        "imageUrl": "https://placehold.co/300x300/png?text=Macbook+Pro",
+        "name": "MacBook Pro M3",
+        "price": 45000000,
+        "category_id": 2,
+        "description": "Laptop chuyên nghiệp mạnh mẽ",
+        "id": 3
+      },
+      {
+        "id": 4,
+        "imageUrl": "https://placehold.co/300x300/png?text=AirPods+Pro",
+        "name": "Tai nghe AirPods Pro 2",
+        "price": 6000000,
+        "category_id": 3,
+        "description": "Chống ồn chủ động xuất sắc"
+      },
+      {
+        "name": "Bàn phím cơ Keychron Q1",
+        "price": 4000000,
+        "category_id": 3,
+        "description": "Gõ cực sướng, thiết kế kim loại",
+        "id": 5,
+        "imageUrl": "https://placehold.co/300x300/png?text=Keychron+Q1"
+      }
+    ],
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6InVzZXIiLCJpYXQiOjE3ODM3NTE5MDB9.lEUjRo7rj5BfLk3rmfHIGDY6_nP3NZAdIe2Fwlzn6Js",
+    "userId": 2
+  },
+  "root_group": {
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": [
+      {
+        "groups": [],
+        "checks": [
+            {
+              "name": "setup login returns 200",
+              "path": "::setup::setup login returns 200",
+              "id": "eeabfe2c9526190f31dfb557d40249d8",
+              "passes": 1,
+              "fails": 0
+            },
+            {
+              "passes": 1,
+              "fails": 0,
+              "name": "setup login returns token",
+              "path": "::setup::setup login returns token",
+              "id": "d03feb663eaab49cacd219d7452bfc95"
+            }
+          ],
+        "name": "setup",
+        "path": "::setup",
+        "id": "5c0f8025f7e0b6654089e5b00e950f1a"
+      },
+      {
+        "id": "8bf66da29d335302e89c5e07f465ba69",
+        "groups": [],
+        "checks": [
+            {
+              "fails": 0,
+              "name": "browse/search returns 200",
+              "path": "::browse/search products - 60%::browse/search returns 200",
+              "id": "90337ed9dec12cd2c87d58e7a0c79556",
+              "passes": 27558
+            },
+            {
+              "path": "::browse/search products - 60%::browse/search returns product array",
+              "id": "da9232744ae74d6254aa8b69c63b3ea7",
+              "passes": 27558,
+              "fails": 0,
+              "name": "browse/search returns product array"
+            }
+          ],
+        "name": "browse/search products - 60%",
+        "path": "::browse/search products - 60%"
+      },
+      {
+        "checks": [
+          {
+            "passes": 4448,
+            "fails": 0,
+            "name": "POST /api/cart returns 200",
+            "path": "::add to cart - 10%::POST /api/cart returns 200",
+            "id": "5057a0a68718f4c8d22ca79002e36b7e"
+          },
+          {
+            "name": "POST /api/cart confirms add",
+            "path": "::add to cart - 10%::POST /api/cart confirms add",
+            "id": "e13210545702e3f8336aaa1d2f9caf2d",
+            "passes": 4448,
+            "fails": 0
+          }
+        ],
+        "name": "add to cart - 10%",
+        "path": "::add to cart - 10%",
+        "id": "9235be645cf4b12262f73ae892752ce6",
+        "groups": []
+      },
+      {
+        "name": "view product detail - 25%",
+        "path": "::view product detail - 25%",
+        "id": "20751dad1783a1ab0b83681fd8e6ea2f",
+        "groups": [],
+        "checks": [
+            {
+              "passes": 11605,
+              "fails": 0,
+              "name": "product detail returns 200",
+              "path": "::view product detail - 25%::product detail returns 200",
+              "id": "2093605dc1b6a3c33962a5c738071351"
+            },
+            {
+              "name": "product detail has id",
+              "path": "::view product detail - 25%::product detail has id",
+              "id": "30e07e68e3b48821a80d233c7834f778",
+              "passes": 11605,
+              "fails": 0
+            }
+          ]
+      },
+      {
+        "path": "::checkout flow - 5%",
+        "id": "7d47747398aeff774cacdc4049a36756",
+        "groups": [],
+        "checks": [
+            {
+              "name": "POST /api/checkout returns 200",
+              "path": "::checkout flow - 5%::POST /api/checkout returns 200",
+              "id": "f8be9b174a1228c7f3c893662e4803a5",
+              "passes": 2330,
+              "fails": 0
+            },
+            {
+              "name": "POST /api/checkout returns order id",
+              "path": "::checkout flow - 5%::POST /api/checkout returns order id",
+              "id": "f2c0a2969d70525529a6c04b512e4eac",
+              "passes": 2330,
+              "fails": 0
+            }
+          ],
+        "name": "checkout flow - 5%"
+      }
+    ],
+    "checks": [],
+    "name": ""
+  },
+  "options": {
+    "summaryTrendStats": [
+      "avg",
+      "min",
+      "med",
+      "max",
+      "p(90)",
+      "p(95)",
+      "p(99)"
+    ],
+    "summaryTimeUnit": "",
+    "noColor": true
+  }
+}
