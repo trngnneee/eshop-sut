@@ -1,0 +1,7 @@
+Label,# Samples,Average,Median,90% Line,95% Line,99% Line,Min,Max,Error %,Throughput,Received KB/sec,Sent KB/sec
+Get Product List,4387,1,2,3,3,6,0,28,0.000%,24.51468,29.64,3.83
+View Product Detail,1278,1,2,3,3,5,0,8,0.000%,7.27202,3.20,1.15
+Login,766,2,3,4,4,5,1,12,0.000%,4.36169,2.70,0.98
+Add Product to Cart,761,1,2,3,3,4,1,7,0.000%,4.35606,1.25,1.69
+Checkout,250,6,6,9,10,12,3,29,0.000%,1.47501,0.45,0.59
+TOTAL,7442,2,2,3,4,8,0,29,0.000%,41.58611,37.09,8.13
