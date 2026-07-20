@@ -168,3 +168,165 @@ Loại bỏ test API, chỉ giữ UI testing cho mobile và cập nhật báo c�
 * Rejected: 0
 
 ---
+
+## **Interaction 006**
+
+### **Công cụ AI**
+
+Antigravity (Claude Sonnet 4.6 Thinking)
+
+### **Thời gian**
+
+06/29/2026 03:00 PM
+
+### **Prompt**
+
+using decision-table-pairwise-testing skill to analyze FR-10
+
+### **Tóm tắt output AI**
+
+* Phân tích Decision Table Testing + Pair-wise Testing cho FR-10 (Order State Machine)
+* Xác định 3 Conditions: Current State (5 giá trị), Target State (5 giá trị), Role (2 giá trị)
+* Xác định 3 Results: R1 (Allow), R2 (Unauthorized), R3 (Invalid Transition)
+* Xây dựng Decision Table với **28 rules** bao phủ toàn bộ State Machine
+* Phân tích Risk: 10 High, 4 Medium, 14 Low
+* Áp dụng Pair-wise Testing: giảm từ 28 xuống **19 test case** (giảm 32%)
+* Sinh **19 test case** file riêng biệt tại `tests/test-cases/ORDER/`
+* Tạo báo cáo phân tích tại `docs/decision-table-pairwise-analysis.md`
+
+### **Đánh giá**
+
+* Accepted: 19
+* Modified: 0
+* Rejected: 0
+
+---
+
+## **Interaction 007**
+
+### **Công cụ AI**
+
+Antigravity (Gemini 3.5 Flash)
+
+### **Thời gian**
+
+06/29/2026 04:15 PM
+
+### **Prompt**
+
+Chạy toàn bộ 19 test case và cập nhật status, nếu có bug thì report bug
+
+### **Tóm tắt output AI**
+
+* Thiết lập và khởi chạy Backend Server của EShop.
+* Tạo script PowerShell `tests/run-order-tests.ps1` để tự động thực thi 19 test case thông qua REST API.
+* Kết quả chạy thực tế: **14 PASS, 5 FAIL**.
+* Cập nhật Actual Result và Status của tất cả 19 file test case trong thư mục `tests/test-cases/ORDER/`.
+* Phát hiện và lập báo cáo chi tiết cho **3 lỗi nghiêm trọng** mới liên quan đến logic State Machine và Phân quyền của Đơn hàng trong file `docs/bug-report.md`.
+
+### **Đánh giá**
+
+
+* Accepted: 19 test case updates & 3 bug reports
+* Modified: 0
+* Rejected: 0
+
+---
+
+## **Interaction 008**
+
+### **Công cụ AI**
+
+Antigravity (Gemini 3.5 Flash)
+
+### **Thời gian**
+
+07/06/2026 03:45 PM
+
+### **Prompt**
+
+using state-transition-testing skill to analysis FR-03
+
+### **Tóm tắt output AI**
+
+* Phân tích State Transition Testing cho FR-03 (Quên mật khẩu & Đặt lại mật khẩu)
+* Xác định 4 States, 9 Actions, 36 dòng State Transition Table.
+* Xác định 4 Valid Transitions và 5 Invalid Transitions.
+* Sinh **4 Test Case** (phiên bản cũ của SKILL, gộp nhiều Coverage vào ít file).
+* Tạo báo cáo phân tích kiểm thử tại `docs/state-transition-analysis.md`.
+
+### **Đánh giá**
+
+* Accepted: 4 test cases & 1 report
+* Modified: 0
+* Rejected: 0
+
+---
+
+## **Interaction 009**
+
+### **Công cụ AI**
+
+Antigravity (Claude Sonnet 4.6 Thinking)
+
+### **Thời gian**
+
+07/06/2026 04:00 PM
+
+### **Prompt**
+
+/state-transition-testing analysis FR-03
+
+### **Tóm tắt output AI**
+
+* Tái phân tích FR-03 theo SKILL.md phiên bản mới với quy tắc: mỗi valid Transition PHẢI có Dedicated Test Case riêng biệt, không được giảm hoặc gộp Test Case.
+* Xác định 4 States, 9 Actions, 36 dòng State Transition Table.
+* Xác định 4 Valid Transitions và 5 Invalid Transitions (có định nghĩa hành vi).
+* Sinh **20 Test Case** theo đúng 7 nhóm Coverage:
+  * 4 Dedicated Valid Transition Test Cases (TC-ST-FORGOT-PASSWORD-001 đến 004)
+  * 5 Invalid Transition Test Cases (TC-ST-FORGOT-PASSWORD-005 đến 009)
+  * 4 1-switch Test Cases (TC-ST-FORGOT-PASSWORD-SW1-001 đến SW1-004)
+  * 4 n-switch Test Cases (TC-ST-FORGOT-PASSWORD-SW2-001 đến SW2-004)
+  * 2 End-to-End Test Cases (TC-ST-FORGOT-PASSWORD-E2E-001 đến E2E-002)
+  * 1 Final State Test Case (TC-ST-FORGOT-PASSWORD-FINAL-001)
+* Cập nhật báo cáo phân tích tại `docs/state-transition-analysis.md`.
+
+### **Đánh giá**
+
+* Accepted: 20 test cases & 1 report
+* Modified: 0
+* Rejected: 0
+
+---
+
+## **Interaction 010**
+
+### **Công cụ AI**
+
+Antigravity (Gemini 3.5 Flash)
+
+### **Thời gian**
+
+07/06/2026 05:10 PM
+
+### **Prompt**
+
+/use-case-testing analyze FR-03
+
+### **Tóm tắt output AI**
+
+* Phân tích Use Case Testing cho FR-03 (Quên mật khẩu & Đặt lại mật khẩu).
+* Xác định 2 Actors, 3 Use Cases, 1 Main Flow, 1 Alternative Flow, 5 Exception Flows.
+* Sinh bộ **7 Test Cases** (TC-UC-FORGOT-PASSWORD-001 đến 007).
+* Viết tập lệnh tự động hóa Playwright để thực thi các test cases trên trình duyệt thực tế.
+* Kết quả chạy thực tế: **2 PASS, 5 FAIL**.
+* Phát hiện và lập báo cáo thêm cho **2 lỗi nghiêm trọng** mới (BUG-FR03-004: Lỗi regex kiểm duyệt mật khẩu ở giao diện; BUG-FR03-005: Thiếu trường Xác nhận mật khẩu ở Bước 2/2) trong `bug-report.md`.
+* Cập nhật Actual Result và Status của tất cả 7 test case trong `tests/test-cases/forgot-password/`.
+* Tạo báo cáo phân tích chi tiết tại `docs/use-case-testing-analysis.md`.
+
+### **Đánh giá**
+
+* Accepted: 7 test cases, 1 analysis report, 2 bug reports
+* Modified: 0
+* Rejected: 0
+

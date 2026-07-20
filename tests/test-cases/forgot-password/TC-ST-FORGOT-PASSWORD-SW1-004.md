@@ -1,0 +1,59 @@
+# TC-ST-FORGOT-PASSWORD-SW1-004
+
+## Test Case ID
+TC-ST-FORGOT-PASSWORD-SW1-004
+
+## Feature
+Quên mật khẩu & Đặt lại mật khẩu (FR-03)
+
+## Requirement Reference
+FR-03
+
+## Testing Technique
+State Transition Testing
+
+## Coverage Type
+1-switch Coverage
+
+## Covered State(s)
+S1 (Bước 1 - Yêu cầu OTP), S0 (Trang đăng nhập)
+
+## Covered Transition(s)
+T3 (S1 → S0), T1 (S0 → S1)
+
+## Covered switch sequence, if applicable
+SW1-004: T3 → T1 (S1 → S0 → S1)
+
+## Preconditions
+- Người dùng chưa đăng nhập.
+- Hệ thống đang hiển thị màn hình Bước 1/2 (S1).
+
+## Test Data
+| Parameter | Value |
+| --- | --- |
+| Không cần dữ liệu đặc biệt | — |
+
+## Test Steps
+1. Tại màn hình Bước 1/2 (S1), nhấn nút "Quay lại đăng nhập" (A4) → Chuyển về S0.
+2. Tại trang đăng nhập (S0), nhấn nút "Quên mật khẩu" (A1) → Chuyển sang S1 lần nữa.
+3. Quan sát phản hồi của hệ thống sau mỗi bước.
+
+## Expected Result
+- Sau bước 1: Hệ thống điều hướng về trang đăng nhập (S0) thành công. T3 thực thi thành công.
+- Sau bước 2: Hệ thống chuyển sang màn hình Bước 1/2 (S1) lần nữa, hiển thị đầy đủ form nhập email và chỉ báo "Bước 1 / 2". T1 thực thi thành công.
+- Chuỗi chuyển đổi T3 → T1 hoàn tất — xác nhận hệ thống hỗ trợ quay lại và thử lại.
+
+## Final State
+S1 (Bước 1 - Yêu cầu OTP)
+
+## Risk Level
+Low
+
+## Actual Result
+Chuỗi T3 → T1 thực hiện được, nhưng khi quay lại S1 giao diện không hiển thị chỉ báo bước "Bước 1 / 2" và không có nút "Quay lại đăng nhập" như đặc tả FR-03.
+
+## Status
+FAIL
+
+## Bug Reference
+BUG-FR03-003 — Không hiển thị chỉ báo bước và nút "Quay lại đăng nhập" ở màn hình nhập email
