@@ -45,8 +45,7 @@ Passed
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Danh sách render toàn bộ, không phân trang/lazy-load; với dữ liệu seed hiện tại layout không vỡ và không có cuộn ngang. (Rủi ro hiệu năng khi dữ liệu lớn chưa bộc lộ.)
 - Execution result: **Passed**
 - Screenshot: _(không có — test Passed)_

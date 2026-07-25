@@ -40,13 +40,12 @@ Giao diện chung (General UI) / GUI/Usability / Checklist-based GUI Testing
 - Tất cả nút hành động tích cực trên 4 màn hình có màu xanh dương thống nhất.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-07 (https://github.com/trngnneee/eshop-sut/issues/200)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Nút "Thêm vào giỏ hàng" (Chi tiết SP) màu rgb(22, 163, 74) — xanh lá, không phải xanh dương. Các nút tích cực khác (thanh toán xanh lá, áp mã cam) cũng lệch spec.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA01-04](../screenshots/GUI-IA01-04.png)

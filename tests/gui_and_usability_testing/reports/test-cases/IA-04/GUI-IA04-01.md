@@ -38,13 +38,12 @@ Phản hồi & Trạng thái (Feedback & State) / GUI/Usability / Checklist-base
 - Bấm "Thêm vào giỏ" trên card → có toast hoặc badge cập nhật ngay.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-16 (https://github.com/trngnneee/eshop-sut/issues/209)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Bấm "Thêm vào giỏ" ở trang chủ không có phản hồi trực quan nào (không toast, không badge cập nhật trên header).
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA04-01](../screenshots/GUI-IA04-01.png)

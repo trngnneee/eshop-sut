@@ -39,13 +39,12 @@ Biểu mẫu (Forms) / GUI/Usability / Checklist-based GUI Testing
 - Mỗi field bắt buộc có dấu `*` ngay cạnh nhãn trên cả 4 form.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-24 (https://github.com/trngnneee/eshop-sut/issues/217)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Không field bắt buộc nào có dấu "*" cạnh nhãn trên các form (Đăng ký, Đăng nhập, Quên MK, Hồ sơ).
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA02-01](../screenshots/GUI-IA02-01.png)

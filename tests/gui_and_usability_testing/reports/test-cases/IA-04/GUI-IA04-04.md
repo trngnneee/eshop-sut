@@ -40,13 +40,12 @@ Phản hồi & Trạng thái (Feedback & State) / GUI/Usability / Checklist-base
 - Chọn Hủy bỏ → đơn giữ nguyên trạng thái.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-18 (https://github.com/trngnneee/eshop-sut/issues/211)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Bấm "Hủy đơn" huỷ ngay, không có dialog xác nhận trước hành động không hoàn tác (chỉ có alert "Hủy đơn thành công" sau khi đã huỷ).
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA04-04](../screenshots/GUI-IA04-04.png)

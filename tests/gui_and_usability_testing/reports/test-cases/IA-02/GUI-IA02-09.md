@@ -40,13 +40,12 @@ Biểu mẫu (Forms) / GUI/Usability / Checklist-based GUI Testing
 - Không thêm được sản phẩm với số lượng NaN vào giỏ.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-31 (https://github.com/trngnneee/eshop-sut/issues/224)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Input số lượng không có ràng buộc min (min=null); nhập được giá trị "-1" (<1) — cho phép số lượng vô lý.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA02-09](../screenshots/GUI-IA02-09.png)

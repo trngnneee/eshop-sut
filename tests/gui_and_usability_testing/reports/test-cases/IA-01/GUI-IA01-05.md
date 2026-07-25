@@ -39,13 +39,12 @@ Giao diện chung (General UI) / GUI/Usability / Checklist-based GUI Testing
 - Người dùng không thể nhầm nút phụ với nút hành động chính.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-26 (https://github.com/trngnneee/eshop-sut/issues/219)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Nút chính "Đặt lại mật khẩu" (rgb(22, 163, 74)) và nút phụ "← Quay lại" (rgb(22, 163, 74)) cùng nền xanh lá, full-width — không phân biệt được thị giác.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA01-05](../screenshots/GUI-IA01-05.png)

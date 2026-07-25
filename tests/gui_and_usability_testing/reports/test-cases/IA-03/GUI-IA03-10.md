@@ -46,8 +46,7 @@ Passed
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Sau thanh toán thành công, bấm Back không quay lại form có nút "Xác Nhận Thanh Toán" có thể re-submit đơn cũ.
 - Execution result: **Passed**
 - Screenshot: _(không có — test Passed)_

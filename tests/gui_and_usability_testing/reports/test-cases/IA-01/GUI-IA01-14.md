@@ -39,13 +39,12 @@ Giao diện chung (General UI) / GUI/Usability / Checklist-based GUI Testing
 - Không gây tràn ngang layout.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-09 (https://github.com/trngnneee/eshop-sut/issues/202)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium @375px
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome @375px
 - Observed: Ở viewport 375px, nút "Thêm vào giỏ hàng" có margin-right -100px (class bug-mobile-hidden) → bị đẩy lệch/tràn khỏi khung.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA01-14](../screenshots/GUI-IA01-14.png)

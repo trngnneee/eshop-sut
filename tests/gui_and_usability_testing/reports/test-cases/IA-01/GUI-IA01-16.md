@@ -39,13 +39,12 @@ Giao diện chung (General UI) / GUI/Usability / Checklist-based GUI Testing
 - Có cách xem tên đầy đủ (tooltip/title).
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-28 (https://github.com/trngnneee/eshop-sut/issues/221)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Tên sản phẩm dùng class "truncate" để cắt gọn nhưng KHÔNG có thuộc tính title/tooltip → không có cách xem đầy đủ tên khi bị cắt.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA01-16](../screenshots/GUI-IA01-16.png)

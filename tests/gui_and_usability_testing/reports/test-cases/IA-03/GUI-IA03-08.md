@@ -41,13 +41,12 @@ Heuristic (back/continue links)
 - Quay lại không làm mất dữ liệu giỏ.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-38 (https://github.com/trngnneee/eshop-sut/issues/231)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Trang thanh toán không có link/nút quay lại Giỏ hàng trước khi xác nhận — người dùng bị cụt đường về để sửa giỏ.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA03-08](../screenshots/GUI-IA03-08.png)

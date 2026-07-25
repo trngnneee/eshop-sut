@@ -42,13 +42,12 @@ Biểu mẫu (Forms) / GUI/Usability / Checklist-based GUI Testing
 - Sửa DOM/gõ giá trị khác không làm thay đổi số tiền gửi lên API.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-02 (https://github.com/trngnneee/eshop-sut/issues/195)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium + Network
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome + Network
 - Observed: Ô "Tổng tiền thanh toán" là input number sửa được: đổi thành "1000" thành công → số tiền do người dùng nhập được gửi thẳng lên API /api/checkout (lỗi nghiêm trọng).
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA02-10](../screenshots/GUI-IA02-10.png)

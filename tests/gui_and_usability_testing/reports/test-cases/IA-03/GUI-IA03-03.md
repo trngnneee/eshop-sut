@@ -39,13 +39,12 @@ FR-23 (exact label wording)
 - Nút trên header ghi đúng "Đăng xuất" (không phải "Thoát").
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-14 (https://github.com/trngnneee/eshop-sut/issues/207)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Nút đăng xuất trên header ghi "Thoát" thay vì đúng nhãn "Đăng xuất" theo FR-23.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA03-03](../screenshots/GUI-IA03-03.png)

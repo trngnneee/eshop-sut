@@ -39,13 +39,12 @@ Giao diện chung (General UI) / GUI/Usability / Checklist-based GUI Testing
 - Dòng "Hiển thị N sản phẩm" dùng thẻ phi-heading (vd `<p>`).
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-23 (https://github.com/trngnneee/eshop-sut/issues/216)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Trang chủ có 2 thẻ <h1> (tiêu đề "Danh sách sản phẩm" và dòng đếm "Hiển thị N sản phẩm" đều là h1) — vượt quá 1.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA01-09](../screenshots/GUI-IA01-09.png)

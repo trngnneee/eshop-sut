@@ -39,13 +39,12 @@ Biểu mẫu (Forms) / GUI/Usability / Checklist-based GUI Testing
 - Không nhập được ký tự không phải số.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-30 (https://github.com/trngnneee/eshop-sut/issues/223)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Ô OTP (nhãn "4 số") nhận giá trị "123456abcd" (dài 10, cả chữ) — không có maxLength/pattern giới hạn 4 chữ số.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA02-08](../screenshots/GUI-IA02-08.png)

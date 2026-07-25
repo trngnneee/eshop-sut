@@ -40,13 +40,12 @@ Phản hồi & Trạng thái (Feedback & State) / GUI/Usability / Checklist-base
 - Điểm nào render/thực thi HTML → Fail và ghi rõ ở Notes.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-01 (https://github.com/trngnneee/eshop-sut/issues/194)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Từ khoá tìm kiếm được render bằng dangerouslySetInnerHTML: payload "<img onerror>" THỰC THI JS (window.__xss=1) — lỗ hổng XSS. Tên user ở header cũng render tương tự.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA04-13](../screenshots/GUI-IA04-13.png)

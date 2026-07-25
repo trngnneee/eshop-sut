@@ -39,13 +39,12 @@ Phản hồi & Trạng thái (Feedback & State) / GUI/Usability / Checklist-base
 - Message phân biệt "sai mật khẩu" và "đang bị khoá".
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-45 (https://github.com/trngnneee/eshop-sut/issues/238)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Sau 3 lần đăng nhập sai (tài khoản đã bị backend khoá), UI vẫn hiện message chung "Đăng nhập thất bại. Vui lòng kiểm tra lại." — không phân biệt "sai mật khẩu" với "đang bị khoá", không nói thời gian mở khoá.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA04-11](../screenshots/GUI-IA04-11.png)

@@ -40,13 +40,12 @@ Giao diện chung (General UI) / GUI/Usability / Checklist-based GUI Testing
 - Mỗi trong 6 trang có đúng 1 thẻ `<h1>` mô tả đúng nội dung trang.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-23 (https://github.com/trngnneee/eshop-sut/issues/216)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Số thẻ <h1> mỗi trang: /login=0, /register=0, /forgot-password=0, /cart=0, /checkout=0, /profile=0 — các trang này chỉ có <h2>, thiếu <h1> mô tả nội dung.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA01-10](../screenshots/GUI-IA01-10.png)

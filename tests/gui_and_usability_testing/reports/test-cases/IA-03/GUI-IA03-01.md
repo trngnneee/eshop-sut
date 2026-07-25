@@ -38,13 +38,12 @@ FR-23 (active highlight)
 - Link tương ứng trang hiện tại có style active (đậm/gạch chân/đổi màu) khác các link còn lại.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-35 (https://github.com/trngnneee/eshop-sut/issues/228)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Ở /cart, link "Giỏ hàng" trên navbar chỉ có class "hover:underline" (chỉ hover:underline), không có active-state (aria-current/đậm/đổi màu) để chỉ mục đang chọn.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA03-01](../screenshots/GUI-IA03-01.png)

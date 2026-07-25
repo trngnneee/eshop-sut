@@ -44,8 +44,7 @@ Passed
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Grid sản phẩm co giãn theo breakpoint (1/2/3 cột), không xuất hiện cuộn ngang ở 375/768/1280px.
 - Execution result: **Passed**
 - Screenshot: _(không có — test Passed)_

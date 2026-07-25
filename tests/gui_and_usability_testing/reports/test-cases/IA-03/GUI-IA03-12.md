@@ -42,13 +42,12 @@ Heuristic (route guarding)
 - Không hiển thị form thanh toán với tổng 0 ₫.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-13 (https://github.com/trngnneee/eshop-sut/issues/206)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Vào thẳng /checkout khi giỏ trống & chưa đăng nhập vẫn hiển thị form thanh toán (tổng 0 ₫), không bị redirect — thiếu route guard.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA03-12](../screenshots/GUI-IA03-12.png)

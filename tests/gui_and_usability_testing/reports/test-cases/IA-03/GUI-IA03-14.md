@@ -43,8 +43,7 @@ Passed
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Click logo "EShop" từ trang khác điều hướng đúng về trang chủ (/) — hoạt động như kỳ vọng.
 - Execution result: **Passed**
 - Screenshot: _(không có — test Passed)_

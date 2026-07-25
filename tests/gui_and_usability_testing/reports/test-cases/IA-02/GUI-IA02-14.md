@@ -39,13 +39,12 @@ Biểu mẫu (Forms) / GUI/Usability / Checklist-based GUI Testing
 - Thông báo cùng style với các lỗi khác của app.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-33 (https://github.com/trngnneee/eshop-sut/issues/226)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Thông báo required dựa vào HTML5 native → hiển thị theo ngôn ngữ trình duyệt: "Please fill out this field." (tiếng Anh), không nhất quán tiếng Việt với các lỗi khác của app.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA02-14](../screenshots/GUI-IA02-14.png)

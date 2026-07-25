@@ -39,13 +39,12 @@ Heuristic (invalid-URL/404)
 - Có link/nút quay về trang chủ, không phải trang trắng.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-15 (https://github.com/trngnneee/eshop-sut/issues/208)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: URL không tồn tại /abc-khong-ton-tai render vùng nội dung trống ("") — không có route catch-all, không có trang 404 thân thiện.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA03-05](../screenshots/GUI-IA03-05.png)

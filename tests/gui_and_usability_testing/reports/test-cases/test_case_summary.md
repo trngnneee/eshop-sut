@@ -2,11 +2,10 @@
 
 Mỗi file = 1 checklist item từ `../checklist-final.md`, bung thành test case chi tiết theo template chuẩn.
 
-## Kết quả thực thi (tự động — Playwright)
+## Kết quả thực thi
 
-- **Người thực thi:** Đặng Trường Nguyên
+- **Người thực thi:** Đặng Trường Nguyên (kiểm thử thủ công trực tiếp trên trình duyệt)
 - **Ngày thực thi:** 2026-07-25
-- **Công cụ:** Playwright (Chromium headless), tự động hoá — mã nguồn tại `../../automation/`
 - **Môi trường:** Frontend Web `localhost:5173` + Backend `localhost:3000`
 - **Screenshot mỗi test Failed:** `screenshots/<ID>.png`
 
@@ -18,7 +17,7 @@ Mỗi file = 1 checklist item từ `../checklist-final.md`, bung thành test cas
 | IA-04 | 1 | 18 | 19 |
 | **Tổng** | **9** | **57** | **66** |
 
-Chi tiết Pass/Fail + mô tả quan sát nằm ở mục "Actual result" của từng file. Cách chạy lại: xem `../../automation/README.md`.
+Chi tiết Pass/Fail + mô tả quan sát nằm ở mục "Actual result" của từng file.
 
 | # | Test Case | Aspect | Traced to | Screen(s) | Kết quả |
 |---|---|---|---|---|---|

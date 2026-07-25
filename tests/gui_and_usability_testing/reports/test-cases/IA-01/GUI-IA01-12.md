@@ -38,13 +38,12 @@ Giao diện chung (General UI) / GUI/Usability / Checklist-based GUI Testing
 - Title thay đổi khi điều hướng giữa các trang.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-27 (https://github.com/trngnneee/eshop-sut/issues/220)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Title tab cố định "frontend-web" ở trang chủ và "frontend-web" ở /login — không đổi theo trang, không mô tả nội dung.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA01-12](../screenshots/GUI-IA01-12.png)

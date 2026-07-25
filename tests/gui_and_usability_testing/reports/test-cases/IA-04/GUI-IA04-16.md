@@ -40,13 +40,12 @@ Phản hồi & Trạng thái (Feedback & State) / GUI/Usability / Checklist-base
 - Chỉ hiện "Bạn chưa có đơn hàng nào" khi thật sự 0 đơn.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-19 (https://github.com/trngnneee/eshop-sut/issues/212)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium (block API)
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome (block API)
 - Observed: Lỗi API tải đơn bị "nuốt" (catch → setOrders([])) nên hiển thị "Bạn chưa có đơn hàng nào" giống hệt trạng thái trống — không phân biệt lỗi với empty.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA04-16](../screenshots/GUI-IA04-16.png)

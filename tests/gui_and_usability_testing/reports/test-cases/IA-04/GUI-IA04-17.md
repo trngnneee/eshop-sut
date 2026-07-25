@@ -38,13 +38,12 @@ Phản hồi & Trạng thái (Feedback & State) / GUI/Usability / Checklist-base
 - Đăng ký thành công → hiển thị toast/message "Đăng ký thành công, mời đăng nhập" trước/khi chuyển trang.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-46 (https://github.com/trngnneee/eshop-sut/issues/239)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Đăng ký thành công điều hướng thẳng sang /login không có thông báo xác nhận ("Đăng ký thành công, mời đăng nhập").
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA04-17](../screenshots/GUI-IA04-17.png)

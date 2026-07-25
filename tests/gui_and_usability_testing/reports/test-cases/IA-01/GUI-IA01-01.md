@@ -39,13 +39,12 @@ Giao diện chung (General UI) / GUI/Usability / Checklist-based GUI Testing
 - Không còn chuỗi tiếng Anh nào trên màn hình đăng nhập.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-05 (https://github.com/trngnneee/eshop-sut/issues/198)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Nhãn field: "Username | Mật khẩu"; nút submit: "Sign In". Màn đăng nhập vẫn dùng chuỗi tiếng Anh ("Username", "Sign In") thay vì tiếng Việt.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA01-01](../screenshots/GUI-IA01-01.png)

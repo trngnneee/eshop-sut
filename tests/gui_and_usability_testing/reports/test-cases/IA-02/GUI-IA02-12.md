@@ -44,8 +44,7 @@ Passed
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Ô Email hồ sơ ở trạng thái disabled=true, nền rgb(243, 244, 246), nhãn kèm "(Không đổi)" — thể hiện rõ không sửa được (đúng chuẩn).
 - Execution result: **Passed**
 - Screenshot: _(không có — test Passed)_

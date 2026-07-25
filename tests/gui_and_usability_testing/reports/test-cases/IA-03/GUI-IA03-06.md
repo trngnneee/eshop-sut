@@ -39,13 +39,12 @@ Heuristic (not-found handling)
 - Có link/nút về trang chủ, không hiện text kỹ thuật "Lỗi trắng trang do data rỗng".
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-15 (https://github.com/trngnneee/eshop-sut/issues/208)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: /product/999 hiển thị text kỹ thuật "Sản phẩm không tồn tại (Lỗi trắng trang do data rỗng)" và không có link quay về — không thân thiện, không lối thoát.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA03-06](../screenshots/GUI-IA03-06.png)

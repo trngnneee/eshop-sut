@@ -39,13 +39,12 @@ Giao diện chung (General UI) / GUI/Usability / Checklist-based GUI Testing
 - Màu đỏ không được dùng cho nút submit tích cực.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-07 (https://github.com/trngnneee/eshop-sut/issues/200)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Nút "Đăng Ký" có màu nền rgb(239, 68, 68) (đỏ, bg-red-500) — dùng màu cảnh báo cho hành động tích cực thay vì xanh dương.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA01-03](../screenshots/GUI-IA01-03.png)

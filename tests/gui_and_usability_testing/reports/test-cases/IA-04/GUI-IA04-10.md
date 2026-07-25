@@ -41,13 +41,12 @@ Phản hồi & Trạng thái (Feedback & State) / GUI/Usability / Checklist-base
 - Không dùng `alert()` native.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-44 (https://github.com/trngnneee/eshop-sut/issues/237)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Feedback cập nhật hồ sơ dùng alert() native (đã bắt được dialog alert) thay vì toast/thông báo trong trang — không nhất quán, còn 8+ chỗ dùng alert.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA04-10](../screenshots/GUI-IA04-10.png)

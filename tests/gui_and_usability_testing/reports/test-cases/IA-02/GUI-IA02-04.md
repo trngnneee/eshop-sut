@@ -41,13 +41,12 @@ Biểu mẫu (Forms) / GUI/Usability / Checklist-based GUI Testing
 - Chấm theo spec, KHÔNG chấp nhận pattern "lỗi dưới field".
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-34 (https://github.com/trngnneee/eshop-sut/issues/227)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Thông báo lỗi đăng nhập nằm DƯỚI nút submit (errY=517, btnY=425) — ngược yêu cầu FR-22 (lỗi phải phía TRÊN nút submit). Quên MK/Hồ sơ còn dùng alert() native.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA02-04](../screenshots/GUI-IA02-04.png)

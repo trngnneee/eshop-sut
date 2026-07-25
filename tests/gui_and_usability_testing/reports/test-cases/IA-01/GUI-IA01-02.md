@@ -39,13 +39,12 @@ Giao diện chung (General UI) / GUI/Usability / Checklist-based GUI Testing
 - Chỉ chấp nhận thuật ngữ chuẩn (Email, OTP) ở dạng nguyên gốc.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-05 (https://github.com/trngnneee/eshop-sut/issues/198)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Còn chuỗi tiếng Anh không phải thuật ngữ chuẩn trên UI: Username, Sign In (màn Đăng nhập).
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA01-02](../screenshots/GUI-IA01-02.png)

@@ -39,13 +39,12 @@ Heuristic (navigation consistency)
 - Trang không bị trắng/refresh toàn bộ.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-37 (https://github.com/trngnneee/eshop-sut/issues/230)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium + Network
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome + Network
 - Observed: Link "Quên mật khẩu?" dùng <a href> gây tải lại toàn trang (cờ SPA đặt trước khi click đã mất) — không điều hướng kiểu SPA như các link khác.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA03-07](../screenshots/GUI-IA03-07.png)

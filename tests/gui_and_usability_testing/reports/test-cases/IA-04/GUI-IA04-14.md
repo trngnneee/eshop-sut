@@ -39,13 +39,12 @@ Phản hồi & Trạng thái (Feedback & State) / GUI/Usability / Checklist-base
 - Không lộ SQL/stack/nội dung kỹ thuật ra UI.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-04 (https://github.com/trngnneee/eshop-sut/issues/197)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Tìm với từ khoá "'" hiển thị nguyên khối lỗi kỹ thuật "Database Error / SQLITE_ERROR" ra UI — lộ chi tiết backend thay vì thông báo thân thiện.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA04-14](../screenshots/GUI-IA04-14.png)

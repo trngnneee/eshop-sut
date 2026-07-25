@@ -39,13 +39,12 @@ Phản hồi & Trạng thái (Feedback & State) / GUI/Usability / Checklist-base
 - Không kẹt mãi ở "Đang tải...".
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-19 (https://github.com/trngnneee/eshop-sut/issues/212)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium (block API)
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome (block API)
 - Observed: Khi API sản phẩm lỗi, trang kẹt ở "Đang tải..." (không có error state / nút thử lại) — chỉ log console, kẹt "Đang tải..." vô hạn.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA04-09](../screenshots/GUI-IA04-09.png)

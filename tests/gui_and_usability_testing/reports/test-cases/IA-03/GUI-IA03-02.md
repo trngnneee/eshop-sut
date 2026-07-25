@@ -39,13 +39,12 @@ FR-23 (badge/counter)
 - Thêm 1 sản phẩm → badge tăng +1 tức thì.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-16 (https://github.com/trngnneee/eshop-sut/issues/209)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Link "Giỏ hàng" là link trần, không có badge số lượng; sau khi thêm 1 SP header vẫn không hiển thị counter. Header: "EShop Giỏ hàng Đăng nhập Đăng ký".
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA03-02](../screenshots/GUI-IA03-02.png)

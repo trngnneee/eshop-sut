@@ -40,13 +40,12 @@ Phản hồi & Trạng thái (Feedback & State) / GUI/Usability / Checklist-base
 - Không có click nào bị bỏ qua.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-17 (https://github.com/trngnneee/eshop-sut/issues/210)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Click "Thêm vào giỏ hàng" lần đầu bị "nuốt" (clickCount): không có feedback "Đã thêm" và giỏ vẫn trống (0 dòng) — mất 1 lần thao tác.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA04-02](../screenshots/GUI-IA04-02.png)

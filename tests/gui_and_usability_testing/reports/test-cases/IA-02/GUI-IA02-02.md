@@ -39,13 +39,12 @@ Biểu mẫu (Forms) / GUI/Usability / Checklist-based GUI Testing
 - Submit với "abc" (không phải email) bị trình duyệt chặn.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-10 (https://github.com/trngnneee/eshop-sut/issues/203)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Field email dùng type: {"/register":"text","/login":"text","/forgot-password":"text"} — đang là "text" thay vì "email", không chặn định dạng sai ở tầng trình duyệt.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA02-02](../screenshots/GUI-IA02-02.png)

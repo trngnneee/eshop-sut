@@ -39,13 +39,12 @@ Biểu mẫu (Forms) / GUI/Usability / Checklist-based GUI Testing
 - Nhập không khớp với ô Mật khẩu → lỗi hiển thị trên nút submit.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-32 (https://github.com/trngnneee/eshop-sut/issues/225)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Form đăng ký KHÔNG có field "Xác nhận mật khẩu" — thiếu cơ chế kiểm tra khớp mật khẩu.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA02-13](../screenshots/GUI-IA02-13.png)

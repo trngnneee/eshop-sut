@@ -38,13 +38,12 @@ Biểu mẫu (Forms) / GUI/Usability / Checklist-based GUI Testing
 - Ký tự mật khẩu hiển thị dạng chấm tròn, không hiện rõ.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-03 (https://github.com/trngnneee/eshop-sut/issues/196)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Ô Mật khẩu trên form Đăng nhập có type="text" → ký tự mật khẩu hiển thị rõ, không được che.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA02-03](../screenshots/GUI-IA02-03.png)

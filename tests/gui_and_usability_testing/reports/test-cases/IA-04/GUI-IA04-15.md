@@ -41,13 +41,12 @@ Phản hồi & Trạng thái (Feedback & State) / GUI/Usability / Checklist-base
 - Quay lại `/cart` không còn sản phẩm cũ.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-20 (https://github.com/trngnneee/eshop-sut/issues/213)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Sau thanh toán thành công, giỏ hàng vẫn còn 1 sản phẩm cũ (clearCart không được gọi) — trạng thái giỏ không được reset.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA04-15](../screenshots/GUI-IA04-15.png)

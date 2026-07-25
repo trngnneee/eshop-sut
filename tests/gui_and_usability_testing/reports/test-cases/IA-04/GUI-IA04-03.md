@@ -40,13 +40,12 @@ Phản hồi & Trạng thái (Feedback & State) / GUI/Usability / Checklist-base
 - Chọn Hủy → item được giữ nguyên.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-18 (https://github.com/trngnneee/eshop-sut/issues/211)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Bấm "Xóa" item xoá ngay (dòng giỏ 1→0) không có dialog xác nhận — thao tác phá huỷ không có bước chặn.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA04-03](../screenshots/GUI-IA04-03.png)

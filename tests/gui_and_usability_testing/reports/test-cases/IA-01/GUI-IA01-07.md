@@ -46,8 +46,7 @@ Passed
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Phân cách hàng nghìn nhất quán trong cùng trình duyệt (Trang chủ "30,000,000", Chi tiết SP "30,000,000"). Lưu ý: dùng toLocaleString() không tham số nên kết quả phụ thuộc locale trình duyệt.
 - Execution result: **Passed**
 - Screenshot: _(không có — test Passed)_

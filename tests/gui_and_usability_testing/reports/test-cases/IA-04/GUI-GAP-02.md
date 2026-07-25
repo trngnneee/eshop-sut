@@ -39,13 +39,12 @@ Phản hồi & Trạng thái (Feedback & State) / GUI/Usability / Checklist-base
 - Thêm cùng 1 sản phẩm 2 lần → Giỏ hàng hiển thị 1 dòng, số lượng = 2.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-47 (https://github.com/trngnneee/eshop-sut/issues/240)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Thêm cùng 1 sản phẩm 2 lần tạo 2 dòng riêng trong giỏ thay vì gộp thành 1 dòng số lượng 2 (addToCart luôn push entry mới).
 - Execution result: **Failed**
 - Screenshot: ![GUI-GAP-02](../screenshots/GUI-GAP-02.png)

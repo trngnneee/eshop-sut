@@ -39,13 +39,12 @@ Biểu mẫu (Forms) / GUI/Usability / Checklist-based GUI Testing
 - Quy tắc validate và text hint không mâu thuẫn nhau.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-12 (https://github.com/trngnneee/eshop-sut/issues/205)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Mật khẩu "Abcdef1!" (đủ hoa/thường/số/ký tự đặc biệt như hint) bị từ chối: "Mật khẩu quá yếu! Phải dài tối thiểu 8 ký tự, gồm chữ hoa, chữ thường, số và KÝ TỰ ĐẶC BIỆT." — regex thực tế bắt buộc có khoảng trắng và cấm ký tự đặc biệt, mâu thuẫn với hint.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA02-07](../screenshots/GUI-IA02-07.png)

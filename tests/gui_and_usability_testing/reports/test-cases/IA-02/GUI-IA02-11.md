@@ -46,8 +46,7 @@ Passed
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Nhập mã chữ thường "save10" được chuẩn hoá (toUpperCase + CSS uppercase) và áp dụng như "SAVE10" (hiện thông báo Tiết kiệm) — xử lý hoa/thường nhất quán.
 - Execution result: **Passed**
 - Screenshot: _(không có — test Passed)_

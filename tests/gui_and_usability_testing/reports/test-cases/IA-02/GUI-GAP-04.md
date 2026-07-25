@@ -40,13 +40,12 @@ Biểu mẫu (Forms) / GUI/Usability / Checklist-based GUI Testing
 - Screen reader đọc được tên field khi focus vào input.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-22 (https://github.com/trngnneee/eshop-sut/issues/215)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Không label nào trên các form (Đăng nhập/Đăng ký/Quên MK/Hồ sơ) có thuộc tính htmlFor/for gắn với input — click nhãn không focus vào ô, screen reader không đọc được tên field (WCAG 1.3.1, 4.1.2).
 - Execution result: **Failed**
 - Screenshot: ![GUI-GAP-04](../screenshots/GUI-GAP-04.png)

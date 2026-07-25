@@ -40,13 +40,12 @@ Phản hồi & Trạng thái (Feedback & State) / GUI/Usability / Checklist-base
 - Giỏ hàng trống và Lịch sử đơn hàng trống hiển thị icon/hình minh hoạ + message thân thiện + CTA.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-42 (https://github.com/trngnneee/eshop-sut/issues/235)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Empty state Giỏ hàng chỉ có text + link, không có icon/hình minh hoạ (số ảnh/SVG trong main: 0). Lịch sử ĐH trống cũng chỉ là text trần.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA04-05](../screenshots/GUI-IA04-05.png)

@@ -38,13 +38,12 @@ Giao diện chung (General UI) / GUI/Usability / Checklist-based GUI Testing
 - Heading trang `/login` là "Đăng Nhập".
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-06 (https://github.com/trngnneee/eshop-sut/issues/199)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Heading trang /login là "Đăng Ký" — sai chức năng (ghi "Đăng Ký" trên trang Đăng nhập).
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA01-11](../screenshots/GUI-IA01-11.png)

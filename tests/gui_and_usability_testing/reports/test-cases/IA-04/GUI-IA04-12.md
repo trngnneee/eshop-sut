@@ -47,8 +47,7 @@ Passed
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome
 - Observed: Feedback coupon đủ 2 nhánh: mã hợp lệ "SAVE10" hiện Tiết kiệm + thành tiền (có); mã sai hiện lỗi đỏ (có) — hoạt động đúng.
 - Execution result: **Passed**
 - Screenshot: _(không có — test Passed)_

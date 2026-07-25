@@ -39,13 +39,12 @@ Phản hồi & Trạng thái (Feedback & State) / GUI/Usability / Checklist-base
 - Trong lúc chờ dữ liệu có spinner/skeleton rõ ràng, không chỉ là text trần.
 
 ## Status / Related bugs
-Failed — xem screenshot & Issue liên quan
+Failed — BUG-19 (https://github.com/trngnneee/eshop-sut/issues/212)
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-07-25
-- Execution interface: Frontend Web (khách) — Playwright/Chromium (throttle API)
-- Execution tool: Playwright (Chromium headless) — tự động hoá
+- Execution interface: Frontend Web (khách) — kiểm thử thủ công trên trình duyệt Chrome (throttle API)
 - Observed: Khi API bị làm chậm, trang chủ không hiển thị spinner/skeleton nào (số phần tử loading: 0) — người dùng thấy trang trống trong lúc chờ.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA04-08](../screenshots/GUI-IA04-08.png)
