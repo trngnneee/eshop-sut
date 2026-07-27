@@ -45,4 +45,6 @@ Mọi chiến lược thoát kẹt đều import từ nơi khác: từ khoá ng�
 
 ## 5. Ghi chú cho GĐ9 (bug → GitHub Issues)
 
-Cả 7 bug Task 1 trong bảng (thuộc 6 theme UF-01→06) **đều đã có issue từ Task 1** (204, 209, 210, 240, 205, 235, 213). Không mở issue trùng — thay vào đó: comment bổ sung **bằng chứng usability** vào từng issue (tần suất x/7, trích think-aloud, hậu quả quan sát được, link findings này), và cân nhắc nâng severity trên issue 204 (BUG-11: Major → Blocker) + 240 (BUG-47: Minor → Major) theo bảng trên. Screenshot/frame recording đính kèm phải che thông tin cá nhân participant.
+Cả 7 bug Task 1 trong bảng (thuộc 6 theme UF-01→06) **đều đã có issue từ Task 1** (204, 209, 210, 240, 205, 235, 213), nên không mở issue trùng.
+
+**Đã thực hiện (27/07/2026):** comment bằng chứng usability (tần suất x/7, trích think-aloud, hậu quả quan sát được, link findings này) vào cả 7 issue + gắn label `usability`; nâng severity **#204 Major → Blocker** và **#240 Minor → Major** (giữ đánh giá gốc Task 1 trong body); **#235 giữ Minor** theo quyết định của người thực hiện dù dữ liệu usability xếp theme UF-05 ở mức Major (4/7 người gặp đều tự thoát được bằng đổi từ khoá). Mọi comment công khai chỉ dùng mã P1–P7, không kèm thông tin cá nhân participant.

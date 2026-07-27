@@ -1,6 +1,6 @@
 # Phiếu SUS đã điền — P1
 
-*(Điền theo template mục B của `../sus-form-vi.md`; số trong ngoặc in đậm = ô participant đã khoanh.)*
+*(Điền theo template mục B của `../template/sus-form-vi.md`; số trong ngoặc in đậm = ô participant đã khoanh.)*
 
 ---
 

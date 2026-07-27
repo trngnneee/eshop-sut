@@ -2,8 +2,8 @@
 
 Thư mục này gom toàn bộ kết quả thô của từng participant, điền theo đúng template sẵn có:
 
-- `session-P<n>.md` — ghi chú quan sát (template mục 3 của `../session-kit.md`), kèm ghi chú probe (mã câu hỏi theo `../probe-questions.md`) và 3 điều nổi bật.
-- `sus-P<n>.md` — phiếu SUS đã điền (template mục B của `../sus-form-vi.md`), kèm phần chấm điểm của moderator.
+- `session-P<n>.md` — ghi chú quan sát (template mục 3 của `../template/session-kit.md`), kèm ghi chú probe (mã câu hỏi theo `../template/probe-questions.md`) và 3 điều nổi bật.
+- `sus-P<n>.md` — phiếu SUS đã điền (template mục B của `../template/sus-form-vi.md`), kèm phần chấm điểm của moderator.
 
 Kịch bản tình huống dùng chung: `../task-scenario-draft.md`. Sản phẩm mục tiêu trong mọi session: **Tai nghe AirPods Pro 2** (6.000.000₫), mã `SAVE10` → còn 5.400.000₫.
 

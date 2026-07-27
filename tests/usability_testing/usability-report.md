@@ -11,7 +11,7 @@ FR phủ: FR-01, FR-05, FR-06, FR-07, FR-08, FR-09, FR-11.
 
 ### 1.1. Cách xây dựng
 
-Dùng AI đề xuất 6 mục tiêu ứng viên, với input là flow U-01 và các bug Task 1 đã tìm thấy trên chính các màn thuộc flow (BUG-11, 12, 16, 17, 20, 33, 34, 35, 36, 38, 42, 44, 46, 47 — xem `../bug-report.md`). Sau đó em tự chọn 3 mục tiêu chính thức và tự viết lý do chọn/loại dưới đây.
+Dùng AI đề xuất 6 mục tiêu ứng viên, với input là flow U-01 và các bug Task 1 đã tìm thấy trên chính các màn thuộc flow (BUG-11, 12, 16, 17, 20, 33, 34, 35, 36, 38, 42, 44, 46, 47 — xem `../gui_and_usability_testing/reports/bug-report.md`). Sau đó em tự chọn 3 mục tiêu chính thức và tự viết lý do chọn/loại dưới đây.
 
 ### 1.2. Sáu mục tiêu ứng viên (tóm tắt)
 
