@@ -1,0 +1,93 @@
+LỊCH SỬ GIT COMMIT (GIT COMMIT LOG)
+
+Tài liệu này ghi lại nhật ký commit git tương ứng với từng bước trong quy trình kiểm thử bài tập HW03.
+(Sinh viên có thể xuất lịch sử commit thực tế bằng lệnh `git log --oneline > docs/submission/Git_Commit_Log.txt` hoặc điền mẫu bên dưới).
+
+Yêu cầu commit tương ứng với từng bước:
+- Thiết kế GUI checklist (checklist design)
+- Thực thi checklist (checklist execution)
+- Log lỗi lên GitHub (bug logging)
+- Từng phiên kiểm thử Usability (each usability session - 7 sessions)
+- Phân tích kết quả Usability (usability analysis)
+
+--------------------------------------------------------------------------------
+
+MẪU LỊCH SỬ COMMIT (DỰ KIẾN / THỰC TẾ):
+
+commit <commit-hash-1>
+Author: <Tên Sinh Viên> <Email Sinh Viên>
+Date:   <Ngày giờ commit>
+
+    docs: thiet ke gui checklist ban dau voi hon 40 items (Task 1 - Design)
+
+commit <commit-hash-2>
+Author: <Tên Sinh Viên> <Email Sinh Viên>
+Date:   <Ngày giờ commit>
+
+    docs: thuc thi gui checklist tren SUT va cap nhat ket qua (Task 1 - Execution)
+
+commit <commit-hash-3>
+Author: <Tên Sinh Viên> <Email Sinh Viên>
+Date:   <Ngày giờ commit>
+
+    docs: log cac loi giao dien phat hien len github issues (Task 1 - Bug Logging)
+
+commit <commit-hash-4>
+Author: <Tên Sinh Viên> <Email Sinh Viên>
+Date:   <Ngày giờ commit>
+
+    docs: chuan bi kich ban va thiet ke thang do usability (Task 2 - Plan)
+
+commit <commit-hash-5>
+Author: <Tên Sinh Viên> <Email Sinh Viên>
+Date:   <Ngày giờ commit>
+
+    docs: ghi chep ket qua kiem thu usability phien 1 (Task 2 - Session 1)
+
+commit <commit-hash-6>
+Author: <Tên Sinh Viên> <Email Sinh Viên>
+Date:   <Ngày giờ commit>
+
+    docs: ghi chep ket qua kiem thu usability phien 2 (Task 2 - Session 2)
+
+commit <commit-hash-7>
+Author: <Tên Sinh Viên> <Email Sinh Viên>
+Date:   <Ngày giờ commit>
+
+    docs: ghi chep ket qua kiem thu usability phien 3 (Task 2 - Session 3)
+
+commit <commit-hash-8>
+Author: <Tên Sinh Viên> <Email Sinh Viên>
+Date:   <Ngày giờ commit>
+
+    docs: ghi chep ket qua kiem thu usability phien 4 (Task 2 - Session 4)
+
+commit <commit-hash-9>
+Author: <Tên Sinh Viên> <Email Sinh Viên>
+Date:   <Ngày giờ commit>
+
+    docs: ghi chep ket qua kiem thu usability phien 5 (Task 2 - Session 5)
+
+commit <commit-hash-10>
+Author: <Tên Sinh Viên> <Email Sinh Viên>
+Date:   <Ngày giờ commit>
+
+    docs: ghi chep ket qua kiem thu usability phien 6 (Task 2 - Session 6)
+
+commit <commit-hash-11>
+Author: <Tên Sinh Viên> <Email Sinh Viên>
+Date:   <Ngày giờ commit>
+
+    docs: ghi chep ket qua kiem thu usability phien 7 (Task 2 - Session 7)
+
+commit <commit-hash-12>
+Author: <Tên Sinh Viên> <Email Sinh Viên>
+Date:   <Ngày giờ commit>
+
+    docs: tong hop va phan tich ket qua thang do usability (Task 2 - Analysis)
+
+commit <commit-hash-13>
+Author: <Tên Sinh Viên> <Email Sinh Viên>
+Date:   <Ngày giờ commit>
+
+    docs: bo sung anh chup man hinh kiem thu da nen tang (Task 3)
