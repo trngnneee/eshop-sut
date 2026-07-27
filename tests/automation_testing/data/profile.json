@@ -1,0 +1,20 @@
+[
+  {
+    "id": "TC-PROFILE-001",
+    "name": "Cập nhật hồ sơ thành công với dữ liệu hợp lệ theo spec FR-04",
+    "type": "positive",
+    "login": {
+      "email": "test@eshop.com",
+      "password": "Test1234!"
+    },
+    "profile": {
+      "name": "Nguyen Van Test",
+      "phone": "0912345678",
+      "shippingAddress": "227 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM"
+    },
+    "expected": {
+      "alert": "Cập nhật thành công!",
+      "persisted": true
+    }
+  }
+]
