@@ -1,0 +1,9 @@
+{
+  "testCaseId": "TC-LOGIN-001",
+  "description": "Login successfully with valid credentials",
+  "email": "test@eshop.com",
+  "password": "Test1234!",
+  "expectedUrl": "http://localhost:5173/",
+  "expectedVisibleText": "Thoát",
+  "expectedUserGreeting": "Chào, Test User"
+}

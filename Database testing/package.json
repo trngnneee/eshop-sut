@@ -1,0 +1,24 @@
+{
+  "name": "minilab-database-testing",
+  "version": "1.0.0",
+  "description": "Database Testing & Test Data Generation for E-Commerce Mini Lab",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest --runInBand --verbose"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
