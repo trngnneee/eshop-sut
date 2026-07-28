@@ -1,6 +1,6 @@
 # Checklist Draft — IA-04: Feedback & State
 
-- **Input:** inventory 9 file trong `reports/23127438/ui-inventory/` + FR-24 nguyên văn (`eshop-sut/README.md:265-270`)
+- **Input:** inventory 9 file trong `../ui-inventory/` + FR-24 nguyên văn (`eshop-sut/README.md:265-270`)
 - **FR-24 gồm 4 quy tắc:** (1) "Thêm vào giỏ" phải có phản hồi trực quan (toast/badge); (2) xoá item khỏi giỏ phải có dialog xác nhận; (3) empty state phải có icon/hình minh hoạ + message thân thiện; (4) mọi ảnh sản phẩm có `alt` mô tả (không rỗng).
 
 | ID | Screen(s) | Checklist Item | Expected Result | Traced to (FR-24 / heuristic) |

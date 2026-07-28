@@ -1,6 +1,6 @@
 # Checklist Draft — IA-02: Forms
 
-- **Input:** inventory 9 file trong `reports/23127438/ui-inventory/` + FR-22 nguyên văn (`eshop-sut/README.md:250-256`)
+- **Input:** inventory 9 file trong `../ui-inventory/` + FR-22 nguyên văn (`eshop-sut/README.md:250-256`)
 - **FR-22 gồm 5 quy tắc:** (1) field bắt buộc có dấu `*` cạnh nhãn; (2) field Email dùng `type="email"`; (3) field Mật khẩu dùng `type="password"`; (4) thông báo lỗi hiện **TRÊN** nút submit — **quy tắc ngược convention phổ biến (đặt dưới field), test theo đúng spec này, không "sửa" theo thói quen**; (5) form ≥2 bước phải có Step Indicator.
 
 | ID | Screen(s) | Checklist Item | Expected Result | Traced to (FR-22 / heuristic) |

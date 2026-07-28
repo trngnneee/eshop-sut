@@ -1,6 +1,6 @@
 # Checklist Draft — IA-03: Navigation
 
-- **Input:** inventory 9 file trong `reports/23127438/ui-inventory/` + FR-23 nguyên văn (`eshop-sut/README.md:258-263`)
+- **Input:** inventory 9 file trong `../ui-inventory/` + FR-23 nguyên văn (`eshop-sut/README.md:258-263`)
 - **FR-23 gồm 4 quy tắc:** (1) Navbar highlight trang đang chọn; (2) link "Giỏ hàng" có badge số lượng; (3) nút đăng xuất nhãn "Đăng xuất" (không phải "Thoát"); (4) breadcrumb bắt buộc ở trang con (Giỏ hàng, Thanh toán, Chi tiết sản phẩm).
 
 | ID | Screen(s) | Checklist Item | Expected Result | Traced to (FR-23 / heuristic) |

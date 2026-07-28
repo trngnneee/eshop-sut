@@ -1,6 +1,6 @@
 # Checklist Draft — IA-01: General UI Standards
 
-- **Input:** inventory 9 file trong `reports/23127438/ui-inventory/` + FR-21 nguyên văn (`eshop-sut/README.md:242-248`)
+- **Input:** inventory 9 file trong `../ui-inventory/` + FR-21 nguyên văn (`eshop-sut/README.md:242-248`)
 - **FR-21 gồm 5 quy tắc:** (1) nhất quán ngôn ngữ tiếng Việt; (2) nút tích cực xanh dương / nút nguy hiểm đỏ; (3) tiền tệ `₫` + phân cách hàng nghìn; (4) mỗi trang đúng 1 `<h1>` mô tả nội dung; (5) tab order trên-xuống, trái-sang-phải.
 
 | ID | Screen(s) | Checklist Item | Expected Result | Traced to (FR-21 / heuristic) |
