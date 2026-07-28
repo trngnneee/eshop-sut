@@ -2,7 +2,7 @@
 
 - Tổng hợp từ 57 checklist item **Failed** (66 item, 9 Passed), gộp theo nguyên nhân gốc thành **48 bug**.
 - Sắp theo mức độ nghiêm trọng.
-- Screenshot tương ứng nằm trong `reports/test-cases/screenshots/<checklist-id>.png`.
+- Screenshot tương ứng nằm trong `test-cases/screenshots/<checklist-id>.png`.
 
 | Bug | Mức độ | Issue | Tiêu đề | Checklist liên quan |
 |---|---|---|---|---|

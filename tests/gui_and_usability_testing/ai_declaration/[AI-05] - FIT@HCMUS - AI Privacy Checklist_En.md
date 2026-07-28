@@ -22,7 +22,7 @@ Adapted from Med Kharbach, PhD (2026) — AI Use Policy Templates for Higher Edu
 - [x] I did not enter personal data of classmates, customers, or patients.
 - [x] I did not paste copyrighted reading materials wholesale into the AI.
 - [x] I did not paste proprietary employer or open-source license-restricted code.
-- [x] I logged each prompt + AI response into prompt_log.md with timestamp.
+- [x] I logged each prompt + AI response into the AI Audit Report (Section 3).
 
 ## 3. Before I submit my work
 
