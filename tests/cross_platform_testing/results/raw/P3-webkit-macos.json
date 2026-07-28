@@ -1,0 +1,2551 @@
+{
+  "platform": {
+    "key": "P3-webkit-macos",
+    "label": "Safari / WebKit — macOS",
+    "engine": "WebKit (Safari)",
+    "version": "26.5",
+    "os": "macOS 15.5 (24F74)",
+    "device": "MacBook Pro (Apple Silicon) — 2560×1664 Retina",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "emulated": false
+  },
+  "sut": {
+    "web": "http://localhost:5173",
+    "api": "http://localhost:3000"
+  },
+  "runStamp": "2026-07-28 20:30:13 (+07)",
+  "summary": {
+    "PASS": 6,
+    "FAIL": 60,
+    "BLOCKED": 0,
+    "ERROR": 0
+  },
+  "results": [
+    {
+      "id": "GUI-IA01-01",
+      "aspect": "IA-01",
+      "title": "Nhãn field và nút trên form đăng nhập hiển thị bằng tiếng Việt (hiện \"Username\", \"Sign In\")",
+      "screens": "Đăng nhập",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "English UI text on /login: \"Username\", \"Sign In\" (labels [\"Username\",\"Mật khẩu\"], submit \"Sign In\")",
+      "metrics": {
+        "labels": [
+          "Username",
+          "Mật khẩu"
+        ],
+        "submitLabel": "Sign In",
+        "formLinks": [
+          "Quên mật khẩu?",
+          "Đăng ký ngay"
+        ],
+        "englishStrings": [
+          "Username",
+          "Sign In"
+        ],
+        "englishTerms": [
+          "username",
+          "sign in"
+        ]
+      },
+      "screenshots": [
+        "GUI-IA01-01.png"
+      ],
+      "durationMs": 1223
+    },
+    {
+      "id": "GUI-IA01-02",
+      "aspect": "IA-01",
+      "title": "100% text UI tĩnh bằng tiếng Việt trên toàn bộ 8 màn hình (trừ thuật ngữ chuẩn Email, OTP)",
+      "screens": "Tất cả 8 màn hình",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "English static text on 1 screen(s): /login → Username [username], Sign In [sign in]",
+      "metrics": {
+        "screensScanned": 9,
+        "stringsPerScreen": {
+          "/cart (có sản phẩm)": 13,
+          "/": 15,
+          "/login": 10,
+          "/register": 10,
+          "/forgot-password": 7,
+          "/product/1": 7,
+          "/cart": 6,
+          "/checkout": 11,
+          "/profile": 13
+        },
+        "englishByScreen": {
+          "/login": [
+            "Username [username]",
+            "Sign In [sign in]"
+          ]
+        },
+        "cartSeeded": true,
+        "allowedTerms": "Email, OTP, EShop, VND, ₫, tên sản phẩm"
+      },
+      "screenshots": [
+        "GUI-IA01-02.png"
+      ],
+      "durationMs": 10962
+    },
+    {
+      "id": "GUI-IA01-03",
+      "aspect": "IA-01",
+      "title": "Nút submit \"Đăng Ký\" dùng màu hành động tích cực (hiện nền đỏ bg-red-500)",
+      "screens": "Đăng ký",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "\"Đăng Ký\" background is rgb(239, 68, 68) instead of the app's blue rgb(37, 99, 235) (red = danger/cancel per FR-21)",
+      "metrics": {
+        "registerButtonText": "Đăng Ký",
+        "registerButtonBg": "rgb(239, 68, 68)",
+        "referenceBlue": "rgb(37, 99, 235)",
+        "tailwindBlue600": "rgb(37, 99, 235)",
+        "matchesReferenceBlue": false
+      },
+      "screenshots": [
+        "GUI-IA01-03.png"
+      ],
+      "durationMs": 1023
+    },
+    {
+      "id": "GUI-IA01-04",
+      "aspect": "IA-01",
+      "title": "Các nút hành động tích cực dùng màu xanh dương thống nhất (hiện xanh lá / cam)",
+      "screens": "Chi tiết SP, Giỏ hàng, Thanh toán, Quên MK",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "5/5 positive-action buttons are not the app blue rgb(37, 99, 235): Thêm vào giỏ hàng (/product/1) = rgb(22, 163, 74); Tiến hành thanh toán (/cart) = rgb(34, 197, 94); Xác Nhận Thanh Toán (/checkout) = rgb(22, 163, 74); Áp dụng (/checkout) = rgb(249, 115, 22); Đặt lại mật khẩu (/forgot-password b2) = rgb(22, 163, 74)",
+      "metrics": {
+        "referenceBlue": "rgb(37, 99, 235)",
+        "backgrounds": {
+          "Thêm vào giỏ hàng (/product/1)": "rgb(22, 163, 74)",
+          "Tiến hành thanh toán (/cart)": "rgb(34, 197, 94)",
+          "Xác Nhận Thanh Toán (/checkout)": "rgb(22, 163, 74)",
+          "Áp dụng (/checkout)": "rgb(249, 115, 22)",
+          "Đặt lại mật khẩu (/forgot-password b2)": "rgb(22, 163, 74)"
+        },
+        "offSpecButtons": [
+          "Thêm vào giỏ hàng (/product/1) = rgb(22, 163, 74)",
+          "Tiến hành thanh toán (/cart) = rgb(34, 197, 94)",
+          "Xác Nhận Thanh Toán (/checkout) = rgb(22, 163, 74)",
+          "Áp dụng (/checkout) = rgb(249, 115, 22)",
+          "Đặt lại mật khẩu (/forgot-password b2) = rgb(22, 163, 74)"
+        ],
+        "unavailable": [],
+        "dialogs": []
+      },
+      "screenshots": [
+        "GUI-IA01-04.png"
+      ],
+      "durationMs": 5044
+    },
+    {
+      "id": "GUI-IA01-05",
+      "aspect": "IA-01",
+      "title": "Nút phụ \"← Quay lại\" phân biệt thị giác với nút chính \"Đặt lại mật khẩu\" (hiện cùng bg-green-600, full-width)",
+      "screens": "Quên mật khẩu",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "\"Đặt lại mật khẩu\" and \"← Quay lại\" are visually identical: both bg rgb(22, 163, 74), border \"0px solid rgb(229, 231, 235)\", 382px wide — no secondary styling",
+      "metrics": {
+        "primaryText": "Đặt lại mật khẩu",
+        "primaryBg": "rgb(22, 163, 74)",
+        "primaryBorder": "0px solid rgb(229, 231, 235)",
+        "primaryWidth": 382,
+        "secondaryText": "← Quay lại",
+        "secondaryBg": "rgb(22, 163, 74)",
+        "secondaryBorder": "0px solid rgb(229, 231, 235)",
+        "secondaryWidth": 382,
+        "differingProperties": []
+      },
+      "screenshots": [
+        "GUI-IA01-05.png"
+      ],
+      "durationMs": 1125
+    },
+    {
+      "id": "GUI-IA01-06",
+      "aspect": "IA-01",
+      "title": "Giá trên card sản phẩm dùng ký hiệu ₫ (Home hiện dùng \"VND\")",
+      "screens": "Trang chủ",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Card price still uses \"VND\": \"30.000.000 VND\" while Chi tiết SP uses ₫: \"30.000.000 ₫\"",
+      "metrics": {
+        "homeCardPrice": "30.000.000 VND",
+        "productDetailPrice": "30.000.000 ₫",
+        "homeUsesDong": false,
+        "homeUsesVND": true
+      },
+      "screenshots": [
+        "GUI-IA01-06.png"
+      ],
+      "durationMs": 1885
+    },
+    {
+      "id": "GUI-IA01-07",
+      "aspect": "IA-01",
+      "title": "Phân cách hàng nghìn nhất quán (toLocaleString() không tham số → phụ thuộc locale engine)",
+      "screens": "Trang chủ, Chi tiết SP, Giỏ hàng, Thanh toán, Lịch sử ĐH",
+      "platformSensitive": true,
+      "task1Status": "Passed",
+      "status": "PASS",
+      "evidence": "One separator \".\" on all 3 screens (\"30.000.000 VND\", \"30.000.000 ₫\", \"30.000.000 ₫\"); engine locale vi-VN, toLocaleString() unparameterised → value is engine/locale dependent",
+      "metrics": {
+        "prices": {
+          "/": "30.000.000 VND",
+          "/product/1": "30.000.000 ₫",
+          "/cart": "30.000.000 ₫"
+        },
+        "separatorPerScreen": {
+          "/": ".",
+          "/product/1": ".",
+          "/cart": "."
+        },
+        "distinctSeparators": [
+          "."
+        ],
+        "navigatorLanguage": "vi-VN",
+        "navigatorLanguages": "vi-VN",
+        "resolvedLocale": "vi-VN",
+        "defaultFormat": "30.000.000",
+        "viVNFormat": "30.000.000",
+        "localePinnedByApp": true
+      },
+      "screenshots": [],
+      "durationMs": 2941
+    },
+    {
+      "id": "GUI-IA01-08",
+      "aspect": "IA-01",
+      "title": "Giá luôn render là số có định dạng kể cả khi backend trả price sai kiểu (không bao giờ \"NaN ₫\")",
+      "screens": "Chi tiết SP",
+      "platformSensitive": false,
+      "task1Status": "Passed",
+      "status": "FAIL",
+      "evidence": "With price=\"ba mươi triệu\" from /api/products/1 the screen renders \"NaN ₫\" — \"NaN ₫\" reaches the user (valid data renders \"30.000.000 ₫\")",
+      "metrics": {
+        "validPrice": "30.000.000 ₫",
+        "stubbedApiPrice": "ba mươi triệu",
+        "renderedPriceWithBadType": "NaN ₫",
+        "containsNaN": true,
+        "screenText": "iPhone 15 Pro Max NaN ₫ Fixture: price sai kiểu (GUI-IA01-08) Số lượng: Thêm vào giỏ hàng"
+      },
+      "screenshots": [
+        "GUI-IA01-08.png"
+      ],
+      "durationMs": 2405
+    },
+    {
+      "id": "GUI-IA01-09",
+      "aspect": "IA-01",
+      "title": "Trang chủ có đúng 1 thẻ h1 (hiện 2: tiêu đề + dòng đếm sản phẩm)",
+      "screens": "Trang chủ",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "\"/\" has 2 <h1> elements: [\"Danh sách sản phẩm\",\"Hiển thị 5 sản phẩm\"] — expected exactly 1",
+      "metrics": {
+        "h1Count": 2,
+        "h1Texts": [
+          "Danh sách sản phẩm",
+          "Hiển thị 5 sản phẩm"
+        ],
+        "h2Count": 5
+      },
+      "screenshots": [
+        "GUI-IA01-09.png"
+      ],
+      "durationMs": 927
+    },
+    {
+      "id": "GUI-IA01-10",
+      "aspect": "IA-01",
+      "title": "Mỗi trang có đúng 1 h1 mô tả nội dung (6 trang này chỉ có h2)",
+      "screens": "Đăng nhập, Đăng ký, Quên MK, Giỏ hàng, Thanh toán, Hồ sơ/ĐH",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "6/6 routes do not have exactly 1 <h1> — counts {\"/login\":0,\"/register\":0,\"/forgot-password\":0,\"/cart\":0,\"/checkout\":0,\"/profile\":0}; they only carry <h2> (e.g. /login → [\"Đăng Ký\"])",
+      "metrics": {
+        "h1CountByRoute": {
+          "/login": 0,
+          "/register": 0,
+          "/forgot-password": 0,
+          "/cart": 0,
+          "/checkout": 0,
+          "/profile": 0
+        },
+        "h1TextsByRoute": {
+          "/login": [],
+          "/register": [],
+          "/forgot-password": [],
+          "/cart": [],
+          "/checkout": [],
+          "/profile": []
+        },
+        "h2TextsByRoute": {
+          "/login": [
+            "Đăng Ký"
+          ],
+          "/register": [
+            "Đăng Ký Tài Khoản"
+          ],
+          "/forgot-password": [
+            "Quên Mật Khẩu"
+          ],
+          "/cart": [
+            "Giỏ hàng của bạn đang trống"
+          ],
+          "/checkout": [
+            "Xác Nhận Đơn Hàng"
+          ],
+          "/profile": [
+            "Hồ sơ của bạn",
+            "Lịch sử đơn hàng"
+          ]
+        }
+      },
+      "screenshots": [
+        "GUI-IA01-10.png"
+      ],
+      "durationMs": 7879
+    },
+    {
+      "id": "GUI-IA01-11",
+      "aspect": "IA-01",
+      "title": "Heading mô tả đúng chức năng trang (trang /login hiện ghi \"Đăng Ký\")",
+      "screens": "Đăng nhập",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "/login heading is <h2> \"Đăng Ký\" — does not describe the login page (expected \"Đăng Nhập\"); submit button reads \"Sign In\"",
+      "metrics": {
+        "heading": "Đăng Ký",
+        "headingTag": "h2",
+        "submitLabel": "Sign In",
+        "route": "/login"
+      },
+      "screenshots": [
+        "GUI-IA01-11.png"
+      ],
+      "durationMs": 1013
+    },
+    {
+      "id": "GUI-IA01-12",
+      "aspect": "IA-01",
+      "title": "Title tab trình duyệt mô tả trang và đổi theo trang (hiện cố định \"frontend-web\")",
+      "screens": "Tất cả 8 màn hình",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "document.title is the same \"frontend-web\" on all 8 screens — it never describes the page",
+      "metrics": {
+        "titleByRoute": {
+          "/": "frontend-web",
+          "/login": "frontend-web",
+          "/register": "frontend-web",
+          "/forgot-password": "frontend-web",
+          "/product/1": "frontend-web",
+          "/cart": "frontend-web",
+          "/checkout": "frontend-web",
+          "/profile": "frontend-web"
+        },
+        "distinctTitles": [
+          "frontend-web"
+        ],
+        "distinctCount": 1,
+        "screens": 8
+      },
+      "screenshots": [
+        "GUI-IA01-12.png"
+      ],
+      "durationMs": 6147
+    },
+    {
+      "id": "GUI-IA01-13",
+      "aspect": "IA-01",
+      "title": "Tab order mọi form đi trên-xuống, submit cuối (Đăng nhập có tabIndex={1} trên nút → focus nút TRƯỚC input)",
+      "screens": "Đăng nhập, Đăng ký, Quên MK, Thanh toán, Hồ sơ",
+      "platformSensitive": true,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Tab order broken on 1/5 form(s) — /login: focus order [2,0,1] vs DOM order [0,1,2] — first focused is #2 button[submit] \"Sign In\" tabindex=1",
+      "metrics": {
+        "forms": {
+          "/login": {
+            "controls": [
+              "#0 input[text] \"Username\"",
+              "#1 input[text] \"Mật khẩu\"",
+              "#2 button[submit] tabindex=1 \"Sign In\""
+            ],
+            "domOrder": [
+              0,
+              1,
+              2
+            ],
+            "focusOrder": [
+              2,
+              0,
+              1
+            ],
+            "linksInForm": 2
+          },
+          "/register": {
+            "controls": [
+              "#0 input[text] \"Họ Tên\"",
+              "#1 input[text] \"Email\"",
+              "#2 input[password] \"Mật khẩu\"",
+              "#3 button[submit] \"Đăng Ký\""
+            ],
+            "domOrder": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "focusOrder": [
+              0,
+              1,
+              2
+            ],
+            "linksInForm": 1
+          },
+          "/forgot-password": {
+            "controls": [
+              "#0 input[text] \"Nhập Email của bạn\"",
+              "#1 button[submit] \"Lấy mã OTP\""
+            ],
+            "domOrder": [
+              0,
+              1
+            ],
+            "focusOrder": [
+              0
+            ],
+            "linksInForm": 0
+          },
+          "/checkout": {
+            "controls": [
+              "#0 input[number] \"Tổng tiền thanh toán (VND):\"",
+              "#1 input[text] \"Nhập mã giảm giá...\"",
+              "#2 button[submit] \"Xác Nhận Thanh Toán\""
+            ],
+            "domOrder": [
+              0,
+              1,
+              2
+            ],
+            "focusOrder": [
+              0,
+              1
+            ],
+            "linksInForm": 0
+          },
+          "/profile": {
+            "controls": [
+              "#0 input[text] \"Họ Tên\"",
+              "#1 input[text] \"Số điện thoại\"",
+              "#2 textarea[textarea] \"Địa chỉ giao hàng\"",
+              "#3 button[submit] \"Cập nhật\""
+            ],
+            "domOrder": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "focusOrder": [
+              0,
+              1,
+              2
+            ],
+            "linksInForm": 0
+          }
+        },
+        "rawFocusSequence": {
+          "/login": "#2:button[submit] → #0:input[text] → #1:input[text] → (outside:body EShop Giỏ hàng Chào, T) → #2:button[submit]",
+          "/register": "#0:input[text] → #1:input[text] → #2:input[password] → (outside:body EShop Giỏ hàng Chào, T) → #0:input[text]",
+          "/forgot-password": "#0:input[text] → (outside:body EShop Giỏ hàng Chào, T) → #0:input[text]",
+          "/checkout": "#0:input[number] → #1:input[text] → (outside:body EShop Giỏ hàng Chào, T) → #0:input[number]",
+          "/profile": "#0:input[text] → #1:input[text] → #2:textarea[textarea] → (outside:body EShop Giỏ hàng Chào, T) → #0:input[text]"
+        },
+        "orderViolations": [
+          "/login: focus order [2,0,1] vs DOM order [0,1,2] — first focused is #2 button[submit] \"Sign In\" tabindex=1"
+        ],
+        "unreachableControls": {
+          "/register": [
+            "#3 button[submit] \"Đăng Ký\""
+          ],
+          "/forgot-password": [
+            "#1 button[submit] \"Lấy mã OTP\""
+          ],
+          "/checkout": [
+            "#2 button[submit] \"Xác Nhận Thanh Toán\""
+          ],
+          "/profile": [
+            "#3 button[submit] \"Cập nhật\""
+          ]
+        },
+        "nativeButtonsInTabOrder": false,
+        "note": "links are excluded from the verdict because WebKit/Safari keeps <a> out of the default Tab sequence"
+      },
+      "screenshots": [
+        "GUI-IA01-13.png"
+      ],
+      "durationMs": 6979
+    },
+    {
+      "id": "GUI-IA01-14",
+      "aspect": "IA-01",
+      "title": "Viewport ≤640px: nút \"Thêm vào giỏ hàng\" hiển thị đầy đủ (class bug-mobile-hidden áp margin-right:-100px)",
+      "screens": "Chi tiết SP",
+      "platformSensitive": true,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "At 375px (max-width:640px active=true) button \"Thêm vào giỏ hàng\": computed margin-right -100px — the 186px button only reserves 86px of layout space",
+      "metrics": {
+        "viewport": {
+          "requested": 375,
+          "applied": 375,
+          "resized": true
+        },
+        "text": "Thêm vào giỏ hàng",
+        "marginRight": "-100px",
+        "marginLeft": "0px",
+        "alignSelf": "flex-start",
+        "classes": "bg-green-600 text-white py-3 px-6 rounded hover:bg-green-700 self-start bug-mobile-hidden",
+        "rect": {
+          "left": 41,
+          "right": 227,
+          "width": 186
+        },
+        "parentRect": {
+          "left": 41,
+          "right": 334
+        },
+        "layoutWidthReserved": 86,
+        "viewportWidth": 375,
+        "documentScrollWidth": 375,
+        "hitCentreIsButton": true,
+        "hitRightEdgeIsButton": true,
+        "mediaQuery640": true
+      },
+      "screenshots": [
+        "GUI-IA01-14.png"
+      ],
+      "durationMs": 1382
+    },
+    {
+      "id": "GUI-IA01-15",
+      "aspect": "IA-01",
+      "title": "Grid sản phẩm 1/2/3 cột theo breakpoint, không horizontal scroll ở 375/768/1280px",
+      "screens": "Trang chủ",
+      "platformSensitive": true,
+      "task1Status": "Passed",
+      "status": "FAIL",
+      "evidence": "Observed 1/3/3 columns at 375/768/1280px — columns 768px → 3 (expected 2); horizontal scroll at 375px: 3px (scrollWidth 378 vs clientWidth 375) from [\"form.flex.gap-2 right=378\",\"button.bg-blue-600.text-white right=378\"]",
+      "metrics": {
+        "expectedColumns": {
+          "375": 1,
+          "768": 2,
+          "1280": 3
+        },
+        "columnsByViewport": {
+          "375": 1,
+          "768": 3,
+          "1280": 3
+        },
+        "gridTemplateByViewport": {
+          "375": "343px",
+          "768": "229.328125px 229.328125px 229.34375px",
+          "1280": "314.65625px 314.671875px 314.671875px"
+        },
+        "horizontalOverflowByViewport": {
+          "375": true,
+          "768": false,
+          "1280": false
+        },
+        "overflowDetail": {
+          "375": "3px (scrollWidth 378 vs clientWidth 375) from [\"form.flex.gap-2 right=378\",\"button.bg-blue-600.text-white right=378\"]"
+        },
+        "mediaByViewport": {
+          "375": {
+            "clientWidth": 375,
+            "innerWidth": 375,
+            "sm640": false,
+            "md768": false
+          },
+          "768": {
+            "clientWidth": 768,
+            "innerWidth": 768,
+            "sm640": true,
+            "md768": true
+          },
+          "1280": {
+            "clientWidth": 1280,
+            "innerWidth": 1280,
+            "sm640": true,
+            "md768": true
+          }
+        },
+        "viewportResize": {
+          "375": {
+            "requested": 375,
+            "applied": 375,
+            "resized": true
+          },
+          "768": {
+            "requested": 768,
+            "applied": 768,
+            "resized": true
+          },
+          "1280": {
+            "requested": 1280,
+            "applied": 1280,
+            "resized": true
+          }
+        }
+      },
+      "screenshots": [
+        "GUI-IA01-15.png"
+      ],
+      "durationMs": 3546
+    },
+    {
+      "id": "GUI-IA01-16",
+      "aspect": "IA-01",
+      "title": "Tên sản phẩm dài bị truncate vẫn xem được đầy đủ, không phá layout",
+      "screens": "Trang chủ",
+      "platformSensitive": true,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Long product name (88 chars): name is clipped (scrollWidth 857px vs clientWidth 281px, text-overflow \"ellipsis\") but carries no title/aria-label — the full name cannot be read",
+      "metrics": {
+        "fixtureName": "Tai nghe không dây chống ồn chủ động bản đặc biệt phiên bản giới hạn 2026 màu xanh dương",
+        "fixtureNameLength": 88,
+        "byViewport": {
+          "375": {
+            "viewport": {
+              "requested": 375,
+              "applied": 375,
+              "resized": true
+            },
+            "renderedText": "Tai nghe không dây chống ồn chủ động bản đặc biệt phiên bản giới hạn 2026 màu xanh dương",
+            "fullTextLength": 88,
+            "scrollWidth": 857,
+            "clientWidth": 309,
+            "truncated": true,
+            "textOverflow": "ellipsis",
+            "whiteSpace": "nowrap",
+            "overflow": "hidden",
+            "titleAttr": null,
+            "ariaLabel": null,
+            "cardTitleAttr": null,
+            "nameOverflowsCard": false,
+            "cardOverflowsGrid": false,
+            "cardWidth": 343,
+            "documentScrollWidth": 378,
+            "viewportWidth": 375
+          },
+          "1280": {
+            "viewport": {
+              "requested": 1280,
+              "applied": 1280,
+              "resized": true
+            },
+            "renderedText": "Tai nghe không dây chống ồn chủ động bản đặc biệt phiên bản giới hạn 2026 màu xanh dương",
+            "fullTextLength": 88,
+            "scrollWidth": 857,
+            "clientWidth": 281,
+            "truncated": true,
+            "textOverflow": "ellipsis",
+            "whiteSpace": "nowrap",
+            "overflow": "hidden",
+            "titleAttr": null,
+            "ariaLabel": null,
+            "cardTitleAttr": null,
+            "nameOverflowsCard": false,
+            "cardOverflowsGrid": false,
+            "cardWidth": 315,
+            "documentScrollWidth": 1280,
+            "viewportWidth": 1280
+          }
+        },
+        "truncated": true,
+        "hasTooltip": false,
+        "layoutBroken": false
+      },
+      "screenshots": [
+        "GUI-IA01-16.png"
+      ],
+      "durationMs": 2627
+    },
+    {
+      "id": "GUI-GAP-03",
+      "aspect": "IA-01",
+      "title": "Thẻ <html> khai báo đúng ngôn ngữ nội dung (hiện lang=\"en\" trong khi UI tiếng Việt)",
+      "screens": "Toàn app",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "<html lang=\"en\"> on every route while the UI text is Vietnamese (WCAG 3.1.1) — expected lang=\"vi\"",
+      "metrics": {
+        "htmlLang": "en",
+        "langByRoute": {
+          "/": {
+            "lang": "en",
+            "computedLang": "en",
+            "dir": null
+          },
+          "/login": {
+            "lang": "en",
+            "computedLang": "en",
+            "dir": null
+          },
+          "/product/1": {
+            "lang": "en",
+            "computedLang": "en",
+            "dir": null
+          }
+        },
+        "uiTextIsVietnamese": true,
+        "navigatorLanguage": "vi-VN"
+      },
+      "screenshots": [
+        "GUI-GAP-03.png"
+      ],
+      "durationMs": 2409
+    },
+    {
+      "id": "GUI-IA02-01",
+      "aspect": "IA-02",
+      "title": "Mọi field required hiển thị dấu \"*\" cạnh nhãn",
+      "screens": "Đăng ký, Đăng nhập, Quên MK, Hồ sơ",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "7/7 required fields have no \"*\" on the label: /register:\"Họ Tên\", /register:\"Email\", /register:\"Mật khẩu\", /login:\"Username\", /login:\"Mật khẩu\", /forgot-password:\"Nhập Email của bạn\", /profile:\"Họ Tên\"",
+      "metrics": {
+        "perForm": {
+          "/register": [
+            {
+              "label": "Họ Tên",
+              "required": true,
+              "ariaRequired": null,
+              "star": false
+            },
+            {
+              "label": "Email",
+              "required": true,
+              "ariaRequired": null,
+              "star": false
+            },
+            {
+              "label": "Mật khẩu",
+              "required": true,
+              "ariaRequired": null,
+              "star": false
+            }
+          ],
+          "/login": [
+            {
+              "label": "Username",
+              "required": true,
+              "ariaRequired": null,
+              "star": false
+            },
+            {
+              "label": "Mật khẩu",
+              "required": true,
+              "ariaRequired": null,
+              "star": false
+            }
+          ],
+          "/forgot-password": [
+            {
+              "label": "Nhập Email của bạn",
+              "required": true,
+              "ariaRequired": null,
+              "star": false
+            }
+          ],
+          "/profile": [
+            {
+              "label": "Email (Không đổi)",
+              "required": false,
+              "ariaRequired": null,
+              "star": false
+            },
+            {
+              "label": "Họ Tên",
+              "required": true,
+              "ariaRequired": null,
+              "star": false
+            },
+            {
+              "label": "Số điện thoại",
+              "required": false,
+              "ariaRequired": null,
+              "star": false
+            },
+            {
+              "label": "Địa chỉ giao hàng",
+              "required": false,
+              "ariaRequired": null,
+              "star": false
+            }
+          ]
+        },
+        "requiredCount": 7,
+        "missingStar": [
+          "/register:\"Họ Tên\"",
+          "/register:\"Email\"",
+          "/register:\"Mật khẩu\"",
+          "/login:\"Username\"",
+          "/login:\"Mật khẩu\"",
+          "/forgot-password:\"Nhập Email của bạn\"",
+          "/profile:\"Họ Tên\""
+        ]
+      },
+      "screenshots": [
+        "GUI-IA02-01.png"
+      ],
+      "durationMs": 5171
+    },
+    {
+      "id": "GUI-IA02-02",
+      "aspect": "IA-02",
+      "title": "Field Email dùng type=\"email\" và chặn định dạng sai (\"abc\")",
+      "screens": "Đăng ký, Đăng nhập, Quên MK",
+      "platformSensitive": true,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Email input type = {\"/register\":\"text\",\"/login\":\"text\",\"/forgot-password\":\"text\"}; validationMessage for \"abc\" = {\"/register\":\"\",\"/login\":\"\",\"/forgot-password\":\"\"}; handler still ran on /register → in-page: Mật khẩu quá yếu! Phải dài tối thiểu 8 ký tự, gồm chữ hoa, chữ thường, số và KÝ TỰ ĐẶC BIỆT. ; /login → in-page: Đăng nhập thất bại. Vui lòng kiểm tra lại. ; /forgot-password → alert(): Lỗi: User not found",
+      "metrics": {
+        "perForm": {
+          "/register": {
+            "label": "Email",
+            "typeAttr": "text",
+            "validationMessage": "",
+            "typeMismatch": false,
+            "formValidWithAbc": true,
+            "willValidate": true,
+            "appReacted": true,
+            "appReaction": "in-page: Mật khẩu quá yếu! Phải dài tối thiểu 8 ký tự, gồm chữ hoa, chữ thường, số và KÝ TỰ ĐẶC BIỆT."
+          },
+          "/login": {
+            "label": "Username",
+            "typeAttr": "text",
+            "validationMessage": "",
+            "typeMismatch": false,
+            "formValidWithAbc": true,
+            "willValidate": true,
+            "appReacted": true,
+            "appReaction": "in-page: Đăng nhập thất bại. Vui lòng kiểm tra lại."
+          },
+          "/forgot-password": {
+            "label": "Nhập Email của bạn",
+            "typeAttr": "text",
+            "validationMessage": "",
+            "typeMismatch": false,
+            "formValidWithAbc": true,
+            "willValidate": true,
+            "appReacted": true,
+            "appReaction": "alert(): Lỗi: User not found"
+          }
+        },
+        "navigatorLanguage": "vi-VN",
+        "navigatorLanguages": "vi-VN",
+        "documentLang": "en"
+      },
+      "screenshots": [
+        "GUI-IA02-02.png"
+      ],
+      "durationMs": 8068
+    },
+    {
+      "id": "GUI-IA02-03",
+      "aspect": "IA-02",
+      "title": "Field Mật khẩu che ký tự khi gõ",
+      "screens": "Đăng nhập",
+      "platformSensitive": true,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Login password field type=\"text\" renders real glyphs: 60×i = 380px vs 60×W = 928px (a masked field is equal) → password visible on screen",
+      "metrics": {
+        "label": "Mật khẩu",
+        "typeAttr": "text",
+        "webkitTextSecurity": "none",
+        "fontFamily": "ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji",
+        "fontSize": "16px",
+        "letterSpacing": "normal",
+        "widthOf60i": 380,
+        "widthOf60W": 928,
+        "clientWidth": 380,
+        "glyphsRendered": true
+      },
+      "screenshots": [
+        "GUI-IA02-03.png"
+      ],
+      "durationMs": 1273
+    },
+    {
+      "id": "GUI-IA02-04",
+      "aspect": "IA-02",
+      "title": "Lỗi form hiển thị trong trang, phía TRÊN nút submit (không alert native)",
+      "screens": "Đăng nhập, Đăng ký, Quên MK, Hồ sơ",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "/login in-page error is BELOW the submit button (errY=517, btnY=425): \"Đăng nhập thất bại. Vui lòng kiểm tra lại.\" ; /forgot-password uses native alert() (\"Lỗi: User not found\") ; /profile uses native alert() (\"Số điện thoại không hợp lệ. Vui lòng nhập đúng 9-10 chữ số.\")",
+      "metrics": {
+        "perForm": {
+          "/login": {
+            "mechanism": "in-page",
+            "errorText": "Đăng nhập thất bại. Vui lòng kiểm tra lại.",
+            "errorY": 517,
+            "submitY": 425,
+            "aboveSubmit": false
+          },
+          "/register": {
+            "mechanism": "in-page",
+            "errorText": "Mật khẩu quá yếu! Phải dài tối thiểu 8 ký tự, gồm chữ hoa, chữ thường, số và KÝ TỰ ĐẶC BIỆT.",
+            "errorY": 209,
+            "submitY": 603,
+            "aboveSubmit": true
+          },
+          "/forgot-password": {
+            "mechanism": "native alert()",
+            "errorText": "Lỗi: User not found",
+            "errorY": null,
+            "submitY": 299,
+            "aboveSubmit": false
+          },
+          "/profile": {
+            "mechanism": "native alert()",
+            "errorText": "Số điện thoại không hợp lệ. Vui lòng nhập đúng 9-10 chữ số.",
+            "errorY": null,
+            "submitY": 557,
+            "aboveSubmit": false
+          }
+        }
+      },
+      "screenshots": [
+        "GUI-IA02-04.png"
+      ],
+      "durationMs": 13591
+    },
+    {
+      "id": "GUI-IA02-05",
+      "aspect": "IA-02",
+      "title": "Luồng 2 bước có Step Indicator rõ ràng (\"Bước 1/2\", \"Bước 2/2\")",
+      "screens": "Quên mật khẩu",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "No step indicator: step 1 body \"EShop Giỏ hàng Đăng nhập Đăng ký Quên Mật Khẩu Nhập Email của bạn Lấy \" and step 2 body \"EShop Giỏ hàng Đăng nhập Đăng ký Quên Mật Khẩu Mã OTP của bạn là: 1770\" contain no \"Bước n/2\"; [aria-current]=0/0, <ol>=0/0",
+      "metrics": {
+        "heading": "Quên Mật Khẩu",
+        "step1Indicator": false,
+        "step2Indicator": false,
+        "step1Text": "EShop Giỏ hàng Đăng nhập Đăng ký Quên Mật Khẩu Nhập Email của bạn Lấy mã OTP © 2026 EShop SUT. Dành cho mục đích kiểm thử.",
+        "step2Text": "EShop Giỏ hàng Đăng nhập Đăng ký Quên Mật Khẩu Mã OTP của bạn là: 1770 Mã OTP (4 số) Mật khẩu mới Đặt lại mật khẩu← Quay lại © 2026 EShop SUT. Dành cho mục đích kiểm thử.",
+        "step2OtpMessage": "Mã OTP của bạn là: 1770",
+        "step1Stepper": {
+          "ariaCurrent": 0,
+          "olLists": 0,
+          "progress": 0
+        },
+        "step2Stepper": {
+          "ariaCurrent": 0,
+          "olLists": 0,
+          "progress": 0
+        }
+      },
+      "screenshots": [
+        "GUI-IA02-05.png"
+      ],
+      "durationMs": 2081
+    },
+    {
+      "id": "GUI-IA02-06",
+      "aspect": "IA-02",
+      "title": "Field SĐT chấp nhận số VN 10 số bắt đầu bằng 0",
+      "screens": "Hồ sơ",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Valid VN number \"0912345678\" rejected → \"Số điện thoại không hợp lệ. Vui lòng nhập đúng 9-10 chữ số.\" although the placeholder promises \"VD: 0912345678\"; \"abc\" → \"Số điện thoại không hợp lệ. Vui lòng nhập đúng 9-10 chữ số.\", \"123\" → \"Số điện thoại không hợp lệ. Vui lòng nhập đúng 9-10 chữ số.\"",
+      "metrics": {
+        "typeAttr": "text",
+        "patternAttr": null,
+        "placeholder": "VD: 0912345678",
+        "appRegex": "/^[1-9][0-9]{8,9}$/ (Profile.jsx:44)",
+        "results": {
+          "123": {
+            "nativeValidationMessage": "",
+            "nativePatternMismatch": false,
+            "via": "native alert()",
+            "feedback": "Số điện thoại không hợp lệ. Vui lòng nhập đúng 9-10 chữ số.",
+            "accepted": false
+          },
+          "0912345678": {
+            "nativeValidationMessage": "",
+            "nativePatternMismatch": false,
+            "via": "native alert()",
+            "feedback": "Số điện thoại không hợp lệ. Vui lòng nhập đúng 9-10 chữ số.",
+            "accepted": false
+          },
+          "abc": {
+            "nativeValidationMessage": "",
+            "nativePatternMismatch": false,
+            "via": "native alert()",
+            "feedback": "Số điện thoại không hợp lệ. Vui lòng nhập đúng 9-10 chữ số.",
+            "accepted": false
+          }
+        }
+      },
+      "screenshots": [
+        "GUI-IA02-06.png"
+      ],
+      "durationMs": 10159
+    },
+    {
+      "id": "GUI-IA02-07",
+      "aspect": "IA-02",
+      "title": "Validate mật khẩu khớp hint — \"Abcdef1!\" phải được chấp nhận",
+      "screens": "Đăng ký, Quên MK",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Hint says \"Yêu cầu: Tối thiểu 8 ký tự, có chữ hoa, chữ thường, số và ký tự đặc biệt.\" but \"Abcdef1!\" is rejected on /register: \"Mật khẩu quá yếu! Phải dài tối thiểu 8 ký tự, gồm chữ hoa, chữ thường, số và KÝ TỰ ĐẶC BIỆT.\"; on /forgot-password: \"Mật khẩu quá yếu! Phải dài tối thiểu 8 ký tự, gồm chữ hoa, chữ thường, số và KÝ TỰ ĐẶC BIỆT.\". A password containing a SPACE (\"Abc defg1\") is accepted (true) → the regex demands whitespace and bans special characters",
+      "metrics": {
+        "appRegex": "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*\\s)[A-Za-z\\d\\s]{8,}$/ (Register.jsx:16, ForgotPassword.jsx:27)",
+        "hintText": "Yêu cầu: Tối thiểu 8 ký tự, có chữ hoa, chữ thường, số và ký tự đặc biệt.",
+        "registerWithHintPassword": {
+          "password": "Abcdef1!",
+          "hint": "Yêu cầu: Tối thiểu 8 ký tự, có chữ hoa, chữ thường, số và ký tự đặc biệt.",
+          "error": "Mật khẩu quá yếu! Phải dài tối thiểu 8 ký tự, gồm chữ hoa, chữ thường, số và KÝ TỰ ĐẶC BIỆT.",
+          "path": "/register",
+          "accepted": false
+        },
+        "registerWithWhitespacePassword": {
+          "password": "Abc defg1",
+          "email": "xp-1785245520089-3057@t.local",
+          "hint": "Yêu cầu: Tối thiểu 8 ký tự, có chữ hoa, chữ thường, số và ký tự đặc biệt.",
+          "error": null,
+          "path": "/login",
+          "accepted": true
+        },
+        "forgotPasswordWithHintPassword": {
+          "password": "Abcdef1!",
+          "accepted": false,
+          "feedback": "Mật khẩu quá yếu! Phải dài tối thiểu 8 ký tự, gồm chữ hoa, chữ thường, số và KÝ TỰ ĐẶC BIỆT.",
+          "otpUsed": "5321"
+        }
+      },
+      "screenshots": [
+        "GUI-IA02-07.png"
+      ],
+      "durationMs": 9654
+    },
+    {
+      "id": "GUI-IA02-08",
+      "aspect": "IA-02",
+      "title": "Field OTP giới hạn đúng 4 chữ số như nhãn",
+      "screens": "Quên mật khẩu",
+      "platformSensitive": true,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Label says \"Mã OTP (4 số)\" but the field kept \"123456abcd\" (length 10, letters included); maxlength=null, pattern=null, validationMessage=\"\" → value reached the API: \"Mã OTP không đúng hoặc có lỗi xảy ra.\"",
+      "metrics": {
+        "label": "Mã OTP (4 số)",
+        "typeAttr": "text",
+        "maxlengthAttr": null,
+        "maxLengthProp": -1,
+        "patternAttr": null,
+        "inputmodeAttr": null,
+        "keystrokes": "123456abcd",
+        "acceptedValue": "123456abcd",
+        "acceptedLength": 10,
+        "validationMessage": "",
+        "patternMismatch": false,
+        "tooLong": false,
+        "formValid": false,
+        "submitFeedback": "Mã OTP không đúng hoặc có lỗi xảy ra."
+      },
+      "screenshots": [
+        "GUI-IA02-08.png"
+      ],
+      "durationMs": 4037
+    },
+    {
+      "id": "GUI-IA02-09",
+      "aspect": "IA-02",
+      "title": "Input Số lượng có ràng buộc min/max, không cho giá trị vô lý",
+      "screens": "Chi tiết SP",
+      "platformSensitive": true,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Quantity input has min=null, max=null (no lower bound); typing \"-1\" leaves value \"-1\" (rangeUnderflow=false, validationMessage=\"\"), typing \"abc\" leaves \"\" (badInput=false); cart accepted quantity \"-1\" — row \"iPhone 15 Pro Max 30.000.000 ₫ -1 -30.000.000 ₫ Xóa\"",
+      "metrics": {
+        "attrs": {
+          "type": "number",
+          "min": null,
+          "max": null,
+          "step": null,
+          "required": false
+        },
+        "probes": {
+          "-1": {
+            "keystrokes": "-1",
+            "valueAfter": "-1",
+            "validationMessage": "",
+            "badInput": false,
+            "rangeUnderflow": false,
+            "valueMissing": false,
+            "valid": true
+          },
+          "abc": {
+            "keystrokes": "abc",
+            "valueAfter": "",
+            "validationMessage": "",
+            "badInput": false,
+            "rangeUnderflow": false,
+            "valueMissing": false,
+            "valid": true
+          },
+          "(cleared)": {
+            "keystrokes": "",
+            "valueAfter": "",
+            "validationMessage": "",
+            "badInput": false,
+            "rangeUnderflow": false,
+            "valueMissing": false,
+            "valid": true
+          }
+        },
+        "cartRows": 1,
+        "cartQuantityCell": "-1",
+        "cartLine": "iPhone 15 Pro Max 30.000.000 ₫ -1 -30.000.000 ₫ Xóa"
+      },
+      "screenshots": [
+        "GUI-IA02-09.png"
+      ],
+      "durationMs": 4130
+    },
+    {
+      "id": "GUI-IA02-10",
+      "aspect": "IA-02",
+      "title": "Tổng tiền thanh toán là giá trị chỉ đọc, không sửa được",
+      "screens": "Thanh toán",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "\"Tổng tiền thanh toán\" is an editable <input type=\"number\"> (readOnly=false, disabled=false): value 30000000 → \"1000\", summary \"Tổng thanh toán: 1.000 ₫\", and POST /api/checkout carried {\"items\":[{\"id\":1,\"name\":\"iPhone 15 Pro Max\",\"price\":30000000,\"description\":\"Điện thoại cao cấp của Apple\",\"imageUrl\":\"https://placehold.co/300x300/png?text=iPhone+15\",\"category_id\":1,\"quantity\":1}],\"total_amount\":1000,\"coupon_id\":null}",
+      "metrics": {
+        "totalField": {
+          "tag": "input",
+          "type": "number",
+          "readOnly": false,
+          "disabled": false,
+          "ariaReadonly": null,
+          "value": "30000000"
+        },
+        "valueAfterTyping1000": "1000",
+        "typeError": null,
+        "summaryLine": "Tổng thanh toán: 1.000 ₫",
+        "checkoutRequests": [
+          {
+            "method": "POST",
+            "body": "{\"items\":[{\"id\":1,\"name\":\"iPhone 15 Pro Max\",\"price\":30000000,\"description\":\"Điện thoại cao cấp của Apple\",\"imageUrl\":\"https://placehold.co/300x300/png?text=iPhone+15\",\"category_id\":1,\"quantity\":1}],\"total_amount\":1000,\"coupon_id\":null}"
+          }
+        ],
+        "resultBanner": "Thanh toán thành công!",
+        "dialogs": []
+      },
+      "screenshots": [
+        "GUI-IA02-10.png"
+      ],
+      "durationMs": 6446
+    },
+    {
+      "id": "GUI-IA02-11",
+      "aspect": "IA-02",
+      "title": "Mã giảm giá chuẩn hoá hoa/thường (\"save10\" xử lý như \"SAVE10\")",
+      "screens": "Thanh toán",
+      "platformSensitive": false,
+      "task1Status": "Passed",
+      "status": "PASS",
+      "evidence": "\"save10\" and \"SAVE10\" behave identically → \"✅ Áp dụng thành công! Giảm 10% Tiết kiệm: -270.000.000 ₫ Thành tiền: 300.000.000 ₫\"; the input is rendered with text-transform: uppercase while its value stays \"save10\"",
+      "metrics": {
+        "cssTextTransform": "uppercase",
+        "codeSentToApi": "couponCode.trim().toUpperCase() (Checkout.jsx:30)",
+        "lowerCase": {
+          "typedValue": "save10",
+          "success": "✅ Áp dụng thành công! Giảm 10% Tiết kiệm: -270.000.000 ₫ Thành tiền: 300.000.000 ₫",
+          "error": null,
+          "applied": true
+        },
+        "upperCase": {
+          "typedValue": "SAVE10",
+          "success": "✅ Áp dụng thành công! Giảm 10% Tiết kiệm: -270.000.000 ₫ Thành tiền: 300.000.000 ₫",
+          "error": null,
+          "applied": true
+        }
+      },
+      "screenshots": [],
+      "durationMs": 7950
+    },
+    {
+      "id": "GUI-IA02-12",
+      "aspect": "IA-02",
+      "title": "Field Email hồ sơ disabled rõ ràng (nhãn \"(Không đổi)\", nền xám)",
+      "screens": "Hồ sơ",
+      "platformSensitive": false,
+      "task1Status": "Passed",
+      "status": "PASS",
+      "evidence": "Email field disabled=true, label \"Email (Không đổi)\", background rgb(243, 244, 246); typing left the value at \"test@eshop.com\" (focusable=false)",
+      "metrics": {
+        "label": "Email (Không đổi)",
+        "disabledProp": true,
+        "readOnlyProp": false,
+        "valueBefore": "test@eshop.com",
+        "valueAfterTyping": "test@eshop.com",
+        "focusable": false,
+        "clickError": null,
+        "backgroundColor": "rgb(243, 244, 246)",
+        "color": "rgb(0, 0, 0)",
+        "opacity": "1",
+        "cursor": "default",
+        "pointerEvents": "auto"
+      },
+      "screenshots": [],
+      "durationMs": 3185
+    },
+    {
+      "id": "GUI-IA02-13",
+      "aspect": "IA-02",
+      "title": "Form đăng ký có field \"Xác nhận mật khẩu\" và kiểm tra khớp",
+      "screens": "Đăng ký",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "No \"Xác nhận mật khẩu\" field on /register — the form only has: Họ Tên [input:text], Email [input:text], Mật khẩu [input:password] (1 password input)",
+      "metrics": {
+        "fields": [
+          "Họ Tên [input:text]",
+          "Email [input:text]",
+          "Mật khẩu [input:password]"
+        ],
+        "passwordFieldCount": 1,
+        "confirmFieldFound": false
+      },
+      "screenshots": [
+        "GUI-IA02-13.png"
+      ],
+      "durationMs": 939
+    },
+    {
+      "id": "GUI-IA02-14",
+      "aspect": "IA-02",
+      "title": "Thông báo \"bắt buộc nhập\" nhất quán tiếng Việt (hiện dùng tooltip native)",
+      "screens": "Đăng ký, Đăng nhập, Quên MK",
+      "platformSensitive": true,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Required feedback is the engine's own bubble, not Vietnamese app text: /register \"Họ Tên\" → \"Fill out this field\" ; /login \"Username\" → \"Fill out this field\" ; /forgot-password \"Nhập Email của bạn\" → \"Fill out this field\" (navigator.language=vi-VN, <html lang>=en)",
+      "metrics": {
+        "perForm": {
+          "/register": {
+            "field": "Họ Tên",
+            "requiredAttr": true,
+            "validationMessage": "Fill out this field",
+            "valueMissing": true,
+            "willValidate": true,
+            "formValid": false,
+            "mechanism": "native constraint-validation bubble",
+            "inPageError": null,
+            "appDialogs": [],
+            "submitBlocked": true,
+            "focusAfterSubmit": "input[data-xp=0]",
+            "isVietnamese": false
+          },
+          "/login": {
+            "field": "Username",
+            "requiredAttr": true,
+            "validationMessage": "Fill out this field",
+            "valueMissing": true,
+            "willValidate": true,
+            "formValid": false,
+            "mechanism": "native constraint-validation bubble",
+            "inPageError": null,
+            "appDialogs": [],
+            "submitBlocked": true,
+            "focusAfterSubmit": "input[data-xp=0]",
+            "isVietnamese": false
+          },
+          "/forgot-password": {
+            "field": "Nhập Email của bạn",
+            "requiredAttr": true,
+            "validationMessage": "Fill out this field",
+            "valueMissing": true,
+            "willValidate": true,
+            "formValid": false,
+            "mechanism": "native constraint-validation bubble",
+            "inPageError": null,
+            "appDialogs": [],
+            "submitBlocked": true,
+            "focusAfterSubmit": "input[data-xp=0]",
+            "isVietnamese": false
+          }
+        },
+        "navigatorLanguage": "vi-VN",
+        "navigatorLanguages": "vi-VN",
+        "documentLang": "en"
+      },
+      "screenshots": [
+        "GUI-IA02-14.png"
+      ],
+      "durationMs": 6802
+    },
+    {
+      "id": "GUI-GAP-04",
+      "aspect": "IA-02",
+      "title": "Mọi label gắn với input qua htmlFor/id — click nhãn focus vào ô nhập",
+      "screens": "Đăng nhập, Đăng ký, Quên MK, Hồ sơ",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "0/10 labels have htmlFor and 0 wrap their control (0/10 controls have an id); clicking a label focused the input only 0/10 times — e.g. /login \"Mật khẩu\" → body (nothing focused)",
+      "metrics": {
+        "perForm": {
+          "/login": {
+            "labelCount": 2,
+            "labelsWithFor": 0,
+            "labelsWrappingControl": 0,
+            "controlCount": 2,
+            "controlsWithId": 0,
+            "labels": [
+              {
+                "text": "Username",
+                "htmlFor": null,
+                "wrapsControl": false
+              },
+              {
+                "text": "Mật khẩu",
+                "htmlFor": null,
+                "wrapsControl": false
+              }
+            ],
+            "clicks": [
+              {
+                "label": "Username",
+                "focusAfterClick": "body (nothing focused)"
+              },
+              {
+                "label": "Mật khẩu",
+                "focusAfterClick": "body (nothing focused)"
+              }
+            ]
+          },
+          "/register": {
+            "labelCount": 3,
+            "labelsWithFor": 0,
+            "labelsWrappingControl": 0,
+            "controlCount": 3,
+            "controlsWithId": 0,
+            "labels": [
+              {
+                "text": "Họ Tên",
+                "htmlFor": null,
+                "wrapsControl": false
+              },
+              {
+                "text": "Email",
+                "htmlFor": null,
+                "wrapsControl": false
+              },
+              {
+                "text": "Mật khẩu",
+                "htmlFor": null,
+                "wrapsControl": false
+              }
+            ],
+            "clicks": [
+              {
+                "label": "Họ Tên",
+                "focusAfterClick": "body (nothing focused)"
+              },
+              {
+                "label": "Email",
+                "focusAfterClick": "body (nothing focused)"
+              },
+              {
+                "label": "Mật khẩu",
+                "focusAfterClick": "body (nothing focused)"
+              }
+            ]
+          },
+          "/forgot-password": {
+            "labelCount": 1,
+            "labelsWithFor": 0,
+            "labelsWrappingControl": 0,
+            "controlCount": 1,
+            "controlsWithId": 0,
+            "labels": [
+              {
+                "text": "Nhập Email của bạn",
+                "htmlFor": null,
+                "wrapsControl": false
+              }
+            ],
+            "clicks": [
+              {
+                "label": "Nhập Email của bạn",
+                "focusAfterClick": "body (nothing focused)"
+              }
+            ]
+          },
+          "/profile": {
+            "labelCount": 4,
+            "labelsWithFor": 0,
+            "labelsWrappingControl": 0,
+            "controlCount": 4,
+            "controlsWithId": 0,
+            "labels": [
+              {
+                "text": "Email (Không đổi)",
+                "htmlFor": null,
+                "wrapsControl": false
+              },
+              {
+                "text": "Họ Tên",
+                "htmlFor": null,
+                "wrapsControl": false
+              },
+              {
+                "text": "Số điện thoại",
+                "htmlFor": null,
+                "wrapsControl": false
+              },
+              {
+                "text": "Địa chỉ giao hàng",
+                "htmlFor": null,
+                "wrapsControl": false
+              }
+            ],
+            "clicks": [
+              {
+                "label": "Email (Không đổi)",
+                "focusAfterClick": "body (nothing focused)"
+              },
+              {
+                "label": "Họ Tên",
+                "focusAfterClick": "body (nothing focused)"
+              },
+              {
+                "label": "Số điện thoại",
+                "focusAfterClick": "body (nothing focused)"
+              },
+              {
+                "label": "Địa chỉ giao hàng",
+                "focusAfterClick": "body (nothing focused)"
+              }
+            ]
+          }
+        },
+        "totals": {
+          "labels": 10,
+          "withFor": 0,
+          "wrapping": 0,
+          "ids": 0,
+          "controls": 10,
+          "focusHits": 0,
+          "clicks": 10
+        }
+      },
+      "screenshots": [
+        "GUI-GAP-04.png"
+      ],
+      "durationMs": 6945
+    },
+    {
+      "id": "GUI-IA03-01",
+      "aspect": "IA-03",
+      "title": "Navbar highlight mục đang chọn (hiện chỉ hover:underline — App.jsx:22-37)",
+      "screens": "Tất cả 8 màn hình (Header)",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "At /cart \"Giỏ hàng\" has no active state — aria-current=null, class \"hover:underline\", computed style \"rgb(255, 255, 255)|400|none|rgba(0, 0, 0, 0)|0px solid\" identical to Đăng nhập/Đăng ký",
+      "metrics": {
+        "route": "/cart",
+        "activeText": "Giỏ hàng",
+        "activeAriaCurrent": null,
+        "activeClass": "hover:underline",
+        "activeStyleSig": "rgb(255, 255, 255)|400|none|rgba(0, 0, 0, 0)|0px solid",
+        "otherStyleSigs": [
+          "Đăng nhập=rgb(255, 255, 255)|400|none|rgba(0, 0, 0, 0)|0px solid",
+          "Đăng ký=rgb(255, 255, 255)|400|none|rgba(0, 0, 0, 0)|0px solid"
+        ],
+        "sameStyleAsActive": [
+          "Đăng nhập",
+          "Đăng ký"
+        ]
+      },
+      "screenshots": [
+        "GUI-IA03-01.png"
+      ],
+      "durationMs": 922
+    },
+    {
+      "id": "GUI-IA03-02",
+      "aspect": "IA-03",
+      "title": "Link \"Giỏ hàng\" có badge số lượng, cập nhật ngay khi thêm SP (hiện link trần — App.jsx:23)",
+      "screens": "Tất cả 8 màn hình (Header)",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Cart link text unchanged after adding 1 item (cart really holds 1 row): \"Giỏ hàng\" → \"Giỏ hàng\"; no numeric badge node in header nav (\"Giỏ hàng Đăng nhập Đăng ký\")",
+      "metrics": {
+        "cartLinkBefore": "Giỏ hàng",
+        "cartLinkAfter": "Giỏ hàng",
+        "navBefore": "Giỏ hàng Đăng nhập Đăng ký",
+        "navAfter": "Giỏ hàng Đăng nhập Đăng ký",
+        "numericBadgeNodes": [],
+        "cartRowsAfterAdd": 1
+      },
+      "screenshots": [
+        "GUI-IA03-02.png"
+      ],
+      "durationMs": 2274
+    },
+    {
+      "id": "GUI-IA03-03",
+      "aspect": "IA-03",
+      "title": "Nút đăng xuất nhãn chính xác \"Đăng xuất\" (hiện ghi \"Thoát\" — App.jsx:29)",
+      "screens": "Header (đã đăng nhập)",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Logout button label is \"Thoát\", not \"Đăng xuất\" (header: \"EShop Giỏ hàng Chào, Test User Thoát\")",
+      "metrics": {
+        "headerText": "EShop Giỏ hàng Chào, Test User Thoát",
+        "headerButtons": [
+          "Thoát"
+        ]
+      },
+      "screenshots": [
+        "GUI-IA03-03.png"
+      ],
+      "durationMs": 2209
+    },
+    {
+      "id": "GUI-IA03-04",
+      "aspect": "IA-03",
+      "title": "Có breadcrumb ở 3 trang con theo spec (hiện không có)",
+      "screens": "Chi tiết SP, Giỏ hàng, Thanh toán",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "No breadcrumb on /product/1, /cart, /checkout — e.g. /product/1 <main> starts with \"iPhone 15 Pro Max 30.000.000 ₫ Điện thoại cao cấp của Apple Số lượng: Thêm vào g\"",
+      "metrics": {
+        "breadcrumbs": {
+          "/product/1": {
+            "count": 0,
+            "sample": "",
+            "mainHead": "iPhone 15 Pro Max 30.000.000 ₫ Điện thoại cao cấp của Apple Số lượng: Thêm vào g"
+          },
+          "/cart": {
+            "count": 0,
+            "sample": "",
+            "mainHead": "Giỏ Hàng Sản phẩm Giá Số lượng Thành tiền Thao tác iPhone 15 Pro Max 30.000.000 "
+          },
+          "/checkout": {
+            "count": 0,
+            "sample": "",
+            "mainHead": "Xác Nhận Đơn Hàng Sản phẩm: iPhone 15 Pro Max x 1 — 30.000.000 ₫ Tổng tiền thanh"
+          }
+        },
+        "missing": [
+          "/product/1",
+          "/cart",
+          "/checkout"
+        ],
+        "reachedFromCart": "/checkout"
+      },
+      "screenshots": [
+        "GUI-IA03-04.png"
+      ],
+      "durationMs": 5425
+    },
+    {
+      "id": "GUI-IA03-05",
+      "aspect": "IA-03",
+      "title": "URL không tồn tại (/abc) hiển thị trang 404 thân thiện (không có route catch-all → trang trắng)",
+      "screens": "Toàn app",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "/abc renders no 404 page — <main> text is \"\" (0 chars), 0 control(s) in main, 404 wording present: false",
+      "metrics": {
+        "label": "after /abc",
+        "url": "http://localhost:5173/abc",
+        "route": "/abc",
+        "heading": "",
+        "mainText": "",
+        "mainTextLength": 0,
+        "mainControls": [],
+        "homeLinkTexts": [],
+        "has404Wording": false
+      },
+      "screenshots": [
+        "GUI-IA03-05.png"
+      ],
+      "durationMs": 2926
+    },
+    {
+      "id": "GUI-IA03-06",
+      "aspect": "IA-03",
+      "title": "/product/999 hiển thị thông báo thân thiện + đường quay về (hiện text kỹ thuật, không link)",
+      "screens": "Chi tiết SP",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "/product/999 shows \"Sản phẩm không tồn tại (Lỗi trắng trang do data rỗng)\" — technical wording: true, links back home inside main: 0",
+      "metrics": {
+        "label": "after /product/999",
+        "url": "http://localhost:5173/product/999",
+        "route": "/product/999",
+        "heading": "",
+        "mainText": "Sản phẩm không tồn tại (Lỗi trắng trang do data rỗng)",
+        "mainControls": [],
+        "backLinkTexts": [],
+        "technicalWording": true
+      },
+      "screenshots": [
+        "GUI-IA03-06.png"
+      ],
+      "durationMs": 3228
+    },
+    {
+      "id": "GUI-IA03-07",
+      "aspect": "IA-03",
+      "title": "Link \"Quên mật khẩu?\" điều hướng SPA không reload trang (hiện dùng <a href> — Login.jsx:49-51)",
+      "screens": "Đăng nhập",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "\"Quên mật khẩu?\" did a FULL document reload to /forgot-password: window.__xpMarker lost (survived=false), 1 load event(s), 2 frame navigation(s), performance type \"navigate\" — the control header <Link> to /cart kept the marker (0 load)",
+      "metrics": {
+        "forgotPasswordLink": {
+          "route": "/forgot-password",
+          "loadEvents": 1,
+          "frameNavigations": 2,
+          "markerSurvived": false,
+          "performanceNavigationType": "navigate"
+        },
+        "controlHeaderLink": {
+          "route": "/cart",
+          "loadEvents": 0,
+          "frameNavigations": 1,
+          "markerSurvived": true
+        },
+        "totalLoadEvents": 2,
+        "totalFrameNavigations": 5
+      },
+      "screenshots": [
+        "GUI-IA03-07.png"
+      ],
+      "durationMs": 3519
+    },
+    {
+      "id": "GUI-IA03-08",
+      "aspect": "IA-03",
+      "title": "Có link/nút quay lại Giỏ hàng trước khi xác nhận (hiện không có — Checkout.jsx:79-150)",
+      "screens": "Thanh toán",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Checkout (\"Xác Nhận Đơn Hàng\") has no link/button back to the cart — the only main controls are [\"Áp dụng\",\"Xác Nhận Thanh Toán\"]",
+      "metrics": {
+        "label": "checkout",
+        "url": "http://localhost:5173/checkout",
+        "route": "/checkout",
+        "heading": "Xác Nhận Đơn Hàng",
+        "mainText": "Xác Nhận Đơn Hàng Sản phẩm: iPhone 15 Pro Max x 1 — 30.000.000 ₫ Tổng tiền thanh toán (VND): Mã Giảm Giá Áp dụng Tổng thanh toán: 30.000.000 ₫ Xác Nhận Thanh Toán",
+        "mainControls": [
+          {
+            "tag": "button",
+            "text": "Áp dụng",
+            "href": null
+          },
+          {
+            "tag": "button",
+            "text": "Xác Nhận Thanh Toán",
+            "href": null
+          }
+        ],
+        "backToCartCandidates": []
+      },
+      "screenshots": [
+        "GUI-IA03-08.png"
+      ],
+      "durationMs": 4203
+    },
+    {
+      "id": "GUI-IA03-09",
+      "aspect": "IA-03",
+      "title": "Bị chặn checkout vì chưa login → đăng nhập xong quay lại giỏ/checkout (hiện luôn về / — Login.jsx:16)",
+      "screens": "Giỏ hàng → Đăng nhập",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Context lost: /cart → alert \"alert: Bạn cần đăng nhập để thanh toán!\" → /login, then login lands on / (\"Danh sách sản phẩm\") instead of /cart|/checkout; goBack from there → /login (\"Đăng Ký\"); cart still holds 1 row(s)",
+      "metrics": {
+        "atCart": {
+          "label": "cart (guest)",
+          "url": "http://localhost:5173/cart",
+          "route": "/cart",
+          "heading": "Giỏ Hàng",
+          "mainText": "Giỏ Hàng Sản phẩm Giá Số lượng Thành tiền Thao tác iPhone 15 Pro Max 30.000.000 ₫ 1 30.000.000 ₫ Xóa Tổng tạm tính: 30.000.000 ₫ ← Mua tiếp Tiến hành thanh toán"
+        },
+        "afterBlock": {
+          "label": "after blocked checkout",
+          "url": "http://localhost:5173/login",
+          "route": "/login",
+          "heading": "Đăng Ký",
+          "mainText": "Đăng Ký Username Mật khẩu Quên mật khẩu? Sign In Chưa có tài khoản? Đăng ký ngay"
+        },
+        "afterLogin": {
+          "label": "after login",
+          "url": "http://localhost:5173/",
+          "route": "/",
+          "heading": "Danh sách sản phẩm",
+          "mainText": "Danh sách sản phẩm Tìm iPhone 15 Pro Max 30.000.000 VND Xem chi tiết Thêm vào giỏ Samsung Galaxy S24 Ultra 28.000.000 VND Xem chi tiết Thêm vào giỏ MacBook Pro M3 45.000.000 VND Xem chi tiết Thêm vào giỏ Tai nghe AirPods"
+        },
+        "afterBack": {
+          "label": "after goBack",
+          "url": "http://localhost:5173/login",
+          "route": "/login",
+          "heading": "Đăng Ký",
+          "mainText": "Đăng Ký Username Mật khẩu Quên mật khẩu? Sign In Chưa có tài khoản? Đăng ký ngay"
+        },
+        "goBackError": null,
+        "dialogs": [
+          "alert: Bạn cần đăng nhập để thanh toán!"
+        ],
+        "cartRowsAfterLogin": 1
+      },
+      "screenshots": [
+        "GUI-IA03-09.png"
+      ],
+      "durationMs": 7508
+    },
+    {
+      "id": "GUI-IA03-10",
+      "aspect": "IA-03",
+      "title": "Sau thanh toán thành công, Back trình duyệt không quay lại form có thể re-submit (Checkout.jsx:69-77)",
+      "screens": "Thanh toán",
+      "platformSensitive": true,
+      "task1Status": "Passed",
+      "status": "PASS",
+      "evidence": "Back after \"Thanh toán thành công!\" lands on /cart (\"Giỏ Hàng\") with 0 re-submittable \"Xác Nhận Thanh Toán\" button; Forward → /checkout (\"Xác Nhận Đơn Hàng\") shows 1",
+      "metrics": {
+        "success": {
+          "label": "order success",
+          "url": "http://localhost:5173/checkout",
+          "route": "/checkout",
+          "heading": "Thanh toán thành công!",
+          "mainText": "Thanh toán thành công! Cảm ơn bạn đã mua sắm tại EShop. Quay lại trang chủ"
+        },
+        "afterBack": {
+          "label": "after goBack",
+          "url": "http://localhost:5173/cart",
+          "route": "/cart",
+          "heading": "Giỏ Hàng",
+          "mainText": "Giỏ Hàng Sản phẩm Giá Số lượng Thành tiền Thao tác iPhone 15 Pro Max 30.000.000 ₫ 1 30.000.000 ₫ Xóa Tổng tạm tính: 30.000.000 ₫ ← Mua tiếp Tiến hành thanh toán"
+        },
+        "afterForward": {
+          "label": "after goForward",
+          "url": "http://localhost:5173/checkout",
+          "route": "/checkout",
+          "heading": "Xác Nhận Đơn Hàng",
+          "mainText": "Xác Nhận Đơn Hàng Sản phẩm: iPhone 15 Pro Max x 1 — 30.000.000 ₫ Tổng tiền thanh toán (VND): Mã Giảm Giá Áp dụng Tổng thanh toán: 30.000.000 ₫ Xác Nhận Thanh Toán"
+        },
+        "goBackError": null,
+        "goForwardError": null,
+        "confirmButtonsAfterBack": 0,
+        "confirmEnabledAfterBack": false,
+        "confirmButtonsAfterForward": 1,
+        "successFlagRestoredOnForward": false,
+        "dialogs": []
+      },
+      "screenshots": [],
+      "durationMs": 9016
+    },
+    {
+      "id": "GUI-IA03-11",
+      "aspect": "IA-03",
+      "title": "Ở bước 2 bấm Back trình duyệt: không mất tiến trình (step là state, không gắn URL — ForgotPassword.jsx:8)",
+      "screens": "Quên mật khẩu",
+      "platformSensitive": true,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Back at step 2 leaves the wizard entirely: /forgot-password step 2 (\"Mã OTP của bạn là: 6640\") → /login (\"Đăng Ký\"); Forward returns to /forgot-password at step 1, OTP restored=false",
+      "metrics": {
+        "before": {
+          "label": "step 2",
+          "url": "http://localhost:5173/forgot-password",
+          "route": "/forgot-password",
+          "heading": "Quên Mật Khẩu",
+          "mainText": "Quên Mật Khẩu Mã OTP của bạn là: 6640 Mã OTP (4 số) Mật khẩu mới Đặt lại mật khẩu← Quay lại",
+          "formInputs": 2,
+          "otpMessage": "Mã OTP của bạn là: 6640",
+          "resetButtons": 1,
+          "step": 2
+        },
+        "afterBack": {
+          "label": "after goBack",
+          "url": "http://localhost:5173/login",
+          "route": "/login",
+          "heading": "Đăng Ký",
+          "mainText": "Đăng Ký Username Mật khẩu Quên mật khẩu? Sign In Chưa có tài khoản? Đăng ký ngay",
+          "formInputs": 2,
+          "otpMessage": "",
+          "resetButtons": 0,
+          "step": 1
+        },
+        "afterForward": {
+          "label": "after goForward",
+          "url": "http://localhost:5173/forgot-password",
+          "route": "/forgot-password",
+          "heading": "Quên Mật Khẩu",
+          "mainText": "Quên Mật Khẩu Nhập Email của bạn Lấy mã OTP",
+          "formInputs": 1,
+          "otpMessage": "",
+          "resetButtons": 0,
+          "step": 1
+        },
+        "goBackError": null,
+        "goForwardError": null,
+        "otpPreservedOnBack": false,
+        "otpRestoredOnForward": false
+      },
+      "screenshots": [
+        "GUI-IA03-11.png"
+      ],
+      "durationMs": 9427
+    },
+    {
+      "id": "GUI-IA03-12",
+      "aspect": "IA-03",
+      "title": "Vào thẳng /checkout khi giỏ trống/chưa login bị chặn (hiện không guard — form hiện tổng 0 ₫)",
+      "screens": "Thanh toán",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Direct /checkout is not guarded: stays on /checkout showing \"Xác Nhận Đơn Hàng\" with 0 item(s), total input \"0\", \"Tổng thanh toán: 0 ₫\" and an enabled=true \"Xác Nhận Thanh Toán\" button while logged out",
+      "metrics": {
+        "label": "direct /checkout",
+        "url": "http://localhost:5173/checkout",
+        "route": "/checkout",
+        "heading": "Xác Nhận Đơn Hàng",
+        "mainText": "Xác Nhận Đơn Hàng Sản phẩm: Tổng tiền thanh toán (VND): Mã Giảm Giá Áp dụng Tổng thanh toán: 0 ₫ Xác Nhận Thanh Toán",
+        "confirmButtons": 1,
+        "confirmEnabled": true,
+        "editableTotalValue": "0",
+        "totalLine": "Tổng thanh toán: 0 ₫",
+        "cartListItems": 0,
+        "headerShowsLoggedIn": false,
+        "redirected": false
+      },
+      "screenshots": [
+        "GUI-IA03-12.png"
+      ],
+      "durationMs": 1732
+    },
+    {
+      "id": "GUI-IA03-13",
+      "aspect": "IA-03",
+      "title": "/profile chưa login: thông báo kèm link tới đăng nhập (hiện text trần — Profile.jsx:109)",
+      "screens": "Hồ sơ/ĐH",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Guest /profile stays on /profile with bare text \"Vui lòng đăng nhập\" — 0 login link/button inside main (main controls: [])",
+      "metrics": {
+        "label": "guest /profile",
+        "url": "http://localhost:5173/profile",
+        "route": "/profile",
+        "heading": "",
+        "mainText": "Vui lòng đăng nhập",
+        "mainControls": [],
+        "loginLinksInMain": [],
+        "redirected": false
+      },
+      "screenshots": [
+        "GUI-IA03-13.png"
+      ],
+      "durationMs": 3124
+    },
+    {
+      "id": "GUI-IA03-14",
+      "aspect": "IA-03",
+      "title": "Logo \"EShop\" luôn về trang chủ từ mọi màn (App.jsx:21)",
+      "screens": "Tất cả 8 màn hình",
+      "platformSensitive": false,
+      "task1Status": "Passed",
+      "status": "PASS",
+      "evidence": "Logo \"EShop\" returns to \"/\" from all 8 screens (/login, /register, /forgot-password, /profile, /product/1, /cart, /checkout, /abc), each landing on \"Danh sách sản phẩm\"",
+      "metrics": {
+        "trips": [
+          {
+            "from": "/login",
+            "logoText": "EShop",
+            "landed": "/",
+            "homeHeading": "Danh sách sản phẩm",
+            "error": null
+          },
+          {
+            "from": "/register",
+            "logoText": "EShop",
+            "landed": "/",
+            "homeHeading": "Danh sách sản phẩm",
+            "error": null
+          },
+          {
+            "from": "/forgot-password",
+            "logoText": "EShop",
+            "landed": "/",
+            "homeHeading": "Danh sách sản phẩm",
+            "error": null
+          },
+          {
+            "from": "/profile",
+            "logoText": "EShop",
+            "landed": "/",
+            "homeHeading": "Danh sách sản phẩm",
+            "error": null
+          },
+          {
+            "from": "/product/1",
+            "logoText": "EShop",
+            "landed": "/",
+            "homeHeading": "Danh sách sản phẩm",
+            "error": null
+          },
+          {
+            "from": "/cart",
+            "logoText": "EShop",
+            "landed": "/",
+            "homeHeading": "Danh sách sản phẩm",
+            "error": null
+          },
+          {
+            "from": "/checkout",
+            "logoText": "EShop",
+            "landed": "/",
+            "homeHeading": "Danh sách sản phẩm",
+            "error": null
+          },
+          {
+            "from": "/abc",
+            "logoText": "EShop",
+            "landed": "/",
+            "homeHeading": "Danh sách sản phẩm",
+            "error": null
+          }
+        ],
+        "screensTested": 8,
+        "failures": []
+      },
+      "screenshots": [],
+      "durationMs": 8818
+    },
+    {
+      "id": "GUI-IA03-15",
+      "aspect": "IA-03",
+      "title": "Danh sách dài có phân trang/lazy-load hoặc không vỡ layout (render toàn bộ — Home.jsx:75, Profile.jsx:172-213)",
+      "screens": "Trang chủ, Lịch sử ĐH",
+      "platformSensitive": true,
+      "task1Status": "Passed",
+      "status": "PASS",
+      "evidence": "No pagination/lazy-load control exists (home [], profile []) but the layout holds: 5 product cards (\"Hiển thị 5 sản phẩm\") in grid \"314.65625px 314.671875px 314.671875px\", no horizontal overflow (1280px ≤ 1280px); order history 2 row(s), table 589px in 637px. Only the 5 seeded products could be observed",
+      "metrics": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "productCards": 5,
+        "homeCounter": "Hiển thị 5 sản phẩm",
+        "gridTemplateColumns": "314.65625px 314.671875px 314.671875px",
+        "homePaginationControls": [],
+        "homeOverflow": {
+          "docScrollWidth": 1280,
+          "docClientWidth": 1280,
+          "innerWidth": 1280,
+          "bodyScrollWidth": 1280
+        },
+        "orderRows": 2,
+        "emptyOrdersText": "",
+        "profilePaginationControls": [],
+        "profileOverflow": {
+          "docScrollWidth": 1280,
+          "docClientWidth": 1280,
+          "innerWidth": 1280,
+          "bodyScrollWidth": 1280
+        },
+        "orderTable": {
+          "tableScrollWidth": 589,
+          "parentClientWidth": 637,
+          "parentScrollWidth": 637,
+          "parentOverflowX": "visible"
+        },
+        "tableClipped": false,
+        "observationLimit": "SUT seed exposes only 5 products; order-history length is whatever the shared seeded user currently has, so \"very long list\" could not be forced without mutating seed data"
+      },
+      "screenshots": [],
+      "durationMs": 6366
+    },
+    {
+      "id": "GUI-IA04-01",
+      "aspect": "IA-04",
+      "title": "\"Thêm vào giỏ\" trên card có phản hồi trực quan ngay (toast/badge)",
+      "screens": "Trang chủ",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "No visual feedback after click: header unchanged (\"EShop Giỏ hàng Đăng nhập Đăng ký\"), 0 toast/live-region, button still \"Thêm vào giỏ\", main text identical",
+      "metrics": {
+        "headerBefore": "EShop Giỏ hàng Đăng nhập Đăng ký",
+        "headerAfter": "EShop Giỏ hàng Đăng nhập Đăng ký",
+        "mainTextChanged": false,
+        "liveRegionsAfter": 0,
+        "modalsAfter": 0,
+        "buttonLabelAfter": "Thêm vào giỏ",
+        "dialogCount": 0
+      },
+      "screenshots": [
+        "GUI-IA04-01.png"
+      ],
+      "durationMs": 1865
+    },
+    {
+      "id": "GUI-IA04-02",
+      "aspect": "IA-04",
+      "title": "MỖI click \"Thêm vào giỏ hàng\" đều thêm SP + feedback từ lần đầu (click đầu bị nuốt)",
+      "screens": "Chi tiết SP",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "First click swallowed: button \"Thêm vào giỏ hàng\" → \"Thêm vào giỏ hàng\", cart rows = 0 (\"Giỏ hàng của bạn đang trống Tiếp tục mua sắm\")",
+      "metrics": {
+        "labelBefore": "Thêm vào giỏ hàng",
+        "labelAfter": "Thêm vào giỏ hàng",
+        "cartRowCount": 0,
+        "rows": [],
+        "cartText": "Giỏ hàng của bạn đang trống Tiếp tục mua sắm"
+      },
+      "screenshots": [
+        "GUI-IA04-02.png"
+      ],
+      "durationMs": 2614
+    },
+    {
+      "id": "GUI-IA04-03",
+      "aspect": "IA-04",
+      "title": "\"Xóa\" item có dialog xác nhận (hiện xoá ngay)",
+      "screens": "Giỏ hàng",
+      "platformSensitive": true,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "\"Xóa\" removed the item immediately (rows 1→0) with 0 confirm() and 0 in-page dialog",
+      "metrics": {
+        "rowsBefore": 1,
+        "rowsAfter": 0,
+        "newDialogs": [],
+        "confirmDialogs": 0,
+        "inPageModals": 0,
+        "cartTextAfter": "Giỏ hàng của bạn đang trống Tiếp tục mua sắm"
+      },
+      "screenshots": [
+        "GUI-IA04-03.png"
+      ],
+      "durationMs": 2774
+    },
+    {
+      "id": "GUI-IA04-04",
+      "aspect": "IA-04",
+      "title": "\"Hủy đơn\" có dialog xác nhận trước hành động không hoàn tác",
+      "screens": "Lịch sử ĐH",
+      "platformSensitive": true,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "\"Hủy đơn\" cancelled immediately (\"Chờ xác nhận\"→\"Đã hủy\") with 0 confirm(); only post-hoc dialog(s): [{\"type\":\"alert\",\"message\":\"Hủy đơn thành công!\"}]",
+      "metrics": {
+        "account": "xp-1785245649714-r3y9@t.local",
+        "statusBefore": "Chờ xác nhận",
+        "statusAfter": "Đã hủy",
+        "newDialogs": [
+          {
+            "type": "alert",
+            "message": "Hủy đơn thành công!"
+          }
+        ],
+        "confirmDialogs": 0,
+        "inPageModals": 0
+      },
+      "screenshots": [
+        "GUI-IA04-04.png"
+      ],
+      "durationMs": 5888
+    },
+    {
+      "id": "GUI-IA04-05",
+      "aspect": "IA-04",
+      "title": "Empty state có icon/hình + message thân thiện + CTA (hiện text trần)",
+      "screens": "Giỏ hàng, Lịch sử ĐH",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Plain-text empty states: cart \"Giỏ hàng của bạn đang trống Tiếp tục mua sắm\" with 0 icon/illustration; order history \"Lịch sử đơn hàng Bạn chưa có đơn hàng nào.\" with 0 icon and 0 CTA",
+      "metrics": {
+        "account": "xp-1785245656527-hwhu@t.local",
+        "cartEmptyText": "Giỏ hàng của bạn đang trống Tiếp tục mua sắm",
+        "cartIcons": 0,
+        "cartCtas": 1,
+        "ordersEmptyText": "Lịch sử đơn hàng Bạn chưa có đơn hàng nào.",
+        "ordersIcons": 0,
+        "ordersCtas": 0,
+        "ordersRows": 0
+      },
+      "screenshots": [
+        "GUI-IA04-05.png"
+      ],
+      "durationMs": 4503
+    },
+    {
+      "id": "GUI-IA04-06",
+      "aspect": "IA-04",
+      "title": "Tìm kiếm 0 kết quả có empty state (\"Không tìm thấy...\" + icon)",
+      "screens": "Trang chủ",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "0 results renders no empty state — main content is only \"Danh sách sản phẩm Tìm Kết quả tìm kiếm cho: zzzzzzzz\" (0 cards, 0 icons)",
+      "metrics": {
+        "searchTerm": "zzzzzzzz",
+        "cardCount": 0,
+        "iconCount": 0,
+        "mainText": "Danh sách sản phẩm Tìm Kết quả tìm kiếm cho: zzzzzzzz",
+        "hasEmptyStateMessage": false
+      },
+      "screenshots": [
+        "GUI-IA04-06.png"
+      ],
+      "durationMs": 2477
+    },
+    {
+      "id": "GUI-IA04-07",
+      "aspect": "IA-04",
+      "title": "Ảnh sản phẩm trên card có alt mô tả (hiện alt=\"\")",
+      "screens": "Trang chủ",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "5/5 Home card images have alt=\"\" (empty) although the visible name is \"iPhone 15 Pro Max\"; product detail alt=\"iPhone 15 Pro Max\"",
+      "metrics": {
+        "cardAlts": [
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "cardNames": [
+          "iPhone 15 Pro Max",
+          "Samsung Galaxy S24 Ultra",
+          "MacBook Pro M3",
+          "Tai nghe AirPods Pro 2",
+          "Bàn phím cơ Keychron Q1"
+        ],
+        "emptyAltCount": 5,
+        "imgCount": 5,
+        "detailAlt": "iPhone 15 Pro Max"
+      },
+      "screenshots": [
+        "GUI-IA04-07.png"
+      ],
+      "durationMs": 1690
+    },
+    {
+      "id": "GUI-IA04-08",
+      "aspect": "IA-04",
+      "title": "Thao tác tải dữ liệu có loading indicator (spinner/skeleton) khi mạng chậm",
+      "screens": "Trang chủ, Lịch sử ĐH, Chi tiết SP",
+      "platformSensitive": true,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "With a 2500 ms API delay Home shows 0 spinner/skeleton (main text \"Danh sách sản phẩm Tìm\"), product detail 0 spinner (bare text \"Đang tải...\")",
+      "metrics": {
+        "artificialDelayMs": 2500,
+        "homeSpinnersDuringLoad": 0,
+        "homeTextDuringLoad": "Danh sách sản phẩm Tìm",
+        "homeCardsDuringLoad": 0,
+        "homeCardsAfterDelay": 5,
+        "detailSpinnersDuringLoad": 0,
+        "detailTextDuringLoad": "Đang tải..."
+      },
+      "screenshots": [
+        "GUI-IA04-08.png"
+      ],
+      "durationMs": 5117
+    },
+    {
+      "id": "GUI-IA04-09",
+      "aspect": "IA-04",
+      "title": "API lỗi → error state, không kẹt \"Đang tải...\" vô hạn",
+      "screens": "Chi tiết SP",
+      "platformSensitive": true,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "API 500 leaves the page at \"Đang tải...\" — no error message / retry action (actions []); failure only visible as 4 console error(s)",
+      "metrics": {
+        "mainText": "Đang tải...",
+        "stuckOnLoadingText": true,
+        "hasErrorMessage": false,
+        "actionElements": [],
+        "consoleErrorCount": 4,
+        "consoleErrorSample": [
+          "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+          "AxiosError: Request failed with status code 500"
+        ]
+      },
+      "screenshots": [
+        "GUI-IA04-09.png"
+      ],
+      "durationMs": 2720
+    },
+    {
+      "id": "GUI-IA04-10",
+      "aspect": "IA-04",
+      "title": "Feedback thành công/lỗi API dùng UI trong trang nhất quán, không alert() native",
+      "screens": "Quên MK, Hồ sơ, Giỏ hàng, Thanh toán",
+      "platformSensitive": true,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "2 native alert() surfaced on this engine: \"Bạn cần đăng nhập để thanh toán!\" | \"Cập nhật thành công!\" — and 0 in-page toast/live region",
+      "metrics": {
+        "account": "xp-1785245676483-x4k5@t.local",
+        "dialogs": [
+          {
+            "type": "alert",
+            "message": "Bạn cần đăng nhập để thanh toán!"
+          },
+          {
+            "type": "alert",
+            "message": "Cập nhật thành công!"
+          }
+        ],
+        "alertCount": 2,
+        "alertsAfterCartStep": 1,
+        "alertMessages": [
+          "Bạn cần đăng nhập để thanh toán!",
+          "Cập nhật thành công!"
+        ],
+        "inPageFeedbackRegions": 0,
+        "profileTextAfterSave": "Hồ sơ của bạn Email (Không đổi) Họ Tên Số điện thoại Địa chỉ giao hàng Cập nhật Lịch sử đơn hàng Bạn chưa có đơn hàng nào."
+      },
+      "screenshots": [
+        "GUI-IA04-10.png"
+      ],
+      "durationMs": 8723
+    },
+    {
+      "id": "GUI-IA04-11",
+      "aspect": "IA-04",
+      "title": "Sau 3 lần sai, UI báo rõ tài khoản bị khoá (kèm thời gian), khác message sai mật khẩu",
+      "screens": "Đăng nhập",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Backend answers 403 {\"error\":\"Tài khoản đã bị khóa. Vui lòng thử lại sau.\"} but the UI shows the same generic text as a plain wrong password: \"Đăng nhập thất bại. Vui lòng kiểm tra lại.\" (attempts: [\"Đăng nhập thất bại. Vui lòng kiểm tra lại.\",\"Đăng nhập thất bại. Vui lòng kiểm tra lại.\",\"Đăng nhập thất bại. Vui lòng kiểm tra lại.\"]) — no lock reason, no unlock time",
+      "metrics": {
+        "account": "xp-1785245681967-oz24@t.local",
+        "uiMessagePerWrongAttempt": [
+          "Đăng nhập thất bại. Vui lòng kiểm tra lại.",
+          "Đăng nhập thất bại. Vui lòng kiểm tra lại.",
+          "Đăng nhập thất bại. Vui lòng kiểm tra lại."
+        ],
+        "uiMessageAfterLock": "Đăng nhập thất bại. Vui lòng kiểm tra lại.",
+        "pathAfterCorrectPassword": "/login",
+        "backendStatus": 403,
+        "backendBody": "{\"error\":\"Tài khoản đã bị khóa. Vui lòng thử lại sau.\"}",
+        "mentionsLock": false,
+        "mentionsTime": false
+      },
+      "screenshots": [
+        "GUI-IA04-11.png"
+      ],
+      "durationMs": 5495
+    },
+    {
+      "id": "GUI-IA04-12",
+      "aspect": "IA-04",
+      "title": "Feedback coupon đủ 2 nhánh (hợp lệ → message + tiết kiệm + thành tiền; sai → lỗi đỏ) và số tiền tính đúng",
+      "screens": "Thanh toán",
+      "platformSensitive": true,
+      "task1Status": "Passed",
+      "status": "FAIL",
+      "evidence": "amounts wrong: SAVE10 (10 %) on 30000000 renders \"Tiết kiệm -270.000.000 ₫ / Thành tiền 300.000.000 ₫\" (grand total line \"Tổng thanh toán: 300.000.000 ₫\") instead of 3000000 / 27000000",
+      "metrics": {
+        "account": "xp-1785245687613-x6jz@t.local",
+        "cartTotalInput": "30000000",
+        "successBlockText": "✅ Áp dụng thành công! Giảm 10% Tiết kiệm: -270.000.000 ₫ Thành tiền: 300.000.000 ₫",
+        "savedRendered": "-270.000.000",
+        "finalRendered": "300.000.000",
+        "savedParsed": -270000000,
+        "finalParsed": 300000000,
+        "expectedSaved": 3000000,
+        "expectedFinal": 27000000,
+        "grandTotalLine": "Tổng thanh toán: 300.000.000 ₫",
+        "invalidCouponError": "Mã giảm giá không tồn tại hoặc đã bị vô hiệu hóa",
+        "invalidCouponColor": "rgb(220, 38, 38)",
+        "thousandsSeparator": "."
+      },
+      "screenshots": [
+        "GUI-IA04-12.png"
+      ],
+      "durationMs": 8662
+    },
+    {
+      "id": "GUI-IA04-13",
+      "aspect": "IA-04",
+      "title": "Text người dùng nhập render an toàn tại 3 điểm (search echo, \"Chào, {name}\", địa chỉ giao hàng)",
+      "screens": "Trang chủ, Header, Hồ sơ",
+      "platformSensitive": true,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "HTML/JS executed at 2/3 point(s): searchEcho, headerName — search echo html \"Kết quả tìm kiếm cho: <span><img src=\"x\" onerror=\"window.__xss1=1\"></span>\", header html \"<span>Chào, <img src=\"x\" onerror=\"window.__xss2=1\"></span>\"; safe: shippingAddress",
+      "metrics": {
+        "account": "xp-1785245696455-t05c@t.local",
+        "payloadSearch": "<img src=x onerror=\"window.__xss1=1\">",
+        "payloadName": "<img src=x onerror=\"window.__xss2=1\">",
+        "payloadAddress": "<img src=x onerror=\"window.__xss3=1\">",
+        "points": {
+          "searchEcho": {
+            "executed": true,
+            "injectedImgs": 1,
+            "renderedHtml": "Kết quả tìm kiếm cho: <span><img src=\"x\" onerror=\"window.__xss1=1\"></span>"
+          },
+          "headerName": {
+            "executed": true,
+            "injectedImgs": 1,
+            "renderedHtml": "<span>Chào, <img src=\"x\" onerror=\"window.__xss2=1\"></span>",
+            "headerText": "EShop Giỏ hàng Chào, Thoát"
+          },
+          "shippingAddress": {
+            "executed": false,
+            "injectedImgs": 0,
+            "storedValue": "<img src=x onerror=\"window.__xss3=1\">"
+          }
+        },
+        "vulnerablePoints": [
+          "searchEcho",
+          "headerName"
+        ]
+      },
+      "screenshots": [
+        "GUI-IA04-13.png"
+      ],
+      "durationMs": 8916
+    },
+    {
+      "id": "GUI-IA04-14",
+      "aspect": "IA-04",
+      "title": "Lỗi backend hiển thị thân thiện, không lộ SQL/stack (search `'` → raw \"Database Error\")",
+      "screens": "Trang chủ",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Raw backend error rendered as HTML — heading(s) [\"Database Error\"], text \"Database Error SQLITE_ERROR: unrecognized token: \"'\"\" (leaked: Database Error, SQLITE_ERROR, SQL)",
+      "metrics": {
+        "searchTerm": "'",
+        "blockPresent": true,
+        "blockText": "Database Error SQLITE_ERROR: unrecognized token: \"'\"",
+        "blockHtml": "<h1>Database Error</h1><p>SQLITE_ERROR: unrecognized token: \"'\"</p>",
+        "headings": [
+          "Database Error"
+        ],
+        "technicalKeywords": [
+          "Database Error",
+          "SQLITE_ERROR",
+          "SQL"
+        ]
+      },
+      "screenshots": [
+        "GUI-IA04-14.png"
+      ],
+      "durationMs": 2782
+    },
+    {
+      "id": "GUI-IA04-15",
+      "aspect": "IA-04",
+      "title": "Sau thanh toán thành công giỏ hàng được reset (clearCart không bao giờ được gọi)",
+      "screens": "Thanh toán, Giỏ hàng",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Cart still holds 1 row(s) after \"Thanh toán thành công! Cảm ơn bạn đã mua sắm tại EShop. Quay lại trang chủ\": iPhone 15 Pro Max x1",
+      "metrics": {
+        "account": "xp-1785245708454-tjre@t.local",
+        "successText": "Thanh toán thành công! Cảm ơn bạn đã mua sắm tại EShop. Quay lại trang chủ",
+        "rowsBefore": 1,
+        "rowsAfter": 1,
+        "rowsAfterDetail": [
+          {
+            "name": "iPhone 15 Pro Max",
+            "price": "30.000.000 ₫",
+            "qty": "1",
+            "total": "30.000.000 ₫"
+          }
+        ],
+        "cartTextAfterOrder": "Giỏ Hàng Sản phẩm Giá Số lượng Thành tiền Thao tác iPhone 15 Pro Max 30.000.000 ₫ 1 30.000.000 ₫ Xóa Tổng tạm tính: 30.000.000 ₫ ← Mua tiếp Tiến hành thanh toán"
+      },
+      "screenshots": [
+        "GUI-IA04-15.png"
+      ],
+      "durationMs": 8611
+    },
+    {
+      "id": "GUI-IA04-16",
+      "aspect": "IA-04",
+      "title": "Lỗi API tải đơn hiển thị khác empty state (lỗi bị nuốt → hiện \"chưa có đơn\")",
+      "screens": "Lịch sử ĐH",
+      "platformSensitive": true,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Account HAS 1 order(s), yet with /api/orders/my-orders → 500 the panel shows \"Lịch sử đơn hàng Bạn chưa có đơn hàng nào.\" — identical to the true empty state \"Lịch sử đơn hàng Bạn chưa có đơn hàng nào.\"",
+      "metrics": {
+        "account": "xp-1785245717233-hbuj@t.local",
+        "orderFixture": {
+          "status": 200,
+          "body": "{\"message\":\"Checkout successful\",\"orderId\":5}"
+        },
+        "trueEmptyStateText": "Lịch sử đơn hàng Bạn chưa có đơn hàng nào.",
+        "rowsWithApiOk": 1,
+        "textWithApiError": "Lịch sử đơn hàng Bạn chưa có đơn hàng nào.",
+        "rowsWithApiError": 0,
+        "identicalToEmptyState": true,
+        "consoleErrorSample": [
+          "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+          "Lỗi lấy đơn hàng: AxiosError: Request failed with status code 500"
+        ]
+      },
+      "screenshots": [
+        "GUI-IA04-16.png"
+      ],
+      "durationMs": 7871
+    },
+    {
+      "id": "GUI-IA04-17",
+      "aspect": "IA-04",
+      "title": "Đăng ký thành công có thông báo xác nhận (hiện navigate thẳng /login)",
+      "screens": "Đăng ký",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Registration succeeded (login probe 200) but no confirmation: went straight to \"/login\" (paths [\"/login\"]), page text \"EShop Giỏ hàng Đăng nhập Đăng ký Đăng Ký Username Mật khẩu Quên mật khẩu? Sign In Chưa có tài khoản? Đăng ký ngay © 2026 EShop SUT. Dành cho\", 0 dialogs, 0 live region(s)",
+      "metrics": {
+        "account": "xp-1785245725282-3vwm@t.local",
+        "pathsObserved": [
+          "/login"
+        ],
+        "finalPath": "/login",
+        "finalPageText": "EShop Giỏ hàng Đăng nhập Đăng ký Đăng Ký Username Mật khẩu Quên mật khẩu? Sign In Chưa có tài khoản? Đăng ký ngay © 2026 EShop SUT. Dành cho mục đích kiểm thử.",
+        "successMessage": null,
+        "liveRegionsSeen": 0,
+        "dialogs": [],
+        "loginProbeStatus": 200
+      },
+      "screenshots": [
+        "GUI-IA04-17.png"
+      ],
+      "durationMs": 4073
+    },
+    {
+      "id": "GUI-GAP-01",
+      "aspect": "IA-04",
+      "title": "Giỏ hàng được giữ lại sau khi refresh (F5) — hiện chỉ nằm trong React state",
+      "screens": "Giỏ hàng (toàn app)",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "Cart lost on reload: 1→0 row(s), page shows \"Giỏ hàng của bạn đang trống Tiếp tục mua sắm\"; persisted keys [] contain no cart entry",
+      "metrics": {
+        "rowsBefore": 1,
+        "rowsAfterReload": 0,
+        "cartTextAfterReload": "Giỏ hàng của bạn đang trống Tiếp tục mua sắm",
+        "localStorageKeys": [],
+        "sessionStorageKeys": [],
+        "pathAfterReload": "/cart"
+      },
+      "screenshots": [
+        "GUI-GAP-01.png"
+      ],
+      "durationMs": 3308
+    },
+    {
+      "id": "GUI-GAP-02",
+      "aspect": "IA-04",
+      "title": "Thêm cùng 1 SP nhiều lần → gộp 1 dòng, số lượng cộng dồn (hiện append dòng riêng)",
+      "screens": "Trang chủ, Giỏ hàng",
+      "platformSensitive": false,
+      "task1Status": "Failed",
+      "status": "FAIL",
+      "evidence": "2 clicks on \"iPhone 15 Pro Max\" produced 2 row(s) with quantities [\"1\",\"1\"] instead of 1 row × 2; total 60.000.000 ₫",
+      "metrics": {
+        "productAdded": "iPhone 15 Pro Max",
+        "clicks": 2,
+        "rowCount": 2,
+        "rows": [
+          {
+            "name": "iPhone 15 Pro Max",
+            "price": "30.000.000 ₫",
+            "qty": "1",
+            "total": "30.000.000 ₫"
+          },
+          {
+            "name": "iPhone 15 Pro Max",
+            "price": "30.000.000 ₫",
+            "qty": "1",
+            "total": "30.000.000 ₫"
+          }
+        ],
+        "rowsWithSameProduct": 2,
+        "quantities": [
+          "1",
+          "1"
+        ],
+        "cartTotalRendered": "60.000.000 ₫"
+      },
+      "screenshots": [
+        "GUI-GAP-02.png"
+      ],
+      "durationMs": 2146
+    }
+  ]
+}
