@@ -109,7 +109,7 @@ Cùng lúc, gõ `-1` được nhận trên **cả 3 engine** (không có `min`) 
 | Platform | Console |
 |---|---|
 | Chromium | 4 lỗi, có `"Failed to load resource: … status of 500 (Internal Server Error)"` + `AxiosError` kèm stack |
-| WebKit | 2 lỗi, cùng nội dung nhưng không stack |
+| WebKit | 4 lỗi, đúng nội dung như Chromium nhưng không kèm stack |
 | **Firefox** | 2 lỗi, chỉ `"Error"` / `"Lỗi lấy đơn hàng: Error"` — **không có status code, không có dòng resource** |
 
 Không phải bug của SUT, nhưng là rủi ro vận hành: UI đã không hiện gì (item Fail ở mọi engine), mà trên Firefox console cũng không cho dev biết request nào chết.
@@ -143,7 +143,7 @@ Task 3 không chỉ so sánh platform; chạy lại bằng máy đã lộ 3 ch�
 1. **Không dùng BrowserStack/LambdaTest** (không còn trial). Thay bằng 3 engine thật chạy headed trên máy thật — đề cho phép phương án thay thế nếu ảnh thể hiện rõ browser/OS/device + URL localhost, và mọi ảnh ở đây đều có. Chi tiết: [platform-matrix.md §4](platform-matrix.md).
 2. **P3 là WebKit build của Playwright, không phải `Safari.app`.** Cùng engine (`AppleWebKit/605.1.15`, `Version/26.5`) nên hành vi render/JS/CSS/validation là của Safari, nhưng menu bar hiện "Playwright". Muốn khoá tuyệt đối tiêu chí "Safari": bật `safaridriver` (xem [platform-matrix.md §5](platform-matrix.md)).
 3. **P1 là "Google Chrome for Testing"** (cùng Blink, cùng dòng version), không phải Chrome bản người dùng.
-4. **Không có platform mobile trong bộ bằng chứng.** Hai profile emulation (iPhone 14, Pixel 7) vẫn còn trong `harness/lib/platforms.js` và chạy được bằng `--platforms all`, nhưng đã **cố ý loại khỏi deliverable**: emulation không phải máy thật nên cũng không thoả §6. Nếu cần platform thứ 4 hợp lệ: chạy `frontend-mobile` bằng Expo Go trên điện thoại thật (đề cho phép).
+4. **Không có platform mobile trong bộ bằng chứng.** Hai profile emulation (iPhone 14, Pixel 7) từng có trong kế hoạch nhưng đã bị **xoá khỏi `harness/lib/platforms.js`**, không phải chỉ ẩn đi: `PLATFORMS` hiện đúng 3 entry (P1/P2/P3) nên `--platforms all` cũng chỉ trả về 3 — không có cờ nào chạy lại được mobile. Lý do xoá: emulation không phải máy thật nên không thoả §6, và giữ lại chỉ làm bộ bằng chứng loãng. Nếu cần platform thứ 4 hợp lệ thì phải chạy `frontend-mobile` bằng Expo Go trên điện thoại thật (đề cho phép, và đó là cách duy nhất còn lại).
 5. **`GUI-IA03-15` chỉ quan sát được với 5 sản phẩm seed** — metric `observationLimit` ghi rõ điều này; Pass ở đây không có nghĩa "đã kiểm chứng với danh sách dài".
 6. **Kết quả automation phản ánh đúng những gì đo được, không thay thế phán đoán thị giác.** Ví dụ `GUI-IA01-14`: computed `margin-right:-100px` chỉ dành 86px layout cho nút rộng 186px (Fail), nhưng nút vẫn nằm trong container và click được ở 375×812 — cả hai sự thật đều ghi trong `evidence`/`metrics` để người đọc tự đánh giá.
 

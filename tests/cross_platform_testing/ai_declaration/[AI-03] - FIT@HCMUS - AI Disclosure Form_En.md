@@ -59,7 +59,7 @@ The full prompt set is pasted verbatim in the AI Audit Report (Section 3) — P1
 
 Be specific. Example: 'AI generated TC01–TC15 in Section 3.2; I rewrote TC04 and TC11; AI did NOT contribute to Sections 1, 2, 4, or the AI Critique.'
 
-AI generated: `harness/lib/{platforms,overlay,ctx}.js`, `harness/run-audit.js`, `harness/checks/ia0{1,2,3,4}.js` (66 checks, 3.7 k lines), `harness/scripts/{build-matrix,capture-platform-proof,verify-evidence}.js`, `harness/run-all-platforms.sh`, and the first drafts of `platform-matrix.md`, `results-matrix.md`, `divergences.md`, `cross-platform-report.md`, `issues/XP-*.md` and `plan/PLAN-TASK3.md`. `results-matrix.md` and `divergences.md` are *generated files* — they are recomputed from `results/raw/*.json` by a script, not written by hand.
+AI generated: `harness/lib/{platforms,overlay,ctx}.js`, `harness/run-audit.js`, `harness/checks/ia0{1,2,3,4}.js` (66 checks, 3.7 k lines), `harness/scripts/{build-matrix,capture-platform-proof,verify-evidence}.js`, `harness/run-all-platforms.sh`, and the first drafts of `platform-matrix.md`, `results-matrix.md`, `divergences.md`, `report.md`, `issues/XP-*.md` and `plan/PLAN-TASK3.md`. `results-matrix.md` and `divergences.md` are *generated files* — they are recomputed from `results/raw/*.json` by a script, not written by hand.
 
 AI did NOT contribute to: the choice of platform matrix and the decision to substitute BrowserStack (mine, documented with its risk in `platform-matrix.md` §4–5), the final classification of each divergence as SUT bug vs. legitimate engine behaviour vs. measurement limitation, and the AI Critique.
 

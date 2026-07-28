@@ -37,7 +37,7 @@ Adapted from Med Kharbach, PhD (2026) — AI Use Policy Templates for Higher Edu
 - [x] All AI-generated artifacts are tagged in the AI Audit Report.
 - [x] All citations from AI have been verified (sources actually exist).
 - [x] All AI-generated code has been executed and tested — the 66 checks were executed on the 3 required platforms (198 executions); `harness/scripts/verify-evidence.js` gates the run (fails if any item is missing, any FAIL lacks a screenshot, or any check ended in ERROR).
-- [x] My 200–300-word AI Critique is included in the report (`cross-platform-report.md` §9).
+- [x] My 200–300-word AI Critique is included in the report (`report.md` §8).
 - [x] The Mandatory Disclosure paragraph is at the end of my report.
 - [x] I attached the AI Use Disclosure Form.
 - [x] I am ready for a 5–7-min random oral defense the week after submission.
