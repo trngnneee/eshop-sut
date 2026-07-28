@@ -1,0 +1,14 @@
+{
+  "name": "eshop-cross-platform-audit",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Task 3 (HW03) — cross-browser / cross-platform execution of the Task 1 GUI checklist on the EShop SUT",
+  "scripts": {
+    "audit": "node run-audit.js",
+    "matrix": "node scripts/build-matrix.js"
+  },
+  "dependencies": {
+    "playwright": "^1.56.0"
+  }
+}
