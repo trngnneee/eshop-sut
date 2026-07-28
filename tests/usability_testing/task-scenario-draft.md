@@ -32,6 +32,6 @@ Sinh nhật em trai bạn sắp tới, và cậu ấy nhắc từ lâu là muố
 
 ## 4. Bản sau pilot — quyết định chốt
 
-Nghiên cứu không có pilot session với người tham gia riêng (hạn chế được khai rõ trong `usability-report.md` mục 5 và 10). Vai trò kiểm tra kịch bản được bù một phần bằng dry-run của chính người thực hiện trước session đầu và checkpoint rà lại quy trình sau session P1.
+Pilot được chạy gộp vào session P1 (Đặng Đăng Khoa, 21/07/2026) — buổi đó vừa là pilot vừa là session chính thức đầu tiên, cộng với dry-run của chính người thực hiện trước đó. Hạn chế của cách gộp này được khai rõ trong `report.md` mục 5 và 10.
 
-**Kịch bản ở mục 1 được giữ nguyên, không chỉnh sửa, cho cả 7 session chính thức** — không session nào ghi nhận participant hiểu sai kịch bản hoặc phải hỏi lại nghĩa của goal; các mục "trước → sau pilot" vì vậy không phát sinh. Việc dùng đúng một bản kịch bản xuyên suốt cũng giữ cho 7 session so sánh được với nhau.
+**Kịch bản ở mục 1 được giữ nguyên, không chỉnh sửa, cho cả 7 session chính thức** — pilot (P1) không phát hiện chỗ nào phải sửa: participant hiểu goal ngay, không hỏi lại nghĩa, thời lượng nằm trong khung dự kiến; các session sau cũng không ghi nhận ai hiểu sai kịch bản. Các mục "trước → sau pilot" vì vậy không phát sinh. Việc dùng đúng một bản kịch bản xuyên suốt cũng giữ cho 7 session so sánh được với nhau.

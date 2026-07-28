@@ -4,9 +4,11 @@ __SESSION 1 (P1)__ — Ngày: 21/07/2026 Bắt đầu: 10:00 Kết thúc: 10:19 
 
 Người tham gia: Đặng Đăng Khoa.
 
+> **Session này đồng thời là pilot.** Ngoài việc thu dữ liệu như 6 session sau, buổi này được dùng để kiểm tra kịch bản (goal có rõ không), bộ probe questions và phiếu SUS trước khi chạy P2–P7. Kết luận: không phải sửa gì — participant hiểu goal ngay, không hỏi lại nghĩa, thời lượng 19 phút nằm trong khung dự kiến 15–25 phút. Vì vậy dữ liệu P1 được giữ lại trong phân tích. Hạn chế của pilot gộp: xem `report.md` mục 5 và 10.
+
 | Bước flow | Hoàn thành? | Thời gian | Lỗi & do dự quan sát được | Trích lời think-aloud đáng chú ý |
 |---|---|---|---|---|
-| 1. Đăng ký *(O1)* | ✓ | 0:00–4:30 | SĐT `0901****67` bị từ chối 2 lần (BUG-11); đọc kỹ thông báo lỗi rồi thử bỏ số 0 đầu → qua. Mật khẩu lỗi 1 lần (BUG-12) | "Số điện thoại mình xài hằng ngày mà, sao lại không hợp lệ?" |
+| 1. Đăng ký *(O1)* | ✓ | 0:00–4:30 | SĐT `0376****49` bị từ chối 2 lần (BUG-11); đọc kỹ thông báo lỗi rồi thử bỏ số 0 đầu → qua. Mật khẩu lỗi 1 lần (BUG-12) | "Số điện thoại mình xài hằng ngày mà, sao lại không hợp lệ?" |
 | 2. Tìm kiếm *(O6)* | ✓ | 4:30–6:30 | Gõ "tai nghe chống ồn" → trang trống không một dòng giải thích (BUG-42), khựng ~15 giây; rút gọn còn "tai nghe" → ra kết quả | "Ủa, hết hàng hả? Hay mình gõ sai... thử ngắn hơn xem." |
 | 3. Chi tiết sản phẩm | ✓ | 6:30–7:30 | Đối chiếu giá 6.000.000₫ với ngân sách 6–7 triệu, không do dự | "6 triệu, vừa đúng tầm tiền." |
 | 4. Thêm giỏ / Giỏ hàng *(O2)* | ✓ | 7:30–9:00 | Bấm "Thêm vào giỏ hàng" lần 1 không thấy phản hồi gì (BUG-16/17), bấm lần 2, rồi chủ động mở giỏ kiểm tra → 1 món | "Bấm rồi mà im re... thôi vô giỏ coi cho chắc." |

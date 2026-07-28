@@ -6,7 +6,7 @@ Người tham gia: Võ Ngọc Bích Trâm.
 
 | Bước flow | Hoàn thành? | Thời gian | Lỗi & do dự quan sát được | Trích lời think-aloud đáng chú ý |
 |---|---|---|---|---|
-| 1. Đăng ký *(O1)* | ✓ | 0:00–3:00 | SĐT `0987****21` lỗi 1 lần → đoán ngay "regex không nhận số 0 đầu", nhập lại dạng bỏ số 0 (`84987****21`) → qua. Mật khẩu lỗi 2 lần, mò ra quy tắc bằng cách thử (BUG-12) | "Hint ghi một đằng, validate một nẻo — cái này chắc regex viết sai." |
+| 1. Đăng ký *(O1)* | ✓ | 0:00–3:00 | SĐT `0982****01` lỗi 1 lần → đoán ngay "regex không nhận số 0 đầu", nhập lại dạng bỏ số 0 (`84982****01`) → qua. Mật khẩu lỗi 2 lần, mò ra quy tắc bằng cách thử (BUG-12) | "Hint ghi một đằng, validate một nẻo — cái này chắc regex viết sai." |
 | 2. Tìm kiếm *(O6)* | ✓ | 3:00–4:00 | Gõ "tai nghe" ngay từ đầu (từ khoá ngắn), ra kết quả luôn — không chạm BUG-42 | "Search từ khoá ngắn cho chắc." |
 | 3. Chi tiết sản phẩm | ✓ | 4:00–4:40 | Không do dự | — |
 | 4. Thêm giỏ / Giỏ hàng *(O2)* | ✓ | 4:40–5:40 | Bấm lần 1 không phản hồi → mở giỏ thấy trống (BUG-17) → quay lại bấm lần 2 → có | "Click đầu bị nuốt luôn kìa. Không toast, không badge — người thường sao biết được." |

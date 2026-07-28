@@ -11,7 +11,7 @@ FR phủ: FR-01, FR-05, FR-06, FR-07, FR-08, FR-09, FR-11.
 
 ### 1.1. Cách xây dựng
 
-Dùng AI đề xuất 6 mục tiêu ứng viên, với input là flow U-01 và các bug Task 1 đã tìm thấy trên chính các màn thuộc flow (BUG-11, 12, 16, 17, 20, 33, 34, 35, 36, 38, 42, 44, 46, 47 — xem `../gui_and_usability_testing/reports/bug-report.md`). Sau đó em tự chọn 3 mục tiêu chính thức và tự viết lý do chọn/loại dưới đây.
+Dùng AI đề xuất 6 mục tiêu ứng viên, với input là flow U-01 và các bug Task 1 đã tìm thấy trên chính các màn thuộc flow (BUG-11, 12, 16, 17, 20, 33, 34, 35, 36, 38, 42, 44, 46, 47 — xem `../gui_and_usability_testing/bug-report.md`). Sau đó em tự chọn 3 mục tiêu chính thức và tự viết lý do chọn/loại dưới đây.
 
 ### 1.2. Sáu mục tiêu ứng viên (tóm tắt)
 
@@ -54,7 +54,7 @@ Kịch bản goal-oriented (mua quà sinh nhật là tai nghe chống ồn, ngâ
 
 - **Thang đo: SUS** (bản dịch tiếng Việt trong `template/sus-form-vi.md`, kèm bảng đối chiếu Anh–Việt để kiểm chứng độ trung thành và tính phân cực câu lẻ/chẵn). Em chọn SUS thay vì UEQ-S vì: 10 câu đủ ngắn cho session 15–25 phút, có quy trình chấm chuẩn tái lập được (0–100) và benchmark tham chiếu rộng rãi (68 = trung bình), phù hợp để báo cáo một con số tổng quát với n nhỏ.
 - **Probe questions:** 7 câu mở trong `template/probe-questions.md`, phủ đủ 4 trục đề yêu cầu (clarity / error recovery / speed / trust) và bám O1/O2/O6; mỗi câu có bản gốc trung lập + câu đào sâu chỉ dùng khi chính em đã quan sát thấy tình huống trong session.
-- **Session kit:** `template/session-kit.md` — kịch bản mở đầu đọc nguyên văn (test sản phẩm không test bạn, demo think-aloud, xin consent ghi màn hình + âm thanh), template ghi chú A4 theo 6 bước flow, cheat-sheet 5 câu trả lời trung lập và quy tắc can thiệp duy nhất (kẹt hẳn > 2 phút, gợi ý nhỏ nhất có thể, ghi lại nguyên văn).
+- **Session kit:** `template/session-kit.md` — kịch bản mở đầu đọc nguyên văn (test sản phẩm không test bạn, demo think-aloud, xin consent cho việc ghi chú — **không ghi màn hình, không ghi âm**, xem mục 10), template ghi chú A4 theo 6 bước flow, cheat-sheet 5 câu trả lời trung lập và quy tắc can thiệp duy nhất (kẹt hẳn > 2 phút, gợi ý nhỏ nhất có thể, ghi lại nguyên văn).
 
 ## 4. Người tham gia
 
@@ -66,7 +66,9 @@ Kịch bản goal-oriented (mua quà sinh nhật là tai nghe chống ồn, ngâ
 
 Trước session đầu, em tự đi hết flow (dry-run) để xác nhận flow không gãy, ước thời lượng session và soát kịch bản/bảng mapping; DB được reset về seed trước mỗi session và toàn bộ 7 session dùng cùng một bộ tài liệu.
 
-**Hạn chế cần khai rõ: nghiên cứu này không có pilot session với một người tham gia riêng** như đề khuyến nghị. Vai trò của pilot được bù một phần bằng dry-run nói trên và bằng việc rà lại quy trình sau session P1 trước khi tiếp tục — thực tế không session nào ghi nhận participant hiểu sai hoặc phải hỏi lại kịch bản, và bộ tài liệu giữ nguyên xuyên suốt nên 7 session so sánh được với nhau. Rủi ro tồn dư của việc thiếu pilot (nếu scenario có lỗi hệ thống thì lỗi đó lan cả 7 session) được ghi nhận ở mục 10.
+**Pilot được chạy gộp vào session P1** (Đặng Đăng Khoa, 21/07/2026 10:00–10:19): buổi đó vừa là pilot vừa là session chính thức đầu tiên — em dùng nó để kiểm tra kịch bản có goal-oriented đủ rõ không, bộ probe questions có chạy được trong thời lượng dự kiến không, và phiếu SUS có gây thắc mắc gì không, trước khi tiếp tục P2–P7. Kết quả kiểm tra: **kịch bản và bộ tài liệu không cần chỉnh sửa** — participant hiểu goal ngay, không hỏi lại nghĩa, thời lượng 19 phút nằm trong khung dự kiến 15–25 phút. Vì vậy cả 7 session dùng đúng một bản kịch bản và so sánh được với nhau, và dữ liệu P1 được giữ lại trong phân tích.
+
+**Hạn chế cần khai rõ:** pilot gộp vào session chính thức yếu hơn một pilot riêng ở đúng một điểm - nếu buổi đó phát hiện kịch bản có lỗi hệ thống thì em chỉ sửa được **từ P2 trở đi**, còn chính P1 đã bị ảnh hưởng và sẽ phải loại. Ở đây rủi ro không hiện thực hoá (không có gì phải sửa), nhưng đó là may mắn về kết quả chứ không phải bảo đảm về quy trình; ghi nhận lại ở mục 10.
 
 ## 6. Tiến hành 7 session
 
@@ -112,10 +114,11 @@ Dựa trên dữ liệu người dùng thật, 2 issue được nâng severity (
 
 ## 10. Hạn chế
 
-1. **Không có pilot session riêng** (mục 5) — rủi ro lỗi hệ thống của scenario lan cả 7 session; giảm nhẹ bằng dry-run + checkpoint sau P1, nhưng vẫn là thiếu sót so với quy trình chuẩn của đề.
-2. **n=7, mẫu đồng nhất** (đều là sinh viên) — kết quả là tín hiệu định tính; các con số x/7 không suy rộng được cho tập người dùng chung.
-3. **Catalog chỉ 5 sản phẩm** — làm hành vi "duyệt thay vì tìm" trở nên hợp lý (P4), nên kết luận O6 về tìm kiếm sẽ cần kiểm chứng lại với catalog lớn.
-4. Kết quả SUS chịu ảnh hưởng mạnh của cụm lỗi Đăng ký nằm ngay đầu session (hiệu ứng ấn tượng đầu).
+1. **Pilot gộp vào session chính thức, không phải pilot riêng** (mục 5) — pilot chạy chung với P1 nên nếu kịch bản có lỗi hệ thống thì chỉ sửa được từ P2, còn P1 đã nhiễm và phải loại; thực tế không cần sửa gì, nhưng quy trình chuẩn của đề là một buổi pilot riêng bỏ đi được.
+2. **Không ghi màn hình, không ghi âm** — em chủ động bỏ phần recording, nên bằng chứng duy nhất của mỗi buổi là ghi chú viết tay được gõ sạch trong vòng 15 phút sau session, cộng phiếu SUS do participant tự điền. Hệ quả phải nhận: các mốc thời gian là số bấm đồng hồ tại chỗ (không phải đo lại từ băng), và các câu think-aloud là ghi lại lúc nghe chứ không thể tái nghe để kiểm — nếu cần kiểm chứng độc lập thì phải gọi lại participant, không có tư liệu nào thay thế được. Đổi lại, không có tư liệu ghi hình nào của người tham gia tồn tại ở bất cứ đâu.
+3. **Mẫu đồng nhất, và đồng nhất theo hướng bất lợi** (n=7) — cả 7 người đều là sinh viên cùng một khoa CNTT (`@clc.fitus.edu.vn`, cùng khoá 23). Họ **không** làm kiểm thử và **không** học lớp HW03 này, nên vẫn đúng điều kiện bắt buộc của đề; nhưng đề *ưu tiên* người ngoài ngành IT, và ở điểm ưu tiên đó mẫu này không đạt. Ảnh hưởng cụ thể lên kết luận: nhóm này quen quy ước web hơn người dùng phổ thông, nên khả năng tự phục hồi khỏi lỗi (trục O1) gần như chắc chắn bị **đo cao hơn** thực tế — P2 đoán ra "regex không nhận số 0 đầu" chỉ sau 1 lần thất bại là hành vi của người có nền IT, không phải của người mua hàng bình thường. Các con số x/7 vì vậy nên đọc như chặn trên, không phải trung bình.
+4. **Catalog chỉ 5 sản phẩm** — làm hành vi "duyệt thay vì tìm" trở nên hợp lý (P4), nên kết luận O6 về tìm kiếm sẽ cần kiểm chứng lại với catalog lớn.
+5. Kết quả SUS chịu ảnh hưởng mạnh của cụm lỗi Đăng ký nằm ngay đầu session (hiệu ứng ấn tượng đầu).
 
 ## 11. AI Critique (200–300 từ)
 
@@ -125,4 +128,4 @@ AI mạnh nhất ở hai chỗ. Một là dựng công cụ có ràng buộc ki�
 
 Điểm yếu đáng học nhất nằm ở bước tổng hợp: 3 con số thống kê trong bản nháp findings lệch khỏi ghi chú gốc, và cả 3 đều lệch về hướng làm câu chuyện gọn hơn - kể cả khẳng định "không ai rút được cách sửa từ thông báo lỗi" trong khi chính dữ liệu đó có P1 là ngoại lệ. Đây không phải lỗi ngẫu nhiên mà là thiên kiến kể-chuyện-mạch-lạc, và chỉ bị bắt nhờ đếm lại từng dòng theo `session-P*.md`. Em cũng không nghe theo AI ở một quyết định triage: giữ #235 ở Minor thay vì nâng Major như AI đề xuất, vì cả 4/7 người gặp đều tự thoát được bằng đổi từ khoá.
 
-Quy tắc em rút ra: để AI nháp cấu trúc và văn bản, nhưng mọi con số phải truy vết được về dữ liệu thô và phải tự suy ra lại trước khi chấp nhận; các quyết định đánh giá (severity, khai hạn chế thiếu pilot) luôn thuộc về người làm nghiên cứu.
+Quy tắc em rút ra: để AI nháp cấu trúc và văn bản, nhưng mọi con số phải truy vết được về dữ liệu thô và phải tự suy ra lại trước khi chấp nhận; các quyết định đánh giá (severity, khai hạn chế của việc gộp pilot vào session chính thức) luôn thuộc về người làm nghiên cứu.

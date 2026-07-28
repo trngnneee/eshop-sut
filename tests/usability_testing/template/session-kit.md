@@ -10,11 +10,10 @@
 >
 > Mình sẽ ngồi quan sát và ghi chú, và sẽ **không hướng dẫn hay trả lời trong lúc bạn làm** — không phải mình khó tính đâu, mà vì mình cần thấy trải nghiệm thật của bạn. Bạn có thể dừng bất cứ lúc nào, không cần lý do.
 >
-> Cuối cùng: để phục vụ bài tập, **mình xin phép ghi lại màn hình và âm thanh** của buổi này — tư liệu chỉ dùng cho môn học. Bạn đồng ý chứ?
 
 ## 2. Dòng consent
 
-> Tôi đồng ý tham gia buổi đánh giá trải nghiệm này và đồng ý cho ghi lại màn hình cùng âm thanh của buổi làm việc, với điều kiện tư liệu chỉ được dùng cho mục đích học tập của môn học.
+> Tôi đồng ý tham gia buổi đánh giá trải nghiệm này và đồng ý cho người điều phối **ghi chú lại** những gì tôi làm và nói trong buổi, với điều kiện tư liệu chỉ được dùng cho mục đích học tập của môn học và tôi được nhắc tới bằng mã (P1–P7) chứ không phải tên thật. Buổi làm việc **không ghi màn hình, không ghi âm**.
 >
 > Họ tên: ______________________  Ngày: ____ / ____ / ______
 
@@ -43,19 +42,19 @@ __SESSION ___ (P__)__ — Ngày: ______ Bắt đầu: ______ Kết thúc: ______
 
 1. 
 
-   ---
+---
 
 2. 
 
-   ---
+---
 
 3. 
 
-   ---
+---
 
 ---
 
-*Quy ước: "trợ giúp" = mình phải can thiệp theo quy tắc mục 4; ghi rõ đã nói gì. Cột thời gian ghi phút:giây tương đối từ lúc bắt đầu task (đối chiếu lại recording khi gõ note).*
+*Quy ước: "trợ giúp" = mình phải can thiệp theo quy tắc mục 4; ghi rõ đã nói gì. Cột thời gian ghi phút:giây tương đối từ lúc bắt đầu task, bấm bằng đồng hồ ngay trong buổi — không có recording để đối chiếu lại, nên note phải gõ sạch trong vòng 15 phút sau session lúc còn nhớ rõ.*
 
 ## 4. Cheat-sheet giữ trung lập
 
@@ -73,6 +72,5 @@ Khi participant hỏi/cầu cứu, chọn 1 trong 5 câu (không thêm thông ti
 
 - ☐ Reset `database.sqlite` về seed, restart backend, mở sẵn `localhost:5173`
 - ☐ Đăng xuất session cũ / xoá localStorage của lần trước
-- ☐ Bật thử ghi màn hình + mic 10 giây, kiểm tra file lưu được
+- ☐ Đồng hồ bấm giây sẵn sàng (thay cho recording — thời gian phải bấm ngay trong buổi)
 - ☐ Kit giấy: script mở đầu, consent, template ghi chú, phiếu SUS, kịch bản tình huống
-- ☐ Sau session: lưu recording thành `P<n>_<yyyy-mm-dd>.mp4`, gõ note thành `session-P<n>.md` trong vòng 15 phút

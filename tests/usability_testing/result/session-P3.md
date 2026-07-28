@@ -6,7 +6,7 @@ Người tham gia: Phan Quốc Thịnh.
 
 | Bước flow | Hoàn thành? | Thời gian | Lỗi & do dự quan sát được | Trích lời think-aloud đáng chú ý |
 |---|---|---|---|---|
-| 1. Đăng ký *(O1)* | ☐ trợ giúp | 0:00–9:00 | SĐT `0912****58` lỗi 3 lần (nhập nguyên số, `+84` có khoảng trắng, gõ lại y nguyên — BUG-11); mật khẩu lỗi 4 lần (BUG-12). Kẹt hẳn >2 phút, lặp lại cùng thao tác dù đã nhận 2 câu trung lập → can thiệp tối thiểu: *"Thử bỏ số 0 ở đầu số điện thoại xem sao."* | "Mình nhập đúng số của mình mà? Cái này nó khó quá..." |
+| 1. Đăng ký *(O1)* | ☐ trợ giúp | 0:00–9:00 | SĐT `0795****93` lỗi 3 lần (nhập nguyên số, `+84` có khoảng trắng, gõ lại y nguyên — BUG-11); mật khẩu lỗi 4 lần (BUG-12). Kẹt hẳn >2 phút, lặp lại cùng thao tác dù đã nhận 2 câu trung lập → can thiệp tối thiểu: *"Thử bỏ số 0 ở đầu số điện thoại xem sao."* | "Mình nhập đúng số của mình mà? Cái này nó khó quá..." |
 | 2. Tìm kiếm *(O6)* | ✓ | 9:00–12:00 | Gõ "tai nghe chống ồn" → trang trống (BUG-42) → tưởng lỗi mạng, bấm tìm lại y nguyên lần nữa; sau đó xoá dần từ khoá còn "tai nghe" → ra | "Sao không có gì hết vậy? Chắc mạng lỗi... để mình bấm lại." |
 | 3. Chi tiết sản phẩm | ✓ | 12:00–13:30 | Đọc kỹ mô tả, đối chiếu giá chậm nhưng chắc | "Chống ồn chủ động — đúng loại em mình dặn." |
 | 4. Thêm giỏ / Giỏ hàng *(O2)* | ✓ | 13:30–17:00 | Bấm 3 lần liên tiếp vì không thấy phản hồi (BUG-16/17) → giỏ ra **2 dòng trùng** (BUG-47); hoảng, loay hoay ~1 phút tìm cách xoá bớt 1 dòng | "Chết rồi, sao thành 2 cái? Mình đâu có mua 2 cái đâu!" |
