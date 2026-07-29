@@ -28,7 +28,7 @@ Confirm that the selected flow can technically reach registration, login, profil
 - Result JSON: `evidence/technical-preflight/result.json`
 - Screenshots: `evidence/technical-preflight/`
 - Overall result: `PASS_WITH_PROVISIONAL_DEFECT`
-- Cleanup: technical-preflight users IDs `3`, `4`, and `5` were deleted after evidence capture; remaining `ux.preflight.%@example.com` users = `0`
+- Cleanup: technical-preflight users IDs `3`, `4`, and `5` were deleted after evidence capture; remaining `ux.preflight.%@example.com` users = `0`; guarded `users` auto-increment sequence restored from `5` to `2` (`MAX(users.id)=2`)
 
 ## Provisional observations to verify
 
