@@ -1,38 +1,37 @@
-# Participant Roster
+﻿# Participant Roster — Submission Verification Appendix
 
-**Official sample size:** exactly 7
-**Current status:** `UNVERIFIED`
-**Privacy rule:** Commit only masked contact details. Keep the unmasked verification list securely outside the repository for possible TA verification.
+**Official sample size:** 7 mapped IDs
+**Current status:** `READY_FOR_HUMAN_REVIEW — CONFIRMED_MISSING_DATA`
+**Handling:** File này là appendix dành riêng cho Moodle/TA verification. Không đăng công khai hoặc đính kèm GitHub Issue.
+**Privacy:** Contact chỉ được lưu dưới dạng che đúng bốn chữ số giữa; full contact vẫn nằm ngoài report. Session reports và findings tiếp tục chỉ dùng P01–P07/D01–D07.
 
-The pilot participant is recorded only in `Pilot_Session.md` and must not appear in this official roster.
+Pilot không nằm trong bảng này; người dùng xác nhận pilot không được thu thập, nên giữ **PILOT EVIDENCE MISSING**.
 
 ## Official participants
 
-| ID | Real participant name | Verifiable contact with middle 4 masked | Age range | Occupation / field | Online-shopping frequency | Outside HW03? | Prior EShop exposure? | Screen-recording consent? | Eligibility evidence / notes | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| P01 | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `UNVERIFIED` |
-| P02 | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `UNVERIFIED` |
-| P03 | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `UNVERIFIED` |
-| P04 | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `UNVERIFIED` |
-| P05 | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `UNVERIFIED` |
-| P06 | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `UNVERIFIED` |
-| P07 | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `UNVERIFIED` |
+| ID | Name supplied for submission | Masked contact | Source alias | Age | Occupation | Online-shopping frequency | Outside HW03? | Prior EShop exposure? | Screen-recording consent evidence | Evidence/data note | Status |
+|---|---|---|---|---:|---|---|---|---|---|---|---|
+| P01 | Thịnh | 098****701 | D01 | 22 — user-provided | Sinh viên — user-provided | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | Mapping confirmed; screen evidence analyzed; supplemental data confirmed not collected | READY_FOR_HUMAN_REVIEW |
+| P02 | Bách | 093****957 | D02 | 22 — user-provided | Sinh viên — user-provided | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | Mapping and task end at validation alert confirmed | READY_FOR_HUMAN_REVIEW |
+| P03 | Phương | 098****648 | D03 | 22 — user-provided | Sinh viên — user-provided | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | Mapping confirmed; entire session confirmed to be only 4 seconds | READY_FOR_HUMAN_REVIEW |
+| P04 | Hiển | 037****848 | D04 | 22 — user-provided | Sinh viên — user-provided | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | Mapping confirmed; screen evidence analyzed; supplemental data confirmed not collected | READY_FOR_HUMAN_REVIEW |
+| P05 | Ngọc | 084****646 | D05 | 22 — user-provided | Sinh viên — user-provided | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | Mapping and task end at login confirmed | READY_FOR_HUMAN_REVIEW |
+| P06 | Hân | 094****359 | D06 | 22 — user-provided | Sinh viên — user-provided | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | Replacement source is independent; task end at registration error confirmed | READY_FOR_HUMAN_REVIEW |
+| P07 | Trâm | 096****132 | D07 | 22 — user-provided | Sinh viên — user-provided | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | Mapping confirmed; screen evidence analyzed; supplemental data confirmed not collected | READY_FOR_HUMAN_REVIEW |
 
-## Contact masking examples
+## Provenance and limitations
 
-- Phone: `0912****78` — the middle four digits are masked.
-- Zalo registered to a phone: `0987****21`.
-- Email: keep enough of the address for the TA to recognise it while masking four middle characters, for example `minh****@gmail.com`.
+- D01→P01, D02→P02, D03→P03, D04→P04, D05→P05, replacement D06→P06 và D07→P07 được người dùng xác nhận.
+- Tên participant, tuổi và nghề nghiệp là user-provided; video không được dùng để suy đoán nhân khẩu học.
+- Masked contact được tạo từ source filename do người dùng xác nhận là số điện thoại; chỉ bốn chữ số giữa được thay bằng `****`.
+- P06 dùng participant của replacement source; participant của old duplicate không còn thuộc official P06 evidence.
+- Chỉ có tên gọi được cung cấp; họ tên pháp lý đầy đủ là NOT_RECORDED.
+- Eligibility “ngoài lớp HW03”, shopping frequency, prior SUT exposure và consent record là `NOT_RECORDED`. Không được đổi thành PASS khi chưa có nguồn xác minh.
+- Người dùng xác nhận SUS, probes, consent/eligibility supplement và pilot không được thu thập; các trường tương ứng giữ `NOT_RECORDED`.
 
-Do not use these examples as participant data.
+## Submission handling
 
-## Eligibility sign-off
-
-Replace this section only after recruitment:
-
-- Recruiter: `<REQUIRED_REAL_DATA>`
-- Date eligibility was checked: `<REQUIRED_REAL_DATA>`
-- Number eligible and scheduled: `<REQUIRED_REAL_DATA>`
-- Number excluded/replaced and reasons: `<REQUIRED_REAL_DATA>`
-- Confirmation that none are current HW03 students: `<REQUIRED_REAL_DATA>`
-- Status: `UNVERIFIED`
+- Đưa file này vào gói Moodle riêng tư để đáp ứng participant-verification table.
+- Không đưa file này vào public GitHub repository nếu repository đang public.
+- Không đưa full phone, email cá nhân, địa chỉ hoặc password vào bất kỳ report/issue nào.
+- TA có thể yêu cầu xác minh participant; artefacts hiện có chỉ cung cấp masked contact và tên do người dùng khai báo.

@@ -1,68 +1,44 @@
-# Pilot Session — PILOT-01
+﻿# Pilot Session — PILOT-01
 
-**Status:** `UNVERIFIED`
-**Rule:** The pilot is a separate real person and is not included in P01–P07 or the seven-person SUS aggregate.
+**Status:** `PILOT EVIDENCE MISSING — CONFIRMED_NOT_COLLECTED`
+**Rule:** Pilot phải là một người thật riêng, không thuộc P01–P07 và không tính vào aggregate.
 
-## Participant and environment
+## Evidence audit
 
-| Field | Genuine value |
-| :--- | :--- |
-| Real participant name | `<REQUIRED_REAL_DATA>` |
-| Contact with middle 4 masked | `<REQUIRED_REAL_DATA>` |
-| Eligibility / outside HW03 | `<REQUIRED_REAL_DATA>` |
-| Date and start time | `<REQUIRED_REAL_DATA>` |
-| Location / remote method | `<REQUIRED_REAL_DATA>` |
-| Device / OS | `<REQUIRED_REAL_DATA>` |
-| Browser / version | `<REQUIRED_REAL_DATA>` |
-| Screen-recording consent | `<REQUIRED_REAL_DATA>` |
-| Audio consent | `<REQUIRED_REAL_DATA>` |
-| Recording/evidence path | `<REQUIRED_REAL_DATA>` |
+| Field | Result |
+|---|---|
+| Pilot screen recording | NOT_RECORDED / no file found |
+| Pilot audio | NOT_RECORDED |
+| Pilot consent | NOT_RECORDED |
+| Pilot participant metadata | NOT_RECORDED |
+| Pilot SUS | NOT_RECORDED |
+| Pilot probes | NOT_RECORDED |
+| Pilot notes | NOT_RECORDED |
+| Drive/repository pilot artefact | NOT_FOUND |
 
-## Pilot checks
+Không được gán một trong bảy official recordings làm pilot.
 
-- [ ] The scenario is understandable without naming interface controls.
-- [ ] Session-specific test data avoids personal information.
-- [ ] Registration, login, profile update, persistence check, and logout are technically reachable.
-- [ ] Timing is realistic.
-- [ ] Screen and audio capture settings match consent.
-- [ ] SUS wording is understood.
-- [ ] The four probes elicit useful detail.
-- [ ] Moderator intervention thresholds are workable.
+## Protocol checks
+
+Các mục scenario clarity, test-data safety, timing, capture settings, SUS comprehension, probe quality và intervention thresholds đều `UNVERIFIED` vì không có pilot evidence.
 
 ## Timestamped pilot notes
 
-| Time | Screen / participant action | Observed friction or statement | Moderator intervention | Evidence reference |
-| :--- | :--- | :--- | :--- | :--- |
-| `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` |
+NOT_RECORDED — không có pilot recording/notes để tạo timestamp.
 
 ## Problems found in the protocol
 
-| ID | Protocol/scenario/instrument problem | Impact | Required change |
-| :--- | :--- | :--- | :--- |
-| PILOT-P01 | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` |
+NOT_OBSERVABLE — không được suy ra từ official participants hoặc technical preflight như pilot result.
 
 ## Refinement decision
 
-- Scenario changed? `<REQUIRED_REAL_DATA>`
-- Exact before/after wording if changed: `<REQUIRED_REAL_DATA>`
-- Test data or fallback changed? `<REQUIRED_REAL_DATA>`
-- Moderator guide changed? `<REQUIRED_REAL_DATA>`
-- Instrument changed? `<REQUIRED_REAL_DATA>`
-- Session length changed? `<REQUIRED_REAL_DATA>`
-- Reason for each change or for making no change: `<REQUIRED_REAL_DATA>`
-- Final protocol version/date frozen before P01: `<REQUIRED_REAL_DATA>`
+- Scenario changed after pilot: UNVERIFIED.
+- Test data/fallback changed: UNVERIFIED.
+- Moderator guide changed: UNVERIFIED.
+- Instruments changed: UNVERIFIED.
+- Session length changed: UNVERIFIED.
+- Final protocol frozen before P01: UNVERIFIED.
 
-## Pilot-only product observations
+## Confirmed disposition
 
-Any product issue first seen here is labelled `PROVISIONAL` and cannot be reported as participant-validated:
-
-| Provisional ID | Observation | Evidence | Follow-up before official reporting |
-| :--- | :--- | :--- | :--- |
-| `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` |
-
-## Pilot completion sign-off
-
-- Moderator: `<REQUIRED_REAL_DATA>`
-- Pilot participant excluded from P01–P07: `<REQUIRED_REAL_DATA>`
-- All changes frozen before official sessions: `<REQUIRED_REAL_DATA>`
-- Status: `UNVERIFIED`
+Người dùng xác nhận không có pilot recording/data. Giữ nguyên **PILOT EVIDENCE MISSING** và mọi protocol/refinement field ở `UNVERIFIED`; không tự điền participant, timestamp hoặc protocol changes. Nếu rubric bắt buộc pilot, đây là limitation không thể khắc phục bằng dữ liệu hiện có.

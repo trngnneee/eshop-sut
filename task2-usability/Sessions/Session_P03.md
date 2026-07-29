@@ -1,111 +1,143 @@
-# Moderated Usability Session — P03
+﻿# Moderated Usability Session — P03
 
-**Status:** `UNVERIFIED`
-**Protocol:** Account registration → login → profile update → logout
-**Data rule:** Replace placeholders only with genuine P03 session data. Do not reconstruct missing observations.
+## 1. Video and data-quality metadata
 
-## 1. Session metadata and consent
+- Drive filename: `D03` — tên nguồn được ẩn vì là contact PII.
+- Duration: 00:00:04 (metadata chính xác: 4.369 giây).
+- Date/time, nếu quan sát được: NOT_OBSERVABLE.
+- Device: Desktop/laptop screen recording; exact device NOT_OBSERVABLE.
+- OS: Desktop OS UI observable; exact OS/version NOT_OBSERVABLE.
+- Browser/version: Desktop browser observable; exact browser/version NOT_OBSERVABLE.
+- Screen present: YES — 1376×736, H.264; average rate xấp xỉ 30 fps.
+- Audio present: Có AAC stereo stream nhưng digital silence (`mean -91 dB`, `max -90.3 dB`); nội dung audio NOT_RECORDED.
+- Video complete/cut: COMPLETE — người dùng xác nhận toàn bộ session chỉ dài 4,369 giây và kết thúc ở register page.
+- Consent observable: NOT_RECORDED.
+- Data-quality limitations: Session chỉ dài 4,369 giây; không ghi scenario, hành động task rõ ràng, registration submit, login, profile hoặc logout. SUS, probes và consent được người dùng xác nhận là không được thu thập. Full-decode thành công nhưng có non-monotonic DTS warnings. Không dùng giá trị 0 cho metrics của flow không quan sát được.
 
-| Field | Genuine value |
-| :--- | :--- |
-| Date / start time / timezone | `<REQUIRED_REAL_DATA>` |
-| Location / remote method | `<REQUIRED_REAL_DATA>` |
-| Moderator | `<REQUIRED_REAL_DATA>` |
-| Device / OS | `<REQUIRED_REAL_DATA>` |
-| Browser / version | `<REQUIRED_REAL_DATA>` |
-| Viewport / zoom | `<REQUIRED_REAL_DATA>` |
-| SUT commit/build | `<REQUIRED_REAL_DATA>` |
-| Participation consent | `<REQUIRED_REAL_DATA>` |
-| Screen-recording consent | `<REQUIRED_REAL_DATA>` |
-| Audio consent | `<REQUIRED_REAL_DATA>` |
-| Consent evidence path | `<REQUIRED_REAL_DATA>` |
+## 2. Outcome
 
-## 2. Outcome and behavioural metrics
+- Outcome: `FAILED_OR_ABANDONED` — task-end đã được người dùng xác nhận.
+- Outcome rationale: Session chỉ cho thấy register form trong khoảng 4 giây và kết thúc trước submit. Người dùng xác nhận đây là toàn bộ session; không success criterion nào được đáp ứng tại task end.
+- SC1: NOT_REACHED.
+- SC2: NOT_REACHED.
+- SC3: NOT_REACHED.
+- SC4: NOT_REACHED.
+- SC5: NOT_REACHED.
 
-| Measure | Genuine value |
-| :--- | :--- |
-| Outcome | `<REQUIRED_REAL_DATA>` |
-| Task start / end | `<REQUIRED_REAL_DATA>` |
-| Task time (seconds) | `<REQUIRED_REAL_DATA>` |
-| Wrong turns | `<REQUIRED_REAL_DATA>` |
-| Errors | `<REQUIRED_REAL_DATA>` |
-| Hesitations ≥5 seconds | `<REQUIRED_REAL_DATA>` |
-| Task-directed interventions | `<REQUIRED_REAL_DATA>` |
-| Think-aloud reminders | `<REQUIRED_REAL_DATA>` |
-| Card B used? | `<REQUIRED_REAL_DATA>` |
+## 3. Milestones and timing
 
-### Success-criteria verification
+| Milestone | Timestamp | Status/evidence |
+|---|---|---|
+| T0 | NOT_OBSERVABLE | Không quan sát action đầu tiên sau scenario; scenario không được ghi và form đã mở ở frame đầu. |
+| T1 | 00:00:00 | Register page đã hiện tại recording start; actual open/recognition time NOT_OBSERVABLE. |
+| T2 | NOT_REACHED | Không có submit registration. |
+| T3 | NOT_REACHED | Không có registration success/login transition. |
+| T4 | NOT_REACHED | Không có login. |
+| T5 | NOT_REACHED | Không có login success. |
+| T6 | NOT_REACHED | Không có profile. |
+| T7 | NOT_REACHED | Không có profile update submit. |
+| T8 | NOT_REACHED | Không có profile save. |
+| T9 | NOT_REACHED | Không có trust/persistence statement. |
+| T10 | NOT_REACHED | Không có logout. |
+| T11 | 00:00:04 | Recording end là task end theo xác nhận của người dùng. |
 
-- [ ] New test account created.
-- [ ] Logged in successfully.
-- [ ] Assigned profile data saved.
-- [ ] Profile persistence verified after task.
-- [ ] Authentication token absent after logout.
+- Registration time: NOT_OBSERVABLE.
+- Login time: NOT_REACHED.
+- Find-profile time: NOT_REACHED.
+- Profile-update time: NOT_REACHED.
+- Logout time: NOT_REACHED.
+- Total task time: NOT_OBSERVABLE.
 
-Verification notes: `<REQUIRED_REAL_DATA>`
+## 4. Behavioural metrics
 
-## 3. Timestamped observation log
+- Wrong turns: NOT_OBSERVABLE.
+- Errors: NOT_OBSERVABLE.
+- Hesitations >=5 seconds: NOT_OBSERVABLE — recording ngắn hơn ngưỡng 5 giây.
+- Total hesitation duration: NOT_OBSERVABLE.
+- Repeated actions: NOT_OBSERVABLE.
+- Think-aloud reminders: NOT_OBSERVABLE — audio silent.
+- Neutral prompts: NOT_OBSERVABLE — audio silent.
+- Task-directed interventions: NOT_OBSERVABLE — audio silent.
+- Card B used: NOT_OBSERVABLE.
 
-| Recording time | Screen / action | Friction, hesitation, error, or behaviour | Genuine verbalisation / quote | Moderator intervention | Evidence reference |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` |
+## 5. Timestamped observation log
 
-## 4. Intervention log
+| Timestamp/time range | Screen | Participant action | Observed event | Genuine quote | Event type | Moderator intervention | Evidence reference |
+|---|---|---|---|---|---|---|---|
+| 00:00:00–00:00:04 | Register | Không quan sát click, typing hoặc submit đủ rõ để mã hóa thành task action. | Register form hiển thị; video kết thúc sau 4.369 giây. | NOT_RECORDED — audio silent. | OTHER | NOT_OBSERVABLE | D03 @ 00:00:00–00:00:04 |
 
-| Time | Trigger | Exact moderator words/card | Participant response | Task-directed? |
-| :--- | :--- | :--- | :--- | :--- |
-| `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` |
+## 6. Intervention log
 
-## 5. Raw SUS responses
+| Timestamp | Trigger | Exact moderator words | Participant response | Type | Card B |
+|---|---|---|---|---|---|
+| NOT_OBSERVABLE | Audio digital silence và clip 4 giây. | NOT_RECORDED | NOT_OBSERVABLE | NOT_OBSERVABLE | NOT_OBSERVABLE |
 
-| Item | Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Response (1–5) | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` |
+## 7. Raw SUS
 
-- SUS contribution calculation: `<REQUIRED_REAL_DATA>`
-- SUS score: `<REQUIRED_REAL_DATA>`
+| Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED |
 
-## 6. Post-session probes
+- SUS score: NOT_CALCULABLE.
+- Missing SUS data: Q1–Q10.
+- Data source: Không có SUS segment.
+
+## 8. Probe responses
 
 ### Clarity
-
-`<REQUIRED_REAL_DATA>`
+- Response: NOT_RECORDED.
+- Verbatim/paraphrase: NOT_APPLICABLE.
+- Timestamp: NOT_RECORDED.
 
 ### Error recovery
-
-`<REQUIRED_REAL_DATA>`
+- Response: NOT_RECORDED.
+- Verbatim/paraphrase: NOT_APPLICABLE.
+- Timestamp: NOT_RECORDED.
 
 ### Speed
-
-`<REQUIRED_REAL_DATA>`
+- Response: NOT_RECORDED.
+- Verbatim/paraphrase: NOT_APPLICABLE.
+- Timestamp: NOT_RECORDED.
 
 ### Trust
+- Response: NOT_RECORDED.
+- Verbatim/paraphrase: NOT_APPLICABLE.
+- Timestamp: NOT_RECORDED.
 
-`<REQUIRED_REAL_DATA>`
+### One requested change
+- Response: NOT_RECORDED.
+- Verbatim/paraphrase: NOT_APPLICABLE.
+- Timestamp: NOT_RECORDED.
 
-### One change the participant would make
+## 9. Evidence
 
-`<REQUIRED_REAL_DATA>`
+- Screen recording: D03; playable/full-decode PASS WITH DTS WARNINGS.
+- Audio: Digital silence 00:00:00–00:00:04.
+- SUS evidence: NOT_RECORDED.
+- Probe evidence: NOT_RECORDED.
+- Bug screenshot/clip candidates: NONE — không đủ participant action/evidence.
 
-## 7. Evidence
+## 10. Candidate findings and bugs
 
-| Evidence type | Path or genuine refusal/not-applicable reason | Integrity note |
-| :--- | :--- | :--- |
-| Screen recording | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` |
-| Audio | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` |
-| SUS form | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` |
-| Moderator notes | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` |
-| Bug screenshots/clips | `<REQUIRED_REAL_DATA>` | `<REQUIRED_REAL_DATA>` |
+- Candidate usability finding IDs: NONE — clip không đủ dữ liệu.
+- Candidate software bug IDs: NONE — clip không đủ dữ liệu.
+- Issues requiring independent reproduction: NONE từ P03.
 
-## 8. Candidate findings and bugs
+## 11. Missing data
 
-- Candidate usability finding IDs: `<REQUIRED_REAL_DATA>`
-- Candidate software bug IDs: `<REQUIRED_REAL_DATA>`
-- Existing Task 1 issue checked for duplicates: `<REQUIRED_REAL_DATA>`
+- Người dùng xác nhận đây là toàn bộ session; không có phần recording bổ sung.
+- Toàn bộ task actions, success criteria, timing, metrics, intervention, quote, SUS, probes, persistence và logout ngoài 4 giây đầu: NOT_RECORDED/NOT_OBSERVABLE.
+- Consent, moderator, date/time, exact environment: NOT_RECORDED.
+- Privacy redactions: Source filename là contact PII và phải giữ masked; không quan sát credential/profile PII trong clip 4 giây.
+- Human review: Toàn bộ D03 @ 00:00:00–00:00:04.
+- Confidence:
+  - Mapping D03→P03: HIGH — người dùng xác nhận trực tiếp.
+  - Duration/screen/audio quality: HIGH.
+  - Outcome finality: HIGH — recording end được xác nhận là task end.
+  - Mọi metric/task conclusion ngoài việc register page xuất hiện: NOT_OBSERVABLE.
 
-## 9. Completion sign-off
+## 12. Verification status
 
-- Record reviewed against evidence by: `<REQUIRED_REAL_DATA>`
-- Review date: `<REQUIRED_REAL_DATA>`
-- All entries are genuine and no placeholder remains: `<REQUIRED_REAL_DATA>`
-- Final status: `UNVERIFIED`
+`READY_FOR_HUMAN_REVIEW`
+
+Lý do: toàn bộ session đã được xác nhận nhưng chỉ dài 4,369 giây; observed evidence đã được mã hóa và phần lớn task data vẫn NOT_OBSERVABLE/NOT_REACHED.
