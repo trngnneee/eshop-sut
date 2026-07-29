@@ -19,6 +19,11 @@ $RepositoryRoot = [System.IO.Path]::GetFullPath($RepositoryRoot)
 $branch = (& git -C $RepositoryRoot branch --show-current)
 $head = (& git -C $RepositoryRoot rev-parse HEAD)
 $status = @(& git -C $RepositoryRoot status --short)
+$status = @(
+    $status | Where-Object {
+        $_ -notmatch 'task2-usability[\\/]git-commit-log\.txt$'
+    }
+)
 $history = @(& git -C $RepositoryRoot log --date=iso-strict --pretty=format:"%H | %ad | %an | %s")
 
 if ($LASTEXITCODE -ne 0) {
@@ -33,6 +38,7 @@ $lines.Add("HEAD: $head")
 $lines.Add("Exported at: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss zzz')")
 $lines.Add("")
 $lines.Add("WORKTREE STATUS AT EXPORT")
+$lines.Add("(The export target task2-usability/git-commit-log.txt is omitted from this section.)")
 if ($status.Count -eq 0) {
     $lines.Add("(clean)")
 }
