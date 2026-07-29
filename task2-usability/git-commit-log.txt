@@ -1,0 +1,3 @@
+STATUS: UNVERIFIED
+
+<REQUIRED_REAL_DATA: run scripts/export-commit-log.ps1 after creating separate genuine commits for planning, pilot, each of P01-P07, analysis, bug reporting, and final reporting>

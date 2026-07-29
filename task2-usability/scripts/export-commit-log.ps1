@@ -1,0 +1,52 @@
+[CmdletBinding()]
+param(
+    [string]$RepositoryRoot = "",
+    [string]$OutputPath = ""
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
+
+$taskRoot = Split-Path -Parent $PSScriptRoot
+if ([string]::IsNullOrWhiteSpace($RepositoryRoot)) {
+    $RepositoryRoot = Split-Path -Parent $taskRoot
+}
+if ([string]::IsNullOrWhiteSpace($OutputPath)) {
+    $OutputPath = Join-Path $taskRoot "git-commit-log.txt"
+}
+
+$RepositoryRoot = [System.IO.Path]::GetFullPath($RepositoryRoot)
+$branch = (& git -C $RepositoryRoot branch --show-current)
+$head = (& git -C $RepositoryRoot rev-parse HEAD)
+$status = @(& git -C $RepositoryRoot status --short)
+$history = @(& git -C $RepositoryRoot log --date=iso-strict --pretty=format:"%H | %ad | %an | %s")
+
+if ($LASTEXITCODE -ne 0) {
+    throw "Unable to read Git history from $RepositoryRoot."
+}
+
+$lines = New-Object System.Collections.Generic.List[string]
+$lines.Add("STATUS: EXPORTED")
+$lines.Add("Repository: $RepositoryRoot")
+$lines.Add("Branch: $branch")
+$lines.Add("HEAD: $head")
+$lines.Add("Exported at: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss zzz')")
+$lines.Add("")
+$lines.Add("WORKTREE STATUS AT EXPORT")
+if ($status.Count -eq 0) {
+    $lines.Add("(clean)")
+}
+else {
+    foreach ($entry in $status) {
+        $lines.Add($entry)
+    }
+}
+$lines.Add("")
+$lines.Add("COMMIT HISTORY")
+foreach ($entry in $history) {
+    $lines.Add($entry)
+}
+
+$utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+[System.IO.File]::WriteAllLines($OutputPath, [string[]]$lines.ToArray(), $utf8NoBom)
+Write-Output "Exported Git commit log to $OutputPath"

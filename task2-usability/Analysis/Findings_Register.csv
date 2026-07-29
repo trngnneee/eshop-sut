@@ -1,0 +1,2 @@
+finding_id,status,type,title,participant_ids,frequency,evidence_refs,impact,severity,recommendation,retest_criterion,github_issue
+F-01,UNVERIFIED,<REQUIRED_REAL_DATA>,<REQUIRED_REAL_DATA>,<REQUIRED_REAL_DATA>,<REQUIRED_REAL_DATA>,<REQUIRED_REAL_DATA>,<REQUIRED_REAL_DATA>,<REQUIRED_REAL_DATA>,<REQUIRED_REAL_DATA>,<REQUIRED_REAL_DATA>,<REQUIRED_REAL_DATA>
