@@ -1,4 +1,4 @@
-﻿[CmdletBinding()]
+[CmdletBinding()]
 param()
 
 Set-StrictMode -Version Latest
@@ -59,14 +59,14 @@ Assert-Submission ($sessions.Count -eq 7) 'Exactly seven official session report
 for ($number = 1; $number -le 7; $number++) {
     $id = 'P{0:D2}' -f $number
     $path = Join-Path $taskRoot "Sessions\Session_$id.md"
-    $content = if (Test-Path -LiteralPath $path) { Get-Content -LiteralPath $path -Raw } else { '' }
+    $content = if (Test-Path -LiteralPath $path) { Get-Content -LiteralPath $path -Raw -Encoding UTF8 } else { '' }
     Assert-Submission ($content -match '## 12\. Verification status' -and $content -match '`READY_FOR_HUMAN_REVIEW`') "$id has the honest human-review status"
     Assert-Submission ($content -match '(?m)^\|\s*T0\s*\|') "$id contains T0 coding"
     Assert-Submission ($content -match '(?m)^\|\s*T11\s*\|') "$id contains T11 coding"
     Assert-Submission ($content -match 'FAILED_OR_ABANDONED') "$id has an explicit outcome taxonomy"
 }
 
-$roster = Get-Content -LiteralPath (Join-Path $taskRoot 'Participant_Roster.md') -Raw
+$roster = Get-Content -LiteralPath (Join-Path $taskRoot 'Participant_Roster.md') -Raw -Encoding UTF8
 $rosterRows = @([regex]::Matches($roster, '(?m)^\|\s*P0[1-7]\s*\|'))
 $maskedContacts = @([regex]::Matches($roster, '(?<!\d)\d{3}\*{4}\d{3}(?!\d)'))
 Assert-Submission ($rosterRows.Count -eq 7) 'Roster contains exactly seven official participant rows'
@@ -80,16 +80,16 @@ Assert-Submission (@($metrics | Where-Object { $_.Outcome -ne 'FAILED_OR_ABANDON
 
 $sus = @(Import-Csv -LiteralPath (Join-Path $taskRoot 'Analysis\SUS_Raw_Responses.csv'))
 Assert-Submission ($sus.Count -eq 7) 'SUS raw table contains seven participant rows'
-$susText = Get-Content -LiteralPath (Join-Path $taskRoot 'Analysis\SUS_Results.md') -Raw
+$susText = Get-Content -LiteralPath (Join-Path $taskRoot 'Analysis\SUS_Results.md') -Raw -Encoding UTF8
 Assert-Submission ($susText -match '0/7') 'SUS results disclose zero complete response sets'
 Assert-Submission ($susText -match 'NOT_CALCULABLE') 'SUS aggregate is explicitly not calculable'
 
-$mainReport = Get-Content -LiteralPath (Join-Path $taskRoot 'Task2_Main_Report.md') -Raw
+$mainReport = Get-Content -LiteralPath (Join-Path $taskRoot 'Task2_Main_Report.md') -Raw -Encoding UTF8
 Assert-Submission ($mainReport -match 'median 80') 'Main report states the calculable task-time median'
 Assert-Submission ($mainReport -match 'BUG-PF-02' -and $mainReport -match 'BUG-AUTH-PLAINTEXT-01') 'Main report includes both participant-evidenced software-bug candidates'
 Assert-Submission ($mainReport -match 'CONFIRMED_MISSING_DATA') 'Main report discloses confirmed missing data'
 
-$critique = Get-Content -LiteralPath (Join-Path $taskRoot 'AI_Critique_Task2.md') -Raw
+$critique = Get-Content -LiteralPath (Join-Path $taskRoot 'AI_Critique_Task2.md') -Raw -Encoding UTF8
 $critiqueBody = ($critique -split '(?m)^Before submission,', 2)[0]
 $critiqueBody = $critiqueBody -replace '(?m)^#.*$', '' -replace '(?m)^\*\*.*$', ''
 $wordCount = [regex]::Matches($critiqueBody, "[\p{L}\p{M}\p{N}]+(?:[-'][\p{L}\p{M}\p{N}]+)*").Count
@@ -103,7 +103,7 @@ foreach ($pdfName in @('Task2_Main_Report.pdf', 'AI_Audit_Task2.pdf', 'AI_Critiq
 
 $demo = Get-Item -LiteralPath (Join-Path $taskRoot 'demo\Task2_Usability_Skill_Demo.mp4')
 Assert-Submission ($demo.Length -gt 100000) 'Local demo MP4 is non-empty'
-$demoLink = Get-Content -LiteralPath (Join-Path $taskRoot 'Demo_Video_Link.md') -Raw
+$demoLink = Get-Content -LiteralPath (Join-Path $taskRoot 'Demo_Video_Link.md') -Raw -Encoding UTF8
 Assert-Submission ($demoLink -match 'LOCAL_DEMO_READY') 'Demo metadata records the local-ready state'
 Assert-Submission ($demoLink -match 'PUBLIC_UPLOAD_REQUIRED') 'Demo metadata discloses the missing public upload'
 
@@ -123,7 +123,7 @@ $participantNames = @(
 )
 $privacyLeaks = [System.Collections.Generic.List[string]]::new()
 foreach ($path in $publicAnalysisFiles) {
-    $content = Get-Content -LiteralPath $path -Raw
+    $content = Get-Content -LiteralPath $path -Raw -Encoding UTF8
     foreach ($name in $participantNames) {
         if ($content -cmatch [regex]::Escape($name)) {
             $privacyLeaks.Add("$(Split-Path -Leaf $path): $name")
@@ -147,4 +147,3 @@ if ($failures.Count -gt 0) {
 Write-Host ''
 Write-Host 'SUBMISSION PACKAGE STRUCTURALLY READY WITH DISCLOSED LIMITATIONS' -ForegroundColor Cyan
 Write-Host 'This result does not claim that missing pilot, consent, eligibility, SUS, probes, publication, or human-review evidence exists.' -ForegroundColor Yellow
-
