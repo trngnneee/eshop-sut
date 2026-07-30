@@ -9,7 +9,6 @@ Scope: Product Detail Web, Cart Web, Product Management Admin Web, Product Detai
 - GUI-059: Screen reader labels cho web/mobile. Lý do bị bỏ sót ban đầu: AI thường tập trung vào giao diện nhìn thấy được nếu prompt không nêu accessibility/ARIA/accessibilityLabel.
 - GUI-060: Keyboard-only navigation. Lý do bị bỏ sót ban đầu: các mục navigation ban đầu tập trung vào route, breadcrumb, badge; khả năng thao tác bằng bàn phím cần prompt accessibility riêng.
 - GUI-061: Text truncation/localization/data dài. Lý do bị bỏ sót ban đầu: checklist ban đầu dựa trên dữ liệu mẫu bình thường, chưa xét tên/mô tả/URL/lỗi import dài bất thường.
-- GUI-062: Loading/error mobile có retry/quay lại. Lý do bị bỏ sót ban đầu: trạng thái lỗi mobile phụ thuộc trải nghiệm trên thiết bị thật và mạng chậm, không chỉ đọc yêu cầu chức năng.
 
 ## Coverage count
 
@@ -17,7 +16,7 @@ Scope: Product Detail Web, Cart Web, Product Management Admin Web, Product Detai
 - IA-02 Forms: 16 items
 - IA-03 Navigation: 12 items
 - IA-04 Feedback/state: 14 items
-- Total: 62 items
+- Total: 61 items
 
 ## Human review checklist
 

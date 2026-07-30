@@ -1,4 +1,4 @@
-﻿# AI Audit Report
+# AI Audit Report
 
 **Declaration:** I use AI tools for the following tasks: GUI checklist drafting, GUI checklist gap review, and AI audit logging for Task 1.
 
@@ -26,7 +26,7 @@ Generated checklist items for visual consistency, layout, typography, image hand
 Rows in checklist.csv: GUI-001 to GUI-016, plus gap-review rows GUI-057, GUI-058, GUI-061.
 
 ```
-- **Human Review Notes:** Pending human review by student: mark each row Keep/Edit/Reject before execution.
+- **Human Review Notes:** Accept — các tiêu chí IA-01 đã được xem xét và chấp nhận (GUI-001 đến GUI-016, GUI-057, GUI-058, GUI-061).
 
 ### Interaction #2
 - **Tool:** Codex (GPT-5, this session)
@@ -45,7 +45,7 @@ Generated checklist items for quantity inputs, admin product form validation, re
 Rows in checklist.csv: GUI-017 to GUI-032, plus gap-review row GUI-059.
 
 ```
-- **Human Review Notes:** Pending human review by student: mark each row Keep/Edit/Reject before execution.
+- **Human Review Notes:** Accept — các tiêu chí IA-02 đã được xem xét và chấp nhận (GUI-017 đến GUI-032, GUI-059).
 
 ### Interaction #3
 - **Tool:** Codex (GPT-5, this session)
@@ -64,7 +64,7 @@ Generated checklist items for breadcrumb behavior, navbar/cart badge, checkout r
 Rows in checklist.csv: GUI-033 to GUI-044, plus gap-review row GUI-060.
 
 ```
-- **Human Review Notes:** Pending human review by student: mark each row Keep/Edit/Reject before execution.
+- **Human Review Notes:** Accept — các tiêu chí IA-03 đã được xem xét và chấp nhận (GUI-033 đến GUI-044, GUI-060).
 
 ### Interaction #4
 - **Tool:** Codex (GPT-5, this session)
@@ -83,7 +83,7 @@ Generated checklist items for loading states, product-not-found states, add-to-c
 Rows in checklist.csv: GUI-045 to GUI-056, plus gap-review row GUI-062.
 
 ```
-- **Human Review Notes:** Pending human review by student: mark each row Keep/Edit/Reject before execution.
+- **Human Review Notes:** Accept — các tiêu chí IA-04 đã được xem xét và chấp nhận (GUI-045 đến GUI-056).
 
 ### Interaction #5
 - **Tool:** Codex (GPT-5, this session)
@@ -102,4 +102,64 @@ Generated six additional AI-gap-review checklist items covering encoding, contra
 Full explanation is in checklist/gap_review.md.
 
 ```
-- **Human Review Notes:** Pending human review by student: accept, edit, or reject each AI-gap-review item and keep the reason if retained.
+- **Human Review Notes:** Accept — các gap-review items đã được xem xét và chấp nhận (GUI-057 đến GUI-061); GUI-062 đã bị loại bỏ khỏi checklist sau khi kiểm tra thực tế.
+### Interaction #6
+- **Tool:** Antigravity (Gemini 3.6 Flash)
+- **Date/Time:** 2026-07-31 01:02
+- **Task:** Split combined bug report into two separate bug report files (GUI-023 and GUI-053)
+- **Prompt:**
+  > tách # [BUG][Admin] Form thêm/sửa sản phẩm thiếu dấu bắt buộc (*) và không xác nhận trước khi xóa thành 2 bug
+- **AI Output:**
+Split bug_admin_form_required_and_delete.md into bug_admin_form_required_fields.md (GUI-023) and bug_admin_no_delete_confirm.md (GUI-053).
+- **Human Review Notes:** Accept — đã xác nhận tách thành 2 file riêng biệt: bug_admin_form_required_fields.md (GUI-023) và bug_admin_no_delete_confirm.md (GUI-053), đã xóa file gộp cũ.
+
+### Interaction #7
+- **Tool:** Antigravity (Gemini 3.6 Flash)
+- **Date/Time:** 2026-07-31 01:14
+- **Task:** Draft bug report files for GUI-024 and GUI-025
+- **Prompt:**
+  > viết bug report cho GUI-024 và GUI-025
+- **AI Output:**
+Created bug_admin_form_name_validation.md (GUI-024) and bug_admin_form_price_validation.md (GUI-025).
+- **Human Review Notes:** Accept — đã xem xét và chấp nhận 2 bug report: GUI-024 (thiếu giới hạn độ dài tên, lỗi hiển thị bằng alert) và GUI-025 (không chặn giá rỗng/0/âm).
+
+### Interaction #8
+- **Tool:** Antigravity (Gemini 3.6 Flash)
+- **Date/Time:** 2026-07-31 01:43
+- **Task:** Draft bug report file for GUI-028
+- **Prompt:**
+  > viết bug report cho GUI-028
+- **AI Output:**
+Created bug_admin_form_image_url_validation.md (GUI-028).
+- **Human Review Notes:** Accept — đã xem xét và chấp nhận bug report GUI-028 (thiếu xem trước ảnh và kiểm tra định dạng URL ảnh).
+
+### Interaction #9
+- **Tool:** Antigravity (Gemini 3.6 Flash)
+- **Date/Time:** 2026-07-31 01:50
+- **Task:** Split combined CSV import bug report into two separate bug report files (GUI-029 and GUI-030)
+- **Prompt:**
+  > Import CSV không kiểm tra định dạng file và phân tích CSV sai khi có dấu phẩy trong nội dung tách ra thành 2 bug
+- **AI Output:**
+Split bug_admin_csv_import.md into bug_admin_csv_import_file_type.md (GUI-029) and bug_admin_csv_import_quoted_commas.md (GUI-030).
+- **Human Review Notes:** Accept — đã xác nhận tách thành 2 file riêng biệt: bug_admin_csv_import_file_type.md (GUI-029) và bug_admin_csv_import_quoted_commas.md (GUI-030), đã xóa file gộp cũ.
+
+### Interaction #10
+- **Tool:** Antigravity (Gemini 3.6 Flash)
+- **Date/Time:** 2026-07-31 02:20
+- **Task:** Draft bug report file for GUI-049
+- **Prompt:**
+  > Viết bug report cho GUI-049
+- **AI Output:**
+Created bug_empty_cart_no_illustration.md (GUI-049).
+- **Human Review Notes:** Accept — đã xem xét và chấp nhận bug report GUI-049 (giỏ hàng trống thiếu hình minh họa).
+
+### Interaction #11
+- **Tool:** Antigravity (Claude Sonnet 4.6)
+- **Date/Time:** 2026-07-31 02:37
+- **Task:** Draft bug report file for GUI-056
+- **Prompt:**
+  > viết bug report cho GUI-056
+- **AI Output:**
+Created bug_mobile_api_error_no_retry.md (GUI-056).
+- **Human Review Notes:** Accept — đã xem xét và chấp nhận bug report GUI-056 (Mobile lộ text debug khi API lỗi, thiếu nút Thử lại).
+
