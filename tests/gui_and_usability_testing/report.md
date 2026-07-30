@@ -72,6 +72,7 @@ Ba chiều còn **absent** sau khi rà (dark mode, RTL, print/export) được *
 - **Ghi nhận:** `checklist-final.md` có cột `Kết quả` và cột `Ghi chú (lý do Fail)`; mỗi item Failed đều ghi lý do là **giá trị quan sát được** (chuỗi thật, computed style thật), không phải diễn giải
 - **Screenshot:** 57 ảnh trong `test-cases/screenshots/<ID>.png` — **chỉ cho item Failed**. 9 item Passed cố ý không có ảnh, và mỗi file test case Passed ghi rõ `Screenshot: (không có — test Passed)` để không ai đọc là thiếu bằng chứng
 - **Chi tiết từng item:** 66 file trong `test-cases/IA-0*/`, mỗi file có Preconditions / Test data / Test steps / Expected / Actual (Observed) / Status + link bug
+- **Hiệu chỉnh sau Task 3:** bảng 9/57 ở trên là hồ sơ gốc của lần chạy tay này và được giữ nguyên. Task 3 chạy lại 66 item bằng script trên 3 engine đã lật **4 item** (`GUI-IA01-08`, `GUI-IA01-15`, `GUI-IA04-12` Pass→Fail; `GUI-IA02-14` Fail→Pass trên Chromium) — bảng đối chiếu ở `test-cases/test_case_summary.md`, chú thích ngay trong `checklist-final.md` cột Ghi chú, và mục "Retest — Task 3" trong 4 file test case. Số đo mới nhất: 7 Passed / 59 Failed (Chromium)
 
 Tỉ lệ Failed 86% cao bất thường với một app thật, nhưng EShop là SUT dựng riêng để dạy kiểm thử — lỗi được gieo có chủ ý. Con số này nói về SUT, không nói về độ khắt khe của checklist.
 

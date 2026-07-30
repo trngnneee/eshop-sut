@@ -42,7 +42,7 @@ Phản hồi & Trạng thái (Feedback & State) / GUI/Usability / Checklist-base
 - Mã sai → message lỗi đỏ rõ ràng.
 
 ## Status / Related bugs
-Passed
+Passed (kiểm thử tay 25/07/2026) · ⚠️ **Task 3 đo lại 28/07/2026: Fail (Blocker)** — XP-07, issue #248; xem mục "Retest — Task 3" cuối file
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
@@ -51,3 +51,11 @@ Passed
 - Observed: Feedback coupon đủ 2 nhánh: mã hợp lệ "SAVE10" hiện Tiết kiệm + thành tiền (có); mã sai hiện lỗi đỏ (có) — hoạt động đúng.
 - Execution result: **Passed**
 - Screenshot: _(không có — test Passed)_
+
+## Retest — Task 3 (28/07/2026)
+
+- Kết quả đo lại: **Fail** trên cả 3 platform — và là **Blocker** chức năng nặng nhất tìm được trong Task 3.
+- Vì sao lần chạy tay ở trên kết luận Passed: chỉ kiểm *sự hiện diện* của 2 nhánh feedback, không kiểm phần "số tiền tính đúng" mà chính item này đòi.
+- Quan sát: coupon `SAVE10` (10%) trên đơn 30.000.000 ₫ hiện `Tiết kiệm: -270.000.000 ₫` và `Thành tiền: 300.000.000 ₫` (đúng phải là 3.000.000 và 27.000.000) — backend tính `discount = total × (1 − 10)`.
+- Báo cáo thành XP-07 (issue #248) — bug chức năng, không phải bug cross-platform.
+- Bằng chứng: `../../../cross_platform_testing/results/P*/screenshots/GUI-IA04-12.png` · phân tích: `../../../cross_platform_testing/report.md` §5.

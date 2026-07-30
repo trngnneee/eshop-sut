@@ -1,6 +1,6 @@
 # Task 3 — Platform matrix & khai báo môi trường
 
-## 1. Máy chủ chạy SUT và chạy test (cùng một máy)
+## 1. Máy chủ chạy SUT và chạy test
 
 | Thuộc tính | Giá trị (xác minh bằng `sw_vers`, `system_profiler`) |
 |---|---|
@@ -21,6 +21,8 @@
 | P2 | `P2-firefox-macos` | Firefox / **Gecko** | 153.0 | macOS 15.5 | MacBook Pro · 1280×800 @1x | "Firefox" |
 | P3 | `P3-webkit-macos` | Playwright WebKit / **WebKit** | 26.5 (`Version/26.5 Safari/605.1.15`) | macOS 15.5 | MacBook Pro · 1280×800 @1x | "Safari" |
 
+Cột **"Vai trò theo đề"** là ánh xạ sang ba browser mà §6 đòi (Chrome / Firefox / Safari) — **không phải** tên bundle đã chạy. Bundle thật: P1 `Google Chrome for Testing`, P2 `Nightly.app` (Firefox), P3 `Playwright.app` (WebKit). Hệ quả cần biết trước khi xem ảnh: trong 18 ảnh cửa sổ thật, menu bar macOS hiện tên tiến trình thật ("Playwright" cho P3), còn overlay trong ảnh ghi vai trò + engine + version. Hai thông tin này *không* đá nhau — chi tiết §4.2–§4.4.
+
 `results/`, `results-matrix.md` và `divergences.md` vì vậy chỉ chứa **3 platform P1–P3** (66 item × 3 = 198 lượt thực thi).
 
 ## 3. Platform đã cân nhắc rồi loại
@@ -32,8 +34,6 @@
 | — | BrowserStack / LambdaTest | Không dùng | Không còn trial hiệu lực tại thời điểm làm bài (xem §4.1) |
 | — | `Safari.app` thật qua `safaridriver` | Không dùng lần này | Cần đổi driver, không chỉ đổi cấu hình — xem §5 |
 
-Xoá thật, không phải ẩn: `harness/lib/platforms.js` hiện export đúng 3 entry, nên `--platforms all` cũng chỉ trả về P1–P3.
-
 ## 4. Khai báo trung thực
 
 1. **Không dùng BrowserStack / LambdaTest.** Không có trial còn hiệu lực tại thời điểm làm bài. Đề cho phép phương án thay thế: *"or use real physical devices, provided your screenshots clearly show the browser / OS / device name alongside the SUT's localhost URL"*. Phương án đã dùng là **browser thật chạy trên máy thật (không cloud, không ảo hoá)**, và mọi ảnh đều mang overlay browser/engine/version + OS + device + URL `localhost:5173` + email sinh viên.
@@ -43,25 +43,3 @@ Xoá thật, không phải ẩn: `harness/lib/platforms.js` hiện export đúng
 5. **Không có platform mobile trong bộ bằng chứng.** Hai profile emulation P4/P5 đã bị **xoá khỏi code**, không phải chỉ loại khỏi deliverable (xem §3): emulation không phải máy thật nên không thoả §6. Bộ kết quả chính thức chỉ gồm P1–P3.
 6. **Locale engine không bị ép.** Harness *không* set `locale` cho browser context, để lộ đúng hành vi mặc định của từng engine — và đây chính là nguồn của phát hiện lớn nhất trong `divergences.md` (`Intl`/`toLocaleString()` resolve locale khác nhau: `vi` trên Chromium, `en-US` trên Firefox, `vi-VN` trên WebKit).
 7. **Ảnh không dàn dựng.** Ảnh viewport do `page.screenshot()` chụp trong chính lần chạy audit; ảnh cửa sổ do `screencapture` của macOS chụp cửa sổ browser thật. Overlay được stamp vào DOM của trang *trước khi* chụp (chú thích bằng chứng), không hề sửa file ảnh sau khi chụp.
-
-## 5. Cách đóng khoảng cách về sau (chưa làm trong lần nộp này)
-
-Hai khoảng cách đã khai ở §4 đều đóng được, và đây là các bước cụ thể — ghi ra để §4.3 và §4.5 không chỉ là lời xin lỗi:
-
-**a) Safari thật thay cho WebKit build.** Không phải đổi cấu hình mà là đổi driver: Playwright **không** attach được vào `Safari.app` (`webkit` của nó là build riêng). Muốn dùng Safari thật:
-
-1. `sudo safaridriver --enable` (một lần cho mỗi máy).
-2. Trong Safari: menu **Develop → Allow Remote Automation**.
-3. Điều khiển bằng WebDriver — Selenium hoặc WebdriverIO với capability `browserName: 'safari'` — chứ không phải Playwright.
-4. Hệ quả phải chấp nhận: viết lại lớp `ctx` của harness theo API WebDriver, và mất `page.route()` — tức 4 check đang giả lỗi API (`GUI-IA04-09`, `IA04-16`, `IA01-08`, và nhánh 500 của `IA04-12`) phải đổi cách dựng lỗi, ví dụ tắt backend hoặc chèn proxy.
-
-Đánh giá: engine của P3 vốn **đã là** WebKit `605.1.15 / Version 26.5` — cùng lớp render/JS/CSS với Safari — nên việc đổi sang Safari thật thay đổi *vỏ ứng dụng và chứng cứ ảnh*, gần như không thay đổi kết quả 66 item. Vì vậy đây là việc đáng làm để chặt chẽ về hình thức, không phải để sửa số liệu.
-
-**b) Platform thứ tư là thiết bị thật (Expo Go).** Đề cho phép Expo Go tính là một trong ba platform bắt buộc:
-
-1. `cd frontend-mobile && npx expo start` trên máy chủ.
-2. Điện thoại thật cài Expo Go, **cùng mạng LAN**, quét QR.
-3. Đổi base URL của API từ `localhost:3000` sang **IP LAN của máy chủ** — đây là chỗ luôn quên, vì `localhost` trên điện thoại trỏ về chính điện thoại.
-4. Chụp ảnh bằng chính điện thoại (screenshot hệ điều hành), overlay vẫn stamp được MSSV + họ tên + email qua `lib/overlay.js` vì nó chèn vào DOM.
-
-Đánh giá: đây là cách duy nhất còn lại để bộ bằng chứng có **hai OS khác nhau**. Hiện cả P1–P3 đều là macOS 15.5 trên cùng một máy — đúng luật (đề chỉ đòi Chrome/Firefox/Safari trên web frontend) nhưng là điểm yếu thật của chữ "cross-platform", và nói thẳng ra ở đây đúng hơn là để người đọc tự phát hiện.

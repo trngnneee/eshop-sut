@@ -2,7 +2,7 @@
 // Each entry = one "platform" in the sense of the assignment: one rendering
 // engine + one OS/device combination that the Task 1 checklist is re-executed on.
 
-import { chromium, firefox, webkit, devices } from 'playwright';
+import { chromium, firefox, webkit } from 'playwright';
 
 export const HOST_OS = 'macOS 15.5 (24F74)';
 export const HOST_DEVICE = 'MacBook Pro (Apple Silicon) — 2560×1664 Retina';

@@ -39,7 +39,7 @@ Biểu mẫu (Forms) / GUI/Usability / Checklist-based GUI Testing
 - Thông báo cùng style với các lỗi khác của app.
 
 ## Status / Related bugs
-Failed — BUG-33 (https://github.com/trngnneee/eshop-sut/issues/226)
+Failed — BUG-33 (https://github.com/trngnneee/eshop-sut/issues/226) · ⚠️ **Task 3: kết quả phụ thuộc trình duyệt** — Pass trên Chromium, Fail trên Firefox/WebKit (XP-01, issue #242); xem mục "Retest — Task 3" cuối file
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
@@ -48,3 +48,16 @@ Failed — BUG-33 (https://github.com/trngnneee/eshop-sut/issues/226)
 - Observed: Thông báo required dựa vào HTML5 native → hiển thị theo ngôn ngữ trình duyệt: "Please fill out this field." (tiếng Anh), không nhất quán tiếng Việt với các lỗi khác của app.
 - Execution result: **Failed**
 - Screenshot: ![GUI-IA02-14](../screenshots/GUI-IA02-14.png)
+
+## Retest — Task 3 (28/07/2026)
+
+- Kết quả đo lại **khác nhau theo platform** — đây là item duy nhất trong 66 item đổi hẳn Pass/Fail giữa các engine:
+
+| Platform | `navigator.language` | Chuỗi engine hiện ra | Kết quả |
+|---|---|---|---|
+| Chromium 151 | `vi-VN` | "Vui lòng điền vào trường này." | ✅ Pass |
+| Firefox 153 | `en-US` | "Please fill out this field." | ❌ Fail |
+| WebKit 26.5 | `vi-VN` | "Fill out this field" | ❌ Fail |
+
+- WebKit báo locale `vi-VN` mà vẫn hiện tiếng Anh → không sửa được bằng cách đặt locale; message này là chuỗi của trình duyệt, không phải của app.
+- Báo cáo riêng thành XP-01 (issue #242, `cross_platform_testing/report.md` §3) bên cạnh BUG-33 của Task 1.

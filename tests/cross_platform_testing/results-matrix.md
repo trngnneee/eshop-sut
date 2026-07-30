@@ -6,9 +6,11 @@
 
 | # | Platform | Engine + version | OS | Device / viewport | Locale engine | Thời điểm chạy |
 |---|---|---|---|---|---|---|
-| P1 | Chrome / Chromium — macOS | Blink (Chromium) 151.0.7922.34 | macOS 15.5 (24F74) | MacBook Pro (Apple Silicon) — 2560×1664 Retina · 1280×800 | vi | 2026-07-28 20:17 |
-| P2 | Firefox — macOS | Gecko (Firefox) 153.0 | macOS 15.5 (24F74) | MacBook Pro (Apple Silicon) — 2560×1664 Retina · 1280×800 | en-US | 2026-07-28 20:23 |
-| P3 | Safari / WebKit — macOS | WebKit (Safari) 26.5 | macOS 15.5 (24F74) | MacBook Pro (Apple Silicon) — 2560×1664 Retina · 1280×800 | vi-VN | 2026-07-28 20:30 |
+| P1 | Chrome / Chromium — macOS | Blink (Chromium) 151.0.7922.34 | macOS 15.5 (24F74) | MacBook Pro (Apple Silicon) — 2560×1664 Retina · 1280×800 | vi | 2026-07-28 20:17:11 (+07) |
+| P2 | Firefox — macOS | Gecko (Firefox) 153.0 | macOS 15.5 (24F74) | MacBook Pro (Apple Silicon) — 2560×1664 Retina · 1280×800 | en-US | 2026-07-28 20:23:37 (+07) |
+| P3 | Safari / WebKit — macOS | WebKit (Safari) 26.5 | macOS 15.5 (24F74) | MacBook Pro (Apple Silicon) — 2560×1664 Retina · 1280×800 | vi-VN | 2026-07-28 20:30:13 (+07) |
+
+> **Cột "Platform" là vai trò theo đề, không phải tên bundle đã chạy.** Ba engine đều là browser build do Playwright quản lý, chạy headed trên máy thật: P1 = *Google Chrome for Testing* (Blink, vai trò "Chrome") · P2 = Firefox bundle `Nightly.app` (Gecko, vai trò "Firefox") · P3 = **WebKit build của Playwright, KHÔNG phải `Safari.app`** (cùng engine `AppleWebKit/605.1.15` — `Version/26.5` — nên cùng lớp render/JS/CSS/validation với Safari, nhưng vỏ ứng dụng là `Playwright.app`, vì vậy menu bar macOS trong ảnh cửa sổ hiện "Playwright"). Khai báo đầy đủ: [platform-matrix.md](platform-matrix.md) §4.
 
 ## Tổng hợp theo platform
 
@@ -32,54 +34,54 @@
 | ID | Aspect | Task 1 (Chrome, thủ công) | P1 | P2 | P3 | Khác biệt giữa platform |
 |---|---|---|---|---|---|---|
 | [GUI-GAP-01](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
-| [GUI-GAP-02](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
-| [GUI-GAP-03](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
+| [GUI-GAP-02](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
+| [GUI-GAP-03](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
 | [GUI-GAP-04](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA01-01](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA01-02](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA01-03](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA01-04](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA01-05](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
-| [GUI-IA01-06](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
-| [GUI-IA01-07](results/raw/) | IA-01 | Passed | ✅ Pass | ✅ Pass | ✅ Pass | Giá trị hiển thị khác nhau |
-| [GUI-IA01-08](results/raw/) | IA-01 | Passed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
+| [GUI-IA01-06](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
+| [GUI-IA01-07](results/raw/) | IA-01 | Passed | ✅ Pass | ✅ Pass | ✅ Pass | 🟡 giá trị hiển thị khác nhau |
+| [GUI-IA01-08](results/raw/) | IA-01 | Passed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
 | [GUI-IA01-09](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA01-10](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA01-11](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA01-12](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
-| [GUI-IA01-13](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
-| [GUI-IA01-14](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
-| [GUI-IA01-15](results/raw/) | IA-01 | Passed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
-| [GUI-IA01-16](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
+| [GUI-IA01-13](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
+| [GUI-IA01-14](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
+| [GUI-IA01-15](results/raw/) | IA-01 | Passed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
+| [GUI-IA01-16](results/raw/) | IA-01 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
 | [GUI-IA02-01](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
-| [GUI-IA02-02](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
-| [GUI-IA02-03](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
-| [GUI-IA02-04](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
-| [GUI-IA02-05](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
+| [GUI-IA02-02](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
+| [GUI-IA02-03](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
+| [GUI-IA02-04](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
+| [GUI-IA02-05](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
 | [GUI-IA02-06](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
-| [GUI-IA02-07](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
+| [GUI-IA02-07](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
 | [GUI-IA02-08](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
-| [GUI-IA02-09](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
-| [GUI-IA02-10](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
-| [GUI-IA02-11](results/raw/) | IA-02 | Passed | ✅ Pass | ✅ Pass | ✅ Pass | Giá trị hiển thị khác nhau |
+| [GUI-IA02-09](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
+| [GUI-IA02-10](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
+| [GUI-IA02-11](results/raw/) | IA-02 | Passed | ✅ Pass | ✅ Pass | ✅ Pass | 🟡 giá trị hiển thị khác nhau |
 | [GUI-IA02-12](results/raw/) | IA-02 | Passed | ✅ Pass | ✅ Pass | ✅ Pass | — |
 | [GUI-IA02-13](results/raw/) | IA-02 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
-| [GUI-IA02-14](results/raw/) | IA-02 | Failed | ✅ Pass | ❌ Fail | ❌ Fail | Kết quả khác nhau |
+| [GUI-IA02-14](results/raw/) | IA-02 | Failed | ✅ Pass | ❌ Fail | ❌ Fail | 🔴 kết quả khác nhau |
 | [GUI-IA03-01](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA03-02](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA03-03](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
-| [GUI-IA03-04](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
+| [GUI-IA03-04](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
 | [GUI-IA03-05](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA03-06](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
-| [GUI-IA03-07](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
-| [GUI-IA03-08](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
-| [GUI-IA03-09](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
-| [GUI-IA03-10](results/raw/) | IA-03 | Passed | ✅ Pass | ✅ Pass | ✅ Pass | Giá trị hiển thị khác nhau |
-| [GUI-IA03-11](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
+| [GUI-IA03-07](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
+| [GUI-IA03-08](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
+| [GUI-IA03-09](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
+| [GUI-IA03-10](results/raw/) | IA-03 | Passed | ✅ Pass | ✅ Pass | ✅ Pass | 🟡 giá trị hiển thị khác nhau |
+| [GUI-IA03-11](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
 | [GUI-IA03-12](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA03-13](results/raw/) | IA-03 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA03-14](results/raw/) | IA-03 | Passed | ✅ Pass | ✅ Pass | ✅ Pass | — |
-| [GUI-IA03-15](results/raw/) | IA-03 | Passed | ✅ Pass | ✅ Pass | ✅ Pass | Giá trị hiển thị khác nhau |
+| [GUI-IA03-15](results/raw/) | IA-03 | Passed | ✅ Pass | ✅ Pass | ✅ Pass | 🟡 giá trị hiển thị khác nhau |
 | [GUI-IA04-01](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA04-02](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA04-03](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
@@ -88,15 +90,17 @@
 | [GUI-IA04-06](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA04-07](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA04-08](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
-| [GUI-IA04-09](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
+| [GUI-IA04-09](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
 | [GUI-IA04-10](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA04-11](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
-| [GUI-IA04-12](results/raw/) | IA-04 | Passed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
+| [GUI-IA04-12](results/raw/) | IA-04 | Passed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
 | [GUI-IA04-13](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
 | [GUI-IA04-14](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
-| [GUI-IA04-15](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
-| [GUI-IA04-16](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | Giá trị hiển thị khác nhau |
+| [GUI-IA04-15](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
+| [GUI-IA04-16](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | 🟡 giá trị hiển thị khác nhau |
 | [GUI-IA04-17](results/raw/) | IA-04 | Failed | ❌ Fail | ❌ Fail | ❌ Fail | — |
+
+**Item có kết quả khác nhau giữa các platform: 1** · **item cùng kết quả nhưng giá trị hiển thị khác nhau: 28** · xem [divergences.md](divergences.md).
 
 ## Đối chiếu với Task 1
 

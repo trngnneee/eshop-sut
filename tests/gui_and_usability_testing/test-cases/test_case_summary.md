@@ -19,6 +19,17 @@ Mỗi file = 1 checklist item từ `../checklist-final.md`, bung thành test cas
 
 Chi tiết Pass/Fail + mô tả quan sát nằm ở mục "Actual result" của từng file.
 
+**Hiệu chỉnh sau Task 3 (28/07/2026).** Bảng trên là kết quả của lần thực thi tay 25/07 trên Chrome và được giữ nguyên làm hồ sơ gốc. Khi chạy lại 66 item trên 3 engine ở Task 3, **4 item cho kết quả khác**; mỗi file tương ứng có thêm mục "Retest — Task 3":
+
+| ID | Task 1 (25/07, Chrome, tay) | Task 3 (28/07, 3 engine, script) | Vì sao lệch |
+|---|---|---|---|
+| [GUI-IA01-08](IA-01/GUI-IA01-08.md) | ✅ Passed | ❌ Fail (cả 3) | Chạy tay chỉ dùng dữ liệu seed hợp lệ, không chạm nhánh `price` sai kiểu → `NaN ₫` |
+| [GUI-IA01-15](IA-01/GUI-IA01-15.md) | ✅ Passed | ❌ Fail (cả 3) | Ranh giới breakpoint 768px không phân biệt được bằng mắt (ra 3 cột thay vì 2) |
+| [GUI-IA04-12](IA-04/GUI-IA04-12.md) | ✅ Passed | ❌ Fail (cả 3) — **Blocker** | Chạy tay chỉ kiểm sự hiện diện 2 nhánh feedback, không kiểm số tiền → coupon tính ngược (XP-07, #248) |
+| [GUI-IA02-14](IA-02/GUI-IA02-14.md) | ❌ Failed | Pass trên Chromium, Fail trên Firefox/WebKit | Message `required` là chuỗi của engine, không của app (XP-01, #242) |
+
+Cộng dồn 4 hiệu chỉnh này, số đo mới nhất trên Chromium là **7 Passed / 59 Failed** (9 − 3 item lật sang Fail + 1 item lật sang Pass); Firefox và WebKit là 6/60 — khớp `../../cross_platform_testing/results-matrix.md`.
+
 | # | Test Case | Aspect | Traced to | Screen(s) | Kết quả |
 |---|---|---|---|---|---|
 | 1 | [GUI-IA01-01](IA-01/GUI-IA01-01.md) | IA-01 | FR-21 (nhất quán ngôn ngữ) | Đăng nhập | ❌ Failed |

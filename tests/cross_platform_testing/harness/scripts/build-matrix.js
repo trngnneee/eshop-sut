@@ -54,6 +54,16 @@ for (const [i, p] of platforms.entries()) {
   );
 }
 lines.push('');
+// Cột "Platform" là vai trò theo đề (Chrome / Firefox / Safari), không phải tên bundle
+// đã chạy. Nói rõ ngay dưới bảng để ảnh bằng chứng (menu bar hiện "Playwright") không
+// bị đọc là gán nhãn sai — chi tiết ở platform-matrix.md §4.
+lines.push(
+  '> **Cột "Platform" là vai trò theo đề, không phải tên bundle đã chạy.** Ba engine đều là browser build do Playwright quản lý, chạy headed trên máy thật: ' +
+    'P1 = *Google Chrome for Testing* (Blink, vai trò "Chrome") · P2 = Firefox bundle `Nightly.app` (Gecko, vai trò "Firefox") · ' +
+    'P3 = **WebKit build của Playwright, KHÔNG phải `Safari.app`** (cùng engine `AppleWebKit/605.1.15` — `Version/26.5` — nên cùng lớp render/JS/CSS/validation với Safari, nhưng vỏ ứng dụng là `Playwright.app`, ' +
+    'vì vậy menu bar macOS trong ảnh cửa sổ hiện "Playwright"). Khai báo đầy đủ: [platform-matrix.md](platform-matrix.md) §4.',
+);
+lines.push('');
 
 lines.push('## Tổng hợp theo platform');
 lines.push('');

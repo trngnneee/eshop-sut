@@ -24,6 +24,8 @@
 | Khác biệt giữa platform | **1** item đổi hẳn Pass/Fail · **28** item cùng kết quả nhưng giá trị hiển thị khác nhau · 6 item khác nhau chỉ vì dữ liệu chạy (đã tách riêng, không tính là phát hiện) |
 | Sai lệch so với kết luận Task 1 | **4** item (3 item Task 1 chấm Pass thực ra Fail; 1 item Task 1 chấm Fail nhưng Pass trên Chromium) |
 
+> **Đọc nhãn platform cho đúng.** "Chrome / Firefox / Safari" trong mọi bảng và trong overlay ảnh là **vai trò theo đề**, không phải tên bundle đã chạy. Cả ba là browser build do Playwright quản lý, chạy headed trên máy thật: P1 là *Google Chrome for Testing* (Blink), P2 là Firefox bundle `Nightly.app` (Gecko), P3 là **WebKit build của Playwright — không phải `Safari.app`** (cùng engine `AppleWebKit/605.1.15` · `Version/26.5`, tức cùng lớp render/JS/CSS/validation với Safari, nhưng vỏ ứng dụng khác). Vì vậy trong 18 ảnh cửa sổ thật, menu bar macOS hiện tên **"Playwright"** chứ không phải "Safari" — đó là hệ quả đã biết và đã khai, không phải ảnh sai platform. Khai báo đầy đủ: [platform-matrix.md](platform-matrix.md) §4.
+
 Cách chạy lại toàn bộ:
 
 ```bash

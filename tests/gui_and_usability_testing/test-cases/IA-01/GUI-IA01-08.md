@@ -39,7 +39,7 @@ Giao diện chung (General UI) / GUI/Usability / Checklist-based GUI Testing
 - Không bao giờ hiển thị "NaN ₫".
 
 ## Status / Related bugs
-Passed
+Passed (kiểm thử tay 25/07/2026) · ⚠️ **Task 3 đo lại 28/07/2026: Fail** — xem mục "Retest — Task 3" cuối file
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
@@ -48,3 +48,10 @@ Passed
 - Observed: Giá sản phẩm hiển thị "30,000,000 ₫" — là số có định dạng, không xuất hiện "NaN" với dữ liệu seed hợp lệ.
 - Execution result: **Passed**
 - Screenshot: _(không có — test Passed)_
+
+## Retest — Task 3 (28/07/2026)
+
+- Kết quả đo lại: **Fail** trên cả 3 platform (Chromium 151 · Firefox 153 · WebKit 26.5) — không phải hiện tượng phụ thuộc platform.
+- Vì sao lần chạy tay ở trên kết luận Passed: chỉ thử với dữ liệu seed hợp lệ, nên không bao giờ chạm nhánh backend trả `price` sai kiểu — đúng nhánh mà item này yêu cầu kiểm.
+- Quan sát khi stub `/api/products/1` trả `price:"ba mươi triệu"`: màn Chi tiết SP render **`NaN ₫`**.
+- Bằng chứng: `../../../cross_platform_testing/results/P*/screenshots/GUI-IA01-08.png` · phân tích: `../../../cross_platform_testing/report.md` §5.

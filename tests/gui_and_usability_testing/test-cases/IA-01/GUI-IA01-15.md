@@ -39,7 +39,7 @@ Giao diện chung (General UI) / GUI/Usability / Checklist-based GUI Testing
 - Không xuất hiện thanh cuộn ngang ở cả 3 kích thước.
 
 ## Status / Related bugs
-Passed
+Passed (kiểm thử tay 25/07/2026) · ⚠️ **Task 3 đo lại 28/07/2026: Fail** — xem mục "Retest — Task 3" cuối file
 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
@@ -48,3 +48,9 @@ Passed
 - Observed: Grid sản phẩm co giãn theo breakpoint (1/2/3 cột), không xuất hiện cuộn ngang ở 375/768/1280px.
 - Execution result: **Passed**
 - Screenshot: _(không có — test Passed)_
+
+## Retest — Task 3 (28/07/2026)
+
+- Kết quả đo lại: **Fail** trên cả 3 platform — không phải hiện tượng phụ thuộc platform.
+- Vì sao lần chạy tay ở trên kết luận Passed: chấm bằng mắt tại đúng 768px, nơi breakpoint `md:` của Tailwind (`min-width:768px`) đã kích hoạt → grid ra **3 cột** trong khi item đòi 2. Ranh giới breakpoint rất khó phân biệt bằng mắt.
+- Bằng chứng: `../../../cross_platform_testing/results/P*/screenshots/GUI-IA01-15.png` · phân tích: `../../../cross_platform_testing/report.md` §5.
