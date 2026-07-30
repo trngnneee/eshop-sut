@@ -24,7 +24,7 @@ Adapted from Med Kharbach, PhD (2026) — AI Use Policy Templates for Higher Edu
 - [x] I did not paste proprietary employer or open-source license-restricted code.
 - [x] I logged each prompt + AI response into the AI Audit Report (Section 3).
 
-**Task 2 note — usability participant data.** The study involves 7 real participants (required by the assignment), handled as follows: all participants signed the consent line, which covers note-taking only — **the sessions were deliberately not screen- or audio-recorded**, so no audiovisual record of any participant exists anywhere; the participants table with contact details (`participants.md`) was compiled entirely by hand and contact numbers appear only masked (middle four digits); session notes processed by AI during synthesis reference behaviour and think-aloud quotes, and the synthesis output plus all public GitHub comments identify participants by codes P1–P7 only.
+**Task 2 note — usability participant data.** The study involves 7 real participants (required by the assignment), handled as follows: all participants consented (signed consent line, incl. screen/audio recording for course use only); the participants table with contact details (`participants.md`) was compiled entirely by hand and contact numbers appear only masked (middle four digits); session notes processed by AI during synthesis reference behaviour and think-aloud quotes, and the synthesis output plus all public GitHub comments identify participants by codes P1–P7 only.
 
 ## 3. Before I submit my work
 
