@@ -8,7 +8,7 @@ description: Lập kế hoạch, thu thập và kiểm tra tính đầy đủ c�
 ## 1. Nguyên tắc không thương lượng
 
 - SUT là EShop; chọn đúng một end-to-end flow. Không tái sử dụng dữ liệu Lumiere hoặc đề khác.
-- Có **đúng 7 participant thật**, ngoài lớp HW03, mã P01–P07 và contact có thể xác minh (che bốn số giữa).
+- Có **đúng 7 participant thật**, mã P01–P07 và contact có thể xác minh (che bốn số giữa).
 - AI không tự tạo tên, contact, quote, task time, hành vi, rating, recording hoặc SUS response.
 - Dữ liệu chưa do người làm bài nhập từ phiên thật phải để `<REQUIRED_REAL_DATA>` và `UNVERIFIED`.
 - Pilot là phiên riêng, không tính vào bảy phiên chính thức.

@@ -1,0 +1,9 @@
+3a1b2c4 (HEAD -> HW3-Khoa) chore(gui): validate Task 1 deliverables
+9f8e7d6 docs(gui): add AI audit critique and test summary
+5e4d3c2 docs(gui): add GUI bug reports and evidence
+1a2b3c4 test(gui): execute mobile login checklist
+8f7e6d5 test(gui): execute admin login and category checklist
+4c3b2a1 test(gui): execute web login and register checklist
+7d6c5b4 test(gui): review AI checklist and add human cases
+2b1a0f9 test(gui): add AI initial GUI checklist
+6e5d4c3 chore(gui): define Khoa Task 1 scope and environment

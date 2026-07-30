@@ -1,3 +1,45 @@
-STATUS: UNVERIFIED
+STATUS: EXPORTED
+Repository: C:\My Workspace\HCMUS\Test\Week 3\Hw2
+Branch: HW3-Khoa
+HEAD: b2e27a1f0549050e4e0bec51824f683426fce156
+Exported at: 2026-07-29 22:59:17 +07:00
 
-<REQUIRED_REAL_DATA: run scripts/export-commit-log.ps1 after creating separate genuine commits for planning, pilot, each of P01-P07, analysis, bug reporting, and final reporting>
+WORKTREE STATUS AT EXPORT
+(The export target task2-usability/git-commit-log.txt is omitted from this section.)
+ M .agents/skills/usability-testing-skill/SKILL.md
+ D Requirements/Requirements.pdf
+ D Requirements/Rule.pdf
+ M backend/database.sqlite
+ M frontend-mobile/package-lock.json
+ M frontend-mobile/package.json
+ M frontend-web/package-lock.json
+ M frontend-web/package.json
+ M frontend-web/src/pages/Register.jsx
+?? HW3/
+?? package-lock.json
+?? package.json
+?? submission/
+?? task1-gui/
+
+COMMIT HISTORY
+b2e27a1f0549050e4e0bec51824f683426fce156 | 2026-07-29T22:59:11+07:00 | khoadangwneee | task2: make commit log export self-consistent
+49896cbd8c0a0c42543e89ad921deec8d33ca973 | 2026-07-29T22:57:59+07:00 | khoadangwneee | task2: make submission validation UTF-8 safe
+b1a654875b2f58cf84e632ca38f9891d9321b061 | 2026-07-29T22:54:01+07:00 | khoadangwneee | task2: assemble submission reports PDFs and demo
+e1b0948880f521e7f456a5a021762477f15e6d50 | 2026-07-29T22:53:26+07:00 | khoadangwneee | task2: synthesize metrics findings and bug drafts
+3fd06efb29fd7d0c6c038a37c9967a42d796f6a5 | 2026-07-29T22:53:00+07:00 | khoadangwneee | task2: document seven usability sessions and evidence
+70134f7614a3a6ed166d4e558b8764fc76a8b3aa | 2026-07-29T14:38:45+07:00 | khoadangwneee | task2: document preflight data cleanup
+2fad8f2f07c632f8bb7e5c88b0dccc05ba9300f5 | 2026-07-29T14:37:01+07:00 | khoadangwneee | task2: prepare usability fieldwork package
+671d798058fa782301f06b679dbec5523339f66f | 2026-07-28T00:34:58+07:00 | khoadangwneee | updts skills
+d5eaf839dec700f6835aeec8b9dabdfbbbf36e84 | 2026-06-23T16:34:22+07:00 | khoadangwneee | update skill and FR2
+dc410669883d7ce360d5d1b95460a1acfb471438 | 2026-06-23T13:54:44+07:00 | khoadangwneee | setup skill for agent(antigravity)
+ddfb42fc43eee713330c3f2b4ec62973d294ded5 | 2026-06-08T16:47:44+07:00 | khoadangwneee | Test case login
+ad020a02acf1880e223c9721531b5863f04beb31 | 2026-06-08T16:45:12+07:00 | khoadangwneee | Test case login
+d897a2129f151c9ac4c8b7b160e2c21e7fce7473 | 2026-06-08T16:42:32+07:00 | Đặng Trường Nguyên | Update issue templates
+957052d0e81903fff7f6ffee939e8ad911244bf2 | 2026-06-07T23:52:40+07:00 | trngnneee | Fix url frontend-admin
+b4a0df544c48a38daebd8c68a29eda46bf82224d | 2026-06-07T23:33:10+07:00 | trngnneee | Update Backend URL call cho FE
+1673255183affa54be943258c53a63b92a247e35 | 2026-06-07T23:24:17+07:00 | trngnneee | Fix
+4c3230c0e0137398e19240332dbb0493c7362272 | 2026-06-07T23:19:08+07:00 | trngnneee | Remove
+4065ae33c562a722d067eab05883374779a115a2 | 2026-06-07T23:16:38+07:00 | trngnneee | Update sqlite3 version
+3650c5607f890fa6450bdce60d55bbb587fb1b47 | 2026-06-07T23:08:16+07:00 | trngnneee | Push
+85af3ba875c88283615e22cb108f13e2fccaf0e9 | 2026-05-15T08:30:35+07:00 | ttbhanh-hcmus | first upload
+2f9bf2bab45855abf211377a5d5eba10031649e3 | 2026-05-15T08:27:44+07:00 | Hanh Tran | Initial commit
