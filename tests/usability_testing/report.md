@@ -62,6 +62,8 @@ Kịch bản goal-oriented (mua quà sinh nhật là tai nghe chống ồn, ngâ
 
 7 người tham gia thật (bảng đầy đủ kèm liên hệ đã che 4 số giữa: `participants.md`), tuyển thủ công không qua AI theo đúng §11 của đề; tất cả đã được báo trước rằng TA có thể gọi điện xác minh. Mỗi người dùng tài khoản tự đăng ký trong chính session (bước đầu của flow), bảo đảm điều kiện `max_uses_per_user` của mã giảm giá không bị vướng giữa các session.
 
+Kết quả video: https://drive.google.com/drive/folders/1b3Z9MYaBErgubEglcKposVbQ5U7kVU7q?usp=drive_link
+
 ## 5. Chuẩn bị & pilot
 
 Trước session đầu, em tự đi hết flow (dry-run) để xác nhận flow không gãy, ước thời lượng session và soát kịch bản/bảng mapping; DB được reset về seed trước mỗi session và toàn bộ 7 session dùng cùng một bộ tài liệu.
