@@ -14,38 +14,38 @@
 - **Date/Time:** 2026-07-29 23:50
 - **Task:** GUI checklist generation - IA-01 General UI standards, selected EShop screens
 - **Prompt:**
-  > For Product Detail Web, Cart Web, Product Management Admin Web, and Product Detail Mobile of EShop, generate concrete GUI checklist items for IA-01 General UI standards: visual consistency, typography, image handling, money formatting, responsive layout, and Vietnamese UI standards. Use README.md and Requirement.md as context.
+  > For Product Detail Web, Cart Web, Product Management Admin Web, generate concrete GUI checklist items for IA-01 General UI standards: visual consistency, typography, image handling, money formatting, responsive layout, and Vietnamese UI standards. Use README.md and Requirement.md as context.
 - **AI Output:**
 (full output in: hw03_gui_checklist\eshop_selected_screens\audit\ia01_output_excerpt.md)
 
-```
-# IA-01 General UI standards output excerpt
+  ```
+  # IA-01 General UI standards output excerpt
 
-Generated checklist items for visual consistency, layout, typography, image handling, money formatting, responsive behavior, and Vietnamese UI standards across Product Detail Web, Cart Web, Product Management Admin Web, and Product Detail Mobile.
+  Generated checklist items for visual consistency, layout, typography, image handling, money formatting, responsive behavior, and Vietnamese UI standards across Product Detail Web, Cart Web, Product Management Admin Web.
 
-Rows in checklist.csv: GUI-001 to GUI-016, plus gap-review rows GUI-057, GUI-058, GUI-061.
+  Rows in checklist.csv: GUI-001 to GUI-013.
 
-```
-- **Human Review Notes:** Accept — các tiêu chí IA-01 đã được xem xét và chấp nhận (GUI-001 đến GUI-016, GUI-057, GUI-058, GUI-061).
+  ```
+- **Human Review Notes:** Accept — các tiêu chí IA-01 đã được xem xét và chấp nhận (GUI-001 đến GUI-013).
 
 ### Interaction #2
 - **Tool:** Codex (GPT-5, this session)
 - **Date/Time:** 2026-07-29 23:50
 - **Task:** GUI checklist generation - IA-02 Forms, selected EShop screens
 - **Prompt:**
-  > For Product Detail Web, Cart Web, Product Management Admin Web, and Product Detail Mobile of EShop, generate concrete GUI checklist items for IA-02 Forms: quantity validation, product CRUD form validation, required markers, CSV import input handling, labels, tab order, and mobile touch/input behavior. Use README.md and Requirement.md as context.
+  > For Product Detail Web, Cart Web, Product Management Admin Web of EShop, generate concrete GUI checklist items for IA-02 Forms: quantity validation, product CRUD form validation, required markers, CSV import input handling, labels, tab order, and mobile touch/input behavior. Use README.md and Requirement.md as context.
 - **AI Output:**
 (full output in: hw03_gui_checklist\eshop_selected_screens\audit\ia02_output_excerpt.md)
 
-```
-# IA-02 Forms output excerpt
+  ```
+  # IA-02 Forms output excerpt
 
-Generated checklist items for quantity inputs, admin product form validation, required markers, CSV import input handling, mobile numeric input behavior, tab order, and touch targets.
+  Generated checklist items for quantity inputs, admin product form validation, required markers, CSV import input handling, tab order.
 
-Rows in checklist.csv: GUI-017 to GUI-032, plus gap-review row GUI-059.
+  Rows in checklist.csv: GUI-014 to GUI-027.
 
-```
-- **Human Review Notes:** Accept — các tiêu chí IA-02 đã được xem xét và chấp nhận (GUI-017 đến GUI-032, GUI-059).
+  ```
+- **Human Review Notes:** Accept — các tiêu chí IA-02 đã được xem xét và chấp nhận (GUI-014 đến GUI-027).
 
 ### Interaction #3
 - **Tool:** Codex (GPT-5, this session)
@@ -59,12 +59,12 @@ Rows in checklist.csv: GUI-017 to GUI-032, plus gap-review row GUI-059.
 ```
 # IA-03 Navigation output excerpt
 
-Generated checklist items for breadcrumb behavior, navbar/cart badge, checkout redirect when unauthenticated, admin sidebar active state, admin logout, access control navigation, and mobile back/home/cart routes.
+Generated checklist items for breadcrumb behavior, navbar/cart badge, checkout redirect when unauthenticated, admin sidebar active state, admin logout, access control navigation.
 
-Rows in checklist.csv: GUI-033 to GUI-044, plus gap-review row GUI-060.
+Rows in checklist.csv: GUI-028 to GUI-037.
 
 ```
-- **Human Review Notes:** Accept — các tiêu chí IA-03 đã được xem xét và chấp nhận (GUI-033 đến GUI-044, GUI-060).
+- **Human Review Notes:** Accept — các tiêu chí IA-03 đã được xem xét và chấp nhận (GUI-028 đến GUI-037).
 
 ### Interaction #4
 - **Tool:** Codex (GPT-5, this session)
@@ -78,31 +78,32 @@ Rows in checklist.csv: GUI-033 to GUI-044, plus gap-review row GUI-060.
 ```
 # IA-04 Feedback and state output excerpt
 
-Generated checklist items for loading states, product-not-found states, add-to-cart feedback, invalid quantity feedback, cart empty state, delete confirmation, total/badge updates, admin save/import feedback, and mobile network/API failure states.
+Generated checklist items for loading states, product-not-found states, add-to-cart feedback, invalid quantity feedback, cart empty state, delete confirmation, total/badge updates, admin save/import feedback.
 
-Rows in checklist.csv: GUI-045 to GUI-056, plus gap-review row GUI-062.
+Rows in checklist.csv: GUI-038 to GUI-047.
 
 ```
-- **Human Review Notes:** Accept — các tiêu chí IA-04 đã được xem xét và chấp nhận (GUI-045 đến GUI-056).
+- **Human Review Notes:** Accept — các tiêu chí IA-04 đã được xem xét và chấp nhận (GUI-038 đến GUI-047).
 
 ### Interaction #5
 - **Tool:** Codex (GPT-5, this session)
 - **Date/Time:** 2026-07-29 23:50
 - **Task:** GUI checklist gap review - selected EShop screens
 - **Prompt:**
-  > Critique the generated GUI checklist for commonly missed categories: accessibility/screen reader labels, keyboard-only navigation, contrast, encoding/localization, long text, and slow-network/error states. Add only applicable gap items and explain why the initial generation likely missed each one.
+  > Critique the generated GUI checklist for commonly missed categories: accessibility/screen reader labels, keyboard-only navigation, contrast, encoding/localization, long text. Add only applicable gap items.
 - **AI Output:**
 (full output in: hw03_gui_checklist\eshop_selected_screens\audit\gap_output_excerpt.md)
 
-```
-# Gap review output excerpt
+  ```
+  # Gap review output excerpt
 
-Generated six additional AI-gap-review checklist items covering encoding, contrast, screen reader labels, keyboard-only navigation, long text/localization risk, and mobile slow-network/error recovery.
+  Generated six additional AI-gap-review checklist items covering encoding, contrast, screen reader labels, keyboard-only navigation, long text/localization risk.
 
-Full explanation is in checklist/gap_review.md.
+  Full explanation is in checklist/gap_review.md.
 
-```
-- **Human Review Notes:** Accept — các gap-review items đã được xem xét và chấp nhận (GUI-057 đến GUI-061); GUI-062 đã bị loại bỏ khỏi checklist sau khi kiểm tra thực tế.
+  ```
+- **Human Review Notes:** Accept — các gap-review items đã được xem xét và chấp nhận (GUI-048 đến GUI-052).
+
 ### Interaction #6
 - **Tool:** Antigravity (Gemini 3.6 Flash)
 - **Date/Time:** 2026-07-31 01:02
@@ -162,4 +163,35 @@ Created bug_empty_cart_no_illustration.md (GUI-049).
 - **AI Output:**
 Created bug_mobile_api_error_no_retry.md (GUI-056).
 - **Human Review Notes:** Accept — đã xem xét và chấp nhận bug report GUI-056 (Mobile lộ text debug khi API lỗi, thiếu nút Thử lại).
+
+### Interaction #12
+- **Tool:** Antigravity (Claude Sonnet 4.6)
+- **Date/Time:** 2026-07-31 03:23
+- **Task:** Usability evaluation planning - Phase 1 Plan for Admin Product Management flow
+- **Prompt:**
+  > Hãy giúp tôi đánh giá flow: Admin login → product management → add product → edit product → delete product để thực hiện usability testing
+- **AI Output:**
+Created usability/usability_plan.md (objectives, task scenarios A/B, SUS instrument, probe questions, participant reminders, pilot reminder) and usability/moderator_script.md (stage-setting, task scenario, SUS script, probe questions, post-session checklist).
+- **Human Review Notes:** Pending human review: confirm objectives, select task scenario (A or B), confirm SUS as instrument, review probe questions before running sessions.
+
+### Interaction #13
+- **Tool:** Antigravity (Claude Sonnet 4.6)
+- **Date/Time:** 2026-07-31 03:27
+- **Task:** Rewrite usability_plan.md as a complete submission-ready test plan using Task Scenario A
+- **Prompt:**
+  > tôi chọn task A hãy chỉnh cái plan lại đề thành 1 file test plan hoàn chỉnh khi nộp
+- **AI Output:**
+Rewrote usability/usability_plan.md to a clean, submission-ready document: selected Task Scenario A, removed all draft/AI-facing notes, structured as: Objectives, Task Scenario, SUS instrument (10-item table), Probe Questions, Moderator Script summary, Participants table, Pilot checklist, Session Notes guide, Scoring & Analysis plan.
+- **Human Review Notes:** Pending human review: fill in participant table (Section 6), run pilot session (Section 7), then conduct 7 sessions.
+
+### Interaction #14
+- **Tool:** Antigravity (Claude Sonnet 4.6 Thinking)
+- **Date/Time:** 2026-07-31 04:42
+- **Task:** Remove mobile items from GUI checklist and renumber all STTs; update bug report test case references accordingly
+- **Prompt:**
+  > bạn có thể bỏ các item mobile trong GUI checklist không phân biệt web hay mobile chỉ phân theo screen / đánh stt lại và sửa stt của các item trong bug report
+- **AI Output:**
+  Removed 9 mobile-only items (old GUI-014..016, GUI-031..032, GUI-043..044, GUI-055..056) from checklist.csv and renumbered remaining items GUI-001 to GUI-052. Updated "Found by Test Case" references in all affected bug report files. Deleted bug_mobile_api_error_no_retry.md (no longer has a corresponding checklist item).
+- **Human Review Notes:** Pending human review: verify new STT mapping is correct in checklist.csv and all bug report files.
+
 

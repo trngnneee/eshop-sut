@@ -2,7 +2,7 @@
 
 ## Found by Test Case
 
-GUI-033, GUI-037
+GUI-028, GUI-032
 
 ## Requirement liên quan
 
