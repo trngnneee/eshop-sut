@@ -29,7 +29,7 @@ Tài liệu này tổng hợp toàn bộ các lỗi phát hiện được trong 
 - **Nền tảng phát hiện:** Trình duyệt Chrome / Edge trên Windows 11.
 - **Link GitHub Issue:** `https://github.com/trngnneee/eshop-sut/issues/1`
 - **Ảnh chụp màn hình lỗi (Có chứa email pqthinh231@clc.fitus.edu.vn watermark):**
-  `![BUG-01 Screenshot](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/screenshots/bug_profile_phone.png)`
+  `![BUG-01 Screenshot](./screenshots/bug_profile_phone.png)`
 
 ---
 
@@ -46,7 +46,7 @@ Tài liệu này tổng hợp toàn bộ các lỗi phát hiện được trong 
 - **Nền tảng phát hiện:** Trình duyệt Chrome / Edge trên Windows 11.
 - **Link GitHub Issue:** `https://github.com/trngnneee/eshop-sut/issues/2`
 - **Ảnh chụp màn hình lỗi (Có chứa email pqthinh231@clc.fitus.edu.vn watermark):**
-  `![BUG-02 Screenshot](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/screenshots/customer_profile.png)`
+  `![BUG-02 Screenshot](./screenshots/customer_profile.png)`
 
 ---
 
@@ -62,7 +62,7 @@ Tài liệu này tổng hợp toàn bộ các lỗi phát hiện được trong 
 - **Nền tảng phát hiện:** Trình duyệt Chrome / Edge trên Windows 11.
 - **Link GitHub Issue:** `https://github.com/trngnneee/eshop-sut/issues/3`
 - **Ảnh chụp màn hình lỗi (Có chứa email pqthinh231@clc.fitus.edu.vn watermark):**
-  `![BUG-03 Screenshot](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/screenshots/customer_profile.png)`
+  `![BUG-03 Screenshot](./screenshots/customer_profile.png)`
 
 ---
 
@@ -78,7 +78,7 @@ Tài liệu này tổng hợp toàn bộ các lỗi phát hiện được trong 
 - **Nền tảng phát hiện:** Trình duyệt Chrome / Edge trên Windows 11.
 - **Link GitHub Issue:** `https://github.com/trngnneee/eshop-sut/issues/4`
 - **Ảnh chụp màn hình lỗi (Có chứa email pqthinh231@clc.fitus.edu.vn watermark):**
-  `![BUG-04 Screenshot](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/screenshots/admin_users.png)`
+  `![BUG-04 Screenshot](./screenshots/admin_users.png)`
 
 ---
 
@@ -93,4 +93,4 @@ Tài liệu này tổng hợp toàn bộ các lỗi phát hiện được trong 
 - **Nền tảng phát hiện:** Trình duyệt Chrome / Edge trên Windows 11.
 - **Link GitHub Issue:** `https://github.com/trngnneee/eshop-sut/issues/5`
 - **Ảnh chụp màn hình lỗi (Có chứa email pqthinh231@clc.fitus.edu.vn watermark):**
-  `![BUG-05 Screenshot](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/screenshots/admin_checkboxes.png)`
+  `![BUG-05 Screenshot](./screenshots/admin_checkboxes.png)`

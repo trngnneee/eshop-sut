@@ -30,21 +30,21 @@ Sinh viên thực hiện kiểm thử trên **tối thiểu 3 nền tảng** kh�
 ### 2.1. Minh chứng trên Nền tảng 1: Chrome (Windows)
 - **Màn hình/Chức năng chụp:** Trang Cá nhân người dùng trên Chrome (http://localhost:5173/profile) hiển thị đầy đủ form thông tin và Lịch sử đơn hàng rỗng ban đầu.
 - **Ảnh chụp:**
-  `![Nền tảng 1 Screenshot](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/screenshots/customer_profile.png)`
+  `![Nền tảng 1 Screenshot](./screenshots/customer_profile.png)`
 
 ---
 
 ### 2.2. Minh chứng trên Nền tảng 2: Microsoft Edge / Chrome Admin
 - **Màn hình/Chức năng chụp:** Trang Quản lý người dùng của Admin (http://localhost:5174/) hiển thị danh sách người dùng đã đăng ký trong cơ sở dữ liệu.
 - **Ảnh chụp:**
-  `![Nền tảng 2 Screenshot](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/screenshots/admin_users.png)`
+  `![Nền tảng 2 Screenshot](./screenshots/admin_users.png)`
 
 ---
 
 ### 2.3. Minh chứng trên Nền tảng 3: Mobile Web (iPhone 12 Pro responsive)
 - **Màn hình/Chức năng chụp:** Biểu mẫu cập nhật hồ sơ hiển thị báo lỗi regex khi nhập số điện thoại bắt đầu bằng 0 trên chế độ di động.
 - **Ảnh chụp:**
-  `![Nền tảng 3 Screenshot](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/screenshots/bug_profile_phone.png)`
+  `![Nền tảng 3 Screenshot](./screenshots/bug_profile_phone.png)`
 
 ---
 

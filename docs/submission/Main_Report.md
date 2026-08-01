@@ -22,7 +22,7 @@ Tài liệu này là Báo cáo chính cho bài tập HW03, bao gồm tóm tắt 
 - Tiến hành thực thi kiểm thử trực tiếp trên trình duyệt, ghi nhận kết quả và chụp ảnh màn hình minh chứng lỗi có watermark MSSV/Email.
 
 ### 1.3. Kết Quả Tổng Quan (General Results)
-- Xem bảng chi tiết tại: [GUI_Checklist.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/GUI_Checklist.md)
+- Xem bảng chi tiết tại: [GUI_Checklist.md](./GUI_Checklist.md)
 - **Tổng số checklist item đã thiết kế:** 44
 - **Tổng số item Đạt (Passed):** 36
 - **Tổng số item Không đạt (Failed):** 8
@@ -37,7 +37,7 @@ Tài liệu này là Báo cáo chính cho bài tập HW03, bao gồm tóm tắt 
 
 *(Nội dung phần này được ghi nhận chi tiết riêng trong các tài liệu khảo sát trải nghiệm người dùng thực tế và ghi chép Usability Session)*
 
-- Xem chi tiết tại: [Usability_Session_Evidence.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/Usability_Session_Evidence.md)
+- Xem chi tiết tại: [Usability_Session_Evidence.md](./Usability_Session_Evidence.md)
 
 ---
 
@@ -47,7 +47,7 @@ Tài liệu này là Báo cáo chính cho bài tập HW03, bao gồm tóm tắt 
   1. **Chrome 127 (Windows 11)** - Nền tảng chính cho việc thực thi kiểm thử và tìm lỗi.
   2. **Microsoft Edge 127 (Windows 11)** - Dùng để xác minh tính tương thích chéo của các form và bảng dữ liệu.
   3. **Mobile Responsive Mode (Chrome DevTools - iPhone 12 Pro & Pixel 7)** - Kiểm tra khả năng co giãn responsive của trang Cá nhân và bảng lịch sử đơn hàng.
-- Xem chi tiết danh sách ảnh chụp màn hình kiểm chứng tại: [Cross_Platform_Evidence.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/Cross_Platform_Evidence.md)
+- Xem chi tiết danh sách ảnh chụp màn hình kiểm chứng tại: [Cross_Platform_Evidence.md](./Cross_Platform_Evidence.md)
 
 ---
 
