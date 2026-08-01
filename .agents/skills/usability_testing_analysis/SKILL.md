@@ -9,7 +9,7 @@ Kỹ năng này hướng dẫn Agent/Người dùng cách xử lý các dữ li�
 
 ---
 
-## 1. Công Thức Tính Điểm Thang Đo (SUS / UEQ-S Scoring)
+## 1. Công Thức Tính Điểm Thang Đo (SUS)
 
 ### A. Cách tính điểm System Usability Scale (SUS)
 Thang đo SUS gồm 10 câu hỏi với điểm số từ 1 (Rất không đồng ý) đến 5 (Rất đồng ý).
@@ -21,11 +21,6 @@ Thang đo SUS gồm 10 câu hỏi với điểm số từ 1 (Rất không đồn
   - `68 <= SUS <= 80.3`: Good (Hệ thống tốt, người dùng hài lòng).
   - `51 <= SUS < 68`: OK (Hệ thống ở mức trung bình, cần cải tiến).
   - `SUS < 51`: Poor (Hệ thống kém, khó sử dụng).
-
-### B. Cách tính điểm UEQ-S (Khảo sát rút gọn)
-Gồm 8 cặp tính từ đối lập trên thang điểm từ 1 đến 7:
-- Chuyển đổi điểm số về khoảng từ `-3` (Cực kỳ tệ) đến `+3` (Cực kỳ tốt) bằng cách trừ đi 4 (hoặc đảo chiều với các cặp tính từ tiêu cực trước).
-- Tính điểm trung bình cho khía cạnh **Pragmatic Quality** (Chất lượng thực tế - 4 câu) và **Hedonic Quality** (Chất lượng trải nghiệm - 4 câu).
 
 ---
 
@@ -62,8 +57,8 @@ Mỗi bug cần ghi rõ:
 - Các bước tái hiện.
 - Kết quả thực tế vs. Kết quả mong đợi.
 - Độ nghiêm trọng (Severity: Blocker / Major / Minor).
-- Link GitHub Issue tương ứng.
-- Ảnh chụp màn hình lỗi có chèn watermark email sinh viên.
+- Link GitHub Issue tương ứng (Place holder).
+- Ảnh chụp màn hình lỗi có chèn watermark email sinh viên (Place holder).
 
 ### 3. Cập nhật [Main_Report.md](../../../docs/submission/Main_Report.md)
 - **Mục 2.2 (Kịch bản nhiệm vụ):** Ghi rõ kịch bản đã giao cho người dùng.
