@@ -51,9 +51,12 @@ Tài liệu này chứa cấu trúc bảng checklist kiểm thử giao diện (G
 |IA-03-10|IA-03: Navigation|Usability|Customer Profile / Admin Dashboard|Tiêu đề của tab trình duyệt thay đổi tương ứng theo phân hệ (ví dụ: "Profile" hoặc "Admin Dashboard").|Failed|Tiêu đề tab trình duyệt luôn giữ nguyên mặc định là "frontend-web", "frontend-admin"|[customer_profile.png](./screenshots/customer_profile.png)|
 |IA-04-01|IA-04: Feedback / state|Feedback|Customer Profile|Hiển thị thông báo thành công rõ ràng sau khi người dùng cập nhật hồ sơ cá nhân thành công.|Passed|Hiển thị alert "Cập nhật thành công!|-|
 |IA-04-04|IA-04: Feedback / state|Feedback|Admin User Management|Xử lý trạng thái trống (Empty State): Khi danh sách người dùng trống, hiển thị thông báo thay thế phù hợp.|Failed|Nếu bảng người dùng Admin không có dữ liệu, giao diện chỉ hiển thị header bảng mà không có thông báo trống|[admin_users.png](./screenshots/admin_users.png)|
+|IA-04-05|IA-04: Feedback / state|Usability|Customer Profile|Trạng thái của đơn hàng trong bảng Lịch sử đơn hàng được phân biệt bằng màu sắc trực quan (Đã giao: Xanh lá, Đã hủy: Đỏ, Đang giao: Xanh dương, Chờ xác nhận: Vàng).|Passed||-|
 |IA-04-06|IA-04: Feedback / state|Visual|Customer Profile / Admin User|Các nút bấm thay đổi màu sắc hoặc độ mờ (opacity) khi di chuột qua (hover state).|Passed||-|
-|IA-04-07|IA-04: Feedback / state|Visual|Admin User|Khi di chuột qua các hàng của bảng, hàng tương ứng được làm nổi bật (row hover highlight).|Failed|Không có hiệu ứng hover highlight dòng trên các bảng danh sách người dùng và đơn hàng|[admin_checkboxes.png](./screenshots/admin_checkboxes.png)|
+|IA-04-07|IA-04: Feedback / state|Visual|Customer Profile / Admin User|Khi di chuột qua các hàng của bảng, hàng tương ứng được làm nổi bật (row hover highlight).|Failed|Không có hiệu ứng hover highlight dòng trên các bảng danh sách người dùng và đơn hàng|[admin_checkboxes.png](./screenshots/admin_checkboxes.png)|
 |IA-04-08|IA-04: Feedback / state|Feedback|Customer Profile|Hiển thị thông báo lỗi cụ thể khi máy chủ gặp sự cố hoặc việc cập nhật thông tin thất bại.|Passed||-|
+|IA-04-09|IA-04: Feedback / state|Feedback|Customer Profile|Hiển thị chỉ báo loading (spinner hoặc chữ "Đang tải...") khi dữ liệu đơn hàng đang được tải từ server.|Failed|Bảng trống trơn trong khi gọi API lấy đơn hàng trước khi render|[customer_profile.png](./screenshots/customer_profile.png)|
 |IA-04-10|IA-04: Feedback / state|Usability|Admin User Management|Hiển thị hộp thoại xác nhận (Confirm Dialog) trước khi thực hiện xóa người dùng ở phân hệ Admin.|Failed|Click "Xóa" là người dùng bị xóa ngay lập tức khỏi DB mà không hỏi lại|[admin_users.png](./screenshots/admin_users.png)|
-
 ---
+
+*(Bảng trên đã được bổ sung cột Evidence và cập nhật đầy đủ thông tin trạng thái thực thi sau khi hoàn tất kiểm thử GUI)*
