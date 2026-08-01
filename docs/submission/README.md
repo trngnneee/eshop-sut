@@ -25,8 +25,8 @@ Dưới đây là bảng tự đánh giá điểm số dựa trên các tiêu ch
   2. Màn hình Quản lý người dùng của Admin (FR-19)
 - **Tổng số checklist item đã thiết kế:** 44 mục (vượt yêu cầu tối thiểu 40 mục)
 - **Kết quả thực thi checklist:**
-  - **Đạt (Passed):** 34 mục
-  - **Không đạt (Failed):** 10 mục
+  - **Đạt (Passed):** 36 mục
+  - **Không đạt (Failed):** 8 mục
 - **Tổng số lỗi (Bugs) phát hiện:** 5 lỗi giao diện và trải nghiệm (được trình bày chi tiết trong `Bug_Report.md`)
 - **Số lượng người tham gia đánh giá Usability (Participants):** 7 người (ghi nhận tại `Usability_Session_Evidence.md`)
 - **Đường dẫn video demo sử dụng Agent Skill (Youtube Link):** `[Link video]`

@@ -24,9 +24,9 @@ Tài liệu này là Báo cáo chính cho bài tập HW03, bao gồm tóm tắt 
 ### 1.3. Kết Quả Tổng Quan (General Results)
 - Xem bảng chi tiết tại: [GUI_Checklist.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/GUI_Checklist.md)
 - **Tổng số checklist item đã thiết kế:** 44
-- **Tổng số item Đạt (Passed):** 34
-- **Tổng số item Không đạt (Failed):** 10
-- **Tỉ lệ đạt:** 77.3%
+- **Tổng số item Đạt (Passed):** 36
+- **Tổng số item Không đạt (Failed):** 8
+- **Tỉ lệ đạt:** 81.8%
 - **Phân tích các khía cạnh lỗi:**
   - **Khía cạnh Forms (IA-02)** và **Feedback / state (IA-04)** gặp nhiều lỗi nhất (mỗi nhóm có 3-4 lỗi). Điển hình là lỗi ràng buộc biểu thức chính quy (Regex) của số điện thoại chặn các số bắt đầu bằng `0`, thiếu hộp thoại xác nhận khi thực hiện hành động hủy đơn hoặc xóa người dùng trực tiếp, và các checkbox trong danh sách Admin là checkbox tĩnh không có chức năng bulk actions.
   - **Khía cạnh General UI (IA-01)** là khía cạnh tốt nhất khi hầu hết phông chữ, định dạng tiền tệ, và thiết kế responsive cho màn hình di động hoạt động đúng tiêu chuẩn hiển thị.
