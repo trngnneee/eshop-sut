@@ -7,7 +7,7 @@
 | **Phương pháp** | Moderated usability evaluation |
 | **Thang đo** | SUS (System Usability Scale) |
 | **Số người tham gia** | 7 người |
-| **Thời gian/phiên** | 15–25 phút |
+| **Thời gian/phiên** | 1-2 phút |
 | **Môi trường** | http://localhost:5174/ (EShop Admin) |
 
 ---
@@ -28,11 +28,11 @@
 **"EShop cần cập nhật kho hàng. Bạn là người quản trị — hãy đăng nhập và thêm một sản phẩm mới bất kỳ (tên, giá, danh mục tự chọn). Sau đó cập nhật lại giá của sản phẩm vừa tạo, rồi xóa nó khỏi danh sách vì hàng hết."**
 
 **Điều kiện hoàn thành task:**
-- ✅ Đăng nhập Admin thành công
-- ✅ Điều hướng được đến màn hình quản lý sản phẩm
-- ✅ Thêm sản phẩm mới thành công (có trong danh sách)
-- ✅ Sửa thông tin sản phẩm vừa tạo (ít nhất 1 trường)
-- ✅ Xóa sản phẩm vừa tạo khỏi danh sách
+- Đăng nhập Admin thành công
+- Điều hướng được đến màn hình quản lý sản phẩm
+- Thêm sản phẩm mới thành công (có trong danh sách)
+- Sửa thông tin sản phẩm vừa tạo (ít nhất 1 trường)
+- Xóa sản phẩm vừa tạo khỏi danh sách
 
 ---
 

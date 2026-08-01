@@ -172,7 +172,7 @@ Created bug_mobile_api_error_no_retry.md (GUI-056).
   > Hãy giúp tôi đánh giá flow: Admin login → product management → add product → edit product → delete product để thực hiện usability testing
 - **AI Output:**
 Created usability/usability_plan.md (objectives, task scenarios A/B, SUS instrument, probe questions, participant reminders, pilot reminder) and usability/moderator_script.md (stage-setting, task scenario, SUS script, probe questions, post-session checklist).
-- **Human Review Notes:** Pending human review: confirm objectives, select task scenario (A or B), confirm SUS as instrument, review probe questions before running sessions.
+- **Human Review Notes:** Accept - đã đánh giá flow admin product management - có chọn task A.
 
 ### Interaction #13
 - **Tool:** Antigravity (Claude Sonnet 4.6)
@@ -182,16 +182,4 @@ Created usability/usability_plan.md (objectives, task scenarios A/B, SUS instrum
   > tôi chọn task A hãy chỉnh cái plan lại đề thành 1 file test plan hoàn chỉnh khi nộp
 - **AI Output:**
 Rewrote usability/usability_plan.md to a clean, submission-ready document: selected Task Scenario A, removed all draft/AI-facing notes, structured as: Objectives, Task Scenario, SUS instrument (10-item table), Probe Questions, Moderator Script summary, Participants table, Pilot checklist, Session Notes guide, Scoring & Analysis plan.
-- **Human Review Notes:** Pending human review: fill in participant table (Section 6), run pilot session (Section 7), then conduct 7 sessions.
-
-### Interaction #14
-- **Tool:** Antigravity (Claude Sonnet 4.6 Thinking)
-- **Date/Time:** 2026-07-31 04:42
-- **Task:** Remove mobile items from GUI checklist and renumber all STTs; update bug report test case references accordingly
-- **Prompt:**
-  > bạn có thể bỏ các item mobile trong GUI checklist không phân biệt web hay mobile chỉ phân theo screen / đánh stt lại và sửa stt của các item trong bug report
-- **AI Output:**
-  Removed 9 mobile-only items (old GUI-014..016, GUI-031..032, GUI-043..044, GUI-055..056) from checklist.csv and renumbered remaining items GUI-001 to GUI-052. Updated "Found by Test Case" references in all affected bug report files. Deleted bug_mobile_api_error_no_retry.md (no longer has a corresponding checklist item).
-- **Human Review Notes:** Pending human review: verify new STT mapping is correct in checklist.csv and all bug report files.
-
-
+- **Human Review Notes:** Accept - đã chỉnh thành 1 file test plan hoàn chỉnh khi nộp
