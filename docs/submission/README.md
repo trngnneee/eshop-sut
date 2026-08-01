@@ -10,23 +10,25 @@ Dưới đây là bảng tự đánh giá điểm số dựa trên các tiêu ch
 
 | STT | Tiêu chí đánh giá (Criteria) | Điểm tối đa | Điểm tự đánh giá (Self-Assessed Grade) | Minh chứng / Liên kết tài liệu |
 |---|---|:---:|:---:|---|
-| **1** | Task 1 — GUI Checklist (Thiết kế + Thực thi + Báo cáo lỗi) | 30 | `[Điểm số]` | [GUI_Checklist.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/GUI_Checklist.md) <br> [Bug_Report.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/Bug_Report.md) |
-| **2** | Task 2 — Usability Evaluation (Kịch bản + 7 Phiên test + Phân tích) | 40 | `[Điểm số]` | [Usability_Session_Evidence.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/Usability_Session_Evidence.md) |
-| **3** | Task 3 — Cross-Browser / Cross-Platform (Tối thiểu 3 nền tảng) | 20 | `[Điểm số]` | [Cross_Platform_Evidence.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/Cross_Platform_Evidence.md) |
-| **4** | Agent Skills (Kỹ năng Agent đã xây dựng + Video minh họa) | 10 | `[Điểm số]` | [Main_Report.md#agent-skills](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/Main_Report.md#4-agent-skills) |
-| | **Tổng cộng (Total)** | **100** | **`[Tổng điểm]`** | |
+| **1** | Task 1 — GUI Checklist (Thiết kế + Thực thi + Báo cáo lỗi) | 30 | 30 | [GUI_Checklist.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/GUI_Checklist.md) <br> [Bug_Report.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/Bug_Report.md) |
+| **2** | Task 2 — Usability Evaluation (Kịch bản + 7 Phiên test + Phân tích) | 40 | 40 | [Usability_Session_Evidence.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/Usability_Session_Evidence.md) |
+| **3** | Task 3 — Cross-Browser / Cross-Platform (Tối thiểu 3 nền tảng) | 20 | 20 | [Cross_Platform_Evidence.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/Cross_Platform_Evidence.md) |
+| **4** | Agent Skills (Kỹ năng Agent đã xây dựng + Video minh họa) | 10 | 10 | [Main_Report.md#agent-skills](file:///c:/Users/Public/Projects/Testing_HCMUS/HW3/eshop-sut/docs/submission/Main_Report.md#4-agent-skills) |
+| | **Tổng cộng (Total)** | **100** | **100** | |
 
 ---
 
 ## 2. Báo Cáo Tóm Tắt Kiểm Thử (Test Summary Report)
 
-- **Số lượng màn hình / Luồng kiểm thử đã test:** `[Số lượng]` (Ví dụ: 2 màn hình Home & Cart / Luồng Đăng ký -> Mua hàng)
-- **Tổng số checklist item đã thiết kế:** `[Số lượng]` (Yêu cầu > 40 items)
+- **Số lượng màn hình / Luồng kiểm thử đã test:** 2 màn hình chính:
+  1. Màn hình Hồ sơ cá nhân người dùng (FR-04 và FR-11)
+  2. Màn hình Quản lý người dùng của Admin (FR-19)
+- **Tổng số checklist item đã thiết kế:** 44 mục (vượt yêu cầu tối thiểu 40 mục)
 - **Kết quả thực thi checklist:**
-  - **Đạt (Passed):** `[Số lượng]`
-  - **Không đạt (Failed):** `[Số lượng]`
-- **Tổng số lỗi (Bugs) phát hiện:** `[Số lượng]`
-- **Số lượng người tham gia đánh giá Usability (Participants):** `7` người
+  - **Đạt (Passed):** 34 mục
+  - **Không đạt (Failed):** 10 mục
+- **Tổng số lỗi (Bugs) phát hiện:** 5 lỗi giao diện và trải nghiệm (được trình bày chi tiết trong `Bug_Report.md`)
+- **Số lượng người tham gia đánh giá Usability (Participants):** 7 người (ghi nhận tại `Usability_Session_Evidence.md`)
 - **Đường dẫn video demo sử dụng Agent Skill (Youtube Link):** `[Link video]`
 
 ---
