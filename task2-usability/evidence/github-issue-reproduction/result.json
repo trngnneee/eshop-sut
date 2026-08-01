@@ -1,0 +1,81 @@
+{
+  "actor": "FRESH_GITHUB_ISSUE_REPRODUCTION",
+  "participantEvidence": false,
+  "safeSyntheticData": true,
+  "label": "INDEPENDENT_REPRODUCTION",
+  "startedAt": "2026-07-31T09:49:10.182Z",
+  "webBaseUrl": "http://127.0.0.1:5173",
+  "testEmail": "github.issue.evidence.20260731094910181@example.com",
+  "browser": "chromium",
+  "assertions": [
+    {
+      "name": "login_password_masked_by_default",
+      "passed": false,
+      "details": "observed input type=text",
+      "expectedBySecurityBaseline": true,
+      "provisionalBugIfFalse": "BUG-AUTH-PLAINTEXT-01"
+    },
+    {
+      "name": "registration_redirects_to_login",
+      "passed": true,
+      "details": "http://127.0.0.1:5173/login"
+    },
+    {
+      "name": "login_sets_authentication_token",
+      "passed": true,
+      "details": "Token present after login"
+    },
+    {
+      "name": "profile_is_reachable",
+      "passed": true,
+      "details": "http://127.0.0.1:5173/profile"
+    },
+    {
+      "name": "specification_valid_phone_accepted",
+      "passed": false,
+      "details": "Số điện thoại không hợp lệ. Vui lòng nhập đúng 9-10 chữ số.",
+      "expectedBySpecification": true,
+      "provisionalBugIfFalse": "PF-02"
+    },
+    {
+      "name": "fallback_phone_reaches_profile_save",
+      "passed": true,
+      "details": "Cập nhật thành công!"
+    },
+    {
+      "name": "profile_update_persists_after_reload",
+      "passed": true,
+      "details": "name=Technical Preflight Updated; address=123 Đường Kiểm Thử, Phường Bến Nghé, Quận 1, TP.HCM"
+    },
+    {
+      "name": "logout_removes_token",
+      "passed": true,
+      "details": "token=null"
+    },
+    {
+      "name": "profile_route_exposes_logged_out_state",
+      "passed": true,
+      "details": "url=http://127.0.0.1:5173/profile"
+    }
+  ],
+  "dialogs": [
+    {
+      "step": "valid_phone",
+      "message": "Số điện thoại không hợp lệ. Vui lòng nhập đúng 9-10 chữ số."
+    },
+    {
+      "step": "fallback_phone",
+      "message": "Cập nhật thành công!"
+    }
+  ],
+  "evidenceFiles": [
+    "BUG-AUTH-PLAINTEXT-01-safe-reproduction.png",
+    "01-after-registration.png",
+    "02-after-login.png",
+    "BUG-PF-02-safe-reproduction.png",
+    "04-profile-after-reload.png",
+    "05-after-logout.png"
+  ],
+  "overall": "PASS_WITH_PROVISIONAL_DEFECT",
+  "finishedAt": "2026-07-31T09:49:14.734Z"
+}
