@@ -20,13 +20,11 @@ Dưới đây là bảng tự đánh giá điểm số dựa trên các tiêu ch
 
 ## 2. Báo Cáo Tóm Tắt Kiểm Thử (Test Summary Report)
 
-- **Số lượng màn hình / Luồng kiểm thử đã test:** 2 màn hình chính:
-  1. Màn hình Hồ sơ cá nhân người dùng (FR-04 và FR-11)
-  2. Màn hình Quản lý người dùng của Admin (FR-19)
-- **Tổng số checklist item đã thiết kế:** 43 mục (vượt yêu cầu tối thiểu 40 mục)
-- **Kết quả thực thi checklist:**
-  - **Đạt (Passed):** 34 mục
-  - **Không đạt (Failed):** 9 mục
+- **Tổng số màn hình kiểm thử:** 2 (Web Customer Profile, Web Admin User Management)
+- **Tổng số checklist item đã thiết kế:** 41
+- **Tổng số item Đạt (Passed):** 32
+- **Tổng số item Không đạt (Failed):** 9
+- **Tỉ lệ đạt:** 78.0%
 - **Tổng số lỗi (Bugs) phát hiện:** 5 lỗi giao diện và trải nghiệm (được trình bày chi tiết trong `Bug_Report.md`)
 - **Số lượng người tham gia đánh giá Usability (Participants):** 7 người (ghi nhận tại `Usability_Session_Evidence.md`)
 - **Đường dẫn video demo sử dụng Agent Skill (Youtube Link):** `[Link video]`

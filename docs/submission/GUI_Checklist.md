@@ -7,10 +7,10 @@ Tài liệu này chứa cấu trúc bảng checklist kiểm thử giao diện (G
 ## 1. Tóm Tắt Thực Thi Kiểm Thử (Test Summary)
 
 - **Tổng số màn hình kiểm thử:** 2 (Web Customer Profile, Web Admin User Management)
-- **Tổng số checklist item đã thiết kế:** 43
-- **Tổng số item Đạt (Passed):** 34
+- **Tổng số checklist item đã thiết kế:** 41
+- **Tổng số item Đạt (Passed):** 32
 - **Tổng số item Không đạt (Failed):** 9
-- **Tỉ lệ đạt:** 79.1%
+- **Tỉ lệ đạt:** 78.0%
 
 ---
 
@@ -57,7 +57,7 @@ Tài liệu này chứa cấu trúc bảng checklist kiểm thử giao diện (G
 |IA-04-08|IA-04: Feedback / state|Feedback|Customer Profile|Hiển thị thông báo lỗi cụ thể khi máy chủ gặp sự cố hoặc việc cập nhật thông tin thất bại.|Passed||-|
 |IA-04-09|IA-04: Feedback / state|Feedback|Customer Profile|Hiển thị chỉ báo loading (spinner hoặc chữ "Đang tải...") khi dữ liệu đơn hàng đang được tải từ server.|Failed|Bảng trống trơn trong khi gọi API lấy đơn hàng trước khi render|[customer_profile.png](./screenshots/customer_profile.png)|
 |IA-04-10|IA-04: Feedback / state|Usability|Admin User Management|Hiển thị hộp thoại xác nhận (Confirm Dialog) trước khi thực hiện xóa người dùng ở phân hệ Admin.|Failed|Click "Xóa" là người dùng bị xóa ngay lập tức khỏi DB mà không hỏi lại|[admin_users.png](./screenshots/admin_users.png)|
-|IA-01-13IA-01: General UI standards|Accessibility|Customer Profile / Admin User|Hệ thống hỗ trợ thu phóng trang lên tới 200% (Zoom 200%) mà không làm vỡ bố cục hoặc chồng chéo nội dung.|Passed||-|
+|IA-01-13|IA-01: General UI standards|Accessibility|Customer Profile / Admin User|Hệ thống hỗ trợ thu phóng trang lên tới 200% (Zoom 200%) mà không làm vỡ bố cục hoặc chồng chéo nội dung.|Passed||-|
 |IA-02-12|IA-02: Forms|Usability|Customer Profile|Cho phép thực hiện sao chép - dán (Copy-Paste) vào các trường nhập liệu trong biểu mẫu (Họ tên, SĐT, Địa chỉ) mà không bị vô hiệu hóa.|Passed||-|
 ---
 
