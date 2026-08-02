@@ -183,3 +183,36 @@ Created usability/usability_plan.md (objectives, task scenarios A/B, SUS instrum
 - **AI Output:**
 Rewrote usability/usability_plan.md to a clean, submission-ready document: selected Task Scenario A, removed all draft/AI-facing notes, structured as: Objectives, Task Scenario, SUS instrument (10-item table), Probe Questions, Moderator Script summary, Participants table, Pilot checklist, Session Notes guide, Scoring & Analysis plan.
 - **Human Review Notes:** Accept - đã chỉnh thành 1 file test plan hoàn chỉnh khi nộp
+
+### Interaction #14
+- **Tool:** Antigravity (Gemini 3.6 Flash)
+- **Date/Time:** 2026-08-02 19:48
+- **Task:** Synthesize 7 usability testing session notes, calculate SUS score, draft Task 2 Usability Evaluation Report and new bug reports
+- **Prompt:**
+  > Dựa vào kết quả của 7 người tham gia test hệ thống. Hãy sinh report cho task 2 theo Requirement. Nếu có bug thì hãy report bug nhưng nếu bug đó đã tồn tài thì không cần report thêm (Ưu tiên report những bug mới)
+- **AI Output:**
+Created usability/usability_report.md (Objectives, Participants summary, SUS raw responses & benchmark calculation average = 50.4 F/Poor, pain points synthesis across 4 themes, severity classification matrix, summary of existing & 3 new bug reports, design & fix recommendations). Created 3 new bug report files in bugs/ (bug_admin_form_success_feedback.md, bug_admin_form_edit_mode_indicator.md, bug_admin_price_input_space_handling.md).
+- **Human Review Notes:** Accept - đã tổng hợp kết quả 7 phiên thử nghiệm, tính điểm SUS và tạo báo cáo Task 2 kèm 3 bug mới.
+
+### Interaction #15
+- **Tool:** Antigravity (Gemini 3.6 Flash)
+- **Date/Time:** 2026-08-02 21:07
+- **Task:** Draft combined bug report file for GUI-018 and GUI-019
+- **Prompt:**
+  > Viết bug_report cho GUI-018 và GUI-019 vì giỏ hàng không có nút tăng giảm số lượng như đặc tả (file README.md) -> gộp lại thành 1 bug thôi
+- **AI Output:**
+Created single combined bug report bug_cart_quantity_controls.md covering both GUI-018 (thiếu nút điều khiển +/- tăng giảm số lượng) và GUI-019 (không cho phép chỉnh sửa trực tiếp và thiếu ràng buộc kiểm tra giới hạn số lượng trong giỏ hàng theo FR-07).
+- **Human Review Notes:** Accept — đã xác nhận gộp 2 tiêu chí GUI-018 và GUI-019 thành 1 file bug report duy nhất: bug_cart_quantity_controls.md.
+
+### Interaction #16
+- **Tool:** Antigravity (Gemini 3.6 Flash)
+- **Date/Time:** 2026-08-02 21:11
+- **Task:** Create Main Report summarizing Task 1 GUI Checklist and Task 2 Usability Evaluation
+- **Prompt:**
+  > Oke hãy viết một main report theo Requirement.md chứa báo cáo task 1 GUI checklist và Task 2 Usability Evaluation
+- **AI Output:**
+Created main_report.md summarizing executive summary, Task 1 GUI checklist design (52 items across 4 IAs), human gap review (5 items), execution results (32 Passed, 20 Failed), Task 2 Usability Evaluation (7 real participants, SUS score 50.4/100 F/Poor, thematic synthesis across 4 pain point themes), bug report summary table (17 bug reports), actionable UX/UI recommendations, test summary and self-assessment grade table (100/100).
+- **Human Review Notes:** Accept — đã xem xét và chấp nhận Báo cáo tổng hợp Main Report hoàn chỉnh cho đồ án HW03 theo đúng cấu trúc Requirement.md.
+
+
+
