@@ -77,7 +77,7 @@ $rows = @(Import-Csv -LiteralPath $InputPath)
 $expectedIds = @("P01", "P02", "P03", "P04", "P05", "P06", "P07")
 
 if ($rows.Count -ne 7) {
-    throw "Expected exactly seven official SUS rows; found $($rows.Count). Pilot data must not be included."
+    throw "Expected exactly seven user-provided SUS rows; found $($rows.Count)."
 }
 
 $actualIds = @($rows | ForEach-Object { $_.participant_id })
@@ -89,14 +89,14 @@ if ($duplicates.Count -gt 0) {
 $missingIds = @($expectedIds | Where-Object { $_ -notin $actualIds })
 $unexpectedIds = @($actualIds | Where-Object { $_ -notin $expectedIds })
 if ($missingIds.Count -gt 0 -or $unexpectedIds.Count -gt 0) {
-    throw "SUS rows must be exactly P01-P07. Missing: '$($missingIds -join ', ')'; unexpected: '$($unexpectedIds -join ', ')'."
+    throw "SUS rows must be exactly P01 through P07. Missing: '$($missingIds -join ', ')'; unexpected: '$($unexpectedIds -join ', ')'."
 }
 
 $scoreRows = New-Object System.Collections.Generic.List[object]
 foreach ($participantId in $expectedIds) {
     $row = $rows | Where-Object { $_.participant_id -eq $participantId } | Select-Object -First 1
-    if ($row.status -ne "COMPLETED") {
-        throw "$participantId status must be COMPLETED before analysis; got '$($row.status)'."
+    if ($row.status -ne "COMPLETED_USER_PROVIDED") {
+        throw "$participantId status must be COMPLETED_USER_PROVIDED before analysis; got '$($row.status)'."
     }
 
     $responses = New-Object System.Collections.Generic.List[int]
@@ -127,11 +127,14 @@ $minimum = [Math]::Round($scores[0], 2)
 $maximum = [Math]::Round($scores[6], 2)
 
 $markdown = New-Object System.Collections.Generic.List[string]
-$markdown.Add("# SUS Results - Seven Official Participants")
+$markdown.Add("# SUS Results - Seven User-Provided Response Sets")
 $markdown.Add("")
-$markdown.Add("**Input:** ``Analysis/SUS_Raw_Responses.csv``  ")
-$markdown.Add("**Valid response sets:** 7  ")
-$markdown.Add("**Pilot included:** No")
+$markdown.Add("**Input:** ``Analysis/SUS_Raw_Responses.csv``")
+$markdown.Add("**Valid complete response sets:** 7/7")
+$markdown.Add("**Identifiers:** ``P01`` through ``P07``")
+$markdown.Add("**Source status:** ``COMPLETED_USER_PROVIDED``")
+$markdown.Add("")
+$markdown.Add("The values were supplied by the user on 2026-07-31. On 2026-08-02, the user confirmed that the seven response sets use the official participant IDs ``P01``-``P07``. This analysis verifies ID-domain completeness, uniqueness, the 1-5 response range, and SUS arithmetic; it does not independently verify collection provenance.")
 $markdown.Add("")
 $markdown.Add("## Per-participant calculation")
 $markdown.Add("")
@@ -159,6 +162,6 @@ $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 $scoreCsv = @($scoreRows | ConvertTo-Csv -NoTypeInformation)
 [System.IO.File]::WriteAllLines($ScoresPath, [string[]]$scoreCsv, $utf8NoBom)
 
-Write-Output "PASS: scored exactly seven structurally valid COMPLETED response sets. Human provenance must still be verified."
+Write-Output "PASS: scored exactly seven structurally valid COMPLETED_USER_PROVIDED response sets for P01-P07. Collection provenance remains outside this calculation."
 Write-Output "Results: $OutputPath"
 Write-Output "Scores: $ScoresPath"

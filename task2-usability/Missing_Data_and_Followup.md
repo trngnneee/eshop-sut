@@ -1,8 +1,8 @@
-﻿# Missing Data and Follow-up
+# Missing Data and Follow-up
 
-**Current status:** `READY_FOR_HUMAN_REVIEW — CONFIRMED_MISSING_DATA`
+**Current status:** `COMPLETE_WITH_DISCLOSED_LIMITATIONS — HUMAN_REVIEWED — CONFIRMED_MISSING_DATA`
 **Mapping:** Đã giải quyết — D01–D07 lần lượt là P01–P07; D06 dùng replacement source
-**User confirmation:** 2026-07-29 — D02, D03, D05 và D06 là toàn bộ session; SUS, consent/eligibility supplement, probes và pilot không được thu thập
+**User confirmation:** 2026-07-29 — D02, D03, D05 và D06 là toàn bộ session; 2026-07-31 — 7 bộ SUS được cung cấp riêng; 2026-08-02 — participant/SUS IDs được xác nhận thống nhất là P01–P07
 **Privacy:** Chỉ dùng P01–P07/D01–D07; không ghi tên thật, số điện thoại filename hoặc PII đầy đủ
 
 ## Trạng thái dữ liệu
@@ -16,22 +16,22 @@
 | MD-05 | D05 kết thúc ở login | P05 | Người dùng xác nhận đây là toàn bộ session; T11 = 00:00:51; task time = 50 giây | Login submit/success và SC3–SC5 NOT_REACHED | RESOLVED AS CONFIRMED TASK END |
 | MD-06 | Không có pilot recording/data | Pilot | Người dùng xác nhận pilot không được thu thập | Không thể chứng minh protocol đã pilot/refine; không được tái tạo hồi cứu | CONFIRMED_NOT_COLLECTED — **PILOT EVIDENCE MISSING** |
 | MD-07 | Không có usable speech trong 7/7 official files | P01–P07 | Không có source audio/notes bổ sung được cung cấp | Quote, exact moderator words, intervention và Card B vẫn NOT_RECORDED/NOT_OBSERVABLE | CONFIRMED_NOT_RECORDED |
-| MD-08 | SUS Q1–Q10 không xuất hiện | P01–P07 | Người dùng xác nhận không có SUS responses | SUS từng phiên và aggregate giữ NOT_CALCULABLE | CONFIRMED_NOT_COLLECTED |
+| MD-08 | SUS Q1–Q10 không xuất hiện trong recordings | P01–P07 | Người dùng cung cấp 7 bộ responses ngày 2026-07-31 và xác nhận ID P01–P07 ngày 2026-08-02 | Điểm participant và aggregate tính được; provenance vẫn ghi `COMPLETED_USER_PROVIDED` | RESOLVED — DATA_PROVIDED |
 | MD-09 | Post-session probes không xuất hiện | P01–P07 | Người dùng xác nhận probes không được thu thập | Clarity/error recovery/speed/trust/final change không thể tổng hợp từ self-report | CONFIRMED_NOT_COLLECTED |
-| MD-10 | Consent và eligibility supplement không xuất hiện | P01–P07 | Người dùng xác nhận không có dữ liệu bổ sung | Không xác minh consent/eligibility từ artefacts hiện có | CONFIRMED_NOT_COLLECTED |
+| MD-10 | Consent supplement không xuất hiện | P01–P07 | Người dùng xác nhận không có dữ liệu bổ sung | Không xác minh consent từ artefacts hiện có | CONFIRMED_NOT_COLLECTED |
 | MD-11 | Profile persistence không được kiểm tra | P01, P02, P04, P07; P03/P05/P06 không tới persistence | Không có supplemental persistence evidence | SC4 không thể PASS | CONFIRMED_NOT_RECORDED |
 | MD-12 | Plaintext password và PII xuất hiện trong recording | P01, P02, P04, P05, P07; P06 có name/email | Chưa xuất participant screenshot/clip | Phải redact trước khi chia sẻ evidence | BLOCKING BEFORE SHARING |
 | MD-13 | Replacement D06 kết thúc ở weak-password error | P06 | Người dùng xác nhận đây là toàn bộ session; T11 = 00:00:53; task time = 52 giây | Registration fail; SC2–SC5 NOT_REACHED | RESOLVED AS CONFIRMED TASK END |
 
-## MISSING SUS FOLLOW-UP — confirmed unavailable
+## SUS follow-up — data provided, participant IDs confirmed
 
-- P01–P07: Q1–Q10 đều `NOT_RECORDED`.
-- Người dùng xác nhận không có SUS responses để bổ sung.
-- SUS score từng participant và mean/median/min/max của sample giữ `NOT_CALCULABLE`; không suy ra từ hành vi.
+- Trong session artefacts P01–P07, Q1–Q10 vẫn `NOT_RECORDED`.
+- Dataset riêng có 7 bộ hoàn chỉnh P01–P07; người dùng xác nhận đây là các participant ID chính thức ngày 2026-08-02.
+- SUS scores: 82.5, 75, 100, 65, 62.5, 65, 87.5; mean 76.79, median 75, min 62.5, max 100. Không suy ra từ hành vi.
 
-## Đoạn cần human review
+## Đoạn đã human-review
 
-Human review dưới đây chỉ để kiểm tra coding/timestamp, không còn để xác minh clip có bị cắt hay không.
+Sinh viên xác nhận ngày 2026-08-02 đã review các đoạn coding/timestamp dưới đây. Việc review không bổ sung speech, consent, probes hoặc hành vi không xuất hiện trong recording.
 
 | Participant | Timestamp/artefact | Mục đích |
 |---|---|---|
@@ -45,8 +45,7 @@ Human review dưới đây chỉ để kiểm tra coding/timestamp, không còn 
 
 ## Việc còn lại trước khi phát hành
 
-1. Human-review các timestamp/coding nêu trên.
-2. Redact toàn bộ PII và plaintext password trước khi tạo evidence attachment.
-3. Fresh independent reproduction cho hai software-bug candidates.
-4. Search duplicate issue và reviewer phê duyệt local GitHub drafts trước khi đăng.
-5. Giữ SUS, probes, consent/eligibility và pilot ở trạng thái confirmed missing; không tự điền hoặc tái tạo.
+1. Redact toàn bộ PII và plaintext password trước khi tạo thêm participant evidence attachment.
+2. Timestamp/coding, ba fresh reproductions và provenance dataset SUS P01–P07 đã được human-review ngày 2026-08-02.
+3. Duplicate search đã hoàn tất cho #55/#37/#118; reviewed disposition của fresh #118 evidence là local-only trừ khi có yêu cầu publish sau này.
+4. Giữ probes, consent và pilot ở trạng thái missing; không tự điền hoặc tái tạo.

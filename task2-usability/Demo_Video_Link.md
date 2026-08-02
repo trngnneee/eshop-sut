@@ -1,14 +1,12 @@
 # Task 2 Demo Video
 
-**Status:** `LOCAL_DEMO_READY — PUBLIC_UPLOAD_REQUIRED`
+**Public status:** `PUBLIC_LINK_VERIFIED`
+**Submission mode:** `YOUTUBE_LINK_ONLY`
+**Local status:** `LOCAL_COPY_NOT_REQUIRED`
+**Verified:** 2026-08-02 through the public YouTube oEmbed endpoint
 
-- Local file: `demo/Task2_Usability_Skill_Demo.mp4`
-- Duration: 72 seconds
-- Resolution/codec: 1920×1080, H.264/AAC
-- SHA-256: `04A1EA132173A8B7123041A493DB231A258618941CC6D9DE525EE9639BE61E33`
-- Contents: scope and protocol; privacy-safe evidence inventory; T0–T11 coding; observed metrics; prioritized findings; software-bug drafts; missing-data discipline; submission artefact map.
-- Participant privacy: reviewed by construction — the demo contains aggregate values and P01–P07 IDs only; no participant screenshot, name, contact, password, email or address is included.
-- Public URL: `NOT_CREATED`
-- Public visibility/access check: `NOT_APPLICABLE` until upload
+- Video: https://youtu.be/QAh6W9AJXiU
+- Verified title: `23127207 – HW03 Task 2 – Usability Testing Agent Skill Demo`
+- Verified author: `Đặng Đăng Khoa`
 
-Before submission, the student must upload the local MP4 to the course-approved platform, verify access from a signed-out/private browser, and replace `NOT_CREATED` with the durable URL. Uploading is an external publication action and has not been performed automatically.
+The public video metadata is reachable. The student confirmed on 2026-08-02 that submission requires only the YouTube link; a repository-local MP4 is intentionally not required.

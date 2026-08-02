@@ -3,11 +3,29 @@
   "participantEvidence": false,
   "safeSyntheticData": true,
   "label": "INDEPENDENT_REPRODUCTION",
-  "startedAt": "2026-07-31T09:49:10.182Z",
-  "webBaseUrl": "http://127.0.0.1:5173",
-  "testEmail": "github.issue.evidence.20260731094910181@example.com",
+  "startedAt": "2026-08-02T09:34:48.373Z",
+  "webBaseUrl": "http://127.0.0.1:52118",
+  "apiBaseUrl": "http://127.0.0.1:32118",
+  "isolatedDatabaseAsserted": true,
+  "testEmail": "github.issue.evidence.20260802093448372@example.com",
   "browser": "chromium",
   "assertions": [
+    {
+      "name": "registration_api_rejects_missing_special_character",
+      "passed": false,
+      "details": "expected register=4xx; actual register=200; login=200",
+      "requirement": "FR-01",
+      "partition": "INVALID_MISSING_ALLOWED_SPECIAL_CHARACTER",
+      "expectedAllowedSpecialSet": "@ $ ! % * ? &",
+      "actualResponse": {
+        "message": "User registered successfully",
+        "id": 3
+      },
+      "accountCanLogin": true,
+      "participantEvidence": false,
+      "canonicalDuplicate": "https://github.com/trngnneee/eshop-sut/issues/118",
+      "provisionalBugIfFalse": "BUG-REG-PASSWORD-POLICY-01"
+    },
     {
       "name": "login_password_masked_by_default",
       "passed": false,
@@ -18,7 +36,7 @@
     {
       "name": "registration_redirects_to_login",
       "passed": true,
-      "details": "http://127.0.0.1:5173/login"
+      "details": "http://127.0.0.1:52118/login"
     },
     {
       "name": "login_sets_authentication_token",
@@ -28,14 +46,14 @@
     {
       "name": "profile_is_reachable",
       "passed": true,
-      "details": "http://127.0.0.1:5173/profile"
+      "details": "http://127.0.0.1:52118/profile"
     },
     {
       "name": "specification_valid_phone_accepted",
       "passed": false,
       "details": "Số điện thoại không hợp lệ. Vui lòng nhập đúng 9-10 chữ số.",
       "expectedBySpecification": true,
-      "provisionalBugIfFalse": "PF-02"
+      "provisionalBugIfFalse": "BUG-PF-02"
     },
     {
       "name": "fallback_phone_reaches_profile_save",
@@ -55,7 +73,7 @@
     {
       "name": "profile_route_exposes_logged_out_state",
       "passed": true,
-      "details": "url=http://127.0.0.1:5173/profile"
+      "details": "url=http://127.0.0.1:52118/profile"
     }
   ],
   "dialogs": [
@@ -69,13 +87,10 @@
     }
   ],
   "evidenceFiles": [
+    "BUG-REG-PASSWORD-POLICY-01-safe-reproduction.png",
     "BUG-AUTH-PLAINTEXT-01-safe-reproduction.png",
-    "01-after-registration.png",
-    "02-after-login.png",
-    "BUG-PF-02-safe-reproduction.png",
-    "04-profile-after-reload.png",
-    "05-after-logout.png"
+    "BUG-PF-02-safe-reproduction.png"
   ],
   "overall": "PASS_WITH_PROVISIONAL_DEFECT",
-  "finishedAt": "2026-07-31T09:49:14.734Z"
+  "finishedAt": "2026-08-02T09:34:52.791Z"
 }

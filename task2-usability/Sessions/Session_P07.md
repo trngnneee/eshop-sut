@@ -82,13 +82,13 @@
 
 ## 7. Raw SUS
 
-| Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 |
-|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED |
+| Source | Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Response P07 | 5 | 2 | 4 | 1 | 5 | 2 | 4 | 2 | 5 | 1 |
 
-- SUS score: NOT_CALCULABLE.
-- Missing SUS data: Q1–Q10.
-- Data source: Không có SUS form/segment; audio là silence.
+- SUS score: 87.5.
+- Recording limitation: Không có SUS form/segment; audio là silence.
+- Data source: User-provided response set P07, supplied separately on 2026-07-31; participant ID confirmed on 2026-08-02.
 
 ## 8. Probe responses
 
@@ -121,7 +121,7 @@
 
 - Screen recording: D07; playable/full-decode PASS, non-monotonic DTS warning noted.
 - Audio: AAC stereo stream nhưng digital silence trong toàn bộ recording.
-- SUS evidence: NOT_RECORDED.
+- SUS evidence: `Analysis/SUS_Raw_Responses.csv`, row P07 (`COMPLETED_USER_PROVIDED`); not captured in D07.
 - Probe evidence: NOT_RECORDED.
 - Bug screenshot/clip candidates:
   - First login failure/recovery: D07 @ 00:00:34–00:00:48.
@@ -139,9 +139,9 @@
 ## 11. Missing data
 
 - Consent, moderator, exact date/time, exact device, OS/browser version: NOT_RECORDED/NOT_OBSERVABLE.
-- Quotes, interventions, Card B, SUS và probes: NOT_RECORDED/NOT_OBSERVABLE.
+- Quotes, interventions, Card B và probes: NOT_RECORDED/NOT_OBSERVABLE. SUS Q1–Q10 được cung cấp riêng cho P07.
 - Profile edit/update/persistence và T9 trust: NOT_REACHED/NOT_OBSERVABLE.
-- Human review: register submit 00:00:20–00:00:22; first login/error 00:00:34–00:00:40; recovery 00:00:40–00:00:48; profile 00:00:51–00:00:59; logout 00:01:03–00:01:06.
+- Human review hoàn tất ngày 2026-08-02: register submit 00:00:20–00:00:22; first login/error 00:00:34–00:00:40; recovery 00:00:40–00:00:48; profile 00:00:51–00:00:59; logout 00:01:03–00:01:06.
 - Privacy redactions: all registration/login/profile PII và plaintext password interval.
 - Confidence:
   - Mapping D07→P07: HIGH — user confirmation.
@@ -153,6 +153,6 @@
 
 ## 12. Verification status
 
-`READY_FOR_HUMAN_REVIEW`
+`HUMAN_REVIEWED`
 
-Lý do: task screen flow được ghi tới logout; SC3/SC4 không đạt, còn audio speech, consent, SUS và probes được người dùng xác nhận là không được thu thập.
+Lý do: task screen flow được ghi tới logout; SC3/SC4 không đạt, audio speech/consent/probes không được ghi; SUS P07 được cung cấp riêng và ID đã được xác nhận.

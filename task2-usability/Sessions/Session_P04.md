@@ -85,13 +85,13 @@
 
 ## 7. Raw SUS
 
-| Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 |
-|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED |
+| Source | Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Response P04 | 3 | 3 | 4 | 2 | 4 | 3 | 4 | 3 | 4 | 2 |
 
-- SUS score: NOT_CALCULABLE.
-- Missing SUS data: Q1–Q10.
-- Data source: Không có SUS form/segment; không có usable speech.
+- SUS score: 65.
+- Recording limitation: Không có SUS form/segment; không có usable speech.
+- Data source: User-provided response set P04, supplied separately on 2026-07-31; participant ID confirmed on 2026-08-02.
 
 ## 8. Probe responses
 
@@ -124,7 +124,7 @@
 
 - Screen recording: D04; playable/full-decode PASS.
 - Audio: Silence 00:00:00–00:00:23.476 và 00:00:23.670–00:02:15.659; khoảng non-silent còn lại quá ngắn cho speech.
-- SUS evidence: NOT_RECORDED.
+- SUS evidence: `Analysis/SUS_Raw_Responses.csv`, row P04 (`COMPLETED_USER_PROVIDED`); not captured in D04.
 - Probe evidence: NOT_RECORDED.
 - Bug screenshot/clip candidates:
   - Plaintext password: D04 @ 00:01:01–00:01:39.
@@ -140,15 +140,15 @@
 - Candidate software bug IDs:
   - `BUG-PF-02` — phone 10 và 11 chữ số bắt đầu bằng 0 bị từ chối; phone không bắt đầu bằng 0 lại được chấp nhận. Independent reproduction required: YES.
   - `BUG-AUTH-PLAINTEXT-01` — login password hiển thị plaintext. Independent reproduction required: YES.
-- Issues requiring independent reproduction: Cả hai software bugs.
+- Issues requiring independent reproduction: Cả hai software bugs có participant evidence; supplemental registration API bug được quản lý riêng và không gán cho P04.
 
 ## 11. Missing data
 
 - Consent, moderator, exact date/time, exact device, OS/browser version: NOT_RECORDED/NOT_OBSERVABLE.
-- Quotes, intervention words/types, Card B, SUS và probes: NOT_RECORDED/NOT_OBSERVABLE.
+- Quotes, intervention words/types, Card B và probes: NOT_RECORDED/NOT_OBSERVABLE. SUS Q1–Q10 được cung cấp riêng cho P04.
 - T9/trust: NOT_OBSERVABLE.
 - Persistence reload/check và address/name update: NOT_REACHED.
-- Human review: password-policy recovery 00:00:22–00:01:01; Password Manager 00:01:22–00:01:24; profile attempts 00:01:43–00:02:09; logout 00:02:12–00:02:16.
+- Human review hoàn tất ngày 2026-08-02: password-policy recovery 00:00:22–00:01:01; Password Manager 00:01:22–00:01:24; profile attempts 00:01:43–00:02:09; logout 00:02:12–00:02:16.
 - Privacy redactions: registration/login/profile PII, entire plaintext password interval, all phone inputs, Password Manager screen if dùng clip.
 - Confidence:
   - Mapping D04→P04: HIGH — user confirmation.
@@ -160,6 +160,6 @@
 
 ## 12. Verification status
 
-`READY_FOR_HUMAN_REVIEW`
+`HUMAN_REVIEWED`
 
-Lý do: screen flow đã được mã hóa; audio speech, consent, SUS, probes và supplemental evidence được người dùng xác nhận là không được thu thập. Persistence/full SC3 không đạt trong session.
+Lý do: screen flow đã được mã hóa; audio speech, consent và probes không được ghi. SUS không xuất hiện trong recording nhưng response set P04 được cung cấp riêng và ID đã được xác nhận. Persistence/full SC3 không đạt trong session.

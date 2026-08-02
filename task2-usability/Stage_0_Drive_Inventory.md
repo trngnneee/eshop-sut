@@ -1,11 +1,11 @@
-﻿# Stage 0 — Drive inventory và participant mapping
+# Stage 0 — Drive inventory và participant mapping
 
 **Ngày kiểm tra ban đầu:** 2026-07-29
 **Replacement D06 nhận:** 2026-07-29
 **Timezone:** Asia/Bangkok (UTC+7)
 **SUT:** EShop Web Frontend
 **Chế độ truy cập:** Chỉ đọc; không sửa, xóa, đổi tên hoặc chia sẻ file Drive
-**Trạng thái:** `READY_FOR_HUMAN_REVIEW — CONFIRMED_MISSING_DATA`
+**Trạng thái:** `COMPLETE_WITH_DISCLOSED_LIMITATIONS — HUMAN_REVIEWED — CONFIRMED_MISSING_DATA`
 
 ## Kết luận gate sau replacement
 
@@ -48,6 +48,6 @@
 ## Trạng thái sau xác nhận
 
 1. Không cần cung cấp thêm phần video cho D02, D03, D05 hoặc D06; task-end đã được chốt tại recording end.
-2. SUS Q1–Q10, post-session probes, consent/eligibility supplement và pilot được xác nhận là không thu thập; giữ `NOT_RECORDED`/`PILOT EVIDENCE MISSING`, không tự điền.
+2. SUS Q1–Q10 không xuất hiện trong Drive recordings; dataset riêng được người dùng cung cấp ngày 2026-07-31 và xác nhận dùng participant ID P01–P07 ngày 2026-08-02. Post-session probes, consent supplement và pilot vẫn `NOT_RECORDED`/`PILOT EVIDENCE MISSING`.
 3. Moderator/intervention/Card B vẫn `NOT_OBSERVABLE` vì không có usable speech hoặc notes nguồn.
 4. Redact toàn bộ PII và plaintext password trước khi trích evidence ra khỏi khu vực kiểm soát truy cập.

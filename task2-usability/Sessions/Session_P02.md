@@ -12,7 +12,7 @@
 - Audio present: Có AAC stereo stream nhưng toàn bộ recording là digital silence (`mean/max -91 dB`); nội dung audio NOT_RECORDED.
 - Video complete/cut: COMPLETE — người dùng xác nhận 00:01:34 là điểm kết thúc thật của session; task kết thúc khi validation alert thứ ba còn mở.
 - Consent observable: NOT_RECORDED.
-- Data-quality limitations: Recording bắt đầu giữa registration nên true task start trước frame đầu là NOT_OBSERVABLE. Không có usable speech, consent, SUS, probes hoặc moderator words; người dùng xác nhận các dữ liệu bổ sung này không được thu thập. `PASSWORD_VISIBLE_IN_RECORDING — REDACTION_REQUIRED` tại login khoảng 00:00:17–00:00:35. Email, tên, phone và address xuất hiện rõ; mọi screenshot/clip phải redaction.
+- Data-quality limitations: Recording bắt đầu giữa registration nên true task start trước frame đầu là NOT_OBSERVABLE. Không có usable speech, consent, SUS segment, probes hoặc moderator words trong recording. Response set SUS P02 được người dùng cung cấp riêng. `PASSWORD_VISIBLE_IN_RECORDING — REDACTION_REQUIRED` tại login khoảng 00:00:17–00:00:35. Email, tên, phone và address xuất hiện rõ; mọi screenshot/clip phải redaction.
 
 ## 2. Outcome
 
@@ -81,13 +81,13 @@
 
 ## 7. Raw SUS
 
-| Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 |
-|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED |
+| Source | Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Response P02 | 4 | 2 | 4 | 2 | 4 | 2 | 4 | 2 | 4 | 2 |
 
-- SUS score: NOT_CALCULABLE.
-- Missing SUS data: Q1–Q10.
-- Data source: Không có SUS form/segment; audio silent.
+- SUS score: 75.
+- Recording limitation: Không có SUS form/segment; audio silent.
+- Data source: User-provided response set P02, supplied separately on 2026-07-31; participant ID confirmed on 2026-08-02.
 
 ## 8. Probe responses
 
@@ -120,7 +120,7 @@
 
 - Screen recording: D02; playable/full-decode PASS.
 - Audio: Digital silence 00:00:00–00:01:34.
-- SUS evidence: NOT_RECORDED.
+- SUS evidence: `Analysis/SUS_Raw_Responses.csv`, row P02 (`COMPLETED_USER_PROVIDED`); not captured in D02.
 - Probe evidence: NOT_RECORDED.
 - Bug screenshot/clip candidates:
   - Plaintext login password: D02 @ 00:00:17–00:00:35.
@@ -138,10 +138,10 @@
 ## 11. Missing data
 
 - Task end đã được xác nhận tại 00:01:34; không có phần video tiếp theo. Persistence và logout: NOT_REACHED.
-- SUS, probes, consent và supplemental notes: người dùng xác nhận không được thu thập; giữ NOT_RECORDED.
+- SUS collection segment không xuất hiện trong recording; Q1–Q10 được cung cấp riêng cho P02. Probes, consent và supplemental notes giữ NOT_RECORDED.
 - Consent, exact date/time, moderator, exact device/OS/browser: NOT_RECORDED/NOT_OBSERVABLE.
 - Quotes, interventions, Card B, SUS, probes: NOT_RECORDED/NOT_OBSERVABLE do audio silent và không có screen segment.
-- Human review cần tập trung: registration transition 00:00:15–00:00:17; login 00:00:34–00:00:36; alerts 00:00:57–00:01:02, 00:01:13–00:01:15 và 00:01:29–00:01:34.
+- Human review hoàn tất ngày 2026-08-02 cho registration transition 00:00:15–00:00:17; login 00:00:34–00:00:36; alerts 00:00:57–00:01:02, 00:01:13–00:01:15 và 00:01:29–00:01:34.
 - Privacy redactions: password/login 00:00:17–00:00:35; mọi email, name, phone, address trên register/profile.
 - Confidence:
   - Mapping D02→P02: MEDIUM — người dùng xác nhận trực tiếp, nhưng screen account data không được dùng để suy ra identity và cần human cross-check.
@@ -153,6 +153,6 @@
 
 ## 12. Verification status
 
-`READY_FOR_HUMAN_REVIEW`
+`HUMAN_REVIEWED`
 
-Lý do: task end đã được xác nhận; observed evidence đã được mã hóa. Logout/persistence không đạt và audio/SUS/probes/consent được xác nhận là không được thu thập.
+Lý do: task end đã được xác nhận; observed evidence đã được mã hóa. Logout/persistence không đạt; audio/probes/consent không được ghi; SUS P02 được cung cấp riêng và ID đã được xác nhận.

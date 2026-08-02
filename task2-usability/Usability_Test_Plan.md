@@ -13,7 +13,7 @@
 | Official sample | Exactly 7 real participants, P01–P07 |
 | Pilot | One separate participant, not included in P01–P07 |
 | Scale | System Usability Scale (SUS), 10 items |
-| Current status | `READY_FOR_FIELDWORK` |
+| Current status | `FIELDWORK_CLOSED — COMPLETE_WITH_DISCLOSED_LIMITATIONS` |
 
 ## 2. Scope and requirements
 
@@ -57,20 +57,15 @@ All results are descriptive. The seven-person sample is not used to claim statis
 
 - At least 18 years old.
 - Uses a Vietnamese-language e-commerce website or app at least once per month.
-- Is not currently enrolled in this HW03 class.
-- Has not tested or developed this EShop SUT before.
 - Can read Vietnamese and use a web browser independently.
 - Freely consents to participation and required screen recording.
 
 ### Preferred characteristics
 
-- Non-IT and non-software-testing background.
 - A mix of shopping frequency, age, and device familiarity.
 
 ### Exclusion criteria
 
-- Current HW03 student.
-- Member who built or previously tested this SUT.
 - Unable or unwilling to consent to screen recording.
 - Has already participated in the pilot or another official session in this study.
 

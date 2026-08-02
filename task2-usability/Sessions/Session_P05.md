@@ -7,12 +7,12 @@
 - Date/time, nếu quan sát được: NOT_OBSERVABLE.
 - Device: Mobile touch-screen recording; exact device/model NOT_OBSERVABLE.
 - OS: iOS-style system UI observable; version NOT_OBSERVABLE.
-- Browser/version: iOS mobile-browser UI observable; exact browser/version UNVERIFIED.
+- Browser/version: iOS mobile-browser UI observable; exact browser/version `NOT_OBSERVABLE_AFTER_HUMAN_REVIEW`.
 - Screen present: YES — portrait 1242×2688, HEVC, khoảng 60 fps.
 - Audio present: AAC stereo stream có trong container nhưng là digital silence; speech NOT_RECORDED.
 - Video complete/cut: COMPLETE — người dùng xác nhận session thực sự kết thúc ở login tại 00:00:51.
 - Consent observable: NOT_RECORDED.
-- Data-quality limitations: Scenario delivery trước first captured action không được ghi. Không có usable speech, consent, moderator words, SUS hoặc probes; người dùng xác nhận các dữ liệu bổ sung này không được thu thập. `PASSWORD_VISIBLE_IN_RECORDING — REDACTION_REQUIRED` trong login khoảng 00:00:39–00:00:46. Name và email cá nhân xuất hiện trong register/login cũng cần redaction.
+- Data-quality limitations: Scenario delivery trước first captured action không được ghi. Không có usable speech, consent, moderator words, SUS segment hoặc probes trong recording; response set SUS P05 được người dùng cung cấp riêng. `PASSWORD_VISIBLE_IN_RECORDING — REDACTION_REQUIRED` trong login khoảng 00:00:39–00:00:46. Name và email cá nhân xuất hiện trong register/login cũng cần redaction.
 
 ## 2. Outcome
 
@@ -50,7 +50,7 @@
 
 ## 4. Behavioural metrics
 
-- Wrong turns: UNVERIFIED — một iOS password-manager prompt xuất hiện khoảng 00:00:27–00:00:29 rồi đóng; không đủ bằng chứng xác định prompt tự bật hay participant chủ động mở.
+- Wrong turns: `NOT_OBSERVABLE_AFTER_HUMAN_REVIEW` — một iOS password-manager prompt xuất hiện khoảng 00:00:27–00:00:29 rồi đóng; recording không đủ bằng chứng xác định prompt tự bật hay participant chủ động mở.
 - Errors: 0 — không có validation/error message hoặc failed submit trong toàn bộ confirmed session.
 - Hesitations >=5 seconds: 0 — không có stationary interval đạt ngưỡng trong toàn bộ confirmed session.
 - Total hesitation duration: 0 giây.
@@ -66,7 +66,7 @@
 |---|---|---|---|---|---|---|---|
 | 00:00:01–00:00:02 | Product list → Register | Chọn `Đăng ký`. | Register được tìm thấy và mở. | NOT_RECORDED — audio silence. | SUCCESS | NOT_OBSERVABLE | D05 @ 00:00:01–00:00:02 |
 | 00:00:02–00:00:25 | Register | Điền name, email và password rồi submit. | Form chuyển sang login; không có visible validation error trong đoạn ghi. | NOT_RECORDED — audio silence. | SUCCESS | NOT_OBSERVABLE | D05 @ 00:00:02–00:00:26 |
-| 00:00:26–00:00:30 | Login/iOS password prompt | Login xuất hiện; system password-manager prompt phủ một phần UI rồi biến mất. | Prompt/dismissal quan sát được, nhưng trigger và intent UNVERIFIED. | NOT_RECORDED — audio silence. | OTHER | NOT_OBSERVABLE | D05 @ 00:00:26–00:00:30 |
+| 00:00:26–00:00:30 | Login/iOS password prompt | Login xuất hiện; system password-manager prompt phủ một phần UI rồi biến mất. | Prompt/dismissal quan sát được, nhưng trigger và intent `NOT_OBSERVABLE_AFTER_HUMAN_REVIEW`. | NOT_RECORDED — audio silence. | OTHER | NOT_OBSERVABLE | D05 @ 00:00:26–00:00:30 |
 | 00:00:30–00:00:39 | Login | Nhập email vào field `Username`. | Participant nhận ra đây là login dù heading hiển thị `Đăng Ký`. | NOT_RECORDED — audio silence. | OTHER | NOT_OBSERVABLE | D05 @ 00:00:30–00:00:39 |
 | 00:00:39–00:00:46 | Login | Nhập password. | Password hiển thị plaintext; giá trị không được chép lại. | NOT_RECORDED — audio silence. | OTHER | NOT_OBSERVABLE | D05 @ 00:00:39–00:00:46 |
 | 00:00:46–00:00:51 | Login | Keyboard đóng; màn hình vẫn ở login. | Không có login submit/success; task kết thúc tại 00:00:51 theo xác nhận của người dùng. | NOT_RECORDED — audio silence. | OTHER | NOT_OBSERVABLE | D05 @ 00:00:46–00:00:51 |
@@ -79,13 +79,13 @@
 
 ## 7. Raw SUS
 
-| Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 |
-|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED |
+| Source | Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Response P05 | 4 | 3 | 4 | 2 | 3 | 3 | 4 | 2 | 3 | 3 |
 
-- SUS score: NOT_CALCULABLE.
-- Missing SUS data: Q1–Q10.
-- Data source: Không có SUS form/segment; audio là silence.
+- SUS score: 62.5.
+- Recording limitation: Không có SUS form/segment; audio là silence.
+- Data source: User-provided response set P05, supplied separately on 2026-07-31; participant ID confirmed on 2026-08-02.
 
 ## 8. Probe responses
 
@@ -118,7 +118,7 @@
 
 - Screen recording: D05; playable/full-decode PASS.
 - Audio: AAC stereo stream nhưng digital silence trong toàn bộ 00:00:00–00:00:51.
-- SUS evidence: NOT_RECORDED.
+- SUS evidence: `Analysis/SUS_Raw_Responses.csv`, row P05 (`COMPLETED_USER_PROVIDED`); not captured in D05.
 - Probe evidence: NOT_RECORDED.
 - Bug screenshot/clip candidates:
   - Plaintext login password: D05 @ 00:00:39–00:00:46.
@@ -127,7 +127,7 @@
 ## 10. Candidate findings and bugs
 
 - Candidate usability finding IDs:
-  - Không có participant-impact finding bổ sung đủ bằng chứng. Password-manager prompt 00:00:27–00:00:29 giữ là isolated UNVERIFIED observation.
+  - Không có participant-impact finding bổ sung đủ bằng chứng. Password-manager prompt 00:00:27–00:00:29 giữ là isolated `NOT_OBSERVABLE_AFTER_HUMAN_REVIEW` observation.
 - Candidate software bug IDs:
   - `BUG-AUTH-PLAINTEXT-01` — login password hiển thị plaintext. Independent reproduction required: YES.
 - Issues requiring independent reproduction: `BUG-AUTH-PLAINTEXT-01`.
@@ -135,19 +135,19 @@
 ## 11. Missing data
 
 - Consent, moderator, exact date/time, exact device, browser/OS version: NOT_RECORDED/NOT_OBSERVABLE.
-- Quotes, interventions, Card B, SUS và probes: NOT_RECORDED/NOT_OBSERVABLE.
+- Quotes, interventions, Card B và probes: NOT_RECORDED/NOT_OBSERVABLE. SUS Q1–Q10 được cung cấp riêng cho P05.
 - Task end đã được xác nhận tại 00:00:51. Login submit/result, profile, update, persistence và logout: NOT_REACHED.
-- Human review: register transition 00:00:24–00:00:27; password prompt 00:00:27–00:00:30; login input/end 00:00:39–00:00:51.
+- Human review hoàn tất ngày 2026-08-02: register transition 00:00:24–00:00:27; password prompt 00:00:27–00:00:30; login input/end 00:00:39–00:00:51.
 - Privacy redactions: all registration/login name/email data và plaintext password 00:00:39–00:00:46.
 - Confidence:
   - Mapping D05→P05: HIGH — user confirmation.
   - T1–T3 visual milestones: HIGH; T0 MEDIUM vì scenario không được ghi.
   - Login credential input: HIGH; actual submit/login result: NOT_OBSERVABLE.
-  - Password-manager prompt trigger/intent: LOW/UNVERIFIED.
+  - Password-manager prompt trigger/intent: LOW/`NOT_OBSERVABLE_AFTER_HUMAN_REVIEW`.
   - Outcome taxonomy: HIGH — người dùng xác nhận recording end là task end.
 
 ## 12. Verification status
 
-`READY_FOR_HUMAN_REVIEW`
+`HUMAN_REVIEWED`
 
-Lý do: task end ở login đã được xác nhận; observed evidence đã được mã hóa. SC2–SC5 không đạt và audio/SUS/probes/consent được xác nhận là không được thu thập.
+Lý do: task end ở login đã được xác nhận; observed evidence đã được mã hóa. SC2–SC5 không đạt; audio/probes/consent không được ghi; SUS P05 được cung cấp riêng và ID đã được xác nhận.

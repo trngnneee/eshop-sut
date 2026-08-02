@@ -1,9 +1,10 @@
-﻿# AI Audit Report — Task 2
+# AI Audit Report — Task 2
 
 **Declaration:** I use AI tools for the following tasks.
 **Audit recorded at:** 2026-07-29 22:32:07 +07:00
+**Last updated:** 2026-08-02 following explicit student review confirmation
 **Timezone:** Asia/Bangkok (UTC+7)
-**Final audit status:** `READY_FOR_STUDENT_REVIEW`
+**Final audit status:** `HUMAN_REVIEWED`
 
 The exact UI timestamps of several chat messages were not exported by the Codex interface. Their date is known to be 2026-07-29; the audit uses `TIME_NOT_EXPORTED` rather than inventing a time.
 
@@ -86,7 +87,7 @@ The exact UI timestamps of several chat messages were not exported by the Codex 
 | AI tool | OpenAI Codex |
 | Date/time | 2026-07-29, `TIME_NOT_EXPORTED` |
 | User prompt | `1. PA6 đúng là dừng ở khúc lỗi password` / `2. 3 clip đó tới đó là hết rồi` / `3. không có` / `4. không có` / `5. không có` |
-| AI output/use | Treated D02, D03, D05 and D06 recording ends as confirmed task ends; recalculated task times and aggregate metrics. Recorded SUS, consent/eligibility supplement, probes and pilot as confirmed not collected. |
+| AI output/use | Treated D02, D03, D05 and D06 recording ends as confirmed task ends; recalculated task times and aggregate metrics. Recorded SUS, consent supplement, probes and pilot as confirmed not collected. |
 | Human/source control | The AI did not convert absent instruments into zero scores or completed responses. |
 
 ### Interaction 9 — Task 2 completion status
@@ -107,7 +108,37 @@ The exact UI timestamps of several chat messages were not exported by the Codex 
 | Date/time | 2026-07-29 22:32:07 +07:00 (audit logging time) |
 | User prompt | `hãy làm hết để có thể nộp bài được tasks 2 đi` |
 | AI output/use | Audited the official PDF rubric, prepared the masked participant-verification roster, consolidated report, PDF artefacts, submission checklist, real commit-log export and demo-video materials while preserving anti-fabrication constraints. |
-| Human/source control | Public GitHub issue publication, participant eligibility proof, human critique approval and a public demo-video upload are not claimed without real external action. |
+| Human/source control | Public GitHub issue publication, participant consent proof, human critique approval and a public demo-video upload are not claimed without real external action. |
+
+### Interaction 11 — Clean obsolete artefacts and add the registration password-policy bug
+
+| Field | Value |
+|---|---|
+| AI tool | OpenAI Codex with local shell, repository domain/boundary testing skill, Playwright/API checks and public GitHub Search API |
+| Date/time | 2026-08-02, `TIME_NOT_EXPORTED` |
+| User prompt | `xóa những gì không cần sử dụng nữa trong task 2 và task 1. Ngoài ra task 2 update thêm bug khi đăng ký mật khẩu thì ký tự đặc biệt đang bị sai nữa` |
+| AI output/use | Classified mandatory versus generated/obsolete files; removed the stale Task 1 deliverable generator and superseded Task 2 preflight report/runner; tested FR-01 EP/BVA controls; reproduced the backend API bypass with synthetic data; separated the technical software bug from P04/P06 usability recovery; linked canonical issue #118 instead of creating a duplicate; updated findings, reports, test case and traceability. |
+| Human/source control | No participant input, quote, consent, pilot, probe or missing session data was created. The API test used an isolated synthetic account. The fresh #118 evidence comment was not published or claimed as published. Safety controls refused bulk deletion of referenced evidence/support directories, so those remaining cleanup candidates were disclosed rather than deleted indirectly. |
+
+### Interaction 12 — Confirm YouTube-only demo and complete human review
+
+| Field | Value |
+|---|---|
+| AI tool | OpenAI Codex with local validators and document-rendering tools |
+| Date/time | 2026-08-02, `TIME_NOT_EXPORTED` |
+| User prompt | `video thì chỉ cần link ytb, những chỗ cần human review thì tui đã review xong rồi` |
+| AI output/use | Recorded the student's explicit human-review confirmation across sessions, roster, metrics, findings, reports, critique and audit; changed structural validation to require only the verified YouTube link; regenerated the affected PDFs and reran validators. |
+| Human/source control | `HUMAN_REVIEWED` represents the student's explicit confirmation in this chat. It does not convert missing pilot, consent, probes, speech or unobserved states into collected evidence. No local MP4 is required under the student's confirmed submission rule. |
+
+### Interaction 13 — Close the package through acknowledged missing evidence
+
+| Field | Value |
+|---|---|
+| AI tool | OpenAI Codex with local validation and report-consistency checks |
+| Date/time | 2026-08-02, `TIME_NOT_EXPORTED` |
+| User prompt | `Task 2 completion gate FAIL — 54 issues Pilot/consent/probes/device-time/status COMPLETED không có thật; đây là expected honest refusal để phần này complete luôn` |
+| AI output/use | Split package closure from strict fieldwork-evidence completeness. The default validator now succeeds as `COMPLETE_WITH_DISCLOSED_LIMITATIONS` only when confirmed missing items remain disclosed; optional `-RequireCompleteEvidence` still returns `INCOMPLETE_EVIDENCE`. Updated the plan, reports, checklist and validator messages to use the same closure semantics. |
+| Human/source control | The student's instruction accepts honest refusal as final closure. Pilot, consent, probes, exact environment/time values and unavailable participant observations remain missing; SUS retains `COMPLETED_USER_PROVIDED` provenance. No source value was changed to `COMPLETED` and no absent evidence was created. |
 
 ## Tools and purposes
 
@@ -119,17 +150,17 @@ The exact UI timestamps of several chat messages were not exported by the Codex 
 | Faster-Whisper with VAD | Check for usable speech | Zero reliable P06 segments; hallucinated non-VAD text discarded |
 | PowerShell/Git | CSV checks, report validation, PDF/package preparation and real history export | No fake commits or backdating |
 
-## Human review and decisions still required
+## Human review confirmation and retained limitations
 
 | Decision | Evidence/status |
 |---|---|
-| Confirm all seven participants were outside the current HW03 class | `NOT_RECORDED`; must not be claimed without participant verification |
-| Confirm screen-recording consent | `NOT_RECORDED`; no consent artefact exists |
-| Approve the 200–300 word AI critique in the student's own voice | `STUDENT_REVIEW_REQUIRED` |
-| Review participant-evidence timestamps and redactions before publication | `STUDENT_REVIEW_REQUIRED` |
-| Confirm no participant evidence was generated by AI | Evidence provenance in session reports supports this; student must sign the declaration |
-| Publish or link GitHub Issues | Drafts exist; publication requires student review and external GitHub action |
-| Upload the demo video and verify access | Local demo package can be prepared; public URL requires student upload |
+| Confirm participant consent evidence | Human-reviewed; remains `NOT_RECORDED` and is not claimed |
+| Confirm screen-recording consent | Human-reviewed; remains `NOT_RECORDED` because no consent artefact exists |
+| Approve the 200–300 word AI critique in the student's own voice | `HUMAN_REVIEWED` — student confirmation 2026-08-02 |
+| Review participant-evidence timestamps and redaction requirements | `HUMAN_REVIEWED` — student confirmation 2026-08-02; participant frames still require redaction before public sharing |
+| Confirm no participant evidence was generated by AI | Confirmed by the student in chat on 2026-08-02; missing evidence was not reconstructed |
+| Publish or link GitHub Issues | Canonical #55/#37/#118 are linked; #55/#37 evidence comments are published; reviewed disposition for fresh #118 evidence is local-only unless a later publication action is requested |
+| Verify/retain the demo video | Public YouTube metadata was verified through oEmbed on 2026-08-02; the student confirmed that only the YouTube link is required and no repository-local MP4 is needed |
 
 ## Student declaration block
 
@@ -137,6 +168,6 @@ I confirm that I reviewed this audit, that the participant names/contact sources
 
 - Student name: Đặng Đăng Khoa
 - Student ID: 23127207
-- Review date: ____________________
-- Signature/confirmation: ____________________
-- Final audit status after signature: `HUMAN_REVIEWED`
+- Review date: 2026-08-02
+- Signature/confirmation: Confirmed by the student via chat on 2026-08-02
+- Final audit status: `HUMAN_REVIEWED — COMPLETE_WITH_DISCLOSED_LIMITATIONS`

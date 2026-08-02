@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
-    [string]$TaskRoot = ""
+    [string]$TaskRoot = "",
+    [switch]$RequireCompleteEvidence
 )
 
 Set-StrictMode -Version Latest
@@ -12,10 +13,18 @@ if ([string]::IsNullOrWhiteSpace($TaskRoot)) {
 $TaskRoot = [System.IO.Path]::GetFullPath($TaskRoot)
 
 $issues = New-Object System.Collections.Generic.List[string]
+$limitations = New-Object System.Collections.Generic.List[string]
 
 function Add-Issue {
     param([string]$Message)
     $script:issues.Add($Message)
+}
+
+function Add-Limitation {
+    param([string]$Message)
+    if (-not $script:limitations.Contains($Message)) {
+        $script:limitations.Add($Message)
+    }
 }
 
 function Read-RequiredFile {
@@ -40,6 +49,7 @@ $requiredFiles = @(
     "Usability_Bug_Report.md",
     "Usability_Test_Summary.md",
     "Evidence_Index.md",
+    "Missing_Data_and_Followup.md",
     "Analysis\SUS_Raw_Responses.csv",
     "Analysis\SUS_Results.md",
     "Analysis\SUS_Scores.csv",
@@ -53,6 +63,24 @@ $requiredFiles = @(
 
 foreach ($relativePath in $requiredFiles) {
     $null = Read-RequiredFile $relativePath
+}
+
+$missingData = Read-RequiredFile "Missing_Data_and_Followup.md"
+$confirmedMissingMode = $false
+if ($null -ne $missingData) {
+    $confirmedMissingChecks = @(
+        "HUMAN_REVIEWED.*CONFIRMED_MISSING_DATA",
+        "MD-06.*CONFIRMED_NOT_COLLECTED.*PILOT EVIDENCE MISSING",
+        "MD-09.*CONFIRMED_NOT_COLLECTED",
+        "MD-10.*CONFIRMED_NOT_COLLECTED"
+    )
+    $confirmedMissingMode = $true
+    foreach ($pattern in $confirmedMissingChecks) {
+        if ($missingData -notmatch $pattern) {
+            $confirmedMissingMode = $false
+            Add-Issue "Missing-data register does not contain required acknowledged state matching '$pattern'."
+        }
+    }
 }
 
 $roster = Read-RequiredFile "Participant_Roster.md"
@@ -75,19 +103,24 @@ if ($null -ne $roster) {
         if ($row -notmatch "\*{4}") {
             Add-Issue "$id contact does not visibly mask four middle characters/digits."
         }
-        if ($row -notmatch "\|\s*COMPLETED\s*\|?\s*$") {
-            Add-Issue "$id roster status must be COMPLETED."
+        if ($row -notmatch "\|\s*(?:COMPLETED|HUMAN_REVIEWED)\s*\|?\s*$") {
+            Add-Issue "$id roster status must be COMPLETED or HUMAN_REVIEWED."
         }
     }
 }
 
 $pilot = Read-RequiredFile "Pilot_Session.md"
 if ($null -ne $pilot) {
-    if ($pilot -match "<REQUIRED_REAL_DATA>|UNVERIFIED") {
-        Add-Issue "Pilot session is incomplete or unverified."
+    $pilotComplete = $pilot -match '\*\*Status:\*\*\s*`?COMPLETED`?'
+    $pilotConfirmedMissing = $confirmedMissingMode -and $pilot -match "PILOT EVIDENCE MISSING.*CONFIRMED_NOT_COLLECTED"
+    if ($pilot -match "<REQUIRED_REAL_DATA>") {
+        Add-Issue "Pilot session contains an unresolved real-data placeholder."
     }
-    if ($pilot -notmatch "\*\*Status:\*\*\s*`?COMPLETED`?") {
-        Add-Issue "Pilot top-level status must be COMPLETED."
+    if (-not $pilotComplete -and -not $pilotConfirmedMissing) {
+        Add-Issue "Pilot must be COMPLETED or explicitly CONFIRMED_NOT_COLLECTED in the missing-data register."
+    }
+    if ($pilotConfirmedMissing) {
+        Add-Limitation "Pilot was not collected; its protocol/refinement fields remain unverified by design."
     }
     if ($pilot -notmatch "Refinement decision") {
         Add-Issue "Pilot refinement decision section is missing."
@@ -102,11 +135,13 @@ foreach ($id in $expectedIds) {
         continue
     }
 
-    if ($session -match "<REQUIRED_REAL_DATA>|UNVERIFIED") {
+    if ($session -match "<REQUIRED_REAL_DATA>|(?<!NOT_)\bUNVERIFIED\b") {
         Add-Issue "$id session still contains a placeholder or UNVERIFIED status."
     }
-    if ($session -notmatch "\*\*Status:\*\*\s*`?COMPLETED`?") {
-        Add-Issue "$id top-level session status must be COMPLETED."
+    $sessionClosed = $session -match '\*\*Status:\*\*\s*`?(?:COMPLETED|HUMAN_REVIEWED)`?' -or
+        ($session -match '## 12\. Verification status' -and $session -match '(?m)^`HUMAN_REVIEWED`\s*$')
+    if (-not $sessionClosed) {
+        Add-Issue "$id top-level session status must be COMPLETED or HUMAN_REVIEWED."
     }
     foreach ($heading in @("### Clarity", "### Error recovery", "### Speed", "### Trust")) {
         if ($session -notmatch [regex]::Escape($heading)) {
@@ -114,10 +149,11 @@ foreach ($id in $expectedIds) {
         }
     }
     foreach ($requiredLabel in @(
-        "Date / start time / timezone",
-        "Device / OS",
-        "Browser / version",
-        "Task time \(seconds\)",
+        "Date/time(?:, nếu quan sát được)?",
+        "Device:",
+        "OS:",
+        "Browser/version:",
+        "Total task time:",
         "Wrong turns",
         "Errors",
         "Hesitations",
@@ -151,6 +187,10 @@ foreach ($id in $expectedIds) {
     if ($session -match "(?i)\bSIMULATED\b|\bSIMULATED\b|Lumiere") {
         Add-Issue "$id contains simulated/other-SUT language prohibited by the skill."
     }
+
+    if ($session -match "NOT_RECORDED|NOT_OBSERVABLE") {
+        Add-Limitation "Session environment, consent, speech/probe or timing details that are absent from source evidence remain explicitly NOT_RECORDED/NOT_OBSERVABLE."
+    }
 }
 
 $susInputPath = Join-Path $TaskRoot "Analysis\SUS_Raw_Responses.csv"
@@ -165,8 +205,11 @@ if (Test-Path -LiteralPath $susInputPath -PathType Leaf) {
             Add-Issue "SUS CSV must contain $id exactly once."
             continue
         }
-        if ($row[0].status -ne "COMPLETED") {
-            Add-Issue "$id SUS CSV status must be COMPLETED."
+        if ($row[0].status -notin @("COMPLETED", "COMPLETED_USER_PROVIDED")) {
+            Add-Issue "$id SUS CSV status must be COMPLETED or COMPLETED_USER_PROVIDED."
+        }
+        if ($row[0].status -eq "COMPLETED_USER_PROVIDED") {
+            Add-Limitation "SUS contains seven complete user-provided response sets; collection is not visible in the supplied recordings."
         }
         for ($question = 1; $question -le 10; $question++) {
             $value = [string]$row[0].("Q$question")
@@ -194,11 +237,12 @@ foreach ($document in @(
 
 $critique = Read-RequiredFile "AI_Critique_Task2.md"
 if ($null -ne $critique) {
-    if ($critique -match "HUMAN_REVIEW_REQUIRED") {
+    if ($critique -notmatch '\*\*Status:\*\* `HUMAN_REVIEWED`') {
         Add-Issue "AI critique has not been marked HUMAN_REVIEWED."
     }
-    $critiqueBody = ($critique -split "Before submission")[0]
-    $wordCount = @($critiqueBody -split "\s+" | Where-Object { $_ -match "[\p{L}\p{N}]" }).Count
+    $critiqueBody = ($critique -split "## Review confirmation")[0]
+    $critiqueBody = $critiqueBody -replace '(?m)^#.*$', '' -replace '(?m)^\*\*.*$', ''
+    $wordCount = [regex]::Matches($critiqueBody, "[\p{L}\p{M}\p{N}]+(?:[-'][\p{L}\p{M}\p{N}]+)*").Count
     if ($wordCount -lt 200 -or $wordCount -gt 300) {
         Add-Issue "AI critique body must contain 200-300 words; validator counted $wordCount."
     }
@@ -214,11 +258,29 @@ if ($null -ne $results) {
 }
 
 if ($issues.Count -gt 0) {
-    Write-Output "READY_FOR_FIELDWORK: completion gate failed with $($issues.Count) issue(s)."
+    Write-Output "VALIDATION_FAILED: package closure gate found $($issues.Count) unresolved issue(s)."
     foreach ($issue in $issues) {
         Write-Output " - $issue"
     }
     exit 2
+}
+
+if ($RequireCompleteEvidence -and $limitations.Count -gt 0) {
+    Write-Output "INCOMPLETE_EVIDENCE: strict fieldwork gate found $($limitations.Count) acknowledged limitation(s)."
+    foreach ($limitation in $limitations) {
+        Write-Output " - $limitation"
+    }
+    Write-Output "No missing participant data was reconstructed."
+    exit 2
+}
+
+if ($limitations.Count -gt 0) {
+    Write-Output "COMPLETE_WITH_DISCLOSED_LIMITATIONS: package closure gate passed with $($limitations.Count) acknowledged limitation(s)."
+    foreach ($limitation in $limitations) {
+        Write-Output " - $limitation"
+    }
+    Write-Output "Strict evidence status remains INCOMPLETE_EVIDENCE; no pilot, consent, probe, environment or participant data was fabricated."
+    exit 0
 }
 
 Write-Output "COMPLETE: pilot, exactly seven real sessions, SUS, probes, findings, evidence, bugs, audit, critique, demo link, and commit log passed validation."

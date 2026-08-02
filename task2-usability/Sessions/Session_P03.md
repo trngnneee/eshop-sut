@@ -12,7 +12,7 @@
 - Audio present: Có AAC stereo stream nhưng digital silence (`mean -91 dB`, `max -90.3 dB`); nội dung audio NOT_RECORDED.
 - Video complete/cut: COMPLETE — người dùng xác nhận toàn bộ session chỉ dài 4,369 giây và kết thúc ở register page.
 - Consent observable: NOT_RECORDED.
-- Data-quality limitations: Session chỉ dài 4,369 giây; không ghi scenario, hành động task rõ ràng, registration submit, login, profile hoặc logout. SUS, probes và consent được người dùng xác nhận là không được thu thập. Full-decode thành công nhưng có non-monotonic DTS warnings. Không dùng giá trị 0 cho metrics của flow không quan sát được.
+- Data-quality limitations: Session chỉ dài 4,369 giây; không ghi scenario, hành động task rõ ràng, registration submit, login, profile hoặc logout. SUS không xuất hiện trong recording; response set P03 được người dùng cung cấp riêng. Probes và consent không được ghi. Full-decode thành công nhưng có non-monotonic DTS warnings. Không dùng giá trị 0 cho metrics của flow không quan sát được.
 
 ## 2. Outcome
 
@@ -74,13 +74,13 @@
 
 ## 7. Raw SUS
 
-| Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 |
-|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED |
+| Source | Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Response P03 | 5 | 1 | 5 | 1 | 5 | 1 | 5 | 1 | 5 | 1 |
 
-- SUS score: NOT_CALCULABLE.
-- Missing SUS data: Q1–Q10.
-- Data source: Không có SUS segment.
+- SUS score: 100.
+- Recording limitation: Không có SUS segment.
+- Data source: User-provided response set P03, supplied separately on 2026-07-31; participant ID confirmed on 2026-08-02.
 
 ## 8. Probe responses
 
@@ -113,7 +113,7 @@
 
 - Screen recording: D03; playable/full-decode PASS WITH DTS WARNINGS.
 - Audio: Digital silence 00:00:00–00:00:04.
-- SUS evidence: NOT_RECORDED.
+- SUS evidence: `Analysis/SUS_Raw_Responses.csv`, row P03 (`COMPLETED_USER_PROVIDED`); not captured in D03.
 - Probe evidence: NOT_RECORDED.
 - Bug screenshot/clip candidates: NONE — không đủ participant action/evidence.
 
@@ -126,10 +126,10 @@
 ## 11. Missing data
 
 - Người dùng xác nhận đây là toàn bộ session; không có phần recording bổ sung.
-- Toàn bộ task actions, success criteria, timing, metrics, intervention, quote, SUS, probes, persistence và logout ngoài 4 giây đầu: NOT_RECORDED/NOT_OBSERVABLE.
+- Toàn bộ task actions, success criteria, timing, metrics, intervention, quote, probes, persistence và logout ngoài 4 giây đầu: NOT_RECORDED/NOT_OBSERVABLE. SUS Q1–Q10 được cung cấp riêng cho P03.
 - Consent, moderator, date/time, exact environment: NOT_RECORDED.
 - Privacy redactions: Source filename là contact PII và phải giữ masked; không quan sát credential/profile PII trong clip 4 giây.
-- Human review: Toàn bộ D03 @ 00:00:00–00:00:04.
+- Human review hoàn tất ngày 2026-08-02: Toàn bộ D03 @ 00:00:00–00:00:04.
 - Confidence:
   - Mapping D03→P03: HIGH — người dùng xác nhận trực tiếp.
   - Duration/screen/audio quality: HIGH.
@@ -138,6 +138,6 @@
 
 ## 12. Verification status
 
-`READY_FOR_HUMAN_REVIEW`
+`HUMAN_REVIEWED`
 
 Lý do: toàn bộ session đã được xác nhận nhưng chỉ dài 4,369 giây; observed evidence đã được mã hóa và phần lớn task data vẫn NOT_OBSERVABLE/NOT_REACHED.

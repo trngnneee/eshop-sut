@@ -3,28 +3,36 @@ const path = require('path');
 const { chromium } = require('playwright');
 
 const webBaseUrl = process.env.ESHOP_WEB_URL || 'http://127.0.0.1:5173';
+const apiBaseUrl = process.env.ESHOP_API_URL || 'http://127.0.0.1:3000';
+const isolatedDatabaseAsserted = process.env.ESHOP_ISOLATED_DB === '1';
 const evidenceDir = path.resolve(
   __dirname,
   '..',
   'evidence',
-  'technical-preflight',
+  'github-issue-reproduction',
 );
 
 fs.mkdirSync(evidenceDir, { recursive: true });
 
 const runId = new Date().toISOString().replace(/[-:.TZ]/g, '');
-const testEmail = `ux.preflight.${runId}@example.com`;
+const testEmail = `github.issue.evidence.${runId}@example.com`;
 const testPassword = 'EShop123!';
+const passwordPolicyEmail = `github.issue.password-policy.${runId}@example.com`;
+const missingSpecialPassword = 'NoSpecial1';
 const result = {
-  actor: 'TECHNICAL_PREFLIGHT',
+  actor: 'FRESH_GITHUB_ISSUE_REPRODUCTION',
   participantEvidence: false,
-  label: 'PROVISIONAL',
+  safeSyntheticData: true,
+  label: 'INDEPENDENT_REPRODUCTION',
   startedAt: new Date().toISOString(),
   webBaseUrl,
+  apiBaseUrl,
+  isolatedDatabaseAsserted,
   testEmail,
   browser: 'chromium',
   assertions: [],
   dialogs: [],
+  evidenceFiles: [],
   overall: 'FAILED',
 };
 
@@ -40,14 +48,92 @@ async function capture(page, filename) {
     path: path.join(evidenceDir, filename),
     fullPage: true,
   });
+  result.evidenceFiles.push(filename);
 }
 
 (async () => {
   let browser;
   try {
+    if (!isolatedDatabaseAsserted) {
+      throw new Error(
+        'Refusing to create synthetic accounts without ESHOP_ISOLATED_DB=1. Run only against a disposable database.',
+      );
+    }
     browser = await chromium.launch({ headless: true });
     const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
     const page = await context.newPage();
+
+    const weakRegistrationResponse = await context.request.post(
+      `${apiBaseUrl}/api/register`,
+      {
+        data: {
+          name: 'Synthetic Password Policy Test',
+          email: passwordPolicyEmail,
+          password: missingSpecialPassword,
+          confirm_password: missingSpecialPassword,
+        },
+      },
+    );
+    const weakRegistrationStatus = weakRegistrationResponse.status();
+    const weakRegistrationBody = await weakRegistrationResponse
+      .json()
+      .catch(() => ({ nonJsonResponse: true }));
+    const weakLoginResponse = await context.request.post(`${apiBaseUrl}/api/login`, {
+      data: {
+        email: passwordPolicyEmail,
+        password: missingSpecialPassword,
+      },
+    });
+    const weakAccountCanLogin = weakLoginResponse.ok();
+    const weakRegistrationRejected = weakRegistrationStatus >= 400;
+    result.assertions.push({
+      name: 'registration_api_rejects_missing_special_character',
+      passed: weakRegistrationRejected && !weakAccountCanLogin,
+      details: `expected register=4xx; actual register=${weakRegistrationStatus}; login=${weakLoginResponse.status()}`,
+      requirement: 'FR-01',
+      partition: 'INVALID_MISSING_ALLOWED_SPECIAL_CHARACTER',
+      expectedAllowedSpecialSet: '@ $ ! % * ? &',
+      actualResponse: weakRegistrationBody,
+      accountCanLogin: weakAccountCanLogin,
+      participantEvidence: false,
+      canonicalDuplicate: 'https://github.com/trngnneee/eshop-sut/issues/118',
+      provisionalBugIfFalse: 'BUG-REG-PASSWORD-POLICY-01',
+    });
+    await page.goto(`${webBaseUrl}/register`, { waitUntil: 'networkidle' });
+    await page.evaluate(
+      ({ registerStatus, loginStatus }) => {
+        const banner = document.createElement('div');
+        banner.id = 'password-policy-api-evidence';
+        banner.textContent =
+          `Independent API test with synthetic data: FR-01 requires one special character from @ $ ! % * ? &. ` +
+          `The tested password omitted that class. Expected registration 4xx; observed ${registerStatus}. ` +
+          `Login with the newly created synthetic account returned ${loginStatus}.`;
+        banner.setAttribute(
+          'style',
+          'position:fixed;top:12px;right:12px;z-index:2147483647;max-width:620px;padding:16px;border:3px solid #b91c1c;border-radius:8px;background:#fef2f2;color:#7f1d1d;font:700 16px/1.4 Segoe UI,Arial,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.25)',
+        );
+        document.body.appendChild(banner);
+      },
+      {
+        registerStatus: weakRegistrationStatus,
+        loginStatus: weakLoginResponse.status(),
+      },
+    );
+    await capture(page, 'BUG-REG-PASSWORD-POLICY-01-safe-reproduction.png');
+
+    await page.goto(`${webBaseUrl}/login`, { waitUntil: 'networkidle' });
+    const evidenceLoginInputs = page.locator('form input');
+    await evidenceLoginInputs.nth(1).fill('NotARealCredential!42');
+    const observedPasswordInputType = await evidenceLoginInputs.nth(1).getAttribute('type');
+    result.assertions.push({
+      name: 'login_password_masked_by_default',
+      passed: observedPasswordInputType === 'password',
+      details: `observed input type=${observedPasswordInputType}`,
+      expectedBySecurityBaseline: true,
+      provisionalBugIfFalse: 'BUG-AUTH-PLAINTEXT-01',
+    });
+    await capture(page, 'BUG-AUTH-PLAINTEXT-01-safe-reproduction.png');
+    await evidenceLoginInputs.nth(1).fill('');
 
     await page.goto(`${webBaseUrl}/register`, { waitUntil: 'networkidle' });
     await page.locator('#register-name').fill('Technical Preflight');
@@ -57,7 +143,6 @@ async function capture(page, filename) {
     await page.getByRole('button', { name: 'Đăng Ký' }).click();
     await page.waitForURL('**/login');
     record('registration_redirects_to_login', true, page.url());
-    await capture(page, '01-after-registration.png');
 
     const loginInputs = page.locator('form input');
     await loginInputs.nth(0).fill(testEmail);
@@ -66,7 +151,6 @@ async function capture(page, filename) {
     await page.waitForURL((url) => new URL(url).pathname === '/');
     const tokenAfterLogin = await page.evaluate(() => localStorage.getItem('token'));
     record('login_sets_authentication_token', Boolean(tokenAfterLogin), 'Token present after login');
-    await capture(page, '02-after-login.png');
 
     await page.locator('a[href="/profile"]').click();
     await page.waitForURL('**/profile');
@@ -96,9 +180,16 @@ async function capture(page, filename) {
       passed: !validPhoneRejected,
       details: validPhoneMessage,
       expectedBySpecification: true,
-      provisionalBugIfFalse: 'PF-02',
+      provisionalBugIfFalse: 'BUG-PF-02',
     });
-    await capture(page, '03-after-valid-phone-attempt.png');
+    await page.evaluate((message) => {
+      const banner = document.createElement('div');
+      banner.id = 'test-harness-alert-evidence';
+      banner.textContent = `Test harness captured native alert using synthetic data: ${message}`;
+      banner.setAttribute('style', 'position:fixed;top:12px;right:12px;z-index:2147483647;max-width:520px;padding:16px;border:3px solid #b91c1c;border-radius:8px;background:#fef2f2;color:#7f1d1d;font:700 16px/1.4 Segoe UI,Arial,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.25)');
+      document.body.appendChild(banner);
+    }, validPhoneMessage);
+    await capture(page, 'BUG-PF-02-safe-reproduction.png');
 
     if (validPhoneRejected) {
       await profileInputs.nth(2).fill('912345678');
@@ -129,7 +220,6 @@ async function capture(page, filename) {
         persistedAddress.includes('123 Đường Kiểm Thử'),
       `name=${persistedName}; address=${persistedAddress}`,
     );
-    await capture(page, '04-profile-after-reload.png');
 
     await page.getByRole('button', { name: 'Thoát' }).click();
     const tokenAfterLogout = await page.evaluate(() => localStorage.getItem('token'));
@@ -146,7 +236,6 @@ async function capture(page, filename) {
       loggedOutMessageVisible,
       `url=${page.url()}`,
     );
-    await capture(page, '05-after-logout.png');
 
     result.overall = result.assertions.every((item) => item.passed)
       ? 'PASS'

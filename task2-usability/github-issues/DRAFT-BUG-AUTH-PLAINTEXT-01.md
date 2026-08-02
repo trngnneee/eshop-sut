@@ -1,7 +1,7 @@
 ﻿# [DRAFT] BUG-AUTH-PLAINTEXT-01 — Login password renders as plaintext
 
-**Status:** `PARTICIPANT_EVIDENCE_RECORDED — DO_NOT_PUBLISH`
-**GitHub action:** Draft only; human review, independent reproduction, redaction và duplicate search bắt buộc trước khi đăng.
+**Status:** `INDEPENDENTLY_REPRODUCED — DUPLICATE_FOUND — EXISTING_ISSUE_LINKED`
+**GitHub action:** Reuse https://github.com/trngnneee/eshop-sut/issues/37; do not create a duplicate.
 
 ## Summary
 
@@ -84,22 +84,26 @@ Credentials can be read by nearby people and captured in videos/screenshots. The
 ## Evidence handling
 
 - Original frames contain plaintext credentials and adjacent PII; do not attach them unredacted.
-- Required redaction: entire credential value plus name/email/phone/address and unrelated browser PII.
-- Redacted participant attachment: NOT_CREATED.
+- Fresh screenshot uses only the synthetic non-account value `NotARealCredential!42`.
+- Safe screenshot: `../evidence/github-issue-reproduction/BUG-AUTH-PLAINTEXT-01-safe-reproduction.png`.
+- Result log: `../evidence/github-issue-reproduction/result.json`.
 
 ## Potential duplicate
 
-Local preflight material mentions a Task 1 candidate `BUG-GUI-01`, but external GitHub issue existence/URL has not been verified. Search and update an existing issue instead of opening a duplicate if appropriate.
+Duplicate search completed. Canonical existing issue is #37; related duplicates include #184 and #196.
 
 ## Publication gate
 
 - [ ] Human verifies all timestamps and distinct-participant count.
-- [ ] Independent reproduction completed with synthetic credential.
+- [x] Independent reproduction completed with synthetic credential.
 - [ ] Supported-browser matrix checked.
-- [ ] Redacted evidence created and reviewed.
-- [ ] Existing GitHub issues searched; duplicate disposition recorded.
+- [x] Privacy-safe synthetic evidence created; SHA-256 recorded in the bug report.
+- [x] Existing GitHub issues searched; canonical duplicate #37 selected.
+- [x] Safe-reproduction evidence published to canonical issue on 2026-08-01.
 - [ ] Security/product owner confirms requirement and severity.
 - [ ] Reviewer explicitly approves publication.
-- [ ] Published URL added to all traceability files.
+- [x] Existing issue URL added to all traceability files.
 
-**Published GitHub URL:** `NOT_CREATED`
+**Published GitHub URL:** https://github.com/trngnneee/eshop-sut/issues/37
+
+**Published evidence comment:** https://github.com/trngnneee/eshop-sut/issues/37#issuecomment-5149476796

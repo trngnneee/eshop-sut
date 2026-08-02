@@ -1,6 +1,6 @@
 # Usability Findings
 
-**Current status:** `READY_FOR_HUMAN_REVIEW — CONFIRMED_MISSING_DATA`
+**Current status:** `COMPLETE_WITH_DISCLOSED_LIMITATIONS — HUMAN_REVIEWED — CONFIRMED_MISSING_DATA`
 **Official session mappings:** 7/7 resolved
 **Independent official recordings:** 7; old duplicate D06 đã được supersede và loại khỏi official analysis
 **Rule applied:** Frequency chỉ tính distinct participant evidence; replacement D06 là nguồn chính thức cho P06.
@@ -13,6 +13,20 @@
 | S2 | Cần moderator help hoặc gây serious confusion/error/privacy exposure. |
 | S3 | Gây delay, repeated action hoặc hesitation đáng kể nhưng participant tự recovery. |
 | S4 | Friction nhỏ, visual/copy issue hoặc detour ngắn. |
+
+## Severity-ranked summary
+
+| Rank | Finding | Type | Participant frequency | Severity |
+|---:|---|---|---:|---:|
+| 1 | `BUG-PF-02` — phone validation trái FR-04 | SOFTWARE_BUG | 3/7 | S1 |
+| 2 | `UF-PHONE-RECOVERY-01` — phone recovery không dẫn tới format hợp requirement | USABILITY_ISSUE | 3/7 | S1 |
+| 3 | `BUG-AUTH-PLAINTEXT-01` — login password plaintext | SOFTWARE_BUG | 5/7 | S2 |
+| 4 | `BUG-REG-PASSWORD-POLICY-01` — API bypass special-character policy | SOFTWARE_BUG, technical-only | N/A | S2 provisional |
+| 5 | `UF-REG-PASSWORD-RECOVERY-01` — repeated registration recovery | USABILITY_ISSUE | 2/7 | S2 |
+| 6 | `UF-LOGIN-IDENTIFIER-01` — `Username` không rõ là email | USABILITY_ISSUE | 1/7 | S3 |
+| 7 | `UF-PASSWORD-MANAGER-DETOUR-01` | USABILITY_ISSUE | 1/7 | S4 |
+
+Xếp hạng theo severity trước, sau đó xét task impact, privacy/security exposure và độ mạnh evidence. Finding technical-only không được dùng để tăng participant frequency.
 
 ## F-01 / BUG-PF-02 — Phone validation không tuân FR-04
 
@@ -31,7 +45,7 @@
 - Severity: `S1` — lỗi chặn profile task với input hợp requirement; không có reasonable spec-compliant recovery được quan sát.
 - Recommendation: Đồng bộ frontend/backend validation với FR-04; chấp nhận đúng 10–11 digits bắt đầu bằng `0`, từ chối non-leading-zero values, và sửa error copy để phản ánh chính xác rule.
 - Measurable retest criterion: Trong automated + 5-user retest, cả 10-digit và 11-digit leading-zero test numbers đều save/persist; non-leading-zero fallback bị từ chối; 5/5 users hoàn thành first valid update không workaround/moderator assistance.
-- Related draft: `github-issues/DRAFT-BUG-USABILITY-01.md`; GitHub issue chưa đăng.
+- Related draft: `github-issues/DRAFT-BUG-USABILITY-01.md`; canonical issue #55 và evidence comment đã publish.
 
 ## F-02 / BUG-AUTH-PLAINTEXT-01 — Login password hiển thị plaintext
 
@@ -52,7 +66,7 @@
 - Severity: `S2` provisional — serious credential exposure; severity cần owner/security review, không dựa trên verbal concern.
 - Recommendation: Dùng password input masked mặc định, optional reveal control rõ ràng và reversible; kiểm tra autocomplete/password-manager semantics.
 - Measurable retest criterion: Password masked by default ở 100% supported-browser checks; reveal chỉ xảy ra sau explicit action, remasks đúng; screenshot/recording mặc định không lộ characters.
-- Related draft: `github-issues/DRAFT-BUG-AUTH-PLAINTEXT-01.md`; GitHub issue chưa đăng.
+- Related draft: `github-issues/DRAFT-BUG-AUTH-PLAINTEXT-01.md`; canonical issue #37 và evidence comment đã publish.
 
 ## F-03 / UF-PHONE-RECOVERY-01 — Error recovery ở profile tạo repeated attempts nhưng không dẫn tới input hợp lệ
 
@@ -86,7 +100,7 @@
 - Severity: `S2` — repeated error và task failure ở P06 là nghiêm trọng; P04 cho thấy recovery vẫn có thể xảy ra. Masked input không cho phép xác định validator có sai hay participant nhập chưa đúng policy.
 - Recommendation: Cần hiển thị checklist policy động trong lúc nhập, đánh dấu từng tiêu chí đã/chưa đạt và cung cấp state-specific feedback; tiếp tục mask password và không hiển thị giá trị.
 - Measurable retest criterion: 5/5 retest users tạo password hợp policy và đăng ký thành công với tối đa một validation error, không cần moderator assistance.
-- Related bug/GitHub issue: Không tạo software-bug draft; cần design review và fresh usability retest.
+- Related bug/GitHub issue: Session evidence không chứng minh một validator defect cụ thể. Supplemental direct-API test tìm thấy `BUG-REG-PASSWORD-POLICY-01`/issue #118, nhưng finding usability này vẫn độc lập và chỉ dùng P04/P06 behavior.
 
 ## F-05 / UF-LOGIN-IDENTIFIER-01 — `Username` không truyền đạt rằng cần full email
 
@@ -121,17 +135,33 @@
 - Measurable retest criterion: 5/5 Edge retests hoàn thành login mà không rời SUT ngoài explicit participant intent.
 - Related bug/GitHub issue: Không tạo; isolated observation.
 
+## F-07 / BUG-REG-PASSWORD-POLICY-01 — Backend không enforce ký tự đặc biệt của FR-01
+
+- Finding ID: `BUG-REG-PASSWORD-POLICY-01`.
+- Type: `SOFTWARE_BUG` — supplemental technical reproduction.
+- Title: Direct registration API chấp nhận password không có ký tự nào trong allowed-special set và account đó login được.
+- Participant IDs: `NONE`.
+- Frequency: `N/A`; không cộng vào sample P01–P07.
+- Evidence: Isolated API run ngày 2026-08-02; registration `200`, login `200`; `evidence/github-issue-reproduction/result.json` và `BUG-REG-PASSWORD-POLICY-01-safe-reproduction.png`.
+- Frontend controls: 13/13 EP/BVA regex cases đúng FR-01, gồm length 7/8/9, đủ bảy allowed characters và unsupported-only `#`. Defect nằm ở server-side enforcement, không phải frontend allowed set.
+- Genuine quote: `NOT_APPLICABLE`; đây không phải participant observation.
+- Impact: Client validation có thể bị bypass; weak account được tạo và sử dụng. Không suy ra participant trust hoặc participant exposure.
+- Severity: `S2` provisional; canonical existing issue #118 dùng Critical/P0 và cần owner/security adjudication.
+- Recommendation: Validate cùng FR-01 policy tại backend trước insert, trả 4xx cụ thể, dùng shared policy definition và thêm direct-API EP/BVA regression tests.
+- Measurable retest criterion: Missing-class và length-7 cases đều 4xx/no account; valid length-8 và từng `@ $ ! % * ? &` được accept; rejected credentials không login được.
+- Related draft/canonical issue: `github-issues/DRAFT-BUG-REG-PASSWORD-POLICY-01.md`; https://github.com/trngnneee/eshop-sut/issues/118. Không tạo duplicate; Task 2 evidence comment chưa publish.
+
 ## Cross-participant synthesis
 
 | Participant | Outcome | Task time | Wrong turns | Errors | Hesitations | Interventions | Card B | SUS |
 |---|---|---:|---:|---:|---:|---|---|---|
-| P01 | FAILED_OR_ABANDONED | 111 s | 0 | 5 | 0 | NOT_OBSERVABLE | NOT_OBSERVABLE | NOT_RECORDED |
-| P02 | FAILED_OR_ABANDONED | 94 s | NOT_OBSERVABLE | 3 | 1 | NOT_OBSERVABLE | NOT_OBSERVABLE | NOT_RECORDED |
-| P03 | FAILED_OR_ABANDONED | NOT_OBSERVABLE | NOT_OBSERVABLE | NOT_OBSERVABLE | NOT_OBSERVABLE | NOT_OBSERVABLE | NOT_OBSERVABLE | NOT_RECORDED |
-| P04 | FAILED_OR_ABANDONED | 136 s | 1 | 4 | 0 | NOT_OBSERVABLE | NOT_OBSERVABLE | NOT_RECORDED |
-| P05 | FAILED_OR_ABANDONED | 50 s | NOT_OBSERVABLE | 0 | 0 | NOT_OBSERVABLE | NOT_OBSERVABLE | NOT_RECORDED |
-| P06 | FAILED_OR_ABANDONED | 52 s | 0 | 4 | 0 | NOT_OBSERVABLE | NOT_OBSERVABLE | NOT_RECORDED |
-| P07 | FAILED_OR_ABANDONED | 66 s | 0 | 1 | 1 | NOT_OBSERVABLE | NOT_OBSERVABLE | NOT_RECORDED |
+| P01 | FAILED_OR_ABANDONED | 111 s | 0 | 5 | 0 | NOT_OBSERVABLE | NOT_OBSERVABLE | 82.5 |
+| P02 | FAILED_OR_ABANDONED | 94 s | NOT_OBSERVABLE | 3 | 1 | NOT_OBSERVABLE | NOT_OBSERVABLE | 75 |
+| P03 | FAILED_OR_ABANDONED | NOT_OBSERVABLE | NOT_OBSERVABLE | NOT_OBSERVABLE | NOT_OBSERVABLE | NOT_OBSERVABLE | NOT_OBSERVABLE | 100 |
+| P04 | FAILED_OR_ABANDONED | 136 s | 1 | 4 | 0 | NOT_OBSERVABLE | NOT_OBSERVABLE | 65 |
+| P05 | FAILED_OR_ABANDONED | 50 s | NOT_OBSERVABLE | 0 | 0 | NOT_OBSERVABLE | NOT_OBSERVABLE | 62.5 |
+| P06 | FAILED_OR_ABANDONED | 52 s | 0 | 4 | 0 | NOT_OBSERVABLE | NOT_OBSERVABLE | 65 |
+| P07 | FAILED_OR_ABANDONED | 66 s | 0 | 1 | 1 | NOT_OBSERVABLE | NOT_OBSERVABLE | 87.5 |
 
 - Completed independently: 0/7.
 - Completed with assistance: 0/7.
@@ -141,7 +171,7 @@
 - Errors: observed lower bound 17; sáu numeric counts P01/P02/P04/P05/P06/P07 có median 3,5. P03 NOT_OBSERVABLE, nên seven-person total/median NOT_CALCULABLE.
 - Hesitations: 2 confirmed (P02 và P07), tổng 10 giây; sáu numeric counts có median 0. P03 NOT_OBSERVABLE, nên seven-person total/median NOT_CALCULABLE.
 - Card B/interventions: 0 không thể khẳng định; cả 7 là NOT_OBSERVABLE do không có speech. Không có Card B visible trên screen.
-- SUS: 0/7 valid response sets; người dùng xác nhận không thu thập, nên mean/median/min/max giữ NOT_CALCULABLE.
+- SUS dataset P01–P07: 7/7 valid user-provided response sets; mean 76.79, median 75, min 62.5, max 100.
 
 ## Contradictory and non-findings
 
@@ -153,7 +183,7 @@
 ## Limitations
 
 - Mẫu 7 nhỏ, không random; không tuyên bố statistical significance hoặc generalize ngoài sample.
-- 0/7 có usable speech, SUS hoặc probes; không có genuine quote hay self-reported impact.
+- 0/7 recording có usable speech hoặc probes; không có genuine quote hay self-reported impact. SUS chỉ có trong dataset P01–P07 do người dùng cung cấp riêng.
 - D02/D03/D05/D06 được xác nhận là toàn bộ session nhưng kết thúc sớm trong flow; đây là failed/abandoned outcomes, không phải upload/file-cut artefacts.
 - Device/browser khác nhau và version phần lớn không quan sát được.
 - Researcher preflight chỉ là watchpoint/reproduction context, không tính vào participant frequency.

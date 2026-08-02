@@ -7,12 +7,12 @@
 - Date/time, nếu quan sát được: NOT_OBSERVABLE.
 - Device: Mobile touch-screen recording; exact device/model NOT_OBSERVABLE.
 - OS: iOS-style system UI observable; version NOT_OBSERVABLE.
-- Browser/version: iOS mobile-browser UI observable; exact browser/version UNVERIFIED.
+- Browser/version: iOS mobile-browser UI observable; exact browser/version `NOT_OBSERVABLE_AFTER_HUMAN_REVIEW`.
 - Screen present: YES — portrait 1126×2436, HEVC, nominal 60 fps; full-decode PASS với non-monotonic DTS warnings.
 - Audio present: AAC stereo có low-level signal (mean khoảng -74,3 dB; max khoảng -39,3 dB), nhưng VAD không phát hiện speech segment. ASR không-VAD sinh canned hallucinations và đã bị loại bỏ hoàn toàn; speech NOT_RECORDED.
 - Video complete/cut: COMPLETE — người dùng xác nhận session thực sự kết thúc khi weak-password error còn hiển thị tại 00:00:53.
 - Consent observable: NOT_RECORDED.
-- Data-quality limitations: Không có usable speech, consent, moderator words, SUS hoặc probes; người dùng xác nhận các dữ liệu bổ sung này không được thu thập. Session không tới login/profile/logout. Name và email cá nhân xuất hiện trong register cần redaction. Registration password được masked; không chép hoặc suy ra giá trị.
+- Data-quality limitations: Không có usable speech, consent, moderator words, SUS segment hoặc probes trong recording; response set SUS P06 được người dùng cung cấp riêng. Session không tới login/profile/logout. Name và email cá nhân xuất hiện trong register cần redaction. Registration password được masked; không chép hoặc suy ra giá trị.
 
 ## 2. Outcome
 
@@ -79,13 +79,13 @@
 
 ## 7. Raw SUS
 
-| Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 |
-|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED | NOT_RECORDED |
+| Source | Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 | Q8 | Q9 | Q10 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Response P06 | 3 | 2 | 4 | 3 | 4 | 2 | 4 | 3 | 3 | 2 |
 
-- SUS score: NOT_CALCULABLE.
-- Missing SUS data: Q1–Q10.
-- Data source: Không có SUS form/segment và không có usable speech.
+- SUS score: 65.
+- Recording limitation: Không có SUS form/segment và không có usable speech.
+- Data source: User-provided response set P06, supplied separately on 2026-07-31; participant ID confirmed on 2026-08-02.
 
 ## 8. Probe responses
 
@@ -119,7 +119,7 @@
 - Screen recording: D06 replacement; playable/full-decode PASS, non-monotonic DTS warnings noted.
 - Integrity: SHA-256 `544EDA05B62A17088F8967433C20AF72056A080179ECB38ACE90F18CA8E31E1A`; khác D01, xác nhận đây không còn là duplicate.
 - Audio: Low-level signal; VAD transcription có 0 speech segments. Non-VAD canned hallucinations bị loại bỏ, không dùng làm evidence.
-- SUS evidence: NOT_RECORDED.
+- SUS evidence: `Analysis/SUS_Raw_Responses.csv`, row P06 (`COMPLETED_USER_PROVIDED`); not captured in D06.
 - Probe evidence: NOT_RECORDED.
 - Screenshot/clip candidates:
   - Four password-policy error cycles: D06 @ 00:00:22–00:00:53.
@@ -135,9 +135,9 @@
 ## 11. Missing data
 
 - Consent, moderator, exact date/time, exact device, OS/browser version: NOT_RECORDED/NOT_OBSERVABLE.
-- Quotes, intervention words/types, Card B, SUS và probes: NOT_RECORDED/NOT_OBSERVABLE.
+- Quotes, intervention words/types, Card B và probes: NOT_RECORDED/NOT_OBSERVABLE. SUS Q1–Q10 được cung cấp riêng cho P06.
 - Task end đã được xác nhận tại 00:00:53. Registration success, login, profile, update, persistence và logout: NOT_REACHED.
-- Human review: first submit/error 00:00:21–00:00:23; repeated recovery cycles 00:00:23–00:00:51; final error/task end 00:00:51–00:00:53.
+- Human review hoàn tất ngày 2026-08-02: first submit/error 00:00:21–00:00:23; repeated recovery cycles 00:00:23–00:00:51; final error/task end 00:00:51–00:00:53.
 - Privacy redactions: registration name và email; giữ password masked và không chép giá trị.
 - Confidence:
   - Mapping replacement D06→P06: HIGH — user confirmation.
@@ -149,6 +149,6 @@
 
 ## 12. Verification status
 
-`READY_FOR_HUMAN_REVIEW`
+`HUMAN_REVIEWED`
 
-Lý do: task end ở registration error đã được xác nhận; observed evidence đã được mã hóa. SC1–SC5 không hoàn thành và speech/SUS/probes/consent được xác nhận là không được thu thập.
+Lý do: task end ở registration error đã được xác nhận; observed evidence đã được mã hóa. SC1–SC5 không hoàn thành; speech/probes/consent không được ghi; SUS P06 được cung cấp riêng và ID đã được xác nhận.

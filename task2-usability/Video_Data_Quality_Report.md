@@ -1,6 +1,6 @@
 ﻿# Video Data Quality Report
 
-**Verification status:** `READY_FOR_HUMAN_REVIEW — CONFIRMED_MISSING_DATA`
+**Verification status:** `COMPLETE_WITH_DISCLOSED_LIMITATIONS — HUMAN_REVIEWED — CONFIRMED_MISSING_DATA`
 **Nguồn:** Google Drive sources do người dùng cung cấp; truy cập chỉ đọc
 **Mapping:** D01–D07→P01–P07 đã được người dùng xác nhận; D06 sử dụng replacement source
 **Chi tiết inventory:** `Stage_0_Drive_Inventory.md`
@@ -46,7 +46,7 @@
 - P02, P05 và P06 kết thúc sớm giữa flow nhưng không phải file cut; recording end được dùng làm T11 sau user confirmation.
 - P03 là entire session nhưng chỉ dài 4,369 giây và không có observable T0; task time và phần lớn metrics giữ NOT_OBSERVABLE.
 - Replacement P06 kết thúc ở weak-password error sau bốn registration submits; T11 = 00:00:53 và total task time = 52 giây.
-- DTS warnings ở P03/P06/P07 được giữ như limitation; milestones được làm tròn tới HH:MM:SS và cần human review ở transitions liệt kê trong session reports.
+- DTS warnings ở P03/P06/P07 được giữ như limitation; milestones được làm tròn tới HH:MM:SS và các transitions liệt kê trong session reports đã được human-review ngày 2026-08-02.
 
 ## Privacy và redaction
 

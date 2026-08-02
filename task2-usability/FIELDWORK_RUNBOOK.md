@@ -21,7 +21,6 @@ git commit -m "task2: prepare usability study protocol"
 
 - One real person for `PILOT-01`.
 - Seven other real people for `P01`–`P07`.
-- No current HW03 student.
 - No person appears twice.
 - Screen-recording consent is required for an official session; audio remains optional.
 

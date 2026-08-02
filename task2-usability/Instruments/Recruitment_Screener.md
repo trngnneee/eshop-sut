@@ -11,19 +11,17 @@ Use the same questions for the pilot candidate and official candidates. Do not p
 | # | Question | Eligible response |
 | :--- | :--- | :--- |
 | S1 | Bạn đủ 18 tuổi chưa? | Yes |
-| S2 | Bạn có đang học lớp/bài HW03 này không? | No |
-| S3 | Bạn có từng phát triển hoặc kiểm thử EShop SUT này không? | No |
-| S4 | Bạn mua sắm trực tuyến với tần suất nào? | At least monthly |
-| S5 | Bạn có thể đọc tiếng Việt và tự sử dụng trình duyệt web không? | Yes |
-| S6 | Bạn có đồng ý ghi màn hình cho phiên chính thức không? | Yes |
-| S7 | Bạn đã tham gia pilot hoặc một phiên khác của nghiên cứu này chưa? | No |
-| S8 | Nghề nghiệp/lĩnh vực hiện tại của bạn là gì? | Record; non-IT/non-testing preferred |
+| S2 | Bạn mua sắm trực tuyến với tần suất nào? | At least monthly |
+| S3 | Bạn có thể đọc tiếng Việt và tự sử dụng trình duyệt web không? | Yes |
+| S4 | Bạn có đồng ý ghi màn hình cho phiên chính thức không? | Yes |
+| S5 | Bạn đã tham gia pilot hoặc một phiên khác của nghiên cứu này chưa? | No |
+| S6 | Nghề nghiệp/lĩnh vực hiện tại của bạn là gì? | Record |
 
 ## Candidate record
 
 - Candidate code: `<REQUIRED_REAL_DATA>`
 - Screening date: `<REQUIRED_REAL_DATA>`
-- Genuine responses S1–S8: `<REQUIRED_REAL_DATA>`
+- Genuine responses S1–S6: `<REQUIRED_REAL_DATA>`
 - Decision (`ELIGIBLE`, `INELIGIBLE`, `DECLINED`): `<REQUIRED_REAL_DATA>`
 - Reason: `<REQUIRED_REAL_DATA>`
 - Assigned role (`PILOT-01`, `P01`–`P07`, or none): `<REQUIRED_REAL_DATA>`

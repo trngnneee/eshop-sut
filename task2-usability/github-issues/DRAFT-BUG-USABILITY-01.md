@@ -1,7 +1,7 @@
 ﻿# [DRAFT] BUG-PF-02 — Profile rejects FR-04 leading-zero phone format
 
-**Status:** `PARTICIPANT_EVIDENCE_RECORDED — DO_NOT_PUBLISH`
-**GitHub action:** Draft only; human review, fresh independent reproduction, redaction và duplicate search bắt buộc trước khi đăng.
+**Status:** `INDEPENDENTLY_REPRODUCED — DUPLICATE_FOUND — EXISTING_ISSUE_LINKED`
+**GitHub action:** Reuse https://github.com/trngnneee/eshop-sut/issues/55; do not create a duplicate.
 
 ## Summary
 
@@ -87,20 +87,23 @@ Blocks the required profile-update task with a specification-conforming value. P
 
 ## Evidence handling
 
-- Screenshot/clip candidates: participant timestamps above.
-- Required redaction: name, email, all phone digits, address, password and unrelated browser PII.
-- Redacted participant attachment: NOT_CREATED.
-- Technical preflight exists under `../evidence/technical-preflight/`, but is not participant evidence and does not replace a fresh reproduction.
+- Participant frames remain restricted because they contain PII.
+- Fresh reproduction uses an isolated test database and synthetic `example.com` data only.
+- Safe screenshot: `../evidence/github-issue-reproduction/BUG-PF-02-safe-reproduction.png`.
+- Result log: `../evidence/github-issue-reproduction/result.json`.
 
 ## Publication gate
 
 - [ ] Human verifies participant timestamps/counts.
-- [ ] Fresh independent reproduction completed with test-only data.
-- [ ] Redacted evidence created and reviewed.
-- [ ] Existing GitHub issues searched; duplicate disposition recorded.
+- [x] Fresh independent reproduction completed with test-only data.
+- [x] Privacy-safe synthetic evidence created; SHA-256 recorded in the bug report.
+- [x] Existing GitHub issues searched; canonical duplicate #55 selected.
+- [x] Safe-reproduction evidence published to canonical issue on 2026-08-01.
 - [ ] Requirement/build/environment confirmed.
 - [ ] Severity approved.
 - [ ] Reviewer explicitly approves publication.
-- [ ] Published URL added to all traceability files.
+- [x] Existing issue URL added to all traceability files.
 
-**Published GitHub URL:** `NOT_CREATED`
+**Published GitHub URL:** https://github.com/trngnneee/eshop-sut/issues/55
+
+**Published evidence comment:** https://github.com/trngnneee/eshop-sut/issues/55#issuecomment-5149476574

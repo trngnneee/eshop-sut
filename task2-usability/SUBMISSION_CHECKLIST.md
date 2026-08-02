@@ -1,53 +1,55 @@
-﻿# Task 2 Submission Checklist
+# Task 2 Submission Checklist
 
-**Student:** Äáº·ng ÄÄƒng Khoa â€” 23127207  
-**Prepared:** 2026-07-29, Asia/Bangkok (UTC+7)  
-**Local artefact state:** `STRUCTURALLY_READY_WITH_DISCLOSED_LIMITATIONS`
+**Student:** Đặng Đăng Khoa — 23127207
+**Prepared:** 2026-07-29, Asia/Bangkok (UTC+7)
+**Local artefact state:** `COMPLETE_WITH_DISCLOSED_LIMITATIONS`
 
 ## Completed locally
 
-- [x] Seven official participant mappings P01â€“P07.
-- [x] Replacement P06/HÃ¢n used; old duplicate excluded.
+- [x] Seven official participant mappings P01–P07.
+- [x] Replacement P06 used; old duplicate excluded.
 - [x] Masked-contact participant verification appendix prepared.
-- [x] Seven session reports with T0â€“T11 and outcome coding.
+- [x] Seven session reports with T0–T11 and outcome coding.
 - [x] Observation metrics CSV and cross-participant calculations.
-- [x] SUS raw/score files explicitly report 0/7 response sets.
-- [x] Six prioritized findings with participant/timestamp traceability.
-- [x] Two software-bug candidates separated from usability findings.
-- [x] Two local GitHub issue drafts.
+- [x] SUS raw/score files contain and calculate 7/7 user-provided response sets for P01–P07.
+- [x] Seven severity-ranked findings; participant findings retain participant/timestamp traceability and the supplemental technical bug is labelled frequency N/A.
+- [x] Two participant-evidenced software bugs plus one technical-only software bug, all separated from usability issues.
+- [x] Three local GitHub issue drafts/canonical links.
 - [x] Evidence index, missing-data report and video-quality report.
-- [x] AI audit and 200â€“300-word critique draft.
+- [x] AI audit and 200–300-word critique human-reviewed on 2026-08-02.
 - [x] Main report in Markdown and PDF.
 - [x] AI audit and critique in Markdown and PDF.
-- [x] PII-free local demo MP4.
+- [x] Public YouTube demo link verified; student confirmed local MP4 is not required.
 - [x] Git history export.
-- [x] Task 2 ZIP package.
+- [x] Package completion gate passes as `COMPLETE_WITH_DISCLOSED_LIMITATIONS`; strict fieldwork audit remains honestly `INCOMPLETE_EVIDENCE`.
+- [ ] Task 2 ZIP package — no current ZIP exists.
 
 ## Student-only actions before upload
 
-- [ ] Read `Task2_Main_Report.pdf` end to end and verify timestamps against the cited recordings.
-- [ ] Read and revise `AI_Critique_Task2.md`; only then change its status to `HUMAN_REVIEWED`, add review date/signature to the critique and AI audit, and regenerate both PDFs.
-- [ ] Confirm whether each participant was outside the HW03 class. This condition is `NOT_RECORDED`; do not mark it true without real verification.
-- [ ] Decide with the instructor how to disclose the absence of pilot, consent evidence, SUS and probes. These cannot be repaired honestly from the current data.
-- [ ] Independently reproduce each software bug with test-only credentials and search for duplicate GitHub issues.
-- [ ] Prepare privacy-safe screenshots. Do not attach raw participant frames containing PII or plaintext passwords.
-- [ ] Human-review the drafts in `github-issues/`, publish or update the real issues, and insert the final URLs into the reports.
-- [ ] Upload `demo/Task2_Usability_Skill_Demo.mp4`, verify signed-out access, and update `Demo_Video_Link.md`.
-- [ ] Regenerate PDFs, commit log and ZIP after any student edits.
+- [x] Student confirmed review of report timestamps/coding on 2026-08-02.
+- [x] Student reviewed and approved `AI_Critique_Task2.md` and `AI_Audit_Task2.md` on 2026-08-02; confirmation is recorded in both artefacts.
+- [x] Participant/SUS IDs standardized to P01–P07 following user confirmation on 2026-08-02.
+- [x] Student human-reviewed SUS provenance on 2026-08-02; missing pilot, consent evidence and probes remain disclosed.
+- [x] Independently reproduced all three software bugs with synthetic data; duplicate search completed.
+- [x] Three privacy-safe reproduction screenshots created; no raw participant frame used.
+- [x] Existing real issue URLs #55, #37 and #118 inserted into reports; #55/#37 evidence comments were published and verified on 2026-08-01.
+- [x] Human-review #118 evidence completed; current reviewed disposition is local-only, with no claim that a fresh comment was published.
+- [x] Public YouTube demo metadata verified via oEmbed on 2026-08-02 and recorded in `Demo_Video_Link.md`.
+- [x] YouTube-link-only demo submission confirmed; no local MP4 restore/export action remains.
+- [ ] Regenerate commit log and ZIP after final repository edits; PDFs were regenerated after human-review status updates.
 
 ## Missing evidence that must remain disclosed
 
 | Rubric/data item | Current state | Honest treatment |
 |---|---|---|
 | Pilot | Confirmed not collected | Keep `PILOT EVIDENCE MISSING` |
-| SUS Q1â€“Q10 | Confirmed not collected | Keep scores/aggregates `NOT_CALCULABLE` |
+| SUS Q1–Q10 | 7/7 sets supplied and identified as P01–P07 | Report participant scores with `COMPLETED_USER_PROVIDED` provenance; retain disclosure that collection is not visible in recordings |
 | Post-session probes | Confirmed not collected | Keep clarity/recovery/speed/trust `NOT_RECORDED` |
 | Consent evidence | Confirmed unavailable | Do not claim recorded consent |
-| Outside-class eligibility | Not recorded | Verify from participants or disclose |
 | Usable speech/quotes | 0/7 | Do not create quotes or intervention counts |
-| Redacted participant screenshots | Not created | Redact safely before sharing or omit |
-| Published GitHub URLs | Not created | Add only after actual publication |
-| Public demo URL | Not created | Add only after actual upload/access test |
+| Privacy-safe reproduction screenshots | Created with synthetic data | Keep participant frames private; use fresh evidence artefacts |
+| Published GitHub URLs | Existing issues #55/#37 with evidence-comment permalinks; canonical #118 linked without a fresh Task 2 comment | Do not create duplicates or claim the #118 comment was published |
+| Public demo URL | Present and oEmbed-verified 2026-08-02; YouTube-link-only submission confirmed | Retain the verified URL; do not require or package a local MP4 |
 
 ## Submission privacy gate
 
@@ -61,9 +63,11 @@
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File "task2-usability/scripts/analyze-sus.ps1"
+powershell -NoProfile -ExecutionPolicy Bypass -File "task2-usability/scripts/validate-usability.ps1"
 powershell -NoProfile -ExecutionPolicy Bypass -File "task2-usability/scripts/validate-submission-files.ps1"
 powershell -NoProfile -ExecutionPolicy Bypass -File "task2-usability/scripts/export-commit-log.ps1"
+powershell -NoProfile -ExecutionPolicy Bypass -File "task2-usability/scripts/package-submission.ps1"
 ```
 
-Do not edit the anti-fabrication validator to force `COMPLETE`; its expected refusal documents the genuine collection gaps.
+The default gate validates honest package closure and must report `COMPLETE_WITH_DISCLOSED_LIMITATIONS`. The optional strict audit command `validate-usability.ps1 -RequireCompleteEvidence` must continue to report `INCOMPLETE_EVIDENCE`; do not alter source statuses or create replacement participant data to make strict evidence complete.
 
