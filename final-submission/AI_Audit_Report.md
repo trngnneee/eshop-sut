@@ -29,6 +29,7 @@ The Codex interface did not export exact UI times for several conversation messa
 | 2026-08-02, `TIME_NOT_EXPORTED` | Reduce the submission entry point to exactly six consolidated files for all three tasks. | Created one README, Main Report, Bug Report, AI Critique, AI Audit Report and authentic Git commit-log snapshot in `final-submission`. | Original task/evidence folders were preserved because the six reports link to their machine-readable evidence; no evidence was deleted merely to reach six files. |
 | 2026-08-02, `TIME_NOT_EXPORTED` | Confirm that no ZIP is needed; rewrite the Main Report with detailed work for all three tasks and remove unused material before submission. | Removed the ZIP/checksum and packaging script; expanded the Main Report with design, execution, metric, participant, reproduction and platform pipelines; rewired validators to the six consolidated files; deleted duplicate task-specific reports/PDFs/Git logs/drafts/render intermediates while retaining all depended-on evidence. | Deletion followed an explicit dependency map. Checklist/XLSX/CSV/JSON, 200 screenshots, P01–P07 sessions, SUS, instruments, safe reproductions and validators were retained; authentic historical commit subjects were not rewritten to hide the former ZIP step. |
 | 2026-08-02, `TIME_NOT_EXPORTED` | Supply `https://youtu.be/tMar6OyMG80` as the Task 1 GUI-skill demo. | Verified the public URL through YouTube oEmbed, which returned title `GUI-testing-skill demo`, author `Đặng Đăng Khoa` and provider `YouTube`; updated the consolidated README/Main/Audit and Task 1 validator. | The URL came directly from the user and was externally verified. No local MP4 was downloaded or claimed. |
+| 2026-08-02, `TIME_NOT_EXPORTED` | Automatically update whatever remains missing across all three tasks. | Queried all 262 public GitHub issues and inspected ambiguous issue bodies; mapped three Admin Login rows to exact existing issues #45/#46; rejected cross-implementation near matches; checked `gh`, GitHub credentials, `adb`, Android emulator and cloud-device credential names. | Nine Task 1 issue publications, real-phone soft-keyboard evidence, missing Task 2 fieldwork records and the Task 3 third eligible platform remain unavailable. No issue URL, participant record or device run was fabricated. |
 
 ## 3. Tools, purpose and data controls
 
@@ -39,7 +40,7 @@ The Codex interface did not export exact UI times for several conversation messa
 | PowerShell and repository scripts | Run validators, analyze SUS, inspect files/hashes and generate deterministic package checks | Validator exit codes were reported as observed; strict failures were not suppressed. |
 | Playwright, Node.js and browsers | Execute GUI scenarios, observe dialog/network/focus state, capture required overlays and generate result matrices | Synthetic test entities only; execution mode recorded; harness defects corrected before final classification. |
 | FFmpeg/FFprobe and speech analysis | Inspect recording metadata, decode streams and assess usable audio | Hallucinated non-VAD transcript was rejected; no quote was retained because usable speech was absent. |
-| Git/GitHub duplicate search | Verify existing issue mappings and preserve authentic change history | Existing issues reused; no duplicate #118 created; unverified URLs remain pending. |
+| Git/GitHub duplicate search | Verify existing issue mappings and preserve authentic change history | All 262 public issues were searched; #45/#46 were reused for three exact Admin Login rows; no duplicate #118 was created; nine unauthenticated publications remain pending. |
 | Document/report tooling | Produce readable Markdown/PDF/XLSX artefacts in the evidence archives | Consolidated claims were checked against CSV/JSON sources rather than inferred from document presence. |
 
 ## 4. Material AI errors and corrections
@@ -80,7 +81,7 @@ The Codex interface did not export exact UI times for several conversation messa
 - Exactly 58 unique checklist IDs are represented.
 - Final Chrome outcome is 37 Pass, 20 Fail and 1 Blocked.
 - Evidence index contains 40 screenshots; execution modes distinguish live, controlled mocked state and Expo Web browser context.
-- The Task 1 bug register has 20 failed assertions. Eight have verified existing URLs; twelve remain pending external action.
+- The Task 1 bug register has 20 failed assertions. Eleven rows have verified existing URLs across ten unique issues; nine remain pending external action.
 
 ### Task 2
 
@@ -105,11 +106,11 @@ These are the observed local outcomes retained at consolidation time. Exit 2 den
 | Gate | Exit | Audited interpretation |
 |---|---:|---|
 | Task 1 default validator | 0 | File, row, semantic and evidence structure pass. |
-| Task 1 strict `-RequireComplete` | 2 | GUI demo is verified; twelve GitHub mappings and native-phone evidence remain external. |
+| Task 1 strict `-RequireComplete` | 2 | GUI demo is verified; nine GitHub mappings and native-phone evidence remain external. |
 | Task 2 SUS analyzer | 0 | P01–P07 raw responses and score arithmetic pass. |
 | Task 2 default validator | 0 | Package closes as `COMPLETE_WITH_DISCLOSED_LIMITATIONS`. |
 | Task 2 strict `-RequireCompleteEvidence` | 2 | Pilot, consent, probes and some environment/timing provenance remain missing. |
-| Task 2 submission validator | 0 | Retained evidence, T0–T11, SUS, finding-type separation, six consolidated files, demo link and privacy rules pass. |
+| Task 2 submission validator | 2 | Structural, T0–T11, SUS, finding-type separation, six-file, demo-link and privacy checks pass; disclosed missing fieldwork evidence keeps the exit nonzero. |
 | Task 3 default validator | 0 | The local 232-row/160-screenshot evidence package passes. |
 | Task 3 strict `-RequireComplete` | 2 | A third eligible Safari-or-real-Android category is absent. |
 

@@ -13,7 +13,7 @@ This report consolidates the three HW03 tasks into one auditable narrative while
 
 | Task | Core dataset | Result | Completion boundary |
 |---|---|---|---|
-| Task 1 — GUI checklist | 58 unique items; 40 Chrome screenshots | 37 Pass / 20 Fail / 1 Blocked | GUI-skill YouTube demo is verified; twelve failed rows still need verified GitHub mappings and native soft-keyboard evidence remains unavailable. |
+| Task 1 — GUI checklist | 58 unique items; 40 Chrome screenshots | 37 Pass / 20 Fail / 1 Blocked | GUI-skill YouTube demo is verified; 11 failed rows have verified GitHub URLs, while nine still need publication and native soft-keyboard evidence remains unavailable. |
 | Task 2 — usability | 7 sessions; P01–P07; exact T0–T11 coding; 70 SUS responses | 0/7 completed all SC1–SC5; calculable task-time median 80 s; SUS mean 76.79 | Pilot, consent, probes, usable speech and some environment/timing evidence were not collected and remain explicitly missing. |
 | Task 3 — cross-platform | 58 IDs × 4 environments = 232 rows; 160 screenshots | 37 Pass / 20 Fail / 1 Not Observable per environment | Chrome and Firefox are eligible; WebKit Windows is not Safari and Pixel emulation is not real Android, leaving 2/3 eligible platforms. |
 
@@ -160,8 +160,9 @@ Screen × IA coverage is:
 | Fail | 20 |
 | Blocked | 1 |
 | Unique Chrome screenshots | 40 |
-| Fail rows mapped to verified existing issues | 8 |
-| Fail rows pending verified GitHub URLs | 12 |
+| Unique verified existing GitHub issues reused | 10 |
+| Fail rows with verified GitHub URLs | 11 |
+| Fail rows pending verified GitHub URLs | 9 |
 
 The prior 36/22 checklist, conflicting 40/18 summary and five packed screenshots are superseded. The current machine-readable source is [`../task1-gui/results/Task1_Execution_Chrome.csv`](../task1-gui/results/Task1_Execution_Chrome.csv).
 
@@ -196,7 +197,7 @@ The highest-risk Task 1 observations are plaintext password display, incorrect l
 
 The Task 1 package is structurally ready. Strict completion remains blocked by:
 
-- 12 failed assertion rows that still require verified duplicate/new GitHub URLs; and
+- 9 failed assertion rows that still require new GitHub publication URLs after duplicate search; and
 - a real Expo Go/physical/cloud phone run for `GUI-MOBILE-LOGIN-011` soft-keyboard behavior.
 
 The Task 1 GUI-skill demo is [https://youtu.be/tMar6OyMG80](https://youtu.be/tMar6OyMG80). Status is `PUBLIC_LINK_VERIFIED`: YouTube oEmbed returned title `GUI-testing-skill demo`, author `Đặng Đăng Khoa` and provider `YouTube`. The submission stores only this public link; no local MP4 is required.
@@ -484,7 +485,7 @@ The most important combined risks are credential exposure, data-integrity loss o
 | Task 2 SUS analyzer | 0 | Exactly seven structurally valid P01–P07 response sets and exact SUS arithmetic. |
 | Task 2 default validator | 0 | `COMPLETE_WITH_DISCLOSED_LIMITATIONS`. |
 | Task 2 `-RequireCompleteEvidence` | 2 | Missing pilot, consent, probes, environment/timing provenance. |
-| Task 2 submission validator | 0 | Retained evidence, exact T0–T11, SUS, bug/usability separation, six consolidated files, demo and privacy checks pass. |
+| Task 2 submission validator | 2 | Structural, exact T0–T11, SUS, separation, six-file, demo and privacy checks pass; the nonzero exit honestly propagates the disclosed missing fieldwork evidence. |
 | Task 3 default validator | 0 | Local 232-row/160-screenshot package passes. |
 | Task 3 `-RequireComplete` | 2 | Only 2/3 eligible platforms. |
 

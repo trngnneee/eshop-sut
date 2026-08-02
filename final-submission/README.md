@@ -26,7 +26,7 @@ Exactly six files belong in this directory:
 
 | Area | Default/local validator | Strict completion gate | Honest status |
 |---|---:|---:|---|
-| Task 1 — GUI checklist | Exit 0 | Exit 2 | 58 unique items, 37 Pass, 20 Fail, 1 Blocked; GUI-skill demo is verified; 12 GitHub mappings and native soft-keyboard evidence remain external. |
+| Task 1 — GUI checklist | Exit 0 | Exit 2 | 58 unique items, 37 Pass, 20 Fail, 1 Blocked; GUI-skill demo is verified; 11 failed rows have verified GitHub URLs, while 9 mappings and native soft-keyboard evidence remain external. |
 | Task 2 — usability | Exit 0 | Exit 2 | Package closure and submission validation pass; absent pilot, consent, probes and some environment/timing evidence remain disclosed. |
 | Task 3 — cross-platform | Exit 0 | Exit 2 | 232 result rows and 160 screenshots are structurally valid; only 2/3 rubric-eligible platforms are evidenced. |
 

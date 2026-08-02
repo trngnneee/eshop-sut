@@ -21,7 +21,7 @@ No single grand-total bug count is asserted because Task 1 counts failed asserti
 
 | Dataset | Traceable count | Publication state |
 |---|---:|---|
-| Task 1 failed checklist assertions | 20 | 8 have verified existing GitHub URLs; 12 remain `PENDING_EXTERNAL_ACTION`. |
+| Task 1 failed checklist assertions | 20 | 11 rows have verified existing GitHub URLs across 10 unique issues; 9 remain `PENDING_EXTERNAL_ACTION`. |
 | Task 2 software bugs | 3 | All map to existing issues: #55, #37 and #118. |
 | Task 2 usability issues | 4 | Kept separate from software bugs and participant frequencies. |
 | Task 3 systemic finding groups | 9 | Local report only; no new publication is claimed. |
@@ -42,9 +42,9 @@ The table below is the complete Task 1 fail set: 1 Critical, 5 High, 12 Medium a
 | 8 | `GUI-WEB-LOGIN-002` | Medium | Field is labelled `Email` and uses `type=email`. | First label is `Username`; input uses `type=text`. | `LIVE_LOCAL_SUT` | [#203](https://github.com/trngnneee/eshop-sut/issues/203) | [PNG](../task1-gui/evidence/executed-chrome/001-web-login-baseline.png) |
 | 9 | `GUI-WEB-LOGIN-009` | Medium | Submit label is Vietnamese `Đăng nhập` with natural/default tab order. | Submit text is `Sign In`. | `LIVE_LOCAL_SUT` | [#198](https://github.com/trngnneee/eshop-sut/issues/198) | [PNG](../task1-gui/evidence/executed-chrome/001-web-login-baseline.png) |
 | 10 | `GUI-WEB-LOGIN-011` | Medium | Tab moves naturally through fields and controls with visible focus. | Positive-tabindex `Sign In` precedes the form inputs in the recorded focus sequence. | `LIVE_LOCAL_SUT` | [#201](https://github.com/trngnneee/eshop-sut/issues/201) | [PNG](../task1-gui/evidence/executed-chrome/007-web-login-keyboard-focus.png) |
-| 11 | `GUI-ADMIN-LOGIN-002` | Medium | Each admin-login input has an associated `<label>`. | The form contains zero label elements for two inputs. | `LIVE_LOCAL_SUT` | `PENDING_EXTERNAL_ACTION` | [PNG](../task1-gui/evidence/executed-chrome/018-admin-login-baseline.png) |
-| 12 | `GUI-ADMIN-LOGIN-003` | Medium | Invalid admin password produces an accessible inline error banner. | A native `Đăng nhập thất bại` dialog appeared; inline feedback count was zero. | `LIVE_LOCAL_SUT` | `PENDING_EXTERNAL_ACTION` | [PNG](../task1-gui/evidence/executed-chrome/019-admin-login-invalid-dialog.png) |
-| 13 | `GUI-ADMIN-LOGIN-004` | Medium | A non-admin account receives clear inline authorization feedback. | A native `Bạn không phải là admin!` dialog appeared; inline feedback count was zero. | `LIVE_LOCAL_SUT` | `PENDING_EXTERNAL_ACTION` | [PNG](../task1-gui/evidence/executed-chrome/020-admin-login-nonadmin-dialog.png) |
+| 11 | `GUI-ADMIN-LOGIN-002` | Medium | Each admin-login input has an associated `<label>`. | The form contains zero label elements for two inputs. | `LIVE_LOCAL_SUT` | [#45](https://github.com/trngnneee/eshop-sut/issues/45) | [PNG](../task1-gui/evidence/executed-chrome/018-admin-login-baseline.png) |
+| 12 | `GUI-ADMIN-LOGIN-003` | Medium | Invalid admin password produces an accessible inline error banner. | A native `Đăng nhập thất bại` dialog appeared; inline feedback count was zero. | `LIVE_LOCAL_SUT` | [#46](https://github.com/trngnneee/eshop-sut/issues/46) | [PNG](../task1-gui/evidence/executed-chrome/019-admin-login-invalid-dialog.png) |
+| 13 | `GUI-ADMIN-LOGIN-004` | Medium | A non-admin account receives clear inline authorization feedback. | A native `Bạn không phải là admin!` dialog appeared; inline feedback count was zero. | `LIVE_LOCAL_SUT` | [#46](https://github.com/trngnneee/eshop-sut/issues/46) | [PNG](../task1-gui/evidence/executed-chrome/020-admin-login-nonadmin-dialog.png) |
 | 14 | `GUI-ADMIN-CATEGORY-010` | Medium | A spinner or skeleton is visible while categories load. | No loading indicator appeared during a controlled 2.5-second API delay. | `MOCKED_SLOW_API` | `PENDING_EXTERNAL_ACTION` | [PNG](../task1-gui/evidence/executed-chrome/030-admin-category-loading.png) |
 | 15 | `GUI-ADMIN-CATEGORY-013` | Medium | Submit is disabled while a category write is pending. | A rapid double click produced two POST requests; the button did not provide pending-state protection. | `MOCKED_SLOW_WRITE` | `PENDING_EXTERNAL_ACTION` | [PNG](../task1-gui/evidence/executed-chrome/033-admin-category-double-submit.png) |
 | 16 | `GUI-MOBILE-LOGIN-002` | Medium | Mobile login field is visibly labelled `Email`. | `Username` is visible and there is no standalone `Email` label. | `LIVE_LOCAL_SUT` | `PENDING_EXTERNAL_ACTION` | [PNG](../task1-gui/evidence/executed-chrome/034-mobile-login-baseline.png) |
@@ -55,7 +55,7 @@ The table below is the complete Task 1 fail set: 1 Critical, 5 High, 12 Medium a
 
 ### Task 1 publication and deduplication boundary
 
-The 12 pending rows should undergo a live duplicate search before publication. Related assertions should be reviewed as possible shared root causes—for example, the two native admin-login feedback rows and the two localization rows—rather than automatically opening one issue per assertion. This report does not claim that any pending issue exists.
+A live duplicate search inspected all 262 public issues available through the repository API on 2026-08-02. `GUI-ADMIN-LOGIN-002` matches [#45](https://github.com/trngnneee/eshop-sut/issues/45), which explicitly covers missing labels on the Web Admin login. `GUI-ADMIN-LOGIN-003` and `GUI-ADMIN-LOGIN-004` share the same `frontend-admin` `handleLogin` native-alert root cause and map to [#46](https://github.com/trngnneee/eshop-sut/issues/46). Near matches were rejected when their body referred to another implementation—for example, #35/#36/#198 cover the Web `/login`, not `frontend-mobile/App.js`, and #255 covers deleting an Admin product, not a category. Nine rows therefore remain pending new publication; this environment has neither a GitHub token nor a usable Git credential, so no URL is invented.
 
 ## 3. Task 2 — software bugs
 
