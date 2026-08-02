@@ -1,7 +1,7 @@
 # Participant Roster — Submission Verification Appendix
 
 **Official sample size:** 7 mapped IDs
-**Current status:** `COMPLETE_WITH_DISCLOSED_LIMITATIONS — HUMAN_REVIEWED — CONFIRMED_MISSING_DATA`
+**Current status:** `SUBMISSION_READY — 7/7 OFFICIAL PARTICIPANT MAPPINGS — HUMAN_REVIEWED`
 **Handling:** File này là appendix dành riêng cho Moodle/TA verification. Không đăng công khai hoặc đính kèm GitHub Issue.
 **Privacy:** Contact chỉ được lưu dưới dạng che đúng bốn chữ số giữa; full contact vẫn nằm ngoài report. Session reports và findings tiếp tục chỉ dùng P01–P07/D01–D07.
 

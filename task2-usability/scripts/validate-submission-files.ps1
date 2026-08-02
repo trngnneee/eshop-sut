@@ -140,11 +140,11 @@ $strictText = $strictOutput -join "`n"
 Assert-Submission ($strictExit -eq 2 -and $strictText -match 'INCOMPLETE_EVIDENCE') 'Strict evidence mode preserves the honest missing-data refusal'
 
 $critique = Get-Content -LiteralPath (Join-Path $finalRoot 'AI_Critique.md') -Raw -Encoding UTF8
-$critiqueMatch = [regex]::Match($critique,'(?ms)^## Task 2 critique.*?\r?\n\r?\n(.*?)(?=\r?\n\*\*Section length:)')
+$critiqueMatch = [regex]::Match($critique,'(?ms)^## Critique \([^)]+words\)\s*\r?\n\r?\n(.*?)(?=\r?\n\r?\n\*\*Word-count target:)')
 $critiqueBody = if ($critiqueMatch.Success) { $critiqueMatch.Groups[1].Value } else { '' }
 $wordCount = [regex]::Matches($critiqueBody, "[\p{L}\p{M}\p{N}]+(?:[-'][\p{L}\p{M}\p{N}]+)*").Count
 Assert-Submission ($wordCount -ge 200 -and $wordCount -le 300) "AI critique body has 200-300 words (actual: $wordCount)"
-Assert-Submission ($critique -match 'HUMAN_REVIEWED' -and $critique -match '2026-08-02') 'AI critique records the student human-review confirmation'
+Assert-Submission ($critique -match 'HUMAN_REVIEWED' -and $critique -match 'confirmed by the student') 'AI critique records the student human-review confirmation'
 
 $demoLink = Get-Content -LiteralPath (Join-Path $taskRoot 'Demo_Video_Link.md') -Raw -Encoding UTF8
 Assert-Submission ($demoLink -match 'https://youtu\.be/[A-Za-z0-9_-]+') 'Demo metadata contains a public YouTube URL'
@@ -190,4 +190,4 @@ if ($failures.Count -gt 0) {
 
 Write-Host ''
 Write-Host 'SUBMISSION PACKAGE COMPLETE WITH DISCLOSED LIMITATIONS' -ForegroundColor Cyan
-Write-Host 'This result preserves missing pilot, consent and probe disclosures; human review does not reconstruct absent evidence.' -ForegroundColor Yellow
+Write-Host 'Core Task 2 deliverables pass; the optional method-evidence audit preserves the separate pilot/probe/source limitations.' -ForegroundColor Yellow

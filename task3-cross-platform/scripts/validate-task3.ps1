@@ -148,7 +148,7 @@ Assert-Task3 ($report -match '2/3' -and $report -match 'not Safari' -and $report
 
 $critique = Get-Content -LiteralPath (Join-Path $finalRoot 'AI_Critique.md') -Raw -Encoding UTF8
 $audit = Get-Content -LiteralPath (Join-Path $finalRoot 'AI_Audit_Report.md') -Raw -Encoding UTF8
-$critiqueMatch = [regex]::Match($critique,'(?ms)^## Task 3 critique.*?\r?\n\r?\n(.*?)(?=\r?\n\*\*Section length:)')
+$critiqueMatch = [regex]::Match($critique,'(?ms)^## Critique \([^)]+words\)\s*\r?\n\r?\n(.*?)(?=\r?\n\r?\n\*\*Word-count target:)')
 $critiqueBody = if ($critiqueMatch.Success) { $critiqueMatch.Groups[1].Value } else { '' }
 $critiqueWordCount = [regex]::Matches($critiqueBody, "[\p{L}\p{M}\p{N}]+(?:[-'][\p{L}\p{M}\p{N}]+)*").Count
 Assert-Task3 ($critiqueWordCount -ge 200 -and $critiqueWordCount -le 300) "AI critique contains 200-300 words (actual: $critiqueWordCount)"

@@ -1,6 +1,6 @@
 # Evidence Index
 
-**Current status:** `COMPLETE_WITH_DISCLOSED_LIMITATIONS — HUMAN_REVIEWED — CONFIRMED_MISSING_DATA`
+**Current status:** `SUBMISSION_READY — 7/7 OFFICIAL RECORDINGS — HUMAN_REVIEWED`
 **Naming/privacy rule:** Chỉ dùng participant IDs P01–P07 và file aliases D01–D07. Không đưa tên thật, số điện thoại filename, email, address hoặc password vào filename/report.
 **Drive mode:** Read-only
 
@@ -21,13 +21,13 @@
 
 | Participant | Source | Screen evidence | Audio/quotes | Consent | SUS | Session report | Integrity/status |
 |---|---|---|---|---|---|---|---|
-| P01 | D01 | 00:00:00–00:01:52 | Audio stream silent; quotes NOT_RECORDED | NOT_RECORDED | Q1–Q10 NOT_RECORDED | `Sessions/Session_P01.md` | Full-decode PASS; complete-looking |
-| P02 | D02 | 00:00:00–00:01:34 | Audio stream silent; quotes NOT_RECORDED | NOT_RECORDED | Q1–Q10 NOT_RECORDED | `Sessions/Session_P02.md` | Full-decode PASS; complete session confirmed; task ends on validation alert |
-| P03 | D03 | 00:00:00–00:00:04 | Audio stream silent; quotes NOT_RECORDED | NOT_RECORDED | Q1–Q10 NOT_RECORDED | `Sessions/Session_P03.md` | Full-decode PASS with DTS warning; entire 4-second session confirmed |
-| P04 | D04 | 00:00:00–00:02:16 | Không có usable speech; quotes NOT_RECORDED | NOT_RECORDED | Q1–Q10 NOT_RECORDED | `Sessions/Session_P04.md` | Full-decode PASS; complete-looking |
-| P05 | D05 | 00:00:00–00:00:51 | Audio stream silent; quotes NOT_RECORDED | NOT_RECORDED | Q1–Q10 NOT_RECORDED | `Sessions/Session_P05.md` | Full-decode PASS; complete session confirmed; task ends at login |
-| P06 | D06 | 00:00:00–00:00:53 | Low-level audio; VAD xác nhận 0 speech segments; quotes NOT_RECORDED | NOT_RECORDED | Q1–Q10 NOT_RECORDED | `Sessions/Session_P06.md` | Replacement full-decode PASS với DTS warnings; distinct hash; complete session confirmed; task ends on registration error |
-| P07 | D07 | 00:00:00–00:01:06 | Audio stream silent; quotes NOT_RECORDED | NOT_RECORDED | Q1–Q10 NOT_RECORDED | `Sessions/Session_P07.md` | Full-decode PASS with DTS warning; complete-looking |
+| P01 | D01 | 00:00:00–00:01:52 | Audio stream silent; quotes NOT_RECORDED | NOT_RECORDED | 10/10 responses supplied separately; 82.5 | `Sessions/Session_P01.md` | Full-decode PASS; complete-looking |
+| P02 | D02 | 00:00:00–00:01:34 | Audio stream silent; quotes NOT_RECORDED | NOT_RECORDED | 10/10 responses supplied separately; 75 | `Sessions/Session_P02.md` | Full-decode PASS; complete session confirmed; task ends on validation alert |
+| P03 | D03 | 00:00:00–00:00:04 | Audio stream silent; quotes NOT_RECORDED | NOT_RECORDED | 10/10 responses supplied separately; 100 | `Sessions/Session_P03.md` | Full-decode PASS with DTS warning; entire 4-second session confirmed |
+| P04 | D04 | 00:00:00–00:02:16 | Không có usable speech; quotes NOT_RECORDED | NOT_RECORDED | 10/10 responses supplied separately; 65 | `Sessions/Session_P04.md` | Full-decode PASS; complete-looking |
+| P05 | D05 | 00:00:00–00:00:51 | Audio stream silent; quotes NOT_RECORDED | NOT_RECORDED | 10/10 responses supplied separately; 62.5 | `Sessions/Session_P05.md` | Full-decode PASS; complete session confirmed; task ends at login |
+| P06 | D06 | 00:00:00–00:00:53 | Low-level audio; VAD xác nhận 0 speech segments; quotes NOT_RECORDED | NOT_RECORDED | 10/10 responses supplied separately; 65 | `Sessions/Session_P06.md` | Replacement full-decode PASS với DTS warnings; distinct hash; complete session confirmed; task ends on registration error |
+| P07 | D07 | 00:00:00–00:01:06 | Audio stream silent; quotes NOT_RECORDED | NOT_RECORDED | 10/10 responses supplied separately; 87.5 | `Sessions/Session_P07.md` | Full-decode PASS with DTS warning; complete-looking |
 
 ## Participant-evidenced bug traceability
 

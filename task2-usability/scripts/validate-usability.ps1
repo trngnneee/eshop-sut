@@ -271,7 +271,7 @@ if ($null -ne $critique) {
     if ($critique -notmatch 'HUMAN_REVIEWED') {
         Add-Issue "AI critique has not been marked HUMAN_REVIEWED."
     }
-    $critiqueMatch = [regex]::Match($critique,'(?ms)^## Task 2 critique.*?\r?\n\r?\n(.*?)(?=\r?\n\*\*Section length:)')
+    $critiqueMatch = [regex]::Match($critique,'(?ms)^## Critique \([^)]+words\)\s*\r?\n\r?\n(.*?)(?=\r?\n\r?\n\*\*Word-count target:)')
     $critiqueBody = if ($critiqueMatch.Success) { $critiqueMatch.Groups[1].Value } else { '' }
     $wordCount = [regex]::Matches($critiqueBody, "[\p{L}\p{M}\p{N}]+(?:[-'][\p{L}\p{M}\p{N}]+)*").Count
     if ($wordCount -lt 200 -or $wordCount -gt 300) {
@@ -285,6 +285,9 @@ if ($null -ne $results) {
         if ($results -notmatch "\|\s*$statistic\s*\|\s*[0-9]+(?:\.[0-9]+)?\s*\|") {
             Add-Issue "SUS results do not contain a numeric $statistic."
         }
+    }
+    if ($results -notmatch 'sample standard deviation is 13\.97' -or $results -notmatch '\| Q10 \| 1\.86 \| 3\.14 \|') {
+        Add-Issue "SUS results do not contain the validated item-level and dispersion diagnostics."
     }
 }
 
@@ -314,5 +317,5 @@ if ($limitations.Count -gt 0) {
     exit 0
 }
 
-Write-Output "COMPLETE: Task 2 evidence sources and the six consolidated submission files passed validation."
+Write-Output "COMPLETE: Task 2 evidence sources and consolidated rubric-package reports passed validation."
 exit 0

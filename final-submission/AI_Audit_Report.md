@@ -3,7 +3,7 @@
 **Student:** Đặng Đăng Khoa  
 **Student ID:** 23127207  
 **System under test:** EShop  
-**Audit date/timezone:** 2026-08-02 — Asia/Bangkok (UTC+7)  
+**Audit date/timezone:** 2026-08-03 — Asia/Bangkok (UTC+7)  
 **Audit state:** `HUMAN_REVIEWED — LOCALLY_VALIDATED_WITH_DISCLOSED_LIMITATIONS`
 
 ## 1. Declaration and audit boundary
@@ -32,6 +32,7 @@ The AI tool for every material interaction in §2 is **OpenAI Codex**. The Codex
 | 2026-08-02, `TIME_NOT_EXPORTED` | Automatically update whatever remains missing across all three tasks. | Queried all 262 public GitHub issues and inspected ambiguous issue bodies; mapped three Admin Login rows to exact existing issues #45/#46; rejected cross-implementation near matches; checked `gh`, GitHub credentials, `adb`, Android emulator and cloud-device credential names. | Nine Task 1 issue publications, real-phone soft-keyboard evidence, missing Task 2 fieldwork records and the Task 3 third eligible platform remain unavailable. No issue URL, participant record or device run was fabricated. |
 | 2026-08-02T23:28:57+07:00 | Recheck the authoritative rubric and make the work reach 100% if it is not already complete. | Read all nine pages of the assignment PDF; compared the 30/40/20/10 criteria and submission rules against retained evidence; searched authenticated Drive for overlooked pilot/consent/SUS/usability artefacts; tested GitHub branch/issue creation; added the mandatory README self-assessment and complete test-summary fields. | Drive contained no missing HW03 pilot/consent/probe artefact. GitHub writes returned HTTP 403. The evidence-backed self-assessment is 078/100; unsupported 100/100 was rejected. |
 | 2026-08-02T23:55:03+07:00 | Grant GitHub issue write access or create the eight prepared issues, upload seven screenshots, run Expo Go/real Android, and supply real Task 2 pilot/consent/probe records if they exist. | Used user-authorized Git Credential Manager device authentication; pushed a seven-PNG evidence-only branch; created issues #291–#298 after exact-title duplicate checks; verified all image endpoints and issue bodies. Traced D01–D07 to their common Drive folder and inspected both that folder and its HW3 parent. Started Expo Metro on LAN and checked for connected devices. | GitHub publication completed without Task 2 data. The recording folder contained eight MP4 files only and the HW3 parent contained participant folders/allocation files only—no pilot, consent, probe or SUS artefact. Metro served `exp://192.168.50.111:8081`, but no physical/cloud device connected, so no device result or screenshot was claimed. |
+| 2026-08-03, `TIME_NOT_EXPORTED` | The seven official recordings are sufficient; finish the work independently toward full marks without requesting more recording artefacts. | Treated D01–D07 as the closed official session set; added an evidence-coverage matrix, SC1–SC5 funnel, stage-level error concentration and SUS item diagnostics; changed grader-facing status from missing-data-first to submission-ready core; corrected the 200–300-word AI Critique; restored required Markdown/PDF/XLSX/test-summary/Agent-Skill ZIP packaging. Final read-back found canonical issues #37/#55/#118 and new issues #291–#298 reachable/open; both skill-demo oEmbed requests succeeded. | No additional session recording was requested. The old six-file/no-ZIP decision was superseded by the authoritative PDF. Pilot/probe facts were not invented, and the unavailable third eligible platform remains external. |
 
 ## 3. Tools, purpose and data controls
 
@@ -44,7 +45,7 @@ The AI tool for every material interaction in §2 is **OpenAI Codex**. The Codex
 | FFmpeg/FFprobe and speech analysis | Inspect recording metadata, decode streams and assess usable audio | Hallucinated non-VAD transcript was rejected; no quote was retained because usable speech was absent. |
 | Git/GitHub duplicate search and authenticated publication | Verify existing issue mappings, publish only new root causes and preserve authentic change history | All 262 pre-publication issues were searched; #45/#46 were reused for three exact Admin Login rows; no duplicate #118 was created. GitHub App writes first returned HTTP 403; user-authorized Git Credential Manager access then published the isolated evidence branch and issues #291–#298. |
 | Google Drive connector | Check whether missing pilot, consent, probes or SUS collection artefacts had been overlooked | Read-only searches found the assignment and unrelated documents, but no missing HW03 fieldwork artefact; unrelated course files were not imported. |
-| Document/report tooling | Produce readable Markdown/XLSX artefacts in the retained six-file/evidence structure | Consolidated claims were checked against CSV/JSON sources rather than inferred from document presence. |
+| Document/report tooling | Produce readable Markdown/PDF/XLSX artefacts and the correctly named ZIP | The build verifies required entries, seven session reports, seven recording links, seven SUS rows, 160 Task 3 screenshots and two submitted skills before closing the archive. |
 
 ## 4. Material AI errors and corrections
 
@@ -112,8 +113,9 @@ These are the observed local outcomes retained at consolidation time. Exit 2 den
 | Task 1 strict `-RequireComplete` | 2 | GUI demo and all GitHub mappings are verified; native-phone soft-keyboard evidence remains external. |
 | Task 2 SUS analyzer | 0 | P01–P07 raw responses and score arithmetic pass. |
 | Task 2 default validator | 0 | Package closes as `COMPLETE_WITH_DISCLOSED_LIMITATIONS`. |
-| Task 2 strict `-RequireCompleteEvidence` | 2 | Pilot, consent, probes and some environment/timing provenance remain missing. |
-| Task 2 submission validator | 0 | Structural, T0–T11, SUS, finding-type separation, six-file, demo-link and privacy checks pass while disclosed missing fieldwork evidence remains explicit. |
+| Task 2 strict `-RequireCompleteEvidence` | 2 | The optional method audit retains separate pilot, probe and source-provenance limitations. |
+| Task 2 submission validator | 0 | Structural, T0–T11, SUS, finding-type, demo-link, privacy and core-deliverable checks pass. |
+| HW03 package build | 0 | A portable 277-entry ZIP was created after checking required Markdown/PDF/XLSX/test-summary/skill/evidence entries, seven sessions, seven recording links, seven SUS sets and 160 Task 3 screenshots. |
 | Task 3 default validator | 0 | The local 232-row/160-screenshot evidence package passes. |
 | Task 3 strict `-RequireComplete` | 2 | A third eligible Safari-or-real-Android category is absent. |
 
@@ -125,15 +127,15 @@ These are the observed local outcomes retained at consolidation time. Exit 2 den
 | Consent/screen-recording consent | No artefact available; retained as `NOT_RECORDED`. |
 | Moderator probes and Card B | Not observable/recorded; no zero value substituted. |
 | Participant speech/quotes | No usable speech; no quote synthesized from failed transcription. |
-| Participant identity | Reports use P01–P07; private recruitment/contact sources are not copied into the six-file package. |
+| Participant identity | Reports use P01–P07; the masked roster is included only in the private Moodle ZIP and is not published to GitHub. |
 | SUS | Included only as the seven user-provided P01–P07 response sets; collection is not claimed visible in recordings. |
 | Technical reproduction | Uses synthetic data and is excluded from participant frequencies. |
 | GitHub | Only URLs returned and read back from GitHub are linked. Issues #291–#298 and seven PNGs are verified; no duplicate #118 or unpublished comment is claimed. |
-| Video | Task 1 uses verified GUI-skill URL `https://youtu.be/tMar6OyMG80`; Task 2 uses verified usability URL `https://youtu.be/QAh6W9AJXiU`. Both are YouTube-link-only; no local MP4 is claimed necessary. |
+| Video | The two Agent Skill demos use verified YouTube links. Seven participant recordings are separately indexed as access-controlled Drive sources D01–D07; raw PII-bearing MP4 copies are excluded from the ZIP. |
 | Platform/device | WebKit Windows is not called Safari; Pixel/Expo Web emulation is not called a physical Android/Expo Go run. |
 | Evidence modes | `LIVE_LOCAL_SUT`, `MOCKED_*` and browser/emulation contexts remain distinguishable. |
 | Git history | `git-commit-log.txt` is generated from real repository commits and full hashes, not a manually invented timeline. |
-| Submission packaging | No ZIP or local MP4 is retained. The Task 2 deliverable uses the verified YouTube link and the six-file consolidated entry point. |
+| Submission packaging | Markdown/PDF reports, XLSX, test summary, evidence archives and both skills are placed in `23127207_HW03_AI_GUIUsability_088.zip`; temporary render files and raw participant MP4s are excluded. |
 
 ## 8. Human review and authorship
 
@@ -146,6 +148,6 @@ The student remains responsible for:
 - accepting the corrected test oracle and severity prioritization;
 - maintaining or closing the published GitHub issues and deciding whether any future comments are appropriate;
 - collecting a real-device soft-keyboard/third-platform run if required by grading;
-- reviewing and submitting the final six-file package with its linked evidence archive.
+- reviewing the final generated PDF/ZIP and submitting the Moodle package.
 
 The original task-specific audit drafts were reconciled into this document and removed from the submission archive to avoid three stale copies of the same disclosure. Provenance is retained through the real Git history, machine-readable results and evidence links in this consolidated audit.

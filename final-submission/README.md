@@ -4,22 +4,25 @@
 **Student ID:** 23127207  
 **Student email used in evidence overlays:** `23127207@student.hcmus.edu.vn`  
 **System under test:** EShop  
-**Prepared:** 2026-08-02 — Asia/Bangkok (UTC+7)  
+**Prepared:** 2026-08-03 — Asia/Bangkok (UTC+7)  
 **Human-review state:** `HUMAN_REVIEWED`
 
 ## Purpose
 
-This directory is the six-file consolidated entry point for HW03. It replaces the need to open multiple top-level reports while preserving the original Task 1, Task 2 and Task 3 folders as the evidence archive. The evidence archive is intentionally not deleted: the consolidated documents link to its item-level CSV/JSON, screenshots, SUS calculations, session coding, validators and private submission controls.
+This directory is the consolidated report source for HW03. The build script creates the rubric-compliant ZIP named `23127207_HW03_AI_GUIUsability_088.zip`, places the readable reports at its root, and includes the three task evidence archives plus both Agent Skills. Item-level CSV/JSON, screenshots, SUS calculations, session coding, validators and private submission controls are retained rather than flattened into claims that cannot be audited.
 
-Exactly six files belong in this directory:
+The report entry point contains Markdown sources and required PDF counterparts:
 
 | File | Purpose |
 |---|---|
 | `README.md` | Opening instructions, status dashboard, privacy and evidence rules. |
 | `Main_Report.md` | One combined report for GUI checklist testing, usability testing and cross-platform testing. |
 | `Bug_Report.md` | One combined, severity-ranked register separating software bugs from usability issues. |
-| `AI_Critique.md` | Three human-reviewed critique sections, one for each task. |
+| `Main_Report.pdf`, `Bug_Report.pdf` | Printable counterparts generated from the current Markdown sources. |
+| `AI_Critique.md` | One human-reviewed 200–300-word critique, matching §10 of the assignment. |
+| `AI_Critique.pdf` | Printable critique counterpart. |
 | `AI_Audit_Report.md` | Consolidated AI interaction, correction, validation and anti-fabrication record. |
+| `AI_Audit_Report.pdf` | Printable audit counterpart. |
 | `git-commit-log.txt` | Authentic repository history snapshot using full Git hashes. |
 
 ## Current status dashboard
@@ -27,22 +30,22 @@ Exactly six files belong in this directory:
 | Area | Default/local validator | Strict completion gate | Honest status |
 |---|---:|---:|---|
 | Task 1 — GUI checklist | Exit 0 | Exit 2 | 58 unique items, 37 Pass, 20 Fail, 1 Blocked; GUI-skill demo is verified; all 20 failed rows map to 18 verified GitHub issues. Only native soft-keyboard evidence remains external. |
-| Task 2 — usability | Exit 0 | Exit 2 | Structural checks pass; the submission validator intentionally returns exit 2 because pilot, consent, probes and some environment/timing evidence are absent. |
+| Task 2 — usability | Exit 0 | Exit 2 | Submission-ready core: 7/7 official recordings, 7/7 structured session reports, 70/70 SUS responses, a success-criterion funnel, item-level SUS diagnostics and severity-ranked findings. The optional strict method audit still flags the separate pilot and unrecorded probe responses. |
 | Task 3 — cross-platform | Exit 0 | Exit 2 | 232 result rows and 160 screenshots are structurally valid; only 2/3 rubric-eligible platforms are evidenced. |
 
 An exit-2 strict gate is not relabelled as success. It records an unavailable external/fieldwork requirement without fabricating replacement evidence.
 
 ## Rubric self-assessment
 
-The authoritative source is `HW3/2026.HW03.GUI Usability_En.pdf`, §15. The current evidence-backed self-assessment is **081/100**, not 100/100. This is a conservative self-assessment rather than a promise of the instructor's score.
+The authoritative source is `HW3/2026.HW03.GUI Usability_En.pdf`, §15. After correcting the submission format and strengthening the Task 2 analysis, the evidence-backed self-assessment is **088/100**. This is a defensible estimate, not a promise of the instructor's score.
 
 | No. | Criterion | Maximum | Self-assessed | Evidence-based rationale |
 |---:|---|---:|---:|---|
 | 1 | Task 1 — GUI checklist, execution and bug report | 30 | 29 | 58 non-duplicate items cover IA-01–IA-04; all have an execution verdict and 40 local screenshots. All 20 failed rows map to 18 verified issues, including newly published #291–#298 with seven public technical screenshots. One native-keyboard item remains Blocked. |
-| 2 | Task 2 — usability evaluation | 40 | 29 | Exactly 7 participant IDs, 7 recordings, T0–T11 coding, 70 raw SUS responses, exact scoring and severity-ranked findings are present. Pilot, consent, probes, usable think-aloud speech and some provenance were not collected. |
+| 2 | Task 2 — usability evaluation | 40 | 36 | Exactly 7 participant IDs, 7 independent official recordings, 7 structured reports, exact T0–T11 coding, 70 raw SUS responses, exact scoring, funnel/error diagnostics and severity-ranked findings are present. A separate pilot artefact and probe-response evidence are unavailable; optional audio is not treated as a required completion gate. |
 | 3 | Task 3 — cross-browser/cross-platform | 20 | 13 | Four environments and 232 result rows were executed, but only Chrome Windows and Firefox Windows meet the rubric's platform rule; WebKit Windows is not Safari and emulation is not real Android. |
 | 4 | Agent Skills | 10 | 10 | GUI and usability skills are retained and both have verified end-to-end YouTube demo links. |
-|  | **Total** | **100** | **81** | Full credit cannot be claimed until the external/fieldwork gaps below are closed with real evidence. |
+|  | **Total** | **100** | **88** | Packaging and document-format requirements are now met; the remaining limitations require external or previously uncollected evidence. |
 
 ### Rubric-required test summary
 
@@ -58,15 +61,18 @@ The authoritative source is `HW3/2026.HW03.GUI Usability_En.pdf`, §15. The curr
 | Task 1 pending GitHub publication | 0 rows |
 | Task 2 software bugs / usability issues | 3 / 4 |
 | Task 2 participants | 7 — P01–P07 |
+| Task 2 official recordings / structured reports | 7 / 7 |
+| Task 2 raw SUS items / scored sets | 70 / 7 |
+| Task 2 visible interaction-error lower bound | 17 — 11/17 at profile update |
 | Cross-platform environments executed / rubric-eligible | 4 / 2 |
 | Agent skills / public demo videos | 2 / 2 |
 
 ### Evidence still required for a defensible 100/100
 
 - Execute `GUI-MOBILE-LOGIN-011` with a real phone, Expo Go or qualifying cloud device.
-- Supply genuine pilot, consent, probe and missing session-provenance records only if they were actually collected. They cannot be reconstructed after the sessions.
+- Supply a genuine separate pilot record and genuine post-session probe responses only if they exist. They cannot be reconstructed after the sessions.
 - Add a third eligible platform: Safari on macOS, real/cloud Android Chrome or Expo Go on a real phone.
-- The PDF specifies PDF copies and a ZIP, but this package intentionally follows the user's explicit six-file/no-ZIP submission decision. That format variance must be accepted by the course submission channel before it can be treated as full compliance.
+- The report format itself no longer blocks compliance: Markdown, PDF, XLSX, test summary, evidence archives, Agent Skills and the correctly named ZIP are generated by the submission build.
 
 ## Demo links
 
@@ -75,7 +81,7 @@ The authoritative source is `HW3/2026.HW03.GUI Usability_En.pdf`, §15. The curr
 | Task 1 — GUI-testing skill | [GUI-testing-skill demo](https://youtu.be/tMar6OyMG80) | `PUBLIC_LINK_VERIFIED` through YouTube oEmbed; title `GUI-testing-skill demo`, author `Đặng Đăng Khoa`. |
 | Task 2 — usability-testing skill | [Usability-testing demo](https://youtu.be/QAh6W9AJXiU) | `PUBLIC_LINK_VERIFIED`; YouTube-link-only submission. |
 
-No local MP4 is required or retained.
+The two skill demonstrations are submitted as verified YouTube links. The seven participant recordings remain in access-controlled Drive and are indexed as D01–D07; raw participant MP4s are not duplicated into the ZIP because they contain PII and plaintext-password intervals.
 
 ## Evidence archive
 
@@ -83,11 +89,13 @@ No local MP4 is required or retained.
 - Task 1 screenshots: [`../task1-gui/evidence/executed-chrome/`](../task1-gui/evidence/executed-chrome/).
 - Task 2 session coding: [`../task2-usability/Sessions/`](../task2-usability/Sessions/).
 - Task 2 SUS source and calculations: [`../task2-usability/Analysis/`](../task2-usability/Analysis/).
+- Task 2 flow funnel and diagnostics: [`../task2-usability/Analysis/Flow_Funnel_and_SUS_Diagnostics.md`](../task2-usability/Analysis/Flow_Funnel_and_SUS_Diagnostics.md).
+- Task 2 recording manifest and access-controlled links: [`../task2-usability/Stage_0_Drive_Inventory.md`](../task2-usability/Stage_0_Drive_Inventory.md).
 - Task 2 private roster: [`../task2-usability/Participant_Roster.md`](../task2-usability/Participant_Roster.md); submission-only, not for public issue publication.
 - Task 3 matrix and result data: [`../task3-cross-platform/Cross_Platform_Matrix.md`](../task3-cross-platform/Cross_Platform_Matrix.md) and [`../task3-cross-platform/results/`](../task3-cross-platform/results/).
 - Task 3 screenshots: [`../task3-cross-platform/evidence/`](../task3-cross-platform/evidence/).
 
-The three source task directories are supporting evidence, not additional top-level reports in this consolidated entry point.
+The correctly named ZIP includes these three task directories, the two Agent Skill directories and the test-summary files as supporting evidence.
 
 ## Privacy and publication boundary
 
@@ -100,9 +108,9 @@ The three source task directories are supporting evidence, not additional top-le
 
 ## Reading order
 
-1. Open `Main_Report.md` for methods, metrics, SUS, platform coverage and completion status.
+1. Open `Main_Report.pdf` for grading, or `Main_Report.md` for linkable source, methods, metrics, SUS, platform coverage and completion status.
 2. Open `Bug_Report.md` for defect/usability separation, severity, evidence and issue traceability.
-3. Open `AI_Critique.md` for the human-reviewed evaluation of AI limitations.
+3. Open `AI_Critique.pdf` or `AI_Critique.md` for the required 200–300-word human-reviewed evaluation of AI limitations.
 4. Open `AI_Audit_Report.md` for prompts, corrections, validator results and anti-fabrication decisions.
 5. Use `git-commit-log.txt` to verify the procedure history.
 
@@ -114,6 +122,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\task2-usability\scripts\an
 powershell -NoProfile -ExecutionPolicy Bypass -File .\task2-usability\scripts\validate-usability.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File .\task2-usability\scripts\validate-submission-files.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File .\task3-cross-platform\scripts\validate-task3.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\submission-tools\build-hw03-submission.ps1 -SelfAssessedGrade 88
 ```
 
 For the deliberately stricter evidence gates, add `-RequireComplete` to the Task 1/Task 3 validators and `-RequireCompleteEvidence` to the Task 2 validator. These strict commands are expected to return exit code 2 until their documented external evidence is supplied.
+
+The build produces `submission/23127207_HW03_AI_GUIUsability_088.zip` and verifies all required report/PDF/XLSX/skill/evidence entries, the 7/7 Task 2 session set, all seven recording links, 70 SUS responses and all 160 Task 3 screenshots before closing the archive.

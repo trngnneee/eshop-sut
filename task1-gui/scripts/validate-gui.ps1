@@ -110,9 +110,9 @@ $missingFailedIds = @($failRows | Where-Object { $bugReport -notmatch [regex]::E
 Assert-Gui ($missingFailedIds.Count -eq 0) 'Consolidated Bug Report covers all 20 Task 1 failed assertions'
 
 $critiqueDocument = Get-Content -LiteralPath (Join-Path $finalRoot 'AI_Critique.md') -Raw -Encoding UTF8
-$critiqueMatch = [regex]::Match($critiqueDocument,'(?ms)^## Task 1 critique.*?\r?\n\r?\n(.*?)(?=\r?\n\*\*Section length:)')
+$critiqueMatch = [regex]::Match($critiqueDocument,'(?ms)^## Critique \([^)]+words\)\s*\r?\n\r?\n(.*?)(?=\r?\n\r?\n\*\*Word-count target:)')
 $words = if ($critiqueMatch.Success) { [regex]::Matches($critiqueMatch.Groups[1].Value,"[\p{L}\p{M}\p{N}]+(?:[-'][\p{L}\p{M}\p{N}]+)*").Count } else { 0 }
-Assert-Gui ($words -ge 200 -and $words -le 300) "Consolidated Task 1 AI critique contains 200-300 words (actual: $words)"
+Assert-Gui ($words -ge 200 -and $words -le 300) "Assignment-wide AI critique contains 200-300 words (actual: $words)"
 $audit = Get-Content -LiteralPath (Join-Path $finalRoot 'AI_Audit_Report.md') -Raw -Encoding UTF8
 Assert-Gui ($audit -match 'HUMAN_REVIEWED' -and $audit -match 'Task 1 corrections') 'Consolidated AI audit records Task 1 human review and corrections'
 

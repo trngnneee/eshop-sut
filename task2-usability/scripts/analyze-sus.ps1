@@ -125,6 +125,21 @@ $mean = [Math]::Round((($scores | Measure-Object -Average).Average), 2)
 $median = [Math]::Round($scores[3], 2)
 $minimum = [Math]::Round($scores[0], 2)
 $maximum = [Math]::Round($scores[6], 2)
+$unroundedMean = ($scores | Measure-Object -Average).Average
+$squaredDeviationSum = ($scores | ForEach-Object { [Math]::Pow($_ - $unroundedMean, 2) } | Measure-Object -Sum).Sum
+$sampleStandardDeviation = [Math]::Round([Math]::Sqrt($squaredDeviationSum / ($scores.Count - 1)), 2)
+$firstQuartile = [Math]::Round($scores[1], 2)
+$thirdQuartile = [Math]::Round($scores[5], 2)
+$itemDiagnostics = New-Object System.Collections.Generic.List[object]
+for ($question = 1; $question -le 10; $question++) {
+    $itemMean = [Math]::Round((($rows | ForEach-Object { [double]$_.("Q$question") } | Measure-Object -Average).Average), 2)
+    $meanContribution = if (($question % 2) -eq 1) { $itemMean - 1 } else { 5 - $itemMean }
+    $itemDiagnostics.Add([PSCustomObject]@{
+        Item = "Q$question"
+        MeanResponse = ('{0:F2}' -f $itemMean)
+        MeanContribution = ('{0:F2}' -f $meanContribution)
+    })
+}
 
 $markdown = New-Object System.Collections.Generic.List[string]
 $markdown.Add("# SUS Results - Seven User-Provided Response Sets")
@@ -152,6 +167,18 @@ $markdown.Add("| Mean | $mean |")
 $markdown.Add("| Median | $median |")
 $markdown.Add("| Minimum | $minimum |")
 $markdown.Add("| Maximum | $maximum |")
+$markdown.Add("")
+$markdown.Add("## Item-level diagnostic summary")
+$markdown.Add("")
+$markdown.Add("| Item | Mean response | Mean contribution (0-4) |")
+$markdown.Add("| :--- | ---: | ---: |")
+foreach ($diagnostic in $itemDiagnostics) {
+    $markdown.Add("| $($diagnostic.Item) | $($diagnostic.MeanResponse) | $($diagnostic.MeanContribution) |")
+}
+$markdown.Add("")
+$markdown.Add("Across the seven scores, the sample standard deviation is $sampleStandardDeviation and the interquartile range is $firstQuartile-$thirdQuartile. The relatively lower contribution means for Q2, Q6 and Q8 identify perceived complexity, inconsistency and cumbersomeness as the most useful SUS-level follow-up signals. These are descriptive diagnostics for this sample, not inferential statistics.")
+$markdown.Add("")
+$markdown.Add("The detailed behavioral funnel, error-stage concentration and triangulation with findings are documented in ``Analysis/Flow_Funnel_and_SUS_Diagnostics.md``.")
 $markdown.Add("")
 $markdown.Add("Odd-item contribution = response - 1; even-item contribution = 5 - response; SUS score = contribution sum x 2.5.")
 $markdown.Add("")

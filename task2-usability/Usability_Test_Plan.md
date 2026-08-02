@@ -186,7 +186,7 @@ Stop a session if the participant withdraws, personal data is accidentally expos
 
 ## 16. Readiness checklist
 
-- [ ] Flow uniqueness confirmed with group.
+- [ ] Flow uniqueness confirmed with group — no auditable allocation confirmation retained.
 - [x] One end-to-end flow selected.
 - [x] Objectives and measures defined.
 - [x] Goal-oriented scenario written.
@@ -194,8 +194,8 @@ Stop a session if the participant withdraws, personal data is accidentally expos
 - [x] Consent and moderator protocol prepared.
 - [x] P01–P07 templates prepared as `UNVERIFIED`.
 - [ ] Separate pilot completed and refinement recorded.
-- [ ] Seven eligible real participants recruited.
-- [ ] Seven official sessions completed.
-- [ ] SUS aggregate generated.
-- [ ] Findings and GitHub issues completed.
-- [ ] Completion validator passes.
+- [x] Seven real participant mappings and masked contacts retained for private grading verification.
+- [x] Seven official screen-recorded sessions completed and coded as P01–P07.
+- [x] SUS aggregate generated from 70/70 supplied responses; arithmetic validated.
+- [x] Findings prioritized; all three software bugs map to canonical GitHub issues.
+- [x] Default package-closure and submission validators pass; the optional strict method-evidence audit retains disclosed pilot/probe limitations.

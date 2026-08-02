@@ -28,6 +28,25 @@ The values were supplied by the user on 2026-07-31. On 2026-08-02, the user conf
 | Minimum | 62.5 |
 | Maximum | 100 |
 
+## Item-level diagnostic summary
+
+| Item | Mean response | Mean contribution (0-4) |
+| :--- | ---: | ---: |
+| Q1 | 4.00 | 3.00 |
+| Q2 | 2.14 | 2.86 |
+| Q3 | 4.29 | 3.29 |
+| Q4 | 1.71 | 3.29 |
+| Q5 | 4.14 | 3.14 |
+| Q6 | 2.14 | 2.86 |
+| Q7 | 4.29 | 3.29 |
+| Q8 | 2.14 | 2.86 |
+| Q9 | 4.00 | 3.00 |
+| Q10 | 1.86 | 3.14 |
+
+Across the seven scores, the sample standard deviation is 13.97 and the interquartile range is 65-87.5. The relatively lower contribution means for Q2, Q6 and Q8 identify perceived complexity, inconsistency and cumbersomeness as the most useful SUS-level follow-up signals. These are descriptive diagnostics for this sample, not inferential statistics.
+
+The detailed behavioral funnel, error-stage concentration and triangulation with findings are documented in `Analysis/Flow_Funnel_and_SUS_Diagnostics.md`.
+
 Odd-item contribution = response - 1; even-item contribution = 5 - response; SUS score = contribution sum x 2.5.
 
 SUS is a 0-100 scale, not a percentage. These seven observations are descriptive; no statistical significance or population-wide conclusion is inferred.

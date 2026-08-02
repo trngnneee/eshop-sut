@@ -3,7 +3,7 @@
 **Student:** Đặng Đăng Khoa  
 **Student ID:** 23127207  
 **System under test:** EShop  
-**Report date/timezone:** 2026-08-02 — Asia/Bangkok (UTC+7)  
+**Report date/timezone:** 2026-08-03 — Asia/Bangkok (UTC+7)  
 **Review state:** `HUMAN_REVIEWED`  
 **Overall evidence state:** `LOCALLY_VALIDATED_WITH_DISCLOSED_EXTERNAL_LIMITATIONS`
 
@@ -14,7 +14,7 @@ This report consolidates the three HW03 tasks into one auditable narrative while
 | Task | Core dataset | Result | Completion boundary |
 |---|---|---|---|
 | Task 1 — GUI checklist | 58 unique items; 40 Chrome screenshots | 37 Pass / 20 Fail / 1 Blocked | GUI-skill YouTube demo is verified; all 20 failed rows map to 18 verified GitHub issues. Native soft-keyboard evidence remains unavailable. |
-| Task 2 — usability | 7 sessions; P01–P07; exact T0–T11 coding; 70 SUS responses | 0/7 completed all SC1–SC5; calculable task-time median 80 s; SUS mean 76.79 | Pilot, consent, probes, usable speech and some environment/timing evidence were not collected and remain explicitly missing. |
+| Task 2 — usability | 7 official recordings; 7 session reports; exact T0–T11 coding; 70 SUS responses | 0/7 completed all SC1–SC5; funnel collapses at profile update; calculable task-time median 80 s; SUS mean 76.79 | Core session-count, notes, SUS and analysis deliverables are present. A separate pilot record and post-session probe responses remain unavailable. |
 | Task 3 — cross-platform | 58 IDs × 4 environments = 232 rows; 160 screenshots | 37 Pass / 20 Fail / 1 Not Observable per environment | Chrome and Firefox are eligible; WebKit Windows is not Safari and Pixel emulation is not real Android, leaving 2/3 eligible platforms. |
 
 Default/local validators return exit 0 for all three packages. Strict evidence validators return exit 2 only for the disclosed external/fieldwork gaps. No pilot, consent, quote, probe, participant value, platform, issue URL, device run or video URL was synthesized to turn a strict failure into a pass.
@@ -34,13 +34,13 @@ The submission was produced as one connected testing programme rather than three
 
 ### 1.2 Submission structure
 
-Only six files are used as the grading entry point: `README.md`, this `Main_Report.md`, `Bug_Report.md`, `AI_Critique.md`, `AI_Audit_Report.md` and `git-commit-log.txt`. The three task directories are evidence-only archives. Redundant task-specific Main/Bug/AI reports, rendered PDFs, duplicate Git logs, ZIP packaging, issue drafts already represented in the consolidated bug register and one-off generation artefacts are intentionally removed. Machine-readable sources, screenshots, session records, raw SUS and validators are retained.
+The grading entry point provides `README.md`, the consolidated Markdown reports, current PDF counterparts and the authentic full-hash Git log. The correctly named ZIP also includes the Task 1 XLSX checklist, test summaries, all three task evidence directories and both submitted Agent Skills. Participant recordings remain in the access-controlled Drive locations indexed as D01–D07; they are not duplicated into the archive because the raw files contain PII and plaintext-password intervals.
 
 ### 1.3 Assessment-template reconciliation
 
-The assignment PDF allocates 30 points to Task 1, 40 to Task 2, 20 to Task 3 and 10 to Agent Skills. The rubric also requires a README self-assessment table; the completed table and summary are now in `README.md`. After publishing and verifying the remaining Task 1 defects, the current evidence supports a conservative self-assessment of **081/100**: 29/30, 29/40, 13/20 and 10/10 respectively. This number does not override the strict validators or guarantee the instructor's score.
+The assignment PDF allocates 30 points to Task 1, 40 to Task 2, 20 to Task 3 and 10 to Agent Skills. The completed README self-assessment is **088/100**: 29/30, 36/40, 13/20 and 10/10 respectively. Task 2 is credited for seven official recordings, seven structured notes, a complete SUS dataset, funnel/error diagnostics and severity-ranked findings; it is not given unsupported credit for a missing pilot or probe-response record. This estimate does not override the instructor's judgement.
 
-The audit also identified a submission-format variance. The PDF requests Markdown plus PDF copies inside a named ZIP, whereas the student explicitly selected a six-file, Markdown-first, no-ZIP hand-in. That decision is preserved rather than silently reversed. Full format compliance therefore depends on the Moodle channel or teaching staff accepting the six-file mode.
+Submission-format compliance has been restored: the build generates Markdown and PDF reports, includes the XLSX checklist, test summaries, task evidence and both skills, and closes the correctly named `23127207_HW03_AI_GUIUsability_088.zip` only after checking required entries.
 
 ## 2. Scope and evidence model
 
@@ -294,6 +294,18 @@ Summary:
 - Observed lower bound: 17 errors, one wrong turn, two hesitations of at least five seconds, totaling ten seconds.
 - Intervention, think-aloud-reminder and Card B counts remain `NOT_OBSERVABLE`; they are not reported as zero.
 
+#### Flow funnel and error concentration
+
+| Flow checkpoint | Evidenced passes | Rate |
+|---|---|---:|
+| SC1 — account created | P01, P02, P04, P05, P07 | 5/7 (71.4%) |
+| SC2 — authenticated | P01, P02, P04, P07 | 4/7 (57.1%) |
+| SC3 — requested profile data saved | None | 0/7 (0.0%) |
+| SC4 — saved data persisted | None | 0/7 (0.0%) |
+| SC5 — behavioral logout | P01, P04, P07 | 3/7 (42.9%) |
+
+Five participants passed account creation and four passed login, but no participant produced a requirement-conforming profile save. Of the 17 visible error events, 5 occurred during registration/password recovery, 1 during login/identifier recovery and 11 during profile/phone recovery. The profile stage therefore contains 64.7% of the visible error lower bound and is the dominant remediation target. This triangulates the behavioral funnel with both S1 findings, `BUG-PF-02` and `UF-PHONE-RECOVERY-01`.
+
 ### 5.4 Session-by-session analysis
 
 | Participant | What was observed | Why the final outcome is not complete |
@@ -330,8 +342,12 @@ For odd questions, contribution = response − 1. For even questions, contributi
 | Median | 75 |
 | Minimum | 62.5 |
 | Maximum | 100 |
+| Sample standard deviation | 13.97 |
+| Interquartile range | 65–87.5 |
 
-SUS is a 0–100 scale, not a percentage. These values are descriptive for the supplied sample; no population-level or statistical-significance claim is made. The apparent contrast between a relatively positive SUS mean and 0/7 full task completion is retained rather than “resolved” by changing either dataset. It may reflect separate collection context, expectations or the difference between perceived usability and the strict SC1–SC5 completion definition.
+The item-level means are Q1 4.00, Q2 2.14, Q3 4.29, Q4 1.71, Q5 4.14, Q6 2.14, Q7 4.29, Q8 2.14, Q9 4.00 and Q10 1.86. After direction normalization, Q2, Q6 and Q8 have the lowest mean contributions (2.86/4), making perceived complexity, inconsistency and cumbersomeness the most useful SUS-level follow-up signals.
+
+SUS is a 0–100 scale, not a percentage. These values are descriptive for the supplied sample; no population-level or statistical-significance claim is made. The contrast between a relatively positive SUS mean and 0/7 strict task completion is retained because the measures answer different questions: SUS captures the supplied perceptions, while SC1–SC5 requires every predefined behavioral checkpoint. The detailed derivation is retained in `Analysis/Flow_Funnel_and_SUS_Diagnostics.md`.
 
 ### 5.6 Severity-ranked usability findings
 
@@ -363,7 +379,7 @@ Duplicate search was completed before issue handling:
 - `BUG-AUTH-PLAINTEXT-01` reuses canonical [issue #37](https://github.com/trngnneee/eshop-sut/issues/37); fresh synthetic evidence was published in the recorded issue comment.
 - `BUG-REG-PASSWORD-POLICY-01` reuses canonical [issue #118](https://github.com/trngnneee/eshop-sut/issues/118). Duplicate search prevented a new issue. Its reviewed reproduction remains local; no new #118 comment is claimed.
 
-### 5.8 Task 2 missing-data declaration
+### 5.8 Task 2 method limitations and missing-data declaration
 
 The following were not collected or cannot be verified from the supplied evidence:
 
@@ -375,15 +391,17 @@ The following were not collected or cannot be verified from the supplied evidenc
 - some session environment, device and full timing fields;
 - complete seven-person distributions for metrics where P03 or another session is not observable.
 
+These limitations do not mean that additional official session recordings are being requested: D01–D07 are the complete official recording set, all seven are linked, decoded and represented by structured session reports. Optional audio is not treated as a reason to reject the seven sessions. The unavailable items are kept separate so the grader can distinguish complete core deliverables from method evidence that cannot be recreated retrospectively.
+
 An authenticated Drive recheck on 2026-08-02 traced D01–D07 to one common `Khoa` folder. Its direct listing contained eight MP4 files and no documents, forms, spreadsheets or subfolders. The parent `HW3` folder contained participant folders and two allocation files, but no pilot, consent, probe or SUS collection artefact. Broader authenticated searches using the corresponding HW03 and generic keywords also found no relevant EShop fieldwork record. This is an evidence-availability finding, not an inference that consent did or did not occur.
 
 These omissions are the reason strict evidence validation returns exit 2. The default package-closure validator returns exit 0 because the missing fields are disclosed instead of populated with invented data.
 
 ### 5.9 Retained Task 2 evidence and submission mode
 
-The verified public Task 2 skill-demo link is [https://youtu.be/QAh6W9AJXiU](https://youtu.be/QAh6W9AJXiU). Submission mode is YouTube-link-only; no local MP4 or ZIP package is required. The participant roster must remain in the private grading channel and is not copied into the six-file consolidated entry point.
+The verified public Task 2 skill-demo link is [https://youtu.be/QAh6W9AJXiU](https://youtu.be/QAh6W9AJXiU). The skill demo is submitted by public YouTube link. The seven participant recordings are separate, access-controlled Drive evidence linked from `Stage_0_Drive_Inventory.md`. The private participant roster is included in the Moodle ZIP for TA verification and must not be published to GitHub.
 
-The retained evidence archive contains the study plan/instruments, seven session reports, masked private roster, missing-data and video-quality records, five analysis files, the verified YouTube metadata, synthetic reproduction evidence and the three validation scripts. Redundant Task 2 Main/Bug/AI reports, PDFs, local Git export, GitHub drafts already represented by canonical URLs, render sources, duplicate preflight images and ZIP tooling are removed.
+The retained Task 2 archive contains the study plan/instruments, seven session reports, masked private roster, seven-link recording manifest, missing-data and video-quality records, six analysis files, verified YouTube metadata, synthetic reproduction evidence and three validation scripts. The package build verifies 7/7 session reports, 7/7 official Drive links and 7/7 SUS response rows before closing the ZIP.
 
 ## 6. Task 3 — Cross-platform execution
 
@@ -491,8 +509,9 @@ The most important combined risks are credential exposure, data-integrity loss o
 | Task 1 `-RequireComplete` | 2 | GUI demo and all GitHub mappings pass; native-phone soft-keyboard evidence remains. |
 | Task 2 SUS analyzer | 0 | Exactly seven structurally valid P01–P07 response sets and exact SUS arithmetic. |
 | Task 2 default validator | 0 | `COMPLETE_WITH_DISCLOSED_LIMITATIONS`. |
-| Task 2 `-RequireCompleteEvidence` | 2 | Missing pilot, consent, probes, environment/timing provenance. |
-| Task 2 submission validator | 0 | Structural, exact T0–T11, SUS, separation, six-file, demo and privacy checks pass while the missing fieldwork evidence remains disclosed. |
+| Task 2 `-RequireCompleteEvidence` | 2 | Optional strict method audit retains the separate pilot, probe and source-provenance limitations. |
+| Task 2 submission validator | 0 | Structural, exact T0–T11, SUS, finding separation, demo, privacy and core-deliverable checks pass. |
+| HW03 package build | 0 | Created a portable 277-entry ZIP after verifying Markdown/PDF/XLSX/test-summary/skill/evidence entries, seven sessions, seven recording links, seven SUS sets and 160 Task 3 screenshots. |
 | Task 3 default validator | 0 | Local 232-row/160-screenshot package passes. |
 | Task 3 `-RequireComplete` | 2 | Only 2/3 eligible platforms. |
 
@@ -507,6 +526,8 @@ The most important combined risks are credential exposure, data-integrity loss o
 | Task 2 observation metrics | [`../task2-usability/Analysis/Observation_Metrics.csv`](../task2-usability/Analysis/Observation_Metrics.csv) |
 | Task 2 raw SUS | [`../task2-usability/Analysis/SUS_Raw_Responses.csv`](../task2-usability/Analysis/SUS_Raw_Responses.csv) |
 | Task 2 SUS scores | [`../task2-usability/Analysis/SUS_Scores.csv`](../task2-usability/Analysis/SUS_Scores.csv) |
+| Task 2 funnel and SUS diagnostics | [`../task2-usability/Analysis/Flow_Funnel_and_SUS_Diagnostics.md`](../task2-usability/Analysis/Flow_Funnel_and_SUS_Diagnostics.md) |
+| Task 2 recording links/integrity | [`../task2-usability/Stage_0_Drive_Inventory.md`](../task2-usability/Stage_0_Drive_Inventory.md) |
 | Task 2 finding register | [`../task2-usability/Analysis/Findings_Register.csv`](../task2-usability/Analysis/Findings_Register.csv) |
 | Task 2 technical reproduction | [`../task2-usability/evidence/github-issue-reproduction/`](../task2-usability/evidence/github-issue-reproduction/) |
 | Task 3 result CSV | [`../task3-cross-platform/results/Task3_Cross_Platform_Results.csv`](../task3-cross-platform/results/Task3_Cross_Platform_Results.csv) |
@@ -521,12 +542,12 @@ Cleanup is evidence-aware. A file is retained if it is directly linked by a cons
 | Area | Retained | Removed as obsolete/redundant |
 |---|---|---|
 | Task 1 | Final 58-row checklist in Markdown/XLSX, execution/evidence CSVs, 40 screenshots and consolidated validator. | Task-specific Main/Bug/Summary/AI reports and PDFs, old audits, AI draft output, duplicate issue drafts, local Git export and one-off generators. |
-| Task 2 | Plan/instruments, P01–P07 sessions, private masked roster, missing/video-quality evidence, SUS/metrics/findings CSV/MD, YouTube metadata, safe reproduction evidence and validators/reproduction scripts. | Task-specific Main/Bug/Findings/Summary/AI reports and PDFs, PDF sources, duplicate GitHub drafts, local Git export, duplicate preflight captures, renderer/export/ZIP scripts, ZIP and checksum. |
+| Task 2 | Plan/instruments, P01–P07 sessions, private masked roster, seven-link recording manifest, missing/video-quality evidence, SUS/metrics/findings/funnel analysis, YouTube metadata, safe reproduction evidence and validators. | Raw participant MP4 copies, PII-bearing frames and duplicate/superseded D06 are excluded from the ZIP. |
 | Task 3 | Platform JSON/CSV summaries, 58-row matrix, 160-row evidence index, 160 screenshots, runner, summarizer and validator. | Task-specific Main/Findings/AI reports and PDFs, duplicate platform narrative, local Git export and one-off reconciliation/export scripts. |
-| Submission root | Exactly the six files named in Section 1.2. | No ZIP and no local demo MP4. |
+| Submission root | Markdown and PDF reports, authentic Git log, manifest, three evidence directories, test summary and two Agent Skills inside the correctly named ZIP. | Temporary HTML render files and raw participant MP4s. |
 
-Historical commit subjects that mention a ZIP remain in `git-commit-log.txt` because changing an authentic Git snapshot to hide an earlier packaging step would be inaccurate. The ZIP artefact itself and its creation script are removed.
+Historical commit subjects remain unchanged because rewriting authentic history to hide earlier packaging decisions would be inaccurate. The current build supersedes the earlier six-file/no-ZIP decision and follows the authoritative assignment PDF.
 
 ## 11. Final declaration
 
-The consolidated report is human-reviewed and consistent with the current machine-readable evidence. It does not claim a guaranteed rubric score or full external completion. Task 1 GUI demo and all GitHub mappings are verified; Task 1 native soft-keyboard behavior, Task 2 missing fieldwork records, and Task 3 third-platform execution remain explicit. Local package validation is complete; unavailable evidence has not been reconstructed.
+The consolidated report is human-reviewed and consistent with the current machine-readable evidence. Task 2 uses all seven official recordings and no additional session video is requested. The submission now includes required PDF counterparts, XLSX/test-summary evidence and both Agent Skills in the correctly named ZIP. It does not claim a guaranteed score: Task 1 native soft-keyboard behavior, Task 2 pilot/probe method evidence and Task 3 third-platform execution remain explicit, and none has been reconstructed.
