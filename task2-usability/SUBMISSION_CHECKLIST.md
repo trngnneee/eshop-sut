@@ -22,7 +22,7 @@
 - [x] Public YouTube demo link verified; student confirmed local MP4 is not required.
 - [x] Git history export.
 - [x] Package completion gate passes as `COMPLETE_WITH_DISCLOSED_LIMITATIONS`; strict fieldwork audit remains honestly `INCOMPLETE_EVIDENCE`.
-- [ ] Task 2 ZIP package — no current ZIP exists.
+- [x] Private Task 2 ZIP regenerated at `submission/23127207_Task2_Usability_Submission.zip`; packaging validator excludes raw/local recordings.
 
 ## Student-only actions before upload
 
@@ -36,7 +36,7 @@
 - [x] Human-review #118 evidence completed; current reviewed disposition is local-only, with no claim that a fresh comment was published.
 - [x] Public YouTube demo metadata verified via oEmbed on 2026-08-02 and recorded in `Demo_Video_Link.md`.
 - [x] YouTube-link-only demo submission confirmed; no local MP4 restore/export action remains.
-- [ ] Regenerate commit log and ZIP after final repository edits; PDFs were regenerated after human-review status updates.
+- [x] Commit logs and private ZIP regenerated after the human-review/package updates; ZIP integrity and required entries were reopened and checked.
 
 ## Missing evidence that must remain disclosed
 
@@ -53,11 +53,11 @@
 
 ## Submission privacy gate
 
-- [ ] ZIP contains no raw recordings.
-- [ ] ZIP contains no unmasked phone numbers.
+- [x] ZIP contains no raw/local recordings.
+- [x] ZIP contains no unmasked participant phone numbers. The only full-format number is the declared synthetic fixture used by the task card/preflight source, not participant data.
 - [ ] Public repository contains no real participant names/contacts.
 - [ ] `Participant_Roster.md` is sent only through the private grading channel.
-- [ ] No screenshot or clip exposes a password, email, address, name or full phone number.
+- [x] Packaged screenshots are privacy-safe synthetic technical reproductions; raw participant frames/clips are excluded.
 
 ## Final command sequence
 

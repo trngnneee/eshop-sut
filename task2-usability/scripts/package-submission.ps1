@@ -31,7 +31,7 @@ if ($recordings.Count -gt 0) {
 $archive = [System.IO.Compression.ZipFile]::Open($expectedZip, [System.IO.Compression.ZipArchiveMode]::Create)
 try {
     foreach ($file in $files) {
-        $relative = [System.IO.Path]::GetRelativePath($taskRoot, $file.FullName).Replace('\', '/')
+        $relative = $file.FullName.Substring($taskRoot.Length).TrimStart('\', '/').Replace('\', '/')
         $entryName = "task2-usability/$relative"
         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile(
             $archive,
@@ -62,11 +62,32 @@ try {
     if (@($entryNames | Where-Object { [System.IO.Path]::GetExtension($_).ToLowerInvariant() -in $recordingExtensions }).Count -gt 0) {
         throw 'Submission ZIP unexpectedly contains a recording file.'
     }
+
+    $textExtensions = @('.md', '.csv', '.json', '.txt', '.ps1', '.js')
+    $allowedSyntheticPhoneEntries = @(
+        'task2-usability/Instruments/Task_Data_Card.md',
+        'task2-usability/scripts/technical-preflight.js',
+        'task2-usability/scripts/package-submission.ps1'
+    )
+    foreach ($entry in $check.Entries | Where-Object { [System.IO.Path]::GetExtension($_.FullName).ToLowerInvariant() -in $textExtensions }) {
+        $reader = [System.IO.StreamReader]::new($entry.Open())
+        try { $content = $reader.ReadToEnd() } finally { $reader.Dispose() }
+        $phoneMatches = @([regex]::Matches($content, '(?<!\d)0[3-9]\d{8}(?!\d)') | ForEach-Object { $_.Value })
+        if ($phoneMatches.Count -gt 0) {
+            $onlyDeclaredSyntheticFixture = $entry.FullName -in $allowedSyntheticPhoneEntries -and
+                @($phoneMatches | Where-Object { $_ -ne '0912345678' }).Count -eq 0
+            if (-not $onlyDeclaredSyntheticFixture) {
+                throw "Possible unmasked participant phone in ZIP entry: $($entry.FullName)"
+            }
+        }
+    }
 }
 finally {
     $check.Dispose()
 }
 
 $zip = Get-Item -LiteralPath $expectedZip
+$sha256 = (Get-FileHash -LiteralPath $expectedZip -Algorithm SHA256).Hash
 Write-Host "Created private Task 2 submission ZIP: $($zip.FullName)"
 Write-Host "Entries: $($files.Count); bytes: $($zip.Length); raw/local recordings: 0"
+Write-Host "SHA256: $sha256"

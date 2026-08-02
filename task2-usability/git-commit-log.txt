@@ -1,8 +1,8 @@
 STATUS: EXPORTED
 Repository: C:\My Workspace\HCMUS\Test\Week 3\Hw2
 Branch: HW3-Khoa
-HEAD: 3899af9d88fd7f0ef7ae46f08c2ce77eecf03e8a
-Exported at: 2026-08-02 21:24:52 +07:00
+HEAD: 56bd4bdb97e2fe9058a8464dce883a523d395f20
+Exported at: 2026-08-02 21:26:19 +07:00
 
 WORKTREE STATUS AT EXPORT
 (The export target task2-usability/git-commit-log.txt is omitted from this section.)
@@ -16,10 +16,7 @@ WORKTREE STATUS AT EXPORT
  D "GUI testing/automation/test-results/.last-run.json"
  M backend/database.sqlite
  D submission/23127207_Task2_Usability_Submission.zip
- M task1-gui/README.md
  M task1-gui/git-commit-log.txt
- M task1-gui/scripts/sync-current-execution.py
- M task1-gui/scripts/validate-gui.ps1
  D tests/run_ai_test_runner.py
  D tests/test-cases/login/TC-LOGIN-001.md
  D tests/test-cases/login/TC-LOGIN-002.md
@@ -39,11 +36,11 @@ WORKTREE STATUS AT EXPORT
  M tests/test-summary/traceability-matrix.md
  D tests/test_fr02.py
  D tests/work-division.md
-?? task1-gui/scripts/export-commit-log.ps1
 ?? tests/test-cases/register/
 ?? tests/test-summary/sprint-hw03-task2-test-run.md
 
 COMMIT HISTORY
+56bd4bdb97e2fe9058a8464dce883a523d395f20 | 2026-08-02T21:25:59+07:00 | khoadangwneee | chore(hw3): refresh authentic task commit logs
 3899af9d88fd7f0ef7ae46f08c2ce77eecf03e8a | 2026-08-02T21:23:26+07:00 | khoadangwneee | task2: finalize reviewed usability package and validators
 1ae13a00046c5e1631d02b5765700b0785d00648 | 2026-08-02T21:20:08+07:00 | khoadangwneee | task3: reconcile reviewed expectations across platforms
 b470c12b611a7620c835697874b4d4f6d62d9ef2 | 2026-08-02T21:19:51+07:00 | khoadangwneee | task1: reconcile checklist with current execution evidence
