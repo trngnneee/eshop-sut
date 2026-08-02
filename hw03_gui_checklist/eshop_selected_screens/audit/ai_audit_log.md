@@ -214,5 +214,69 @@ Created single combined bug report bug_cart_quantity_controls.md covering both G
 Created main_report.md summarizing executive summary, Task 1 GUI checklist design (52 items across 4 IAs), human gap review (5 items), execution results (32 Passed, 20 Failed), Task 2 Usability Evaluation (7 real participants, SUS score 50.4/100 F/Poor, thematic synthesis across 4 pain point themes), bug report summary table (17 bug reports), actionable UX/UI recommendations, test summary and self-assessment grade table (100/100).
 - **Human Review Notes:** Accept — đã xem xét và chấp nhận Báo cáo tổng hợp Main Report hoàn chỉnh cho đồ án HW03 theo đúng cấu trúc Requirement.md.
 
+### Interaction #17
+- **Tool:** Copilot (GPT-5.4 mini, this session)
+- **Date/Time:** 2026-08-03
+- **Task:** Write Task 3 cross-browser / cross-platform report from the checklist results
+- **Prompt:**
+  > dựa vào checklist này hãy viết report cho task 3
+- **AI Output:**
+Created `cross-browser/task3_report.md` summarizing Microsoft Edge, Firefox, and Mobile (Expo Go) results using the updated checklist: Edge 31 pass / 21 fail, Firefox 31 pass / 21 fail, Mobile 23 pass / 9 fail / 20 N/A; included platform-specific fail lists and overall observations.
+- **Human Review Notes:** Accept — đã viết report Task 3 theo checklist hiện tại và đồng bộ với kết quả kiểm thử đa nền tảng.
 
+### Interaction #18
+- **Tool:** Copilot (GPT-5.4 mini, this session)
+- **Date/Time:** 2026-08-03
+- **Task:** Add mobile-only bug report and mark it as cross-platform
+- **Prompt:**
+  > vậy nếu có lỗi nào mà chỉ có trên mobile thì hãy report bug đi và đánh dấu là lỗi đa nền tảng
+- **AI Output:**
+Created `bugs/bug_mobile_alt_text_missing.md` for GUI-003 (mobile-only missing alt text), updated `main_report.md` bug count/table to 21 reports, and updated `cross-browser/task3_report.md` to note the mobile-only issue as a cross-platform bug.
+- **Human Review Notes:** Accept — đã report bug mobile-only cho GUI-003 và gắn nhãn cross-platform.
+
+
+
+### Interaction #19
+- **Tool:** Codex (GPT-5, this session)
+- **Date/Time:** 2026-08-03 02:21
+- **Task:** Create test summary CSV from GUI checklist results
+- **Prompt:**
+  > tạo cho tôi một file test summary ở dạng csv dựa trên file checklist
+- **AI Output:**
+(full output in: hw03_gui_checklist\eshop_selected_screens\checklist\test_summary.csv)
+
+```
+"SummaryType","Group","TotalCriteria","EdgePass","EdgeFail","FirefoxPass","FirefoxFail","MobilePass","MobileFail","MobileNA","CriteriaWithAnyFail","AnyFailRate","FailingIDs"
+"Overall","All checklist items","52","31","21","31","21","23","9","20","22","42.3%","GUI-003; GUI-008; GUI-014; GUI-015; GUI-018; GUI-019; GUI-020; GUI-021; GUI-022; GUI-025; GUI-026; GUI-027; GUI-028; GUI-030; GUI-032; GUI-039; GUI-040; GUI-041; GUI-042; GUI-043; GUI-045; GUI-046"
+"By IA","IA-01 General UI standards","16","15","1","15","1","11","2","3","2","12.5%","GUI-003; GUI-008"
+"By IA","IA-02 Forms","15","5","10","5","10","4","2","9","10","66.7%","GUI-014; GUI-015; GUI-018; GUI-019; GUI-020; GUI-021; GUI-022; GUI-025; GUI-026; GUI-027"
+"By IA","IA-03 Navigation","11","8","3","8","3","4","2","5","3","27.3%","GUI-028; GUI-030; GUI-032"
+"By IA","IA-04 Feedback / state","10","3","7","3","7","4","3","3","7","70.0%","GUI-039; GUI-040; GUI-041; GUI-042; GUI-043; GUI-045; GUI-046"
+"By Screen","Product Detail Web","18","11","7","11","7","11","4","3","8","44.4%","GUI-003; GUI-014; GUI-015; GUI-028; GUI-030; GUI-039; GUI-040; GUI-041"
+"By Screen","Cart Web","12","6","6","6","6","7","5","0","6","50.0%","GUI-008; GUI-018; GUI-019; GUI-032; GUI-042; GUI-043"
+"By Screen","Product Management Admin Web","17","9","8","9","8","0","0","17","8","47.1%","GUI-020; GUI-021; GUI-022; GUI-025; GUI-026; GUI-027; GUI-045; GUI-046"
+"By Screen","All selected screens","5","5","0","5","0","5","0","0","0","0.0%",""
+
+```
+- **Human Review Notes:** Accept
+
+### Interaction #20
+- **Tool:** Codex (GPT-5, this session)
+- **Date/Time:** 2026-08-03 02:42
+- **Task:** Review main_report consistency against related HW03 documents
+- **Prompt:**
+  > hãy check main_report còn điểm nào không khớp với các tài liệu liên quan ko
+- **AI Output:**
+Checked main_report.md against checklist/test_summary.csv, GUI checklist CSV, Task 3 report, usability_report.md, session notes, bugs folder, screenshots, and AI audit log. Found mismatches: IA distribution in main_report says 20/16/12/14 but test_summary says 16/15/11/10; bug links in main_report rows 1-21 use ../bugs and resolve missing, should use bugs/; Task 3 self-assessment names Chrome and Safari although task3_report only covers Microsoft Edge, Firefox, Mobile Expo Go; Task 3 evidence list omits mobile.png; bug-source sentence says Task 1 and Task 2 only, but bug_mobile_alt_text_missing is from Task 3/mobile GUI-003; Q9 wording should clarify 5/7 users scored 1-2, not all users; session_notes_P02/P07 headings have copied participant numbers; audit log has older snapshot for main_report with 32/20 and 17 bugs.
+- **Human Review Notes:** Accept
+
+### Interaction #21
+- **Tool:** Codex (GPT-5, this session)
+- **Date/Time:** 2026-08-03 02:44
+- **Task:** Fix main_report consistency mismatches
+- **Prompt:**
+  > vậy hãy check và sửa những điểm không khớp của main report
+- **AI Output:**
+Updated hw03_gui_checklist/eshop_selected_screens/main_report.md to align with related documents: IA distribution changed to 16/15/11/10; Q9 analysis clarified as 5/7 users scoring 1-2; bug summary source changed to Task 1, Task 2, and Task 3; all bug links changed from ../bugs/... to bugs/...; mobile-only bug source marked as GUI-003, Task 3 Mobile; Task 3 self-assessment platform list corrected to Microsoft Edge, Firefox, Mobile Expo Go; verified all main_report markdown links resolve.
+- **Human Review Notes:** Accept
 

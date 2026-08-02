@@ -1,4 +1,4 @@
-# Usability Session Notes — Participant #03
+# Usability Session Notes — Participant #02
 
 ## Participant Info
 
