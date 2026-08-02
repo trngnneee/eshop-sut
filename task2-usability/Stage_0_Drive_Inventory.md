@@ -51,3 +51,11 @@
 2. SUS Q1–Q10 không xuất hiện trong Drive recordings; dataset riêng được người dùng cung cấp ngày 2026-07-31 và xác nhận dùng participant ID P01–P07 ngày 2026-08-02. Post-session probes, consent supplement và pilot vẫn `NOT_RECORDED`/`PILOT EVIDENCE MISSING`.
 3. Moderator/intervention/Card B vẫn `NOT_OBSERVABLE` vì không có usable speech hoặc notes nguồn.
 4. Redact toàn bộ PII và plaintext password trước khi trích evidence ra khỏi khu vực kiểm soát truy cập.
+
+## Authenticated Drive recheck — 2026-08-02
+
+- Drive metadata traced all official D01–D07 links to the same `Khoa` folder (`13N2LhCqzcD524D3ScSR4rEt4ofWFoAan`).
+- A direct folder listing returned eight items, all `video/mp4`: the seven official sources plus one excluded/superseded recording. No document, spreadsheet, form or subfolder was present.
+- The parent `HW3` folder (`1uqlcG1PRR-uNuHnVNhHsFeEBOl6NSM-_`) contained participant folders and two screen/flow-allocation files only. No pilot record, consent record, probe notes or SUS collection artefact was present.
+- Broader authenticated Drive searches for `HW03 pilot`, `HW03 consent`, `HW03 SUS`, `HW03 usability`, `pilot`, `consent`, `SUS` and `usability` returned no relevant EShop fieldwork record.
+- This negative inventory does not prove that consent never occurred; it proves only that no auditable artefact was available in the supplied/accessible sources. The missing fields therefore remain missing and were not reconstructed.

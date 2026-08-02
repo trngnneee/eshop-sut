@@ -31,6 +31,7 @@ The AI tool for every material interaction in §2 is **OpenAI Codex**. The Codex
 | 2026-08-02, `TIME_NOT_EXPORTED` | Supply `https://youtu.be/tMar6OyMG80` as the Task 1 GUI-skill demo. | Verified the public URL through YouTube oEmbed, which returned title `GUI-testing-skill demo`, author `Đặng Đăng Khoa` and provider `YouTube`; updated the consolidated README/Main/Audit and Task 1 validator. | The URL came directly from the user and was externally verified. No local MP4 was downloaded or claimed. |
 | 2026-08-02, `TIME_NOT_EXPORTED` | Automatically update whatever remains missing across all three tasks. | Queried all 262 public GitHub issues and inspected ambiguous issue bodies; mapped three Admin Login rows to exact existing issues #45/#46; rejected cross-implementation near matches; checked `gh`, GitHub credentials, `adb`, Android emulator and cloud-device credential names. | Nine Task 1 issue publications, real-phone soft-keyboard evidence, missing Task 2 fieldwork records and the Task 3 third eligible platform remain unavailable. No issue URL, participant record or device run was fabricated. |
 | 2026-08-02T23:28:57+07:00 | Recheck the authoritative rubric and make the work reach 100% if it is not already complete. | Read all nine pages of the assignment PDF; compared the 30/40/20/10 criteria and submission rules against retained evidence; searched authenticated Drive for overlooked pilot/consent/SUS/usability artefacts; tested GitHub branch/issue creation; added the mandatory README self-assessment and complete test-summary fields. | Drive contained no missing HW03 pilot/consent/probe artefact. GitHub writes returned HTTP 403. The evidence-backed self-assessment is 078/100; unsupported 100/100 was rejected. |
+| 2026-08-02T23:55:03+07:00 | Grant GitHub issue write access or create the eight prepared issues, upload seven screenshots, run Expo Go/real Android, and supply real Task 2 pilot/consent/probe records if they exist. | Used user-authorized Git Credential Manager device authentication; pushed a seven-PNG evidence-only branch; created issues #291–#298 after exact-title duplicate checks; verified all image endpoints and issue bodies. Traced D01–D07 to their common Drive folder and inspected both that folder and its HW3 parent. Started Expo Metro on LAN and checked for connected devices. | GitHub publication completed without Task 2 data. The recording folder contained eight MP4 files only and the HW3 parent contained participant folders/allocation files only—no pilot, consent, probe or SUS artefact. Metro served `exp://192.168.50.111:8081`, but no physical/cloud device connected, so no device result or screenshot was claimed. |
 
 ## 3. Tools, purpose and data controls
 
@@ -41,7 +42,7 @@ The AI tool for every material interaction in §2 is **OpenAI Codex**. The Codex
 | PowerShell and repository scripts | Run validators, analyze SUS, inspect files/hashes and generate deterministic package checks | Validator exit codes were reported as observed; strict failures were not suppressed. |
 | Playwright, Node.js and browsers | Execute GUI scenarios, observe dialog/network/focus state, capture required overlays and generate result matrices | Synthetic test entities only; execution mode recorded; harness defects corrected before final classification. |
 | FFmpeg/FFprobe and speech analysis | Inspect recording metadata, decode streams and assess usable audio | Hallucinated non-VAD transcript was rejected; no quote was retained because usable speech was absent. |
-| Git/GitHub duplicate search | Verify existing issue mappings and preserve authentic change history | All 262 public issues were searched; #45/#46 were reused for three exact Admin Login rows; no duplicate #118 was created; GitHub App writes were tested and returned HTTP 403. |
+| Git/GitHub duplicate search and authenticated publication | Verify existing issue mappings, publish only new root causes and preserve authentic change history | All 262 pre-publication issues were searched; #45/#46 were reused for three exact Admin Login rows; no duplicate #118 was created. GitHub App writes first returned HTTP 403; user-authorized Git Credential Manager access then published the isolated evidence branch and issues #291–#298. |
 | Google Drive connector | Check whether missing pilot, consent, probes or SUS collection artefacts had been overlooked | Read-only searches found the assignment and unrelated documents, but no missing HW03 fieldwork artefact; unrelated course files were not imported. |
 | Document/report tooling | Produce readable Markdown/XLSX artefacts in the retained six-file/evidence structure | Consolidated claims were checked against CSV/JSON sources rather than inferred from document presence. |
 
@@ -83,7 +84,7 @@ The AI tool for every material interaction in §2 is **OpenAI Codex**. The Codex
 - Exactly 58 unique checklist IDs are represented.
 - Final Chrome outcome is 37 Pass, 20 Fail and 1 Blocked.
 - Evidence index contains 40 screenshots; execution modes distinguish live, controlled mocked state and Expo Web browser context.
-- The Task 1 bug register has 20 failed assertions. Eleven rows have verified existing URLs across ten unique issues; nine remain pending external action.
+- The Task 1 bug register has 20 failed assertions. All 20 rows have verified URLs across 18 unique issues; no Task 1 issue publication remains pending.
 
 ### Task 2
 
@@ -108,11 +109,11 @@ These are the observed local outcomes retained at consolidation time. Exit 2 den
 | Gate | Exit | Audited interpretation |
 |---|---:|---|
 | Task 1 default validator | 0 | File, row, semantic and evidence structure pass. |
-| Task 1 strict `-RequireComplete` | 2 | GUI demo is verified; nine GitHub mappings and native-phone evidence remain external. |
+| Task 1 strict `-RequireComplete` | 2 | GUI demo and all GitHub mappings are verified; native-phone soft-keyboard evidence remains external. |
 | Task 2 SUS analyzer | 0 | P01–P07 raw responses and score arithmetic pass. |
 | Task 2 default validator | 0 | Package closes as `COMPLETE_WITH_DISCLOSED_LIMITATIONS`. |
 | Task 2 strict `-RequireCompleteEvidence` | 2 | Pilot, consent, probes and some environment/timing provenance remain missing. |
-| Task 2 submission validator | 2 | Structural, T0–T11, SUS, finding-type separation, six-file, demo-link and privacy checks pass; disclosed missing fieldwork evidence keeps the exit nonzero. |
+| Task 2 submission validator | 0 | Structural, T0–T11, SUS, finding-type separation, six-file, demo-link and privacy checks pass while disclosed missing fieldwork evidence remains explicit. |
 | Task 3 default validator | 0 | The local 232-row/160-screenshot evidence package passes. |
 | Task 3 strict `-RequireComplete` | 2 | A third eligible Safari-or-real-Android category is absent. |
 
@@ -127,7 +128,7 @@ These are the observed local outcomes retained at consolidation time. Exit 2 den
 | Participant identity | Reports use P01–P07; private recruitment/contact sources are not copied into the six-file package. |
 | SUS | Included only as the seven user-provided P01–P07 response sets; collection is not claimed visible in recordings. |
 | Technical reproduction | Uses synthetic data and is excluded from participant frequencies. |
-| GitHub | Only verified existing URLs are linked; pending records remain pending; no duplicate #118 or unpublished comment is claimed. |
+| GitHub | Only URLs returned and read back from GitHub are linked. Issues #291–#298 and seven PNGs are verified; no duplicate #118 or unpublished comment is claimed. |
 | Video | Task 1 uses verified GUI-skill URL `https://youtu.be/tMar6OyMG80`; Task 2 uses verified usability URL `https://youtu.be/QAh6W9AJXiU`. Both are YouTube-link-only; no local MP4 is claimed necessary. |
 | Platform/device | WebKit Windows is not called Safari; Pixel/Expo Web emulation is not called a physical Android/Expo Go run. |
 | Evidence modes | `LIVE_LOCAL_SUT`, `MOCKED_*` and browser/emulation contexts remain distinguishable. |
@@ -143,7 +144,7 @@ The student remains responsible for:
 - confirming the participant mapping and task-end decisions supplied from real fieldwork context;
 - protecting the private participant roster and reviewing any frames before public sharing;
 - accepting the corrected test oracle and severity prioritization;
-- deciding whether and when to publish pending GitHub issues/comments;
+- maintaining or closing the published GitHub issues and deciding whether any future comments are appropriate;
 - collecting a real-device soft-keyboard/third-platform run if required by grading;
 - reviewing and submitting the final six-file package with its linked evidence archive.
 

@@ -21,23 +21,23 @@ No single grand-total bug count is asserted because Task 1 counts failed asserti
 
 | Dataset | Traceable count | Publication state |
 |---|---:|---|
-| Task 1 failed checklist assertions | 20 | 11 rows have verified existing GitHub URLs across 10 unique issues; 9 remain `PENDING_EXTERNAL_ACTION`. |
+| Task 1 failed checklist assertions | 20 | All 20 rows have verified GitHub URLs across 18 unique issues. |
 | Task 2 software bugs | 3 | All map to existing issues: #55, #37 and #118. |
 | Task 2 usability issues | 4 | Kept separate from software bugs and participant frequencies. |
 | Task 3 systemic finding groups | 9 | Local report only; no new publication is claimed. |
 
 ## 2. Task 1 — failed GUI assertions
 
-The table below is the complete Task 1 fail set: 1 Critical, 5 High, 12 Medium and 2 Low. Every row links to its original screenshot. A pending URL means exactly that; it is not evidence that an issue was created.
+The table below is the complete Task 1 fail set: 1 Critical, 5 High, 12 Medium and 2 Low. Every row links to its original screenshot and a verified GitHub issue.
 
 | Rank | Checklist ID | Severity | Expected | Observed actual | Mode | GitHub | Evidence |
 |---:|---|---|---|---|---|---|---|
 | 1 | `GUI-WEB-LOGIN-003` | Critical | Password characters are masked using `type=password`. | Password input is `type=text`. | `LIVE_LOCAL_SUT` | [#37](https://github.com/trngnneee/eshop-sut/issues/37) | [PNG](../task1-gui/evidence/executed-chrome/001-web-login-baseline.png) |
 | 2 | `GUI-WEB-LOGIN-010` | High | Third consecutive wrong login locks for 30 seconds and the UI presents an appropriate locked state. | Requests returned 401/401/403, while the UI continued to show only the generic login-failed message. | `LIVE_LOCAL_SUT` | [#238](https://github.com/trngnneee/eshop-sut/issues/238) | [PNG](../task1-gui/evidence/executed-chrome/006-web-login-lockout-feedback.png) |
 | 3 | `GUI-WEB-REGISTER-006` | High | Duplicate email registration is rejected with a deterministic backend validation message. | A second registration for the same email returned HTTP 200 and navigated as success. | `LIVE_LOCAL_SUT` | [#117](https://github.com/trngnneee/eshop-sut/issues/117) | [PNG](../task1-gui/evidence/executed-chrome/013-web-register-duplicate.png) |
-| 4 | `GUI-ADMIN-CATEGORY-004` | High | `required` prevents an empty category-name submission. | `required=null`; an empty POST with `{"name":""}` was observed. | `MOCKED_WRITE_PREVENTION` | `PENDING_EXTERNAL_ACTION` | [PNG](../task1-gui/evidence/executed-chrome/026-admin-category-empty.png) |
-| 5 | `GUI-ADMIN-CATEGORY-006` | High | Delete opens an explicit confirmation dialog. | No delete-confirmation dialog was observed. | `LIVE_LOCAL_SUT` | `PENDING_EXTERNAL_ACTION` | [PNG](../task1-gui/evidence/executed-chrome/027-admin-category-delete.png) |
-| 6 | `GUI-ADMIN-CATEGORY-008` | High | A category referenced by a product cannot be deleted and an error is shown. | The referenced synthetic category was removed; no error appeared. | `LIVE_LOCAL_SUT` | `PENDING_EXTERNAL_ACTION` | [PNG](../task1-gui/evidence/executed-chrome/028-admin-category-delete-in-use.png) |
+| 4 | `GUI-ADMIN-CATEGORY-004` | High | `required` prevents an empty category-name submission. | `required=null`; an empty POST with `{"name":""}` was observed. | `MOCKED_WRITE_PREVENTION` | [#291](https://github.com/trngnneee/eshop-sut/issues/291) | [PNG](../task1-gui/evidence/executed-chrome/026-admin-category-empty.png) |
+| 5 | `GUI-ADMIN-CATEGORY-006` | High | Delete opens an explicit confirmation dialog. | No delete-confirmation dialog was observed. | `LIVE_LOCAL_SUT` | [#292](https://github.com/trngnneee/eshop-sut/issues/292) | [PNG](../task1-gui/evidence/executed-chrome/027-admin-category-delete.png) |
+| 6 | `GUI-ADMIN-CATEGORY-008` | High | A category referenced by a product cannot be deleted and an error is shown. | The referenced synthetic category was removed; no error appeared. | `LIVE_LOCAL_SUT` | [#293](https://github.com/trngnneee/eshop-sut/issues/293) | [PNG](../task1-gui/evidence/executed-chrome/028-admin-category-delete-in-use.png) |
 | 7 | `GUI-WEB-LOGIN-001` | Medium | Main login heading is `Đăng Nhập`. | Heading is `Đăng Ký`. | `LIVE_LOCAL_SUT` | [#199](https://github.com/trngnneee/eshop-sut/issues/199) | [PNG](../task1-gui/evidence/executed-chrome/001-web-login-baseline.png) |
 | 8 | `GUI-WEB-LOGIN-002` | Medium | Field is labelled `Email` and uses `type=email`. | First label is `Username`; input uses `type=text`. | `LIVE_LOCAL_SUT` | [#203](https://github.com/trngnneee/eshop-sut/issues/203) | [PNG](../task1-gui/evidence/executed-chrome/001-web-login-baseline.png) |
 | 9 | `GUI-WEB-LOGIN-009` | Medium | Submit label is Vietnamese `Đăng nhập` with natural/default tab order. | Submit text is `Sign In`. | `LIVE_LOCAL_SUT` | [#198](https://github.com/trngnneee/eshop-sut/issues/198) | [PNG](../task1-gui/evidence/executed-chrome/001-web-login-baseline.png) |
@@ -45,19 +45,19 @@ The table below is the complete Task 1 fail set: 1 Critical, 5 High, 12 Medium a
 | 11 | `GUI-ADMIN-LOGIN-002` | Medium | Each admin-login input has an associated `<label>`. | The form contains zero label elements for two inputs. | `LIVE_LOCAL_SUT` | [#45](https://github.com/trngnneee/eshop-sut/issues/45) | [PNG](../task1-gui/evidence/executed-chrome/018-admin-login-baseline.png) |
 | 12 | `GUI-ADMIN-LOGIN-003` | Medium | Invalid admin password produces an accessible inline error banner. | A native `Đăng nhập thất bại` dialog appeared; inline feedback count was zero. | `LIVE_LOCAL_SUT` | [#46](https://github.com/trngnneee/eshop-sut/issues/46) | [PNG](../task1-gui/evidence/executed-chrome/019-admin-login-invalid-dialog.png) |
 | 13 | `GUI-ADMIN-LOGIN-004` | Medium | A non-admin account receives clear inline authorization feedback. | A native `Bạn không phải là admin!` dialog appeared; inline feedback count was zero. | `LIVE_LOCAL_SUT` | [#46](https://github.com/trngnneee/eshop-sut/issues/46) | [PNG](../task1-gui/evidence/executed-chrome/020-admin-login-nonadmin-dialog.png) |
-| 14 | `GUI-ADMIN-CATEGORY-010` | Medium | A spinner or skeleton is visible while categories load. | No loading indicator appeared during a controlled 2.5-second API delay. | `MOCKED_SLOW_API` | `PENDING_EXTERNAL_ACTION` | [PNG](../task1-gui/evidence/executed-chrome/030-admin-category-loading.png) |
-| 15 | `GUI-ADMIN-CATEGORY-013` | Medium | Submit is disabled while a category write is pending. | A rapid double click produced two POST requests; the button did not provide pending-state protection. | `MOCKED_SLOW_WRITE` | `PENDING_EXTERNAL_ACTION` | [PNG](../task1-gui/evidence/executed-chrome/033-admin-category-double-submit.png) |
-| 16 | `GUI-MOBILE-LOGIN-002` | Medium | Mobile login field is visibly labelled `Email`. | `Username` is visible and there is no standalone `Email` label. | `LIVE_LOCAL_SUT` | `PENDING_EXTERNAL_ACTION` | [PNG](../task1-gui/evidence/executed-chrome/034-mobile-login-baseline.png) |
-| 17 | `GUI-MOBILE-LOGIN-004` | Medium | Mobile submit label is Vietnamese `Đăng nhập`. | Rendered label is `Sign In`. | `LIVE_LOCAL_SUT` | `PENDING_EXTERNAL_ACTION` | [PNG](../task1-gui/evidence/executed-chrome/034-mobile-login-baseline.png) |
-| 18 | `GUI-MOBILE-LOGIN-010` | Medium | Touch target is at least 44×44 CSS px/dp under the checklist threshold. | Recorded bounding box was 342×39 CSS px. | `LIVE_LOCAL_SUT` | `PENDING_EXTERNAL_ACTION` | [PNG](../task1-gui/evidence/executed-chrome/034-mobile-login-baseline.png) |
+| 14 | `GUI-ADMIN-CATEGORY-010` | Medium | A spinner or skeleton is visible while categories load. | No loading indicator appeared during a controlled 2.5-second API delay. | `MOCKED_SLOW_API` | [#295](https://github.com/trngnneee/eshop-sut/issues/295) | [PNG](../task1-gui/evidence/executed-chrome/030-admin-category-loading.png) |
+| 15 | `GUI-ADMIN-CATEGORY-013` | Medium | Submit is disabled while a category write is pending. | A rapid double click produced two POST requests; the button did not provide pending-state protection. | `MOCKED_SLOW_WRITE` | [#296](https://github.com/trngnneee/eshop-sut/issues/296) | [PNG](../task1-gui/evidence/executed-chrome/033-admin-category-double-submit.png) |
+| 16 | `GUI-MOBILE-LOGIN-002` | Medium | Mobile login field is visibly labelled `Email`. | `Username` is visible and there is no standalone `Email` label. | `LIVE_LOCAL_SUT` | [#297](https://github.com/trngnneee/eshop-sut/issues/297) | [PNG](../task1-gui/evidence/executed-chrome/034-mobile-login-baseline.png) |
+| 17 | `GUI-MOBILE-LOGIN-004` | Medium | Mobile submit label is Vietnamese `Đăng nhập`. | Rendered label is `Sign In`. | `LIVE_LOCAL_SUT` | [#297](https://github.com/trngnneee/eshop-sut/issues/297) | [PNG](../task1-gui/evidence/executed-chrome/034-mobile-login-baseline.png) |
+| 18 | `GUI-MOBILE-LOGIN-010` | Medium | Touch target is at least 44×44 CSS px/dp under the checklist threshold. | Recorded bounding box was 342×39 CSS px. | `LIVE_LOCAL_SUT` | [#298](https://github.com/trngnneee/eshop-sut/issues/298) | [PNG](../task1-gui/evidence/executed-chrome/034-mobile-login-baseline.png) |
 | 19 | `GUI-WEB-LOGIN-007` | Low | Forgot-password transition preserves SPA navigation/state. | `/forgot-password` loaded by full-document navigation and the SPA marker was lost. | `LIVE_LOCAL_SUT` | [#230](https://github.com/trngnneee/eshop-sut/issues/230) | [PNG](../task1-gui/evidence/executed-chrome/004-web-login-forgot-navigation.png) |
-| 20 | `GUI-ADMIN-CATEGORY-009` | Low | An explicit empty-state message or illustration is shown. | A controlled empty response rendered zero rows and zero empty-state messages. | `MOCKED_EMPTY_API_STATE` | `PENDING_EXTERNAL_ACTION` | [PNG](../task1-gui/evidence/executed-chrome/029-admin-category-empty-state.png) |
+| 20 | `GUI-ADMIN-CATEGORY-009` | Low | An explicit empty-state message or illustration is shown. | A controlled empty response rendered zero rows and zero empty-state messages. | `MOCKED_EMPTY_API_STATE` | [#294](https://github.com/trngnneee/eshop-sut/issues/294) | [PNG](../task1-gui/evidence/executed-chrome/029-admin-category-empty-state.png) |
 
 ### Task 1 publication and deduplication boundary
 
-A live duplicate search inspected all 262 public issues available through the repository API on 2026-08-02. `GUI-ADMIN-LOGIN-002` matches [#45](https://github.com/trngnneee/eshop-sut/issues/45), which explicitly covers missing labels on the Web Admin login. `GUI-ADMIN-LOGIN-003` and `GUI-ADMIN-LOGIN-004` share the same `frontend-admin` `handleLogin` native-alert root cause and map to [#46](https://github.com/trngnneee/eshop-sut/issues/46). Near matches were rejected when their body referred to another implementation—for example, #35/#36/#198 cover the Web `/login`, not `frontend-mobile/App.js`, and #255 covers deleting an Admin product, not a category. Nine rows therefore remain pending new publication; this environment has neither a GitHub token nor a usable Git credential, so no URL is invented.
+A live duplicate search inspected all 262 issues available before publication through the repository API on 2026-08-02. `GUI-ADMIN-LOGIN-002` matches [#45](https://github.com/trngnneee/eshop-sut/issues/45), which explicitly covers missing labels on the Web Admin login. `GUI-ADMIN-LOGIN-003` and `GUI-ADMIN-LOGIN-004` share the same `frontend-admin` `handleLogin` native-alert root cause and map to [#46](https://github.com/trngnneee/eshop-sut/issues/46). Near matches were rejected when their body referred to another implementation—for example, #35/#36/#198 cover the Web `/login`, not `frontend-mobile/App.js`, and #255 covers deleting an Admin product, not a category.
 
-The authenticated GitHub App was subsequently tested as an alternative. It could read branches and issues, but both branch creation and issue creation returned HTTP 403 `Resource not accessible by integration`. The following eight root-cause entries are therefore publication-ready in Markdown while their GitHub field remains pending.
+The GitHub App write path initially returned HTTP 403. After the user authorized Git Credential Manager device authentication, a branch containing only the seven approved Task 1 PNGs was pushed. Eight deduplicated root-cause issues [#291](https://github.com/trngnneee/eshop-sut/issues/291)–[#298](https://github.com/trngnneee/eshop-sut/issues/298) were created. All seven raw image endpoints returned HTTP 200 with `image/png`, and all eight issue bodies were read back with one embedded image each. No Task 2 participant evidence was uploaded.
 
 ### 2.1 Empty category name can be submitted
 
@@ -68,7 +68,7 @@ The authenticated GitHub App was subsequently tested as an alternative. It could
 - Expected: submission is blocked and a clear validation message is shown.
 - Actual: `required=null`; an empty POST with `{"name":""}` was emitted.
 - Evidence: [026-admin-category-empty.png](../task1-gui/evidence/executed-chrome/026-admin-category-empty.png).
-- Publication: `PENDING_EXTERNAL_ACTION — GITHUB_WRITE_403`.
+- Publication: [issue #291](https://github.com/trngnneee/eshop-sut/issues/291), verified open with the evidence image embedded.
 
 ### 2.2 Category deletion has no confirmation
 
@@ -79,7 +79,7 @@ The authenticated GitHub App was subsequently tested as an alternative. It could
 - Expected: a confirmation dialog allows Cancel or explicit confirmation before deletion.
 - Actual: no confirmation dialog was observed and the delete request proceeded immediately.
 - Evidence: [027-admin-category-delete.png](../task1-gui/evidence/executed-chrome/027-admin-category-delete.png).
-- Publication: `PENDING_EXTERNAL_ACTION — GITHUB_WRITE_403`.
+- Publication: [issue #292](https://github.com/trngnneee/eshop-sut/issues/292), verified open with the evidence image embedded.
 
 ### 2.3 Referenced category can be deleted
 
@@ -90,7 +90,7 @@ The authenticated GitHub App was subsequently tested as an alternative. It could
 - Expected: the server rejects deletion, the category remains and the UI displays the conflict.
 - Actual: the referenced category no longer remained, no error dialog appeared and backend deletion succeeded.
 - Evidence: [028-admin-category-delete-in-use.png](../task1-gui/evidence/executed-chrome/028-admin-category-delete-in-use.png).
-- Publication: `PENDING_EXTERNAL_ACTION — GITHUB_WRITE_403`.
+- Publication: [issue #293](https://github.com/trngnneee/eshop-sut/issues/293), verified open with the evidence image embedded.
 
 ### 2.4 Categories table has no empty state
 
@@ -101,7 +101,7 @@ The authenticated GitHub App was subsequently tested as an alternative. It could
 - Expected: a friendly `Chưa có danh mục nào` message or illustration is visible.
 - Actual: zero rows and zero empty-state messages were rendered.
 - Evidence: [029-admin-category-empty-state.png](../task1-gui/evidence/executed-chrome/029-admin-category-empty-state.png).
-- Publication: `PENDING_EXTERNAL_ACTION — GITHUB_WRITE_403`.
+- Publication: [issue #294](https://github.com/trngnneee/eshop-sut/issues/294), verified open with the evidence image embedded.
 
 ### 2.5 Categories fetch has no loading state
 
@@ -112,7 +112,7 @@ The authenticated GitHub App was subsequently tested as an alternative. It could
 - Expected: a spinner, skeleton or explicit loading message is visible.
 - Actual: loading-indicator count remained zero for the controlled delay.
 - Evidence: [030-admin-category-loading.png](../task1-gui/evidence/executed-chrome/030-admin-category-loading.png).
-- Publication: `PENDING_EXTERNAL_ACTION — GITHUB_WRITE_403`.
+- Publication: [issue #295](https://github.com/trngnneee/eshop-sut/issues/295), verified open with the evidence image embedded.
 
 ### 2.6 Category form permits duplicate submissions
 
@@ -123,7 +123,7 @@ The authenticated GitHub App was subsequently tested as an alternative. It could
 - Expected: the first click disables the button until the request resolves and only one POST is sent.
 - Actual: two POST requests were observed; pending-state protection was absent.
 - Evidence: [033-admin-category-double-submit.png](../task1-gui/evidence/executed-chrome/033-admin-category-double-submit.png).
-- Publication: `PENDING_EXTERNAL_ACTION — GITHUB_WRITE_403`.
+- Publication: [issue #296](https://github.com/trngnneee/eshop-sut/issues/296), verified open with the evidence image embedded.
 
 ### 2.7 Mobile login uses Web-English labels
 
@@ -134,7 +134,7 @@ The authenticated GitHub App was subsequently tested as an alternative. It could
 - Expected: `Email` and `Đăng nhập`.
 - Actual: `Username` and `Sign In`.
 - Evidence: [034-mobile-login-baseline.png](../task1-gui/evidence/executed-chrome/034-mobile-login-baseline.png).
-- Publication: `PENDING_EXTERNAL_ACTION — GITHUB_WRITE_403`.
+- Publication: [issue #297](https://github.com/trngnneee/eshop-sut/issues/297), verified open with the evidence image embedded; it covers both localization checklist rows.
 
 ### 2.8 Mobile login touch target is below 44 px
 
@@ -145,7 +145,7 @@ The authenticated GitHub App was subsequently tested as an alternative. It could
 - Expected: a touch target at least 44×44 CSS px/dp under the checklist threshold.
 - Actual: the recorded bounding box was 342×39 CSS px.
 - Evidence: [034-mobile-login-baseline.png](../task1-gui/evidence/executed-chrome/034-mobile-login-baseline.png).
-- Publication: `PENDING_EXTERNAL_ACTION — GITHUB_WRITE_403`.
+- Publication: [issue #298](https://github.com/trngnneee/eshop-sut/issues/298), verified open with the evidence image embedded.
 
 ## 3. Task 2 — software bugs
 
@@ -227,8 +227,8 @@ No failure was demonstrated to be browser-exclusive. Minor focus-sequence detail
 
 - All participant references use only P01–P07. No raw name, email, phone, address or password is reproduced here.
 - Synthetic values are used only for isolated reproduction and are never counted as participants.
-- `PENDING_EXTERNAL_ACTION`, `NOT_OBSERVABLE`, `NONE`, `N/A` and missing evidence remain explicit.
-- Existing GitHub URLs are reused only after duplicate search. The report makes no claim that pending issues, comments or platform runs were published.
+- `NOT_OBSERVABLE`, `NONE`, `N/A` and missing evidence remain explicit; no Task 1 issue publication is pending.
+- Existing GitHub URLs are reused only after duplicate search. Newly created issues are claimed only where GitHub returned and subsequently served the verified URL; no unpublished comments or platform runs are claimed.
 - Mocked modes are labelled at the affected assertion; they support UI-state evaluation but are not disguised as production write evidence.
 - Cross-platform recurrence does not multiply an application defect into four separate bugs.
 

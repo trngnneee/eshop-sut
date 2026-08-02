@@ -13,7 +13,7 @@ This report consolidates the three HW03 tasks into one auditable narrative while
 
 | Task | Core dataset | Result | Completion boundary |
 |---|---|---|---|
-| Task 1 — GUI checklist | 58 unique items; 40 Chrome screenshots | 37 Pass / 20 Fail / 1 Blocked | GUI-skill YouTube demo is verified; 11 failed rows have verified GitHub URLs, while nine still need publication and native soft-keyboard evidence remains unavailable. |
+| Task 1 — GUI checklist | 58 unique items; 40 Chrome screenshots | 37 Pass / 20 Fail / 1 Blocked | GUI-skill YouTube demo is verified; all 20 failed rows map to 18 verified GitHub issues. Native soft-keyboard evidence remains unavailable. |
 | Task 2 — usability | 7 sessions; P01–P07; exact T0–T11 coding; 70 SUS responses | 0/7 completed all SC1–SC5; calculable task-time median 80 s; SUS mean 76.79 | Pilot, consent, probes, usable speech and some environment/timing evidence were not collected and remain explicitly missing. |
 | Task 3 — cross-platform | 58 IDs × 4 environments = 232 rows; 160 screenshots | 37 Pass / 20 Fail / 1 Not Observable per environment | Chrome and Firefox are eligible; WebKit Windows is not Safari and Pixel emulation is not real Android, leaving 2/3 eligible platforms. |
 
@@ -38,7 +38,7 @@ Only six files are used as the grading entry point: `README.md`, this `Main_Repo
 
 ### 1.3 Assessment-template reconciliation
 
-The assignment PDF allocates 30 points to Task 1, 40 to Task 2, 20 to Task 3 and 10 to Agent Skills. The rubric also requires a README self-assessment table; the completed table and summary are now in `README.md`. The current evidence supports a conservative self-assessment of **078/100**: 26/30, 29/40, 13/20 and 10/10 respectively. This number does not override the strict validators or guarantee the instructor's score.
+The assignment PDF allocates 30 points to Task 1, 40 to Task 2, 20 to Task 3 and 10 to Agent Skills. The rubric also requires a README self-assessment table; the completed table and summary are now in `README.md`. After publishing and verifying the remaining Task 1 defects, the current evidence supports a conservative self-assessment of **081/100**: 29/30, 29/40, 13/20 and 10/10 respectively. This number does not override the strict validators or guarantee the instructor's score.
 
 The audit also identified a submission-format variance. The PDF requests Markdown plus PDF copies inside a named ZIP, whereas the student explicitly selected a six-file, Markdown-first, no-ZIP hand-in. That decision is preserved rather than silently reversed. Full format compliance therefore depends on the Moodle channel or teaching staff accepting the six-file mode.
 
@@ -166,9 +166,9 @@ Screen × IA coverage is:
 | Fail | 20 |
 | Blocked | 1 |
 | Unique Chrome screenshots | 40 |
-| Unique verified existing GitHub issues reused | 10 |
-| Fail rows with verified GitHub URLs | 11 |
-| Fail rows pending verified GitHub URLs | 9 |
+| Unique verified GitHub issues | 18 |
+| Fail rows with verified GitHub URLs | 20 |
+| Fail rows pending verified GitHub URLs | 0 |
 
 The prior 36/22 checklist, conflicting 40/18 summary and five packed screenshots are superseded. The current machine-readable source is [`../task1-gui/results/Task1_Execution_Chrome.csv`](../task1-gui/results/Task1_Execution_Chrome.csv).
 
@@ -185,7 +185,7 @@ The last three observations were reclassified to Pass from the retained runtime 
 
 ### 4.5 Evidence and defect handling
 
-Forty screenshots cover the 58 rows because one screenshot may legitimately support several assertions from the same state. Reuse is traceable through a stable Evidence ID; it is not presented as 58 independent captures. Every screenshot path is checked for existence, minimum size and PNG signature. Each failed row receives a local Bug ID. A GitHub field contains either a verified issue URL or the literal `PENDING_EXTERNAL_ACTION`; a placeholder is never formatted as if it were published.
+Forty screenshots cover the 58 rows because one screenshot may legitimately support several assertions from the same state. Reuse is traceable through a stable Evidence ID; it is not presented as 58 independent captures. Every screenshot path is checked for existence, minimum size and PNG signature. Each failed row receives a local Bug ID and a verified GitHub issue URL. Seven publication-safe technical screenshots are also isolated on the public `hw3-public-evidence-khoa` branch for issues #291–#298.
 
 The Task 1 output retained for grading is intentionally compact:
 
@@ -201,12 +201,9 @@ The highest-risk Task 1 observations are plaintext password display, incorrect l
 
 ### 4.7 Task 1 completion decision
 
-The Task 1 package is structurally ready. Strict completion remains blocked by:
+The Task 1 package is structurally ready. Strict completion is now blocked only by a real Expo Go/physical/cloud phone run for `GUI-MOBILE-LOGIN-011` soft-keyboard behavior.
 
-- 9 failed assertion rows that still require new GitHub publication URLs after duplicate search; and
-- a real Expo Go/physical/cloud phone run for `GUI-MOBILE-LOGIN-011` soft-keyboard behavior.
-
-The GitHub App available to this audit was tested after the public duplicate search. It could read repository branches and issues, but both branch creation and issue creation returned HTTP 403 `Resource not accessible by integration`. Therefore the nine pending URLs could not be closed through the connector, and no unpublished URL was substituted.
+The GitHub App first available to this audit could read repository branches and issues, but its write calls returned HTTP 403 `Resource not accessible by integration`. The user then authorized Git Credential Manager device authentication. A sanitized evidence-only branch was pushed, all seven PNG URLs returned HTTP 200 `image/png`, and eight deduplicated issues [#291](https://github.com/trngnneee/eshop-sut/issues/291)–[#298](https://github.com/trngnneee/eshop-sut/issues/298) were created and read back successfully. Those eight issues close the nine previously pending row mappings because #297 covers the shared mobile-localization root cause for two checklist rows.
 
 The Task 1 GUI-skill demo is [https://youtu.be/tMar6OyMG80](https://youtu.be/tMar6OyMG80). Status is `PUBLIC_LINK_VERIFIED`: YouTube oEmbed returned title `GUI-testing-skill demo`, author `Đặng Đăng Khoa` and provider `YouTube`. The submission stores only this public link; no local MP4 is required.
 
@@ -378,6 +375,8 @@ The following were not collected or cannot be verified from the supplied evidenc
 - some session environment, device and full timing fields;
 - complete seven-person distributions for metrics where P03 or another session is not observable.
 
+An authenticated Drive recheck on 2026-08-02 traced D01–D07 to one common `Khoa` folder. Its direct listing contained eight MP4 files and no documents, forms, spreadsheets or subfolders. The parent `HW3` folder contained participant folders and two allocation files, but no pilot, consent, probe or SUS collection artefact. Broader authenticated searches using the corresponding HW03 and generic keywords also found no relevant EShop fieldwork record. This is an evidence-availability finding, not an inference that consent did or did not occur.
+
 These omissions are the reason strict evidence validation returns exit 2. The default package-closure validator returns exit 0 because the missing fields are disclosed instead of populated with invented data.
 
 ### 5.9 Retained Task 2 evidence and submission mode
@@ -489,11 +488,11 @@ The most important combined risks are credential exposure, data-integrity loss o
 | Command/gate | Exit | Meaning |
 |---|---:|---|
 | Task 1 default validator | 0 | File/data/evidence structure and semantics pass. |
-| Task 1 `-RequireComplete` | 2 | GUI demo passes; pending GitHub mappings and native phone evidence remain. |
+| Task 1 `-RequireComplete` | 2 | GUI demo and all GitHub mappings pass; native-phone soft-keyboard evidence remains. |
 | Task 2 SUS analyzer | 0 | Exactly seven structurally valid P01–P07 response sets and exact SUS arithmetic. |
 | Task 2 default validator | 0 | `COMPLETE_WITH_DISCLOSED_LIMITATIONS`. |
 | Task 2 `-RequireCompleteEvidence` | 2 | Missing pilot, consent, probes, environment/timing provenance. |
-| Task 2 submission validator | 2 | Structural, exact T0–T11, SUS, separation, six-file, demo and privacy checks pass; the nonzero exit honestly propagates the disclosed missing fieldwork evidence. |
+| Task 2 submission validator | 0 | Structural, exact T0–T11, SUS, separation, six-file, demo and privacy checks pass while the missing fieldwork evidence remains disclosed. |
 | Task 3 default validator | 0 | Local 232-row/160-screenshot package passes. |
 | Task 3 `-RequireComplete` | 2 | Only 2/3 eligible platforms. |
 
@@ -530,4 +529,4 @@ Historical commit subjects that mention a ZIP remain in `git-commit-log.txt` bec
 
 ## 11. Final declaration
 
-The consolidated report is human-reviewed and consistent with the current machine-readable evidence. It does not claim a guaranteed rubric score or full external completion. Task 1 GUI demo is verified; Task 1 pending GitHub publication and native soft-keyboard behavior, Task 2 missing fieldwork records, and Task 3 third-platform execution remain explicit. Local package validation is complete; unavailable evidence has not been reconstructed.
+The consolidated report is human-reviewed and consistent with the current machine-readable evidence. It does not claim a guaranteed rubric score or full external completion. Task 1 GUI demo and all GitHub mappings are verified; Task 1 native soft-keyboard behavior, Task 2 missing fieldwork records, and Task 3 third-platform execution remain explicit. Local package validation is complete; unavailable evidence has not been reconstructed.

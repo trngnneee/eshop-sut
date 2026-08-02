@@ -26,7 +26,7 @@ Exactly six files belong in this directory:
 
 | Area | Default/local validator | Strict completion gate | Honest status |
 |---|---:|---:|---|
-| Task 1 — GUI checklist | Exit 0 | Exit 2 | 58 unique items, 37 Pass, 20 Fail, 1 Blocked; GUI-skill demo is verified; 11 failed rows have verified GitHub URLs, while 9 mappings and native soft-keyboard evidence remain external. |
+| Task 1 — GUI checklist | Exit 0 | Exit 2 | 58 unique items, 37 Pass, 20 Fail, 1 Blocked; GUI-skill demo is verified; all 20 failed rows map to 18 verified GitHub issues. Only native soft-keyboard evidence remains external. |
 | Task 2 — usability | Exit 0 | Exit 2 | Structural checks pass; the submission validator intentionally returns exit 2 because pilot, consent, probes and some environment/timing evidence are absent. |
 | Task 3 — cross-platform | Exit 0 | Exit 2 | 232 result rows and 160 screenshots are structurally valid; only 2/3 rubric-eligible platforms are evidenced. |
 
@@ -34,15 +34,15 @@ An exit-2 strict gate is not relabelled as success. It records an unavailable ex
 
 ## Rubric self-assessment
 
-The authoritative source is `HW3/2026.HW03.GUI Usability_En.pdf`, §15. The current evidence-backed self-assessment is **078/100**, not 100/100. This is a conservative self-assessment rather than a promise of the instructor's score.
+The authoritative source is `HW3/2026.HW03.GUI Usability_En.pdf`, §15. The current evidence-backed self-assessment is **081/100**, not 100/100. This is a conservative self-assessment rather than a promise of the instructor's score.
 
 | No. | Criterion | Maximum | Self-assessed | Evidence-based rationale |
 |---:|---|---:|---:|---|
-| 1 | Task 1 — GUI checklist, execution and bug report | 30 | 26 | 58 non-duplicate items cover IA-01–IA-04; all have an execution verdict and 40 screenshots. One native-keyboard item is Blocked and 9 failed rows cannot yet be published to GitHub. |
+| 1 | Task 1 — GUI checklist, execution and bug report | 30 | 29 | 58 non-duplicate items cover IA-01–IA-04; all have an execution verdict and 40 local screenshots. All 20 failed rows map to 18 verified issues, including newly published #291–#298 with seven public technical screenshots. One native-keyboard item remains Blocked. |
 | 2 | Task 2 — usability evaluation | 40 | 29 | Exactly 7 participant IDs, 7 recordings, T0–T11 coding, 70 raw SUS responses, exact scoring and severity-ranked findings are present. Pilot, consent, probes, usable think-aloud speech and some provenance were not collected. |
 | 3 | Task 3 — cross-browser/cross-platform | 20 | 13 | Four environments and 232 result rows were executed, but only Chrome Windows and Firefox Windows meet the rubric's platform rule; WebKit Windows is not Safari and emulation is not real Android. |
 | 4 | Agent Skills | 10 | 10 | GUI and usability skills are retained and both have verified end-to-end YouTube demo links. |
-|  | **Total** | **100** | **78** | Full credit cannot be claimed until the external/fieldwork gaps below are closed with real evidence. |
+|  | **Total** | **100** | **81** | Full credit cannot be claimed until the external/fieldwork gaps below are closed with real evidence. |
 
 ### Rubric-required test summary
 
@@ -54,8 +54,8 @@ The authoritative source is `HW3/2026.HW03.GUI Usability_En.pdf`, §15. The curr
 | Checklist items assigned an execution status | 58 |
 | Passed / Failed / Blocked | 37 / 20 / 1 |
 | Task 1 failed assertions | 20 |
-| Task 1 verified GitHub mappings | 11 rows across 10 unique issues |
-| Task 1 pending GitHub publication | 9 rows |
+| Task 1 verified GitHub mappings | 20 rows across 18 unique issues |
+| Task 1 pending GitHub publication | 0 rows |
 | Task 2 software bugs / usability issues | 3 / 4 |
 | Task 2 participants | 7 — P01–P07 |
 | Cross-platform environments executed / rubric-eligible | 4 / 2 |
@@ -63,7 +63,6 @@ The authoritative source is `HW3/2026.HW03.GUI Usability_En.pdf`, §15. The curr
 
 ### Evidence still required for a defensible 100/100
 
-- Publish the 9 remaining Task 1 failed rows as deduplicated GitHub issues and attach their screenshots. Both the local CLI and the authenticated GitHub connector were checked; the connector returned HTTP 403 for branch and issue creation.
 - Execute `GUI-MOBILE-LOGIN-011` with a real phone, Expo Go or qualifying cloud device.
 - Supply genuine pilot, consent, probe and missing session-provenance records only if they were actually collected. They cannot be reconstructed after the sessions.
 - Add a third eligible platform: Safari on macOS, real/cloud Android Chrome or Expo Go on a real phone.
@@ -96,7 +95,7 @@ The three source task directories are supporting evidence, not additional top-le
 - Raw participant recordings and frames are not copied into this directory.
 - Synthetic technical screenshots are used for GitHub defect reproduction.
 - The current local branch contains submission-only Task 2 material and must not be pushed wholesale to a public repository.
-- Public Task 1/Task 3 evidence requires an explicitly approved sanitized branch because screenshots contain the student name, ID and email overlay.
+- Seven Task 1 technical screenshots were explicitly approved for publication and are isolated on [`hw3-public-evidence-khoa`](https://github.com/trngnneee/eshop-sut/tree/hw3-public-evidence-khoa/task1-evidence); no Task 2 participant material is present on that branch.
 - A GitHub URL is recorded only if it is an existing verified issue or returned by GitHub after publication; pending URLs are never invented.
 
 ## Reading order
