@@ -10,9 +10,9 @@
 | **Họ và tên** | Nguyễn Thanh Gia Bảo |
 | **Mã số sinh viên** | 23127158 |
 | **Lớp** | 23KTPM3 |
-| **Môn học** | Kiểm thử Phần mềm (HW03 — GUI & Usability Testing) |
+| **Môn học** | Kiểm thử Phần mềm |
 | **Hệ thống kiểm thử (SUT)** | EShop (React + Vite + Tailwind CSS / SQLite) |
-| **Màn hình kiểm thử Checklist (Task 1)** | Product Detail Web, Cart Web, Product Management Admin Web, All Selected Screens |
+| **Màn hình kiểm thử Checklist (Task 1)** | Product Detail Web, Cart Web, Product Management Admin Web |
 | **Luồng kiểm thử Usability (Task 2)** | Admin Login → Product Management → Add Product → Edit Product → Delete Product |
 | **Phương pháp Usability** | Moderated Usability Evaluation với 7 người tham gia thực tế (Thang đo SUS) |
 | **Tổng số tiêu chí Checklist** | 52 items (31 Passed, 21 Failed) |
