@@ -116,7 +116,14 @@ Assert-Gui ($words -ge 200 -and $words -le 300) "Consolidated Task 1 AI critique
 $audit = Get-Content -LiteralPath (Join-Path $finalRoot 'AI_Audit_Report.md') -Raw -Encoding UTF8
 Assert-Gui ($audit -match 'HUMAN_REVIEWED' -and $audit -match 'Task 1 corrections') 'Consolidated AI audit records Task 1 human review and corrections'
 
-Add-Limitation 'Task 1 GUI-testing-skill demo still needs a real public YouTube URL.'
+$task1Section = [regex]::Match($mainReport,'(?ms)^## 4\. Task 1.*?(?=^## 5\.)').Value
+$task1DemoVerified = $task1Section -match 'https://youtu\.be/tMar6OyMG80' -and $task1Section -match 'PUBLIC_LINK_VERIFIED'
+if ($task1DemoVerified) {
+    Assert-Gui $true 'Task 1 GUI-testing-skill demo URL is recorded as PUBLIC_LINK_VERIFIED'
+}
+else {
+    Add-Limitation 'Task 1 GUI-testing-skill demo still needs a real public YouTube URL.'
+}
 $blocked = @($rows | Where-Object { $_.Status -eq 'Blocked' })
 if ($blocked.Count -gt 0) { Add-Limitation 'GUI-MOBILE-LOGIN-011 still needs a real Expo Go/physical/cloud soft-keyboard run.' }
 

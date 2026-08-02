@@ -26,11 +26,20 @@ Exactly six files belong in this directory:
 
 | Area | Default/local validator | Strict completion gate | Honest status |
 |---|---:|---:|---|
-| Task 1 — GUI checklist | Exit 0 | Exit 2 | 58 unique items, 37 Pass, 20 Fail, 1 Blocked; GitHub publication, GUI demo URL and native soft-keyboard evidence remain external. |
+| Task 1 — GUI checklist | Exit 0 | Exit 2 | 58 unique items, 37 Pass, 20 Fail, 1 Blocked; GUI-skill demo is verified; 12 GitHub mappings and native soft-keyboard evidence remain external. |
 | Task 2 — usability | Exit 0 | Exit 2 | Package closure and submission validation pass; absent pilot, consent, probes and some environment/timing evidence remain disclosed. |
 | Task 3 — cross-platform | Exit 0 | Exit 2 | 232 result rows and 160 screenshots are structurally valid; only 2/3 rubric-eligible platforms are evidenced. |
 
 An exit-2 strict gate is not relabelled as success. It records an unavailable external/fieldwork requirement without fabricating replacement evidence.
+
+## Demo links
+
+| Task | Public YouTube link | Verification |
+|---|---|---|
+| Task 1 — GUI-testing skill | [GUI-testing-skill demo](https://youtu.be/tMar6OyMG80) | `PUBLIC_LINK_VERIFIED` through YouTube oEmbed; title `GUI-testing-skill demo`, author `Đặng Đăng Khoa`. |
+| Task 2 — usability-testing skill | [Usability-testing demo](https://youtu.be/QAh6W9AJXiU) | `PUBLIC_LINK_VERIFIED`; YouTube-link-only submission. |
+
+No local MP4 is required or retained.
 
 ## Evidence archive
 

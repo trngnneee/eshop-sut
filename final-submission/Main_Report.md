@@ -13,7 +13,7 @@ This report consolidates the three HW03 tasks into one auditable narrative while
 
 | Task | Core dataset | Result | Completion boundary |
 |---|---|---|---|
-| Task 1 — GUI checklist | 58 unique items; 40 Chrome screenshots | 37 Pass / 20 Fail / 1 Blocked | Twelve failed rows still need verified GitHub mappings; a GUI-skill YouTube URL and native soft-keyboard evidence are unavailable. |
+| Task 1 — GUI checklist | 58 unique items; 40 Chrome screenshots | 37 Pass / 20 Fail / 1 Blocked | GUI-skill YouTube demo is verified; twelve failed rows still need verified GitHub mappings and native soft-keyboard evidence remains unavailable. |
 | Task 2 — usability | 7 sessions; P01–P07; exact T0–T11 coding; 70 SUS responses | 0/7 completed all SC1–SC5; calculable task-time median 80 s; SUS mean 76.79 | Pilot, consent, probes, usable speech and some environment/timing evidence were not collected and remain explicitly missing. |
 | Task 3 — cross-platform | 58 IDs × 4 environments = 232 rows; 160 screenshots | 37 Pass / 20 Fail / 1 Not Observable per environment | Chrome and Firefox are eligible; WebKit Windows is not Safari and Pixel emulation is not real Android, leaving 2/3 eligible platforms. |
 
@@ -196,9 +196,10 @@ The highest-risk Task 1 observations are plaintext password display, incorrect l
 
 The Task 1 package is structurally ready. Strict completion remains blocked by:
 
-- 12 failed assertion rows that still require verified duplicate/new GitHub URLs;
-- a real public YouTube URL demonstrating the GUI-testing skill end to end; and
+- 12 failed assertion rows that still require verified duplicate/new GitHub URLs; and
 - a real Expo Go/physical/cloud phone run for `GUI-MOBILE-LOGIN-011` soft-keyboard behavior.
+
+The Task 1 GUI-skill demo is [https://youtu.be/tMar6OyMG80](https://youtu.be/tMar6OyMG80). Status is `PUBLIC_LINK_VERIFIED`: YouTube oEmbed returned title `GUI-testing-skill demo`, author `Đặng Đăng Khoa` and provider `YouTube`. The submission stores only this public link; no local MP4 is required.
 
 ## 5. Task 2 — Usability evaluation
 
@@ -479,7 +480,7 @@ The most important combined risks are credential exposure, data-integrity loss o
 | Command/gate | Exit | Meaning |
 |---|---:|---|
 | Task 1 default validator | 0 | File/data/evidence structure and semantics pass. |
-| Task 1 `-RequireComplete` | 2 | Pending GitHub mappings, GUI demo URL and native phone evidence. |
+| Task 1 `-RequireComplete` | 2 | GUI demo passes; pending GitHub mappings and native phone evidence remain. |
 | Task 2 SUS analyzer | 0 | Exactly seven structurally valid P01–P07 response sets and exact SUS arithmetic. |
 | Task 2 default validator | 0 | `COMPLETE_WITH_DISCLOSED_LIMITATIONS`. |
 | Task 2 `-RequireCompleteEvidence` | 2 | Missing pilot, consent, probes, environment/timing provenance. |
@@ -520,4 +521,4 @@ Historical commit subjects that mention a ZIP remain in `git-commit-log.txt` bec
 
 ## 11. Final declaration
 
-The consolidated report is human-reviewed and consistent with the current machine-readable evidence. It does not claim a guaranteed rubric score or full external completion. Task 1 GitHub publication and GUI demo, Task 1 native soft-keyboard behavior, Task 2 missing fieldwork records, and Task 3 third-platform execution remain explicit. Local package validation is complete; unavailable evidence has not been reconstructed.
+The consolidated report is human-reviewed and consistent with the current machine-readable evidence. It does not claim a guaranteed rubric score or full external completion. Task 1 GUI demo is verified; Task 1 pending GitHub publication and native soft-keyboard behavior, Task 2 missing fieldwork records, and Task 3 third-platform execution remain explicit. Local package validation is complete; unavailable evidence has not been reconstructed.

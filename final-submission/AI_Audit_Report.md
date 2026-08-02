@@ -28,6 +28,7 @@ The Codex interface did not export exact UI times for several conversation messa
 | 2026-08-02, `TIME_NOT_EXPORTED` | Repair all three tasks toward maximum rubric coverage; user confirmed human review. | Reconciled Task 1 to the corrected Chrome run, updated Task 2 closure and issue traceability, reconciled Task 3 expectations, and maintained real Git history. | External gaps stayed blocked: pending issue URLs, Task 1 GUI video, native soft keyboard and the third eligible platform. |
 | 2026-08-02, `TIME_NOT_EXPORTED` | Reduce the submission entry point to exactly six consolidated files for all three tasks. | Created one README, Main Report, Bug Report, AI Critique, AI Audit Report and authentic Git commit-log snapshot in `final-submission`. | Original task/evidence folders were preserved because the six reports link to their machine-readable evidence; no evidence was deleted merely to reach six files. |
 | 2026-08-02, `TIME_NOT_EXPORTED` | Confirm that no ZIP is needed; rewrite the Main Report with detailed work for all three tasks and remove unused material before submission. | Removed the ZIP/checksum and packaging script; expanded the Main Report with design, execution, metric, participant, reproduction and platform pipelines; rewired validators to the six consolidated files; deleted duplicate task-specific reports/PDFs/Git logs/drafts/render intermediates while retaining all depended-on evidence. | Deletion followed an explicit dependency map. Checklist/XLSX/CSV/JSON, 200 screenshots, P01–P07 sessions, SUS, instruments, safe reproductions and validators were retained; authentic historical commit subjects were not rewritten to hide the former ZIP step. |
+| 2026-08-02, `TIME_NOT_EXPORTED` | Supply `https://youtu.be/tMar6OyMG80` as the Task 1 GUI-skill demo. | Verified the public URL through YouTube oEmbed, which returned title `GUI-testing-skill demo`, author `Đặng Đăng Khoa` and provider `YouTube`; updated the consolidated README/Main/Audit and Task 1 validator. | The URL came directly from the user and was externally verified. No local MP4 was downloaded or claimed. |
 
 ## 3. Tools, purpose and data controls
 
@@ -104,11 +105,11 @@ These are the observed local outcomes retained at consolidation time. Exit 2 den
 | Gate | Exit | Audited interpretation |
 |---|---:|---|
 | Task 1 default validator | 0 | File, row, semantic and evidence structure pass. |
-| Task 1 strict `-RequireComplete` | 2 | Twelve GitHub mappings, GUI-demo URL and native-phone evidence remain external. |
+| Task 1 strict `-RequireComplete` | 2 | GUI demo is verified; twelve GitHub mappings and native-phone evidence remain external. |
 | Task 2 SUS analyzer | 0 | P01–P07 raw responses and score arithmetic pass. |
 | Task 2 default validator | 0 | Package closes as `COMPLETE_WITH_DISCLOSED_LIMITATIONS`. |
 | Task 2 strict `-RequireCompleteEvidence` | 2 | Pilot, consent, probes and some environment/timing provenance remain missing. |
-| Task 2 submission validator | 0 | Required artefacts, T0–T11, SUS, finding-type separation, PDFs, demo link and privacy rules pass. |
+| Task 2 submission validator | 0 | Retained evidence, T0–T11, SUS, finding-type separation, six consolidated files, demo link and privacy rules pass. |
 | Task 3 default validator | 0 | The local 232-row/160-screenshot evidence package passes. |
 | Task 3 strict `-RequireComplete` | 2 | A third eligible Safari-or-real-Android category is absent. |
 
@@ -124,7 +125,7 @@ These are the observed local outcomes retained at consolidation time. Exit 2 den
 | SUS | Included only as the seven user-provided P01–P07 response sets; collection is not claimed visible in recordings. |
 | Technical reproduction | Uses synthetic data and is excluded from participant frequencies. |
 | GitHub | Only verified existing URLs are linked; pending records remain pending; no duplicate #118 or unpublished comment is claimed. |
-| Video | Task 2 uses the verified YouTube URL supplied/confirmed for submission; no local MP4 is claimed necessary. No Task 1 GUI demo URL is invented. |
+| Video | Task 1 uses verified GUI-skill URL `https://youtu.be/tMar6OyMG80`; Task 2 uses verified usability URL `https://youtu.be/QAh6W9AJXiU`. Both are YouTube-link-only; no local MP4 is claimed necessary. |
 | Platform/device | WebKit Windows is not called Safari; Pixel/Expo Web emulation is not called a physical Android/Expo Go run. |
 | Evidence modes | `LIVE_LOCAL_SUT`, `MOCKED_*` and browser/emulation contexts remain distinguishable. |
 | Git history | `git-commit-log.txt` is generated from real repository commits and full hashes, not a manually invented timeline. |
@@ -140,7 +141,7 @@ The student remains responsible for:
 - protecting the private participant roster and reviewing any frames before public sharing;
 - accepting the corrected test oracle and severity prioritization;
 - deciding whether and when to publish pending GitHub issues/comments;
-- recording the missing Task 1 GUI demo or collecting a real-device/third-platform run if required by grading;
+- collecting a real-device soft-keyboard/third-platform run if required by grading;
 - reviewing and submitting the final six-file package with its linked evidence archive.
 
 The original task-specific audit drafts were reconciled into this document and removed from the submission archive to avoid three stale copies of the same disclosure. Provenance is retained through the real Git history, machine-readable results and evidence links in this consolidated audit.
