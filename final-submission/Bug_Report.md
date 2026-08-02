@@ -74,7 +74,7 @@ FR-04 requires a phone value beginning with `0` and containing 10–11 digits. P
 - Participant evidence: P01/D01 00:00:53–00:01:49; P02/D02 00:00:57–00:01:34; P04/D04 00:01:43–00:02:09.
 - Expected: accept valid 10- and 11-digit leading-zero values, reject non-leading-zero values, then persist the update.
 - Actual: valid formats were rejected; a contrary format could be accepted.
-- Evidence: [safe reproduction image](../task2-usability/evidence/github-issue-reproduction/BUG-PF-02-safe-reproduction.png) and [canonical Task 2 bug report](../task2-usability/Usability_Bug_Report.md).
+- Evidence: [safe reproduction image](../task2-usability/evidence/github-issue-reproduction/BUG-PF-02-safe-reproduction.png), [machine-readable finding register](../task2-usability/Analysis/Findings_Register.csv) and the P01/P02/P04 session reports.
 - Recommended retest: automated boundary coverage plus five users; both valid lengths persist, invalid leading digit is rejected, and 5/5 complete after at most one recovery.
 
 ### 3.3 `BUG-AUTH-PLAINTEXT-01` — password control exposes credential characters
@@ -113,7 +113,7 @@ No participant quote, moderator probe or self-reported interpretation is availab
 - Label the login identifier as `Email`, localize the action consistently, and avoid account-enumerating feedback.
 - Review `autocomplete` semantics and supported-browser password-manager behavior without treating every system prompt as a participant wrong turn.
 
-Full timestamps and contradictory/non-finding evidence remain in [Usability_Findings.md](../task2-usability/Usability_Findings.md).
+Full timestamps remain in the seven [coded session reports](../task2-usability/Sessions/) and the [machine-readable finding register](../task2-usability/Analysis/Findings_Register.csv). Contradictory and non-finding interpretations are consolidated in this report rather than duplicated in a second findings report.
 
 ## 5. Task 3 — cross-platform recurrence
 
@@ -131,7 +131,7 @@ Task 3 executed the 58 checklist IDs in four environments. Every environment pro
 | 8 | Expo Web mobile login has inconsistent labels and a 39 px-high target | 4/4 Expo Web runs | Medium | `GUI-MOBILE-LOGIN-002/004/010` |
 | 9 | Forgot-password loses the SPA marker through full navigation | 4/4 | Low | `GUI-WEB-LOGIN-007` |
 
-No failure was demonstrated to be browser-exclusive. Minor focus-sequence details differed, but the failed expectation remained the same. `GUI-MOBILE-LOGIN-011` stayed Not Observable because desktop/headless Expo Web does not produce a real mobile soft keyboard. See [Task3_Findings.md](../task3-cross-platform/Task3_Findings.md) for the retained platform-specific narrative and evidence mapping.
+No failure was demonstrated to be browser-exclusive. Minor focus-sequence details differed, but the failed expectation remained the same. `GUI-MOBILE-LOGIN-011` stayed Not Observable because desktop/headless Expo Web does not produce a real mobile soft keyboard. Platform-level status and screenshot traceability remain in the [cross-platform matrix](../task3-cross-platform/Cross_Platform_Matrix.md) and [evidence index](../task3-cross-platform/Evidence_Index.md).
 
 ## 6. Evidence and reporting safeguards
 

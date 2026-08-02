@@ -31,18 +31,18 @@
 
 ## Participant-evidenced bug traceability
 
-| Bug ID | Participant evidence | Frequency | Redacted screenshot/clip | Draft | Published GitHub URL | Status |
+| Bug ID | Participant evidence | Frequency | Redacted screenshot/clip | Consolidated report | Published GitHub URL | Status |
 |---|---|---:|---|---|---|---|
-| BUG-PF-02 | D01 @ 00:00:53–00:01:49; D02 @ 00:00:57–00:01:34; D04 @ 00:01:43–00:02:09 | 3/7 | `evidence/github-issue-reproduction/BUG-PF-02-safe-reproduction.png` — synthetic data | `github-issues/DRAFT-BUG-USABILITY-01.md` | https://github.com/trngnneee/eshop-sut/issues/55#issuecomment-5149476574 | Participant-evidenced; independently reproduced; evidence comment published |
-| BUG-AUTH-PLAINTEXT-01 | D01 @ 00:00:19–00:00:33; D02 @ 00:00:17–00:00:35; D04 @ 00:01:01–00:01:39; D05 @ 00:00:39–00:00:46; D07 @ 00:00:29–00:00:48 | 5/7 | `evidence/github-issue-reproduction/BUG-AUTH-PLAINTEXT-01-safe-reproduction.png` — synthetic data | `github-issues/DRAFT-BUG-AUTH-PLAINTEXT-01.md` | https://github.com/trngnneee/eshop-sut/issues/37#issuecomment-5149476796 | Participant-evidenced; independently reproduced; evidence comment published |
+| BUG-PF-02 | D01 @ 00:00:53–00:01:49; D02 @ 00:00:57–00:01:34; D04 @ 00:01:43–00:02:09 | 3/7 | `evidence/github-issue-reproduction/BUG-PF-02-safe-reproduction.png` — synthetic data | `../final-submission/Bug_Report.md` | https://github.com/trngnneee/eshop-sut/issues/55#issuecomment-5149476574 | Participant-evidenced; independently reproduced; evidence comment published |
+| BUG-AUTH-PLAINTEXT-01 | D01 @ 00:00:19–00:00:33; D02 @ 00:00:17–00:00:35; D04 @ 00:01:01–00:01:39; D05 @ 00:00:39–00:00:46; D07 @ 00:00:29–00:00:48 | 5/7 | `evidence/github-issue-reproduction/BUG-AUTH-PLAINTEXT-01-safe-reproduction.png` — synthetic data | `../final-submission/Bug_Report.md` | https://github.com/trngnneee/eshop-sut/issues/37#issuecomment-5149476796 | Participant-evidenced; independently reproduced; evidence comment published |
 
 P06 không được cộng vào frequency của plaintext-password bug vì replacement recording không tới login.
 
 ## Supplemental technical-only bug traceability
 
-| Bug ID | Technical evidence | Participant IDs/frequency | Safe screenshot | Draft | Canonical GitHub URL | Status |
+| Bug ID | Technical evidence | Participant IDs/frequency | Safe screenshot | Consolidated report | Canonical GitHub URL | Status |
 |---|---|---|---|---|---|---|
-| BUG-REG-PASSWORD-POLICY-01 | Isolated API run 2026-08-02: missing-special password registration 200; subsequent login 200; frontend EP/BVA control matrix 13/13 PASS | NONE / N/A | `evidence/github-issue-reproduction/BUG-REG-PASSWORD-POLICY-01-safe-reproduction.png`; SHA-256 `5c1e6d718f39f20dff7c5263c505a3789d96f6ddf196fae6167e8ce4f85d0537` | `github-issues/DRAFT-BUG-REG-PASSWORD-POLICY-01.md` | https://github.com/trngnneee/eshop-sut/issues/118 | Independently reproduced; duplicate reused; fresh Task 2 evidence comment NOT_PUBLISHED |
+| BUG-REG-PASSWORD-POLICY-01 | Isolated API run 2026-08-02: missing-special password registration 200; subsequent login 200; frontend EP/BVA control matrix 13/13 PASS | NONE / N/A | `evidence/github-issue-reproduction/BUG-REG-PASSWORD-POLICY-01-safe-reproduction.png`; SHA-256 `5c1e6d718f39f20dff7c5263c505a3789d96f6ddf196fae6167e8ce4f85d0537` | `../final-submission/Bug_Report.md` | https://github.com/trngnneee/eshop-sut/issues/118 | Independently reproduced; duplicate reused; fresh Task 2 evidence comment NOT_PUBLISHED |
 
 SUS Q1–Q10 không xuất hiện trong recording P01–P07. Ngày 2026-07-31, người dùng cung cấp riêng 7 bộ responses; ngày 2026-08-02, người dùng xác nhận các bộ này dùng participant ID P01–P07 và đã human-review provenance/coding. Arithmetic đã được kiểm tra. Probes, consent supplement và pilot vẫn giữ `NOT_RECORDED`/`PILOT EVIDENCE MISSING`.
 

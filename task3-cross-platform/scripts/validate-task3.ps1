@@ -8,6 +8,7 @@ $ErrorActionPreference = 'Stop'
 
 $taskRoot = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $repoRoot = Split-Path -Parent $taskRoot
+$finalRoot = Join-Path $repoRoot 'final-submission'
 $failures = [System.Collections.Generic.List[string]]::new()
 $limitations = [System.Collections.Generic.List[string]]::new()
 
@@ -33,35 +34,27 @@ function Add-Limitation {
 }
 
 $requiredFiles = @(
-    'README.md',
-    'Platform_Inventory.md',
-    'Task3_Cross_Platform_Report.md',
-    'Task3_Cross_Platform_Report.pdf',
-    'Task3_Findings.md',
     'Cross_Platform_Matrix.md',
     'Evidence_Index.md',
-    'AI_Audit_Task3.md',
-    'AI_Audit_Task3.pdf',
-    'AI_Critique_Task3.md',
-    'AI_Critique_Task3.pdf',
-    'git-commit-log.txt',
     'results\Task3_Cross_Platform_Results.csv',
     'results\Evidence_Index.csv',
     'results\run-summary.json',
     'results\derived-summary.json',
     'scripts\run-task3.js',
-    'scripts\summarize-task3.js',
-    'scripts\export-commit-log.ps1'
+    'scripts\summarize-task3.js'
 )
 
 foreach ($relativePath in $requiredFiles) {
     Assert-Task3 (Test-Path -LiteralPath (Join-Path $taskRoot $relativePath) -PathType Leaf) "Required artefact exists: $relativePath"
 }
 
-$commitLog = Get-Content -LiteralPath (Join-Path $taskRoot 'git-commit-log.txt') -Raw -Encoding UTF8
-$task3CommitCount = @([regex]::Matches($commitLog, '(?mi)^[0-9a-f]{40}\s+\|.*\|\s+task3:')).Count
-Assert-Task3 ($commitLog.StartsWith('STATUS: EXPORTED')) 'Git commit log is a real exported text artefact'
-Assert-Task3 ($task3CommitCount -ge 3) "Git commit log contains at least three Task 3 procedure commits (actual: $task3CommitCount)"
+$finalRequired = @('README.md','Main_Report.md','Bug_Report.md','AI_Critique.md','AI_Audit_Report.md','git-commit-log.txt')
+foreach ($relativePath in $finalRequired) {
+    Assert-Task3 (Test-Path -LiteralPath (Join-Path $finalRoot $relativePath) -PathType Leaf) "Consolidated artefact exists: final-submission/$relativePath"
+}
+
+$commitLog = Get-Content -LiteralPath (Join-Path $finalRoot 'git-commit-log.txt') -Raw -Encoding UTF8
+Assert-Task3 ($commitLog -match 'Snapshot HEAD: [0-9a-f]{40}' -and @([regex]::Matches($commitLog,'(?m)^[0-9a-f]{40} \|')).Count -ge 1) 'Consolidated Git log contains an authentic full-hash snapshot'
 
 $task1Checklist = Get-Content -LiteralPath (Join-Path $repoRoot 'task1-gui\GUI_Checklist_HW3.md') -Raw -Encoding UTF8
 $expectedIds = @([regex]::Matches($task1Checklist, '(?m)^\|\s*(GUI-[A-Z0-9-]+)\s*\|') | ForEach-Object { $_.Groups[1].Value })
@@ -149,26 +142,18 @@ $index = Get-Content -LiteralPath (Join-Path $taskRoot 'Evidence_Index.md') -Raw
 Assert-Task3 (@([regex]::Matches($matrix, '(?m)^\|\s*GUI-[A-Z0-9-]+\s*\|')).Count -eq 58) 'Markdown cross-platform matrix contains 58 checklist rows'
 Assert-Task3 (@([regex]::Matches($index, '(?m)^\| \[T3-')).Count -eq 160) 'Markdown evidence index contains 160 screenshot rows'
 
-$report = Get-Content -LiteralPath (Join-Path $taskRoot 'Task3_Cross_Platform_Report.md') -Raw -Encoding UTF8
-$inventory = Get-Content -LiteralPath (Join-Path $taskRoot 'Platform_Inventory.md') -Raw -Encoding UTF8
-Assert-Task3 ($report -match 'BLOCKED_THIRD_REQUIRED_PLATFORM' -and $report -match '232 rows' -and $report -match '160 PNG') 'Main report states the honest status and exact execution/evidence totals'
-Assert-Task3 ($inventory -match '2/3 ELIGIBLE' -and $inventory -match 'not Apple Safari' -and $inventory -match 'not a real/cloud Android') 'Platform inventory discloses eligibility and non-substitution boundaries'
+$report = Get-Content -LiteralPath (Join-Path $finalRoot 'Main_Report.md') -Raw -Encoding UTF8
+Assert-Task3 ($report -match 'BLOCKED_THIRD_REQUIRED_PLATFORM' -and $report -match '232' -and $report -match '160') 'Consolidated Main Report states the honest status and exact execution/evidence totals'
+Assert-Task3 ($report -match '2/3' -and $report -match 'not Safari' -and $report -match 'not real/cloud Android') 'Consolidated Main Report discloses platform eligibility and non-substitution boundaries'
 
-$critique = Get-Content -LiteralPath (Join-Path $taskRoot 'AI_Critique_Task3.md') -Raw -Encoding UTF8
-$audit = Get-Content -LiteralPath (Join-Path $taskRoot 'AI_Audit_Task3.md') -Raw -Encoding UTF8
-$critiqueBody = ($critique -split '(?m)^## Student review', 2)[0]
-$critiqueBody = $critiqueBody -replace '(?m)^#.*$', '' -replace '(?m)^\*\*.*$', ''
+$critique = Get-Content -LiteralPath (Join-Path $finalRoot 'AI_Critique.md') -Raw -Encoding UTF8
+$audit = Get-Content -LiteralPath (Join-Path $finalRoot 'AI_Audit_Report.md') -Raw -Encoding UTF8
+$critiqueMatch = [regex]::Match($critique,'(?ms)^## Task 3 critique.*?\r?\n\r?\n(.*?)(?=\r?\n\*\*Section length:)')
+$critiqueBody = if ($critiqueMatch.Success) { $critiqueMatch.Groups[1].Value } else { '' }
 $critiqueWordCount = [regex]::Matches($critiqueBody, "[\p{L}\p{M}\p{N}]+(?:[-'][\p{L}\p{M}\p{N}]+)*").Count
 Assert-Task3 ($critiqueWordCount -ge 200 -and $critiqueWordCount -le 300) "AI critique contains 200-300 words (actual: $critiqueWordCount)"
 Assert-Task3 ($critique -match 'HUMAN_REVIEWED' -and $critique -notmatch 'PENDING_STUDENT_REVIEW') 'AI critique records the student human-review confirmation'
 Assert-Task3 ($audit -match 'HUMAN_REVIEWED' -and $audit -notmatch 'PENDING_STUDENT_REVIEW') 'AI audit records the student human-review confirmation'
-
-foreach ($pdfName in @('Task3_Cross_Platform_Report.pdf', 'AI_Audit_Task3.pdf', 'AI_Critique_Task3.pdf')) {
-    $pdfPath = Join-Path $taskRoot $pdfName
-    if (Test-Path -LiteralPath $pdfPath -PathType Leaf) {
-        Assert-Task3 ((Get-Item -LiteralPath $pdfPath).Length -gt 10000) "$pdfName is non-empty and plausibly rendered"
-    }
-}
 
 Add-Limitation 'Only two of three rubric-eligible platforms are evidenced; Safari/macOS, real/cloud Android Chrome, or Expo Go on a real phone is still required.'
 

@@ -27,6 +27,7 @@ The Codex interface did not export exact UI times for several conversation messa
 | 2026-08-02, `TIME_NOT_EXPORTED` | Execute Task 3 and capture complete evidence. | Built/corrected a 58-item multi-environment runner, produced 232 result rows and 160 screenshots, generated matrices/findings/reports and validated the package. | Only Chrome Windows and Firefox Windows qualify. WebKit Windows was not renamed Safari; Pixel emulation was not renamed real Android. |
 | 2026-08-02, `TIME_NOT_EXPORTED` | Repair all three tasks toward maximum rubric coverage; user confirmed human review. | Reconciled Task 1 to the corrected Chrome run, updated Task 2 closure and issue traceability, reconciled Task 3 expectations, and maintained real Git history. | External gaps stayed blocked: pending issue URLs, Task 1 GUI video, native soft keyboard and the third eligible platform. |
 | 2026-08-02, `TIME_NOT_EXPORTED` | Reduce the submission entry point to exactly six consolidated files for all three tasks. | Created one README, Main Report, Bug Report, AI Critique, AI Audit Report and authentic Git commit-log snapshot in `final-submission`. | Original task/evidence folders were preserved because the six reports link to their machine-readable evidence; no evidence was deleted merely to reach six files. |
+| 2026-08-02, `TIME_NOT_EXPORTED` | Confirm that no ZIP is needed; rewrite the Main Report with detailed work for all three tasks and remove unused material before submission. | Removed the ZIP/checksum and packaging script; expanded the Main Report with design, execution, metric, participant, reproduction and platform pipelines; rewired validators to the six consolidated files; deleted duplicate task-specific reports/PDFs/Git logs/drafts/render intermediates while retaining all depended-on evidence. | Deletion followed an explicit dependency map. Checklist/XLSX/CSV/JSON, 200 screenshots, P01–P07 sessions, SUS, instruments, safe reproductions and validators were retained; authentic historical commit subjects were not rewritten to hide the former ZIP step. |
 
 ## 3. Tools, purpose and data controls
 
@@ -127,6 +128,7 @@ These are the observed local outcomes retained at consolidation time. Exit 2 den
 | Platform/device | WebKit Windows is not called Safari; Pixel/Expo Web emulation is not called a physical Android/Expo Go run. |
 | Evidence modes | `LIVE_LOCAL_SUT`, `MOCKED_*` and browser/emulation contexts remain distinguishable. |
 | Git history | `git-commit-log.txt` is generated from real repository commits and full hashes, not a manually invented timeline. |
+| Submission packaging | No ZIP or local MP4 is retained. The Task 2 deliverable uses the verified YouTube link and the six-file consolidated entry point. |
 
 ## 8. Human review and authorship
 
@@ -141,4 +143,4 @@ The student remains responsible for:
 - recording the missing Task 1 GUI demo or collecting a real-device/third-platform run if required by grading;
 - reviewing and submitting the final six-file package with its linked evidence archive.
 
-The source audit records remain available at [Task 1 AI audit](../task1-gui/AI_Audit_Report_Task1.md), [Task 2 AI audit](../task2-usability/AI_Audit_Task2.md) and [Task 3 AI audit](../task3-cross-platform/AI_Audit_Task3.md). This consolidated audit is the submission entry point; the source audits are provenance, not additional files inside `final-submission`.
+The original task-specific audit drafts were reconciled into this document and removed from the submission archive to avoid three stale copies of the same disclosure. Provenance is retained through the real Git history, machine-readable results and evidence links in this consolidated audit.

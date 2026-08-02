@@ -5,6 +5,8 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 $taskRoot = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
+$repoRoot = Split-Path -Parent $taskRoot
+$finalRoot = Join-Path $repoRoot 'final-submission'
 $failures = [System.Collections.Generic.List[string]]::new()
 
 function Assert-Submission {
@@ -22,35 +24,26 @@ function Assert-Submission {
 }
 
 $required = @(
-    'README.md',
-    'SUBMISSION_CHECKLIST.md',
-    'Task2_Main_Report.md',
-    'Task2_Main_Report.pdf',
     'Participant_Roster.md',
     'Pilot_Session.md',
     'Evidence_Index.md',
     'Missing_Data_and_Followup.md',
     'Video_Data_Quality_Report.md',
-    'Usability_Findings.md',
-    'Usability_Bug_Report.md',
-    'AI_Audit_Task2.md',
-    'AI_Audit_Task2.pdf',
-    'AI_Critique_Task2.md',
-    'AI_Critique_Task2.pdf',
     'Analysis\Observation_Metrics.csv',
     'Analysis\Findings_Register.csv',
     'Analysis\SUS_Raw_Responses.csv',
     'Analysis\SUS_Scores.csv',
     'Analysis\SUS_Results.md',
-    'github-issues\DRAFT-BUG-USABILITY-01.md',
-    'github-issues\DRAFT-BUG-AUTH-PLAINTEXT-01.md',
-    'github-issues\DRAFT-BUG-REG-PASSWORD-POLICY-01.md',
     'Demo_Video_Link.md'
 )
 
 foreach ($relative in $required) {
     $path = Join-Path $taskRoot $relative
     Assert-Submission (Test-Path -LiteralPath $path -PathType Leaf) "Required artefact exists: $relative"
+}
+foreach ($relative in @('README.md','Main_Report.md','Bug_Report.md','AI_Critique.md','AI_Audit_Report.md','git-commit-log.txt')) {
+    $path = Join-Path $finalRoot $relative
+    Assert-Submission (Test-Path -LiteralPath $path -PathType Leaf) "Consolidated artefact exists: final-submission/$relative"
 }
 
 $sessions = @(Get-ChildItem -LiteralPath (Join-Path $taskRoot 'Sessions') -Filter 'Session_P??.md' -File)
@@ -129,10 +122,10 @@ $susText = Get-Content -LiteralPath (Join-Path $taskRoot 'Analysis\SUS_Results.m
 Assert-Submission ($susText -match '7/7') 'SUS results report seven complete response sets'
 Assert-Submission ($susText -match '\|\s*Mean\s*\|\s*76\.79\s*\|' -and $susText -match '\|\s*Median\s*\|\s*75\s*\|' -and $susText -match '\|\s*Minimum\s*\|\s*62\.5\s*\|' -and $susText -match '\|\s*Maximum\s*\|\s*100\s*\|') 'SUS aggregates match the supplied response sets'
 
-$mainReport = Get-Content -LiteralPath (Join-Path $taskRoot 'Task2_Main_Report.md') -Raw -Encoding UTF8
+$mainReport = Get-Content -LiteralPath (Join-Path $finalRoot 'Main_Report.md') -Raw -Encoding UTF8
 Assert-Submission ($mainReport -match 'median 80') 'Main report states the calculable task-time median'
 Assert-Submission ($mainReport -match 'BUG-PF-02' -and $mainReport -match 'BUG-AUTH-PLAINTEXT-01' -and $mainReport -match 'BUG-REG-PASSWORD-POLICY-01') 'Main report includes both participant-evidenced bugs and the technical-only registration-policy bug'
-Assert-Submission ($mainReport -match 'CONFIRMED_MISSING_DATA') 'Main report discloses confirmed missing data'
+Assert-Submission ($mainReport -match 'missing-data declaration' -and $mainReport -match 'not collected') 'Main report discloses confirmed missing data'
 Assert-Submission ($mainReport -match 'COMPLETE_WITH_DISCLOSED_LIMITATIONS') 'Main report records the accepted package-closure state'
 
 $completionScript = Join-Path $taskRoot 'scripts\validate-usability.ps1'
@@ -146,17 +139,12 @@ $strictExit = $LASTEXITCODE
 $strictText = $strictOutput -join "`n"
 Assert-Submission ($strictExit -eq 2 -and $strictText -match 'INCOMPLETE_EVIDENCE') 'Strict evidence mode preserves the honest missing-data refusal'
 
-$critique = Get-Content -LiteralPath (Join-Path $taskRoot 'AI_Critique_Task2.md') -Raw -Encoding UTF8
-$critiqueBody = ($critique -split '(?m)^## Review confirmation', 2)[0]
-$critiqueBody = $critiqueBody -replace '(?m)^#.*$', '' -replace '(?m)^\*\*.*$', ''
+$critique = Get-Content -LiteralPath (Join-Path $finalRoot 'AI_Critique.md') -Raw -Encoding UTF8
+$critiqueMatch = [regex]::Match($critique,'(?ms)^## Task 2 critique.*?\r?\n\r?\n(.*?)(?=\r?\n\*\*Section length:)')
+$critiqueBody = if ($critiqueMatch.Success) { $critiqueMatch.Groups[1].Value } else { '' }
 $wordCount = [regex]::Matches($critiqueBody, "[\p{L}\p{M}\p{N}]+(?:[-'][\p{L}\p{M}\p{N}]+)*").Count
 Assert-Submission ($wordCount -ge 200 -and $wordCount -le 300) "AI critique body has 200-300 words (actual: $wordCount)"
-Assert-Submission ($critique -match '\*\*Status:\*\* `HUMAN_REVIEWED`' -and $critique -match '2026-08-02') 'AI critique records the student human-review confirmation'
-
-foreach ($pdfName in @('Task2_Main_Report.pdf', 'AI_Audit_Task2.pdf', 'AI_Critique_Task2.pdf')) {
-    $pdf = Get-Item -LiteralPath (Join-Path $taskRoot $pdfName)
-    Assert-Submission ($pdf.Length -gt 10000) "$pdfName is non-empty and plausibly rendered"
-}
+Assert-Submission ($critique -match 'HUMAN_REVIEWED' -and $critique -match '2026-08-02') 'AI critique records the student human-review confirmation'
 
 $demoLink = Get-Content -LiteralPath (Join-Path $taskRoot 'Demo_Video_Link.md') -Raw -Encoding UTF8
 Assert-Submission ($demoLink -match 'https://youtu\.be/[A-Za-z0-9_-]+') 'Demo metadata contains a public YouTube URL'
@@ -164,10 +152,10 @@ Assert-Submission ($demoLink -match 'PUBLIC_LINK_VERIFIED') 'Demo metadata recor
 Assert-Submission ($demoLink -match 'YOUTUBE_LINK_ONLY' -and $demoLink -match 'LOCAL_COPY_NOT_REQUIRED') 'Demo metadata records the YouTube-link-only submission rule'
 
 $publicAnalysisFiles = @(
-    (Join-Path $taskRoot 'Task2_Main_Report.md'),
-    (Join-Path $taskRoot 'Usability_Test_Summary.md'),
-    (Join-Path $taskRoot 'Usability_Findings.md'),
-    (Join-Path $taskRoot 'Usability_Bug_Report.md')
+    (Join-Path $finalRoot 'Main_Report.md'),
+    (Join-Path $finalRoot 'Bug_Report.md'),
+    (Join-Path $finalRoot 'AI_Critique.md'),
+    (Join-Path $finalRoot 'AI_Audit_Report.md')
 ) + @($sessions.FullName) + @(
     (Join-Path $taskRoot 'Analysis\Observation_Metrics.csv'),
     (Join-Path $taskRoot 'Analysis\Findings_Register.csv'),

@@ -19,6 +19,23 @@ This report consolidates the three HW03 tasks into one auditable narrative while
 
 Default/local validators return exit 0 for all three packages. Strict evidence validators return exit 2 only for the disclosed external/fieldwork gaps. No pilot, consent, quote, probe, participant value, platform, issue URL, device run or video URL was synthesized to turn a strict failure into a pass.
 
+### 1.1 Work completed across the three tasks
+
+The submission was produced as one connected testing programme rather than three unrelated documents:
+
+| Phase | Task 1 — GUI | Task 2 — usability | Task 3 — cross-platform |
+|---|---|---|---|
+| Requirement interpretation | Mapped FR-01, FR-02, FR-12 and FR-14 to five in-scope screens and corrected unsupported test oracles. | Converted the account journey into SC1–SC5 and a T0–T11 observation schema. | Reused the exact corrected 58-ID Task 1 oracle without changing the item set. |
+| Test preparation | Built a 58-row checklist with IA coverage, origin, severity, steps and expected results. | Prepared plan, moderator guide, task cards, SUS form, probes, consent template, roster and session structure. | Inventoried installed browsers/tooling, established eligibility rules and built a repeatable browser runner. |
+| Execution/data collection | Executed the local Chrome run, including controlled network/loading/empty/write states and Expo Web limitations. | Analyzed seven official recordings, replaced one duplicated source, and kept unavailable observations explicit. | Executed four environments, captured identity/platform overlays and generated 232 platform-item rows. |
+| Analysis | Reconciled 58 rows, 40 screenshots, 37 Pass, 20 Fail and 1 Blocked. | Calculated task metrics, exact raw SUS, seven findings and three independent technical reproductions. | Compared all 58 IDs across environments, grouped systemic failures and separated engine differences from product defects. |
+| Quality control | Checked evidence paths, PNG signatures, execution modes, GitHub URL shape and requirement corrections. | Validated P01–P07, T0–T11, 70 SUS values, score arithmetic, privacy and bug/usability separation. | Excluded the flawed initial run, corrected three harness defects and validated 160 indexed screenshots. |
+| Reporting | Consolidated results into this report and `Bug_Report.md`. | Consolidated participant results, SUS, missing-data declaration and canonical issues #55/#37/#118. | Consolidated platform inventory, result matrix, evidence eligibility and third-platform blocker. |
+
+### 1.2 Submission structure
+
+Only six files are used as the grading entry point: `README.md`, this `Main_Report.md`, `Bug_Report.md`, `AI_Critique.md`, `AI_Audit_Report.md` and `git-commit-log.txt`. The three task directories are evidence-only archives. Redundant task-specific Main/Bug/AI reports, rendered PDFs, duplicate Git logs, ZIP packaging, issue drafts already represented in the consolidated bug register and one-off generation artefacts are intentionally removed. Machine-readable sources, screenshots, session records, raw SUS and validators are retained.
+
 ## 2. Scope and evidence model
 
 ### 2.1 Task 1 scope
@@ -56,6 +73,15 @@ Technical reproduction is never counted as participant evidence. Participant ana
 
 Task 3 uses the corrected Task 1 checklist ID set without adding or removing rows. Four local environments were executed, but platform eligibility is evaluated separately from whether a run produced useful compatibility evidence.
 
+### 2.4 Out-of-scope and non-claims
+
+- The work does not claim production deployment, load/performance testing, penetration testing or full business-flow coverage.
+- A mocked response is used only to make a UI state deterministic; it is never represented as a production backend result.
+- Participant video endings are interpreted as task endings only where the user supplied that fieldwork context.
+- SUS is analyzed descriptively for the supplied seven response sets and is not used as a completion substitute.
+- WebKit on Windows is not Apple Safari, and a Pixel browser descriptor on Windows is not a real Android device.
+- Human review confirms interpretation and authorship; it does not create missing evidence.
+
 ## 3. Provenance, execution modes and integrity controls
 
 Task 1 contains exactly 48 `AI_INITIAL` and 10 `HUMAN_ADDED` checklist items. Human review was confirmed on 2026-08-02. Each current row includes Expected Result, Actual Result, Notes, status, execution mode, evidence ID, capture timestamp and screenshot path.
@@ -78,7 +104,29 @@ Task 3 screenshots contain the student identity/email overlay, browser or engine
 
 ## 4. Task 1 — GUI checklist result
 
-### 4.1 Coverage
+### 4.1 Work performed and test-design method
+
+Task 1 was completed in six concrete steps:
+
+1. Inspect the assignment requirements and the local web/admin/mobile entry points.
+2. Define the five-screen scope and map every checklist row to a requirement, information-area category and observable expected result.
+3. Start from 48 AI-proposed rows, add 10 human rows for keyboard focus, responsive width, edge cases, network/loading/empty states, long input, double submit and touch target coverage, then human-review every oracle.
+4. Execute the corrected checklist against the local EShop services. Use live integration for normal flows and explicitly labelled deterministic interception only where timing or a destructive write state must be controlled.
+5. Record Actual Result, status, notes, evidence ID, timestamp, mode, screenshot and bug mapping at row level; do not infer a Pass from source code alone.
+6. Reconcile the Markdown/XLSX/CSV outputs against one result source, validate screenshots and separate a failed assertion from the eventual root-cause issue.
+
+The four IA dimensions make coverage reviewable rather than a flat list:
+
+| IA | Interpretation used in this package | Examples |
+|---|---|---|
+| `IA-01` | Visual presentation, accessibility, responsive layout and control appearance | headings, focus order, width 320 px, touch target |
+| `IA-02` | Form input, validation, credential semantics and boundary data | `type=email`, password policy, required fields, long names |
+| `IA-03` | Navigation and task transition | login/register links, forgot-password, category tab, protected route |
+| `IA-04` | Feedback, asynchronous state, error recovery and resilience | lockout, duplicate feedback, loading/empty/network failure, double submit |
+
+Test data used student-specific synthetic identifiers and reversible category/product records. Screenshots contain test credentials only. Category writes were cleaned after execution; the empty-name write was intercepted in `MOCKED_WRITE_PREVENTION` to observe the request without retaining unwanted data.
+
+### 4.2 Coverage
 
 | Dimension | Value | Count |
 |---|---|---:|
@@ -103,7 +151,7 @@ Screen × IA coverage is:
 | Mobile Login | 3 | 3 | 3 | 2 | 11 |
 | **Total** | **11** | **19** | **10** | **18** | **58** |
 
-### 4.2 Result metrics
+### 4.3 Result metrics
 
 | Metric | Value |
 |---|---:|
@@ -117,7 +165,7 @@ Screen × IA coverage is:
 
 The prior 36/22 checklist, conflicting 40/18 summary and five packed screenshots are superseded. The current machine-readable source is [`../task1-gui/results/Task1_Execution_Chrome.csv`](../task1-gui/results/Task1_Execution_Chrome.csv).
 
-### 4.3 Human-review corrections
+### 4.4 Human-review corrections
 
 Three material expectation problems were corrected before final classification:
 
@@ -128,11 +176,23 @@ Three material expectation problems were corrected before final classification:
 
 The last three observations were reclassified to Pass from the retained runtime evidence. Screenshots and capture timestamps were not changed.
 
-### 4.4 Main GUI risks
+### 4.5 Evidence and defect handling
+
+Forty screenshots cover the 58 rows because one screenshot may legitimately support several assertions from the same state. Reuse is traceable through a stable Evidence ID; it is not presented as 58 independent captures. Every screenshot path is checked for existence, minimum size and PNG signature. Each failed row receives a local Bug ID. A GitHub field contains either a verified issue URL or the literal `PENDING_EXTERNAL_ACTION`; a placeholder is never formatted as if it were published.
+
+The Task 1 output retained for grading is intentionally compact:
+
+- [`GUI_Checklist_HW3.md`](../task1-gui/GUI_Checklist_HW3.md) and [`GUI_Checklist_HW3.xlsx`](../task1-gui/GUI_Checklist_HW3.xlsx) for the complete row-level checklist;
+- [`Task1_Execution_Chrome.csv`](../task1-gui/results/Task1_Execution_Chrome.csv) as the machine-readable execution source;
+- [`Evidence_Index.csv`](../task1-gui/results/Evidence_Index.csv) and the [40 screenshots](../task1-gui/evidence/executed-chrome/) for evidence traceability;
+- `Bug_Report.md` for the single consolidated defect narrative; and
+- the Task 1 validator for semantic/evidence checks.
+
+### 4.6 Main GUI risks
 
 The highest-risk Task 1 observations are plaintext password display, incorrect login semantics, generic lockout feedback, duplicate email acceptance, unsafe in-use category deletion, absent confirmation/loading/empty/double-submit states, positive tabindex, missing admin labels, inconsistent mobile localization and a 39 px mobile submit target below the 44 px threshold. Detailed severity and issue traceability are consolidated in `Bug_Report.md`.
 
-### 4.5 Task 1 completion decision
+### 4.7 Task 1 completion decision
 
 The Task 1 package is structurally ready. Strict completion remains blocked by:
 
@@ -142,7 +202,22 @@ The Task 1 package is structurally ready. Strict completion remains blocked by:
 
 ## 5. Task 2 — Usability evaluation
 
-### 5.1 Participant and session integrity
+### 5.1 Study preparation and analysis workflow
+
+Task 2 was prepared as a moderated usability evaluation of one continuous account journey. The retained method assets include the usability test plan, moderator guide, two task cards, SUS form, post-session probes and consent template. Their presence documents the intended method; it does not claim that every instrument was actually administered.
+
+The analysis workflow was:
+
+1. Inventory the supplied recording sources in read-only mode and treat source filenames/contact values as private data.
+2. Assign analytical aliases D01–D07 and participant IDs P01–P07 from the user-provided recruitment mapping, without using face or voice inference.
+3. Detect that the first D06 source duplicated another recording, replace it with the user-supplied official D06, verify that its SHA-256/media metadata differ from D01, and exclude the superseded file from every frequency.
+4. Decode each official video, inspect screen milestones and assess whether audio contains usable speech. A non-VAD transcript attempt produced unrelated text and was rejected; no quote was retained.
+5. Code each session using the same T0–T11 schema, record observable errors/wrong turns/hesitations, and classify SC1–SC5 at confirmed task end.
+6. Use the user’s confirmation to interpret the early ends of P02, P03, P05 and P06 as complete session ends rather than inventing missing continuation.
+7. Import the separately supplied P01–P07 SUS response sets with `COMPLETED_USER_PROVIDED` provenance, calculate scores independently and cross-check the result tables.
+8. Aggregate participant behavior into findings, reproduce product defects using synthetic data, search GitHub for duplicates and keep technical-only evidence outside participant frequencies.
+
+### 5.2 Participant and session integrity
 
 Exactly seven official IDs are used: P01, P02, P03, P04, P05, P06 and P07. There are seven official session files and no identifier outside that exact set or extra participant row. Every session report contains exactly one row for each code T0 through T11.
 
@@ -179,7 +254,19 @@ The participant recordings produced these success-criterion outcomes:
 
 Behavioral logout does not independently prove token/storage deletion; storage state remains not observable from participant evidence.
 
-### 5.2 Observed metrics
+### 5.3 Metric definitions and observed metrics
+
+Metrics follow these rules:
+
+| Metric | Operational definition |
+|---|---|
+| Completion | Pass only if SC1–SC5 are all evidenced by confirmed task end. Partial progress is not converted into completion. |
+| Task time | `T11 − T0` only when both endpoints are observable/confirmed. P03 remains not calculable because T0 is not observable. |
+| Error | Visible failed submit, validation rejection or incorrect credential/format action attributable to the observed interaction. |
+| Wrong turn | Observable departure from the intended SUT flow, such as opening browser password-manager settings. |
+| Hesitation | Observable inactivity of at least five seconds associated with the task state. |
+| Intervention/Card B | Count only when moderator speech/action is observable; otherwise retain `NOT_OBSERVABLE`, not zero. |
+| Behavioral logout | Visible transition out of the authenticated state; storage/token deletion requires separate technical evidence and is not inferred. |
 
 | Participant | Outcome | Task time | Wrong turns | Errors | Hesitations ≥5 s | SUS |
 |---|---|---:|---:|---:|---:|---:|
@@ -200,7 +287,21 @@ Summary:
 - Observed lower bound: 17 errors, one wrong turn, two hesitations of at least five seconds, totaling ten seconds.
 - Intervention, think-aloud-reminder and Card B counts remain `NOT_OBSERVABLE`; they are not reported as zero.
 
-### 5.3 Raw SUS and calculation
+### 5.4 Session-by-session analysis
+
+| Participant | What was observed | Why the final outcome is not complete |
+|---|---|---|
+| P01 | Registered and logged in; made five profile submits with leading-zero phone formats; then logged out. | No successful SC3 save or SC4 persistence; task time 111 s and five observed errors. |
+| P02 | Registered and logged in; made three failed profile submits before the confirmed end at the validation alert. | SC3–SC5 not achieved; captured task time 94 s, three errors and one hesitation. |
+| P03 | Four-second recording with no observable first task action; the user confirmed this is the complete session. | SC1–SC5 not reached; T0 and most behavior metrics remain not observable even though SUS was supplied separately. |
+| P04 | Recovered from one registration-password error, briefly opened Edge Password Manager, logged in and tried multiple phone formats; a non-leading-zero phone produced success feedback; then logged out. | The accepted phone contradicted FR-04 and name/address remained incomplete, so SC3/SC4 fail; 136 s, one wrong turn and four errors. |
+| P05 | Registered, reached login and entered credentials, but no login submit occurred before the confirmed session end. | SC2–SC5 not achieved; 50 s captured time and zero visible system-error events, with other unavailable measures not forced to zero. |
+| P06 | Replacement recording shows four registration submits receiving the same weak-password error and three repeated recovery actions. | SC1 was not achieved before the confirmed end; 52 s and four observed errors. |
+| P07 | Registered; initially used the wrong identifier under the `Username` label, hesitated, self-corrected to full email, logged in, opened profile and later logged out. | No profile update or persistence occurred, so SC3/SC4 fail; 66 s, one error and one hesitation. |
+
+These narratives use only visible behavior and the user-confirmed task-end context. They do not infer participant intent, satisfaction, trust or moderator assistance from silent audio.
+
+### 5.5 Raw SUS and calculation
 
 Seven complete user-provided response sets are identified as P01–P07. All 70 responses are integers from 1 to 5. Collection is not visible in the recordings, so provenance remains `COMPLETED_USER_PROVIDED` rather than inferred from participant behavior.
 
@@ -225,7 +326,7 @@ For odd questions, contribution = response − 1. For even questions, contributi
 
 SUS is a 0–100 scale, not a percentage. These values are descriptive for the supplied sample; no population-level or statistical-significance claim is made. The apparent contrast between a relatively positive SUS mean and 0/7 full task completion is retained rather than “resolved” by changing either dataset. It may reflect separate collection context, expectations or the difference between perceived usability and the strict SC1–SC5 completion definition.
 
-### 5.4 Severity-ranked usability findings
+### 5.6 Severity-ranked usability findings
 
 | Rank | Finding | Type | Frequency | Severity |
 |---:|---|---|---:|---|
@@ -239,13 +340,23 @@ SUS is a 0–100 scale, not a percentage. These values are descriptive for the s
 
 Software bugs and usability issues remain separate. The technical password-policy defect is not attributed to P04 or P06 because their typed passwords are masked in the recordings. Its participant frequency is therefore N/A.
 
-### 5.5 GitHub traceability for Task 2 bugs
+### 5.7 Independent reproduction and GitHub traceability
+
+Three isolated reproductions used synthetic names, accounts, phone values and passwords. They were executed to verify product behavior after the participant analysis, not to replace participant observations:
+
+| Bug | Reproduction result | Relationship to participant data |
+|---|---|---|
+| `BUG-PF-02` | Requirement-conforming leading-zero phone input follows the invalid path; reproduction supports issue #55. | Corroborates P01/P02/P04 and keeps frequency 3/7. |
+| `BUG-AUTH-PLAINTEXT-01` | Login credential control renders as ordinary text rather than a masked password control; reproduction supports issue #37. | Corroborates P01/P02/P04/P05/P07 and keeps frequency 5/7. |
+| `BUG-REG-PASSWORD-POLICY-01` | Direct API registration without an allowed special character returns 200 and the account logs in with 200; 13/13 frontend EP/BVA controls still pass. | Technical-only `NONE`/`N/A`; no participant attribution. |
+
+Duplicate search was completed before issue handling:
 
 - `BUG-PF-02` reuses canonical [issue #55](https://github.com/trngnneee/eshop-sut/issues/55); fresh synthetic evidence was published in the recorded issue comment.
 - `BUG-AUTH-PLAINTEXT-01` reuses canonical [issue #37](https://github.com/trngnneee/eshop-sut/issues/37); fresh synthetic evidence was published in the recorded issue comment.
 - `BUG-REG-PASSWORD-POLICY-01` reuses canonical [issue #118](https://github.com/trngnneee/eshop-sut/issues/118). Duplicate search prevented a new issue. Its reviewed reproduction remains local; no new #118 comment is claimed.
 
-### 5.6 Task 2 missing-data declaration
+### 5.8 Task 2 missing-data declaration
 
 The following were not collected or cannot be verified from the supplied evidence:
 
@@ -259,13 +370,32 @@ The following were not collected or cannot be verified from the supplied evidenc
 
 These omissions are the reason strict evidence validation returns exit 2. The default package-closure validator returns exit 0 because the missing fields are disclosed instead of populated with invented data.
 
-### 5.7 Task 2 demo and private package
+### 5.9 Retained Task 2 evidence and submission mode
 
-The verified public Task 2 skill-demo link is [https://youtu.be/QAh6W9AJXiU](https://youtu.be/QAh6W9AJXiU). Submission mode is YouTube-link-only; no local MP4 is required. A private ZIP exists at `submission/23127207_Task2_Usability_Submission.zip`, excludes raw/local recordings and was checked after creation. The participant roster must remain in the private grading channel.
+The verified public Task 2 skill-demo link is [https://youtu.be/QAh6W9AJXiU](https://youtu.be/QAh6W9AJXiU). Submission mode is YouTube-link-only; no local MP4 or ZIP package is required. The participant roster must remain in the private grading channel and is not copied into the six-file consolidated entry point.
+
+The retained evidence archive contains the study plan/instruments, seven session reports, masked private roster, missing-data and video-quality records, five analysis files, the verified YouTube metadata, synthetic reproduction evidence and the three validation scripts. Redundant Task 2 Main/Bug/AI reports, PDFs, local Git export, GitHub drafts already represented by canonical URLs, render sources, duplicate preflight images and ZIP tooling are removed.
 
 ## 6. Task 3 — Cross-platform execution
 
-### 6.1 Platform inventory and eligibility
+### 6.1 Work performed and automation pipeline
+
+Task 3 converted the corrected Task 1 oracle into a repeatable platform runner. The runner does not decide that all engines are equivalent; it performs the same observable assertion and records the engine-specific Actual Result.
+
+Execution proceeded as follows:
+
+1. Inventory locally available Chrome, Firefox, Playwright WebKit, Chromium device descriptors, Expo Web, cloud credentials and Android tooling.
+2. Mark platform eligibility before result interpretation: only real Chrome/Firefox and a genuine Safari-or-Android category can satisfy the required three-platform gate.
+3. Start the local frontend, admin, API and Expo Web paths, create student-specific synthetic fixtures, and route the Expo Web API request to the disclosed local backend.
+4. Execute all 58 IDs in each environment using the same corrected expected results. Preserve five controlled mocked-state rows and one Expo-Web soft-keyboard limitation per environment.
+5. Capture the visible state with an overlay containing student name, ID/email, platform/browser version, host/device declaration, localhost URL, evidence/checklist IDs, observation and ISO timestamp.
+6. Record dialogs, HTTP outcomes, route changes, focus sequences, element dimensions, validation state and cleanup results in platform JSON; generate a normalized CSV row per platform-item.
+7. Aggregate 232 rows into a 58-row comparison matrix and 160-row screenshot index, then detect status inconsistencies, missing IDs, duplicate IDs and scenario errors.
+8. Investigate every abnormal difference as one of three sources—SUT, browser/engine or harness—before retaining a product finding.
+
+Across the four environments, execution-mode totals are 208 `LIVE_LOCAL_SUT`, 20 explicitly labelled `MOCKED_*` rows and four `EXPO_WEB_DESKTOP_BROWSER` rows. These labels prevent a deterministic UI-state test or desktop emulation from being mistaken for unavailable device evidence.
+
+### 6.2 Platform inventory and eligibility
 
 | Platform | Browser/engine | Device/host | Eligible? | Rows | Screenshots |
 |---|---|---|---|---:|---:|
@@ -276,7 +406,7 @@ The verified public Task 2 skill-demo link is [https://youtu.be/QAh6W9AJXiU](htt
 
 The rubric requires at least three eligible real/cloud/physical platforms covering Chrome, Firefox and Safari or Android Chrome. Current eligibility is 2/3. WebKit Windows and device emulation are useful supplemental compatibility runs but cannot be renamed to satisfy the third-platform requirement.
 
-### 6.2 Cross-platform metrics
+### 6.3 Cross-platform metrics
 
 | Metric | Value |
 |---|---:|
@@ -299,7 +429,20 @@ Every environment has the same high-level status distribution:
 
 The eligible Chrome + Firefox subtotal is 116 rows: 74 Pass, 40 Fail and two Not Observable. Status consistency does not prove Safari or Android compatibility, and it does not imply identical engine behavior. For example, keyboard sequences vary in detail while still failing the natural focus-order assertion.
 
-### 6.3 Cross-platform findings
+### 6.4 Evidence capture and comparison method
+
+One platform has 58 result rows but only 40 screenshots because a baseline or common state may prove multiple checklist assertions. The relationship is not implicit: every result row carries an Evidence ID and path, while the index stores the platform, route, capture time, covered IDs and file location. The validator verifies all 160 files, PNG signatures and the exact 40-per-platform distribution.
+
+Comparison is performed by checklist ID:
+
+- **Same status, same root cause:** group as a systemic product finding rather than four browser bugs.
+- **Same status, different engine detail:** retain platform-specific Actual Results, such as focus sequence order, while keeping the shared failed assertion.
+- **Different status:** investigate runner logs, DOM state, network/dialog evidence and source before classifying an engine-specific compatibility problem.
+- **Not Observable:** retain the limitation when the environment cannot produce the required phenomenon, as with a native soft keyboard in desktop Expo Web.
+
+No final ID has a cross-environment status inconsistency, and no browser-exclusive failure was established. That conclusion applies only to the four executed environments.
+
+### 6.5 Cross-platform findings
 
 The failures are systemic in the four executed environments rather than browser-exclusive:
 
@@ -313,15 +456,17 @@ The failures are systemic in the four executed environments rather than browser-
 8. Expo Web uses Username/Sign In and renders a 39 px submit target below the 44 px threshold — Medium, 4/4 Expo Web runs.
 9. Forgot-password performs full document navigation and loses the SPA marker — Low, 4/4.
 
-### 6.4 Harness corrections and evidence integrity
+### 6.6 Harness corrections and evidence integrity
 
 An initial Chrome run with 55/58 rows was excluded after two ambiguous navigation locators and a remaining XSS-dialog listener produced three scenario errors. Mobile login was rerun on all environments after the route proxy was corrected to await `Content-Type`. Keyboard checks were rerun from a truly unfocused document after a preparatory click was found to alter the focus start. Only corrected final evidence is indexed.
 
 Three unsupported inherited expectations were later reconciled under human review. The reconciliation script updates status and Actual Result interpretations while preserving the original screenshots and capture timestamps. Per-platform JSON contains the reconciliation note.
 
-### 6.5 Task 3 completion decision
+### 6.7 Retained Task 3 evidence and completion decision
 
 The local execution, evidence matrix and reports are structurally complete. Strict completion remains `BLOCKED_THIRD_REQUIRED_PLATFORM`. One complete 58-item run is still required from Safari on macOS, real/cloud Android Chrome or Expo Go on a real phone. A real-phone run could also close the Task 1 soft-keyboard blocker.
+
+The retained archive consists of the four platform JSON files, normalized result/evidence CSVs, run and derived summaries, the 58-row Markdown matrix, the 160-row evidence index, 160 screenshots, the runner/summarizer and the validator. Task-specific Main/Findings/AI reports, PDFs, local Git export and one-off reconciliation/export scripts are removed because the consolidated reports and final Git log replace them.
 
 ## 7. Combined defect and usability interpretation
 
@@ -338,7 +483,7 @@ The most important combined risks are credential exposure, data-integrity loss o
 | Task 2 SUS analyzer | 0 | Exactly seven structurally valid P01–P07 response sets and exact SUS arithmetic. |
 | Task 2 default validator | 0 | `COMPLETE_WITH_DISCLOSED_LIMITATIONS`. |
 | Task 2 `-RequireCompleteEvidence` | 2 | Missing pilot, consent, probes, environment/timing provenance. |
-| Task 2 submission validator | 0 | Required package artefacts, exact T0–T11, SUS, bug/usability separation, PDFs, demo and privacy checks pass. |
+| Task 2 submission validator | 0 | Retained evidence, exact T0–T11, SUS, bug/usability separation, six consolidated files, demo and privacy checks pass. |
 | Task 3 default validator | 0 | Local 232-row/160-screenshot package passes. |
 | Task 3 `-RequireComplete` | 2 | Only 2/3 eligible platforms. |
 
@@ -360,6 +505,19 @@ The most important combined risks are credential exposure, data-integrity loss o
 | Task 3 evidence index | [`../task3-cross-platform/Evidence_Index.md`](../task3-cross-platform/Evidence_Index.md) |
 | Task 3 screenshots | [`../task3-cross-platform/evidence/`](../task3-cross-platform/evidence/) |
 
-## 10. Final declaration
+## 10. Submission cleanup and retained dependency boundary
+
+Cleanup is evidence-aware. A file is retained if it is directly linked by a consolidated report, consumed by a validator, required to recompute a metric, required to reproduce a technical observation, or is the original screenshot/session record behind a claim.
+
+| Area | Retained | Removed as obsolete/redundant |
+|---|---|---|
+| Task 1 | Final 58-row checklist in Markdown/XLSX, execution/evidence CSVs, 40 screenshots and consolidated validator. | Task-specific Main/Bug/Summary/AI reports and PDFs, old audits, AI draft output, duplicate issue drafts, local Git export and one-off generators. |
+| Task 2 | Plan/instruments, P01–P07 sessions, private masked roster, missing/video-quality evidence, SUS/metrics/findings CSV/MD, YouTube metadata, safe reproduction evidence and validators/reproduction scripts. | Task-specific Main/Bug/Findings/Summary/AI reports and PDFs, PDF sources, duplicate GitHub drafts, local Git export, duplicate preflight captures, renderer/export/ZIP scripts, ZIP and checksum. |
+| Task 3 | Platform JSON/CSV summaries, 58-row matrix, 160-row evidence index, 160 screenshots, runner, summarizer and validator. | Task-specific Main/Findings/AI reports and PDFs, duplicate platform narrative, local Git export and one-off reconciliation/export scripts. |
+| Submission root | Exactly the six files named in Section 1.2. | No ZIP and no local demo MP4. |
+
+Historical commit subjects that mention a ZIP remain in `git-commit-log.txt` because changing an authentic Git snapshot to hide an earlier packaging step would be inaccurate. The ZIP artefact itself and its creation script are removed.
+
+## 11. Final declaration
 
 The consolidated report is human-reviewed and consistent with the current machine-readable evidence. It does not claim a guaranteed rubric score or full external completion. Task 1 GitHub publication and GUI demo, Task 1 native soft-keyboard behavior, Task 2 missing fieldwork records, and Task 3 third-platform execution remain explicit. Local package validation is complete; unavailable evidence has not been reconstructed.

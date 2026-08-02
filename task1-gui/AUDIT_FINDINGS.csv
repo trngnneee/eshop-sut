@@ -1,9 +1,0 @@
-Finding ID,Severity,Category,Artifact,Description,Evidence,Status,Required Action
-AUD-T1-001,High,Native mobile evidence,GUI-MOBILE-LOGIN-011,Soft-keyboard behavior is not observable in Expo Web and was not run on a physical/cloud Android or iOS target,results/Task1_Execution_Chrome.csv; GUI_Checklist_HW3.md,OPEN_EXTERNAL,Execute on a real eligible mobile target and attach identity-overlaid evidence
-AUD-T1-002,High,GitHub traceability,GUI_Bug_Report_HW3.md,Some Fail rows still use PENDING_EXTERNAL_ACTION rather than a verified duplicate or newly created GitHub issue URL,GUI_Bug_Report_HW3.md; results/Task1_Execution_Chrome.csv,OPEN_EXTERNAL,Complete duplicate review and record only URLs returned by GitHub
-AUD-T1-003,High,Demo evidence,Demo_Video_Link.md,A public Task 1 GUI-testing-skill YouTube URL has not been supplied,Demo_Video_Link.md,OPEN_EXTERNAL,Record upload and paste the real public YouTube URL
-AUD-T1-004,Resolved,Execution integrity,results/Task1_Execution_Chrome.csv,All 58 rows now have current item-level Actual Status mode Evidence ID capture time and screenshot,results/Task1_Execution_Chrome.csv; evidence/executed-chrome,RESOLVED,None
-AUD-T1-005,Resolved,Metrics,GUI_Test_Summary_HW3.md,Checklist and summary now agree at 58 total 37 Pass 20 Fail and 1 Blocked,GUI_Checklist_HW3.md; GUI_Test_Summary_HW3.md,RESOLVED,None
-AUD-T1-006,Resolved,Requirement mapping,scope-analysis.md,Invented Edit Category and duplicate-category obligations were removed and the lockout boundary was corrected,scope-analysis.md; GUI_Checklist_HW3.md,RESOLVED,None
-AUD-T1-007,Resolved,Human review,AI_Item_Level_Critique.md,The student confirmed all human-review sections on 2026-08-02,AI_Item_Level_Critique.md; AI_Audit_Report_Task1.md,RESOLVED,None
-AUD-T1-008,Resolved,Validator,scripts/validate-gui.ps1,Semantic validator now distinguishes structural failures from honestly disclosed external blockers,scripts/validate-gui.ps1,RESOLVED,None

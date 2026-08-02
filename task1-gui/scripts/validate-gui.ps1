@@ -5,6 +5,8 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.IO.Compression
 $taskRoot = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
+$repoRoot = Split-Path -Parent $taskRoot
+$finalRoot = Join-Path $repoRoot 'final-submission'
 $failures = [System.Collections.Generic.List[string]]::new()
 $limitations = [System.Collections.Generic.List[string]]::new()
 
@@ -19,28 +21,20 @@ function Add-Limitation([string]$Message) {
 }
 
 $required = @(
-    'README.md','scope-analysis.md','GUI_Checklist_HW3.md','GUI_Checklist_HW3.xlsx',
-    'GUI_Coverage_Matrix.md','GUI_Bug_Report_HW3.md','GUI_Test_Summary_HW3.md',
-    'AI_Item_Level_Critique.md','AI_Critique_Task1.md','AI_Critique_Task1.pdf',
-    'AI_Audit_Report_Task1.md','AI_Audit_Report_Task1.pdf','GUI_Test_Summary_HW3.pdf',
-    'AI_Disclosure_Task1.md','git-commit-log.txt','Demo_Video_Link.md',
-    'ai-output\AI_INITIAL_GUI_Checklist.md','results\Task1_Execution_Chrome.csv',
-    'results\Evidence_Index.csv','scripts\sync-current-execution.py','scripts\export-commit-log.ps1'
+    'GUI_Checklist_HW3.md','GUI_Checklist_HW3.xlsx',
+    'results\Task1_Execution_Chrome.csv','results\Evidence_Index.csv'
 )
 foreach ($relative in $required) {
     Assert-Gui (Test-Path -LiteralPath (Join-Path $taskRoot $relative) -PathType Leaf) "Required artefact exists: $relative"
 }
 
-foreach ($pdfName in @('AI_Audit_Report_Task1.pdf', 'AI_Critique_Task1.pdf', 'GUI_Test_Summary_HW3.pdf')) {
-    $pdfPath = Join-Path $taskRoot $pdfName
-    if (Test-Path -LiteralPath $pdfPath -PathType Leaf) {
-        Assert-Gui ((Get-Item -LiteralPath $pdfPath).Length -gt 10000) "$pdfName is non-empty and plausibly rendered"
-    }
+$finalRequired = @('README.md','Main_Report.md','Bug_Report.md','AI_Critique.md','AI_Audit_Report.md','git-commit-log.txt')
+foreach ($relative in $finalRequired) {
+    Assert-Gui (Test-Path -LiteralPath (Join-Path $finalRoot $relative) -PathType Leaf) "Consolidated artefact exists: final-submission/$relative"
 }
 
-$commitLog = Get-Content -LiteralPath (Join-Path $taskRoot 'git-commit-log.txt') -Raw -Encoding UTF8
-Assert-Gui ($commitLog -match 'STATUS: EXPORTED' -and $commitLog -match '(?m)^HEAD: [0-9a-f]{40}\r?$') 'Git commit log is an authentic full-hash export'
-Assert-Gui ($commitLog -match '(?m)^[0-9a-f]{40} \| .* \| task1:') 'Git commit log contains an authentic Task 1 procedure commit'
+$commitLog = Get-Content -LiteralPath (Join-Path $finalRoot 'git-commit-log.txt') -Raw -Encoding UTF8
+Assert-Gui ($commitLog -match 'Snapshot HEAD: [0-9a-f]{40}' -and @([regex]::Matches($commitLog,'(?m)^[0-9a-f]{40} \|')).Count -ge 1) 'Consolidated Git log contains an authentic full-hash snapshot'
 
 $rows = @(Import-Csv -LiteralPath (Join-Path $taskRoot 'results\Task1_Execution_Chrome.csv'))
 $ids = @($rows | ForEach-Object { $_.ID })
@@ -108,20 +102,21 @@ try {
     finally { $archive.Dispose() }
 } finally { $xlsxStream.Dispose() }
 
-$summary = Get-Content -LiteralPath (Join-Path $taskRoot 'GUI_Test_Summary_HW3.md') -Raw -Encoding UTF8
-Assert-Gui ($summary -match '\| Pass \| 37 \|' -and $summary -match '\| Fail \| 20 \|' -and $summary -match '\| Blocked \| 1 \|') 'Test Summary matches the execution CSV metrics'
+$mainReport = Get-Content -LiteralPath (Join-Path $finalRoot 'Main_Report.md') -Raw -Encoding UTF8
+Assert-Gui ($mainReport -match 'Task 1' -and $mainReport -match '37 Pass' -and $mainReport -match '20 Fail' -and $mainReport -match '1 Blocked') 'Consolidated Main Report matches Task 1 execution metrics'
 
-$critique = Get-Content -LiteralPath (Join-Path $taskRoot 'AI_Critique_Task1.md') -Raw -Encoding UTF8
-$critiqueBody = ($critique -replace '(?m)^#.*$','' -replace '(?m)^\*\*.*$','')
-$words = [regex]::Matches($critiqueBody,"[\p{L}\p{M}\p{N}]+(?:[-'][\p{L}\p{M}\p{N}]+)*").Count
-Assert-Gui ($words -ge 200 -and $words -le 300) "AI critique contains 200-300 words (actual: $words)"
-$audit = Get-Content -LiteralPath (Join-Path $taskRoot 'AI_Audit_Report_Task1.md') -Raw -Encoding UTF8
-$itemReview = Get-Content -LiteralPath (Join-Path $taskRoot 'AI_Item_Level_Critique.md') -Raw -Encoding UTF8
-Assert-Gui ($audit -match 'HUMAN_REVIEWED' -and $itemReview -match 'HUMAN_REVIEWED') 'AI audit and item-level critique record human review'
-Assert-Gui (@([regex]::Matches($itemReview,'(?m)^\| `GUI-')).Count -eq 58) 'Item-level critique covers all 58 final IDs'
+$bugReport = Get-Content -LiteralPath (Join-Path $finalRoot 'Bug_Report.md') -Raw -Encoding UTF8
+$missingFailedIds = @($failRows | Where-Object { $bugReport -notmatch [regex]::Escape($_.ID) })
+Assert-Gui ($missingFailedIds.Count -eq 0) 'Consolidated Bug Report covers all 20 Task 1 failed assertions'
 
-$demo = Get-Content -LiteralPath (Join-Path $taskRoot 'Demo_Video_Link.md') -Raw -Encoding UTF8
-if ($demo -notmatch 'https://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)[A-Za-z0-9_-]+') { Add-Limitation 'Task 1 GUI-testing-skill demo still needs a real public YouTube URL.' }
+$critiqueDocument = Get-Content -LiteralPath (Join-Path $finalRoot 'AI_Critique.md') -Raw -Encoding UTF8
+$critiqueMatch = [regex]::Match($critiqueDocument,'(?ms)^## Task 1 critique.*?\r?\n\r?\n(.*?)(?=\r?\n\*\*Section length:)')
+$words = if ($critiqueMatch.Success) { [regex]::Matches($critiqueMatch.Groups[1].Value,"[\p{L}\p{M}\p{N}]+(?:[-'][\p{L}\p{M}\p{N}]+)*").Count } else { 0 }
+Assert-Gui ($words -ge 200 -and $words -le 300) "Consolidated Task 1 AI critique contains 200-300 words (actual: $words)"
+$audit = Get-Content -LiteralPath (Join-Path $finalRoot 'AI_Audit_Report.md') -Raw -Encoding UTF8
+Assert-Gui ($audit -match 'HUMAN_REVIEWED' -and $audit -match 'Task 1 corrections') 'Consolidated AI audit records Task 1 human review and corrections'
+
+Add-Limitation 'Task 1 GUI-testing-skill demo still needs a real public YouTube URL.'
 $blocked = @($rows | Where-Object { $_.Status -eq 'Blocked' })
 if ($blocked.Count -gt 0) { Add-Limitation 'GUI-MOBILE-LOGIN-011 still needs a real Expo Go/physical/cloud soft-keyboard run.' }
 

@@ -11,6 +11,8 @@ if ([string]::IsNullOrWhiteSpace($TaskRoot)) {
     $TaskRoot = Split-Path -Parent $PSScriptRoot
 }
 $TaskRoot = [System.IO.Path]::GetFullPath($TaskRoot)
+$RepoRoot = Split-Path -Parent $TaskRoot
+$FinalRoot = Join-Path $RepoRoot 'final-submission'
 
 $issues = New-Object System.Collections.Generic.List[string]
 $limitations = New-Object System.Collections.Generic.List[string]
@@ -37,6 +39,16 @@ function Read-RequiredFile {
     return Get-Content -Raw -Encoding UTF8 -LiteralPath $path
 }
 
+function Read-FinalRequiredFile {
+    param([string]$RelativePath)
+    $path = Join-Path $FinalRoot $RelativePath
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+        Add-Issue "Missing consolidated file: final-submission/$RelativePath"
+        return $null
+    }
+    return Get-Content -Raw -Encoding UTF8 -LiteralPath $path
+}
+
 $requiredFiles = @(
     "Usability_Test_Plan.md",
     "Participant_Roster.md",
@@ -45,9 +57,6 @@ $requiredFiles = @(
     "Instruments\Post_Session_Probes.md",
     "Instruments\Consent_Form.md",
     "Instruments\Moderator_Guide.md",
-    "Usability_Findings.md",
-    "Usability_Bug_Report.md",
-    "Usability_Test_Summary.md",
     "Evidence_Index.md",
     "Missing_Data_and_Followup.md",
     "Analysis\SUS_Raw_Responses.csv",
@@ -55,14 +64,14 @@ $requiredFiles = @(
     "Analysis\SUS_Scores.csv",
     "Analysis\Observation_Metrics.csv",
     "Analysis\Findings_Register.csv",
-    "AI_Audit_Task2.md",
-    "AI_Critique_Task2.md",
-    "Demo_Video_Link.md",
-    "git-commit-log.txt"
+    "Demo_Video_Link.md"
 )
 
 foreach ($relativePath in $requiredFiles) {
     $null = Read-RequiredFile $relativePath
+}
+foreach ($relativePath in @('README.md','Main_Report.md','Bug_Report.md','AI_Critique.md','AI_Audit_Report.md','git-commit-log.txt')) {
+    $null = Read-FinalRequiredFile $relativePath
 }
 
 $missingData = Read-RequiredFile "Missing_Data_and_Followup.md"
@@ -221,13 +230,8 @@ if (Test-Path -LiteralPath $susInputPath -PathType Leaf) {
 }
 
 foreach ($document in @(
-    "Usability_Findings.md",
-    "Usability_Bug_Report.md",
-    "Usability_Test_Summary.md",
     "Evidence_Index.md",
-    "AI_Audit_Task2.md",
-    "Demo_Video_Link.md",
-    "git-commit-log.txt"
+    "Demo_Video_Link.md"
 )) {
     $content = Read-RequiredFile $document
     if ($null -ne $content -and $content -match "<REQUIRED_REAL_DATA>|UNVERIFIED|READY_FOR_FIELDWORK") {
@@ -235,13 +239,40 @@ foreach ($document in @(
     }
 }
 
-$critique = Read-RequiredFile "AI_Critique_Task2.md"
+$mainReport = Read-FinalRequiredFile 'Main_Report.md'
+if ($null -ne $mainReport) {
+    if ($mainReport -notmatch 'P01, P02, P03, P04, P05, P06 and P07' -or $mainReport -notmatch 'T0' -or $mainReport -notmatch 'T11') {
+        Add-Issue 'Consolidated Main Report does not document the exact P01-P07 and T0-T11 schema.'
+    }
+    if ($mainReport -notmatch '76\.79' -or $mainReport -notmatch 'median 80') {
+        Add-Issue 'Consolidated Main Report does not retain the validated SUS/task-time aggregates.'
+    }
+}
+
+$bugReport = Read-FinalRequiredFile 'Bug_Report.md'
+if ($null -ne $bugReport) {
+    foreach ($findingId in @('BUG-PF-02','BUG-AUTH-PLAINTEXT-01','BUG-REG-PASSWORD-POLICY-01','UF-PHONE-RECOVERY-01','UF-REG-PASSWORD-RECOVERY-01','UF-LOGIN-IDENTIFIER-01','UF-PASSWORD-MANAGER-DETOUR-01')) {
+        if ($bugReport -notmatch [regex]::Escape($findingId)) { Add-Issue "Consolidated Bug Report is missing $findingId." }
+    }
+}
+
+$audit = Read-FinalRequiredFile 'AI_Audit_Report.md'
+if ($null -ne $audit -and ($audit -notmatch 'HUMAN_REVIEWED' -or $audit -notmatch 'Task 2 corrections')) {
+    Add-Issue 'Consolidated AI audit does not retain Task 2 human review and corrections.'
+}
+
+$commitLog = Read-FinalRequiredFile 'git-commit-log.txt'
+if ($null -ne $commitLog -and ($commitLog -notmatch 'Snapshot HEAD: [0-9a-f]{40}' -or @([regex]::Matches($commitLog,'(?m)^[0-9a-f]{40} \|')).Count -lt 1)) {
+    Add-Issue 'Consolidated Git commit log is not an authentic full-hash snapshot.'
+}
+
+$critique = Read-FinalRequiredFile "AI_Critique.md"
 if ($null -ne $critique) {
-    if ($critique -notmatch '\*\*Status:\*\* `HUMAN_REVIEWED`') {
+    if ($critique -notmatch 'HUMAN_REVIEWED') {
         Add-Issue "AI critique has not been marked HUMAN_REVIEWED."
     }
-    $critiqueBody = ($critique -split "## Review confirmation")[0]
-    $critiqueBody = $critiqueBody -replace '(?m)^#.*$', '' -replace '(?m)^\*\*.*$', ''
+    $critiqueMatch = [regex]::Match($critique,'(?ms)^## Task 2 critique.*?\r?\n\r?\n(.*?)(?=\r?\n\*\*Section length:)')
+    $critiqueBody = if ($critiqueMatch.Success) { $critiqueMatch.Groups[1].Value } else { '' }
     $wordCount = [regex]::Matches($critiqueBody, "[\p{L}\p{M}\p{N}]+(?:[-'][\p{L}\p{M}\p{N}]+)*").Count
     if ($wordCount -lt 200 -or $wordCount -gt 300) {
         Add-Issue "AI critique body must contain 200-300 words; validator counted $wordCount."
@@ -283,5 +314,5 @@ if ($limitations.Count -gt 0) {
     exit 0
 }
 
-Write-Output "COMPLETE: pilot, exactly seven real sessions, SUS, probes, findings, evidence, bugs, audit, critique, demo link, and commit log passed validation."
+Write-Output "COMPLETE: Task 2 evidence sources and the six consolidated submission files passed validation."
 exit 0

@@ -164,11 +164,11 @@ Technical-preflight or pilot-only findings remain `PROVISIONAL` until official p
 A software bug is a reproducible deviation from the specification; a usability issue is an observed barrier that may occur even when the implementation matches the specification. For every confirmed software bug:
 
 1. Reproduce it independently after the session.
-2. Add it to `Usability_Bug_Report.md`.
+2. Add it to `../final-submission/Bug_Report.md` and the machine-readable `Analysis/Findings_Register.csv`.
 3. Save a screenshot or short clip with the participant's identity excluded.
 4. Search existing Task 1 issues to avoid duplicates.
 5. Create or update a GitHub Issue with steps, actual/expected result, environment, severity, and evidence.
-6. Add the GitHub URL to the bug report, finding, summary, and evidence index.
+6. Add the GitHub URL to the consolidated bug report, finding register and evidence index.
 
 ## 14. Ethics, privacy, and retention
 
