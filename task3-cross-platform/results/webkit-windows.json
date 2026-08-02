@@ -1,0 +1,1210 @@
+{
+  "summary": {
+    "platform_id": "webkit-windows",
+    "platform_label": "Playwright WebKit / Windows",
+    "browser_version": "26.5",
+    "os_host": "Windows 10.0.26200",
+    "device": "Desktop 1440×900",
+    "eligible_for_hw03_required_three": false,
+    "platform_note": "Supplemental WebKit-engine run only; this is not Apple Safari and is not counted as the required third platform.",
+    "expected_checklist_items": 58,
+    "executed_result_rows": 58,
+    "pass": 34,
+    "fail": 23,
+    "not_observable": 1,
+    "evidence_files": 40,
+    "missing_ids": [],
+    "duplicate_ids": [],
+    "unexpected_ids": [],
+    "scenario_errors": []
+  },
+  "results": [
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-LOGIN-001",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Heading is 'Đăng Ký'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-001",
+      "evidence_path": "evidence/webkit-windows/001-web-login-baseline.png",
+      "captured_at": "2026-08-02T12:59:10.044Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-LOGIN-002",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "First label 'Username', input type 'text'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-001",
+      "evidence_path": "evidence/webkit-windows/001-web-login-baseline.png",
+      "captured_at": "2026-08-02T12:59:10.044Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-LOGIN-003",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Password input type is 'text'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-001",
+      "evidence_path": "evidence/webkit-windows/001-web-login-baseline.png",
+      "captured_at": "2026-08-02T12:59:10.044Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-LOGIN-009",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Submit button text is 'Sign In'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-001",
+      "evidence_path": "evidence/webkit-windows/001-web-login-baseline.png",
+      "captured_at": "2026-08-02T12:59:10.044Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-LOGIN-004",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Empty email validity=false; message='Fill out this field'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-002",
+      "evidence_path": "evidence/webkit-windows/002-web-login-required-validation.png",
+      "captured_at": "2026-08-02T12:59:16.307Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-LOGIN-005",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Empty password validity=false; message='Fill out this field'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-002",
+      "evidence_path": "evidence/webkit-windows/002-web-login-required-validation.png",
+      "captured_at": "2026-08-02T12:59:16.307Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-LOGIN-006",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Inline red feedback shown: 'Đăng nhập thất bại. Vui lòng kiểm tra lại.'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-003",
+      "evidence_path": "evidence/webkit-windows/003-web-login-invalid-feedback.png",
+      "captured_at": "2026-08-02T12:59:20.103Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-LOGIN-007",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Reached /forgot-password; SPA marker lost due to full document navigation.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-004",
+      "evidence_path": "evidence/webkit-windows/004-web-login-forgot-navigation.png",
+      "captured_at": "2026-08-02T12:59:24.703Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-LOGIN-008",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Reached /register; SPA marker preserved.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-005",
+      "evidence_path": "evidence/webkit-windows/005-web-login-register-navigation.png",
+      "captured_at": "2026-08-02T12:59:28.204Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-LOGIN-010",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Three wrong attempts returned HTTP 401/401/403; UI still says 'Đăng nhập thất bại. Vui lòng kiểm tra lại.'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-006",
+      "evidence_path": "evidence/webkit-windows/006-web-login-lockout-feedback.png",
+      "captured_at": "2026-08-02T12:59:34.504Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-LOGIN-012",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "viewport=320, document scrollWidth=320, form right=271.0.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-008",
+      "evidence_path": "evidence/webkit-windows/008-web-login-responsive-320.png",
+      "captured_at": "2026-08-02T12:59:38.870Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-LOGIN-013",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Whitespace remained significant; login failed with 'Đăng nhập thất bại. Vui lòng kiểm tra lại.'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-009",
+      "evidence_path": "evidence/webkit-windows/009-web-login-trim.png",
+      "captured_at": "2026-08-02T12:59:43.302Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-REGISTER-001",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Heading is 'Đăng Ký Tài Khoản'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-010",
+      "evidence_path": "evidence/webkit-windows/010-web-register-baseline.png",
+      "captured_at": "2026-08-02T12:59:45.728Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-REGISTER-002",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Email input type is 'email'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-010",
+      "evidence_path": "evidence/webkit-windows/010-web-register-baseline.png",
+      "captured_at": "2026-08-02T12:59:45.728Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-REGISTER-003",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Password helper text is 'Tối thiểu 8 ký tự, có chữ hoa, chữ thường, số và một ký tự trong @$!%*?&.'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-010",
+      "evidence_path": "evidence/webkit-windows/010-web-register-baseline.png",
+      "captured_at": "2026-08-02T12:59:45.728Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-REGISTER-008",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Register button 'Đăng Ký' computed background rgb(37, 99, 235).",
+      "evidence_id": "T3-WEBKIT-WINDOWS-010",
+      "evidence_path": "evidence/webkit-windows/010-web-register-baseline.png",
+      "captured_at": "2026-08-02T12:59:45.728Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-REGISTER-004",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Password123! produced HTTP 200 and final route http://localhost:5173/login.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-011",
+      "evidence_path": "evidence/webkit-windows/011-web-register-special-character.png",
+      "captured_at": "2026-08-02T12:59:49.077Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-REGISTER-005",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Weak-password feedback shown: 'Mật khẩu phải có tối thiểu 8 ký tự, gồm chữ hoa, chữ thường, số và một ký tự đặc biệt trong @$!%*?&.'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-012",
+      "evidence_path": "evidence/webkit-windows/012-web-register-weak-feedback.png",
+      "captured_at": "2026-08-02T12:59:53.115Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-REGISTER-006",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Second registration for the same email returned HTTP 200 and navigated as success.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-013",
+      "evidence_path": "evidence/webkit-windows/013-web-register-duplicate.png",
+      "captured_at": "2026-08-02T12:59:57.179Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-REGISTER-007",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Reached /login; SPA marker preserved.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-014",
+      "evidence_path": "evidence/webkit-windows/014-web-register-login-navigation.png",
+      "captured_at": "2026-08-02T13:00:05.245Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-REGISTER-009",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Empty name validity=false; message='Fill out this field'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-015",
+      "evidence_path": "evidence/webkit-windows/015-web-register-required.png",
+      "captured_at": "2026-08-02T13:00:09.103Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-REGISTER-010",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Empty email validity=false; message='Fill out this field'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-015",
+      "evidence_path": "evidence/webkit-windows/015-web-register-required.png",
+      "captured_at": "2026-08-02T13:00:09.103Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-REGISTER-011",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Payload submitted as text; script dialog observed=false.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-016",
+      "evidence_path": "evidence/webkit-windows/016-web-register-xss.png",
+      "captured_at": "2026-08-02T13:00:10.936Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-REGISTER-012",
+      "execution_mode": "MOCKED_NETWORK_FAILURE",
+      "status": "Pass",
+      "actual_result": "Aborted register request produced visible feedback 'Đăng ký thất bại.'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-017",
+      "evidence_path": "evidence/webkit-windows/017-web-register-network-error.png",
+      "captured_at": "2026-08-02T13:00:12.222Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-LOGIN-001",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Admin heading is 'Admin Login'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-018",
+      "evidence_path": "evidence/webkit-windows/018-admin-login-baseline.png",
+      "captured_at": "2026-08-02T13:00:14.709Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-LOGIN-002",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Admin login form contains 0 label elements for two inputs.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-018",
+      "evidence_path": "evidence/webkit-windows/018-admin-login-baseline.png",
+      "captured_at": "2026-08-02T13:00:14.709Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-LOGIN-008",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Admin password input type is 'password'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-018",
+      "evidence_path": "evidence/webkit-windows/018-admin-login-baseline.png",
+      "captured_at": "2026-08-02T13:00:14.709Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-LOGIN-009",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Without token, protected dashboard visible count=0; login form remains visible.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-018",
+      "evidence_path": "evidence/webkit-windows/018-admin-login-baseline.png",
+      "captured_at": "2026-08-02T13:00:14.709Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-LOGIN-003",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Native browser dialog captured with 'Đăng nhập thất bại'; inline feedback count=0.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-019",
+      "evidence_path": "evidence/webkit-windows/019-admin-login-invalid-dialog.png",
+      "captured_at": "2026-08-02T13:00:17.627Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-LOGIN-004",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Non-admin login produced native dialog 'Bạn không phải là admin!'; inline feedback count=0.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-020",
+      "evidence_path": "evidence/webkit-windows/020-admin-login-nonadmin-dialog.png",
+      "captured_at": "2026-08-02T13:00:20.154Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-LOGIN-005",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Dashboard visible=true; admin token stored=true.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-021",
+      "evidence_path": "evidence/webkit-windows/021-admin-login-success.png",
+      "captured_at": "2026-08-02T13:00:21.625Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-LOGIN-006",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "After reload, admin shell visible=true; token present=true.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-022",
+      "evidence_path": "evidence/webkit-windows/022-admin-refresh-persistence.png",
+      "captured_at": "2026-08-02T13:00:22.688Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-LOGIN-007",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "After logout, login form visible=true; token present=false.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-023",
+      "evidence_path": "evidence/webkit-windows/023-admin-logout.png",
+      "captured_at": "2026-08-02T13:00:23.066Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-CATEGORY-001",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Heading 'Quản lý Danh mục'; headers 'ID / Tên Danh Mục / Hành động'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-024",
+      "evidence_path": "evidence/webkit-windows/024-admin-category-baseline.png",
+      "captured_at": "2026-08-02T13:00:24.662Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-CATEGORY-002",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Input placeholder 'Tên danh mục mới'; add button 'Thêm mới'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-024",
+      "evidence_path": "evidence/webkit-windows/024-admin-category-baseline.png",
+      "captured_at": "2026-08-02T13:00:24.662Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-CATEGORY-005",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Edit-button count across category rows=0.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-024",
+      "evidence_path": "evidence/webkit-windows/024-admin-category-baseline.png",
+      "captured_at": "2026-08-02T13:00:24.662Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-CATEGORY-003",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Create HTTP 200; row visible; input reset=true.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-025",
+      "evidence_path": "evidence/webkit-windows/025-admin-category-add.png",
+      "captured_at": "2026-08-02T13:00:25.351Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-CATEGORY-004",
+      "execution_mode": "MOCKED_WRITE_PREVENTION",
+      "status": "Fail",
+      "actual_result": "required attribute='null'; empty POST observed=true; payload={\"name\":\"\"}.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-026",
+      "evidence_path": "evidence/webkit-windows/026-admin-category-empty.png",
+      "captured_at": "2026-08-02T13:00:26.313Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-CATEGORY-006",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Delete confirmation dialog observed=false.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-027",
+      "evidence_path": "evidence/webkit-windows/027-admin-category-delete.png",
+      "captured_at": "2026-08-02T13:00:28.045Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-CATEGORY-007",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Synthetic empty category 'TASK3_DELETE_webkit-windows-1785675545985' disappeared after delete.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-027",
+      "evidence_path": "evidence/webkit-windows/027-admin-category-delete.png",
+      "captured_at": "2026-08-02T13:00:28.045Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-CATEGORY-008",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Category referenced by synthetic product remained=false; error dialog=NONE. Backend allowed deletion=true.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-028",
+      "evidence_path": "evidence/webkit-windows/028-admin-category-delete-in-use.png",
+      "captured_at": "2026-08-02T13:00:30.238Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-CATEGORY-009",
+      "execution_mode": "MOCKED_EMPTY_API_STATE",
+      "status": "Fail",
+      "actual_result": "Mocked empty category response rendered rows=0; empty-state message count=0.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-029",
+      "evidence_path": "evidence/webkit-windows/029-admin-category-empty-state.png",
+      "captured_at": "2026-08-02T13:00:32.369Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-CATEGORY-010",
+      "execution_mode": "MOCKED_SLOW_API",
+      "status": "Fail",
+      "actual_result": "During a 2.5-second category delay, loading indicator count=0.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-030",
+      "evidence_path": "evidence/webkit-windows/030-admin-category-loading.png",
+      "captured_at": "2026-08-02T13:00:34.407Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-CATEGORY-011",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Duplicate category POST returned HTTP 200; visible duplicate row count=1.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-031",
+      "evidence_path": "evidence/webkit-windows/031-admin-category-duplicate.png",
+      "captured_at": "2026-08-02T13:00:36.115Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-CATEGORY-012",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "260+ character row: document scrollWidth=1440, viewport=1440, white-space=normal.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-032",
+      "evidence_path": "evidence/webkit-windows/032-admin-category-long-name.png",
+      "captured_at": "2026-08-02T13:00:38.549Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-ADMIN-CATEGORY-013",
+      "execution_mode": "MOCKED_SLOW_WRITE",
+      "status": "Fail",
+      "actual_result": "Rapid double click generated 2 POST request(s); button disabled after completion=false.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-033",
+      "evidence_path": "evidence/webkit-windows/033-admin-category-double-submit.png",
+      "captured_at": "2026-08-02T13:00:40.971Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-MOBILE-LOGIN-001",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Login heading visible=true. Runtime is Expo Web, not Expo Go.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-034",
+      "evidence_path": "evidence/webkit-windows/034-mobile-login-baseline.png",
+      "captured_at": "2026-08-02T13:04:57.322Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-MOBILE-LOGIN-002",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Visible Username label=true; standalone Email label=false.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-034",
+      "evidence_path": "evidence/webkit-windows/034-mobile-login-baseline.png",
+      "captured_at": "2026-08-02T13:04:57.322Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-MOBILE-LOGIN-003",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Rendered password input type is 'password'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-034",
+      "evidence_path": "evidence/webkit-windows/034-mobile-login-baseline.png",
+      "captured_at": "2026-08-02T13:04:57.322Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-MOBILE-LOGIN-004",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Rendered submit label is 'Sign In'.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-034",
+      "evidence_path": "evidence/webkit-windows/034-mobile-login-baseline.png",
+      "captured_at": "2026-08-02T13:04:57.322Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-MOBILE-LOGIN-010",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "Sign In touch target bounding box={\"x\":24,\"y\":320,\"width\":342,\"height\":39} CSS px.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-034",
+      "evidence_path": "evidence/webkit-windows/034-mobile-login-baseline.png",
+      "captured_at": "2026-08-02T13:04:57.322Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-MOBILE-LOGIN-005",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Invalid-login feedback visible=true.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-035",
+      "evidence_path": "evidence/webkit-windows/035-mobile-login-invalid-feedback.png",
+      "captured_at": "2026-08-02T13:04:58.802Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-MOBILE-LOGIN-006",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "After Quay Lại, home login control count=1.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-036",
+      "evidence_path": "evidence/webkit-windows/036-mobile-login-back.png",
+      "captured_at": "2026-08-02T13:04:59.511Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-MOBILE-LOGIN-007",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Registration heading visible after navigation=true.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-037",
+      "evidence_path": "evidence/webkit-windows/037-mobile-register-navigation.png",
+      "captured_at": "2026-08-02T13:05:03.275Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-MOBILE-LOGIN-008",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "Forgot-password heading visible after navigation=true.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-038",
+      "evidence_path": "evidence/webkit-windows/038-mobile-forgot-navigation.png",
+      "captured_at": "2026-08-02T13:05:06.994Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-MOBILE-LOGIN-009",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Pass",
+      "actual_result": "After live proxied login, header contains synthetic display name=true.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-039",
+      "evidence_path": "evidence/webkit-windows/039-mobile-login-success.png",
+      "captured_at": "2026-08-02T13:05:11.602Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-MOBILE-LOGIN-011",
+      "execution_mode": "EXPO_WEB_DESKTOP_BROWSER",
+      "status": "Not Observable",
+      "actual_result": "Desktop/headless Expo Web cannot display a real mobile soft keyboard. Before={\"width\":390,\"height\":844,\"visualHeight\":844}, after={\"width\":390,\"height\":844,\"visualHeight\":844}.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-040",
+      "evidence_path": "evidence/webkit-windows/040-mobile-soft-keyboard-not-observable.png",
+      "captured_at": "2026-08-02T13:05:15.230Z"
+    },
+    {
+      "participant_id": "N/A_TECHNICAL_TEST",
+      "platform_id": "webkit-windows",
+      "platform_label": "Playwright WebKit / Windows",
+      "eligible_platform": "NO",
+      "checklist_id": "GUI-WEB-LOGIN-011",
+      "execution_mode": "LIVE_LOCAL_SUT",
+      "status": "Fail",
+      "actual_result": "First eight Tab targets: BUTTON:Sign In[1] > INPUT:text[auto] > INPUT:text[auto] > BODY:EShopGiỏ hàngĐăng nhậpĐăng kýĐăng KýUsernameMật khẩuQuên mật khẩu?Sign InChưa có tài khoản? Đăng ký ngay© 2026 EShop SUT. Dành cho mục đích kiểm thử.[auto] > BUTTON:Sign In[1] > INPUT:text[auto] > INPUT:text[auto] > BODY:EShopGiỏ hàngĐăng nhậpĐăng kýĐăng KýUsernameMật khẩuQuên mật khẩu?Sign InChưa có tài khoản? Đăng ký ngay© 2026 EShop SUT. Dành cho mục đích kiểm thử.[auto]. Positive-tabindex submit precedes inputs=true.",
+      "evidence_id": "T3-WEBKIT-WINDOWS-007",
+      "evidence_path": "evidence/webkit-windows/007-web-login-keyboard-focus.png",
+      "captured_at": "2026-08-02T13:07:58.179Z"
+    }
+  ],
+  "console": [
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "info",
+      "text": "Web Inspector blocked http://localhost:3000/api/register from loading"
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "admin-empty-state",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "admin-empty-state",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "admin-empty-state",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "admin-empty-state",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "admin-loading-state",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "admin-loading-state",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "admin-loading-state",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "admin-loading-state",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "scope": "mobile-login",
+      "type": "log",
+      "text": "Running application \"main\" with appParams:\n {rootTag: #root, hydrate: undefined} \nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."
+    },
+    {
+      "scope": "mobile-login",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "scope": "mobile-login",
+      "type": "log",
+      "text": "Running application \"main\" with appParams:\n {rootTag: #root, hydrate: undefined} \nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."
+    },
+    {
+      "scope": "mobile-login",
+      "type": "log",
+      "text": "Running application \"main\" with appParams:\n {rootTag: #root, hydrate: undefined} \nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."
+    },
+    {
+      "scope": "mobile-login",
+      "type": "log",
+      "text": "Running application \"main\" with appParams:\n {rootTag: #root, hydrate: undefined} \nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."
+    },
+    {
+      "scope": "mobile-login",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "scope": "mobile-login",
+      "type": "log",
+      "text": "Running application \"main\" with appParams:\n {rootTag: #root, hydrate: undefined} \nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "scope": "desktop-web-admin",
+      "type": "debug",
+      "text": "[vite] connected."
+    }
+  ],
+  "page_errors": []
+}

@@ -1,0 +1,31 @@
+{
+  "platform_count": 4,
+  "eligible_platform_count": 2,
+  "checklist_item_count": 58,
+  "result_row_count": 232,
+  "evidence_file_count": 160,
+  "status_consistent_items": 58,
+  "status_inconsistent_items": [],
+  "platform_counts": {
+    "android-chrome-emulation": {
+      "pass": 34,
+      "fail": 23,
+      "not_observable": 1
+    },
+    "chrome-windows": {
+      "pass": 34,
+      "fail": 23,
+      "not_observable": 1
+    },
+    "firefox-windows": {
+      "pass": 34,
+      "fail": 23,
+      "not_observable": 1
+    },
+    "webkit-windows": {
+      "pass": 34,
+      "fail": 23,
+      "not_observable": 1
+    }
+  }
+}
