@@ -27,10 +27,47 @@ Exactly six files belong in this directory:
 | Area | Default/local validator | Strict completion gate | Honest status |
 |---|---:|---:|---|
 | Task 1 — GUI checklist | Exit 0 | Exit 2 | 58 unique items, 37 Pass, 20 Fail, 1 Blocked; GUI-skill demo is verified; 11 failed rows have verified GitHub URLs, while 9 mappings and native soft-keyboard evidence remain external. |
-| Task 2 — usability | Exit 0 | Exit 2 | Package closure and submission validation pass; absent pilot, consent, probes and some environment/timing evidence remain disclosed. |
+| Task 2 — usability | Exit 0 | Exit 2 | Structural checks pass; the submission validator intentionally returns exit 2 because pilot, consent, probes and some environment/timing evidence are absent. |
 | Task 3 — cross-platform | Exit 0 | Exit 2 | 232 result rows and 160 screenshots are structurally valid; only 2/3 rubric-eligible platforms are evidenced. |
 
 An exit-2 strict gate is not relabelled as success. It records an unavailable external/fieldwork requirement without fabricating replacement evidence.
+
+## Rubric self-assessment
+
+The authoritative source is `HW3/2026.HW03.GUI Usability_En.pdf`, §15. The current evidence-backed self-assessment is **078/100**, not 100/100. This is a conservative self-assessment rather than a promise of the instructor's score.
+
+| No. | Criterion | Maximum | Self-assessed | Evidence-based rationale |
+|---:|---|---:|---:|---|
+| 1 | Task 1 — GUI checklist, execution and bug report | 30 | 26 | 58 non-duplicate items cover IA-01–IA-04; all have an execution verdict and 40 screenshots. One native-keyboard item is Blocked and 9 failed rows cannot yet be published to GitHub. |
+| 2 | Task 2 — usability evaluation | 40 | 29 | Exactly 7 participant IDs, 7 recordings, T0–T11 coding, 70 raw SUS responses, exact scoring and severity-ranked findings are present. Pilot, consent, probes, usable think-aloud speech and some provenance were not collected. |
+| 3 | Task 3 — cross-browser/cross-platform | 20 | 13 | Four environments and 232 result rows were executed, but only Chrome Windows and Firefox Windows meet the rubric's platform rule; WebKit Windows is not Safari and emulation is not real Android. |
+| 4 | Agent Skills | 10 | 10 | GUI and usability skills are retained and both have verified end-to-end YouTube demo links. |
+|  | **Total** | **100** | **78** | Full credit cannot be claimed until the external/fieldwork gaps below are closed with real evidence. |
+
+### Rubric-required test summary
+
+| Metric | Result |
+|---|---:|
+| Task 1 screens/modules | 5 |
+| Task 2 end-to-end flows | 1 — registration → login → profile update → logout |
+| Checklist items designed | 58 |
+| Checklist items assigned an execution status | 58 |
+| Passed / Failed / Blocked | 37 / 20 / 1 |
+| Task 1 failed assertions | 20 |
+| Task 1 verified GitHub mappings | 11 rows across 10 unique issues |
+| Task 1 pending GitHub publication | 9 rows |
+| Task 2 software bugs / usability issues | 3 / 4 |
+| Task 2 participants | 7 — P01–P07 |
+| Cross-platform environments executed / rubric-eligible | 4 / 2 |
+| Agent skills / public demo videos | 2 / 2 |
+
+### Evidence still required for a defensible 100/100
+
+- Publish the 9 remaining Task 1 failed rows as deduplicated GitHub issues and attach their screenshots. Both the local CLI and the authenticated GitHub connector were checked; the connector returned HTTP 403 for branch and issue creation.
+- Execute `GUI-MOBILE-LOGIN-011` with a real phone, Expo Go or qualifying cloud device.
+- Supply genuine pilot, consent, probe and missing session-provenance records only if they were actually collected. They cannot be reconstructed after the sessions.
+- Add a third eligible platform: Safari on macOS, real/cloud Android Chrome or Expo Go on a real phone.
+- The PDF specifies PDF copies and a ZIP, but this package intentionally follows the user's explicit six-file/no-ZIP submission decision. That format variance must be accepted by the course submission channel before it can be treated as full compliance.
 
 ## Demo links
 

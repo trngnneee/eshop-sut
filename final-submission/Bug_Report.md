@@ -57,6 +57,96 @@ The table below is the complete Task 1 fail set: 1 Critical, 5 High, 12 Medium a
 
 A live duplicate search inspected all 262 public issues available through the repository API on 2026-08-02. `GUI-ADMIN-LOGIN-002` matches [#45](https://github.com/trngnneee/eshop-sut/issues/45), which explicitly covers missing labels on the Web Admin login. `GUI-ADMIN-LOGIN-003` and `GUI-ADMIN-LOGIN-004` share the same `frontend-admin` `handleLogin` native-alert root cause and map to [#46](https://github.com/trngnneee/eshop-sut/issues/46). Near matches were rejected when their body referred to another implementation—for example, #35/#36/#198 cover the Web `/login`, not `frontend-mobile/App.js`, and #255 covers deleting an Admin product, not a category. Nine rows therefore remain pending new publication; this environment has neither a GitHub token nor a usable Git credential, so no URL is invented.
 
+The authenticated GitHub App was subsequently tested as an alternative. It could read branches and issues, but both branch creation and issue creation returned HTTP 403 `Resource not accessible by integration`. The following eight root-cause entries are therefore publication-ready in Markdown while their GitHub field remains pending.
+
+### 2.1 Empty category name can be submitted
+
+- Proposed title: `[BUG][Admin Category] Empty category name can be submitted`.
+- Checklist: `GUI-ADMIN-CATEGORY-004`; FR-14; High/P1.
+- Source location: `frontend-admin/src/App.jsx:142` and `frontend-admin/src/App.jsx:297` — submit sends `categoryName`; the input has no required-state guard.
+- Reproduction: log in to Web Admin → open Categories → leave the name empty → choose `Thêm mới` → inspect the request.
+- Expected: submission is blocked and a clear validation message is shown.
+- Actual: `required=null`; an empty POST with `{"name":""}` was emitted.
+- Evidence: [026-admin-category-empty.png](../task1-gui/evidence/executed-chrome/026-admin-category-empty.png).
+- Publication: `PENDING_EXTERNAL_ACTION — GITHUB_WRITE_403`.
+
+### 2.2 Category deletion has no confirmation
+
+- Proposed title: `[BUG][Admin Category] Category is deleted without a confirmation dialog`.
+- Checklist: `GUI-ADMIN-CATEGORY-006`; FR-14 / destructive-action heuristic; High/P1.
+- Source location: `frontend-admin/src/App.jsx:153` and `frontend-admin/src/App.jsx:323` — the delete button calls `deleteCategory` directly.
+- Reproduction: log in → open Categories → select an existing category → choose `Xóa`.
+- Expected: a confirmation dialog allows Cancel or explicit confirmation before deletion.
+- Actual: no confirmation dialog was observed and the delete request proceeded immediately.
+- Evidence: [027-admin-category-delete.png](../task1-gui/evidence/executed-chrome/027-admin-category-delete.png).
+- Publication: `PENDING_EXTERNAL_ACTION — GITHUB_WRITE_403`.
+
+### 2.3 Referenced category can be deleted
+
+- Proposed title: `[BUG][Admin Category] Category referenced by a product can be deleted`.
+- Checklist: `GUI-ADMIN-CATEGORY-008`; FR-14 / data integrity; High/P1.
+- Source location: `frontend-admin/src/App.jsx:153`; the client issues DELETE without a reference precheck, and the backend accepted the operation.
+- Reproduction: create a synthetic category → create a synthetic product using it → delete the category → refresh product/category data.
+- Expected: the server rejects deletion, the category remains and the UI displays the conflict.
+- Actual: the referenced category no longer remained, no error dialog appeared and backend deletion succeeded.
+- Evidence: [028-admin-category-delete-in-use.png](../task1-gui/evidence/executed-chrome/028-admin-category-delete-in-use.png).
+- Publication: `PENDING_EXTERNAL_ACTION — GITHUB_WRITE_403`.
+
+### 2.4 Categories table has no empty state
+
+- Proposed title: `[BUG][Admin Category] Empty category list renders a blank table body`.
+- Checklist: `GUI-ADMIN-CATEGORY-009`; IA-04 / FR-24 state heuristic; Low/P3.
+- Source location: `frontend-admin/src/App.jsx:317`; the body only maps `categories` and has no zero-length branch.
+- Reproduction: return an empty array from `GET /api/categories` → open Categories.
+- Expected: a friendly `Chưa có danh mục nào` message or illustration is visible.
+- Actual: zero rows and zero empty-state messages were rendered.
+- Evidence: [029-admin-category-empty-state.png](../task1-gui/evidence/executed-chrome/029-admin-category-empty-state.png).
+- Publication: `PENDING_EXTERNAL_ACTION — GITHUB_WRITE_403`.
+
+### 2.5 Categories fetch has no loading state
+
+- Proposed title: `[BUG][Admin Category] No loading indicator while categories are fetched`.
+- Checklist: `GUI-ADMIN-CATEGORY-010`; IA-04 feedback/state; Medium/P2.
+- Source location: `frontend-admin/src/App.jsx:41`; `fetchData` has no categories-loading state, and the Categories view has no spinner/skeleton branch.
+- Reproduction: delay the categories response by 2.5 seconds → open the Categories tab during the pending request.
+- Expected: a spinner, skeleton or explicit loading message is visible.
+- Actual: loading-indicator count remained zero for the controlled delay.
+- Evidence: [030-admin-category-loading.png](../task1-gui/evidence/executed-chrome/030-admin-category-loading.png).
+- Publication: `PENDING_EXTERNAL_ACTION — GITHUB_WRITE_403`.
+
+### 2.6 Category form permits duplicate submissions
+
+- Proposed title: `[BUG][Admin Category] Rapid double click sends duplicate create requests`.
+- Checklist: `GUI-ADMIN-CATEGORY-013`; IA-04 resilience; Medium/P2.
+- Source location: `frontend-admin/src/App.jsx:142` and `frontend-admin/src/App.jsx:305`; no pending-write state disables the submit button.
+- Reproduction: delay `POST /api/categories` → enter a unique category name → double-click `Thêm mới` rapidly.
+- Expected: the first click disables the button until the request resolves and only one POST is sent.
+- Actual: two POST requests were observed; pending-state protection was absent.
+- Evidence: [033-admin-category-double-submit.png](../task1-gui/evidence/executed-chrome/033-admin-category-double-submit.png).
+- Publication: `PENDING_EXTERNAL_ACTION — GITHUB_WRITE_403`.
+
+### 2.7 Mobile login uses Web-English labels
+
+- Proposed title: `[BUG][Mobile Login] Username and Sign In labels violate Vietnamese localization`.
+- Checklist: `GUI-MOBILE-LOGIN-002`, `GUI-MOBILE-LOGIN-004`; FR-21; Medium/P2.
+- Source location: `frontend-mobile/App.js:759` — the mobile implementation independently renders `Username` and `Sign In`; this is not the Web `Login.jsx` defect tracked by #35/#36/#198.
+- Reproduction: launch the Mobile app/Expo screen → open Login → inspect the identifier label and primary submit label.
+- Expected: `Email` and `Đăng nhập`.
+- Actual: `Username` and `Sign In`.
+- Evidence: [034-mobile-login-baseline.png](../task1-gui/evidence/executed-chrome/034-mobile-login-baseline.png).
+- Publication: `PENDING_EXTERNAL_ACTION — GITHUB_WRITE_403`.
+
+### 2.8 Mobile login touch target is below 44 px
+
+- Proposed title: `[BUG][Mobile Login][Accessibility] Sign In touch target height is only 39 px`.
+- Checklist: `GUI-MOBILE-LOGIN-010`; accessibility heuristic; Medium/P2.
+- Source location: `frontend-mobile/App.js:782` and `frontend-mobile/App.js:1052`; the button uses 10 px padding without a 44 px minimum height.
+- Reproduction: render the Mobile login screen at the recorded 390 px viewport → measure the primary button bounding box.
+- Expected: a touch target at least 44×44 CSS px/dp under the checklist threshold.
+- Actual: the recorded bounding box was 342×39 CSS px.
+- Evidence: [034-mobile-login-baseline.png](../task1-gui/evidence/executed-chrome/034-mobile-login-baseline.png).
+- Publication: `PENDING_EXTERNAL_ACTION — GITHUB_WRITE_403`.
+
 ## 3. Task 2 — software bugs
 
 ### 3.1 Severity-ranked summary

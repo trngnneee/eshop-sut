@@ -36,6 +36,12 @@ The submission was produced as one connected testing programme rather than three
 
 Only six files are used as the grading entry point: `README.md`, this `Main_Report.md`, `Bug_Report.md`, `AI_Critique.md`, `AI_Audit_Report.md` and `git-commit-log.txt`. The three task directories are evidence-only archives. Redundant task-specific Main/Bug/AI reports, rendered PDFs, duplicate Git logs, ZIP packaging, issue drafts already represented in the consolidated bug register and one-off generation artefacts are intentionally removed. Machine-readable sources, screenshots, session records, raw SUS and validators are retained.
 
+### 1.3 Assessment-template reconciliation
+
+The assignment PDF allocates 30 points to Task 1, 40 to Task 2, 20 to Task 3 and 10 to Agent Skills. The rubric also requires a README self-assessment table; the completed table and summary are now in `README.md`. The current evidence supports a conservative self-assessment of **078/100**: 26/30, 29/40, 13/20 and 10/10 respectively. This number does not override the strict validators or guarantee the instructor's score.
+
+The audit also identified a submission-format variance. The PDF requests Markdown plus PDF copies inside a named ZIP, whereas the student explicitly selected a six-file, Markdown-first, no-ZIP hand-in. That decision is preserved rather than silently reversed. Full format compliance therefore depends on the Moodle channel or teaching staff accepting the six-file mode.
+
 ## 2. Scope and evidence model
 
 ### 2.1 Task 1 scope
@@ -199,6 +205,8 @@ The Task 1 package is structurally ready. Strict completion remains blocked by:
 
 - 9 failed assertion rows that still require new GitHub publication URLs after duplicate search; and
 - a real Expo Go/physical/cloud phone run for `GUI-MOBILE-LOGIN-011` soft-keyboard behavior.
+
+The GitHub App available to this audit was tested after the public duplicate search. It could read repository branches and issues, but both branch creation and issue creation returned HTTP 403 `Resource not accessible by integration`. Therefore the nine pending URLs could not be closed through the connector, and no unpublished URL was substituted.
 
 The Task 1 GUI-skill demo is [https://youtu.be/tMar6OyMG80](https://youtu.be/tMar6OyMG80). Status is `PUBLIC_LINK_VERIFIED`: YouTube oEmbed returned title `GUI-testing-skill demo`, author `Đặng Đăng Khoa` and provider `YouTube`. The submission stores only this public link; no local MP4 is required.
 

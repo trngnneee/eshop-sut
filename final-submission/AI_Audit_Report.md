@@ -8,9 +8,9 @@
 
 ## 1. Declaration and audit boundary
 
-AI was used to inspect the repository, structure the test packages, build and correct automation, calculate metrics, reconcile traceability, draft reports, check Git history and run validators. AI was not treated as the source of participant identity, consent, session behavior, SUS responses, quotes, probes, pilot results or human-review decisions.
+**I use AI tools for the following tasks:** inspect the repository and rubric, structure the test packages, build and correct automation, calculate metrics, reconcile traceability, draft reports, check Git history and run validators. AI was not treated as the source of participant identity, consent, session behavior, SUS responses, quotes, probes, pilot results or human-review decisions.
 
-The Codex interface did not export exact UI times for several conversation messages. Known dates are retained, and unknown times are written as `TIME_NOT_EXPORTED`; no timestamp was invented. This audit consolidates the retained Task 1, Task 2 and Task 3 audit records. It does not claim a verbatim transcript of every tool call.
+The AI tool for every material interaction in §2 is **OpenAI Codex**. The Codex interface did not export exact UI times for several conversation messages. Known dates are retained, and unknown times are written as `TIME_NOT_EXPORTED`; no timestamp was invented. The “User direction” column preserves or concisely paraphrases the prompt, and the “AI use/output” column records the material output. This audit consolidates the retained Task 1, Task 2 and Task 3 audit records; it does not claim a verbatim transcript of every tool call.
 
 ## 2. Material interaction record
 
@@ -30,6 +30,7 @@ The Codex interface did not export exact UI times for several conversation messa
 | 2026-08-02, `TIME_NOT_EXPORTED` | Confirm that no ZIP is needed; rewrite the Main Report with detailed work for all three tasks and remove unused material before submission. | Removed the ZIP/checksum and packaging script; expanded the Main Report with design, execution, metric, participant, reproduction and platform pipelines; rewired validators to the six consolidated files; deleted duplicate task-specific reports/PDFs/Git logs/drafts/render intermediates while retaining all depended-on evidence. | Deletion followed an explicit dependency map. Checklist/XLSX/CSV/JSON, 200 screenshots, P01–P07 sessions, SUS, instruments, safe reproductions and validators were retained; authentic historical commit subjects were not rewritten to hide the former ZIP step. |
 | 2026-08-02, `TIME_NOT_EXPORTED` | Supply `https://youtu.be/tMar6OyMG80` as the Task 1 GUI-skill demo. | Verified the public URL through YouTube oEmbed, which returned title `GUI-testing-skill demo`, author `Đặng Đăng Khoa` and provider `YouTube`; updated the consolidated README/Main/Audit and Task 1 validator. | The URL came directly from the user and was externally verified. No local MP4 was downloaded or claimed. |
 | 2026-08-02, `TIME_NOT_EXPORTED` | Automatically update whatever remains missing across all three tasks. | Queried all 262 public GitHub issues and inspected ambiguous issue bodies; mapped three Admin Login rows to exact existing issues #45/#46; rejected cross-implementation near matches; checked `gh`, GitHub credentials, `adb`, Android emulator and cloud-device credential names. | Nine Task 1 issue publications, real-phone soft-keyboard evidence, missing Task 2 fieldwork records and the Task 3 third eligible platform remain unavailable. No issue URL, participant record or device run was fabricated. |
+| 2026-08-02T23:28:57+07:00 | Recheck the authoritative rubric and make the work reach 100% if it is not already complete. | Read all nine pages of the assignment PDF; compared the 30/40/20/10 criteria and submission rules against retained evidence; searched authenticated Drive for overlooked pilot/consent/SUS/usability artefacts; tested GitHub branch/issue creation; added the mandatory README self-assessment and complete test-summary fields. | Drive contained no missing HW03 pilot/consent/probe artefact. GitHub writes returned HTTP 403. The evidence-backed self-assessment is 078/100; unsupported 100/100 was rejected. |
 
 ## 3. Tools, purpose and data controls
 
@@ -40,8 +41,9 @@ The Codex interface did not export exact UI times for several conversation messa
 | PowerShell and repository scripts | Run validators, analyze SUS, inspect files/hashes and generate deterministic package checks | Validator exit codes were reported as observed; strict failures were not suppressed. |
 | Playwright, Node.js and browsers | Execute GUI scenarios, observe dialog/network/focus state, capture required overlays and generate result matrices | Synthetic test entities only; execution mode recorded; harness defects corrected before final classification. |
 | FFmpeg/FFprobe and speech analysis | Inspect recording metadata, decode streams and assess usable audio | Hallucinated non-VAD transcript was rejected; no quote was retained because usable speech was absent. |
-| Git/GitHub duplicate search | Verify existing issue mappings and preserve authentic change history | All 262 public issues were searched; #45/#46 were reused for three exact Admin Login rows; no duplicate #118 was created; nine unauthenticated publications remain pending. |
-| Document/report tooling | Produce readable Markdown/PDF/XLSX artefacts in the evidence archives | Consolidated claims were checked against CSV/JSON sources rather than inferred from document presence. |
+| Git/GitHub duplicate search | Verify existing issue mappings and preserve authentic change history | All 262 public issues were searched; #45/#46 were reused for three exact Admin Login rows; no duplicate #118 was created; GitHub App writes were tested and returned HTTP 403. |
+| Google Drive connector | Check whether missing pilot, consent, probes or SUS collection artefacts had been overlooked | Read-only searches found the assignment and unrelated documents, but no missing HW03 fieldwork artefact; unrelated course files were not imported. |
+| Document/report tooling | Produce readable Markdown/XLSX artefacts in the retained six-file/evidence structure | Consolidated claims were checked against CSV/JSON sources rather than inferred from document presence. |
 
 ## 4. Material AI errors and corrections
 
