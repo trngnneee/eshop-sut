@@ -1,0 +1,134 @@
+STATUS: EXPORTED
+Repository: C:\My Workspace\HCMUS\Test\Week 3\Hw2
+Branch: HW3-Khoa
+HEAD: d2bdb3d052bb6329665fc2cae7e83320753a2d38
+Exported at: 2026-08-02 20:25:32 +07:00
+
+WORKTREE STATUS AT EXPORT
+(The export target task3-cross-platform/git-commit-log.txt is omitted from this section.)
+ M .gitignore
+ D "GUI testing/automation/.chrome-profile/760306e5-ec0b-4e7e-9b04-e1ebd527912f.tmp"
+ D "GUI testing/automation/.chrome-profile/Crashpad/metadata"
+ D "GUI testing/automation/.chrome-profile/Crashpad/reports/8f9fa0b0-4b83-4102-ba93-91b6684ffd72.dmp"
+ D "GUI testing/automation/.chrome-profile/Crashpad/settings.dat"
+ D "GUI testing/automation/.chrome-profile/Variations"
+ D "GUI testing/automation/playwright-report/index.html"
+ D "GUI testing/automation/test-results/.last-run.json"
+ M backend/database.sqlite
+ D submission/23127207_Task2_Usability_Submission.zip
+ M task1-gui/AI_Audit_Report_Task1.md
+ M task1-gui/AI_Critique_Task1.md
+ M task1-gui/AI_Disclosure_Task1.md
+ M task1-gui/AI_Item_Level_Critique.md
+ M task1-gui/AUDIT_FINDINGS.csv
+ M task1-gui/GUI_Checklist_HW3.md
+ M task1-gui/GUI_Checklist_HW3.xlsx
+ M task1-gui/GUI_Coverage_Matrix.md
+ M task1-gui/GUI_Test_Summary_HW3.md
+ M task1-gui/INDEPENDENT_COMPLIANCE_AUDIT.md
+ D task1-gui/scripts/generate_all_deliverables.py
+ M task2-usability/AI_Audit_Task2.md
+ M task2-usability/AI_Audit_Task2.pdf
+ M task2-usability/AI_Critique_Task2.md
+ M task2-usability/AI_Critique_Task2.pdf
+ M task2-usability/Analysis/Findings_Register.csv
+ M task2-usability/Analysis/Observation_Metrics.csv
+ M task2-usability/Analysis/SUS_Raw_Responses.csv
+ M task2-usability/Analysis/SUS_Results.md
+ M task2-usability/Analysis/SUS_Scores.csv
+ M task2-usability/Demo_Video_Link.md
+ M task2-usability/Evidence_Index.md
+ M task2-usability/FIELDWORK_RUNBOOK.md
+ M task2-usability/Instruments/Recruitment_Screener.md
+ M task2-usability/Missing_Data_and_Followup.md
+ M task2-usability/Participant_Roster.md
+ M task2-usability/README.md
+ M task2-usability/SUBMISSION_CHECKLIST.md
+ M task2-usability/Sessions/Session_P01.md
+ M task2-usability/Sessions/Session_P02.md
+ M task2-usability/Sessions/Session_P03.md
+ M task2-usability/Sessions/Session_P04.md
+ M task2-usability/Sessions/Session_P05.md
+ M task2-usability/Sessions/Session_P06.md
+ M task2-usability/Sessions/Session_P07.md
+ M task2-usability/Stage_0_Drive_Inventory.md
+ M task2-usability/Task2_Main_Report.md
+ M task2-usability/Task2_Main_Report.pdf
+ D task2-usability/Technical_Preflight.md
+ M task2-usability/Usability_Bug_Report.md
+ M task2-usability/Usability_Findings.md
+ M task2-usability/Usability_Test_Plan.md
+ M task2-usability/Usability_Test_Summary.md
+ M task2-usability/Video_Data_Quality_Report.md
+ D task2-usability/demo/Task2_Usability_Skill_Demo.mp4
+ D task2-usability/demo/slides.html
+ M task2-usability/evidence/README.md
+ M task2-usability/evidence/github-issue-reproduction/BUG-PF-02-safe-reproduction.png
+ M task2-usability/evidence/github-issue-reproduction/result.json
+ M task2-usability/github-issues/DRAFT-BUG-AUTH-PLAINTEXT-01.md
+ M task2-usability/github-issues/DRAFT-BUG-USABILITY-01.md
+ M task2-usability/scripts/analyze-sus.ps1
+ D task2-usability/scripts/run-technical-preflight.ps1
+ M task2-usability/scripts/technical-preflight.js
+ M task2-usability/scripts/validate-submission-files.ps1
+ M task2-usability/scripts/validate-usability.ps1
+ D tests/run_ai_test_runner.py
+ D tests/test-cases/login/TC-LOGIN-001.md
+ D tests/test-cases/login/TC-LOGIN-002.md
+ D tests/test-cases/login/TC-LOGIN-003.md
+ D tests/test-cases/login/TC-LOGIN-004.md
+ D tests/test-cases/login/TC-LOGIN-005.md
+ D tests/test-cases/login/TC-LOGIN-006.md
+ D tests/test-cases/login/TC-LOGIN-007.md
+ D tests/test-cases/login/TC-LOGIN-008.md
+ D tests/test-cases/login/TC-LOGIN-009.md
+ D tests/test-cases/login/TC-LOGIN-010.md
+ D tests/test-cases/login/TC-LOGIN-011.md
+ D tests/test-cases/login/TC-LOGIN-012.md
+ D tests/test-cases/login/TC-LOGIN-013.md
+ D tests/test-runs/sprint-1-test-run.md
+ D tests/test-runs/sprint-2-test-run.md
+ M tests/test-summary/traceability-matrix.md
+ D tests/test_fr02.py
+ D tests/work-division.md
+?? .task3-runtime/
+?? .tmp-hw03-spec.txt
+?? task2-usability/evidence/github-issue-reproduction/01-after-registration.png
+?? task2-usability/evidence/github-issue-reproduction/02-after-login.png
+?? task2-usability/evidence/github-issue-reproduction/04-profile-after-reload.png
+?? task2-usability/evidence/github-issue-reproduction/05-after-logout.png
+?? task2-usability/evidence/github-issue-reproduction/BUG-REG-PASSWORD-POLICY-01-safe-reproduction.png
+?? task2-usability/evidence/github-issue-reproduction/GITHUB-ISSUE-37-comment-5149476796.png
+?? task2-usability/evidence/github-issue-reproduction/GITHUB-ISSUE-55-comment-5149476574.png
+?? task2-usability/github-issues/DRAFT-BUG-REG-PASSWORD-POLICY-01.md
+?? task3-cross-platform/.render-tmp/
+?? tests/test-cases/register/
+?? tests/test-summary/sprint-hw03-task2-test-run.md
+
+COMMIT HISTORY
+d2bdb3d052bb6329665fc2cae7e83320753a2d38 | 2026-08-02T20:25:27+07:00 | khoadangwneee | task3: add AI audit and honest completion validator
+5aa9cdaa25e9655139c0471c4315cedeed15a145 | 2026-08-02T20:25:03+07:00 | khoadangwneee | task3: analyze compatibility results and assemble report
+c5fa27683fa4525d5ad5fd75690d7ef263393b30 | 2026-08-02T20:24:30+07:00 | khoadangwneee | task3: execute cross-platform checklist and capture evidence
+caaeb3599a2795721a1aaac011f744bb52d44a10 | 2026-08-01T09:36:52+07:00 | khoadangwneee | task2: add safe GitHub issue reproduction evidence
+7039f90f7047d93d1087614dd7cef6010e001131 | 2026-07-30T14:17:57+07:00 | khoadangwneee | updte task 2
+b2e27a1f0549050e4e0bec51824f683426fce156 | 2026-07-29T22:59:11+07:00 | khoadangwneee | task2: make commit log export self-consistent
+49896cbd8c0a0c42543e89ad921deec8d33ca973 | 2026-07-29T22:57:59+07:00 | khoadangwneee | task2: make submission validation UTF-8 safe
+b1a654875b2f58cf84e632ca38f9891d9321b061 | 2026-07-29T22:54:01+07:00 | khoadangwneee | task2: assemble submission reports PDFs and demo
+e1b0948880f521e7f456a5a021762477f15e6d50 | 2026-07-29T22:53:26+07:00 | khoadangwneee | task2: synthesize metrics findings and bug drafts
+3fd06efb29fd7d0c6c038a37c9967a42d796f6a5 | 2026-07-29T22:53:00+07:00 | khoadangwneee | task2: document seven usability sessions and evidence
+70134f7614a3a6ed166d4e558b8764fc76a8b3aa | 2026-07-29T14:38:45+07:00 | khoadangwneee | task2: document preflight data cleanup
+2fad8f2f07c632f8bb7e5c88b0dccc05ba9300f5 | 2026-07-29T14:37:01+07:00 | khoadangwneee | task2: prepare usability fieldwork package
+671d798058fa782301f06b679dbec5523339f66f | 2026-07-28T00:34:58+07:00 | khoadangwneee | updts skills
+d5eaf839dec700f6835aeec8b9dabdfbbbf36e84 | 2026-06-23T16:34:22+07:00 | khoadangwneee | update skill and FR2
+dc410669883d7ce360d5d1b95460a1acfb471438 | 2026-06-23T13:54:44+07:00 | khoadangwneee | setup skill for agent(antigravity)
+ddfb42fc43eee713330c3f2b4ec62973d294ded5 | 2026-06-08T16:47:44+07:00 | khoadangwneee | Test case login
+ad020a02acf1880e223c9721531b5863f04beb31 | 2026-06-08T16:45:12+07:00 | khoadangwneee | Test case login
+d897a2129f151c9ac4c8b7b160e2c21e7fce7473 | 2026-06-08T16:42:32+07:00 | Đặng Trường Nguyên | Update issue templates
+957052d0e81903fff7f6ffee939e8ad911244bf2 | 2026-06-07T23:52:40+07:00 | trngnneee | Fix url frontend-admin
+b4a0df544c48a38daebd8c68a29eda46bf82224d | 2026-06-07T23:33:10+07:00 | trngnneee | Update Backend URL call cho FE
+1673255183affa54be943258c53a63b92a247e35 | 2026-06-07T23:24:17+07:00 | trngnneee | Fix
+4c3230c0e0137398e19240332dbb0493c7362272 | 2026-06-07T23:19:08+07:00 | trngnneee | Remove
+4065ae33c562a722d067eab05883374779a115a2 | 2026-06-07T23:16:38+07:00 | trngnneee | Update sqlite3 version
+3650c5607f890fa6450bdce60d55bbb587fb1b47 | 2026-06-07T23:08:16+07:00 | trngnneee | Push
+85af3ba875c88283615e22cb108f13e2fccaf0e9 | 2026-05-15T08:30:35+07:00 | ttbhanh-hcmus | first upload
+2f9bf2bab45855abf211377a5d5eba10031649e3 | 2026-05-15T08:27:44+07:00 | Hanh Tran | Initial commit

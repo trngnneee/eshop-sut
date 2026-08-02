@@ -60,7 +60,7 @@ foreach ($relativePath in $requiredFiles) {
 
 $commitLog = Get-Content -LiteralPath (Join-Path $taskRoot 'git-commit-log.txt') -Raw -Encoding UTF8
 $task3CommitCount = @([regex]::Matches($commitLog, '(?mi)^[0-9a-f]{40}\s+\|.*\|\s+task3:')).Count
-Assert-Task3 ($commitLog -match '(?m)^STATUS: EXPORTED$') 'Git commit log is a real exported text artefact'
+Assert-Task3 ($commitLog.StartsWith('STATUS: EXPORTED')) 'Git commit log is a real exported text artefact'
 Assert-Task3 ($task3CommitCount -ge 3) "Git commit log contains at least three Task 3 procedure commits (actual: $task3CommitCount)"
 
 $task1Checklist = Get-Content -LiteralPath (Join-Path $repoRoot 'task1-gui\GUI_Checklist_HW3.md') -Raw -Encoding UTF8
