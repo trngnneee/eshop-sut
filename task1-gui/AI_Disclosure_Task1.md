@@ -1,7 +1,7 @@
-# AI Disclosure Statement — Task 1 (HW03)
+# AI Disclosure — Task 1
 
-This GUI checklist was initially generated with Gemini 3.6 Flash (High) via Google Antigravity Agent.
+**Status:** `HUMAN_REVIEWED`
+**Student:** Đặng Đăng Khoa — 23127207
+**Review date:** 2026-08-02
 
-I, **Đặng Đăng Khoa (MSSV: 23127207)**, reviewed the AI-generated items, revised 19 items to match actual SUT source code, removed 3 invalid hallucinated items, and added 11 specific `HUMAN_ADDED` categories covering accessibility, keyboard navigation, responsive viewports (320px), XSS prevention, and error states.
-
-The execution results, screenshots, bug verification, and GitHub traceability files were fully reviewed, executed live on local SUT servers, and accepted by me. The detailed AI Audit Report and Item-Level Critique are attached.
+AI assisted checklist design, mechanical reconciliation, report generation and semantic validation. Final verdicts come from the corrected Task 3 Chrome execution rather than source-code inference. The student confirmed human review. Mocked states and the unavailable physical soft-keyboard run are disclosed; external URLs are never fabricated.

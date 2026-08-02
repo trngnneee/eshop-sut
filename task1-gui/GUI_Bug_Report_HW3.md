@@ -1,177 +1,286 @@
-# GUI Bug Report — HW03 EShop System
+# GUI Bug Report — HW03 Task 1
 
-**Tester:** Đặng Đăng Khoa (MSSV: 23127207)  
-**Environment:** Windows 11 64-bit, Chrome 122 / Playwright Chromium, Viewports 1440x900 & 390x844  
-**Backend API:** http://localhost:3000 | **Frontend Web:** http://localhost:5173 | **Admin:** http://localhost:5174 | **Mobile:** http://localhost:8081  
+**Traceability:** one reproducible record per failed checklist assertion; existing issues were fetched before reuse.
 
----  
+| Bug ID | Severity | Checklist ID | GitHub | Evidence |
+|---|---|---|---|---|
+| `BUG-GUI-WEB-LOGIN-001` | Medium | `GUI-WEB-LOGIN-001` | [Issue](https://github.com/trngnneee/eshop-sut/issues/199) | [PNG](evidence/executed-chrome/001-web-login-baseline.png) |
+| `BUG-GUI-WEB-LOGIN-002` | Medium | `GUI-WEB-LOGIN-002` | [Issue](https://github.com/trngnneee/eshop-sut/issues/203) | [PNG](evidence/executed-chrome/001-web-login-baseline.png) |
+| `BUG-GUI-WEB-LOGIN-003` | Critical | `GUI-WEB-LOGIN-003` | [Issue](https://github.com/trngnneee/eshop-sut/issues/37) | [PNG](evidence/executed-chrome/001-web-login-baseline.png) |
+| `BUG-GUI-WEB-LOGIN-007` | Low | `GUI-WEB-LOGIN-007` | [Issue](https://github.com/trngnneee/eshop-sut/issues/230) | [PNG](evidence/executed-chrome/004-web-login-forgot-navigation.png) |
+| `BUG-GUI-WEB-LOGIN-009` | Medium | `GUI-WEB-LOGIN-009` | [Issue](https://github.com/trngnneee/eshop-sut/issues/198) | [PNG](evidence/executed-chrome/001-web-login-baseline.png) |
+| `BUG-GUI-WEB-LOGIN-010` | High | `GUI-WEB-LOGIN-010` | [Issue](https://github.com/trngnneee/eshop-sut/issues/238) | [PNG](evidence/executed-chrome/006-web-login-lockout-feedback.png) |
+| `BUG-GUI-WEB-LOGIN-011` | Medium | `GUI-WEB-LOGIN-011` | [Issue](https://github.com/trngnneee/eshop-sut/issues/201) | [PNG](evidence/executed-chrome/007-web-login-keyboard-focus.png) |
+| `BUG-GUI-WEB-REGISTER-006` | High | `GUI-WEB-REGISTER-006` | [Issue](https://github.com/trngnneee/eshop-sut/issues/117) | [PNG](evidence/executed-chrome/013-web-register-duplicate.png) |
+| `BUG-GUI-ADMIN-LOGIN-002` | Medium | `GUI-ADMIN-LOGIN-002` | `PENDING_EXTERNAL_ACTION` | [PNG](evidence/executed-chrome/018-admin-login-baseline.png) |
+| `BUG-GUI-ADMIN-LOGIN-003` | Medium | `GUI-ADMIN-LOGIN-003` | `PENDING_EXTERNAL_ACTION` | [PNG](evidence/executed-chrome/019-admin-login-invalid-dialog.png) |
+| `BUG-GUI-ADMIN-LOGIN-004` | Medium | `GUI-ADMIN-LOGIN-004` | `PENDING_EXTERNAL_ACTION` | [PNG](evidence/executed-chrome/020-admin-login-nonadmin-dialog.png) |
+| `BUG-GUI-ADMIN-CATEGORY-004` | High | `GUI-ADMIN-CATEGORY-004` | `PENDING_EXTERNAL_ACTION` | [PNG](evidence/executed-chrome/026-admin-category-empty.png) |
+| `BUG-GUI-ADMIN-CATEGORY-006` | High | `GUI-ADMIN-CATEGORY-006` | `PENDING_EXTERNAL_ACTION` | [PNG](evidence/executed-chrome/027-admin-category-delete.png) |
+| `BUG-GUI-ADMIN-CATEGORY-008` | High | `GUI-ADMIN-CATEGORY-008` | `PENDING_EXTERNAL_ACTION` | [PNG](evidence/executed-chrome/028-admin-category-delete-in-use.png) |
+| `BUG-GUI-ADMIN-CATEGORY-009` | Low | `GUI-ADMIN-CATEGORY-009` | `PENDING_EXTERNAL_ACTION` | [PNG](evidence/executed-chrome/029-admin-category-empty-state.png) |
+| `BUG-GUI-ADMIN-CATEGORY-010` | Medium | `GUI-ADMIN-CATEGORY-010` | `PENDING_EXTERNAL_ACTION` | [PNG](evidence/executed-chrome/030-admin-category-loading.png) |
+| `BUG-GUI-ADMIN-CATEGORY-013` | Medium | `GUI-ADMIN-CATEGORY-013` | `PENDING_EXTERNAL_ACTION` | [PNG](evidence/executed-chrome/033-admin-category-double-submit.png) |
+| `BUG-GUI-MOBILE-LOGIN-002` | Medium | `GUI-MOBILE-LOGIN-002` | `PENDING_EXTERNAL_ACTION` | [PNG](evidence/executed-chrome/034-mobile-login-baseline.png) |
+| `BUG-GUI-MOBILE-LOGIN-004` | Medium | `GUI-MOBILE-LOGIN-004` | `PENDING_EXTERNAL_ACTION` | [PNG](evidence/executed-chrome/034-mobile-login-baseline.png) |
+| `BUG-GUI-MOBILE-LOGIN-010` | Medium | `GUI-MOBILE-LOGIN-010` | `PENDING_EXTERNAL_ACTION` | [PNG](evidence/executed-chrome/034-mobile-login-baseline.png) |
 
-## BUG-GUI-01 — Web Login Page UI & Accessibility Defect Pack
+## BUG-GUI-WEB-LOGIN-001 — Kiểm tra tiêu đề chính trên trang Đăng nhập.
 
-- **Related Requirement:** FR-02 (Login & Account Lockout)  
-- **Platform:** Web Frontend  
-- **Screen / Route:** /login  
-- **Severity:** High | **Priority:** High  
-- **GitHub Traceability Status:** PENDING_EXTERNAL_ACTION  
-- **GitHub Issue File:** `github-issues/BUG-GUI-01.md`  
-- **Related Checklist Items:** GUI-WEB-LOGIN-001, GUI-WEB-LOGIN-002, GUI-WEB-LOGIN-003, GUI-WEB-LOGIN-007, GUI-WEB-LOGIN-009, GUI-WEB-LOGIN-010, GUI-WEB-LOGIN-011  
+- Severity: **Medium**.
+- Expected: Tiêu đề chính hiển thị văn bản 'Đăng Nhập' ở giữa trang.
+- Actual: Heading is 'Đăng Ký'.
+- Mode: `LIVE_LOCAL_SUT`.
+- Evidence: [screenshot](evidence/executed-chrome/001-web-login-baseline.png).
+- Reproduction:
+  1. Start EShop and open `/login`.
+  2. Perform `GUI-WEB-LOGIN-001` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: https://github.com/trngnneee/eshop-sut/issues/199
 
-### Preconditions & Test Data
-- SUT Backend và Frontend đang khởi chạy thành công.
-- Tài khoản test sinh viên: `23127207_gui_01@hcmus.edu.vn` / `Password123!`.
+## BUG-GUI-WEB-LOGIN-002 — Kiểm tra nhãn label và type của trường Email.
 
-### Steps to Reproduce
-1. Mở trình duyệt truy cập http://localhost:5173/login
-2. Quan sát tiêu đề trang H2, nhãn label của ô nhập email, và gõ mật khẩu vào ô Password.
-3. Nhấn phím Tab để kiểm tra thứ tự di chuyển con trỏ focus.
-4. Bấm vào link 'Quên mật khẩu?'.
+- Severity: **Medium**.
+- Expected: Nhãn hiển thị 'Email', input có type='email'.
+- Actual: First label 'Username', input type 'text'.
+- Mode: `LIVE_LOCAL_SUT`.
+- Evidence: [screenshot](evidence/executed-chrome/001-web-login-baseline.png).
+- Reproduction:
+  1. Start EShop and open `/login`.
+  2. Perform `GUI-WEB-LOGIN-002` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: https://github.com/trngnneee/eshop-sut/issues/203
 
-### Expected Result
-- Tiêu đề H2 ghi 'Đăng Nhập'
-- Nhãn ghi 'Email', type='email'
-- Ô mật khẩu type='password' (che ký tự)
-- Link Quên mật khẩu dùng React Router Link không reload trang
-- Nút có nhãn tiếng Việt 'Đăng nhập'
+## BUG-GUI-WEB-LOGIN-003 — Kiểm tra ẩn/hiển thị ký tự trường Mật khẩu.
 
-### Actual Result
-- Tiêu đề H2 ghi 'Đăng Ký'
-- Nhãn ghi 'Username', type='text'
-- Ô mật khẩu type='text' (hiển thị rõ mật khẩu bằng văn bản trần)
-- Link Quên mật khẩu dùng <a> làm reload toàn trang
-- Nút có nhãn 'Sign In' và hardcoded tabIndex={1}
+- Severity: **Critical**.
+- Expected: Ký tự mật khẩu khi nhập vào bị ẩn dạng dấu chấm (type='password').
+- Actual: Password input type is 'text'.
+- Mode: `LIVE_LOCAL_SUT`.
+- Evidence: [screenshot](evidence/executed-chrome/001-web-login-baseline.png).
+- Reproduction:
+  1. Start EShop and open `/login`.
+  2. Perform `GUI-WEB-LOGIN-003` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: https://github.com/trngnneee/eshop-sut/issues/37
 
-### Evidence Screenshot
-![Evidence for BUG-GUI-01](evidence/web-login/BUG-GUI-01_web-login.png)
+## BUG-GUI-WEB-LOGIN-007 — Kiểm tra link Quên mật khẩu.
 
----
+- Severity: **Low**.
+- Expected: Bấm vào link 'Quên mật khẩu?' chuyển hướng mượt mà SPA không reload trang.
+- Actual: Reached /forgot-password; SPA marker lost due to full document navigation.
+- Mode: `LIVE_LOCAL_SUT`.
+- Evidence: [screenshot](evidence/executed-chrome/004-web-login-forgot-navigation.png).
+- Reproduction:
+  1. Start EShop and open `/login`.
+  2. Perform `GUI-WEB-LOGIN-007` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: https://github.com/trngnneee/eshop-sut/issues/230
 
-## BUG-GUI-02 — Web Registration Form Validation Regex & Styling Mismatch
+## BUG-GUI-WEB-LOGIN-009 — Kiểm tra nhãn và giao diện nút Đăng nhập.
 
-- **Related Requirement:** FR-01 (Account Registration)  
-- **Platform:** Web Frontend  
-- **Screen / Route:** /register  
-- **Severity:** High | **Priority:** High  
-- **GitHub Traceability Status:** PENDING_EXTERNAL_ACTION  
-- **GitHub Issue File:** `github-issues/BUG-GUI-02.md`  
-- **Related Checklist Items:** GUI-WEB-REGISTER-002, GUI-WEB-REGISTER-004, GUI-WEB-REGISTER-008  
+- Severity: **Medium**.
+- Expected: Nút đăng nhập có nhãn tiếng Việt 'Đăng nhập', tabIndex mặc định.
+- Actual: Submit button text is 'Sign In'.
+- Mode: `LIVE_LOCAL_SUT`.
+- Evidence: [screenshot](evidence/executed-chrome/001-web-login-baseline.png).
+- Reproduction:
+  1. Start EShop and open `/login`.
+  2. Perform `GUI-WEB-LOGIN-009` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: https://github.com/trngnneee/eshop-sut/issues/198
 
-### Preconditions & Test Data
-- SUT Backend và Frontend đang khởi chạy thành công.
-- Tài khoản test sinh viên: `23127207_gui_01@hcmus.edu.vn` / `Password123!`.
+## BUG-GUI-WEB-LOGIN-010 — Kiểm tra phản hồi sau đúng ba lần đăng nhập sai liên tiếp.
 
-### Steps to Reproduce
-1. Truy cập http://localhost:5173/register
-2. Nhập Họ Tên, Email '23127207_gui_01@hcmus.edu.vn'
-3. Nhập mật khẩu hợp lệ chứa ký tự đặc biệt 'Password123!' theo đúng gợi ý bên dưới form.
-4. Bấm nút 'Đăng Ký'.
+- Severity: **High**.
+- Expected: Sau lần sai thứ ba, backend khóa 30 giây và UI hiển thị trạng thái khóa phù hợp mà không lộ chi tiết tài khoản.
+- Actual: Three wrong attempts returned HTTP 401/401/403; UI still says 'Đăng nhập thất bại. Vui lòng kiểm tra lại.'.
+- Mode: `LIVE_LOCAL_SUT`.
+- Evidence: [screenshot](evidence/executed-chrome/006-web-login-lockout-feedback.png).
+- Reproduction:
+  1. Start EShop and open `/login`.
+  2. Perform `GUI-WEB-LOGIN-010` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: https://github.com/trngnneee/eshop-sut/issues/238
 
-### Expected Result
-Form chấp nhận mật khẩu hợp lệ 'Password123!', tiến hành gọi API đăng ký tài khoản thành công.
+## BUG-GUI-WEB-LOGIN-011 — Kiểm tra thứ tự Tab (Keyboard Navigation) và Visible Focus.
 
-### Actual Result
-Form báo lỗi 'Mật khẩu quá yếu!' do regex frontend (flawedStrongPasswordRegex) bắt buộc chứa dấu khoảng trắng (\s) thay vì ký tự đặc biệt. Đồng thời trường email có type='text' và nút Đăng Ký có màu đỏ bg-red-500 bất đồng nhất.
+- Severity: **Medium**.
+- Expected: Ấn phím Tab di chuyển tuần tự qua các input và button có viền focus rõ ràng.
+- Actual: First eight Tab targets: BUTTON:Sign In[1] > A:EShop[auto] > A:Giỏ hàng[auto] > A:Đăng nhập[auto] > A:Đăng ký[auto] > INPUT:text[auto] > INPUT:text[auto] > A:Quên mật khẩu?[auto]. Positive-tabindex submit precedes inputs=true.
+- Mode: `LIVE_LOCAL_SUT`.
+- Evidence: [screenshot](evidence/executed-chrome/007-web-login-keyboard-focus.png).
+- Reproduction:
+  1. Start EShop and open `/login`.
+  2. Perform `GUI-WEB-LOGIN-011` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: https://github.com/trngnneee/eshop-sut/issues/201
 
-### Evidence Screenshot
-![Evidence for BUG-GUI-02](evidence/web-register/BUG-GUI-02_web-register.png)
+## BUG-GUI-WEB-REGISTER-006 — Kiểm tra đăng ký với Email đã tồn tại trong database.
 
----
+- Severity: **High**.
+- Expected: Hiển thị thông báo lỗi từ backend 'User already exists' hoặc 'Email đã được sử dụng'.
+- Actual: Second registration for the same email returned HTTP 200 and navigated as success.
+- Mode: `LIVE_LOCAL_SUT`.
+- Evidence: [screenshot](evidence/executed-chrome/013-web-register-duplicate.png).
+- Reproduction:
+  1. Start EShop and open `/register`.
+  2. Perform `GUI-WEB-REGISTER-006` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: https://github.com/trngnneee/eshop-sut/issues/117
 
-## BUG-GUI-03 — Admin Login Accessibility Defect & Browser Native Alert Popup Use
+## BUG-GUI-ADMIN-LOGIN-002 — Kiểm tra thẻ label liên kết với ô Email và Password.
 
-- **Related Requirement:** FR-12 (Access Control)  
-- **Platform:** Web Admin  
-- **Screen / Route:** / (Unauthenticated State)  
-- **Severity:** Medium | **Priority:** Medium  
-- **GitHub Traceability Status:** PENDING_EXTERNAL_ACTION  
-- **GitHub Issue File:** `github-issues/BUG-GUI-03.md`  
-- **Related Checklist Items:** GUI-ADMIN-LOGIN-002, GUI-ADMIN-LOGIN-003, GUI-ADMIN-LOGIN-004  
+- Severity: **Medium**.
+- Expected: Mỗi ô input đều có thẻ <label> liên kết tương ứng.
+- Actual: Admin login form contains 0 label elements for two inputs.
+- Mode: `LIVE_LOCAL_SUT`.
+- Evidence: [screenshot](evidence/executed-chrome/018-admin-login-baseline.png).
+- Reproduction:
+  1. Start EShop and open `/ (Unauth)`.
+  2. Perform `GUI-ADMIN-LOGIN-002` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: PENDING_EXTERNAL_ACTION
 
-### Preconditions & Test Data
-- SUT Backend và Frontend đang khởi chạy thành công.
-- Tài khoản test sinh viên: `23127207_gui_01@hcmus.edu.vn` / `Password123!`.
+## BUG-GUI-ADMIN-LOGIN-003 — Kiểm tra thông báo khi nhập sai mật khẩu Admin.
 
-### Steps to Reproduce
-1. Truy cập http://localhost:5174/
-2. Kiểm tra mã HTML của các ô input email và password.
-3. Nhập email/mật khẩu sai và bấm 'Login'.
+- Severity: **Medium**.
+- Expected: Hiển thị thông báo lỗi dạng inline banner bên trong form admin.
+- Actual: Native browser dialog captured with 'Đăng nhập thất bại'; inline feedback count=0.
+- Mode: `LIVE_LOCAL_SUT`.
+- Evidence: [screenshot](evidence/executed-chrome/019-admin-login-invalid-dialog.png).
+- Reproduction:
+  1. Start EShop and open `/ (Unauth)`.
+  2. Perform `GUI-ADMIN-LOGIN-003` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: PENDING_EXTERNAL_ACTION
 
-### Expected Result
-- Các ô input có thẻ <label> đi kèm cho accessibility.
-- Báo lỗi đăng nhập hiển thị dạng banner màu đỏ inline bên trong form.
+## BUG-GUI-ADMIN-LOGIN-004 — Kiểm tra thông báo khi tài khoản user thường đăng nhập vào Admin.
 
-### Actual Result
-- Thiếu hoàn toàn thẻ <label> (chỉ dùng placeholder).
-- Khi đăng nhập sai hoặc không có quyền Admin, SUT bật cửa sổ popup alert() native của trình duyệt gây ngắt đoạn trải nghiệm.
+- Severity: **Medium**.
+- Expected: Hiển thị thông báo lỗi phân quyền rõ ràng trên giao diện.
+- Actual: Non-admin login produced native dialog 'Bạn không phải là admin!'; inline feedback count=0.
+- Mode: `LIVE_LOCAL_SUT`.
+- Evidence: [screenshot](evidence/executed-chrome/020-admin-login-nonadmin-dialog.png).
+- Reproduction:
+  1. Start EShop and open `/ (Unauth)`.
+  2. Perform `GUI-ADMIN-LOGIN-004` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: PENDING_EXTERNAL_ACTION
 
-### Evidence Screenshot
-![Evidence for BUG-GUI-03](evidence/admin-login/BUG-GUI-03_admin-login.png)
+## BUG-GUI-ADMIN-CATEGORY-004 — Kiểm tra thêm mới danh mục với tên rỗng.
 
----
+- Severity: **High**.
+- Expected: Form có thuộc tính required ngăn chặn submit tên danh mục rỗng.
+- Actual: required attribute='null'; empty POST observed=true; payload={"name":""}.
+- Mode: `MOCKED_WRITE_PREVENTION`.
+- Evidence: [screenshot](evidence/executed-chrome/026-admin-category-empty.png).
+- Reproduction:
+  1. Start EShop and open `/ (Tab categories)`.
+  2. Perform `GUI-ADMIN-CATEGORY-004` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: PENDING_EXTERNAL_ACTION
 
-## BUG-GUI-04 — Admin Category CRUD Missing Features & Missing Delete Confirmation
+## BUG-GUI-ADMIN-CATEGORY-006 — Kiểm tra popup xác nhận trước khi Xóa danh mục.
 
-- **Related Requirement:** FR-14 (Category Management CRUD)  
-- **Platform:** Web Admin  
-- **Screen / Route:** / (Tab categories)  
-- **Severity:** High | **Priority:** High  
-- **GitHub Traceability Status:** PENDING_EXTERNAL_ACTION  
-- **GitHub Issue File:** `github-issues/BUG-GUI-04.md`  
-- **Related Checklist Items:** GUI-ADMIN-CATEGORY-004, GUI-ADMIN-CATEGORY-005, GUI-ADMIN-CATEGORY-006, GUI-ADMIN-CATEGORY-008, GUI-ADMIN-CATEGORY-009, GUI-ADMIN-CATEGORY-010, GUI-ADMIN-CATEGORY-013  
+- Severity: **High**.
+- Expected: Bấm nút 'Xóa' hiển thị modal xác nhận 'Bạn có chắc chắn muốn xóa danh mục này?'.
+- Actual: Delete confirmation dialog observed=false.
+- Mode: `LIVE_LOCAL_SUT`.
+- Evidence: [screenshot](evidence/executed-chrome/027-admin-category-delete.png).
+- Reproduction:
+  1. Start EShop and open `/ (Tab categories)`.
+  2. Perform `GUI-ADMIN-CATEGORY-006` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: PENDING_EXTERNAL_ACTION
 
-### Preconditions & Test Data
-- SUT Backend và Frontend đang khởi chạy thành công.
-- Tài khoản test sinh viên: `23127207_gui_01@hcmus.edu.vn` / `Password123!`.
+## BUG-GUI-ADMIN-CATEGORY-008 — Kiểm tra báo lỗi khi xóa danh mục đang có sản phẩm.
 
-### Steps to Reproduce
-1. Đăng nhập Admin và chuyển sang tab 'Danh mục'.
-2. Tìm nút 'Sửa' (Edit) trên từng dòng danh mục.
-3. Nhấn nút 'Xóa' trên một danh mục.
-4. Để trống ô tên danh mục mới và nhấn 'Thêm mới'.
+- Severity: **High**.
+- Expected: Không xóa category đang được product tham chiếu; UI hiển thị lỗi và category vẫn còn.
+- Actual: Category referenced by synthetic product remained=false; error dialog=NONE. Backend allowed deletion=true.
+- Mode: `LIVE_LOCAL_SUT`.
+- Evidence: [screenshot](evidence/executed-chrome/028-admin-category-delete-in-use.png).
+- Reproduction:
+  1. Start EShop and open `/ (Tab categories)`.
+  2. Perform `GUI-ADMIN-CATEGORY-008` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: PENDING_EXTERNAL_ACTION
 
-### Expected Result
-- Có nút 'Sửa' để chỉnh sửa tên danh mục.
-- Nhấn 'Xóa' hiển thị modal xác nhận 'Bạn có chắc chắn muốn xóa?'.
-- Tên danh mục rỗng bị chặn ngay tại client-side.
+## BUG-GUI-ADMIN-CATEGORY-009 — Kiểm tra giao diện khi danh sách danh mục rỗng.
 
-### Actual Result
-- Hoàn toàn KHÔNG CÓ nút Sửa hay modal chỉnh sửa danh mục nào trên UI.
-- Nhấn nút 'Xóa' lập tức kích hoạt API delete mà KHÔNG hỏi xác nhận.
-- Tên danh mục rỗng gửi API gây bật popup alert() từ backend.
+- Severity: **Low**.
+- Expected: Hiển thị thông báo hoặc minh họa 'Chưa có danh mục nào'.
+- Actual: Mocked empty category response rendered rows=0; empty-state message count=0.
+- Mode: `MOCKED_EMPTY_API_STATE`.
+- Evidence: [screenshot](evidence/executed-chrome/029-admin-category-empty-state.png).
+- Reproduction:
+  1. Start EShop and open `/ (Tab categories)`.
+  2. Perform `GUI-ADMIN-CATEGORY-009` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: PENDING_EXTERNAL_ACTION
 
-### Evidence Screenshot
-![Evidence for BUG-GUI-04](evidence/admin-category/BUG-GUI-04_admin-category.png)
+## BUG-GUI-ADMIN-CATEGORY-010 — Kiểm tra chỉ báo Loading khi đang tải dữ liệu danh mục.
 
----
+- Severity: **Medium**.
+- Expected: Hiển thị spinner hoặc skeleton loading khi fetch API.
+- Actual: During a 2.5-second category delay, loading indicator count=0.
+- Mode: `MOCKED_SLOW_API`.
+- Evidence: [screenshot](evidence/executed-chrome/030-admin-category-loading.png).
+- Reproduction:
+  1. Start EShop and open `/ (Tab categories)`.
+  2. Perform `GUI-ADMIN-CATEGORY-010` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: PENDING_EXTERNAL_ACTION
 
-## BUG-GUI-05 — Mobile Login Label & Submit Button Language Inconsistency
+## BUG-GUI-ADMIN-CATEGORY-013 — Kiểm tra ngăn chặn Double Submit khi nhấp liên tục nút Thêm mới.
 
-- **Related Requirement:** FR-02 (Mobile Authentication)  
-- **Platform:** Mobile App  
-- **Screen / Route:** Screen Login  
-- **Severity:** Low | **Priority:** Low  
-- **GitHub Traceability Status:** PENDING_EXTERNAL_ACTION  
-- **GitHub Issue File:** `github-issues/BUG-GUI-05.md`  
-- **Related Checklist Items:** GUI-MOBILE-LOGIN-002, GUI-MOBILE-LOGIN-004  
+- Severity: **Medium**.
+- Expected: Nút Thêm mới tự động disable trong thời gian chờ gửi request.
+- Actual: Rapid double click generated 2 POST request(s); button disabled after completion=false.
+- Mode: `MOCKED_SLOW_WRITE`.
+- Evidence: [screenshot](evidence/executed-chrome/033-admin-category-double-submit.png).
+- Reproduction:
+  1. Start EShop and open `/ (Tab categories)`.
+  2. Perform `GUI-ADMIN-CATEGORY-013` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: PENDING_EXTERNAL_ACTION
 
-### Preconditions & Test Data
-- SUT Backend và Frontend đang khởi chạy thành công.
-- Tài khoản test sinh viên: `23127207_gui_01@hcmus.edu.vn` / `Password123!`.
+## BUG-GUI-MOBILE-LOGIN-002 — Kiểm tra nhãn label ô nhập Email trên Mobile.
 
-### Steps to Reproduce
-1. Khởi chạy App Mobile trên Expo/Emulator/Trình duyệt.
-2. Chuyển tới màn hình Đăng Nhập.
-3. Quan sát nhãn phía trên ô Email và tên ghi trên nút submit Đăng nhập.
+- Severity: **Medium**.
+- Expected: Nhãn hiển thị 'Email' phía trên ô nhập liệu.
+- Actual: Visible Username label=true; standalone Email label=false.
+- Mode: `LIVE_LOCAL_SUT`.
+- Evidence: [screenshot](evidence/executed-chrome/034-mobile-login-baseline.png).
+- Reproduction:
+  1. Start EShop and open `Screen Login`.
+  2. Perform `GUI-MOBILE-LOGIN-002` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: PENDING_EXTERNAL_ACTION
 
-### Expected Result
-- Nhãn phía trên ô email ghi 'Email'
-- Nút đăng nhập ghi tiếng Việt 'Đăng nhập'
+## BUG-GUI-MOBILE-LOGIN-004 — Kiểm tra nhãn nút Đăng nhập trên Mobile.
 
-### Actual Result
-- Nhãn phía trên ô ghi 'Username' (trong khi placeholder bên trong ghi 'Email')
-- Nút đăng nhập ghi tiếng Anh 'Sign In' lẫn lộn tiếng Việt
+- Severity: **Medium**.
+- Expected: Nút có nhãn tiếng Việt 'Đăng nhập'.
+- Actual: Rendered submit label is 'Sign In'.
+- Mode: `LIVE_LOCAL_SUT`.
+- Evidence: [screenshot](evidence/executed-chrome/034-mobile-login-baseline.png).
+- Reproduction:
+  1. Start EShop and open `Screen Login`.
+  2. Perform `GUI-MOBILE-LOGIN-004` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: PENDING_EXTERNAL_ACTION
 
-### Evidence Screenshot
-![Evidence for BUG-GUI-05](evidence/mobile-login/BUG-GUI-05_mobile-login.png)
+## BUG-GUI-MOBILE-LOGIN-010 — Kiểm tra Touch Target Size của nút Sign In trên màn hình cảm ứng Mobile.
 
----
-
+- Severity: **Medium**.
+- Expected: Kích thước vùng bấm đạt tối thiểu 44x44 dp theo tiêu chuẩn Mobile Accessibility.
+- Actual: Sign In touch target bounding box={"x":24,"y":320,"width":342,"height":39} CSS px.
+- Mode: `LIVE_LOCAL_SUT`.
+- Evidence: [screenshot](evidence/executed-chrome/034-mobile-login-baseline.png).
+- Reproduction:
+  1. Start EShop and open `Screen Login`.
+  2. Perform `GUI-MOBILE-LOGIN-010` as described by the checklist.
+  3. Observe the recorded UI/network/dialog state.
+- GitHub: PENDING_EXTERNAL_ACTION

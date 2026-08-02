@@ -1,42 +1,22 @@
-# Task 1: GUI Checklist Deliverables — HW03 (EShop)
+# Task 1 — GUI Checklist Deliverables
 
-**Student Name:** Đặng Đăng Khoa  
-**Student ID:** 23127207  
-**SUT:** EShop System  
+**Student:** Đặng Đăng Khoa — 23127207
+**SUT:** EShop
+**Primary execution:** Google Chrome 150.0.7871.187 / Windows 10.0.26200, 2026-08-02
+**Status:** `BLOCKED_REAL_MOBILE_SOFT_KEYBOARD_AND_PENDING_EXTERNAL_ITEMS`
 
----  
+## Outcome
 
-## Directory Structure
+- 58 unique items; IA-01 through IA-04 covered.
+- 37 Pass, 20 Fail, 1 Blocked.
+- 48 AI-initial and 10 human-added items, human-reviewed.
+- 40 current Chrome screenshots with identity/email overlay.
+- One source of truth: `results/Task1_Execution_Chrome.csv`.
 
-```
-task1-gui/
-├── README.md
-├── scope-analysis.md
-├── GUI_Checklist_HW3.md
-├── GUI_Checklist_HW3.xlsx
-├── GUI_Coverage_Matrix.md
-├── GUI_Bug_Report_HW3.md
-├── GUI_Test_Summary_HW3.md
-├── AI_Item_Level_Critique.md
-├── AI_Critique_Task1.md
-├── AI_Audit_Report_Task1.md
-├── AI_Disclosure_Task1.md
-├── git-commit-log.txt
-├── ai-output/
-│   └── AI_INITIAL_GUI_Checklist.md
-├── evidence/
-│   ├── web-login/BUG-GUI-01_web-login.png
-│   ├── web-register/BUG-GUI-02_web-register.png
-│   ├── admin-login/BUG-GUI-03_admin-login.png
-│   ├── admin-category/BUG-GUI-04_admin-category.png
-│   └── mobile-login/BUG-GUI-05_mobile-login.png
-├── github-issues/
-│   ├── BUG-GUI-01.md
-│   ├── BUG-GUI-02.md
-│   ├── BUG-GUI-03.md
-│   ├── BUG-GUI-04.md
-│   └── BUG-GUI-05.md
-└── scripts/
-    ├── run-gui-execution.js
-    └── validate-gui.ps1
-```
+## Completion boundary
+
+1. `GUI-MOBILE-LOGIN-011` needs Expo Go or a physical/cloud phone.
+2. Every `PENDING_EXTERNAL_ACTION` bug needs a real duplicate/new GitHub URL.
+3. `Demo_Video_Link.md` needs a real public Task 1 GUI-skill YouTube URL.
+
+No unavailable evidence is reconstructed to satisfy a validator.

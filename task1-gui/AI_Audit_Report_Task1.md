@@ -1,18 +1,27 @@
-# AI Audit Report — Task 1 (HW03)
+# AI Audit Report — Task 1
 
-**Tool Name:** Gemini 3.6 Flash (High) / Antigravity AI Assistant  
-**Date:** 2026-07-28  
-**Student:** Đặng Đăng Khoa (23127207)  
+**Student:** Đặng Đăng Khoa — 23127207
+**Date:** 2026-08-02
+**Status:** `HUMAN_REVIEWED — EXTERNAL_EVIDENCE_BLOCKERS_DISCLOSED`
 
----  
+## Interaction log
 
-## 1. Initial AI Generation Summary
-- **Prompt Used:** Prompt yêu cầu sinh bộ GUI checklist ban đầu cho 5 phạm vi của Khoa (Web Login, Web Register, Admin Login, Admin Category, Mobile Login).
-- **Raw AI Output Location:** `ai-output/AI_INITIAL_GUI_Checklist.md` (50 items verbatim).
+| Field | Value |
+|---|---|
+| AI tool | OpenAI Codex, local PowerShell/Python and the corrected Task 3 Playwright result set |
+| User request | Repair all three tasks toward full rubric compliance; the student explicitly confirmed every human-review section. |
+| AI use | Reconciled 58 Task 1 IDs with the final Chrome execution, copied 40 identity-overlaid screenshots, corrected requirement mismatches, regenerated Markdown/Excel/results/reports and prepared GitHub traceability. |
+| Human review | Confirmed by the student on 2026-08-02. |
+| Runtime provenance | `../task3-cross-platform/results/chrome-windows.json` and its indexed evidence. |
 
-## 2. Human Audit & Corrections Applied
-1. **Category Edit Hallucination:** AI generated items for Category Edit modal. *Student Fix:* Reframed item as missing CRUD feature bug (BUG-GUI-04).
-2. **Delete Confirmation Hallucination:** AI expected confirmation popup. *Student Fix:* Marked as bug for immediate deletion without prompt.
-3. **Login Password Type Defect:** AI expected `type='password'`. *Student Fix:* Updated actual result to observe `type='text'` plaintext bug.
-4. **Register Password Regex Flaw:** AI assumed standard regex. *Student Fix:* Verified regex code requiring space `\s` and logged BUG-GUI-02.
-5. **Human Added Items:** Added 11 items for Accessibility, Responsive 320px, XSS, Keyboard Navigation, and Double Submit.
+## Material corrections
+
+- The older 36/22 checklist and 40/18 summary were replaced by one current dataset.
+- Category Edit and duplicate-name rejection were removed as invented FR-14 expectations.
+- The FR-02 lockout expectation now uses three attempts and 30 seconds.
+- Every row records `LIVE_LOCAL_SUT`, `MOCKED_*` or `EXPO_WEB_DESKTOP_BROWSER` explicitly.
+- Real soft-keyboard behavior remains Blocked without a phone.
+
+## Anti-fabrication declaration
+
+No participant, pilot, GitHub URL, device run or YouTube upload was invented. Existing issue URLs were fetched from GitHub before reuse. New records remain pending until GitHub returns a real URL.

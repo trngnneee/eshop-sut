@@ -1,85 +1,136 @@
-# Task 1 GUI Checklist Deliverables Validator
-$ErrorActionPreference = "Stop"
-$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$BaseDir = Resolve-Path "$ScriptDir\.."
+[CmdletBinding()]
+param([switch]$RequireComplete)
 
-Write-Host "==========================================" -ForegroundColor Cyan
-Write-Host "     Task 1 GUI Completion Validator      " -ForegroundColor Cyan
-Write-Host "==========================================" -ForegroundColor Cyan
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+Add-Type -AssemblyName System.IO.Compression
+$taskRoot = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
+$failures = [System.Collections.Generic.List[string]]::new()
+$limitations = [System.Collections.Generic.List[string]]::new()
 
-$passed = $true
-$issues = @()
+function Assert-Gui {
+    param([bool]$Condition, [string]$Message)
+    if ($Condition) { Write-Host "[PASS] $Message" -ForegroundColor Green }
+    else { Write-Host "[FAIL] $Message" -ForegroundColor Red; $script:failures.Add($Message) }
+}
 
-# 1. Check Mandatory Files
-$files = @(
-    "README.md",
-    "scope-analysis.md",
-    "GUI_Checklist_HW3.md",
-    "GUI_Checklist_HW3.xlsx",
-    "GUI_Coverage_Matrix.md",
-    "GUI_Bug_Report_HW3.md",
-    "GUI_Test_Summary_HW3.md",
-    "AI_Item_Level_Critique.md",
-    "AI_Critique_Task1.md",
-    "AI_Audit_Report_Task1.md",
-    "AI_Disclosure_Task1.md",
-    "git-commit-log.txt",
-    "ai-output\AI_INITIAL_GUI_Checklist.md"
+function Add-Limitation([string]$Message) {
+    if (-not $script:limitations.Contains($Message)) { $script:limitations.Add($Message) }
+}
+
+$required = @(
+    'README.md','scope-analysis.md','GUI_Checklist_HW3.md','GUI_Checklist_HW3.xlsx',
+    'GUI_Coverage_Matrix.md','GUI_Bug_Report_HW3.md','GUI_Test_Summary_HW3.md',
+    'AI_Item_Level_Critique.md','AI_Critique_Task1.md','AI_Critique_Task1.pdf',
+    'AI_Audit_Report_Task1.md','AI_Audit_Report_Task1.pdf','GUI_Test_Summary_HW3.pdf',
+    'AI_Disclosure_Task1.md','git-commit-log.txt','Demo_Video_Link.md',
+    'ai-output\AI_INITIAL_GUI_Checklist.md','results\Task1_Execution_Chrome.csv',
+    'results\Evidence_Index.csv','scripts\sync-current-execution.py'
 )
+foreach ($relative in $required) {
+    Assert-Gui (Test-Path -LiteralPath (Join-Path $taskRoot $relative) -PathType Leaf) "Required artefact exists: $relative"
+}
 
-foreach ($f in $files) {
-    $fullPath = Join-Path $BaseDir $f
-    if (-not (Test-Path $fullPath)) {
-        $passed = $false
-        $issues += "Missing file: $f"
-    } else {
-        Write-Host "[OK] Found $f" -ForegroundColor Green
+foreach ($pdfName in @('AI_Audit_Report_Task1.pdf', 'AI_Critique_Task1.pdf', 'GUI_Test_Summary_HW3.pdf')) {
+    $pdfPath = Join-Path $taskRoot $pdfName
+    if (Test-Path -LiteralPath $pdfPath -PathType Leaf) {
+        Assert-Gui ((Get-Item -LiteralPath $pdfPath).Length -gt 10000) "$pdfName is non-empty and plausibly rendered"
     }
 }
 
-# 2. Check Evidence Files
-$evidenceFiles = @(
-    "evidence\web-login\BUG-GUI-01_web-login.png",
-    "evidence\web-register\BUG-GUI-02_web-register.png",
-    "evidence\admin-login\BUG-GUI-03_admin-login.png",
-    "evidence\admin-category\BUG-GUI-04_admin-category.png",
-    "evidence\mobile-login\BUG-GUI-05_mobile-login.png"
-)
+$rows = @(Import-Csv -LiteralPath (Join-Path $taskRoot 'results\Task1_Execution_Chrome.csv'))
+$ids = @($rows | ForEach-Object { $_.ID })
+Assert-Gui ($rows.Count -eq 58) 'Execution CSV contains exactly 58 items'
+Assert-Gui (@($ids | Sort-Object -Unique).Count -eq 58) 'All checklist IDs are unique'
+Assert-Gui (@($rows | Where-Object { $_.Status -eq 'Pass' }).Count -eq 37) 'Pass count is 37'
+Assert-Gui (@($rows | Where-Object { $_.Status -eq 'Fail' }).Count -eq 20) 'Fail count is 20'
+Assert-Gui (@($rows | Where-Object { $_.Status -eq 'Blocked' }).Count -eq 1) 'Exactly one physical-device item is Blocked'
+Assert-Gui (@($rows | Where-Object { $_.Status -eq 'Not Run' }).Count -eq 0) 'No item remains Not Run'
+Assert-Gui (@($rows | Where-Object { $_.Status -notin @('Pass','Fail','Blocked','Not Run') }).Count -eq 0) 'Statuses use the allowed vocabulary'
 
-foreach ($ef in $evidenceFiles) {
-    $fullPath = Join-Path $BaseDir $ef
-    if (-not (Test-Path $fullPath)) {
-        $passed = $false
-        $issues += "Missing evidence screenshot: $ef"
-    } else {
-        Write-Host "[OK] Found evidence $ef" -ForegroundColor Green
-    }
+Assert-Gui (@($rows | Where-Object { $_.Origin -eq 'AI_INITIAL' }).Count -eq 48) 'Origin count is 48 AI_INITIAL'
+Assert-Gui (@($rows | Where-Object { $_.Origin -eq 'HUMAN_ADDED' }).Count -eq 10) 'Origin count is 10 HUMAN_ADDED'
+foreach ($ia in @('IA-01','IA-02','IA-03','IA-04')) {
+    Assert-Gui (@($rows | Where-Object { $_.IA -eq $ia }).Count -gt 0) "$ia has substantive checklist coverage"
 }
+Assert-Gui (@($rows | Where-Object { $_.'Execution Mode' -notin @('LIVE_LOCAL_SUT','MOCKED_NETWORK_FAILURE','MOCKED_WRITE_PREVENTION','MOCKED_EMPTY_API_STATE','MOCKED_SLOW_API','MOCKED_SLOW_WRITE','EXPO_WEB_DESKTOP_BROWSER') }).Count -eq 0) 'Every item declares an allowed execution mode'
+Assert-Gui (@($rows | Where-Object { $_.'Execution Mode' -like 'MOCKED_*' }).Count -eq 5) 'Exactly five deterministic mocked-state rows are disclosed'
 
-# 3. Check Checklist Items Count
-$mdChecklist = Get-Content (Join-Path $BaseDir "GUI_Checklist_HW3.md") -Raw
-$itemLines = ($mdChecklist -split "`n") | Where-Object { $_ -match "^\| GUI-" }
-if ($itemLines.Count -lt 41) {
-    $passed = $false
-    $issues += "Checklist item count $($itemLines.Count) is less than required 41 items."
-} else {
-    Write-Host "[OK] Checklist item count: $($itemLines.Count) (>= 41)" -ForegroundColor Green
-}
+$badRows = @($rows | Where-Object {
+    [string]::IsNullOrWhiteSpace($_.'Expected Result') -or
+    [string]::IsNullOrWhiteSpace($_.'Actual Result') -or
+    [string]::IsNullOrWhiteSpace($_.Notes) -or
+    [string]::IsNullOrWhiteSpace($_.Evidence) -or
+    [string]::IsNullOrWhiteSpace($_.'Evidence ID')
+})
+Assert-Gui ($badRows.Count -eq 0) 'Every row has Expected, Actual, Notes, Evidence and Evidence ID'
 
-# 4. Check GitHub Issues Traceability
-$bugsReport = Get-Content (Join-Path $BaseDir "GUI_Bug_Report_HW3.md") -Raw
-if ($bugsReport -match "PENDING_EXTERNAL_ACTION") {
-    Write-Host "[INFO] GitHub issues status is PENDING_EXTERNAL_ACTION (Pending manual student post)." -ForegroundColor Yellow
-}
+$failRows = @($rows | Where-Object { $_.Status -eq 'Fail' })
+Assert-Gui (@($failRows | Where-Object { [string]::IsNullOrWhiteSpace($_.'Bug ID') }).Count -eq 0) 'Every Fail has a Bug ID'
+$pendingIssues = @($failRows | Where-Object { $_.'GitHub Issue' -eq 'PENDING_EXTERNAL_ACTION' })
+$badIssueUrls = @($failRows | Where-Object { $_.'GitHub Issue' -ne 'PENDING_EXTERNAL_ACTION' -and $_.'GitHub Issue' -notmatch '^https://github\.com/trngnneee/eshop-sut/issues/\d+$' })
+Assert-Gui ($badIssueUrls.Count -eq 0) 'Every published/reused GitHub mapping has a real issue URL shape'
+if ($pendingIssues.Count -gt 0) { Add-Limitation "$($pendingIssues.Count) Fail item(s) still require verified GitHub issue URLs." }
 
-Write-Host "------------------------------------------" -ForegroundColor Cyan
-if ($passed -and (-not ($bugsReport -match "PENDING_EXTERNAL_ACTION"))) {
-    Write-Host "FINAL STATUS: COMPLETE" -ForegroundColor Green
-} else {
-    Write-Host "FINAL STATUS: INCOMPLETE" -ForegroundColor Yellow
-    Write-Host "Reason / Action Required:" -ForegroundColor Yellow
-    Write-Host "1. Manual student action needed: Post bugs to GitHub repository if URL assignment is needed." -ForegroundColor Yellow
-    foreach ($iss in $issues) {
-        Write-Host " - $iss" -ForegroundColor Red
-    }
+$evidencePaths = @($rows | ForEach-Object { $_.Evidence } | Sort-Object -Unique)
+Assert-Gui ($evidencePaths.Count -eq 40) 'Result rows reference 40 unique screenshots'
+$badEvidence = [System.Collections.Generic.List[string]]::new()
+foreach ($relative in $evidencePaths) {
+    $absolute = Join-Path $taskRoot $relative.Replace('/','\')
+    if (-not (Test-Path -LiteralPath $absolute -PathType Leaf)) { $badEvidence.Add("Missing $relative"); continue }
+    $file = Get-Item -LiteralPath $absolute
+    if ($file.Length -lt 20000) { $badEvidence.Add("Too small $relative"); continue }
+    $stream = [System.IO.File]::OpenRead($absolute)
+    try {
+        $signature = New-Object byte[] 8
+        $read = $stream.Read($signature,0,8)
+        if ($read -ne 8 -or [BitConverter]::ToString($signature) -ne '89-50-4E-47-0D-0A-1A-0A') { $badEvidence.Add("Invalid PNG $relative") }
+    } finally { $stream.Dispose() }
 }
+Assert-Gui ($badEvidence.Count -eq 0) 'All 40 screenshots exist, are non-trivial and have valid PNG signatures'
+
+$checklist = Get-Content -LiteralPath (Join-Path $taskRoot 'GUI_Checklist_HW3.md') -Raw -Encoding UTF8
+$mdIds = @([regex]::Matches($checklist,'(?m)^\|\s*(GUI-[A-Z0-9-]+)\s*\|') | ForEach-Object { $_.Groups[1].Value })
+Assert-Gui ($mdIds.Count -eq 58 -and @($mdIds | Sort-Object -Unique).Count -eq 58) 'Markdown checklist contains the same 58 unique IDs'
+Assert-Gui ($checklist -match '37 Pass' -or $checklist -match '\*\*Pass\*\*') 'Markdown checklist contains executed statuses'
+Assert-Gui ($checklist -notmatch 'Edit Category' -and $checklist -notmatch 'theo yêu cầu FR-14.*Sửa') 'Invented FR-14 Edit requirement is absent'
+
+$xlsx = Get-Item -LiteralPath (Join-Path $taskRoot 'GUI_Checklist_HW3.xlsx')
+Assert-Gui ($xlsx.Length -gt 10000) 'Excel workbook is non-trivial'
+$xlsxStream = [System.IO.File]::OpenRead($xlsx.FullName)
+try {
+    $archive = [System.IO.Compression.ZipArchive]::new($xlsxStream,[System.IO.Compression.ZipArchiveMode]::Read)
+    try { Assert-Gui (@($archive.Entries | Where-Object { $_.FullName -like 'xl/worksheets/sheet*.xml' }).Count -ge 4) 'Excel workbook contains checklist, review, summary and traceability sheets' }
+    finally { $archive.Dispose() }
+} finally { $xlsxStream.Dispose() }
+
+$summary = Get-Content -LiteralPath (Join-Path $taskRoot 'GUI_Test_Summary_HW3.md') -Raw -Encoding UTF8
+Assert-Gui ($summary -match '\| Pass \| 37 \|' -and $summary -match '\| Fail \| 20 \|' -and $summary -match '\| Blocked \| 1 \|') 'Test Summary matches the execution CSV metrics'
+
+$critique = Get-Content -LiteralPath (Join-Path $taskRoot 'AI_Critique_Task1.md') -Raw -Encoding UTF8
+$critiqueBody = ($critique -replace '(?m)^#.*$','' -replace '(?m)^\*\*.*$','')
+$words = [regex]::Matches($critiqueBody,"[\p{L}\p{M}\p{N}]+(?:[-'][\p{L}\p{M}\p{N}]+)*").Count
+Assert-Gui ($words -ge 200 -and $words -le 300) "AI critique contains 200-300 words (actual: $words)"
+$audit = Get-Content -LiteralPath (Join-Path $taskRoot 'AI_Audit_Report_Task1.md') -Raw -Encoding UTF8
+$itemReview = Get-Content -LiteralPath (Join-Path $taskRoot 'AI_Item_Level_Critique.md') -Raw -Encoding UTF8
+Assert-Gui ($audit -match 'HUMAN_REVIEWED' -and $itemReview -match 'HUMAN_REVIEWED') 'AI audit and item-level critique record human review'
+Assert-Gui (@([regex]::Matches($itemReview,'(?m)^\| `GUI-')).Count -eq 58) 'Item-level critique covers all 58 final IDs'
+
+$demo = Get-Content -LiteralPath (Join-Path $taskRoot 'Demo_Video_Link.md') -Raw -Encoding UTF8
+if ($demo -notmatch 'https://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)[A-Za-z0-9_-]+') { Add-Limitation 'Task 1 GUI-testing-skill demo still needs a real public YouTube URL.' }
+$blocked = @($rows | Where-Object { $_.Status -eq 'Blocked' })
+if ($blocked.Count -gt 0) { Add-Limitation 'GUI-MOBILE-LOGIN-011 still needs a real Expo Go/physical/cloud soft-keyboard run.' }
+
+if ($failures.Count -gt 0) {
+    Write-Host "`nTASK1 STRUCTURAL VALIDATION FAILED: $($failures.Count) check(s)." -ForegroundColor Red
+    exit 1
+}
+if ($RequireComplete -and $limitations.Count -gt 0) {
+    Write-Host "`nTASK1 COMPLETION BLOCKED: $($limitations.Count) acknowledged blocker(s)." -ForegroundColor Yellow
+    $limitations | ForEach-Object { Write-Host " - $_" -ForegroundColor Yellow }
+    Write-Host 'No external URL or device evidence was fabricated.' -ForegroundColor Yellow
+    exit 2
+}
+Write-Host "`nTASK1 PACKAGE STRUCTURALLY READY WITH DISCLOSED BLOCKERS" -ForegroundColor Cyan
+$limitations | ForEach-Object { Write-Host " - $_" -ForegroundColor Yellow }
+exit 0

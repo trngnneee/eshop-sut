@@ -1,57 +1,31 @@
-# GUI Test Summary Report — Task 1 (HW03)
+# GUI Test Summary — HW03 Task 1
 
-**Tester:** Đặng Đăng Khoa (MSSV: 23127207)  
-**System Under Test:** EShop (Web Frontend, Web Admin, Mobile App)  
-**Execution Date:** 2026-07-28  
-
----  
-
-## 1. High-Level Metrics Summary
+**Student:** Đặng Đăng Khoa — 23127207
+**Execution:** Google Chrome 150.0.7871.187 / Windows 10.0.26200, 2026-08-02
+**Status:** `BLOCKED_REAL_MOBILE_SOFT_KEYBOARD_AND_PENDING_EXTERNAL_ITEMS`
 
 | Metric | Value |
-|---|---|
-| **Total Target Screens** | 5 Screens (Web Login, Web Register, Admin Login, Admin Category, Mobile Login) |
-| **Total Designed Items** | 58 Items |
-| **Total Executed Items** | 58 Items |
-| **Passed Items** | 40 Items |
-| **Failed Items** | 18 Items |
-| **Blocked Items** | 0 Items |
-| **Not Run Items** | 0 Items |
-| **Pass Rate (Pass / Executed)** | **68.97%** |
-| **Total Distinct Bugs Logged** | 5 Bugs (BUG-GUI-01 to BUG-GUI-05) |
-| **AI Initial Items** | 47 Items |
-| **Human Added Items** | 11 Items |
-| **GitHub Traceability Status** | **PENDING_EXTERNAL_ACTION** (Prepared offline files in `github-issues/`) |
-| **Final Deliverables Validator Status** | **INCOMPLETE (Pending Student Manual GitHub Post)** |
+|---|---:|
+| Total | 58 |
+| Pass | 37 |
+| Fail | 20 |
+| Blocked | 1 |
+| Existing real GitHub mappings | 8 |
+| Pending new GitHub issues | 12 |
+| Unique screenshots | 40 |
 
----  
+## Execution modes
 
-## 2. Bug Distribution by Severity
+- `EXPO_WEB_DESKTOP_BROWSER`: 1 item(s).
+- `LIVE_LOCAL_SUT`: 52 item(s).
+- `MOCKED_EMPTY_API_STATE`: 1 item(s).
+- `MOCKED_NETWORK_FAILURE`: 1 item(s).
+- `MOCKED_SLOW_API`: 1 item(s).
+- `MOCKED_SLOW_WRITE`: 1 item(s).
+- `MOCKED_WRITE_PREVENTION`: 1 item(s).
 
-| Severity | Bug Count | Bug IDs |
-|---|---|---|
-| **Critical** | 0 | None |
-| **High** | 3 | BUG-GUI-01, BUG-GUI-02, BUG-GUI-04 |
-| **Medium** | 1 | BUG-GUI-03 |
-| **Low** | 1 | BUG-GUI-05 |
-| **Total** | **5** | |
+## Completion decision
 
----  
+All 58 items have current item-level Actual Results and screenshots. Mocked states are explicitly labelled. The package remains blocked only where evidence/actions are genuinely unavailable: real mobile soft-keyboard behavior, pending GitHub publications and a real Task 1 skill-demo YouTube URL.
 
-## 3. Platform & Information Architecture Breakdown
-
-| Platform | Total Items | Pass | Fail | Pass Rate |
-|---|---|---|---|---|
-| Web Frontend | 25 | 16 | 9 | 64.0% |
-| Web Admin | 22 | 13 | 9 | 59.1% |
-| Mobile App | 11 | 9 | 2 | 81.8% |
-| **Total** | **58** | **40** | **18** | **68.97%** |
-
----  
-
-## 4. Key Findings & Recommendations
-
-1. **Web Login (FR-02):** Urgent fix needed for plaintext password input (`type='text'`) and heading title semantic mismatch (`Đăng Ký` on login page).
-2. **Web Register (FR-01):** Fix regex validation bug (`\s` required instead of special characters) which prevents user account creation.
-3. **Admin Category (FR-14):** Implement missing Edit Category feature in UI and add immediate confirmation modal before category deletion.
-4. **Accessibility:** Add missing `<label>` elements and replace browser native `alert()` calls with accessible inline UI alert banners.
+The older 40/18 summary and five packed screenshots are superseded. `results/Task1_Execution_Chrome.csv` is the current source of truth.
