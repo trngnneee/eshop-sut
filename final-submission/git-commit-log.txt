@@ -7,8 +7,8 @@ Branch: HW3-Khoa
 Snapshot date/timezone: 2026-08-02 — Asia/Bangkok (UTC+7)
 Range: origin/HW3-Khoa..HEAD
 Range base: 671d798058fa782301f06b679dbec5523339f66f
-Snapshot HEAD: c3b91c77cf2f8afbe4188dc7eb27bbd4d21efeb9
-Commit count in snapshot: 26
+Snapshot HEAD: 4148c8e928f7f79bd874a15b7788f0a25f3599a0
+Commit count in snapshot: 28
 
 Generation command:
 git log --reverse --date=iso-strict --pretty=format:"%H|%ad|%an|%ae|%s" origin/HW3-Khoa..HEAD
@@ -47,3 +47,5 @@ c6966abeb1c32d445b8ab139076d0676b701640a | 2026-08-02T22:38:27+07:00 | khoadangw
 10823849f82c9c072bc06388199462c8f7dd13f8 | 2026-08-02T22:56:46+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | docs(task1): record verified GUI skill demo
 77a3dfc187ae434f3231d4d6d47f37cb5a23d39a | 2026-08-02T22:57:22+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | chore(hw3): refresh commit log after GUI demo
 c3b91c77cf2f8afbe4188dc7eb27bbd4d21efeb9 | 2026-08-02T23:08:57+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | docs(hw3): reconcile verified issue mappings
+35eb6273c8db07b8b4c4a09b606bd910f9512137 | 2026-08-02T23:09:45+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | chore(hw3): refresh commit log after issue audit
+4148c8e928f7f79bd874a15b7788f0a25f3599a0 | 2026-08-02T23:29:38+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | docs(hw3): reconcile submission with authoritative rubric
