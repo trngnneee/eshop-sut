@@ -82,6 +82,12 @@ Assert-Submission ($metrics.Count -eq 7) 'Observation metrics contain seven part
 Assert-Submission (@($metrics | Where-Object { $_.Status -ne 'HUMAN_REVIEWED' }).Count -eq 0) 'All metric rows record completed human review'
 Assert-Submission (@($metrics | Where-Object { $_.Outcome -ne 'FAILED_OR_ABANDONED' }).Count -eq 0) 'All seven recorded outcomes match the declared taxonomy'
 
+$findings = @(Import-Csv -LiteralPath (Join-Path $taskRoot 'Analysis\Findings_Register.csv'))
+Assert-Submission (@($findings | Where-Object { $_.type -eq 'SOFTWARE_BUG' }).Count -eq 3) 'Findings register separates exactly three software bugs'
+Assert-Submission (@($findings | Where-Object { $_.type -eq 'USABILITY_ISSUE' }).Count -eq 4) 'Findings register separates exactly four usability issues'
+$softwareBugRows = @($findings | Where-Object { $_.type -eq 'SOFTWARE_BUG' })
+Assert-Submission (@($softwareBugRows | Where-Object { $_.github_issue -notmatch '^https://github\.com/trngnneee/eshop-sut/issues/(37|55|118)$' }).Count -eq 0) 'All software bugs map to verified canonical GitHub issue URLs (#37, #55, #118)'
+
 $sus = @(Import-Csv -LiteralPath (Join-Path $taskRoot 'Analysis\SUS_Raw_Responses.csv'))
 Assert-Submission ($sus.Count -eq 7) 'SUS raw table contains seven participant rows'
 $expectedSusIds = @('P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07')
