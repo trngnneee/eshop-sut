@@ -20,3 +20,12 @@
 3. `Demo_Video_Link.md` needs a real public Task 1 GUI-skill YouTube URL.
 
 No unavailable evidence is reconstructed to satisfy a validator.
+
+## Commands
+
+```powershell
+python .\task1-gui\scripts\sync-current-execution.py
+powershell -NoProfile -ExecutionPolicy Bypass -File .\task1-gui\scripts\validate-gui.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\task1-gui\scripts\validate-gui.ps1 -RequireComplete
+powershell -NoProfile -ExecutionPolicy Bypass -File .\task1-gui\scripts\export-commit-log.ps1
+```

@@ -1,8 +1,8 @@
 STATUS: EXPORTED
 Repository: C:\My Workspace\HCMUS\Test\Week 3\Hw2
 Branch: HW3-Khoa
-HEAD: d2bdb3d052bb6329665fc2cae7e83320753a2d38
-Exported at: 2026-08-02 20:25:32 +07:00
+HEAD: 3899af9d88fd7f0ef7ae46f08c2ce77eecf03e8a
+Exported at: 2026-08-02 21:24:53 +07:00
 
 WORKTREE STATUS AT EXPORT
 (The export target task3-cross-platform/git-commit-log.txt is omitted from this section.)
@@ -16,62 +16,11 @@ WORKTREE STATUS AT EXPORT
  D "GUI testing/automation/test-results/.last-run.json"
  M backend/database.sqlite
  D submission/23127207_Task2_Usability_Submission.zip
- M task1-gui/AI_Audit_Report_Task1.md
- M task1-gui/AI_Critique_Task1.md
- M task1-gui/AI_Disclosure_Task1.md
- M task1-gui/AI_Item_Level_Critique.md
- M task1-gui/AUDIT_FINDINGS.csv
- M task1-gui/GUI_Checklist_HW3.md
- M task1-gui/GUI_Checklist_HW3.xlsx
- M task1-gui/GUI_Coverage_Matrix.md
- M task1-gui/GUI_Test_Summary_HW3.md
- M task1-gui/INDEPENDENT_COMPLIANCE_AUDIT.md
- D task1-gui/scripts/generate_all_deliverables.py
- M task2-usability/AI_Audit_Task2.md
- M task2-usability/AI_Audit_Task2.pdf
- M task2-usability/AI_Critique_Task2.md
- M task2-usability/AI_Critique_Task2.pdf
- M task2-usability/Analysis/Findings_Register.csv
- M task2-usability/Analysis/Observation_Metrics.csv
- M task2-usability/Analysis/SUS_Raw_Responses.csv
- M task2-usability/Analysis/SUS_Results.md
- M task2-usability/Analysis/SUS_Scores.csv
- M task2-usability/Demo_Video_Link.md
- M task2-usability/Evidence_Index.md
- M task2-usability/FIELDWORK_RUNBOOK.md
- M task2-usability/Instruments/Recruitment_Screener.md
- M task2-usability/Missing_Data_and_Followup.md
- M task2-usability/Participant_Roster.md
- M task2-usability/README.md
- M task2-usability/SUBMISSION_CHECKLIST.md
- M task2-usability/Sessions/Session_P01.md
- M task2-usability/Sessions/Session_P02.md
- M task2-usability/Sessions/Session_P03.md
- M task2-usability/Sessions/Session_P04.md
- M task2-usability/Sessions/Session_P05.md
- M task2-usability/Sessions/Session_P06.md
- M task2-usability/Sessions/Session_P07.md
- M task2-usability/Stage_0_Drive_Inventory.md
- M task2-usability/Task2_Main_Report.md
- M task2-usability/Task2_Main_Report.pdf
- D task2-usability/Technical_Preflight.md
- M task2-usability/Usability_Bug_Report.md
- M task2-usability/Usability_Findings.md
- M task2-usability/Usability_Test_Plan.md
- M task2-usability/Usability_Test_Summary.md
- M task2-usability/Video_Data_Quality_Report.md
- D task2-usability/demo/Task2_Usability_Skill_Demo.mp4
- D task2-usability/demo/slides.html
- M task2-usability/evidence/README.md
- M task2-usability/evidence/github-issue-reproduction/BUG-PF-02-safe-reproduction.png
- M task2-usability/evidence/github-issue-reproduction/result.json
- M task2-usability/github-issues/DRAFT-BUG-AUTH-PLAINTEXT-01.md
- M task2-usability/github-issues/DRAFT-BUG-USABILITY-01.md
- M task2-usability/scripts/analyze-sus.ps1
- D task2-usability/scripts/run-technical-preflight.ps1
- M task2-usability/scripts/technical-preflight.js
- M task2-usability/scripts/validate-submission-files.ps1
- M task2-usability/scripts/validate-usability.ps1
+ M task1-gui/README.md
+ M task1-gui/git-commit-log.txt
+ M task1-gui/scripts/sync-current-execution.py
+ M task1-gui/scripts/validate-gui.ps1
+ M task2-usability/git-commit-log.txt
  D tests/run_ai_test_runner.py
  D tests/test-cases/login/TC-LOGIN-001.md
  D tests/test-cases/login/TC-LOGIN-002.md
@@ -91,21 +40,15 @@ WORKTREE STATUS AT EXPORT
  M tests/test-summary/traceability-matrix.md
  D tests/test_fr02.py
  D tests/work-division.md
-?? .task3-runtime/
-?? .tmp-hw03-spec.txt
-?? task2-usability/evidence/github-issue-reproduction/01-after-registration.png
-?? task2-usability/evidence/github-issue-reproduction/02-after-login.png
-?? task2-usability/evidence/github-issue-reproduction/04-profile-after-reload.png
-?? task2-usability/evidence/github-issue-reproduction/05-after-logout.png
-?? task2-usability/evidence/github-issue-reproduction/BUG-REG-PASSWORD-POLICY-01-safe-reproduction.png
-?? task2-usability/evidence/github-issue-reproduction/GITHUB-ISSUE-37-comment-5149476796.png
-?? task2-usability/evidence/github-issue-reproduction/GITHUB-ISSUE-55-comment-5149476574.png
-?? task2-usability/github-issues/DRAFT-BUG-REG-PASSWORD-POLICY-01.md
-?? task3-cross-platform/.render-tmp/
+?? task1-gui/scripts/export-commit-log.ps1
 ?? tests/test-cases/register/
 ?? tests/test-summary/sprint-hw03-task2-test-run.md
 
 COMMIT HISTORY
+3899af9d88fd7f0ef7ae46f08c2ce77eecf03e8a | 2026-08-02T21:23:26+07:00 | khoadangwneee | task2: finalize reviewed usability package and validators
+1ae13a00046c5e1631d02b5765700b0785d00648 | 2026-08-02T21:20:08+07:00 | khoadangwneee | task3: reconcile reviewed expectations across platforms
+b470c12b611a7620c835697874b4d4f6d62d9ef2 | 2026-08-02T21:19:51+07:00 | khoadangwneee | task1: reconcile checklist with current execution evidence
+6eb3028ab930dfdec38c35c4ea906c67d4d09686 | 2026-08-02T20:26:48+07:00 | khoadangwneee | task3: export procedure commit log
 d2bdb3d052bb6329665fc2cae7e83320753a2d38 | 2026-08-02T20:25:27+07:00 | khoadangwneee | task3: add AI audit and honest completion validator
 5aa9cdaa25e9655139c0471c4315cedeed15a145 | 2026-08-02T20:25:03+07:00 | khoadangwneee | task3: analyze compatibility results and assemble report
 c5fa27683fa4525d5ad5fd75690d7ef263393b30 | 2026-08-02T20:24:30+07:00 | khoadangwneee | task3: execute cross-platform checklist and capture evidence

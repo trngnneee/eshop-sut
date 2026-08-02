@@ -25,7 +25,7 @@ $required = @(
     'AI_Audit_Report_Task1.md','AI_Audit_Report_Task1.pdf','GUI_Test_Summary_HW3.pdf',
     'AI_Disclosure_Task1.md','git-commit-log.txt','Demo_Video_Link.md',
     'ai-output\AI_INITIAL_GUI_Checklist.md','results\Task1_Execution_Chrome.csv',
-    'results\Evidence_Index.csv','scripts\sync-current-execution.py'
+    'results\Evidence_Index.csv','scripts\sync-current-execution.py','scripts\export-commit-log.ps1'
 )
 foreach ($relative in $required) {
     Assert-Gui (Test-Path -LiteralPath (Join-Path $taskRoot $relative) -PathType Leaf) "Required artefact exists: $relative"
@@ -37,6 +37,10 @@ foreach ($pdfName in @('AI_Audit_Report_Task1.pdf', 'AI_Critique_Task1.pdf', 'GU
         Assert-Gui ((Get-Item -LiteralPath $pdfPath).Length -gt 10000) "$pdfName is non-empty and plausibly rendered"
     }
 }
+
+$commitLog = Get-Content -LiteralPath (Join-Path $taskRoot 'git-commit-log.txt') -Raw -Encoding UTF8
+Assert-Gui ($commitLog -match 'STATUS: EXPORTED' -and $commitLog -match '(?m)^HEAD: [0-9a-f]{40}\r?$') 'Git commit log is an authentic full-hash export'
+Assert-Gui ($commitLog -match '(?m)^[0-9a-f]{40} \| .* \| task1:') 'Git commit log contains an authentic Task 1 procedure commit'
 
 $rows = @(Import-Csv -LiteralPath (Join-Path $taskRoot 'results\Task1_Execution_Chrome.csv'))
 $ids = @($rows | ForEach-Object { $_.ID })

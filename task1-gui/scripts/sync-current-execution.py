@@ -346,10 +346,10 @@ def write_bug_docs(rows: list[dict[str, str]]) -> None:
         raw = f"https://raw.githubusercontent.com/trngnneee/eshop-sut/HW3-Khoa/task1-gui/{row['Evidence']}"
         draft = f"""# {row['Checklist Item']}
 
-**Local ID:** `{row['Bug ID']}`  
-**Status:** `{'EXISTING_ISSUE_REUSED' if row['GitHub Issue'].startswith('https://') else 'PENDING_EXTERNAL_ACTION'}`  
-**Severity:** `{severity}`  
-**Reporter:** Đặng Đăng Khoa (23127207)  
+**Local ID:** `{row['Bug ID']}`
+**Status:** `{'EXISTING_ISSUE_REUSED' if row['GitHub Issue'].startswith('https://') else 'PENDING_EXTERNAL_ACTION'}`
+**Severity:** `{severity}`
+**Reporter:** Đặng Đăng Khoa (23127207)
 **Environment:** {PLATFORM}
 
 ## Steps
@@ -404,8 +404,8 @@ def write_ai_review(rows: list[dict[str, str]]) -> None:
 def write_ai_docs() -> None:
     audit = f"""# AI Audit Report — Task 1
 
-**Student:** Đặng Đăng Khoa — 23127207  
-**Date:** {DATE}  
+**Student:** Đặng Đăng Khoa — 23127207
+**Date:** {DATE}
 **Status:** `HUMAN_REVIEWED — EXTERNAL_EVIDENCE_BLOCKERS_DISCLOSED`
 
 ## Interaction log
@@ -433,8 +433,8 @@ No participant, pilot, GitHub URL, device run or YouTube upload was invented. Ex
     (TASK / "AI_Audit_Report_Task1.md").write_text(audit, encoding="utf-8")
     disclosure = f"""# AI Disclosure — Task 1
 
-**Status:** `HUMAN_REVIEWED`  
-**Student:** Đặng Đăng Khoa — 23127207  
+**Status:** `HUMAN_REVIEWED`
+**Student:** Đặng Đăng Khoa — 23127207
 **Review date:** {DATE}
 
 AI assisted checklist design, mechanical reconciliation, report generation and semantic validation. Final verdicts come from the corrected Task 3 Chrome execution rather than source-code inference. The student confirmed human review. Mocked states and the unavailable physical soft-keyboard run are disclosed; external URLs are never fabricated.
@@ -442,7 +442,7 @@ AI assisted checklist design, mechanical reconciliation, report generation and s
     (TASK / "AI_Disclosure_Task1.md").write_text(disclosure, encoding="utf-8")
     critique = """# AI Critique — Task 1
 
-**Status:** `HUMAN_REVIEWED`  
+**Status:** `HUMAN_REVIEWED`
 **Student review date:** `2026-08-02`
 
 AI giúp mở rộng checklist lên 58 mục và gợi ý các nhóm quan trọng như accessibility, loading, empty state, network failure, double submit và responsive 320 px. Tuy nhiên, đầu ra ban đầu có ba sai lệch nghiêm trọng. Thứ nhất, AI dựa vào source code rồi ghi Actual/Status như thể đã quan sát runtime; năm ảnh tĩnh không chứng minh được các lỗi động. Thứ hai, nó hiểu FR-14 thành đầy đủ CRUD nên xem việc thiếu Edit Category là defect, đồng thời tự đặt yêu cầu cấm tên danh mục trùng. Thứ ba, summary 40 Pass/18 Fail không khớp checklist 36 Pass/22 Fail, cho thấy nhiều artefact không đồng nghĩa với dữ liệu nhất quán.
@@ -458,9 +458,9 @@ def write_readme(rows: list[dict[str, str]]) -> None:
     count = Counter(row["Status"] for row in rows)
     text = f"""# Task 1 — GUI Checklist Deliverables
 
-**Student:** Đặng Đăng Khoa — 23127207  
-**SUT:** EShop  
-**Primary execution:** {PLATFORM}, {DATE}  
+**Student:** Đặng Đăng Khoa — 23127207
+**SUT:** EShop
+**Primary execution:** {PLATFORM}, {DATE}
 **Status:** `BLOCKED_REAL_MOBILE_SOFT_KEYBOARD_AND_PENDING_EXTERNAL_ITEMS`
 
 ## Outcome

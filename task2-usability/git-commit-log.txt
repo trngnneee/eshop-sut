@@ -1,27 +1,58 @@
 STATUS: EXPORTED
 Repository: C:\My Workspace\HCMUS\Test\Week 3\Hw2
 Branch: HW3-Khoa
-HEAD: b2e27a1f0549050e4e0bec51824f683426fce156
-Exported at: 2026-07-29 22:59:17 +07:00
+HEAD: 3899af9d88fd7f0ef7ae46f08c2ce77eecf03e8a
+Exported at: 2026-08-02 21:24:52 +07:00
 
 WORKTREE STATUS AT EXPORT
 (The export target task2-usability/git-commit-log.txt is omitted from this section.)
- M .agents/skills/usability-testing-skill/SKILL.md
- D Requirements/Requirements.pdf
- D Requirements/Rule.pdf
+ M .gitignore
+ D "GUI testing/automation/.chrome-profile/760306e5-ec0b-4e7e-9b04-e1ebd527912f.tmp"
+ D "GUI testing/automation/.chrome-profile/Crashpad/metadata"
+ D "GUI testing/automation/.chrome-profile/Crashpad/reports/8f9fa0b0-4b83-4102-ba93-91b6684ffd72.dmp"
+ D "GUI testing/automation/.chrome-profile/Crashpad/settings.dat"
+ D "GUI testing/automation/.chrome-profile/Variations"
+ D "GUI testing/automation/playwright-report/index.html"
+ D "GUI testing/automation/test-results/.last-run.json"
  M backend/database.sqlite
- M frontend-mobile/package-lock.json
- M frontend-mobile/package.json
- M frontend-web/package-lock.json
- M frontend-web/package.json
- M frontend-web/src/pages/Register.jsx
-?? HW3/
-?? package-lock.json
-?? package.json
-?? submission/
-?? task1-gui/
+ D submission/23127207_Task2_Usability_Submission.zip
+ M task1-gui/README.md
+ M task1-gui/git-commit-log.txt
+ M task1-gui/scripts/sync-current-execution.py
+ M task1-gui/scripts/validate-gui.ps1
+ D tests/run_ai_test_runner.py
+ D tests/test-cases/login/TC-LOGIN-001.md
+ D tests/test-cases/login/TC-LOGIN-002.md
+ D tests/test-cases/login/TC-LOGIN-003.md
+ D tests/test-cases/login/TC-LOGIN-004.md
+ D tests/test-cases/login/TC-LOGIN-005.md
+ D tests/test-cases/login/TC-LOGIN-006.md
+ D tests/test-cases/login/TC-LOGIN-007.md
+ D tests/test-cases/login/TC-LOGIN-008.md
+ D tests/test-cases/login/TC-LOGIN-009.md
+ D tests/test-cases/login/TC-LOGIN-010.md
+ D tests/test-cases/login/TC-LOGIN-011.md
+ D tests/test-cases/login/TC-LOGIN-012.md
+ D tests/test-cases/login/TC-LOGIN-013.md
+ D tests/test-runs/sprint-1-test-run.md
+ D tests/test-runs/sprint-2-test-run.md
+ M tests/test-summary/traceability-matrix.md
+ D tests/test_fr02.py
+ D tests/work-division.md
+?? task1-gui/scripts/export-commit-log.ps1
+?? tests/test-cases/register/
+?? tests/test-summary/sprint-hw03-task2-test-run.md
 
 COMMIT HISTORY
+3899af9d88fd7f0ef7ae46f08c2ce77eecf03e8a | 2026-08-02T21:23:26+07:00 | khoadangwneee | task2: finalize reviewed usability package and validators
+1ae13a00046c5e1631d02b5765700b0785d00648 | 2026-08-02T21:20:08+07:00 | khoadangwneee | task3: reconcile reviewed expectations across platforms
+b470c12b611a7620c835697874b4d4f6d62d9ef2 | 2026-08-02T21:19:51+07:00 | khoadangwneee | task1: reconcile checklist with current execution evidence
+6eb3028ab930dfdec38c35c4ea906c67d4d09686 | 2026-08-02T20:26:48+07:00 | khoadangwneee | task3: export procedure commit log
+d2bdb3d052bb6329665fc2cae7e83320753a2d38 | 2026-08-02T20:25:27+07:00 | khoadangwneee | task3: add AI audit and honest completion validator
+5aa9cdaa25e9655139c0471c4315cedeed15a145 | 2026-08-02T20:25:03+07:00 | khoadangwneee | task3: analyze compatibility results and assemble report
+c5fa27683fa4525d5ad5fd75690d7ef263393b30 | 2026-08-02T20:24:30+07:00 | khoadangwneee | task3: execute cross-platform checklist and capture evidence
+caaeb3599a2795721a1aaac011f744bb52d44a10 | 2026-08-01T09:36:52+07:00 | khoadangwneee | task2: add safe GitHub issue reproduction evidence
+7039f90f7047d93d1087614dd7cef6010e001131 | 2026-07-30T14:17:57+07:00 | khoadangwneee | updte task 2
 b2e27a1f0549050e4e0bec51824f683426fce156 | 2026-07-29T22:59:11+07:00 | khoadangwneee | task2: make commit log export self-consistent
 49896cbd8c0a0c42543e89ad921deec8d33ca973 | 2026-07-29T22:57:59+07:00 | khoadangwneee | task2: make submission validation UTF-8 safe
 b1a654875b2f58cf84e632ca38f9891d9321b061 | 2026-07-29T22:54:01+07:00 | khoadangwneee | task2: assemble submission reports PDFs and demo
