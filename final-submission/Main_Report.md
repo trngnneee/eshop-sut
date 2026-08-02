@@ -146,6 +146,25 @@ The Task 1 package is structurally ready. Strict completion remains blocked by:
 
 Exactly seven official IDs are used: P01, P02, P03, P04, P05, P06 and P07. There are seven official session files and no identifier outside that exact set or extra participant row. Every session report contains exactly one row for each code T0 through T11.
 
+The same coding schema is used in all seven session reports:
+
+| Code | Session milestone |
+|---|---|
+| `T0` | First observable task action after recording begins. |
+| `T1` | Registration page/form opens. |
+| `T2` | First registration submit. |
+| `T3` | Registration success/transition to login. |
+| `T4` | First login submit. |
+| `T5` | Login success/authenticated state appears. |
+| `T6` | Profile page opens. |
+| `T7` | First profile-update submit. |
+| `T8` | Successful profile save is observed. |
+| `T9` | Persistence/trust confirmation is observed or elicited. |
+| `T10` | Logout action. |
+| `T11` | Confirmed task/session end. |
+
+When a milestone is absent, the row retains `NOT_REACHED`, `NOT_OBSERVABLE` or the applicable disclosed status rather than substituting a timestamp.
+
 The participant recordings produced these success-criterion outcomes:
 
 | Participant | SC1 account | SC2 login | SC3 update all fields | SC4 persistence | SC5 logout | Outcome |

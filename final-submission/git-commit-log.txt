@@ -1,0 +1,43 @@
+HW03 CONSOLIDATED AUTHENTIC GIT COMMIT LOG
+==========================================
+
+Student: Đặng Đăng Khoa
+Student ID: 23127207
+Branch: HW3-Khoa
+Snapshot date/timezone: 2026-08-02 — Asia/Bangkok (UTC+7)
+Range: origin/HW3-Khoa..HEAD
+Range base: 671d798058fa782301f06b679dbec5523339f66f
+Snapshot HEAD: a57ffd8dae3137029680feec34bc800ec6b92d11
+Commit count in snapshot: 20
+
+Generation command:
+git log --reverse --date=iso-strict --pretty=format:"%H|%ad|%an|%ae|%s" origin/HW3-Khoa..HEAD
+
+Format:
+FULL_COMMIT_HASH | AUTHOR_DATE | AUTHOR_NAME | AUTHOR_EMAIL | SUBJECT
+
+This file was created after Snapshot HEAD and is committed in a consolidation
+follow-up. That follow-up commit is therefore intentionally absent from this finite
+snapshot; all listed entries were read from Git and were not reconstructed as a
+manual timeline.
+
+2fad8f2f07c632f8bb7e5c88b0dccc05ba9300f5 | 2026-07-29T14:37:01+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task2: prepare usability fieldwork package
+70134f7614a3a6ed166d4e558b8764fc76a8b3aa | 2026-07-29T14:38:45+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task2: document preflight data cleanup
+3fd06efb29fd7d0c6c038a37c9967a42d796f6a5 | 2026-07-29T22:53:00+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task2: document seven usability sessions and evidence
+e1b0948880f521e7f456a5a021762477f15e6d50 | 2026-07-29T22:53:26+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task2: synthesize metrics findings and bug drafts
+b1a654875b2f58cf84e632ca38f9891d9321b061 | 2026-07-29T22:54:01+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task2: assemble submission reports PDFs and demo
+49896cbd8c0a0c42543e89ad921deec8d33ca973 | 2026-07-29T22:57:59+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task2: make submission validation UTF-8 safe
+b2e27a1f0549050e4e0bec51824f683426fce156 | 2026-07-29T22:59:11+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task2: make commit log export self-consistent
+7039f90f7047d93d1087614dd7cef6010e001131 | 2026-07-30T14:17:57+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | updte task 2
+caaeb3599a2795721a1aaac011f744bb52d44a10 | 2026-08-01T09:36:52+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task2: add safe GitHub issue reproduction evidence
+c5fa27683fa4525d5ad5fd75690d7ef263393b30 | 2026-08-02T20:24:30+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task3: execute cross-platform checklist and capture evidence
+5aa9cdaa25e9655139c0471c4315cedeed15a145 | 2026-08-02T20:25:03+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task3: analyze compatibility results and assemble report
+d2bdb3d052bb6329665fc2cae7e83320753a2d38 | 2026-08-02T20:25:27+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task3: add AI audit and honest completion validator
+6eb3028ab930dfdec38c35c4ea906c67d4d09686 | 2026-08-02T20:26:48+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task3: export procedure commit log
+b470c12b611a7620c835697874b4d4f6d62d9ef2 | 2026-08-02T21:19:51+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task1: reconcile checklist with current execution evidence
+1ae13a00046c5e1631d02b5765700b0785d00648 | 2026-08-02T21:20:08+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task3: reconcile reviewed expectations across platforms
+3899af9d88fd7f0ef7ae46f08c2ce77eecf03e8a | 2026-08-02T21:23:26+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task2: finalize reviewed usability package and validators
+56bd4bdb97e2fe9058a8464dce883a523d395f20 | 2026-08-02T21:25:59+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | chore(hw3): refresh authentic task commit logs
+428ba87e33315583e755a849b1c1360e43423764 | 2026-08-02T21:30:24+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task2: regenerate private submission archive
+eb506d4e47875fac8408fa6a35ff745040818541 | 2026-08-02T21:34:07+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task2: verify finding types and canonical issue traceability
+a57ffd8dae3137029680feec34bc800ec6b92d11 | 2026-08-02T22:06:55+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | docs(hw3): consolidate three tasks into five reports
