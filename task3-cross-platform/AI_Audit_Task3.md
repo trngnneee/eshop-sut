@@ -1,9 +1,9 @@
 # AI Audit Report — Task 3
 
-**Student:** Đặng Đăng Khoa — 23127207  
-**Date:** 2026-08-02  
-**Timezone:** Asia/Bangkok (UTC+7)  
-**Status:** `READY_FOR_STUDENT_REVIEW — BLOCKED_THIRD_REQUIRED_PLATFORM`
+**Student:** Đặng Đăng Khoa — 23127207
+**Date:** 2026-08-02
+**Timezone:** Asia/Bangkok (UTC+7)
+**Status:** `HUMAN_REVIEWED — BLOCKED_THIRD_REQUIRED_PLATFORM`
 
 ## Interaction 1 — Execute Task 3 with complete evidence
 
@@ -22,6 +22,7 @@
 | Two navigation locators matched both header and form links; one XSS dialog listener remained active. | Initial Chrome run produced 55/58 rows and three scenario errors. | Scoped links to `main` and removed the unused listener. | Initial run was excluded; Chrome was rerun to 58/58 with zero scenario errors. |
 | Mobile API proxy passed an unresolved Promise as `Content-Type`. | Mobile successful login returned backend 500 consistently; console log contradicted the intended live test. | Awaited `headerValue`, reran the seven Mobile screenshots for every environment and verified the synthetic name appeared in the header. | Final Mobile Login 009 is Pass on all environments; no false SUT bug retained. |
 | Keyboard scenario clicked the page before pressing Tab, changing the starting focus. | A supplemental WebKit status differed while source inspection showed positive `tabIndex=1`. | Reran from a genuinely unfocused document and captured eight Tab targets; refined the check to compare positive-submit and first-input indices. | Final status is consistently Fail; evidence records engine-specific sequences without a false browser-only defect. |
+| Three inherited Task 1 expectations asserted automatic whitespace normalization, Category Edit and duplicate-name rejection without requirement support. | Human review compared the expected results with FR-02/FR-14 and the retained runtime observations. | Corrected the expectations, updated the future runner and audibly reclassified the same three observations through `reconcile-task1-expectations.js`. | Per-platform totals changed from 34/23/1 to 37/20/1. Original screenshots and capture timestamps remain unchanged; JSON stores the reconciliation note. |
 
 ## Tools and data handling
 
@@ -43,10 +44,9 @@
 - Mocked states are explicitly marked in `execution_mode`.
 - No GitHub issue/comment publication is claimed.
 
-## Student review block
+## Student review confirmation
 
-The student must review the evidence overlays, eligibility decision, findings and critique before changing this audit to `HUMAN_REVIEWED`.
+The student confirmed in the project conversation that all human-review sections had been reviewed. This confirmation applies to the Task 3 evidence overlays, eligibility decision, findings, audit and critique; it does not waive the unavailable third-platform requirement.
 
-- Review date: `PENDING_STUDENT_REVIEW`
-- Student confirmation: `PENDING_STUDENT_REVIEW`
-
+- Review date: `2026-08-02`
+- Student confirmation: `HUMAN_REVIEWED — confirmed by the student in chat`

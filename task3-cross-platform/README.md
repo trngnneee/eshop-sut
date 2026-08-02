@@ -1,8 +1,8 @@
 # Task 3 — Cross-Browser / Cross-Platform
 
-**Student:** Đặng Đăng Khoa — 23127207  
-**Student email overlay:** `23127207@student.hcmus.edu.vn`  
-**SUT:** EShop local frontend/admin/Expo Web  
+**Student:** Đặng Đăng Khoa — 23127207
+**Student email overlay:** `23127207@student.hcmus.edu.vn`
+**SUT:** EShop local frontend/admin/Expo Web
 **Current status:** `BLOCKED_THIRD_REQUIRED_PLATFORM — LOCAL_EXECUTION_COMPLETE`
 
 ## Outcome
@@ -11,10 +11,10 @@ The complete 58-item Task 1 checklist was executed on four local browser environ
 
 | Environment | Eligibility | Items | Pass | Fail | Not Observable | Screenshots |
 |---|---|---:|---:|---:|---:|---:|
-| Google Chrome 150 / Windows | Eligible | 58 | 34 | 23 | 1 | 40 |
-| Firefox 153 / Windows | Eligible | 58 | 34 | 23 | 1 | 40 |
-| Playwright WebKit 26.5 / Windows | Supplemental only; not Safari | 58 | 34 | 23 | 1 | 40 |
-| Chromium Pixel 7 emulation / Windows host | Supplemental only; not real Android | 58 | 34 | 23 | 1 | 40 |
+| Google Chrome 150 / Windows | Eligible | 58 | 37 | 20 | 1 | 40 |
+| Firefox 153 / Windows | Eligible | 58 | 37 | 20 | 1 | 40 |
+| Playwright WebKit 26.5 / Windows | Supplemental only; not Safari | 58 | 37 | 20 | 1 | 40 |
+| Chromium Pixel 7 emulation / Windows host | Supplemental only; not real Android | 58 | 37 | 20 | 1 | 40 |
 
 Totals: 232 result rows and 160 screenshot files. All 58 checklist IDs have consistent Pass/Fail/Not Observable status across the four executed environments.
 
@@ -45,9 +45,10 @@ The overlay is an evidence annotation and does not alter the assertion result. N
 | `results/Evidence_Index.csv` | Machine-readable screenshot index |
 | `evidence/` | Platform-grouped PNG screenshots |
 | `AI_Audit_Task3.md` / `.pdf` | AI interaction and anti-fabrication disclosure |
-| `AI_Critique_Task3.md` / `.pdf` | 200–300 word critique awaiting student review |
+| `AI_Critique_Task3.md` / `.pdf` | 200–300 word critique, human-reviewed on 2026-08-02 |
 | `git-commit-log.txt` | Text export of the repository history and worktree state |
 | `scripts/run-task3.js` | Execution and capture runner |
+| `scripts/reconcile-task1-expectations.js` | Auditable reclassification of three corrected Task 1 expectations without changing screenshots/timestamps |
 | `scripts/summarize-task3.js` | Matrix/evidence-index generator |
 | `scripts/validate-task3.ps1` | Structural and completion validator |
 | `scripts/export-commit-log.ps1` | Reproducible UTF-8 Git history exporter |

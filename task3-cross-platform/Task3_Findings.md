@@ -1,6 +1,6 @@
 # Task 3 — Severity-Ranked Findings
 
-**Status:** `TECHNICAL_EXECUTION_REVIEWED_BY_AUTOMATION — THIRD_PLATFORM_PENDING`  
+**Status:** `HUMAN_REVIEWED — THIRD_PLATFORM_PENDING`
 **Frequency denominator:** four executed environments unless otherwise stated; only Chrome/Firefox count toward the current 2/3 rubric platform total.
 
 ## Prioritized findings
@@ -15,16 +15,15 @@
 | 6 | Category management lacks empty-name prevention, empty/loading states and double-submit protection. | Systemic form/state issue | 4/4 | Medium | `GUI-ADMIN-CATEGORY-004/009/010/013` | Enforce the required non-empty name, add explicit async states, and disable submission while pending. |
 | 7 | Positive `tabIndex=1` places Sign In before the login inputs; browser focus sequences vary in detail but all violate the form’s natural order. | Cross-browser accessibility defect | 4/4 | Medium | `GUI-WEB-LOGIN-011`; keyboard evidence per platform | Remove positive tabindex and rely on DOM order; add visible `:focus-visible` styling and browser regression checks. |
 | 8 | Expo Web mobile login uses `Username`/`Sign In`; the measured Sign In target is 39 CSS px high, below the 44 px checklist threshold. | Mobile UI consistency/accessibility defect | 4/4 Expo Web runs | Medium | `GUI-MOBILE-LOGIN-002/004/010` | Use consistent Vietnamese labels and raise the interactive target to at least 44×44 CSS px/dp. |
-| 9 | Email whitespace is not normalized before login; forgot-password uses a full document navigation. | Resilience/navigation issue | 4/4 | Low | `GUI-WEB-LOGIN-007/013` | Trim the identifier before submission and use router navigation if SPA state preservation is required. |
-| 10 | The inherited Task 1 checklist expects Category Edit and duplicate-name rejection, but the local FR-14 requires only Add/View/Delete and a non-empty name. | Test-design / requirement mismatch, not a confirmed SUT bug | 4/4 checklist mismatch | N/A | `GUI-ADMIN-CATEGORY-005/011`; `README.md` FR-14 | Correct or justify the two Expected Results before treating their Fail verdicts as defects. Preserve the execution evidence as a checklist audit trail. |
+| 9 | Forgot-password uses a full document navigation and loses the SPA marker. | Resilience/navigation issue | 4/4 | Low | `GUI-WEB-LOGIN-007` | Use router navigation if SPA state preservation is required. |
 
 ## Cross-platform consistency
 
-- All 58 checklist IDs produced the same status on all four executed environments: 34 Pass, 23 Fail and 1 Not Observable per environment.
+- All 58 checklist IDs produced the same status on all four executed environments: 37 Pass, 20 Fail and 1 Not Observable per environment.
 - The equality of statuses does not mean the engines behaved identically. Keyboard focus sequences differ, but `Sign In` with positive tabindex precedes the form inputs in every run.
 - No failure was classified as browser-exclusive. The observed failures are therefore predominantly systemic application behavior.
 - `GUI-MOBILE-LOGIN-011` remains `Not Observable` because Expo Web/headless desktop browsers do not display a real mobile soft keyboard. A physical/cloud device or Expo Go session is required.
-- A checklist `Fail` means the observed result did not match the stored Task 1 Expected Result. It does not automatically establish a software bug; `GUI-ADMIN-CATEGORY-005/011` are explicitly retained as test-design mismatches.
+- A checklist `Fail` means the observed result did not match the corrected Task 1 Expected Result; it does not automatically establish a unique root-cause defect. Three unsupported expectations were corrected and reclassified from the retained observations under human review.
 
 ## Issue handling
 

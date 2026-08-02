@@ -8,23 +8,23 @@
   "status_inconsistent_items": [],
   "platform_counts": {
     "android-chrome-emulation": {
-      "pass": 34,
-      "fail": 23,
+      "pass": 37,
+      "fail": 20,
       "not_observable": 1
     },
     "chrome-windows": {
-      "pass": 34,
-      "fail": 23,
+      "pass": 37,
+      "fail": 20,
       "not_observable": 1
     },
     "firefox-windows": {
-      "pass": 34,
-      "fail": 23,
+      "pass": 37,
+      "fail": 20,
       "not_observable": 1
     },
     "webkit-windows": {
-      "pass": 34,
-      "fail": 23,
+      "pass": 37,
+      "fail": 20,
       "not_observable": 1
     }
   }

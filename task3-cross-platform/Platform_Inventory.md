@@ -1,7 +1,7 @@
 # Task 3 Platform Inventory
 
-**Requirement source:** `HW3/2026.HW03.GUI Usability_En.pdf`, Task 3 and Anti-AI-Cheat Constraints  
-**Required set:** at least three real/cloud/physical platforms covering Chrome, Firefox and Safari or Android Chrome  
+**Requirement source:** `HW3/2026.HW03.GUI Usability_En.pdf`, Task 3 and Anti-AI-Cheat Constraints
+**Required set:** at least three real/cloud/physical platforms covering Chrome, Firefox and Safari or Android Chrome
 **Current completion:** `2/3 ELIGIBLE — BLOCKED_THIRD_REQUIRED_PLATFORM`
 
 | Platform ID | Browser/engine | OS/device evidence | Run type | Rubric eligible? | Evidence state |
@@ -24,4 +24,3 @@
 ## Non-substitution declaration
 
 `webkit-windows` must not be renamed Safari. `android-chrome-emulation` must not be renamed physical Android Chrome. Both are useful compatibility runs and their screenshots are retained, but neither raises the rubric-eligible count above 2.
-

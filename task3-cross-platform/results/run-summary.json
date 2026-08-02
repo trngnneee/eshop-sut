@@ -20,8 +20,8 @@
       "platform_note": "Supplemental responsive emulation only; this is not a physical Android device or cloud Android Chrome session.",
       "expected_checklist_items": 58,
       "executed_result_rows": 58,
-      "pass": 34,
-      "fail": 23,
+      "pass": 37,
+      "fail": 20,
       "not_observable": 1,
       "evidence_files": 40,
       "missing_ids": [],
@@ -39,8 +39,8 @@
       "platform_note": "Real locally installed Google Chrome on Windows.",
       "expected_checklist_items": 58,
       "executed_result_rows": 58,
-      "pass": 34,
-      "fail": 23,
+      "pass": 37,
+      "fail": 20,
       "not_observable": 1,
       "evidence_files": 40,
       "missing_ids": [],
@@ -58,8 +58,8 @@
       "platform_note": "Playwright-distributed Firefox browser binary running locally on Windows.",
       "expected_checklist_items": 58,
       "executed_result_rows": 58,
-      "pass": 34,
-      "fail": 23,
+      "pass": 37,
+      "fail": 20,
       "not_observable": 1,
       "evidence_files": 40,
       "missing_ids": [],
@@ -77,8 +77,8 @@
       "platform_note": "Supplemental WebKit-engine run only; this is not Apple Safari and is not counted as the required third platform.",
       "expected_checklist_items": 58,
       "executed_result_rows": 58,
-      "pass": 34,
-      "fail": 23,
+      "pass": 37,
+      "fail": 20,
       "not_observable": 1,
       "evidence_files": 40,
       "missing_ids": [],
@@ -86,5 +86,15 @@
       "unexpected_ids": [],
       "scenario_errors": []
     }
-  ]
+  ],
+  "expectation_reconciliation": {
+    "reviewed_by_student": true,
+    "reviewed_on": "2026-08-02",
+    "ids": [
+      "GUI-WEB-LOGIN-013",
+      "GUI-ADMIN-CATEGORY-005",
+      "GUI-ADMIN-CATEGORY-011"
+    ],
+    "note": "Reclassification uses the original observed evidence after Task 1 expectation correction; it is not a new platform execution."
+  }
 }

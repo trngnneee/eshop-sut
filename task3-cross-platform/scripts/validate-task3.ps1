@@ -97,8 +97,8 @@ foreach ($platformId in $expectedPlatformIds) {
     Assert-Task3 ($platformRows.Count -eq 58) "$platformId has 58 result rows"
     Assert-Task3 (@($platformIds | Sort-Object -Unique).Count -eq 58) "$platformId has 58 unique checklist IDs"
     Assert-Task3 (@($expectedIds | Where-Object { $_ -notin $platformIds }).Count -eq 0 -and @($platformIds | Where-Object { $_ -notin $expectedIds }).Count -eq 0) "$platformId contains exactly the Task 1 checklist ID set"
-    Assert-Task3 (@($platformRows | Where-Object { $_.status -eq 'Pass' }).Count -eq 34) "$platformId has 34 Pass rows"
-    Assert-Task3 (@($platformRows | Where-Object { $_.status -eq 'Fail' }).Count -eq 23) "$platformId has 23 Fail rows"
+    Assert-Task3 (@($platformRows | Where-Object { $_.status -eq 'Pass' }).Count -eq 37) "$platformId has 37 Pass rows"
+    Assert-Task3 (@($platformRows | Where-Object { $_.status -eq 'Fail' }).Count -eq 20) "$platformId has 20 Fail rows"
     Assert-Task3 (@($platformRows | Where-Object { $_.status -eq 'Not Observable' }).Count -eq 1) "$platformId has one honestly Not Observable soft-keyboard row"
     Assert-Task3 (@($platformRows | Where-Object { [string]::IsNullOrWhiteSpace($_.actual_result) -or [string]::IsNullOrWhiteSpace($_.evidence_id) -or [string]::IsNullOrWhiteSpace($_.evidence_path) }).Count -eq 0) "$platformId rows contain actual result and evidence traceability"
 
@@ -155,13 +155,13 @@ Assert-Task3 ($report -match 'BLOCKED_THIRD_REQUIRED_PLATFORM' -and $report -mat
 Assert-Task3 ($inventory -match '2/3 ELIGIBLE' -and $inventory -match 'not Apple Safari' -and $inventory -match 'not a real/cloud Android') 'Platform inventory discloses eligibility and non-substitution boundaries'
 
 $critique = Get-Content -LiteralPath (Join-Path $taskRoot 'AI_Critique_Task3.md') -Raw -Encoding UTF8
+$audit = Get-Content -LiteralPath (Join-Path $taskRoot 'AI_Audit_Task3.md') -Raw -Encoding UTF8
 $critiqueBody = ($critique -split '(?m)^## Student review', 2)[0]
 $critiqueBody = $critiqueBody -replace '(?m)^#.*$', '' -replace '(?m)^\*\*.*$', ''
 $critiqueWordCount = [regex]::Matches($critiqueBody, "[\p{L}\p{M}\p{N}]+(?:[-'][\p{L}\p{M}\p{N}]+)*").Count
 Assert-Task3 ($critiqueWordCount -ge 200 -and $critiqueWordCount -le 300) "AI critique contains 200-300 words (actual: $critiqueWordCount)"
-if ($critique -match 'READY_FOR_STUDENT_REVIEW' -and $critique -match 'PENDING_STUDENT_REVIEW') {
-    Add-Limitation 'AI Critique and Audit still require the student human-review confirmation.'
-}
+Assert-Task3 ($critique -match 'HUMAN_REVIEWED' -and $critique -notmatch 'PENDING_STUDENT_REVIEW') 'AI critique records the student human-review confirmation'
+Assert-Task3 ($audit -match 'HUMAN_REVIEWED' -and $audit -notmatch 'PENDING_STUDENT_REVIEW') 'AI audit records the student human-review confirmation'
 
 foreach ($pdfName in @('Task3_Cross_Platform_Report.pdf', 'AI_Audit_Task3.pdf', 'AI_Critique_Task3.pdf')) {
     $pdfPath = Join-Path $taskRoot $pdfName
