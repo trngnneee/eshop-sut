@@ -7,8 +7,8 @@ Branch: HW3-Khoa
 Snapshot date/timezone: 2026-08-02 — Asia/Bangkok (UTC+7)
 Range: origin/HW3-Khoa..HEAD
 Range base: 671d798058fa782301f06b679dbec5523339f66f
-Snapshot HEAD: a57ffd8dae3137029680feec34bc800ec6b92d11
-Commit count in snapshot: 20
+Snapshot HEAD: 32a03ad8cf5218b641efeb19321021d79c30957c
+Commit count in snapshot: 22
 
 Generation command:
 git log --reverse --date=iso-strict --pretty=format:"%H|%ad|%an|%ae|%s" origin/HW3-Khoa..HEAD
@@ -41,3 +41,5 @@ b470c12b611a7620c835697874b4d4f6d62d9ef2 | 2026-08-02T21:19:51+07:00 | khoadangw
 428ba87e33315583e755a849b1c1360e43423764 | 2026-08-02T21:30:24+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task2: regenerate private submission archive
 eb506d4e47875fac8408fa6a35ff745040818541 | 2026-08-02T21:34:07+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | task2: verify finding types and canonical issue traceability
 a57ffd8dae3137029680feec34bc800ec6b92d11 | 2026-08-02T22:06:55+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | docs(hw3): consolidate three tasks into five reports
+80e01554d241fd6a0974b2b4f75276ee442f0400 | 2026-08-02T22:09:38+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | docs(hw3): add exact session schema and authentic commit log
+32a03ad8cf5218b641efeb19321021d79c30957c | 2026-08-02T22:37:36+07:00 | khoadangwneee | 23127207@student.hcmus.edu.vn | docs(hw3): detail final report and prune obsolete artifacts
