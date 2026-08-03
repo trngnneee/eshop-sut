@@ -25,8 +25,9 @@ Dưới đây là bảng tự đánh giá điểm số dựa trên các tiêu ch
 - **Tổng số item Đạt (Passed):** 32
 - **Tổng số item Không đạt (Failed):** 9
 - **Tỉ lệ đạt:** 78.0%
-- **Tổng số lỗi (Bugs) phát hiện:** 5 lỗi giao diện và trải nghiệm (được trình bày chi tiết trong `Bug_Report.md`)
+- **Tổng số lỗi (Bugs) phát hiện:** 16 lỗi (bao gồm 9 lỗi GUI và 7 lỗi Usability, chi tiết tại `Bug_Report.md`)
 - **Số lượng người tham gia đánh giá Usability (Participants):** 7 người (ghi nhận tại `Usability_Session_Evidence.md`)
+- **Điểm Usability (SUS Score) trung bình:** 67.5/100 (Xếp loại: OK)
 - **Đường dẫn video demo sử dụng Agent Skill (Youtube Link):** `[Link video]`
 
 ---
