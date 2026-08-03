@@ -1,0 +1,323 @@
+commit cf3c324a24a97b640213d49664f86c75cb001e20
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Mon Aug 3 07:58:09 2026 +0700
+
+    Add AI Audit Report, Disclosure Form, and Privacy Checklist for cross-platform and usability testing
+
+commit 0cb94825a1bc96d9a15ef7926bc573c7306e54a5
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Fri Jul 31 22:27:06 2026 +0700
+
+    Add video link to usability testing report
+
+commit 7d6ce8c4f0dc7d97b53d4927257a5357ba11afd2
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Thu Jul 30 23:12:09 2026 +0700
+
+    Remove outdated AI declaration documents and update session kit for usability testing
+    
+    - Deleted AI declaration PDF files from cross-platform and usability testing directories.
+    - Updated the usability testing session kit to reflect changes in consent for recording sessions, ensuring clarity on the use of audio and video recordings.
+    - Revised the session notes template to emphasize the importance of accurate time tracking during sessions without recordings.
+    - Adjusted the logistics checklist to include preparation for recording sessions.
+
+commit 6c34dc66a02683f69d1f098a0effb2ed45a0aa37
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Thu Jul 30 23:01:14 2026 +0700
+
+    Update cross-platform testing reports and GUI usability checklist after Task 3 retests
+    
+    - Added clarifications regarding platform roles and browser builds in reports.
+    - Updated results matrix with detailed timestamps and platform-specific notes.
+    - Revised checklist-final.md to reflect discrepancies found during Task 3 retests, including changes in item statuses.
+    - Documented retest outcomes for specific test cases (GUI-IA01-08, GUI-IA01-15, GUI-IA04-12, GUI-IA02-14) highlighting reasons for Pass/Fail changes.
+    - Enhanced individual test case files with retest results and explanations for discrepancies observed across platforms.
+
+commit 407d57a9adf6b6cba2b5e487fc0f34b5c6fb04e9
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Thu Jul 30 22:48:52 2026 +0700
+
+    Add templates and scripts for GUI checklist testing
+    
+    - Created markdown templates for UI inventory, checklist drafts, gap analysis, final checklist, test cases, and bug reports to standardize documentation.
+    - Implemented `upload_screenshots.py` to upload screenshots to Cloudinary and embed URLs in markdown files.
+    - Developed `verify_deliverables.py` to validate the integrity of GUI checklist deliverables before commit, checking for markdown table consistency, checklist item statuses, screenshot associations, and traceability to bug reports.
+
+commit 871f5cfc8db7576b7a46905489a3058b1e3b1ee3
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Tue Jul 28 22:09:31 2026 +0700
+
+    Refactor AI Audit Report and Disclosure Form; update Privacy Checklist and platform matrix
+    
+    - Updated AI Audit Report to correct discrepancies in artifact references and ensure clarity in findings.
+    - Revised AI Disclosure Form to accurately reflect generated files and contributions.
+    - Adjusted AI Privacy Checklist to reference the correct report document.
+    - Enhanced platform matrix to clarify the rationale for excluding emulated devices and document the evidence collection process.
+    - Added a new report detailing cross-browser and cross-platform testing results, including findings, bug reports, and limitations.
+
+commit 78cb9a749829529c8908bc4fac0c678d7a8b02f3
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Tue Jul 28 22:08:20 2026 +0700
+
+    Update AI Audit Report with detailed artifact prompts and outputs; revise summary of AI accuracy and conclusions. Adjusted PDF version to reflect changes in the markdown file.
+
+commit 0ba2e55b4fa3f162230504934c38bf560852424d
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Tue Jul 28 22:06:52 2026 +0700
+
+    Update usability testing documentation and reports
+    
+    - Modified AI Privacy Checklist to clarify logging of prompts and AI responses.
+    - Updated AI Audit Report and AI Disclosure Form with new versions.
+    - Added a comprehensive usability testing report detailing objectives, findings, and participant sessions.
+    - Revised session results for participants P1 to P3 to reflect accurate data and observations.
+    - Adjusted task scenario draft to include pilot session details and rationale for decisions made.
+    - Enhanced session kit template to specify consent details and note-taking procedures without recording.
+
+commit 07f5cb3532c1f64905f84cee86f2c23050791f3b
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Tue Jul 28 22:00:02 2026 +0700
+
+    fix: Update input file paths in checklist drafts for consistency
+
+commit 92d1b75e7cc8bcaf3ad9c17ccc13a0856d870ff1
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Tue Jul 28 21:54:23 2026 +0700
+
+    Add GUI Checklist Report for EShop Testing (Task 1)
+    
+    - Created a comprehensive report detailing the GUI checklist executed on the frontend-web for the EShop application.
+    - Documented the scope, process, results, and identified bugs from the testing.
+    - Included a critique of AI involvement in generating checklist items and highlighted areas of improvement.
+    - Report covers 66 checklist items with a breakdown of passed and failed tests, along with bug reports linked to GitHub Issues.
+
+commit 25f4cd8533562ab8ac3ad190e19b9d4c4418c854
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Tue Jul 28 21:30:36 2026 +0700
+
+    fix: Remove redundant prompt logging details from AI Audit Report
+
+commit 548c6de6783c4653e531658083cdf57b13dde3e8
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Tue Jul 28 21:26:58 2026 +0700
+
+    Add AI disclosure and privacy checklist documents, along with related images and issue reports
+    
+    - Added AI Disclosure Form in PDF format for cross-platform testing.
+    - Created AI Privacy Checklist in Markdown format, detailing responsible AI use.
+    - Included PDF version of the AI Privacy Checklist.
+    - Added signature image for the AI Privacy Checklist.
+    - Documented various cross-platform issues (XP-01 to XP-07) related to UI inconsistencies and functionality across different browsers.
+    - Implemented a script for uploading screenshots to Cloudinary and embedding URLs in issue reports.
+    - Updated cloudinary-url-map.json to track uploaded screenshot URLs.
+
+commit d2e63700e9749f7fe55ce541c33d0f569ff11a35
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Tue Jul 28 21:25:12 2026 +0700
+
+    Add platform matrix and results matrix for cross-platform testing
+    
+    - Created `platform-matrix.md` detailing the environment and platforms used for testing, including OS, device specifications, and browser versions.
+    - Added `results-matrix.md` to summarize execution results across different platforms, including pass/fail statistics and detailed breakdowns by interface aspect.
+
+commit 409e7cb94d4e0437379c2c1698097b90cbbf248a
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Tue Jul 28 21:23:04 2026 +0700
+
+    Result after run cross platform test
+
+commit a3f474ad9115f8aafaca08728f2f43cc80a3b4a0
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Tue Jul 28 21:22:16 2026 +0700
+
+    feat: Implement cross-platform testing harness for Task 3
+    
+    - Add ctx.js to manage execution context for checklist checks, ensuring isolation between tests.
+    - Create overlay.js to handle screenshot overlays with platform and student information.
+    - Define platforms in platforms.js for cross-browser testing on specified OS/device combinations.
+    - Initialize package.json for the testing harness with Playwright as a dependency.
+    - Create run-all-platforms.sh to automate the testing process across defined platforms.
+    - Develop run-audit.js to execute the Task 1 GUI checklist on each platform and generate results.
+    - Implement build-matrix.js to compile results into a human-readable format.
+    - Add capture-platform-proof.js to take full-window screenshots for evidence.
+    - Create verify-evidence.js to ensure the integrity and completeness of the evidence set.
+    - Introduce wintest.cjs for testing browser visibility on macOS.
+
+commit 5afde896ddc33a8125c8e774a68039c55ca506dd
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Mon Jul 27 23:58:52 2026 +0700
+
+    Refactor usability testing documentation and scripts
+    
+    - Updated AI Audit Report with detailed task scenarios and usability evaluation findings.
+    - Revised findings.md to clarify bug reporting process and added usability evidence comments to existing GitHub issues.
+    - Corrected paths in README.md and SUS result files to reflect new template locations.
+    - Enhanced usability-report.md to include accurate references to bug reports.
+    - Ensured all changes maintain consistency in documentation and improve clarity for future usability testing sessions.
+
+commit d719432a86428ed57b42e72f3045d1bf35c9ebee
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Mon Jul 27 23:50:44 2026 +0700
+
+    Add AI Audit Report, Disclosure Form, and Privacy Checklist for usability testing
+
+commit 684d5df17b89bac2722cfc0b88e5ba00cb86338c
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Mon Jul 27 23:48:16 2026 +0700
+
+    Add usability testing materials and SUS scoring script
+    
+    - Implemented a new Python script for calculating SUS scores from CSV responses.
+    - Created a task scenario draft for usability testing participants, outlining the flow and mapping scenarios to specific actions.
+    - Developed probe questions to gather qualitative feedback post-SUS survey.
+    - Compiled a session kit for moderators, including a standardized introduction script and observation templates.
+    - Translated and formatted the SUS form into Vietnamese for participant use.
+    - Generated a comprehensive usability report detailing findings from the testing sessions, including participant feedback and identified issues.
+
+commit aad40542b15e53fbf9c9cc28b6dc4e79ad732187
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Sat Jul 25 15:23:15 2026 +0700
+
+    Add AI Audit Report, Disclosure Form, and Privacy Checklist for HW03
+    
+    - Created AI Audit Report for GUI Checklist and Usability Testing, detailing AI tool usage and audit findings.
+    - Added AI Disclosure Form outlining AI contributions and prompts used during the assignment.
+    - Introduced Privacy & Responsible AI Use Checklist to ensure compliance with AI usage policies.
+    - Included signature image for authenticity verification.
+
+commit a2c24a78ec6204200a8d9be50b64818a8fd55e38
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Sat Jul 25 15:01:41 2026 +0700
+
+    Update GUI and Usability Test Cases with Detailed Failure Reports
+    
+    - Revised multiple test case reports in IA-03 and IA-04 directories to include specific bug references for failed tests.
+    - Changed execution interface descriptions from automated Playwright tests to manual testing on Chrome for clarity.
+    - Enhanced actual result observations to provide more context on failures, including links to related issues on GitHub.
+    - Updated summary report to reflect changes in execution methodology and detailed results for each test case.
+
+commit 604c0ee2e31385bc051c03ca0838ccf1d49e8bab
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Sat Jul 25 14:30:20 2026 +0700
+
+    Add detailed test case for successful registration feedback and related screenshots
+    
+    - Created test case GUI-IA04-17 for verifying successful registration with confirmation message.
+    - Added screenshots for various test cases including GUI-GAP and GUI-IA series.
+    - Compiled a summary report of test case results, highlighting passed and failed cases.
+
+commit a3e8ea1163718092ee93e52fe97e1a23b159f3c8
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Sat Jul 25 13:42:53 2026 +0700
+
+    Add UI inventory reports for various screens
+    
+    - Created reports for the following screens:
+      - Shared Layout (_shared-layout.md)
+      - Cart (cart.md)
+      - Checkout (checkout.md)
+      - Forgot Password (forgot-password.md)
+      - Home (home.md)
+      - Login (login.md)
+      - Order History (order-history.md)
+      - Product Detail (product-detail.md)
+      - Register (register.md)
+    
+    Each report includes details on elements, their purposes, and linked requirements, along with runtime behavior notes.
+
+commit 0afacdda74c1f3b40842f10b459bfbecd08d2803
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Sat Jul 25 11:11:20 2026 +0700
+
+    Add GUI & Usability Testing report for student 23127438
+
+commit c2915806e2802221f61ea3cf3db4dec73dc84f78
+Author: Đặng Trường Nguyên <23127438@student.hcmus.edu.vn>
+Date:   Thu Jul 9 21:24:43 2026 +0700
+
+    Delete tests directory
+
+commit c067b7f561ac2bd6eff8e76c8612bc0e0c1104d6
+Author: Đặng Trường Nguyên <23127438@student.hcmus.edu.vn>
+Date:   Thu Jul 9 21:24:33 2026 +0700
+
+    Delete Requirements directory
+
+commit 63b004e19a29c07e809303a830f64b14317bd79e
+Author: Đặng Trường Nguyên <23127438@student.hcmus.edu.vn>
+Date:   Thu Jul 9 21:24:19 2026 +0700
+
+    Delete .agents/skills/domain_and_boundary_testing directory
+
+commit dc410669883d7ce360d5d1b95460a1acfb471438
+Author: khoadangwneee <23127207@student.hcmus.edu.vn>
+Date:   Tue Jun 23 13:54:44 2026 +0700
+
+    setup skill for agent(antigravity)
+
+commit ddfb42fc43eee713330c3f2b4ec62973d294ded5
+Merge: ad020a0 d897a21
+Author: khoadangwneee <23127207@student.hcmus.edu.vn>
+Date:   Mon Jun 8 16:47:44 2026 +0700
+
+    Test case login
+
+commit ad020a02acf1880e223c9721531b5863f04beb31
+Author: khoadangwneee <23127207@student.hcmus.edu.vn>
+Date:   Mon Jun 8 16:45:12 2026 +0700
+
+    Test case login
+
+commit d897a2129f151c9ac4c8b7b160e2c21e7fce7473
+Author: Đặng Trường Nguyên <23127438@student.hcmus.edu.vn>
+Date:   Mon Jun 8 16:42:32 2026 +0700
+
+    Update issue templates
+
+commit 957052d0e81903fff7f6ffee939e8ad911244bf2
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Sun Jun 7 23:52:40 2026 +0700
+
+    Fix url frontend-admin
+
+commit b4a0df544c48a38daebd8c68a29eda46bf82224d
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Sun Jun 7 23:33:10 2026 +0700
+
+    Update Backend URL call cho FE
+
+commit 1673255183affa54be943258c53a63b92a247e35
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Sun Jun 7 23:24:17 2026 +0700
+
+    Fix
+
+commit 4c3230c0e0137398e19240332dbb0493c7362272
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Sun Jun 7 23:19:08 2026 +0700
+
+    Remove
+
+commit 4065ae33c562a722d067eab05883374779a115a2
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Sun Jun 7 23:16:38 2026 +0700
+
+    Update sqlite3 version
+
+commit 3650c5607f890fa6450bdce60d55bbb587fb1b47
+Author: trngnneee <dtn06052005@gmail.com>
+Date:   Sun Jun 7 23:08:16 2026 +0700
+
+    Push
+
+commit 85af3ba875c88283615e22cb108f13e2fccaf0e9
+Author: ttbhanh-hcmus <ttbhanh@hcmus.edu.vn>
+Date:   Fri May 15 08:30:35 2026 +0700
+
+    first upload
+
+commit 2f9bf2bab45855abf211377a5d5eba10031649e3
+Author: Hanh Tran <ttbhanh@fit.hcmus.edu.vn>
+Date:   Fri May 15 08:27:44 2026 +0700
+
+    Initial commit
