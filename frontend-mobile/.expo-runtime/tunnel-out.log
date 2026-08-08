@@ -1,0 +1,66 @@
+
+> frontend-mobile@1.0.0 start
+> expo start --tunnel --port 8082
+
+Starting project at C:\My Workspace\HCMUS\Test\Week 3\Hw2\frontend-mobile
+Starting Metro Bundler
+Tunnel connected.
+Tunnel ready.
+Waiting on http://localhost:8082
+Logs for your project will appear below.
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 98.8% (168/169)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (169/169)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web .\index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 10729ms index.js (247 modules)
+Web Bundled 10610ms index.js (1 module)
+Web Bundled 9612ms index.js (1 module)
+Web Bundled 9638ms index.js (1 module)
+Web Bundled 9209ms index.js (1 module)
+Web Bundled 9079ms index.js (1 module)
+Web Bundled 9100ms index.js (1 module)
+Web Bundled 8914ms index.js (1 module)
+Web Bundled 8998ms index.js (1 module)
+Web Bundled 8774ms index.js (1 module)
+Web Bundled 8727ms index.js (1 module)
+Web Bundled 8744ms index.js (1 module)
+Web Bundled 8233ms index.js (1 module)
+Android .\index.js ▓▓▓▓░░░░░░░░░░░░ 27.8% (145/275)
+Android .\index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░ 90.9% (572/600)
+Android .\index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.1% (679/682)
+Android .\index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.1% (682/685)
+Android .\index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.4% (683/685)
+Android Bundled 13763ms index.js (686 modules)
+Web Bundled 49ms index.js (1 module)
+Web Bundled 77ms index.js (1 module)
+Web Bundled 50ms index.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+ LOG  [web] Logs will appear in the browser console
+ LOG  [web] Logs will appear in the browser console
+ WARN  SafeAreaView has been deprecated and will be removed in a future release. Please use 'react-native-safe-area-context' instead. See https://github.com/th3rdwave/react-native-safe-area-context
+ LOG  [web] Logs will appear in the browser console
+ LOG  [web] Logs will appear in the browser console
+ LOG  [web] Logs will appear in the browser console
