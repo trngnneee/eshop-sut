@@ -1,0 +1,88 @@
+[
+  {
+    "caseId": "TC-API-001",
+    "category": "api-validation",
+    "description": "API /api/login phản hồi lỗi khi thiếu trường email trong request body",
+    "action": "missing-field",
+    "body": { "password": "Test1234!" },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-002",
+    "category": "api-validation",
+    "description": "API /api/login phản hồi lỗi khi thiếu trường password trong request body",
+    "action": "missing-field",
+    "body": { "email": "test@eshop.com" },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-003",
+    "category": "api-validation",
+    "description": "API /api/login từ chối request body sai định dạng JSON một cách nhẹ nhàng (không crash)",
+    "action": "malformed-json",
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-004",
+    "category": "api-validation",
+    "description": "API /api/login vẫn xử lý được khi header Content-Type không chuẩn",
+    "action": "bad-content-type",
+    "body": { "email": "test@eshop.com", "password": "Test1234!" },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-005",
+    "category": "api-mass-assignment",
+    "description": "API /api/login bỏ qua các trường thừa không hợp lệ trong request body (không mass-assignment)",
+    "action": "extra-fields",
+    "body": { "email": "test@eshop.com", "password": "Test1234!", "role": "admin", "login_attempts": 0 },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-006",
+    "category": "api-data-exposure",
+    "description": "Phản hồi đăng nhập thành công không được chứa trường password trong JSON",
+    "action": "success-body-shape",
+    "email": "test@eshop.com",
+    "password": "Test1234!"
+  },
+  {
+    "caseId": "TC-API-007",
+    "category": "api-data-exposure",
+    "description": "Phản hồi đăng nhập thất bại không được lộ chi tiết kỹ thuật (stack trace, SQL...) ra ngoài",
+    "action": "error-body-shape",
+    "email": "ghost-api007@eshop.com",
+    "password": "AnyPass1!"
+  },
+  {
+    "caseId": "TC-JWT-001",
+    "category": "jwt-security",
+    "description": "Token JWT cấp sau khi đăng nhập thành công phải có trường 'exp' (thời hạn hết hạn)",
+    "bugRef": "BUG-FR02-A-13",
+    "action": "token-has-exp-claim",
+    "email": "test@eshop.com",
+    "password": "Test1234!"
+  },
+  {
+    "caseId": "TC-JWT-003",
+    "category": "jwt-security",
+    "description": "Token JWT bị sửa đổi Payload (ví dụ role) phải bị từ chối bởi endpoint được bảo vệ",
+    "action": "tampered-payload-rejected",
+    "email": "test@eshop.com",
+    "password": "Test1234!"
+  },
+  {
+    "caseId": "TC-JWT-004",
+    "category": "jwt-security",
+    "description": "Token JWT ký sai Secret Key phải bị từ chối bởi endpoint được bảo vệ",
+    "action": "wrong-secret-rejected"
+  },
+  {
+    "caseId": "TC-JWT-006",
+    "category": "jwt-uniqueness",
+    "description": "Hai lần đăng nhập liên tiếp phải sinh ra hai Token JWT khác nhau",
+    "action": "tokens-differ-across-logins",
+    "email": "test@eshop.com",
+    "password": "Test1234!"
+  }
+]

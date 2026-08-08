@@ -1,0 +1,64 @@
+[
+  {
+    "caseId": "TC-LOGIN-004",
+    "category": "ui-standard",
+    "description": "Kiểm thử tiêu chuẩn giao diện trang Đăng nhập (tiêu đề, nhãn, mask mật khẩu, nút submit, dấu * bắt buộc)",
+    "bugRef": "BUG-FR02-A-04..08",
+    "check": "form-standards"
+  },
+  {
+    "caseId": "TC-LOGIN-009",
+    "category": "ui-loading-state",
+    "description": "Nút Đăng nhập phải hiện trạng thái loading/disable khi đang gửi request",
+    "bugRef": "BUG-FR02-A-11",
+    "check": "loading-state",
+    "email": "test@eshop.com",
+    "password": "Test1234!"
+  },
+  {
+    "caseId": "TC-LOGIN-010",
+    "category": "ui-password-toggle",
+    "description": "Có nút ẩn/hiện mật khẩu bên cạnh trường Mật khẩu",
+    "bugRef": "BUG-FR02-A-12",
+    "check": "password-toggle"
+  },
+  {
+    "caseId": "TC-LOGIN-012",
+    "category": "route-guard",
+    "description": "Đã đăng nhập rồi thì truy cập lại /login phải bị redirect, không hiện lại form",
+    "bugRef": "BUG-FR02-A-14",
+    "check": "route-guard",
+    "email": "test@eshop.com",
+    "password": "Test1234!"
+  },
+  {
+    "caseId": "TC-LOGIN-018",
+    "category": "security-url-leak",
+    "description": "Sau khi đăng nhập, thông tin nhạy cảm (email/password/token) không bị lộ qua URL",
+    "check": "no-credentials-in-url",
+    "email": "test@eshop.com",
+    "password": "Test1234!"
+  },
+  {
+    "caseId": "TC-LOGIN-020",
+    "category": "accessibility",
+    "description": "Thứ tự Tab hợp lý: Email -> Mật khẩu -> Submit, không bị lệch do tabIndex sai",
+    "bugRef": "BUG-FR02-A-15",
+    "check": "tab-order"
+  },
+  {
+    "caseId": "TC-LOGIN-021",
+    "category": "accessibility",
+    "description": "Trường input có name/autocomplete chuẩn để tương thích trình quản lý mật khẩu",
+    "bugRef": "BUG-FR02-A-15",
+    "check": "autofill-attributes"
+  },
+  {
+    "caseId": "TC-LOGIN-017",
+    "category": "resilience",
+    "description": "Mất kết nối mạng khi đang gửi yêu cầu đăng nhập phải hiện lỗi thân thiện, không crash trắng trang",
+    "check": "offline-submit",
+    "email": "test@eshop.com",
+    "password": "Test1234!"
+  }
+]

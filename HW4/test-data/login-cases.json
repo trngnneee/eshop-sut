@@ -1,0 +1,306 @@
+[
+  {
+    "caseId": "TC-LOGIN-001",
+    "category": "positive",
+    "description": "Đăng nhập thành công với thông tin hợp lệ",
+    "accountMode": "shared-existing",
+    "email": "test@eshop.com",
+    "password": "Test1234!",
+    "expectedOutcome": "success"
+  },
+  {
+    "caseId": "TC-LOGIN-005",
+    "category": "negative-robustness",
+    "description": "Email có khoảng trắng đầu/cuối phải được trim và đăng nhập thành công",
+    "bugRef": "BUG-FR02-A-09",
+    "accountMode": "shared-existing",
+    "email": " test@eshop.com ",
+    "password": "Test1234!",
+    "expectedOutcome": "success"
+  },
+  {
+    "caseId": "TC-LOGIN-007",
+    "category": "security-sqli",
+    "description": "Chống SQL Injection trong trường Email",
+    "accountMode": "nonexistent",
+    "email": "' OR 1=1 --",
+    "password": "any",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-015",
+    "category": "negative",
+    "description": "Định dạng Email không hợp lệ (không có @) bị từ chối ở Backend",
+    "accountMode": "nonexistent",
+    "email": "invalid-email-format",
+    "password": "AnyPass1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-016",
+    "category": "security-xss",
+    "description": "Chống XSS trên form đăng nhập, không thực thi script/alert",
+    "accountMode": "nonexistent",
+    "email": "<script>alert('XSS_Email')</script>",
+    "password": "<img src=x onerror=alert('XSS_Password')>",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-031",
+    "category": "boundary",
+    "description": "Đăng nhập thất bại khi để Email rỗng",
+    "accountMode": "nonexistent",
+    "email": "",
+    "password": "Test1234!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-032",
+    "category": "boundary",
+    "description": "Đăng nhập thất bại khi Email chỉ chứa khoảng trắng",
+    "accountMode": "nonexistent",
+    "email": "   ",
+    "password": "Test1234!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-033",
+    "category": "boundary",
+    "description": "Đăng nhập thất bại khi Email thiếu ký tự @",
+    "accountMode": "nonexistent",
+    "email": "testeshop.com",
+    "password": "Test1234!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-034",
+    "category": "boundary",
+    "description": "Đăng nhập thất bại khi Email thiếu domain",
+    "accountMode": "nonexistent",
+    "email": "test@",
+    "password": "Test1234!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-035",
+    "category": "boundary",
+    "description": "Đăng nhập thất bại khi Email thiếu local-part",
+    "accountMode": "nonexistent",
+    "email": "@eshop.com",
+    "password": "Test1234!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-036",
+    "category": "boundary",
+    "description": "Đăng nhập thất bại khi Email có nhiều ký tự @",
+    "accountMode": "nonexistent",
+    "email": "test@@eshop.com",
+    "password": "Test1234!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-037",
+    "category": "positive-i18n",
+    "description": "Đăng nhập với Email có ký tự Unicode ở local-part",
+    "accountMode": "fresh",
+    "registerEmail": "nguyenvana.tc037@eshop.com",
+    "registerPassword": "ValidPassword1!",
+    "email": "nguyenvana.tc037@eshop.com",
+    "password": "ValidPassword1!",
+    "expectedOutcome": "success"
+  },
+  {
+    "caseId": "TC-LOGIN-038",
+    "category": "positive",
+    "description": "Đăng nhập thành công với Email chứa subdomain",
+    "accountMode": "fresh",
+    "registerEmail": "tc038@mail.eshop.com",
+    "registerPassword": "ValidPassword1!",
+    "email": "tc038@mail.eshop.com",
+    "password": "ValidPassword1!",
+    "expectedOutcome": "success"
+  },
+  {
+    "caseId": "TC-LOGIN-039",
+    "category": "negative",
+    "description": "Đăng nhập thất bại khi Email hợp lệ nhưng chưa tồn tại",
+    "accountMode": "nonexistent",
+    "email": "ghost-tc039@eshop.com",
+    "password": "AnyPass1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-040",
+    "category": "negative",
+    "description": "Đăng nhập thất bại khi Email tồn tại nhưng password sai",
+    "accountMode": "fresh",
+    "registerEmail": "tc040@eshop.com",
+    "registerPassword": "ValidPassword1!",
+    "email": "tc040@eshop.com",
+    "password": "WrongPass123!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-041",
+    "category": "boundary",
+    "description": "Đăng nhập thất bại khi Email có khoảng trắng ở giữa",
+    "accountMode": "nonexistent",
+    "email": "te st@eshop.com",
+    "password": "Test1234!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-BVA-001",
+    "category": "boundary-email-length",
+    "description": "Email biên độ dài min - 1 (4 ký tự)",
+    "accountMode": "nonexistent",
+    "email": "a@b.",
+    "password": "ValidPassword1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-BVA-002",
+    "category": "boundary-email-length",
+    "description": "Email biên độ dài min (5 ký tự)",
+    "accountMode": "nonexistent",
+    "email": "a@b.c",
+    "password": "ValidPassword1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-BVA-003",
+    "category": "boundary-email-length",
+    "description": "Email biên độ dài min + 1 (6 ký tự)",
+    "accountMode": "nonexistent",
+    "email": "ab@b.c",
+    "password": "ValidPassword1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-BVA-004",
+    "category": "boundary-email-length",
+    "description": "Email biên độ dài max - 1 (253 ký tự)",
+    "accountMode": "nonexistent",
+    "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@eshop.com",
+    "password": "ValidPassword1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-BVA-005",
+    "category": "boundary-email-length",
+    "description": "Email biên độ dài max (254 ký tự)",
+    "accountMode": "nonexistent",
+    "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@eshop.com",
+    "password": "ValidPassword1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-BVA-006",
+    "category": "boundary-email-length",
+    "description": "Email biên độ dài max + 1 (255 ký tự)",
+    "accountMode": "nonexistent",
+    "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@eshop.com",
+    "password": "ValidPassword1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-BVA-007",
+    "category": "boundary-password-length",
+    "description": "Password biên độ dài min - 1 (7 ký tự, sai)",
+    "accountMode": "fresh",
+    "registerEmail": "tc-bva-007@eshop.com",
+    "registerPassword": "ValidPassword1!",
+    "email": "tc-bva-007@eshop.com",
+    "password": "Short1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-BVA-008",
+    "category": "boundary-password-length",
+    "description": "Password biên độ dài min (8 ký tự, sai)",
+    "accountMode": "fresh",
+    "registerEmail": "tc-bva-008@eshop.com",
+    "registerPassword": "ValidPassword1!",
+    "email": "tc-bva-008@eshop.com",
+    "password": "Pass123!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-BVA-009",
+    "category": "boundary-password-length",
+    "description": "Password biên độ dài min + 1 (9 ký tự, sai)",
+    "accountMode": "fresh",
+    "registerEmail": "tc-bva-009@eshop.com",
+    "registerPassword": "ValidPassword1!",
+    "email": "tc-bva-009@eshop.com",
+    "password": "Pass1234!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-BVA-010",
+    "category": "boundary-password-length",
+    "description": "Password biên độ dài max - 1 (63 ký tự, sai)",
+    "accountMode": "fresh",
+    "registerEmail": "tc-bva-010@eshop.com",
+    "registerPassword": "ValidPassword1!",
+    "email": "tc-bva-010@eshop.com",
+    "password": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-BVA-011",
+    "category": "boundary-password-length",
+    "description": "Password biên độ dài max (64 ký tự, sai)",
+    "accountMode": "fresh",
+    "registerEmail": "tc-bva-011@eshop.com",
+    "registerPassword": "ValidPassword1!",
+    "email": "tc-bva-011@eshop.com",
+    "password": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-BVA-012",
+    "category": "boundary-password-length",
+    "description": "Password biên độ dài max + 1 (65 ký tự, sai)",
+    "accountMode": "fresh",
+    "registerEmail": "tc-bva-012@eshop.com",
+    "registerPassword": "ValidPassword1!",
+    "email": "tc-bva-012@eshop.com",
+    "password": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-ERR-001",
+    "category": "error-message",
+    "description": "Thông báo lỗi chung (không tiết lộ) khi Email không tồn tại",
+    "accountMode": "nonexistent",
+    "email": "ghost-err001@eshop.com",
+    "password": "AnyPass1!",
+    "expectedOutcome": "error",
+    "expectedErrorContains": "Đăng nhập thất bại"
+  },
+  {
+    "caseId": "TC-ERR-002",
+    "category": "error-message",
+    "description": "Thông báo lỗi giống hệt TC-ERR-001 khi Email tồn tại nhưng sai password (chống dò email)",
+    "accountMode": "fresh",
+    "registerEmail": "tc-err002@eshop.com",
+    "registerPassword": "ValidPassword1!",
+    "email": "tc-err002@eshop.com",
+    "password": "WrongPass123!",
+    "expectedOutcome": "error",
+    "expectedErrorContains": "Đăng nhập thất bại"
+  },
+  {
+    "caseId": "TC-LOGIN-028",
+    "category": "negative-case-sensitivity",
+    "description": "Đăng nhập với Email viết hoa toàn bộ trong khi tài khoản đăng ký bằng chữ thường (kỳ vọng vẫn thành công theo chuẩn email case-insensitive)",
+    "accountMode": "fresh",
+    "registerEmail": "tc028@eshop.com",
+    "registerPassword": "ValidPassword1!",
+    "email": "TC028@ESHOP.COM",
+    "password": "ValidPassword1!",
+    "expectedOutcome": "success"
+  }
+]

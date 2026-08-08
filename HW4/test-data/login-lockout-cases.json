@@ -1,0 +1,110 @@
+[
+  {
+    "caseId": "TC-LOGIN-002",
+    "category": "lockout-counter",
+    "description": "Sau 1 lần đăng nhập sai, bộ đếm phải tăng đúng 1 đơn vị (theo spec)",
+    "bugRef": "BUG-FR02-A-01",
+    "action": "wrong-then-check-attempts",
+    "wrongAttempts": 1,
+    "expectedAttempts": 1
+  },
+  {
+    "caseId": "TC-LOCK-BVA-001",
+    "category": "lockout-boundary",
+    "description": "Sau 1 lần đăng nhập sai, tài khoản KHÔNG bị khóa",
+    "bugRef": "BUG-FR02-A-01",
+    "action": "wrong-then-check-locked",
+    "wrongAttempts": 1,
+    "expectedLocked": false
+  },
+  {
+    "caseId": "TC-LOGIN-023",
+    "category": "lockout-boundary",
+    "description": "Sau đúng 2 lần đăng nhập sai liên tiếp, tài khoản KHÔNG bị khóa và lần đăng nhập đúng thứ 3 phải thành công",
+    "bugRef": "BUG-FR02-A-01",
+    "action": "wrong-then-correct-login",
+    "wrongAttempts": 2,
+    "expectedFinalOutcome": "success"
+  },
+  {
+    "caseId": "TC-LOGIN-003",
+    "category": "lockout-functional",
+    "description": "Sau 3 lần đăng nhập sai liên tiếp, tài khoản bị khóa tạm thời và lần đăng nhập đúng kế tiếp bị chặn",
+    "action": "wrong-then-correct-login",
+    "wrongAttempts": 3,
+    "expectedFinalOutcome": "blocked"
+  },
+  {
+    "caseId": "TC-LOGIN-025",
+    "category": "lockout-duration",
+    "description": "Thời gian khóa phải xấp xỉ 30 giây theo spec (không phải 3 phút)",
+    "bugRef": "BUG-FR02-A-02",
+    "action": "lock-duration-check",
+    "wrongAttempts": 3,
+    "expectedMaxLockDurationMs": 35000
+  },
+  {
+    "caseId": "TC-LOGIN-014",
+    "category": "lockout-auto-unlock",
+    "description": "Tài khoản phải tự mở khóa và cho đăng nhập lại sau khi thời gian khóa đã trôi qua",
+    "action": "auto-unlock-after-expiry",
+    "wrongAttempts": 3,
+    "expectedFinalOutcome": "success"
+  },
+  {
+    "caseId": "TC-LOGIN-013",
+    "category": "lockout-reset",
+    "description": "Bộ đếm đăng nhập sai phải reset về 0 sau khi đăng nhập đúng",
+    "action": "reset-on-success",
+    "wrongAttempts": 1,
+    "expectedAttemptsAfterSuccess": 0
+  },
+  {
+    "caseId": "TC-LOGIN-029",
+    "category": "lockout-reset",
+    "description": "Đăng nhập đúng liên tục không làm bộ đếm tăng lên",
+    "action": "reset-on-success",
+    "wrongAttempts": 0,
+    "expectedAttemptsAfterSuccess": 0
+  },
+  {
+    "caseId": "TC-LOGIN-024",
+    "category": "lockout-reset",
+    "description": "Sau khi bộ đếm đã reset bởi 1 lần đăng nhập đúng, lần sai tiếp theo phải tính lại từ đầu (không cộng dồn số cũ)",
+    "action": "interleaved-reset-check",
+    "firstWrongAttempts": 1,
+    "expectedAttemptsAfterSecondWrong": 1
+  },
+  {
+    "caseId": "TC-LOCK-BVA-005",
+    "category": "lockout-race-condition",
+    "description": "Gửi đồng thời nhiều yêu cầu đăng nhập sai (race condition) không được để bộ đếm tính sai/nhảy lung tung",
+    "bugRef": "BUG-FR02-A-03",
+    "action": "concurrent-wrong-attempts",
+    "concurrentAttempts": 2
+  },
+  {
+    "caseId": "TC-LOCK-BVA-007",
+    "category": "lockout-boundary",
+    "description": "Bộ đếm đăng nhập sai không được tiếp tục tăng vô hạn khi tài khoản đang trong thời gian bị khóa",
+    "action": "while-locked-no-growth",
+    "wrongAttempts": 3,
+    "extraWrongAttemptsWhileLocked": 2
+  },
+  {
+    "caseId": "TC-LOGIN-026",
+    "category": "lockout-functional",
+    "description": "Trong lúc đang bị khóa, kể cả gửi ĐÚNG mật khẩu cũng phải bị chặn, không được cấp token mới",
+    "action": "correct-login-while-locked",
+    "wrongAttempts": 3
+  },
+  {
+    "caseId": "TC-LOGIN-030",
+    "category": "lockout-reset-password",
+    "description": "Đặt lại mật khẩu thành công (quên mật khẩu) phải giải phóng khóa tài khoản và reset bộ đếm",
+    "bugRef": "BUG-FR02-A-17",
+    "action": "reset-password-unlock",
+    "wrongAttempts": 3,
+    "newPassword": "NewValidPass1!"
+  }
+]
