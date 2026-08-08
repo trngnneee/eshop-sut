@@ -53,6 +53,10 @@ class ProductListingPage {
     return this.productCardByName(productName).locator("button").last();
   }
 
+  emptyStateMessage(message) {
+    return this.page.getByText(message, { exact: false });
+  }
+
   async productCardCount() {
     return this.productCards.count();
   }

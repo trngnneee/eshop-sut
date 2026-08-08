@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test": "playwright test --reporter=html",
+    "test": "playwright test",
     "report": "playwright show-report reports/html",
     "stamp-report": "node scripts/stamp-report.js"
   },

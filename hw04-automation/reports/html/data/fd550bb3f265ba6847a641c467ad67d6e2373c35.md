@@ -6,110 +6,61 @@
 
 # Test info
 
-- Name: fr05-listing.spec.js >> FR-05 - Xem danh sách và tìm kiếm sản phẩm >> TC-FR05-03 - Giá sản phẩm hiển thị đúng đơn vị và phân cách hàng nghìn
-- Location: tests\fr05-listing.spec.js:66:3
+- Name: fr05-listing.spec.js >> FR-05 - Xem danh sách và tìm kiếm sản phẩm >> TC-FR05-08 - Tìm kiếm với từ khóa có khoảng trắng đầu/cuối
+- Location: tests\fr05-listing.spec.js:157:3
 
 # Error details
 
 ```
-Error: expect(locator).toHaveText(expected) failed
+Error: expect(locator).toHaveCount(expected) failed
 
-Locator:  locator('div.border.rounded.shadow-sm.p-4.flex.flex-col.bg-white').filter({ has: getByRole('heading', { name: 'iPhone 15 Pro Max', level: 2 }) }).locator('p.text-red-500').first()
-Expected: "30.000.000 ₫"
-Received: "30,000,000 VND"
+Locator:  locator('div.border.rounded.shadow-sm.p-4.flex.flex-col.bg-white')
+Expected: 1
+Received: 0
 Timeout:  5000ms
 
 Call log:
-  - Expect "toHaveText" with timeout 5000ms
-  - waiting for locator('div.border.rounded.shadow-sm.p-4.flex.flex-col.bg-white').filter({ has: getByRole('heading', { name: 'iPhone 15 Pro Max', level: 2 }) }).locator('p.text-red-500').first()
-    13 × locator resolved to <p class="text-red-500 font-bold mb-2">30,000,000 VND</p>
-       - unexpected value "30,000,000 VND"
+  - Expect "toHaveCount" with timeout 5000ms
+  - waiting for locator('div.border.rounded.shadow-sm.p-4.flex.flex-col.bg-white')
+    14 × locator resolved to 0 elements
+       - unexpected value "0"
 
 ```
 
+# Page snapshot
+
 ```yaml
-- paragraph: 30,000,000 VND
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - link "EShop" [ref=e5] [cursor=pointer]:
+      - /url: /
+    - navigation [ref=e6]:
+      - link "Giỏ hàng" [ref=e7] [cursor=pointer]:
+        - /url: /cart
+      - link "Đăng nhập" [ref=e8] [cursor=pointer]:
+        - /url: /login
+      - link "Đăng ký" [ref=e9] [cursor=pointer]:
+        - /url: /register
+  - main [ref=e10]:
+    - generic [ref=e11]:
+      - generic [ref=e12]:
+        - heading "Danh sách sản phẩm" [level=1] [ref=e13]
+        - generic [ref=e14]:
+          - textbox "Tìm kiếm..." [ref=e15]: MacBook
+          - button "Tìm" [active] [ref=e16] [cursor=pointer]
+      - generic [ref=e17]: "Kết quả tìm kiếm cho: MacBook"
+  - contentinfo [ref=e18]: © 2026 EShop SUT. Dành cho mục đích kiểm thử.
 ```
 
 # Test source
 
 ```ts
-  1   | const { test, expect } = require("@playwright/test");
-  2   | const { ProductListingPage } = require("./pages/ProductListingPage");
-  3   | const fr05Data = require("../data/fr05.json");
-  4   | 
-  5   | async function openProductListing(page) {
-  6   |   const productListingPage = new ProductListingPage(page);
-  7   |   const productsResponse = page.waitForResponse(
-  8   |     (response) =>
-  9   |       response.url().includes(fr05Data.api.products) &&
-  10  |       response.request().method() === "GET",
-  11  |   );
-  12  | 
-  13  |   await productListingPage.goto();
-  14  |   await productsResponse;
-  15  |   await expect(productListingPage.productGrid).toBeVisible();
-  16  | 
-  17  |   return productListingPage;
-  18  | }
-  19  | 
-  20  | async function searchAndWaitForProducts(page, productListingPage, keyword) {
-  21  |   const productsResponse = page.waitForResponse(
-  22  |     (response) =>
-  23  |       response.url().includes(fr05Data.api.products) &&
-  24  |       response.url().includes("search=") &&
-  25  |       response.request().method() === "GET",
-  26  |   );
-  27  | 
-  28  |   await productListingPage.search(keyword);
-  29  |   await productsResponse;
-  30  | }
-  31  | 
-  32  | test.describe("FR-05 - Xem danh sách và tìm kiếm sản phẩm", () => {
-  33  |   test("TC-FR05-01 - Hiển thị tất cả sản phẩm trên trang chủ", async ({
-  34  |     page,
-  35  |   }) => {
-  36  |     const productListingPage = await openProductListing(page);
-  37  |     const expectedData = fr05Data.all_products;
-  38  | 
-  39  |     await expect(productListingPage.productCards).toHaveCount(
-  40  |       expectedData.expectedCount,
-  41  |     );
-  42  | 
-  43  |     for (const productName of expectedData.expectedVisibleNames) {
-  44  |       await expect(productListingPage.productName(productName)).toBeVisible();
-  45  |     }
-  46  |   });
-  47  | 
-  48  |   test("TC-FR05-02 - Thẻ sản phẩm hiển thị đầy đủ thông tin bắt buộc", async ({
-  49  |     page,
-  50  |   }) => {
-  51  |     const productListingPage = await openProductListing(page);
-  52  | 
-  53  |     for (const product of fr05Data.seedProducts) {
-  54  |       const productCard = productListingPage.productCardByName(product.name);
-  55  | 
-  56  |       await expect(productCard).toBeVisible();
-  57  |       await expect(productListingPage.productImage(product.name)).toBeVisible();
-  58  |       await expect(productListingPage.productName(product.name)).toBeVisible();
-  59  |       await expect(productListingPage.productPrice(product.name)).toBeVisible();
-  60  |       await expect(productListingPage.productPrice(product.name)).not.toHaveText("");
-  61  |       await expect(productListingPage.productDetailLink(product.name)).toBeVisible();
-  62  |       await expect(productListingPage.addToCartButton(product.name)).toBeVisible();
-  63  |     }
-  64  |   });
-  65  | 
-  66  |   test("TC-FR05-03 - Giá sản phẩm hiển thị đúng đơn vị và phân cách hàng nghìn", async ({
-  67  |     page,
-  68  |   }) => {
-  69  |     const productListingPage = await openProductListing(page);
   70  |     const expectedData = fr05Data.price_format;
   71  | 
   72  |     for (const priceCheck of expectedData.checks) {
   73  |       await expect(
   74  |         productListingPage.productPrice(priceCheck.productName),
-> 75  |       ).toHaveText(priceCheck.expectedPriceText);
-      |         ^ Error: expect(locator).toHaveText(expected) failed
+  75  |       ).toHaveText(priceCheck.expectedPriceText);
   76  |     }
   77  |   });
   78  | 
@@ -204,10 +155,17 @@ Call log:
   167 | 
   168 |     await expect(productListingPage.errorPanel).toHaveCount(0);
   169 | 
-  170 |     await expect(productListingPage.productCards).toHaveCount(
+> 170 |     await expect(productListingPage.productCards).toHaveCount(
+      |                                                   ^ Error: expect(locator).toHaveCount(expected) failed
   171 |       expectedResult.expectedCount,
   172 |     );
   173 | 
   174 |     for (const productName of expectedResult.expectedVisibleNames) {
   175 |       await expect(
+  176 |         productListingPage.productName(productName),
+  177 |       ).toBeVisible();
+  178 |     }
+  179 |   });
+  180 | });
+  181 | 
 ```

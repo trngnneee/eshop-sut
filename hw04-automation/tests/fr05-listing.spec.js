@@ -17,6 +17,18 @@ async function openProductListing(page) {
   return productListingPage;
 }
 
+async function searchAndWaitForProducts(page, productListingPage, keyword) {
+  const productsResponse = page.waitForResponse(
+    (response) =>
+      response.url().includes(fr05Data.api.products) &&
+      response.url().includes("search=") &&
+      response.request().method() === "GET",
+  );
+
+  await productListingPage.search(keyword);
+  await productsResponse;
+}
+
 test.describe("FR-05 - Xem danh sách và tìm kiếm sản phẩm", () => {
   test("TC-FR05-01 - Hiển thị tất cả sản phẩm trên trang chủ", async ({
     page,
@@ -67,15 +79,7 @@ test.describe("FR-05 - Xem danh sách và tìm kiếm sản phẩm", () => {
   test("TC-FR05-04 - Tìm kiếm bằng đúng tên sản phẩm", async ({ page }) => {
     const productListingPage = await openProductListing(page);
     const expectedData = fr05Data.exact_match;
-    const searchResponse = page.waitForResponse(
-      (response) =>
-        response.url().includes(fr05Data.api.products) &&
-        response.url().includes(`search=${encodeURIComponent(expectedData.keyword)}`) &&
-        response.request().method() === "GET",
-    );
-
-    await productListingPage.search(expectedData.keyword);
-    await searchResponse;
+    await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
 
     await expect(productListingPage.productCards).toHaveCount(
       expectedData.expectedCount,
@@ -92,5 +96,85 @@ test.describe("FR-05 - Xem danh sách và tìm kiếm sản phẩm", () => {
     await expect(productListingPage.searchSummary).toContainText(
       expectedData.expectedSearchSummaryContains,
     );
+  });
+
+  test("TC-FR05-05 - Tìm kiếm bằng một phần tên sản phẩm", async ({ page }) => {
+    const productListingPage = await openProductListing(page);
+    const expectedData = fr05Data.partial_match;
+
+    await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+
+    await expect(productListingPage.productCards).toHaveCount(
+      expectedData.expectedCount,
+    );
+
+    for (const productName of expectedData.expectedVisibleNames) {
+      await expect(productListingPage.productName(productName)).toBeVisible();
+    }
+
+    for (const productName of expectedData.expectedHiddenNames) {
+      await expect(productListingPage.productName(productName)).toHaveCount(0);
+    }
+
+    await expect(productListingPage.searchSummary).toContainText(
+      expectedData.expectedSearchSummaryContains,
+    );
+  });
+
+  test("TC-FR05-06 - Tìm kiếm không có kết quả phù hợp", async ({ page }) => {
+    const productListingPage = await openProductListing(page);
+    const expectedData = fr05Data.no_result;
+
+    await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+
+    await expect(productListingPage.productCards).toHaveCount(
+      expectedData.expectedCount,
+    );
+    await expect(
+      productListingPage.emptyStateMessage(expectedData.expectedEmptyStateText),
+    ).toBeVisible();
+
+    for (const productName of expectedData.expectedHiddenNames) {
+      await expect(productListingPage.productName(productName)).toHaveCount(0);
+    }
+  });
+
+  test("TC-FR05-07 - Tìm kiếm với từ khóa rỗng", async ({ page }) => {
+    const productListingPage = await openProductListing(page);
+    const expectedData = fr05Data.empty_keyword;
+
+    await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+
+    await expect(productListingPage.productCards).toHaveCount(
+      expectedData.expectedCount,
+    );
+
+    for (const productName of expectedData.expectedVisibleNames) {
+      await expect(productListingPage.productName(productName)).toBeVisible();
+    }
+  });
+
+  test("TC-FR05-08 - Tìm kiếm với từ khóa có khoảng trắng đầu/cuối", async ({page,}) => {
+    const productListingPage = await openProductListing(page);
+    const expectedData = fr05Data.padded_keyword;
+    const expectedResult = expectedData.expectedIfTrimmed;
+
+    await searchAndWaitForProducts(
+      page,
+      productListingPage,
+      expectedData.keyword,
+    );
+
+    await expect(productListingPage.errorPanel).toHaveCount(0);
+
+    await expect(productListingPage.productCards).toHaveCount(
+      expectedResult.expectedCount,
+    );
+
+    for (const productName of expectedResult.expectedVisibleNames) {
+      await expect(
+        productListingPage.productName(productName),
+      ).toBeVisible();
+    }
   });
 });

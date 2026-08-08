@@ -67,8 +67,17 @@ I use AI tools for the following tasks:
   AI đã cập nhật `hw04-automation/tests/fr05-listing.spec.js` để thêm `TC-FR05-03` và `TC-FR05-04`. `TC-FR05-03` dùng dữ liệu `price_format` trong `fr05.json` để assert exact text của giá theo đặc tả FR-05, ví dụ `30.000.000 ₫`. `TC-FR05-04` dùng dữ liệu `exact_match`, submit keyword `MacBook Pro M3`, chờ response search, kiểm tra số lượng card, sản phẩm hiển thị, sản phẩm bị ẩn và search summary.
 - **Accepted as-is / Modified:** Accepted. `node --check` cho spec OK. Node đọc `fr05.json` cho thấy expected price dùng đúng ký tự `₫`; nếu app hiện trả `VND` thì TC-FR05-03 fail đúng theo đặc tả.
 
+### [8] FR-05 - Step B sinh automation cho TC-FR05-05 đến TC-FR05-08
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-08 23:52
+- **Prompt:**
+  > Bước B: sinh automation cho **TC-FR05-05**, **TC-FR05-06,**  **TC-FR05-07, TC-FR05-08** dùng locator trên
+- **Output:**
+  AI đã cập nhật `hw04-automation/tests/fr05-listing.spec.js` để thêm automation cho bốn test case tiếp theo. `TC-FR05-05` kiểm tra tìm kiếm partial keyword `Pro`; `TC-FR05-06` kiểm tra trường hợp không có kết quả và empty state; `TC-FR05-07` kiểm tra submit từ khóa rỗng hiển thị lại toàn bộ sản phẩm; `TC-FR05-08` kiểm tra từ khóa có khoảng trắng đầu/cuối không gây lỗi giao diện hoặc API. AI cũng bổ sung helper `emptyStateMessage(message)` trong `ProductListingPage.js` để locator empty state được tái sử dụng qua page object.
+- **Accepted as-is / Modified:** Modified TC-FR05-08. Automation ban đầu chỉ kiểm tra grid visible và productCount >= 0, chưa thực sự kiểm tra behavior trim keyword. Loại bỏ assertion toBeGreaterThanOrEqual(0) vì assertion này không có giá trị kiểm chứng thực tế.
+
 ## Tool declaration summary
 
 | Tool | Used for | # of interactions |
 |---|---|---|
-| Codex (GPT-5) | Phân tích FR-05, thiết kế test case Markdown, tạo dữ liệu kiểm thử, tạo locator/page object, review selector, sinh automation theo từng test case và scaffold Playwright config | 7 |
+| Codex (GPT-5) | Phân tích FR-05, thiết kế test case Markdown, tạo dữ liệu kiểm thử, tạo locator/page object, review selector, sinh automation theo từng test case và scaffold Playwright config | 8 |

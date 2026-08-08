@@ -2,7 +2,7 @@
 const { defineConfig, devices } = require('@playwright/test');
 
 // Replace with the real student ID before running the suite.
-const STUDENT_ID = '{{STUDENT_ID}}';
+const STUDENT_ID = '23127158';
 const RUN_TIMESTAMP = new Date().toISOString();
 
 module.exports = defineConfig({
