@@ -193,6 +193,60 @@ Call log:
   177 |       ).toBeVisible();
   178 |     }
   179 |   });
-  180 | });
-  181 | 
+  180 | 
+  181 |   test("TC-FR05-09 - Từ khóa chứa HTML phải được hiển thị an toàn", async ({
+  182 |     page,
+  183 |   }) => {
+  184 |     const productListingPage = await openProductListing(page);
+  185 |     const expectedData = fr05Data.html_payload;
+  186 | 
+  187 |     await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+  188 | 
+  189 |     await expect(productListingPage.searchSummary).toContainText(
+  190 |       expectedData.expectedDisplayedText,
+  191 |     );
+  192 |     await expect(page.locator(expectedData.forbiddenSelector)).toHaveCount(0);
+  193 |   });
+  194 | 
+  195 |   test("TC-FR05-10 - Từ khóa chứa script không được thực thi", async ({
+  196 |     page,
+  197 |   }) => {
+  198 |     const productListingPage = await openProductListing(page);
+  199 |     const expectedData = fr05Data.script_payload;
+  200 |     let dialogText = null;
+  201 | 
+  202 |     page.on("dialog", async (dialog) => {
+  203 |       dialogText = dialog.message();
+  204 |       await dialog.dismiss();
+  205 |     });
+  206 | 
+  207 |     await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+  208 | 
+  209 |     await expect(productListingPage.searchSummary).toContainText(
+  210 |       expectedData.expectedDisplayedText,
+  211 |     );
+  212 |     expect(dialogText).not.toBe(expectedData.forbiddenDialogText);
+  213 |   });
+  214 | 
+  215 |   test("TC-FR05-11 - Payload kiểu SQL injection không được trả về dữ liệu ngoài phạm vi tìm kiếm", async ({
+  216 |     page,
+  217 |   }) => {
+  218 |     const productListingPage = await openProductListing(page);
+  219 |     const expectedData = fr05Data.sql_payload;
+  220 | 
+  221 |     await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+  222 | 
+  223 |     await expect(productListingPage.errorPanel).toHaveCount(0);
+  224 |     await expect(productListingPage.errorPanel).not.toContainText(
+  225 |       expectedData.forbiddenErrorText,
+  226 |     );
+  227 |     await expect(productListingPage.productCards).toHaveCount(
+  228 |       expectedData.expectedSafeCount,
+  229 |     );
+  230 |     await expect(productListingPage.productCards).not.toHaveCount(
+  231 |       expectedData.forbiddenAllProductCount,
+  232 |     );
+  233 |   });
+  234 | 
+  235 |   test("TC-FR05-12 - Ảnh sản phẩm có alt text mô tả", async ({ page }) => {
 ```

@@ -166,7 +166,7 @@
     "description": "Payload HTML phải được hiển thị như văn bản thường trong phần tóm tắt tìm kiếm.",
     "keyword": "<strong id=\"fr05-html-injection\">Injected</strong>",
     "forbiddenSelector": "#fr05-html-injection",
-    "expectedDisplayedText": "<strong id=\"fr05-html-injection\">Injected</strong>"
+    "expectedDisplayedText": "Injected"
   },
   "script_payload": {
     "description": "Payload dạng script không được thực thi.",

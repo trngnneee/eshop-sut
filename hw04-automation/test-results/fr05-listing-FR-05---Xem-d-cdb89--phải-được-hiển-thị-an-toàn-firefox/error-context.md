@@ -1,0 +1,216 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: fr05-listing.spec.js >> FR-05 - Xem danh sách và tìm kiếm sản phẩm >> TC-FR05-09 - Từ khóa chứa HTML phải được hiển thị an toàn
+- Location: tests\fr05-listing.spec.js:181:3
+
+# Error details
+
+```
+Error: expect(locator).toHaveCount(expected) failed
+
+Locator:  locator('#fr05-html-injection')
+Expected: 0
+Received: 1
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveCount" with timeout 5000ms
+  - waiting for locator('#fr05-html-injection')
+    14 × locator resolved to 1 element
+       - unexpected value "1"
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - link "EShop" [ref=e5] [cursor=pointer]:
+      - /url: /
+    - navigation [ref=e6]:
+      - link "Giỏ hàng" [ref=e7] [cursor=pointer]:
+        - /url: /cart
+      - link "Đăng nhập" [ref=e8] [cursor=pointer]:
+        - /url: /login
+      - link "Đăng ký" [ref=e9] [cursor=pointer]:
+        - /url: /register
+  - main [ref=e10]:
+    - generic [ref=e11]:
+      - generic [ref=e12]:
+        - heading "Danh sách sản phẩm" [level=1] [ref=e13]
+        - generic [ref=e14]:
+          - textbox "Tìm kiếm..." [ref=e15]: <strong id="fr05-html-injection">Injected</strong>
+          - button "Tìm" [active] [ref=e16] [cursor=pointer]
+      - generic [ref=e17]:
+        - text: "Kết quả tìm kiếm cho:"
+        - strong [ref=e19]: Injected
+  - contentinfo [ref=e20]: © 2026 EShop SUT. Dành cho mục đích kiểm thử.
+```
+
+# Test source
+
+```ts
+  92  |     for (const productName of expectedData.expectedHiddenNames) {
+  93  |       await expect(productListingPage.productName(productName)).toHaveCount(0);
+  94  |     }
+  95  | 
+  96  |     await expect(productListingPage.searchSummary).toContainText(
+  97  |       expectedData.expectedSearchSummaryContains,
+  98  |     );
+  99  |   });
+  100 | 
+  101 |   test("TC-FR05-05 - Tìm kiếm bằng một phần tên sản phẩm", async ({ page }) => {
+  102 |     const productListingPage = await openProductListing(page);
+  103 |     const expectedData = fr05Data.partial_match;
+  104 | 
+  105 |     await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+  106 | 
+  107 |     await expect(productListingPage.productCards).toHaveCount(
+  108 |       expectedData.expectedCount,
+  109 |     );
+  110 | 
+  111 |     for (const productName of expectedData.expectedVisibleNames) {
+  112 |       await expect(productListingPage.productName(productName)).toBeVisible();
+  113 |     }
+  114 | 
+  115 |     for (const productName of expectedData.expectedHiddenNames) {
+  116 |       await expect(productListingPage.productName(productName)).toHaveCount(0);
+  117 |     }
+  118 | 
+  119 |     await expect(productListingPage.searchSummary).toContainText(
+  120 |       expectedData.expectedSearchSummaryContains,
+  121 |     );
+  122 |   });
+  123 | 
+  124 |   test("TC-FR05-06 - Tìm kiếm không có kết quả phù hợp", async ({ page }) => {
+  125 |     const productListingPage = await openProductListing(page);
+  126 |     const expectedData = fr05Data.no_result;
+  127 | 
+  128 |     await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+  129 | 
+  130 |     await expect(productListingPage.productCards).toHaveCount(
+  131 |       expectedData.expectedCount,
+  132 |     );
+  133 |     await expect(
+  134 |       productListingPage.emptyStateMessage(expectedData.expectedEmptyStateText),
+  135 |     ).toBeVisible();
+  136 | 
+  137 |     for (const productName of expectedData.expectedHiddenNames) {
+  138 |       await expect(productListingPage.productName(productName)).toHaveCount(0);
+  139 |     }
+  140 |   });
+  141 | 
+  142 |   test("TC-FR05-07 - Tìm kiếm với từ khóa rỗng", async ({ page }) => {
+  143 |     const productListingPage = await openProductListing(page);
+  144 |     const expectedData = fr05Data.empty_keyword;
+  145 | 
+  146 |     await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+  147 | 
+  148 |     await expect(productListingPage.productCards).toHaveCount(
+  149 |       expectedData.expectedCount,
+  150 |     );
+  151 | 
+  152 |     for (const productName of expectedData.expectedVisibleNames) {
+  153 |       await expect(productListingPage.productName(productName)).toBeVisible();
+  154 |     }
+  155 |   });
+  156 | 
+  157 |   test("TC-FR05-08 - Tìm kiếm với từ khóa có khoảng trắng đầu/cuối", async ({page,}) => {
+  158 |     const productListingPage = await openProductListing(page);
+  159 |     const expectedData = fr05Data.padded_keyword;
+  160 |     const expectedResult = expectedData.expectedIfTrimmed;
+  161 | 
+  162 |     await searchAndWaitForProducts(
+  163 |       page,
+  164 |       productListingPage,
+  165 |       expectedData.keyword,
+  166 |     );
+  167 | 
+  168 |     await expect(productListingPage.errorPanel).toHaveCount(0);
+  169 | 
+  170 |     await expect(productListingPage.productCards).toHaveCount(
+  171 |       expectedResult.expectedCount,
+  172 |     );
+  173 | 
+  174 |     for (const productName of expectedResult.expectedVisibleNames) {
+  175 |       await expect(
+  176 |         productListingPage.productName(productName),
+  177 |       ).toBeVisible();
+  178 |     }
+  179 |   });
+  180 | 
+  181 |   test("TC-FR05-09 - Từ khóa chứa HTML phải được hiển thị an toàn", async ({
+  182 |     page,
+  183 |   }) => {
+  184 |     const productListingPage = await openProductListing(page);
+  185 |     const expectedData = fr05Data.html_payload;
+  186 | 
+  187 |     await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+  188 | 
+  189 |     await expect(productListingPage.searchSummary).toContainText(
+  190 |       expectedData.expectedDisplayedText,
+  191 |     );
+> 192 |     await expect(page.locator(expectedData.forbiddenSelector)).toHaveCount(0);
+      |                                                                ^ Error: expect(locator).toHaveCount(expected) failed
+  193 |   });
+  194 | 
+  195 |   test("TC-FR05-10 - Từ khóa chứa script không được thực thi", async ({
+  196 |     page,
+  197 |   }) => {
+  198 |     const productListingPage = await openProductListing(page);
+  199 |     const expectedData = fr05Data.script_payload;
+  200 |     let dialogText = null;
+  201 | 
+  202 |     page.on("dialog", async (dialog) => {
+  203 |       dialogText = dialog.message();
+  204 |       await dialog.dismiss();
+  205 |     });
+  206 | 
+  207 |     await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+  208 | 
+  209 |     await expect(productListingPage.searchSummary).toContainText(
+  210 |       expectedData.expectedDisplayedText,
+  211 |     );
+  212 |     expect(dialogText).not.toBe(expectedData.forbiddenDialogText);
+  213 |   });
+  214 | 
+  215 |   test("TC-FR05-11 - Payload kiểu SQL injection không được trả về dữ liệu ngoài phạm vi tìm kiếm", async ({
+  216 |     page,
+  217 |   }) => {
+  218 |     const productListingPage = await openProductListing(page);
+  219 |     const expectedData = fr05Data.sql_payload;
+  220 | 
+  221 |     await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+  222 | 
+  223 |     await expect(productListingPage.errorPanel).toHaveCount(0);
+  224 |     await expect(productListingPage.errorPanel).not.toContainText(
+  225 |       expectedData.forbiddenErrorText,
+  226 |     );
+  227 |     await expect(productListingPage.productCards).toHaveCount(
+  228 |       expectedData.expectedSafeCount,
+  229 |     );
+  230 |     await expect(productListingPage.productCards).not.toHaveCount(
+  231 |       expectedData.forbiddenAllProductCount,
+  232 |     );
+  233 |   });
+  234 | 
+  235 |   test("TC-FR05-12 - Ảnh sản phẩm có alt text mô tả", async ({ page }) => {
+  236 |     const productListingPage = await openProductListing(page);
+  237 | 
+  238 |     for (const product of fr05Data.seedProducts) {
+  239 |       await expect(productListingPage.productImage(product.name)).toHaveAttribute(
+  240 |         "alt",
+  241 |         product.expectedImageAlt,
+  242 |       );
+  243 |     }
+  244 |   });
+  245 | });
+  246 | 
+```

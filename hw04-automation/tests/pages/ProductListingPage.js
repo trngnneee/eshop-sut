@@ -57,6 +57,10 @@ class ProductListingPage {
     return this.page.getByText(message, { exact: false });
   }
 
+  loadingIndicator(message) {
+    return this.page.getByText(message, { exact: false });
+  }
+
   async productCardCount() {
     return this.productCards.count();
   }

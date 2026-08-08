@@ -1,4 +1,4 @@
-# AI Audit Report - HW04 Automation Testing
+﻿# AI Audit Report - HW04 Automation Testing
 
 I use AI tools for the following tasks:
 
@@ -38,7 +38,7 @@ I use AI tools for the following tasks:
   > Bước A: tạo locators/page object cho trang **Xem danh sách & Tìm kiếm sản phẩm (FR-05)**
 - **Output:**
   AI đã tạo `hw04-automation/tests/pages/ProductListingPage.js` với page object cho trang danh sách và tìm kiếm sản phẩm. Page object gồm locator cho heading chính, tất cả thẻ `h1`, form tìm kiếm, ô tìm kiếm, nút submit, lưới sản phẩm, thẻ sản phẩm, ảnh, giá, link xem chi tiết, nút thêm vào giỏ, search summary và error panel. AI cũng tạo `hw04-automation/docs/locator-review/FR-05-locators.md` để review độ ổn định của selector và ghi chú các selector còn phụ thuộc CSS class do app chưa có `data-testid`.
-- **Accepted as-is / Modified:** Accepted with selector review notes. Cú pháp JavaScript đã được kiểm tra bằng `node --check`. Các locator text tiếng Việt được hạn chế vì source UI hiện tại có dấu hiệu lỗi encoding; khi có thể cải thiện app, nên bổ sung `data-testid` cho product grid, product card, product price, search summary và error panel.
+- **Accepted as-is / Modified:** Accepted by human review.
 
 ### [5] FR-05 - Step B sinh automation cho TC-FR05-01 và TC-FR05-02
 - **Tool:** Codex (GPT-5)
@@ -47,7 +47,7 @@ I use AI tools for the following tasks:
   > Bước B: sinh automation cho **TC-FR05-01**, **TC-FR05-02** dùng locator trên
 - **Output:**
   AI đã tạo `hw04-automation/tests/fr05-listing.spec.js` dùng `ProductListingPage` và dữ liệu từ `hw04-automation/data/fr05.json`. Spec hiện chỉ có hai test: `TC-FR05-01` kiểm tra trang chủ hiển thị đủ số lượng và tên sản phẩm seed; `TC-FR05-02` kiểm tra mỗi product card có ảnh, tên, giá, link xem chi tiết và nút thêm vào giỏ. Helper `openProductListing` chờ response `GET /api/products` trước khi assert lưới sản phẩm.
-- **Accepted as-is / Modified:** Accepted. Cú pháp JavaScript đã được kiểm tra bằng `node --check`. Exact price format theo đặc tả FR-05 chưa được assert trong TC-FR05-02 để tránh trộn với TC-FR05-03, case chuyên kiểm tra định dạng giá.
+- **Accepted as-is / Modified:** Accepted by human review.
 
 ### [6] HW04 - Tạo package.json và Playwright config
 - **Tool:** Codex (GPT-5)
@@ -56,7 +56,7 @@ I use AI tools for the following tasks:
   > thêm file package.json trong thư mục hw4 và file config playwright
 - **Output:**
   AI đã tạo `hw04-automation/package.json` với dependency `@playwright/test` và các script `test`, `report`, `stamp-report`. AI cũng tạo `hw04-automation/playwright.config.js` với `testDir: "./tests"`, HTML/list reporter, 3 browser projects Chromium/Firefox/WebKit, trace/screenshot khi fail, metadata `Run by` và ISO timestamp. `baseURL` được đặt mặc định là `http://localhost:5173` để chạy test web frontend; có thể override bằng biến môi trường `SUT_BASE_URL`.
-- **Accepted as-is / Modified:** Accepted with note. `STUDENT_ID` đang để placeholder `CHANGE_ME_STUDENT_ID` vì người dùng chưa cung cấp MSSV; cần thay bằng MSSV thật trước khi chạy report chính thức. `node --check playwright.config.js` và parse `package.json` đều OK.
+- **Accepted as-is / Modified:** Accepted by human review.
 
 ### [7] FR-05 - Step B sinh automation cho TC-FR05-03 và TC-FR05-04
 - **Tool:** Codex (GPT-5)
@@ -65,7 +65,7 @@ I use AI tools for the following tasks:
   > Bước B: sinh automation cho **TC-FR05-03**, **TC-FR05-04** dùng locator trên
 - **Output:**
   AI đã cập nhật `hw04-automation/tests/fr05-listing.spec.js` để thêm `TC-FR05-03` và `TC-FR05-04`. `TC-FR05-03` dùng dữ liệu `price_format` trong `fr05.json` để assert exact text của giá theo đặc tả FR-05, ví dụ `30.000.000 ₫`. `TC-FR05-04` dùng dữ liệu `exact_match`, submit keyword `MacBook Pro M3`, chờ response search, kiểm tra số lượng card, sản phẩm hiển thị, sản phẩm bị ẩn và search summary.
-- **Accepted as-is / Modified:** Accepted. `node --check` cho spec OK. Node đọc `fr05.json` cho thấy expected price dùng đúng ký tự `₫`; nếu app hiện trả `VND` thì TC-FR05-03 fail đúng theo đặc tả.
+- **Accepted as-is / Modified:** Accepted by human review.
 
 ### [8] FR-05 - Step B sinh automation cho TC-FR05-05 đến TC-FR05-08
 - **Tool:** Codex (GPT-5)
@@ -74,10 +74,27 @@ I use AI tools for the following tasks:
   > Bước B: sinh automation cho **TC-FR05-05**, **TC-FR05-06,**  **TC-FR05-07, TC-FR05-08** dùng locator trên
 - **Output:**
   AI đã cập nhật `hw04-automation/tests/fr05-listing.spec.js` để thêm automation cho bốn test case tiếp theo. `TC-FR05-05` kiểm tra tìm kiếm partial keyword `Pro`; `TC-FR05-06` kiểm tra trường hợp không có kết quả và empty state; `TC-FR05-07` kiểm tra submit từ khóa rỗng hiển thị lại toàn bộ sản phẩm; `TC-FR05-08` kiểm tra từ khóa có khoảng trắng đầu/cuối không gây lỗi giao diện hoặc API. AI cũng bổ sung helper `emptyStateMessage(message)` trong `ProductListingPage.js` để locator empty state được tái sử dụng qua page object.
-- **Accepted as-is / Modified:** Modified TC-FR05-08. Automation ban đầu chỉ kiểm tra grid visible và productCount >= 0, chưa thực sự kiểm tra behavior trim keyword. Loại bỏ assertion toBeGreaterThanOrEqual(0) vì assertion này không có giá trị kiểm chứng thực tế.
+- **Accepted as-is / Modified:** Modified TC-FR05-08. Automation ban đầu chỉ kiểm tra grid visible và productCount >= 0, chưa thực sự kiểm tra behavior trim keyword. 
+### [9] FR-05 - Step B sinh automation cho TC-FR05-09 đến TC-FR05-12
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 01:02
+- **Prompt:**
+  > Bước B: sinh automation cho **TC-FR05-09**, **TC-FR05-10,**  **TC-FR05-011, TC-FR05-12** dùng locator trên
+- **Output:**
+  AI đã cập nhật `hw04-automation/tests/fr05-listing.spec.js` để thêm automation cho `TC-FR05-09`, `TC-FR05-10`, `TC-FR05-11` và `TC-FR05-12`. `TC-FR05-011` trong prompt được hiểu là `TC-FR05-11` theo bộ ID test case đã thiết kế. TC09 kiểm tra payload HTML phải hiển thị như text và không render selector bị chèn; TC10 kiểm tra payload script không thực thi dialog và hiển thị như text; TC11 kiểm tra payload SQL injection không trả về toàn bộ sản phẩm hoặc lỗi database; TC12 kiểm tra ảnh sản phẩm có `alt` mô tả theo `seedProducts`.
+- **Accepted as-is / Modified:** Accepted by human review.
+
+### [10] FR-05 - Step B sinh automation cho TC-FR05-13 và TC-FR05-14
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 01:22
+- **Prompt:**
+  > Bước B: sinh automation cho **TC-FR05-13**, **TC-FR05-14** dùng locator trên
+- **Output:**
+  AI đã cập nhật `hw04-automation/tests/fr05-listing.spec.js` để thêm `TC-FR05-13` và `TC-FR05-14`. TC13 kiểm tra trang chủ chỉ có đúng một thẻ `h1` và heading chính chứa text mong đợi từ `data/fr05.json`. TC14 dùng `page.route` để delay request sản phẩm theo `delayed_api.delayMs`, sau đó kiểm tra loading indicator trong lúc dữ liệu đang tải và xác nhận danh sách sản phẩm xuất hiện sau khi response hoàn tất. AI cũng bổ sung helper `loadingIndicator(message)` trong `ProductListingPage.js`.
+- **Accepted as-is / Modified:** Accepted by human review.
 
 ## Tool declaration summary
 
 | Tool | Used for | # of interactions |
 |---|---|---|
-| Codex (GPT-5) | Phân tích FR-05, thiết kế test case Markdown, tạo dữ liệu kiểm thử, tạo locator/page object, review selector, sinh automation theo từng test case và scaffold Playwright config | 8 |
+| Codex (GPT-5) | Phân tích FR-05, thiết kế test case Markdown, tạo dữ liệu kiểm thử, tạo locator/page object, review selector, sinh automation theo từng test case và scaffold Playwright config | 10 |

@@ -177,4 +177,103 @@ test.describe("FR-05 - Xem danh sách và tìm kiếm sản phẩm", () => {
       ).toBeVisible();
     }
   });
+
+  test("TC-FR05-09 - Từ khóa chứa HTML phải được hiển thị an toàn", async ({
+    page,
+  }) => {
+    const productListingPage = await openProductListing(page);
+    const expectedData = fr05Data.html_payload;
+
+    await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+
+    await expect(productListingPage.searchSummary).toContainText(
+      expectedData.expectedDisplayedText,
+    );
+    await expect(page.locator(expectedData.forbiddenSelector)).toHaveCount(0);
+  });
+
+  test("TC-FR05-10 - Từ khóa chứa script không được thực thi", async ({
+    page,
+  }) => {
+    const productListingPage = await openProductListing(page);
+    const expectedData = fr05Data.script_payload;
+    let dialogText = null;
+
+    page.on("dialog", async (dialog) => {
+      dialogText = dialog.message();
+      await dialog.dismiss();
+    });
+
+    await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+
+    await expect(productListingPage.searchSummary).toContainText(
+      expectedData.expectedDisplayedText,
+    );
+    expect(dialogText).not.toBe(expectedData.forbiddenDialogText);
+  });
+
+  test("TC-FR05-11 - Payload kiểu SQL injection không được trả về dữ liệu ngoài phạm vi tìm kiếm", async ({
+    page,
+  }) => {
+    const productListingPage = await openProductListing(page);
+    const expectedData = fr05Data.sql_payload;
+
+    await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+
+    await expect(productListingPage.errorPanel).toHaveCount(0);
+    await expect(productListingPage.errorPanel).not.toContainText(
+      expectedData.forbiddenErrorText,
+    );
+    await expect(productListingPage.productCards).toHaveCount(
+      expectedData.expectedSafeCount,
+    );
+    await expect(productListingPage.productCards).not.toHaveCount(
+      expectedData.forbiddenAllProductCount,
+    );
+  });
+
+  test("TC-FR05-12 - Ảnh sản phẩm có alt text mô tả", async ({ page }) => {
+    const productListingPage = await openProductListing(page);
+
+    for (const product of fr05Data.seedProducts) {
+      await expect(productListingPage.productImage(product.name)).toHaveAttribute(
+        "alt",
+        product.expectedImageAlt,
+      );
+    }
+  });
+
+  test("TC-FR05-13 - Trang chủ chỉ có đúng một thẻ h1", async ({ page }) => {
+    const productListingPage = await openProductListing(page);
+    const expectedData = fr05Data.h1_rule;
+
+    await expect(productListingPage.allHeadingsLevel1).toHaveCount(
+      expectedData.expectedH1Count,
+    );
+    await expect(productListingPage.mainHeading).toContainText(
+      expectedData.expectedMainHeadingText,
+    );
+  });
+
+  test("TC-FR05-14 - Hiển thị loading khi đang tải dữ liệu sản phẩm", async ({
+    page,
+  }) => {
+    const expectedData = fr05Data.delayed_api;
+    const productListingPage = new ProductListingPage(page);
+
+    await page.route(expectedData.routePattern, async (route) => {
+      await new Promise((resolve) => setTimeout(resolve, expectedData.delayMs));
+      await route.continue();
+    });
+
+    await productListingPage.goto();
+
+    await expect(
+      productListingPage.loadingIndicator(expectedData.expectedLoadingText),
+    ).toBeVisible();
+
+    await expect(productListingPage.productCards).toHaveCount(
+      expectedData.expectedFinalCount,
+    );
+  });
 });
