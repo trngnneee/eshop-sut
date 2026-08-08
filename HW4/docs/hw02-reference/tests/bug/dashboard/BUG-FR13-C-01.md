@@ -1,0 +1,16 @@
+# BUG-FR13-C-01: Giao diện Dashboard hiển thị Tổng doanh thu bị nhân đôi
+
+| Tên trường (Field)        | Giá trị (Value)                                                                                                                                                                                                  |
+| :------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **No.**                   | 01                                                                                                                                                                                                               |
+| **BugID**                 | `BUG-FR13-C-01`                                                                                                                                                                                                  |
+| **Status**                | **Open**                                                                                                                                                                                                         |
+| **Requirement Name**      | FR-13 Dashboard                                                                                                                                                                                                  |
+| **Summary**               | Trên giao diện Dashboard, Tổng doanh thu hiển thị bị nhân đôi so với giá trị thực tế của các đơn hàng đã giao (delivered). |
+| **Steps to reproduce**    | 1. Đăng nhập bằng tài khoản admin.<br>2. Điều hướng tới Dashboard của Web Admin (`http://localhost:5174`).<br>3. Kiểm tra số hiển thị ở 'Tổng doanh thu (Delivered)' và so sánh với tổng thực tế trong database. |
+| **Severity**              | Major                                                                                                                                                                                                            |
+| **Frequency**             | Always                                                                                                                                                                                                           |
+| **Priority**              | High                                                                                                                                                                                                             |
+| **Evidence (Screenshot)** | ![Evidence](evidences/BUG-FR13-C-01.png)                                                                                                                                                                         |
+| **Date**                  | 2026-06-28                                                                                                                                                                                                       |
+| **Reporter**              | Khoa                                                                                                                                                                                                             |

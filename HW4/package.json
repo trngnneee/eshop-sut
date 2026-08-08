@@ -1,13 +1,22 @@
 {
   "name": "hw4-eshop-playwright",
   "version": "1.0.0",
-  "description": "HW4 - Playwright Automation Script for EShop Login (Student ID: 23127207)",
+  "description": "HW4 - Playwright Automation Suite for EShop FR-02/FR-07/FR-13 (Student ID: 23127207)",
   "main": "index.js",
   "scripts": {
-    "test:chromium": "cross-env BROWSER=chromium playwright test --project=chromium && node scripts/inject-student-id.js",
-    "test:firefox": "cross-env BROWSER=firefox playwright test --project=firefox && node scripts/inject-student-id.js",
-    "test:webkit": "cross-env BROWSER=webkit playwright test --project=webkit && node scripts/inject-student-id.js",
-    "test:all": "npm run test:chromium && npm run test:firefox && npm run test:webkit"
+    "test:login:chromium": "cross-env FEATURE=login BROWSER=chromium playwright test --project=chromium && node scripts/inject-student-id.js login chromium",
+    "test:login:firefox": "cross-env FEATURE=login BROWSER=firefox playwright test --project=firefox && node scripts/inject-student-id.js login firefox",
+    "test:login:webkit": "cross-env FEATURE=login BROWSER=webkit playwright test --project=webkit && node scripts/inject-student-id.js login webkit",
+    "test:cart:chromium": "cross-env FEATURE=cart BROWSER=chromium playwright test --project=chromium && node scripts/inject-student-id.js cart chromium",
+    "test:cart:firefox": "cross-env FEATURE=cart BROWSER=firefox playwright test --project=firefox && node scripts/inject-student-id.js cart firefox",
+    "test:cart:webkit": "cross-env FEATURE=cart BROWSER=webkit playwright test --project=webkit && node scripts/inject-student-id.js cart webkit",
+    "test:dashboard:chromium": "cross-env FEATURE=dashboard BROWSER=chromium playwright test --project=chromium && node scripts/inject-student-id.js dashboard chromium",
+    "test:dashboard:firefox": "cross-env FEATURE=dashboard BROWSER=firefox playwright test --project=firefox && node scripts/inject-student-id.js dashboard firefox",
+    "test:dashboard:webkit": "cross-env FEATURE=dashboard BROWSER=webkit playwright test --project=webkit && node scripts/inject-student-id.js dashboard webkit",
+    "test:matrix": "node scripts/run-matrix.js",
+    "test:matrix:login": "node scripts/run-matrix.js --feature=login",
+    "test:matrix:cart": "node scripts/run-matrix.js --feature=cart",
+    "test:matrix:dashboard": "node scripts/run-matrix.js --feature=dashboard"
   },
   "keywords": [
     "playwright",
