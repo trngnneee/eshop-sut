@@ -1,52 +1,52 @@
-# FR-05 Test Cases - Product Listing and Search
+# Bộ Test Case FR-05 - Xem Danh Sách Và Tìm Kiếm Sản Phẩm
 
-Feature: FR-05 - Product listing and search  
-Scope: Web homepage product grid and search behavior  
-Source requirement: README.md, FR-05
+Tính năng: FR-05 - Xem danh sách và tìm kiếm sản phẩm  
+Phạm vi: Trang chủ web, danh sách sản phẩm dạng lưới và chức năng tìm kiếm theo tên sản phẩm  
+Nguồn đặc tả: `README.md`, mục FR-05
 
-## Requirement Summary
+## Tóm Tắt Yêu Cầu
 
-- The homepage displays all products in a grid.
-- Each product displays image, descriptive alt text, product name, and formatted price.
-- Search filters products by product name.
-- The search keyword must be displayed safely and must not render HTML.
-- A loading state is shown while product data is being fetched.
-- An empty state is shown when no products match the search.
-- The homepage has exactly one `<h1>`.
+- Trang chủ hiển thị danh sách tất cả sản phẩm dạng lưới.
+- Mỗi sản phẩm hiển thị ảnh đúng tỷ lệ, có `alt` mô tả, tên sản phẩm và giá.
+- Giá dùng đơn vị `₫` và có định dạng phân cách hàng nghìn.
+- Thanh tìm kiếm tìm theo tên sản phẩm.
+- Từ khóa tìm kiếm phải được hiển thị an toàn, không render HTML.
+- Khi đang tải dữ liệu phải hiển thị trạng thái loading.
+- Khi không có kết quả tìm kiếm phải hiển thị empty state phù hợp.
+- Trang chủ chỉ có đúng một thẻ `<h1>`.
 
-## Test Case Table
+## Bảng Test Case
 
-| TC ID | Type | Title | Preconditions | Steps | Test Data (ref) | Expected Result | Priority | Status |
+| TC ID | Loại | Tiêu đề | Tiền điều kiện | Các bước | Dữ liệu kiểm thử | Kết quả mong đợi | Độ ưu tiên | Trạng thái |
 |---|---|---|---|---|---|---|---|---|
-| TC-FR05-01 | Positive | Display all products on homepage | Backend and frontend are running; seed products exist | 1. Open homepage<br>2. Wait for product request to finish | data/fr05.json: all_products | Product grid is visible and contains the seeded products | High | Not Run |
-| TC-FR05-02 | Positive | Product card shows required fields | Homepage has loaded products | 1. Open homepage<br>2. Inspect each product card | data/fr05.json: all_products | Each product card shows image, product name, formatted price, detail button, and add-to-cart button | High | Not Run |
-| TC-FR05-03 | Positive | Product price is formatted with thousands separator and currency | Homepage has loaded products | 1. Open homepage<br>2. Check visible price text | data/fr05.json: price_format | Prices are shown with thousands separators and currency unit | Medium | Not Run |
-| TC-FR05-04 | Positive | Search by exact product name | Homepage is open | 1. Enter exact product name<br>2. Submit search | data/fr05.json: exact_match | Only the matching product is shown; search summary displays the keyword | High | Not Run |
-| TC-FR05-05 | Positive | Search by partial product name | Homepage is open | 1. Enter partial product name<br>2. Submit search | data/fr05.json: partial_match | All products whose names contain the keyword are shown | High | Not Run |
-| TC-FR05-06 | Edge | Search with no matching result | Homepage is open | 1. Enter a keyword that matches no product<br>2. Submit search | data/fr05.json: no_result | No product card is shown and an appropriate empty-state message is visible | High | Not Run |
-| TC-FR05-07 | Edge | Search with empty keyword | Homepage is open | 1. Clear search input<br>2. Submit search | data/fr05.json: empty_keyword | Full product list is shown again | Medium | Not Run |
-| TC-FR05-08 | Edge | Search keyword with leading and trailing spaces | Homepage is open | 1. Enter keyword with spaces before and after<br>2. Submit search | data/fr05.json: padded_keyword | System handles the keyword without crashing and shows a deterministic result | Medium | Not Run |
-| TC-FR05-09 | Negative | Search keyword containing HTML is displayed safely | Homepage is open | 1. Enter HTML payload<br>2. Submit search<br>3. Inspect rendered search summary | data/fr05.json: html_payload | Payload is displayed as plain text; no injected HTML element is rendered | Critical | Not Run |
-| TC-FR05-10 | Negative | Search keyword containing script does not execute | Homepage is open | 1. Enter script payload<br>2. Submit search<br>3. Check page state and browser dialog events | data/fr05.json: script_payload | Script is not executed and page remains usable | Critical | Not Run |
-| TC-FR05-11 | Negative | SQL injection style payload does not expose unrelated products | Homepage is open | 1. Enter SQL injection-style payload<br>2. Submit search<br>3. Compare returned product names | data/fr05.json: sql_payload | API does not error and does not return products outside the intended search behavior | Critical | Not Run |
-| TC-FR05-12 | Accessibility | Product images have descriptive alt text | Homepage has loaded products | 1. Open homepage<br>2. Inspect all product images | data/fr05.json: all_products | Every product image has non-empty descriptive alt text | Medium | Not Run |
-| TC-FR05-13 | Semantic HTML | Homepage has exactly one h1 element | Homepage has loaded products | 1. Open homepage<br>2. Count h1 elements in the document | data/fr05.json: h1_rule | Exactly one h1 exists on the page | Medium | Not Run |
-| TC-FR05-14 | Loading | Loading state is visible while products are fetched | Product API response can be delayed or intercepted | 1. Delay product API response<br>2. Open homepage<br>3. Observe UI before response completes | data/fr05.json: delayed_api | Loading indicator is visible while waiting for data | Medium | Not Run |
+| TC-FR05-01 | Tích cực | Hiển thị tất cả sản phẩm trên trang chủ | Backend và frontend đang chạy; dữ liệu seed đã tồn tại | 1. Mở trang chủ<br>2. Chờ request lấy sản phẩm hoàn tất | data/fr05.json: all_products | Lưới sản phẩm hiển thị và chứa đầy đủ các sản phẩm seed | Cao | Chưa chạy |
+| TC-FR05-02 | Tích cực | Thẻ sản phẩm hiển thị đầy đủ thông tin bắt buộc | Trang chủ đã tải xong danh sách sản phẩm | 1. Mở trang chủ<br>2. Kiểm tra từng thẻ sản phẩm | data/fr05.json: all_products | Mỗi thẻ sản phẩm có ảnh, tên, giá định dạng đúng, nút xem chi tiết và nút thêm vào giỏ | Cao | Chưa chạy |
+| TC-FR05-03 | Tích cực | Giá sản phẩm hiển thị đúng đơn vị và phân cách hàng nghìn | Trang chủ đã tải xong danh sách sản phẩm | 1. Mở trang chủ<br>2. Kiểm tra văn bản giá của các sản phẩm | data/fr05.json: price_format | Giá hiển thị theo đặc tả, ví dụ `30.000.000 ₫`, không dùng `VND` | Cao | Chưa chạy |
+| TC-FR05-04 | Tích cực | Tìm kiếm bằng đúng tên sản phẩm | Trang chủ đang mở | 1. Nhập đúng tên sản phẩm<br>2. Gửi form tìm kiếm | data/fr05.json: exact_match | Chỉ sản phẩm khớp được hiển thị; phần tóm tắt tìm kiếm hiển thị đúng từ khóa | Cao | Chưa chạy |
+| TC-FR05-05 | Tích cực | Tìm kiếm bằng một phần tên sản phẩm | Trang chủ đang mở | 1. Nhập một phần tên sản phẩm<br>2. Gửi form tìm kiếm | data/fr05.json: partial_match | Tất cả sản phẩm có tên chứa từ khóa được hiển thị | Cao | Chưa chạy |
+| TC-FR05-06 | Biên | Tìm kiếm không có kết quả phù hợp | Trang chủ đang mở | 1. Nhập từ khóa không khớp sản phẩm nào<br>2. Gửi form tìm kiếm | data/fr05.json: no_result | Không có thẻ sản phẩm nào hiển thị và có thông báo empty state phù hợp | Cao | Chưa chạy |
+| TC-FR05-07 | Biên | Tìm kiếm với từ khóa rỗng | Trang chủ đang mở | 1. Xóa nội dung ô tìm kiếm<br>2. Gửi form tìm kiếm | data/fr05.json: empty_keyword | Toàn bộ danh sách sản phẩm được hiển thị lại | Trung bình | Chưa chạy |
+| TC-FR05-08 | Biên | Tìm kiếm với từ khóa có khoảng trắng đầu/cuối | Trang chủ đang mở | 1. Nhập từ khóa có khoảng trắng ở đầu và cuối<br>2. Gửi form tìm kiếm | data/fr05.json: padded_keyword | Hệ thống xử lý ổn định, không lỗi giao diện hoặc lỗi API | Trung bình | Chưa chạy |
+| TC-FR05-09 | Tiêu cực | Từ khóa chứa HTML phải được hiển thị an toàn | Trang chủ đang mở | 1. Nhập payload HTML<br>2. Gửi form tìm kiếm<br>3. Kiểm tra phần tóm tắt tìm kiếm | data/fr05.json: html_payload | Payload được hiển thị như văn bản thường; không có phần tử HTML bị chèn vào DOM | Nghiêm trọng | Chưa chạy |
+| TC-FR05-10 | Tiêu cực | Từ khóa chứa script không được thực thi | Trang chủ đang mở | 1. Nhập payload script<br>2. Gửi form tìm kiếm<br>3. Kiểm tra dialog và trạng thái trang | data/fr05.json: script_payload | Script không được thực thi và trang vẫn sử dụng bình thường | Nghiêm trọng | Chưa chạy |
+| TC-FR05-11 | Tiêu cực | Payload kiểu SQL injection không được trả về dữ liệu ngoài phạm vi tìm kiếm | Trang chủ đang mở | 1. Nhập payload kiểu SQL injection<br>2. Gửi form tìm kiếm<br>3. So sánh danh sách sản phẩm trả về | data/fr05.json: sql_payload | API không lỗi và không trả về toàn bộ sản phẩm ngoài hành vi tìm kiếm mong đợi | Nghiêm trọng | Chưa chạy |
+| TC-FR05-12 | Khả năng truy cập | Ảnh sản phẩm có alt text mô tả | Trang chủ đã tải xong danh sách sản phẩm | 1. Mở trang chủ<br>2. Kiểm tra tất cả ảnh sản phẩm | data/fr05.json: all_products | Mỗi ảnh sản phẩm có `alt` khác rỗng và mô tả đúng sản phẩm | Trung bình | Chưa chạy |
+| TC-FR05-13 | HTML ngữ nghĩa | Trang chủ chỉ có đúng một thẻ h1 | Trang chủ đã tải xong danh sách sản phẩm | 1. Mở trang chủ<br>2. Đếm số thẻ `<h1>` trong document | data/fr05.json: h1_rule | Trang chỉ có đúng một thẻ `<h1>` | Trung bình | Chưa chạy |
+| TC-FR05-14 | Trạng thái tải | Hiển thị loading khi đang tải dữ liệu sản phẩm | Có thể delay hoặc intercept response của API sản phẩm | 1. Delay response API sản phẩm<br>2. Mở trang chủ<br>3. Quan sát UI trước khi response hoàn tất | data/fr05.json: delayed_api | Loading indicator hiển thị trong lúc chờ dữ liệu | Trung bình | Chưa chạy |
 
-## Coverage Checklist
+## Checklist Bao Phủ
 
-- [x] At least 12 test cases total for this feature
-- [x] At least one Positive case
-- [x] At least one Negative case
-- [x] At least one Edge case
-- [x] Expected results are objectively checkable
-- [x] Each case maps to planned data in `data/fr05.json`
+- [x] Có ít nhất 12 test case cho tính năng này
+- [x] Có ít nhất một test case tích cực
+- [x] Có ít nhất một test case tiêu cực
+- [x] Có ít nhất một test case biên
+- [x] Kết quả mong đợi có thể kiểm tra khách quan
+- [x] Mỗi test case map tới dữ liệu trong `data/fr05.json`
 
-## Known Bug Candidates From Static Review
+## Ghi Chú Review Theo Đặc Tả
 
-- Search keyword is rendered using `dangerouslySetInnerHTML`, which can violate the safe-display requirement.
-- Product image `alt` attribute is empty.
-- Loading state is not implemented in the homepage component.
-- Empty state is not implemented when the filtered result list is empty.
-- The homepage can render more than one `<h1>` when products are present.
-- Product search API builds SQL using string interpolation, which creates SQL injection risk.
+- Expected result phải theo đặc tả FR-05 trong README, không theo code hiện tại.
+- Giá mong đợi dùng đơn vị `₫` và phân cách hàng nghìn theo dạng `30.000.000 ₫`.
+- Nếu code hiện tại hiển thị `30,000,000 VND`, test phải fail và được xem là bug so với đặc tả.
+- Các case về HTML/script payload kiểm tra yêu cầu “từ khóa tìm kiếm phải được hiển thị an toàn”.
+- Các case loading, empty state, alt text và số lượng `<h1>` đều xuất phát trực tiếp từ FR-05.

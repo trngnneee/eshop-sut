@@ -1,55 +1,64 @@
 {
   "feature": "FR-05",
-  "name": "Product listing and search",
+  "name": "Xem danh sách và tìm kiếm sản phẩm",
   "basePath": "/",
   "api": {
     "products": "/api/products",
     "productsSearch": "/api/products?search={keyword}"
+  },
+  "specification": {
+    "source": "README.md - FR-05",
+    "priceUnit": "₫",
+    "thousandsSeparator": ".",
+    "safeKeywordDisplay": true,
+    "requiresLoadingState": true,
+    "requiresEmptyState": true,
+    "expectedH1Count": 1
   },
   "seedProducts": [
     {
       "id": 1,
       "name": "iPhone 15 Pro Max",
       "price": 30000000,
-      "expectedPriceText": "30,000,000 VND",
+      "expectedPriceText": "30.000.000 ₫",
       "categoryId": 1,
-      "imageText": "iPhone 15"
+      "expectedImageAlt": "iPhone 15 Pro Max"
     },
     {
       "id": 2,
       "name": "Samsung Galaxy S24 Ultra",
       "price": 28000000,
-      "expectedPriceText": "28,000,000 VND",
+      "expectedPriceText": "28.000.000 ₫",
       "categoryId": 1,
-      "imageText": "Samsung S24"
+      "expectedImageAlt": "Samsung Galaxy S24 Ultra"
     },
     {
       "id": 3,
       "name": "MacBook Pro M3",
       "price": 45000000,
-      "expectedPriceText": "45,000,000 VND",
+      "expectedPriceText": "45.000.000 ₫",
       "categoryId": 2,
-      "imageText": "Macbook Pro"
+      "expectedImageAlt": "MacBook Pro M3"
     },
     {
       "id": 4,
       "name": "Tai nghe AirPods Pro 2",
       "price": 6000000,
-      "expectedPriceText": "6,000,000 VND",
+      "expectedPriceText": "6.000.000 ₫",
       "categoryId": 3,
-      "imageText": "AirPods Pro"
+      "expectedImageAlt": "Tai nghe AirPods Pro 2"
     },
     {
       "id": 5,
       "name": "Keychron Q1",
       "price": 4000000,
-      "expectedPriceText": "4,000,000 VND",
+      "expectedPriceText": "4.000.000 ₫",
       "categoryId": 3,
-      "imageText": "Keychron Q1"
+      "expectedImageAlt": "Keychron Q1"
     }
   ],
   "all_products": {
-    "description": "Default homepage listing with all seeded products.",
+    "description": "Danh sách mặc định trên trang chủ phải hiển thị tất cả sản phẩm seed.",
     "keyword": "",
     "expectedCount": 5,
     "expectedVisibleNames": [
@@ -61,32 +70,32 @@
     ]
   },
   "price_format": {
-    "description": "Known product prices and expected UI formatting.",
+    "description": "Giá sản phẩm phải hiển thị theo đặc tả FR-05: dùng đơn vị ₫ và phân cách hàng nghìn.",
     "checks": [
       {
         "productName": "iPhone 15 Pro Max",
-        "expectedPriceText": "30,000,000 VND"
+        "expectedPriceText": "30.000.000 ₫"
       },
       {
         "productName": "Samsung Galaxy S24 Ultra",
-        "expectedPriceText": "28,000,000 VND"
+        "expectedPriceText": "28.000.000 ₫"
       },
       {
         "productName": "MacBook Pro M3",
-        "expectedPriceText": "45,000,000 VND"
+        "expectedPriceText": "45.000.000 ₫"
       },
       {
         "productName": "Tai nghe AirPods Pro 2",
-        "expectedPriceText": "6,000,000 VND"
+        "expectedPriceText": "6.000.000 ₫"
       },
       {
         "productName": "Keychron Q1",
-        "expectedPriceText": "4,000,000 VND"
+        "expectedPriceText": "4.000.000 ₫"
       }
     ]
   },
   "exact_match": {
-    "description": "Search by an exact product name.",
+    "description": "Tìm kiếm bằng đúng tên sản phẩm.",
     "keyword": "MacBook Pro M3",
     "expectedCount": 1,
     "expectedVisibleNames": [
@@ -101,7 +110,7 @@
     "expectedSearchSummaryContains": "MacBook Pro M3"
   },
   "partial_match": {
-    "description": "Search by a partial product name that matches more than one product.",
+    "description": "Tìm kiếm bằng một phần tên sản phẩm và có nhiều kết quả phù hợp.",
     "keyword": "Pro",
     "expectedCount": 3,
     "expectedVisibleNames": [
@@ -116,10 +125,10 @@
     "expectedSearchSummaryContains": "Pro"
   },
   "no_result": {
-    "description": "Search keyword does not match any seeded product.",
-    "keyword": "NoSuchProductFR05",
+    "description": "Từ khóa tìm kiếm không khớp với sản phẩm nào.",
+    "keyword": "SanPhamKhongTonTaiFR05",
     "expectedCount": 0,
-    "expectedEmptyStateText": "Khong co san pham phu hop",
+    "expectedEmptyStateText": "Không có sản phẩm phù hợp",
     "expectedVisibleNames": [],
     "expectedHiddenNames": [
       "iPhone 15 Pro Max",
@@ -130,7 +139,7 @@
     ]
   },
   "empty_keyword": {
-    "description": "Submitting an empty keyword should reload all products.",
+    "description": "Gửi form với từ khóa rỗng phải hiển thị lại toàn bộ danh sách sản phẩm.",
     "keyword": "",
     "expectedCount": 5,
     "expectedVisibleNames": [
@@ -142,48 +151,46 @@
     ]
   },
   "padded_keyword": {
-    "description": "Keyword contains leading and trailing spaces.",
+    "description": "Từ khóa có khoảng trắng ở đầu và cuối.",
     "keyword": "  MacBook  ",
     "normalizedKeyword": "MacBook",
+    "expectedBehavior": "Hệ thống xử lý ổn định, không lỗi giao diện hoặc lỗi API. Nếu đặc tả được làm rõ thêm, ưu tiên hành vi trim khoảng trắng trước khi tìm kiếm.",
     "expectedIfTrimmed": {
       "expectedCount": 1,
       "expectedVisibleNames": [
         "MacBook Pro M3"
       ]
-    },
-    "expectedIfNotTrimmed": {
-      "expectedCount": 0
     }
   },
   "html_payload": {
-    "description": "HTML payload should be rendered as plain text in the search summary.",
+    "description": "Payload HTML phải được hiển thị như văn bản thường trong phần tóm tắt tìm kiếm.",
     "keyword": "<strong id=\"fr05-html-injection\">Injected</strong>",
     "forbiddenSelector": "#fr05-html-injection",
     "expectedDisplayedText": "<strong id=\"fr05-html-injection\">Injected</strong>"
   },
   "script_payload": {
-    "description": "Script-like payload should not execute.",
+    "description": "Payload dạng script không được thực thi.",
     "keyword": "<script>alert('xss-fr05')</script>",
     "forbiddenDialogText": "xss-fr05",
     "expectedDisplayedText": "<script>alert('xss-fr05')</script>"
   },
   "sql_payload": {
-    "description": "SQL injection-style payload should not expose unrelated products.",
+    "description": "Payload kiểu SQL injection không được làm lộ dữ liệu ngoài phạm vi tìm kiếm.",
     "keyword": "%' OR '1'='1",
     "expectedSafeCount": 0,
     "forbiddenAllProductCount": 5,
     "forbiddenErrorText": "Database Error"
   },
   "h1_rule": {
-    "description": "Homepage should contain exactly one h1 element.",
+    "description": "Trang chủ phải có đúng một thẻ h1.",
     "expectedH1Count": 1,
-    "expectedMainHeadingText": "Danh sach san pham"
+    "expectedMainHeadingText": "Danh sách sản phẩm"
   },
   "delayed_api": {
-    "description": "Product request is delayed to verify loading UI.",
+    "description": "Làm chậm request sản phẩm để kiểm tra trạng thái loading theo đặc tả.",
     "routePattern": "**/api/products**",
     "delayMs": 1500,
-    "expectedLoadingText": "Dang tai",
+    "expectedLoadingText": "Đang tải",
     "expectedFinalCount": 5
   },
   "testCases": [
