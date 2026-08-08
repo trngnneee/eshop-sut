@@ -1,0 +1,247 @@
+{
+  "feature": "FR-05",
+  "name": "Product listing and search",
+  "basePath": "/",
+  "api": {
+    "products": "/api/products",
+    "productsSearch": "/api/products?search={keyword}"
+  },
+  "seedProducts": [
+    {
+      "id": 1,
+      "name": "iPhone 15 Pro Max",
+      "price": 30000000,
+      "expectedPriceText": "30,000,000 VND",
+      "categoryId": 1,
+      "imageText": "iPhone 15"
+    },
+    {
+      "id": 2,
+      "name": "Samsung Galaxy S24 Ultra",
+      "price": 28000000,
+      "expectedPriceText": "28,000,000 VND",
+      "categoryId": 1,
+      "imageText": "Samsung S24"
+    },
+    {
+      "id": 3,
+      "name": "MacBook Pro M3",
+      "price": 45000000,
+      "expectedPriceText": "45,000,000 VND",
+      "categoryId": 2,
+      "imageText": "Macbook Pro"
+    },
+    {
+      "id": 4,
+      "name": "Tai nghe AirPods Pro 2",
+      "price": 6000000,
+      "expectedPriceText": "6,000,000 VND",
+      "categoryId": 3,
+      "imageText": "AirPods Pro"
+    },
+    {
+      "id": 5,
+      "name": "Keychron Q1",
+      "price": 4000000,
+      "expectedPriceText": "4,000,000 VND",
+      "categoryId": 3,
+      "imageText": "Keychron Q1"
+    }
+  ],
+  "all_products": {
+    "description": "Default homepage listing with all seeded products.",
+    "keyword": "",
+    "expectedCount": 5,
+    "expectedVisibleNames": [
+      "iPhone 15 Pro Max",
+      "Samsung Galaxy S24 Ultra",
+      "MacBook Pro M3",
+      "Tai nghe AirPods Pro 2",
+      "Keychron Q1"
+    ]
+  },
+  "price_format": {
+    "description": "Known product prices and expected UI formatting.",
+    "checks": [
+      {
+        "productName": "iPhone 15 Pro Max",
+        "expectedPriceText": "30,000,000 VND"
+      },
+      {
+        "productName": "Samsung Galaxy S24 Ultra",
+        "expectedPriceText": "28,000,000 VND"
+      },
+      {
+        "productName": "MacBook Pro M3",
+        "expectedPriceText": "45,000,000 VND"
+      },
+      {
+        "productName": "Tai nghe AirPods Pro 2",
+        "expectedPriceText": "6,000,000 VND"
+      },
+      {
+        "productName": "Keychron Q1",
+        "expectedPriceText": "4,000,000 VND"
+      }
+    ]
+  },
+  "exact_match": {
+    "description": "Search by an exact product name.",
+    "keyword": "MacBook Pro M3",
+    "expectedCount": 1,
+    "expectedVisibleNames": [
+      "MacBook Pro M3"
+    ],
+    "expectedHiddenNames": [
+      "iPhone 15 Pro Max",
+      "Samsung Galaxy S24 Ultra",
+      "Tai nghe AirPods Pro 2",
+      "Keychron Q1"
+    ],
+    "expectedSearchSummaryContains": "MacBook Pro M3"
+  },
+  "partial_match": {
+    "description": "Search by a partial product name that matches more than one product.",
+    "keyword": "Pro",
+    "expectedCount": 3,
+    "expectedVisibleNames": [
+      "iPhone 15 Pro Max",
+      "MacBook Pro M3",
+      "Tai nghe AirPods Pro 2"
+    ],
+    "expectedHiddenNames": [
+      "Samsung Galaxy S24 Ultra",
+      "Keychron Q1"
+    ],
+    "expectedSearchSummaryContains": "Pro"
+  },
+  "no_result": {
+    "description": "Search keyword does not match any seeded product.",
+    "keyword": "NoSuchProductFR05",
+    "expectedCount": 0,
+    "expectedEmptyStateText": "Khong co san pham phu hop",
+    "expectedVisibleNames": [],
+    "expectedHiddenNames": [
+      "iPhone 15 Pro Max",
+      "Samsung Galaxy S24 Ultra",
+      "MacBook Pro M3",
+      "Tai nghe AirPods Pro 2",
+      "Keychron Q1"
+    ]
+  },
+  "empty_keyword": {
+    "description": "Submitting an empty keyword should reload all products.",
+    "keyword": "",
+    "expectedCount": 5,
+    "expectedVisibleNames": [
+      "iPhone 15 Pro Max",
+      "Samsung Galaxy S24 Ultra",
+      "MacBook Pro M3",
+      "Tai nghe AirPods Pro 2",
+      "Keychron Q1"
+    ]
+  },
+  "padded_keyword": {
+    "description": "Keyword contains leading and trailing spaces.",
+    "keyword": "  MacBook  ",
+    "normalizedKeyword": "MacBook",
+    "expectedIfTrimmed": {
+      "expectedCount": 1,
+      "expectedVisibleNames": [
+        "MacBook Pro M3"
+      ]
+    },
+    "expectedIfNotTrimmed": {
+      "expectedCount": 0
+    }
+  },
+  "html_payload": {
+    "description": "HTML payload should be rendered as plain text in the search summary.",
+    "keyword": "<strong id=\"fr05-html-injection\">Injected</strong>",
+    "forbiddenSelector": "#fr05-html-injection",
+    "expectedDisplayedText": "<strong id=\"fr05-html-injection\">Injected</strong>"
+  },
+  "script_payload": {
+    "description": "Script-like payload should not execute.",
+    "keyword": "<script>alert('xss-fr05')</script>",
+    "forbiddenDialogText": "xss-fr05",
+    "expectedDisplayedText": "<script>alert('xss-fr05')</script>"
+  },
+  "sql_payload": {
+    "description": "SQL injection-style payload should not expose unrelated products.",
+    "keyword": "%' OR '1'='1",
+    "expectedSafeCount": 0,
+    "forbiddenAllProductCount": 5,
+    "forbiddenErrorText": "Database Error"
+  },
+  "h1_rule": {
+    "description": "Homepage should contain exactly one h1 element.",
+    "expectedH1Count": 1,
+    "expectedMainHeadingText": "Danh sach san pham"
+  },
+  "delayed_api": {
+    "description": "Product request is delayed to verify loading UI.",
+    "routePattern": "**/api/products**",
+    "delayMs": 1500,
+    "expectedLoadingText": "Dang tai",
+    "expectedFinalCount": 5
+  },
+  "testCases": [
+    {
+      "id": "TC-FR05-01",
+      "dataRef": "all_products"
+    },
+    {
+      "id": "TC-FR05-02",
+      "dataRef": "all_products"
+    },
+    {
+      "id": "TC-FR05-03",
+      "dataRef": "price_format"
+    },
+    {
+      "id": "TC-FR05-04",
+      "dataRef": "exact_match"
+    },
+    {
+      "id": "TC-FR05-05",
+      "dataRef": "partial_match"
+    },
+    {
+      "id": "TC-FR05-06",
+      "dataRef": "no_result"
+    },
+    {
+      "id": "TC-FR05-07",
+      "dataRef": "empty_keyword"
+    },
+    {
+      "id": "TC-FR05-08",
+      "dataRef": "padded_keyword"
+    },
+    {
+      "id": "TC-FR05-09",
+      "dataRef": "html_payload"
+    },
+    {
+      "id": "TC-FR05-10",
+      "dataRef": "script_payload"
+    },
+    {
+      "id": "TC-FR05-11",
+      "dataRef": "sql_payload"
+    },
+    {
+      "id": "TC-FR05-12",
+      "dataRef": "all_products"
+    },
+    {
+      "id": "TC-FR05-13",
+      "dataRef": "h1_rule"
+    },
+    {
+      "id": "TC-FR05-14",
+      "dataRef": "delayed_api"
+    }
+  ]
+}
