@@ -1,8 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
-import * as fs from 'fs';
-import * as path from 'path';
 import { ensureFreshAccount, apiLogin, API_BASE_URL } from './utils/api';
 import { getUserState, forceLockedUntil, deleteUserByEmail } from './utils/db';
+import { loadJsonArray } from './utils/data';
 
 const STUDENT_ID = '23127207';
 const HOME_URL = 'http://localhost:5173/';
@@ -51,31 +50,6 @@ interface LockoutCase {
   concurrentAttempts?: number;
   extraWrongAttemptsWhileLocked?: number;
   newPassword?: string;
-}
-
-function loadJsonArray<T extends { caseId: string }>(fileName: string, minCount: number): T[] {
-  const filePath = path.join(__dirname, '../test-data', fileName);
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`Test data file not found: ${filePath}`);
-  }
-  const parsed = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-  if (!Array.isArray(parsed)) {
-    throw new Error(`${fileName} must contain a JSON array of test cases`);
-  }
-  if (parsed.length < minCount) {
-    throw new Error(`${fileName} must contain at least ${minCount} cases, found ${parsed.length}`);
-  }
-  const seen = new Set<string>();
-  for (const row of parsed) {
-    if (!row || typeof row.caseId !== 'string' || row.caseId.length === 0) {
-      throw new Error(`${fileName}: every case must have a non-empty caseId`);
-    }
-    if (seen.has(row.caseId)) {
-      throw new Error(`${fileName}: duplicate caseId "${row.caseId}"`);
-    }
-    seen.add(row.caseId);
-  }
-  return parsed as T[];
 }
 
 const simpleCases = loadJsonArray<SimpleLoginCase>('login-cases.json', 12);

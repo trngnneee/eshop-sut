@@ -1,8 +1,7 @@
 import { test, expect } from '@playwright/test';
-import * as fs from 'fs';
-import * as path from 'path';
 import { API_BASE_URL, apiLogin, ensureFreshAccount, ADMIN_CREDENTIALS } from './utils/api';
 import { clearAllOrders, deleteUserByEmail, promoteToAdmin } from './utils/db';
+import { loadJsonArray } from './utils/data';
 
 const STUDENT_ID = '23127207';
 
@@ -16,15 +15,7 @@ interface ApiCase {
   to?: string;
 }
 
-function loadCases(): ApiCase[] {
-  const filePath = path.join(__dirname, '../test-data/dashboard-api-cases.json');
-  if (!fs.existsSync(filePath)) throw new Error(`Test data file not found: ${filePath}`);
-  const parsed = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-  if (!Array.isArray(parsed) || parsed.length === 0) throw new Error('dashboard-api-cases.json must be a non-empty array');
-  return parsed as ApiCase[];
-}
-
-const cases = loadCases();
+const cases = loadJsonArray<ApiCase>('dashboard-api-cases.json', 1);
 
 const TRANSITION_PATH: Record<string, string[]> = {
   pending: [],

@@ -1,7 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
-import * as fs from 'fs';
-import * as path from 'path';
 import { API_BASE_URL, apiLogin, SEED_USER_CREDENTIALS } from './utils/api';
+import { loadJsonArray } from './utils/data';
 
 const STUDENT_ID = '23127207';
 const PRODUCT_A_ID = 1;
@@ -28,21 +27,6 @@ interface EdgeCase {
   bugRef?: string;
   action: string;
   tamperedTotal?: number;
-}
-
-function loadJsonArray<T extends { caseId: string }>(fileName: string, minCount: number): T[] {
-  const filePath = path.join(__dirname, '../test-data', fileName);
-  if (!fs.existsSync(filePath)) throw new Error(`Test data file not found: ${filePath}`);
-  const parsed = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-  if (!Array.isArray(parsed)) throw new Error(`${fileName} must contain a JSON array`);
-  if (parsed.length < minCount) throw new Error(`${fileName} needs at least ${minCount} cases, found ${parsed.length}`);
-  const seen = new Set<string>();
-  for (const row of parsed) {
-    if (!row || typeof row.caseId !== 'string') throw new Error(`${fileName}: a case is missing caseId`);
-    if (seen.has(row.caseId)) throw new Error(`${fileName}: duplicate caseId ${row.caseId}`);
-    seen.add(row.caseId);
-  }
-  return parsed as T[];
 }
 
 const uiCases = loadJsonArray<UiCase>('cart-ui-cases.json', 12);

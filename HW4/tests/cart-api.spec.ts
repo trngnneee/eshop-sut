@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
-import * as fs from 'fs';
-import * as path from 'path';
 import { API_BASE_URL, ensureFreshAccount, apiLogin } from './utils/api';
+import { loadJsonArray } from './utils/data';
 
 const STUDENT_ID = '23127207';
 const CATALOG_PRODUCT = { id: 1, name: 'iPhone 15 Pro Max', price: 30000000 };
@@ -18,15 +17,7 @@ interface ApiCase {
   quantityRaw?: unknown;
 }
 
-function loadCases(): ApiCase[] {
-  const filePath = path.join(__dirname, '../test-data/cart-api-cases.json');
-  if (!fs.existsSync(filePath)) throw new Error(`Test data file not found: ${filePath}`);
-  const parsed = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-  if (!Array.isArray(parsed) || parsed.length === 0) throw new Error('cart-api-cases.json must be a non-empty array');
-  return parsed as ApiCase[];
-}
-
-const cases = loadCases();
+const cases = loadJsonArray<ApiCase>('cart-api-cases.json', 1);
 
 async function freshToken(request: any, suffix: string): Promise<string> {
   const email = `cart-${suffix}@eshop.com`;

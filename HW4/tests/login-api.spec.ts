@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
-import * as fs from 'fs';
 import * as path from 'path';
 import { API_BASE_URL, apiLogin, decodeJwtPayload } from './utils/api';
+import { loadJsonArray } from './utils/data';
 
 // Reuses the backend's own already-installed jsonwebtoken package to forge adversarial
 // tokens for the wrong-secret / tampered-payload cases — never used to bypass anything,
@@ -23,19 +23,7 @@ interface ApiCase {
   expectedStatusNot?: number;
 }
 
-function loadCases(): ApiCase[] {
-  const filePath = path.join(__dirname, '../test-data/login-api-cases.json');
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`Test data file not found: ${filePath}`);
-  }
-  const parsed = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-  if (!Array.isArray(parsed) || parsed.length === 0) {
-    throw new Error('login-api-cases.json must contain a non-empty JSON array');
-  }
-  return parsed as ApiCase[];
-}
-
-const cases = loadCases();
+const cases = loadJsonArray<ApiCase>('login-api-cases.json', 1);
 
 test.describe('FR-02 Login API contract', () => {
   for (const c of cases) {
