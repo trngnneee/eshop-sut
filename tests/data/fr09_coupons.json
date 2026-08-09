@@ -1,0 +1,109 @@
+[
+  {
+    "id": "TC01",
+    "type": "positive",
+    "description": "Áp dụng mã giảm giá phần trăm SAVE10 hợp lệ cho đơn hàng đủ điều kiện (500k > 300k)",
+    "code": "SAVE10",
+    "cartTotal": 500000,
+    "expectedResult": "success",
+    "expectedMessage": "Áp dụng thành công"
+  },
+  {
+    "id": "TC02",
+    "type": "positive",
+    "description": "Áp dụng mã giảm giá tiền cố định BIGBUY hợp lệ cho đơn hàng đủ điều kiện (600k > 500k)",
+    "code": "BIGBUY",
+    "cartTotal": 600000,
+    "expectedResult": "success",
+    "expectedMessage": "Áp dụng thành công"
+  },
+  {
+    "id": "TC03",
+    "type": "positive",
+    "description": "Áp dụng mã giảm giá tiền cố định VIP100 hợp lệ cho đơn hàng đủ điều kiện (400k > 300k)",
+    "code": "VIP100",
+    "cartTotal": 400000,
+    "expectedResult": "success",
+    "expectedMessage": "Áp dụng thành công"
+  },
+  {
+    "id": "TC04",
+    "type": "positive",
+    "description": "Nhập mã giảm giá chữ thường 'save10' (SRS: Tự động chuyển thành chữ hoa)",
+    "code": "save10",
+    "cartTotal": 500000,
+    "expectedResult": "success",
+    "expectedMessage": "Áp dụng thành công"
+  },
+  {
+    "id": "TC05",
+    "type": "negative",
+    "description": "Áp dụng mã giảm giá không tồn tại trong hệ thống",
+    "code": "INVALIDCODE999",
+    "cartTotal": 500000,
+    "expectedResult": "error",
+    "expectedMessage": "Mã giảm giá không tồn tại hoặc đã bị vô hiệu hóa"
+  },
+  {
+    "id": "TC06",
+    "type": "negative",
+    "description": "Áp dụng mã giảm giá đã hết hạn sử dụng EXPIRED",
+    "code": "EXPIRED",
+    "cartTotal": 500000,
+    "expectedResult": "error",
+    "expectedMessage": "Mã giảm giá đã hết hạn"
+  },
+  {
+    "id": "TC07",
+    "type": "negative",
+    "description": "Áp dụng mã giảm giá khi tổng tiền đơn hàng nhỏ hơn mức tối thiểu (200k < 500k)",
+    "code": "BIGBUY",
+    "cartTotal": 200000,
+    "expectedResult": "error",
+    "expectedMessage": "Đơn hàng chưa đủ giá trị tối thiểu"
+  },
+  {
+    "id": "TC08",
+    "type": "edge",
+    "description": "Áp dụng mã khi tổng tiền đơn hàng bằng đúng giá trị tối thiểu (300k == 300k, SRS: Phải áp dụng thành công)",
+    "code": "SAVE10",
+    "cartTotal": 300000,
+    "expectedResult": "success",
+    "expectedMessage": "Áp dụng thành công"
+  },
+  {
+    "id": "TC09",
+    "type": "negative",
+    "description": "Cố gắng áp dụng mã giảm giá rỗng (nút Áp dụng bị disabled)",
+    "code": "",
+    "cartTotal": 500000,
+    "expectedResult": "button_disabled"
+  },
+  {
+    "id": "TC10",
+    "type": "edge",
+    "description": "Nhập mã giảm giá chứa payload SQL injection",
+    "code": "' OR '1'='1",
+    "cartTotal": 500000,
+    "expectedResult": "error",
+    "expectedMessage": "Mã giảm giá không tồn tại hoặc đã bị vô hiệu hóa"
+  },
+  {
+    "id": "TC11",
+    "type": "edge",
+    "description": "Nhập mã giảm giá có khoảng trắng đầu và cuối chuỗi '  SAVE10  '",
+    "code": "  SAVE10  ",
+    "cartTotal": 500000,
+    "expectedResult": "success",
+    "expectedMessage": "Áp dụng thành công"
+  },
+  {
+    "id": "TC12",
+    "type": "edge",
+    "description": "Thay đổi tổng tiền đơn hàng sau khi đã áp dụng mã (SRS: Reset trạng thái mã)",
+    "code": "SAVE10",
+    "cartTotal": 500000,
+    "newCartTotal": 600000,
+    "expectedResult": "reset_state"
+  }
+]
