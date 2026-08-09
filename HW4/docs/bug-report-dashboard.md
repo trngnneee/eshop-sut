@@ -10,9 +10,9 @@ An earlier run's `admin-self-delete-blocked` case genuinely deleted the real see
 (confirming the bug below) and broke every later dashboard case in that run — fixed by promoting a
 disposable throwaway account to `role='admin'` instead; see `docs/ai-review-dashboard.md` §2.
 
-> **GitHub Issues status:** no `gh` CLI or `GITHUB_TOKEN` is available. Existing HW02 issue links
-> are listed in `docs/hw02-reference/tests/issues_list.txt`; the findings below are ready to file
-> once credentials are supplied.
+> **GitHub Issues status:** all 3 new findings below have been filed as real GitHub Issues
+> (#325–#327) with screenshot evidence attached. Existing HW02 issue links for previously-known
+> bugs are listed in `docs/hw02-reference/tests/issues_list.txt`.
 
 ## A. Known issue reproduced
 
@@ -38,7 +38,7 @@ disposable throwaway account to `role='admin'` instead; see `docs/ai-review-dash
 - **Expected:** HTTP `404` with an explicit “user not found” response.
 - **Actual:** HTTP `200` and `{ "message": "User deleted" }` even though no row changed.
 - **Evidence:** `backend/server.js` does not inspect `this.changes` in the delete callback.
-- **Suggested issue title:** `[BUG][Dashboard API] DELETE nonexistent user returns 200 success`
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/325 (screenshot attached)
 
 ### NEW-BUG-FR13-02 — Admin can delete its own account
 
@@ -51,7 +51,7 @@ disposable throwaway account to `role='admin'` instead; see `docs/ai-review-dash
   seed account is restored.
 - **Evidence:** `backend/server.js` has no self-delete guard and the route currently performs a
   direct delete by ID.
-- **Suggested issue title:** `[BUG][Dashboard API][Security] Admin can delete its own account`
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/326 (screenshot attached)
 
 ### NEW-BUG-FR13-03 — Canceled orders can be resurrected as delivered
 
@@ -63,7 +63,7 @@ disposable throwaway account to `role='admin'` instead; see `docs/ai-review-dash
 - **Actual:** HTTP `200`; the order changes to `delivered`.
 - **Evidence:** The state-transition handler explicitly allows `currentStatus === "canceled"`
   with `status === "delivered"`.
-- **Suggested issue title:** `[BUG][Dashboard API] Canceled order can be resurrected as delivered`
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/327 (screenshot attached)
 
 ## C. Known UI defect — confirmed on Chromium, Firefox, and WebKit
 

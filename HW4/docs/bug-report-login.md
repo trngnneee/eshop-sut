@@ -3,13 +3,10 @@
 **Student ID:** 23127207 · Reproduced by: `HW4/tests/login.spec.ts`, `HW4/tests/login-api.spec.ts`
 **Environment:** Chromium, Firefox, WebKit (Playwright) — all 3 browsers reproduce every bug below identically (server-side logic, browser-independent).
 
-> **GitHub Issues status:** this environment has no `gh` CLI installed and no `GITHUB_TOKEN`
-> configured, so issues could not be filed automatically (HW02's own `tests/create_github_issues.py`
-> requires the same `GITHUB_TOKEN` env var and was not re-runnable here either). The
-> already-known bugs below (#1–#9) were never filed as GitHub Issues even in HW02 (confirmed:
-> zero `FR02`/`login` hits in `tests/issues_list.txt`). Titles/bodies below are ready to paste
-> into `https://github.com/trngnneee/eshop-sut/issues/new`, or run with a supplied token — see
-> the bottom of this file.
+> **GitHub Issues status:** all 4 new findings below have been filed as real GitHub Issues
+> (#318–#321) via `gh issue create`, with screenshot evidence attached. The already-known bugs
+> below (#1–#12) were never filed as GitHub Issues even in HW02 (confirmed: zero `FR02`/`login`
+> hits in `tests/issues_list.txt`) and remain open to file separately if needed.
 
 ## A. Already-known bugs reproduced by this automation run
 
@@ -37,7 +34,7 @@
 - **Actual:** HTTP 500 (unhandled exception — `req.body` is `undefined` because Express's JSON
   body-parser skips non-JSON content types, so destructuring `{ email, password }` throws).
 - **Reproduced by:** `TC-API-004` (`tests/login-api.spec.ts`), all 3 browsers.
-- **Suggested GitHub issue title:** `[BUG][Login][API] POST /api/login trả về HTTP 500 khi Content-Type không phải application/json`
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/319 (screenshot attached)
 
 ### NEW-BUG-LOGIN-02 — Login response leaks the user's plaintext password — **High severity**
 - **Severity:** High (security / data exposure)
@@ -45,7 +42,7 @@
 - **Expected:** Response body must not contain the password field.
 - **Actual:** `response.user.password` contains the plaintext password value.
 - **Reproduced by:** `TC-API-006` (`tests/login-api.spec.ts`), all 3 browsers.
-- **Suggested GitHub issue title:** `[BUG][Login][Security] Response đăng nhập thành công lộ password dạng plaintext trong JSON`
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/318 (screenshot attached)
 
 ### NEW-BUG-LOGIN-03 — Identical JWTs for rapid consecutive logins
 - **Severity:** Low
@@ -53,7 +50,7 @@
 - **Expected:** Each login issues a distinguishable token.
 - **Actual:** Tokens are byte-identical (payload only has second-resolution `iat`, no `exp`/`jti`).
 - **Reproduced by:** `TC-JWT-006` (`tests/login-api.spec.ts`), all 3 browsers.
-- **Suggested GitHub issue title:** `[BUG][Login][Security] Hai lần đăng nhập liên tiếp trong cùng 1 giây sinh ra JWT giống hệt nhau`
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/320 (screenshot attached)
 
 ### NEW-BUG-LOGIN-04 — Email lookup is case-sensitive
 - **Severity:** Medium
@@ -61,13 +58,13 @@
 - **Expected:** Login succeeds (email should be treated case-insensitively).
 - **Actual:** Login fails with "Invalid email or password" (SQLite default `=` comparison is case-sensitive; no `LOWER()`/`COLLATE NOCASE` normalization).
 - **Reproduced by:** `TC-LOGIN-028` (`tests/login.spec.ts`), all 3 browsers.
-- **Suggested GitHub issue title:** `[BUG][Login] Tra cứu Email khi đăng nhập phân biệt chữ hoa/thường`
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/321 (screenshot attached)
 
-## How to file these on GitHub once a token is available
+## How the 4 new issues above were filed
+
+Installed `gh` CLI locally (`winget install --id GitHub.cli`), authenticated via
+`gh auth login` (browser device-flow — no token ever typed anywhere), then filed each with:
 
 ```bash
-export GITHUB_TOKEN=<personal-access-token-with-repo-scope>
-python tests/create_github_issues.py   # HW02's existing script, adapt bug_dir/bug_files
-# or, per-issue:
-gh issue create --repo trngnneee/eshop-sut --title "<title above>" --body-file <bug-file>.md --label bug,FR-02,login
+gh issue create --repo trngnneee/eshop-sut --title "<title>" --body "<body>" --label bug
 ```

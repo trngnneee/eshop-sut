@@ -10,9 +10,9 @@ An earlier run surfaced a test-isolation bug (two edge cases mutated the shared 
 catalog without restoring it, contaminating a later browser's run with stale data) — fixed by
 switching those cases to a disposable, self-cleaning product; see `docs/ai-review-cart.md` §3.
 
-> **GitHub Issues status:** this environment has no `gh` CLI and no `GITHUB_TOKEN`. The existing
-> HW02 issue links are preserved in `docs/hw02-reference/tests/issues_list.txt`; the new findings
-> below are ready to file manually or with a supplied token.
+> **GitHub Issues status:** all 3 new findings below have been filed as real GitHub Issues
+> (#322–#324) with screenshot evidence attached. The existing HW02 issue links for
+> previously-known bugs are in `docs/hw02-reference/tests/issues_list.txt`.
 
 ## A. Previously known bugs reproduced
 
@@ -48,7 +48,7 @@ switching those cases to a disposable, self-cleaning product; see `docs/ai-revie
 - **Evidence:** `frontend-web/src/pages/ProductDetail.jsx` contains `if (clickCount === 0) { ...
   return; }`. The report diagnostic for `TC-CART-054` shows the expected `Đã thêm` state was not
   visible after one click.
-- **Suggested issue title:** `[BUG][Cart] Product detail ignores the first Add to Cart click`
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/322 (screenshot attached)
 
 ### NEW-BUG-FR07-02 — React-memory cart disappears after reload or re-login
 
@@ -60,7 +60,7 @@ switching those cases to a disposable, self-cleaning product; see `docs/ai-revie
 - **Actual:** The cart is empty after the `CartProvider` remounts.
 - **Evidence:** `frontend-web/src/context/CartContext.jsx` initializes `useState([])` and has no
   localStorage or server synchronization. The Chromium report contains failures for both cases.
-- **Suggested issue title:** `[BUG][Cart] Cart contents are lost after page reload and re-login`
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/323 (screenshot attached)
 
 ### NEW-BUG-FR07-03 — Product-detail quantity has no client-side validation
 
@@ -75,7 +75,7 @@ switching those cases to a disposable, self-cleaning product; see `docs/ai-revie
 - **Evidence:** `frontend-web/src/pages/ProductDetail.jsx` performs no finite/integer/positive
   check before calling `addToCart`. The API has the related known validation defect
   `BUG-FR07-B-01`.
-- **Suggested issue title:** `[BUG][Cart][Validation] Product-detail quantity accepts zero, negative, fractional, and empty values`
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/324 (screenshot attached)
 
 ## C. Testability note — not filed as a product bug
 
@@ -87,6 +87,6 @@ API case `TC-CART-066` covers string quantity at the server boundary without thi
 
 ## D. Filing note
 
-The ready-to-file titles and evidence above are intentionally separate from the known HW02 bug
-IDs. No GitHub issue was created automatically because the environment does not provide the
-required CLI/token.
+The 3 new findings above are intentionally numbered separately from the known HW02 `BUG-FR07-B-*`
+IDs and have been filed as GitHub Issues #322–#324, each with a screenshot generated from a real
+failing run attached as evidence.
