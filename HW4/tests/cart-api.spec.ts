@@ -248,6 +248,32 @@ test.describe('FR-07 Cart API contract', () => {
           expect(cancelRes.status()).toBe(400);
           break;
         }
+        case 'checkout-missing-total-rejected': {
+          const res = await request.post(`${API_BASE_URL}/api/checkout`, {
+            headers: auth,
+            data: { shipping_address: 'N/A' },
+          });
+          // Spec-conformant expectation: checkout requires a total_amount to create a
+          // meaningful order.
+          expect(res.status()).toBeGreaterThanOrEqual(400);
+          break;
+        }
+        case 'checkout-negative-total-rejected': {
+          const res = await request.post(`${API_BASE_URL}/api/checkout`, {
+            headers: auth,
+            data: { total_amount: -50000, shipping_address: 'N/A' },
+          });
+          expect(res.status()).toBeGreaterThanOrEqual(400);
+          break;
+        }
+        case 'checkout-missing-address-rejected': {
+          const res = await request.post(`${API_BASE_URL}/api/checkout`, {
+            headers: auth,
+            data: { total_amount: 100000 },
+          });
+          expect(res.status()).toBeGreaterThanOrEqual(400);
+          break;
+        }
         default:
           throw new Error(`Unknown API action "${c.action}" for ${c.caseId}`);
       }

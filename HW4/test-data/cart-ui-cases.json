@@ -40,5 +40,11 @@
   { "caseId": "TC-CART-050", "category": "cross-tab", "description": "Mở giỏ hàng ở tab/context khác sau khi đã thêm sản phẩm ở tab đầu — không đồng bộ do state chỉ ở client", "check": "cross-tab-no-sync" },
   { "caseId": "TC-CART-092", "category": "calculation", "description": "Số lượng hiển thị trong ô Số lượng của bảng giỏ hàng phải khớp đúng giá trị đã nhập lúc thêm (vd 7)", "check": "quantity-value-in-cell", "quantity": 7 },
   { "caseId": "TC-CART-093", "category": "positive", "description": "Xóa 1 sản phẩm ở giữa giỏ hàng 3 sản phẩm chỉ xóa đúng dòng đó, 2 dòng còn lại phải nguyên vẹn", "check": "remove-middle-item" },
-  { "caseId": "TC-CART-094", "category": "positive", "description": "Giỏ hàng vẫn giữ nguyên khi điều hướng qua lại Cart -> Home -> Cart bằng link trong app (không reload trang)", "check": "nav-preserves-cart" }
+  { "caseId": "TC-CART-094", "category": "positive", "description": "Giỏ hàng vẫn giữ nguyên khi điều hướng qua lại Cart -> Home -> Cart bằng link trong app (không reload trang)", "check": "nav-preserves-cart" },
+  { "caseId": "TC-CART-100", "category": "calculation", "description": "Tính thành tiền đúng khi số lượng = 1 (biên nhỏ nhất hợp lệ)", "check": "subtotal-single", "quantity": 1 },
+  { "caseId": "TC-CART-101", "category": "calculation", "description": "Tính thành tiền đúng khi số lượng = 10", "check": "subtotal-single", "quantity": 10 },
+  { "caseId": "TC-CART-102", "category": "calculation", "description": "Ô Số lượng hiển thị đúng khi số lượng = 1 (biên nhỏ nhất)", "check": "quantity-value-in-cell", "quantity": 1 },
+  { "caseId": "TC-CART-103", "category": "calculation", "description": "Ô Số lượng hiển thị đúng khi số lượng = 99", "check": "quantity-value-in-cell", "quantity": 99 },
+  { "caseId": "TC-CART-104", "category": "boundary-quantity", "description": "Nhập quantity dạng ký hiệu khoa học (1e10) khi thêm vào giỏ", "check": "add-with-quantity", "quantity": "1e10" },
+  { "caseId": "TC-CART-105", "category": "boundary-quantity", "description": "Nhập quantity là số 0 âm (-0) khi thêm vào giỏ", "check": "add-with-quantity", "quantity": "-0" }
 ]

@@ -1,7 +1,7 @@
 # AI Review & Gap Analysis — FR-02 (Login & Account Lockout)
 
 **Student ID:** 23127207 · **Feature:** FR-02 — Pool A · **Spec files:** `tests/login.spec.ts`, `tests/login-api.spec.ts`
-**Data files:** `test-data/login-cases.json` (31), `test-data/login-ui-cases.json` (14), `test-data/login-lockout-cases.json` (13), `test-data/login-api-cases.json` (14) — **72 test cases total**
+**Data files:** `test-data/login-cases.json` (43), `test-data/login-ui-cases.json` (14), `test-data/login-lockout-cases.json` (13), `test-data/login-api-cases.json` (20) — **90 test cases total**
 
 ## 1. Where this suite came from
 
@@ -106,6 +106,33 @@ untested code path* (still finds genuine, previously-unknown defects even after 
 three new cases needed no new spec-file shape, only three new `switch` branches in the existing
 `login-api.spec.ts`.
 
+## 3d. Fifth pass — a critical finding, plus more boundary/robustness coverage (90 cases total)
+
+The user asked to keep looking until the suite reached 250 cases total across all three
+features. Rather than pad with redundant repeats, this pass split effort between one more
+deliberate source review and a batch of genuinely distinct boundary/robustness cases:
+
+**One more deliberate source-code review**, this time of `PUT /api/users/me` (the
+self-profile-update endpoint `AuthContext.jsx` never calls directly, but every authenticated user
+can) — found the most severe bug in this entire assignment:
+
+| ID | Severity | Finding | Case |
+|---|---|---|---|
+| NEW-BUG-LOGIN-08 | **CRITICAL** | `PUT /api/users/me` destructures `role` straight out of the client-supplied request body and writes it to the database if present — any authenticated user, including a brand-new self-registered account, can `PUT {"role":"admin"}` and become a real, persistent admin. No exploitation of any other bug required | `TC-API-011` |
+
+Filed as GitHub Issue [#338](https://github.com/trngnneee/eshop-sut/issues/338).
+
+**Twelve more boundary/robustness cases** (6 API, 6 UI-attempt) reusing already-proven shapes —
+extending `login-cases.json`'s data-driven loop with zero spec changes for the UI-attempt half:
+
+| Cases | What they check | Result |
+|---|---|---|
+| `TC-API-012`, `013` | `/api/register` rejects a request missing `password`/`email` entirely | **Fail** — same root cause as `NEW-BUG-LOGIN-06` (zero validation), not a separate issue |
+| `TC-API-014` | `/api/reset-password` rejects a wrong `resetToken` | **Passes** |
+| `TC-API-015` | `/api/forgot-password` for a nonexistent email returns `404` | **Passes** |
+| `TC-API-016` | A second `forgot-password` call invalidates the first token | **Passes** — confirms the token IS at least single-generation-valid, even though it never expires by itself (`NEW-BUG-LOGIN-07`) |
+| `TC-LOGIN-048`–`061` (12 cases) | Extremely long email/password, plus-addressing, multiple `@`, SQL-injection password, whitespace-only fields, Unicode/emoji domains, malformed JSON-shaped password, missing domain | **All pass** — the login form and backend correctly reject every one of these without crashing, a genuinely useful negative-space result after finding several validation gaps elsewhere |
+
 ## 4. Cases not automated
 
 | Case | Reason |
@@ -123,8 +150,8 @@ three new cases needed no new spec-file shape, only three new `switch` branches 
 `localStorage` inspection), `expect(status).not.toBe(...)`, `expect(payload).toHaveProperty(...)` —
 **9 distinct patterns** across the two spec files (requirement: ≥3).
 
-## 6. Execution evidence (final, all 3 browsers, 72 cases)
+## 6. Execution evidence (final, all 3 browsers, 90 cases)
 
-Chromium, Firefox, and WebKit each produced the identical **51 passed / 21 failed / 72 total**.
+Chromium, Firefox, and WebKit each produced the identical **66 passed / 24 failed / 90 total**.
 Reports: `HW4/reports/login/{chromium,firefox,webkit}/index.html`, each labeled `Run by: 23127207`
 with an ISO timestamp.

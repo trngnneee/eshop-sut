@@ -2,7 +2,7 @@
 
 **Student ID:** 23127207 · **Feature:** FR-07 — Pool B  
 **Spec files:** `tests/cart.spec.ts`, `tests/cart-api.spec.ts`  
-**Data files:** `test-data/cart-ui-cases.json` (42), `test-data/cart-edge-cases.json` (5), `test-data/cart-api-cases.json` (30) — **77 test cases total**
+**Data files:** `test-data/cart-ui-cases.json` (48), `test-data/cart-edge-cases.json` (5), `test-data/cart-api-cases.json` (39) — **92 test cases total**
 
 ## 1. Scope and conversion from HW02
 
@@ -161,6 +161,29 @@ change):
    `many-items-cart` already used), so all three products can be added via the client-side-preserving
    `addFromDetailReliable` helper.
 
+## 3e. Sixth pass — one more bug, plus boundary volume (92 cases total)
+
+Continuing the same source-review technique against `POST /api/checkout` in isolation (rather
+than only as a setup step for order-endpoint cases) surfaced one more distinct defect:
+
+| ID | Severity | Finding | Cases |
+|---|---|---|---|
+| NEW-BUG-FR07-07 | Medium | `POST /api/checkout` performs no validation at all — missing `total_amount`, a negative `total_amount`, and a missing `shipping_address` are all accepted and create a real order row | `TC-CART-097`, `098`, `099` |
+
+Filed as GitHub Issue [#339](https://github.com/trngnneee/eshop-sut/issues/339).
+
+Twelve more boundary cases were added reusing already-proven shapes with zero new spec code: 6
+more `/api/cart` boundary values (`price: 0` exactly, `quantity: -0.5`, boolean/array/string-typed
+`quantity`, string-typed `price`) via the existing `post-quantity-value`/`post-price-value`/
+`post-quantity-raw` actions, and 6 more UI cases (`subtotal-single`/`quantity-value-in-cell` at
+quantity 1 and 10/99, plus `add-with-quantity` with scientific-notation and negative-zero string
+inputs) via the existing parameterized switch cases. One flaky failure was observed and resolved
+during this pass: `TC-CART-083` (pre-existing, unrelated to this pass) hit a 30s Playwright
+timeout on a single Firefox run while creating 12 disposable products sequentially; a re-run
+produced the identical result to Chromium/WebKit, confirming it was a one-off timing flake, not a
+real cross-browser difference — consistent with this project's "green on one browser is a
+hypothesis" principle from `.agents/skills/playwright-skill/playwright-skill.md`.
+
 ## 5. Assertion-pattern inventory
 
 The suite exercises more than the required three patterns, including `toHaveURL`, `toBeVisible`,
@@ -171,7 +194,7 @@ positive.
 
 ## 6. Review conclusion
 
-All three browsers now produce the **exact same result: 39 passed / 38 failed / 77 total**,
+All three browsers now produce the **exact same result: 46 passed / 46 failed / 92 total**,
 confirmed after the test-isolation fix in Section 3. Cross-browser identity (rather than
 coincidence) is the useful signal here: every failure is a server-side or React-state defect, not
 a browser-rendering difference, which is consistent with a Vietnamese e-commerce SPA whose bugs

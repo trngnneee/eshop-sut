@@ -1,7 +1,7 @@
 import { test, expect, type Page, type APIRequestContext } from '@playwright/test';
 import { API_BASE_URL, apiLogin, ADMIN_CREDENTIALS, SEED_USER_CREDENTIALS } from './utils/api';
 import { clearAllOrders } from './utils/db';
-import { loadJsonArray } from './utils/data';
+import { loadJsonArray, type DataRowValidator } from './utils/data';
 
 const STUDENT_ID = '23127207';
 
@@ -23,7 +23,46 @@ interface DataCase {
   check?: string;
 }
 
-const dataCases = loadJsonArray<DataCase>('dashboard-data-cases.json', 5);
+const ALLOWED_CHECKS = new Set(['non-admin-blocked-at-login', 'offline-during-load']);
+
+const validateDataCase: DataRowValidator<DataCase> = (row, index) => {
+  if (typeof row.category !== 'string' || typeof row.description !== 'string') {
+    throw new Error(`dashboard-data-cases.json row ${index + 1}: category and description are required`);
+  }
+  if (row.check !== undefined) {
+    if (!ALLOWED_CHECKS.has(row.check)) {
+      throw new Error(`dashboard-data-cases.json row ${index + 1}: unknown check "${row.check}"`);
+    }
+    return;
+  }
+  if (!Array.isArray(row.orders)) {
+    throw new Error(`dashboard-data-cases.json row ${index + 1}: orders must be an array`);
+  }
+  for (const [orderIndex, order] of row.orders.entries()) {
+    if (!order || typeof order.finalStatus !== 'string' || !Object.hasOwn(TRANSITION_PATH, order.finalStatus)) {
+      throw new Error(
+        `dashboard-data-cases.json row ${index + 1}, order ${orderIndex + 1}: unknown finalStatus`,
+      );
+    }
+    if (order.amount !== null && typeof order.amount !== 'number') {
+      throw new Error(`dashboard-data-cases.json row ${index + 1}, order ${orderIndex + 1}: amount must be a number or null`);
+    }
+  }
+  if (typeof row.expectedOrderCount !== 'number' || typeof row.expectedRevenue !== 'number') {
+    throw new Error(
+      `dashboard-data-cases.json row ${index + 1}: expectedOrderCount and expectedRevenue are required for metric cases`,
+    );
+  }
+  if (row.thenTransitionLastOrderTo !== undefined && !Object.hasOwn(TRANSITION_PATH, row.thenTransitionLastOrderTo)) {
+    throw new Error(`dashboard-data-cases.json row ${index + 1}: unknown transition target`);
+  }
+  if (row.thenTransitionLastOrderTo !== undefined && row.orders.length === 0) {
+    throw new Error(`dashboard-data-cases.json row ${index + 1}: a transition target needs at least one order`);
+  }
+  if (row.expectedRevenueAfterTransition !== undefined && typeof row.expectedRevenueAfterTransition !== 'number') {
+    throw new Error(`dashboard-data-cases.json row ${index + 1}: expectedRevenueAfterTransition must be a number`);
+  }
+};
 
 // pending is the natural state right after checkout; list the *additional* hops needed.
 const TRANSITION_PATH: Record<string, string[]> = {
@@ -33,6 +72,8 @@ const TRANSITION_PATH: Record<string, string[]> = {
   shipping: ['confirmed', 'shipping'],
   delivered: ['confirmed', 'shipping', 'delivered'],
 };
+
+const dataCases = loadJsonArray<DataCase>('dashboard-data-cases.json', 12, validateDataCase);
 
 async function seedOrder(
   request: APIRequestContext,
@@ -45,8 +86,9 @@ async function seedOrder(
     headers: { Authorization: `Bearer ${userToken}` },
     data: { total_amount: amount, items: [] },
   });
-  const body = await res.json();
-  const orderId = body.orderId as number;
+  const body = (await res.json()) as { orderId?: unknown };
+  if (typeof body.orderId !== 'number') throw new Error('Checkout setup did not return a numeric orderId');
+  const orderId = body.orderId;
   for (const status of TRANSITION_PATH[finalStatus] ?? []) {
     await request.put(`${API_BASE_URL}/api/admin/orders/${orderId}/status`, {
       headers: { Authorization: `Bearer ${adminToken}` },
@@ -65,7 +107,7 @@ async function loginAdminUI(page: Page, email: string, password: string) {
 
 /** Reads the numeric value out of one of the two dashboard metric cards. */
 async function readMetricNumber(page: Page, heading: string): Promise<number> {
-  const card = page.locator('div.bg-white').filter({ hasText: heading });
+  const card = page.getByText(heading, { exact: false }).locator('..');
   const text = (await card.locator('p').textContent()) ?? '';
   const cleaned = text
     .replace(/[^\d.,-]/g, '')
@@ -84,17 +126,17 @@ test.describe('FR-13 Admin Dashboard metrics (data-driven)', () => {
       if (c.bugRef) testInfo.annotations.push({ type: 'Bug ref', description: c.bugRef });
 
       if (c.check === 'non-admin-blocked-at-login') {
-        let dialogMessage = '';
-        page.on('dialog', async (d) => {
-          dialogMessage = d.message();
-          await d.accept();
+        const dialogPromise = page.waitForEvent('dialog').then(async (dialog) => {
+          const message = dialog.message();
+          await dialog.accept();
+          return message;
         });
         await loginAdminUI(page, SEED_USER_CREDENTIALS.email, SEED_USER_CREDENTIALS.password);
-        await page.waitForTimeout(500);
+        const dialogMessage = await dialogPromise;
         // Assertion pattern: alert dialog content
         expect(dialogMessage).toContain('admin');
         // Assertion pattern: still on the admin login form, not the dashboard
-        await expect(page.getByText('Admin Login')).toBeVisible();
+        await expect(page.getByRole('heading', { name: 'Admin Login' })).toBeVisible();
         return;
       }
 
@@ -107,7 +149,7 @@ test.describe('FR-13 Admin Dashboard metrics (data-driven)', () => {
         // targeted repro than a full offline reload (which would also break the SPA shell).
         await page.route('**/api/admin/orders', (route) => route.abort());
         await loginAdminUI(page, ADMIN_CREDENTIALS.email, ADMIN_CREDENTIALS.password);
-        await page.waitForTimeout(1000);
+        await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
         // Spec-conformant expectation: the admin should be told something went wrong
         // instead of seeing an unexplained blank/stale dashboard.
         await expect(page.getByText(/lỗi|error|không thể tải|thử lại/i)).toBeVisible();
@@ -115,8 +157,13 @@ test.describe('FR-13 Admin Dashboard metrics (data-driven)', () => {
       }
 
       await clearAllOrders();
-      const userToken = (await (await apiLogin(request, SEED_USER_CREDENTIALS.email, SEED_USER_CREDENTIALS.password)).json()).token;
-      const adminToken = (await (await apiLogin(request, ADMIN_CREDENTIALS.email, ADMIN_CREDENTIALS.password)).json()).token;
+      const userLogin = (await (await apiLogin(request, SEED_USER_CREDENTIALS.email, SEED_USER_CREDENTIALS.password)).json()) as { token?: unknown };
+      const adminLogin = (await (await apiLogin(request, ADMIN_CREDENTIALS.email, ADMIN_CREDENTIALS.password)).json()) as { token?: unknown };
+      if (typeof userLogin.token !== 'string' || typeof adminLogin.token !== 'string') {
+        throw new Error('Dashboard setup could not obtain both user and admin tokens');
+      }
+      const userToken = userLogin.token;
+      const adminToken = adminLogin.token;
 
       const orderIds: number[] = [];
       for (const o of c.orders ?? []) {

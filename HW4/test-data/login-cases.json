@@ -302,5 +302,113 @@
     "email": "TC028@ESHOP.COM",
     "password": "ValidPassword1!",
     "expectedOutcome": "success"
+  },
+  {
+    "caseId": "TC-LOGIN-048",
+    "category": "boundary",
+    "description": "Email cực dài (300+ ký tự) không được gây crash/treo trang, chỉ báo lỗi đăng nhập bình thường",
+    "accountMode": "nonexistent",
+    "email": "a-very-long-local-part-that-keeps-going-and-going-and-going-and-going-and-going-and-going-and-going-and-going-and-going-and-going-and-going-and-going-and-going-and-going-and-going-and-going@eshop.com",
+    "password": "AnyPass1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-049",
+    "category": "boundary",
+    "description": "Email dạng plus-addressing hợp lệ nhưng không tồn tại tài khoản, phải báo lỗi bình thường",
+    "accountMode": "nonexistent",
+    "email": "someone+test-tag@eshop.com",
+    "password": "AnyPass1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-050",
+    "category": "boundary",
+    "description": "Email chứa nhiều ký tự @ (định dạng sai) phải bị từ chối gọn gàng, không crash",
+    "accountMode": "nonexistent",
+    "email": "a@b@c@eshop.com",
+    "password": "AnyPass1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-051",
+    "category": "security-sqli",
+    "description": "Mật khẩu dạng payload SQL injection không được gây lỗi 500 hay bypass đăng nhập",
+    "accountMode": "nonexistent",
+    "email": "sqli-pw-probe@eshop.com",
+    "password": "' OR '1'='1",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-052",
+    "category": "boundary",
+    "description": "Mật khẩu cực dài (1000 ký tự) không được gây crash/treo trang",
+    "accountMode": "nonexistent",
+    "email": "longpw-probe@eshop.com",
+    "password": "P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!P4ssw0rd!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-053",
+    "category": "boundary",
+    "description": "Mật khẩu chỉ toàn khoảng trắng phải bị từ chối, không được coi là hợp lệ",
+    "accountMode": "nonexistent",
+    "email": "whitespace-pw-probe@eshop.com",
+    "password": "        ",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-054",
+    "category": "boundary",
+    "description": "Email chỉ toàn khoảng trắng phải bị từ chối, không được coi là hợp lệ",
+    "accountMode": "nonexistent",
+    "email": "     ",
+    "password": "AnyPass1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-057",
+    "category": "boundary",
+    "description": "Email chứa ký tự Unicode (miền quốc tế hóa) không tồn tại phải báo lỗi bình thường, không crash",
+    "accountMode": "nonexistent",
+    "email": "tê-st-unicode@eshop.com",
+    "password": "AnyPass1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-058",
+    "category": "boundary",
+    "description": "Email chứa số 0 (null byte hoá bằng chuỗi) không được gây crash backend",
+    "accountMode": "nonexistent",
+    "email": "null-byte-probe%00@eshop.com",
+    "password": "AnyPass1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-059",
+    "category": "boundary",
+    "description": "Email không có phần domain (thiếu @domain) phải bị từ chối gọn gàng",
+    "accountMode": "nonexistent",
+    "email": "no-domain-part",
+    "password": "AnyPass1!",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-060",
+    "category": "boundary",
+    "description": "Password là JSON object dạng chuỗi (thử phá kiểu dữ liệu) phải bị từ chối gọn gàng, không crash",
+    "accountMode": "nonexistent",
+    "email": "json-pw-probe@eshop.com",
+    "password": "{\"$ne\": null}",
+    "expectedOutcome": "error"
+  },
+  {
+    "caseId": "TC-LOGIN-061",
+    "category": "boundary",
+    "description": "Email với ký tự Emoji không tồn tại phải báo lỗi bình thường, không crash trang",
+    "accountMode": "nonexistent",
+    "email": "emoji-probe-😀@eshop.com",
+    "password": "AnyPass1!",
+    "expectedOutcome": "error"
   }
 ]

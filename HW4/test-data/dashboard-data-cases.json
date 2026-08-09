@@ -228,5 +228,138 @@
     ],
     "expectedOrderCount": 1,
     "expectedRevenue": 0
+  },
+  {
+    "caseId": "TC-DASHBOARD-DT-012",
+    "category": "boundary",
+    "description": "Đúng 1 đơn pending duy nhất => Tổng đơn = 1, doanh thu = 0",
+    "orders": [{ "amount": 150000, "finalStatus": "pending" }],
+    "expectedOrderCount": 1,
+    "expectedRevenue": 0
+  },
+  {
+    "caseId": "TC-DASHBOARD-DT-013",
+    "category": "domain-testing",
+    "description": "2 đơn delivered với giá trị khác nhau phải cộng dồn đúng (không phải phép nhân)",
+    "orders": [
+      { "amount": 150000, "finalStatus": "delivered" },
+      { "amount": 250000, "finalStatus": "delivered" }
+    ],
+    "expectedOrderCount": 2,
+    "expectedRevenue": 400000
+  },
+  {
+    "caseId": "TC-DASHBOARD-BVA-009",
+    "category": "boundary",
+    "description": "Đơn delivered có total_amount nhỏ nhất có thể (1đ) vẫn cộng đúng vào doanh thu",
+    "orders": [{ "amount": 1, "finalStatus": "delivered" }],
+    "expectedOrderCount": 1,
+    "expectedRevenue": 1
+  },
+  {
+    "caseId": "TC-DASHBOARD-BVA-010",
+    "category": "boundary",
+    "description": "Đơn delivered có total_amount là số thập phân rất nhỏ (0.01) vẫn cộng đúng, không làm tròn về 0",
+    "orders": [{ "amount": 0.01, "finalStatus": "delivered" }],
+    "expectedOrderCount": 1,
+    "expectedRevenue": 0.01
+  },
+  {
+    "caseId": "TC-DASHBOARD-DT-014",
+    "category": "data-integrity",
+    "description": "Đơn null, đơn âm, và đơn hợp lệ trộn lẫn nhau — chỉ đơn hợp lệ được cộng vào doanh thu",
+    "bugRef": "BUG-FR13-C-04",
+    "orders": [
+      { "amount": null, "finalStatus": "delivered" },
+      { "amount": -20000, "finalStatus": "delivered" },
+      { "amount": 180000, "finalStatus": "delivered" }
+    ],
+    "expectedOrderCount": 3,
+    "expectedRevenue": 180000
+  },
+  {
+    "caseId": "TC-DASHBOARD-DT-015",
+    "category": "domain-testing",
+    "description": "4 đơn đều ở trạng thái canceled => doanh thu = 0 dù số đơn > 0",
+    "orders": [
+      { "amount": 100000, "finalStatus": "canceled" },
+      { "amount": 200000, "finalStatus": "canceled" },
+      { "amount": 300000, "finalStatus": "canceled" },
+      { "amount": 400000, "finalStatus": "canceled" }
+    ],
+    "expectedOrderCount": 4,
+    "expectedRevenue": 0
+  },
+  {
+    "caseId": "TC-DASHBOARD-STATE-002",
+    "category": "state-transition",
+    "description": "Thử chuyển đơn đang shipping trực tiếp sang canceled (không hợp lệ) không được làm thay đổi doanh thu",
+    "orders": [{ "amount": 220000, "finalStatus": "shipping" }],
+    "expectedOrderCount": 1,
+    "expectedRevenue": 0,
+    "thenTransitionLastOrderTo": "canceled",
+    "expectedRevenueAfterTransition": 0
+  },
+  {
+    "caseId": "TC-DASHBOARD-DT-016",
+    "category": "domain-testing",
+    "description": "7 đơn phân bố đều nhiều trạng thái chưa delivered => doanh thu vẫn phải là 0",
+    "orders": [
+      { "amount": 100000, "finalStatus": "pending" },
+      { "amount": 100000, "finalStatus": "pending" },
+      { "amount": 100000, "finalStatus": "confirmed" },
+      { "amount": 100000, "finalStatus": "confirmed" },
+      { "amount": 100000, "finalStatus": "shipping" },
+      { "amount": 100000, "finalStatus": "shipping" },
+      { "amount": 100000, "finalStatus": "canceled" }
+    ],
+    "expectedOrderCount": 7,
+    "expectedRevenue": 0
+  },
+  {
+    "caseId": "TC-DASHBOARD-BVA-011",
+    "category": "boundary",
+    "description": "3 đơn delivered có phần thập phân giống nhau (333333.33) cộng dồn không lệch số do sai số dấu phẩy động",
+    "orders": [
+      { "amount": 333333.33, "finalStatus": "delivered" },
+      { "amount": 333333.33, "finalStatus": "delivered" },
+      { "amount": 333333.33, "finalStatus": "delivered" }
+    ],
+    "expectedOrderCount": 3,
+    "expectedRevenue": 999999.99
+  },
+  {
+    "caseId": "TC-DASHBOARD-DT-017",
+    "category": "boundary",
+    "description": "Đơn delivered có total_amount cực lớn (999,999,999,999) vẫn hiển thị đúng, không tràn số",
+    "orders": [{ "amount": 999999999999, "finalStatus": "delivered" }],
+    "expectedOrderCount": 1,
+    "expectedRevenue": 999999999999
+  },
+  {
+    "caseId": "TC-DASHBOARD-DT-018",
+    "category": "data-integrity",
+    "description": "Trộn 1 đơn delivered âm và 1 đơn delivered dương — chỉ đơn dương được cộng vào doanh thu",
+    "orders": [
+      { "amount": -100000, "finalStatus": "delivered" },
+      { "amount": 250000, "finalStatus": "delivered" }
+    ],
+    "expectedOrderCount": 2,
+    "expectedRevenue": 250000
+  },
+  {
+    "caseId": "TC-DASHBOARD-BVA-012",
+    "category": "boundary",
+    "description": "6 đơn delivered giá trị nhỏ khác nhau (không đồng nhất) cộng dồn chính xác",
+    "orders": [
+      { "amount": 15000, "finalStatus": "delivered" },
+      { "amount": 27000, "finalStatus": "delivered" },
+      { "amount": 8000, "finalStatus": "delivered" },
+      { "amount": 42000, "finalStatus": "delivered" },
+      { "amount": 19000, "finalStatus": "delivered" },
+      { "amount": 33000, "finalStatus": "delivered" }
+    ],
+    "expectedOrderCount": 6,
+    "expectedRevenue": 144000
   }
 ]

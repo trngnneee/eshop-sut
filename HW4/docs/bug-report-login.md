@@ -2,13 +2,14 @@
 
 **Student ID:** 23127207 · Reproduced by: `HW4/tests/login.spec.ts`, `HW4/tests/login-api.spec.ts`
 **Environment:** Chromium, Firefox, WebKit (Playwright) — all 3 browsers reproduce every bug below identically (server-side logic, browser-independent).
-**Execution evidence:** all 3 browsers ran the full 72-case suite and produced the identical
-**51 passed / 21 failed / 72 total**.
+**Execution evidence:** all 3 browsers ran the full 90-case suite and produced the identical
+**66 passed / 24 failed / 90 total**.
 
-> **GitHub Issues status:** all 7 new findings below have been filed as real GitHub Issues
-> (#318–#321, #333–#335) via `gh issue create`, with screenshot evidence attached. The already-known
-> bugs below (#1–#12) were never filed as GitHub Issues even in HW02 (confirmed: zero `FR02`/`login`
-> hits in `tests/issues_list.txt`) and remain open to file separately if needed.
+> **GitHub Issues status:** all 8 new findings below have been filed as real GitHub Issues
+> (#318–#321, #333–#335, #338) via `gh issue create`, with screenshot evidence attached. The
+> already-known bugs below (#1–#12) were never filed as GitHub Issues even in HW02 (confirmed:
+> zero `FR02`/`login` hits in `tests/issues_list.txt`) and remain open to file separately if
+> needed.
 
 ## A. Already-known bugs reproduced by this automation run
 
@@ -89,7 +90,19 @@
 - **Reproduced by:** `TC-API-010` (`tests/login-api.spec.ts`), all 3 browsers.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/335 (screenshot attached)
 
-## How the 7 new issues above were filed
+### NEW-BUG-LOGIN-08 — Privilege escalation via `PUT /api/users/me` — **CRITICAL**
+- **Severity:** Critical (privilege escalation / mass assignment, OWASP A01/A04)
+- **Steps:** Register + log in as a brand-new regular user, then `PUT /api/users/me` with
+  `{"role":"admin"}`.
+- **Expected:** A user can never change their own `role` via a self-profile-update endpoint.
+- **Actual:** `200 Profile updated`; a follow-up `GET /api/users/me` confirms `role: "admin"` —
+  the account is genuinely, persistently promoted to admin.
+- **Evidence:** The handler destructures `role` straight from `req.body` and writes it to the
+  database whenever present, with no restriction at all.
+- **Reproduced by:** `TC-API-011` (`tests/login-api.spec.ts`), all 3 browsers.
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/338 (screenshot attached)
+
+## How the 8 new issues above were filed
 
 Installed `gh` CLI locally (`winget install --id GitHub.cli`), authenticated via
 `gh auth login` (browser device-flow — no token ever typed anywhere), then filed each with:

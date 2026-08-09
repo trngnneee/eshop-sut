@@ -114,3 +114,47 @@ thật. Quy trình dưới đây ghi lại đúng các bước đã yêu cầu A
   `docs/ai-review-login.md` và `docs/bug-report-login.md`.
 - Không sửa assertion để "ép pass" — theo đúng nguyên tắc của `playwright-skill.md`: giữ nguyên kỳ
   vọng đúng đặc tả, để lỗi thật hiện ra làm bằng chứng bug.
+
+## FR-13 Playwright 7-step conversion log
+
+**User prompt:** Use `.agents/skills/playwright-skill/playwright-skill.md` to automate FR-13 EShop Dashboard according to the skill's seven-step process.
+**Student ID:** `23127207`
+**Scope:** FR-13, the existing Pool C feature in the HW4 three-feature assignment.
+
+### Step 1 — Analyze
+
+- **Inputs:** the HW02 FR-13 cases and bug reports under `docs/hw02-reference/`, `frontend-admin/src/App.jsx`, `backend/server.js`, and the database seed.
+- **Action:** extracted actors (admin, regular user, guest), preconditions, metric oracles, API contracts, and the order state model `pending -> confirmed -> shipping -> delivered`, with `canceled` treated as terminal.
+- **Outcome:** identified the dashboard UI plus admin user/order APIs. Existing revenue-doubling, role-guard, self-delete, ID-validation, canceled-resurrection, and load-error defects remain expected-failure oracles.
+
+### Step 2 — Design
+
+- **Inputs:** the existing 46 FR-13 HW02 test-case documents and known bugs.
+- **Action:** selected non-duplicate positive, negative, boundary, state-transition, data-integrity, access-control, and resilience cases, prioritizing cases tied to known bugs.
+- **Outcome:** 32 UI/metric cases and 36 API cases, 68 logical cases total; each has a stable `caseId`, category, description, and observable expected result.
+
+### Step 3 — Review
+
+- **Action:** checked actor, state-transition, boundary amount/count, authentication/authorization, data-exposure, error-handling, and isolation coverage against the source.
+- **Outcome:** preserved requirement-conformant assertions even when the product is defective. The self-delete case uses a disposable admin account promoted through the test-only DB helper, so it never deletes the shared seed admin.
+
+### Step 4 — Model data
+
+- **Action:** kept the cases in external JSON: UI cases use `orders`, `expectedOrderCount`, `expectedRevenue`, and explicit `check`/transition fields; API cases use `action` and `from`/`to` for transitions.
+- **Outcome:** `test-data/dashboard-data-cases.json` has 32 records and `test-data/dashboard-api-cases.json` has 36 records. Runtime validation now checks file shape, minimum count, duplicate/missing IDs, required fields, and the allowed action/check vocabulary.
+
+### Step 5 — Map automation
+
+- **Action:** mapped user-facing Playwright locators (`getByRole`, `getByPlaceholder`, `getByText`) and HTTP status/response assertions; used API/SQLite only for deterministic setup/cleanup and the admin UI for dashboard behavior.
+- **Outcome:** removed fixed sleeps, replaced the styling-class card locator with a text-anchored locator, and retained isolated contexts, sequential workers for shared SQLite, and failure screenshot/trace/video artifacts.
+
+### Step 6 — Generate
+
+- **Affected files:** `tests/dashboard.spec.ts`, `tests/dashboard-api.spec.ts`, `tests/utils/data.ts`, `playwright.config.ts`, `scripts/run-matrix.js`, `scripts/inject-student-id.js`, and `docs/fr13-playwright-ledger.md`.
+- **Outcome:** the feature consumes external data, includes case IDs in titles, uses actual student ID `23127207`, supports a report-root override, and records a traceability ledger.
+
+### Step 7 — Verify and repair
+
+- **Pre-check outcome:** `npx tsc --noEmit` passed; `FEATURE=dashboard npx playwright test --list --project=chromium` discovered 68 invocations on one browser, 204 across Chromium/Firefox/WebKit.
+- **Execution result:** backend `http://localhost:3000`, storefront `http://localhost:5173`, and admin app `http://localhost:5174` responded locally. `node scripts/run-matrix.js --feature=dashboard` attempted all three cells sequentially, but each Playwright invocation stopped before the first test at Node `child_process.fork` with `Error: spawn EPERM` under Node `v24.10.0`.
+- **Evidence:** `reports/fr13-validation/run-manifest.json` records Chromium, Firefox, and WebKit as `exitCode: 1`; no FR-13 HTML report was produced because the test worker could not start. This is recorded as an environment/runtime blocker, not as a product pass/fail result. No older report is being reused as evidence for this run.

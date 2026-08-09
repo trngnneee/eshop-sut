@@ -1,8 +1,8 @@
 # Bug Report — FR-13 (Admin Dashboard)
 
 **Student ID:** 23127207 · **Reproduced by:** `tests/dashboard.spec.ts`, `tests/dashboard-api.spec.ts`  
-**Execution evidence:** Chromium, Firefox, and WebKit each ran the full 48-case suite and produced
-the identical result **24 passed / 24 failed / 48**. Reports:
+**Execution evidence:** Chromium, Firefox, and WebKit each ran the full 68-case suite and produced
+the identical result **36 passed / 32 failed / 68**. Reports:
 `HW4/reports/dashboard/{chromium,firefox,webkit}/index.html`, each labeled `Run by: 23127207` with
 an ISO timestamp.
 

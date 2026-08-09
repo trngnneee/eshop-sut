@@ -136,6 +136,65 @@ test.describe('FR-02 Login API contract', () => {
           expect(String(resetToken).length).toBeGreaterThanOrEqual(6);
           break;
         }
+        case 'self-promote-to-admin-blocked': {
+          const email = `escalate-${c.caseId.toLowerCase()}@eshop.com`;
+          await deleteUserByEmail(email).catch(() => undefined);
+          await registerUser(request, { name: 'Escalate Probe', email, password: 'Pass1234!' });
+          const loginRes = await apiLogin(request, email, 'Pass1234!');
+          const token = (await loginRes.json()).token;
+          const auth = { Authorization: `Bearer ${token}` };
+          const before = await (await request.get(`${API_BASE_URL}/api/users/me`, { headers: auth })).json();
+          expect(before.role).toBe('user');
+          await request.put(`${API_BASE_URL}/api/users/me`, { headers: auth, data: { name: 'Escalate Probe', role: 'admin' } });
+          const after = await (await request.get(`${API_BASE_URL}/api/users/me`, { headers: auth })).json();
+          // CRITICAL spec-conformant expectation: a regular user must never be able to
+          // change their own role via a self-profile-update endpoint.
+          expect(after.role).toBe('user');
+          break;
+        }
+        case 'register-missing-password-rejected': {
+          const email = `nopass-${c.caseId.toLowerCase()}@eshop.com`;
+          await deleteUserByEmail(email).catch(() => undefined);
+          const res = await request.post(`${API_BASE_URL}/api/register`, { data: { name: 'No Pass', email } });
+          expect(res.status()).toBeGreaterThanOrEqual(400);
+          break;
+        }
+        case 'register-missing-email-rejected': {
+          const res = await request.post(`${API_BASE_URL}/api/register`, { data: { name: 'No Email', password: 'Pass1!' } });
+          expect(res.status()).toBeGreaterThanOrEqual(400);
+          break;
+        }
+        case 'reset-wrong-token-rejected': {
+          const email = `wrong-token-${c.caseId.toLowerCase()}@eshop.com`;
+          await deleteUserByEmail(email).catch(() => undefined);
+          await registerUser(request, { name: 'Wrong Token', email, password: 'ValidPassword1!' });
+          await request.post(`${API_BASE_URL}/api/forgot-password`, { data: { email } });
+          const res = await request.post(`${API_BASE_URL}/api/reset-password`, {
+            data: { email, resetToken: '0000', newPassword: 'ShouldNotWork1!' },
+          });
+          expect(res.status()).toBe(400);
+          break;
+        }
+        case 'forgot-password-nonexistent-email': {
+          const res = await request.post(`${API_BASE_URL}/api/forgot-password`, {
+            data: { email: `ghost-${c.caseId.toLowerCase()}@eshop.com` },
+          });
+          expect(res.status()).toBe(404);
+          break;
+        }
+        case 'old-reset-token-invalidated-by-new-request': {
+          const email = `reset-reuse-${c.caseId.toLowerCase()}@eshop.com`;
+          await deleteUserByEmail(email).catch(() => undefined);
+          await registerUser(request, { name: 'Reset Reuse', email, password: 'ValidPassword1!' });
+          const res1 = await request.post(`${API_BASE_URL}/api/forgot-password`, { data: { email } });
+          const { resetToken: token1 } = await res1.json();
+          await request.post(`${API_BASE_URL}/api/forgot-password`, { data: { email } }); // issues token2, overwriting token1
+          const res = await request.post(`${API_BASE_URL}/api/reset-password`, {
+            data: { email, resetToken: token1, newPassword: 'ShouldNotWork1!' },
+          });
+          expect(res.status()).toBe(400);
+          break;
+        }
         default:
           throw new Error(`Unknown API action "${c.action}" for ${c.caseId}`);
       }

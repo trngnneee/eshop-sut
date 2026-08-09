@@ -1,7 +1,7 @@
 import { test, expect, type APIRequestContext } from '@playwright/test';
 import { API_BASE_URL, apiLogin, ensureFreshAccount, ADMIN_CREDENTIALS } from './utils/api';
 import { clearAllOrders, deleteUserByEmail, promoteToAdmin } from './utils/db';
-import { loadJsonArray } from './utils/data';
+import { loadJsonArray, type DataRowValidator } from './utils/data';
 
 const STUDENT_ID = '23127207';
 
@@ -19,10 +19,57 @@ interface ApiCase {
 interface AdminUserRow {
   id: number;
   email: string;
+  login_attempts?: number;
+  locked_until?: string | null;
   password?: unknown;
 }
 
-const cases = loadJsonArray<ApiCase>('dashboard-api-cases.json', 1);
+interface OrderRow {
+  id: number;
+  status: string;
+  user_name?: string | null;
+}
+
+const ALLOWED_ACTIONS = new Set([
+  'admin-users-no-token',
+  'admin-users-regular-user-token',
+  'admin-orders-regular-user-token',
+  'admin-orders-no-token',
+  'delete-user-no-token',
+  'delete-user-regular-user-token',
+  'delete-nonexistent-user',
+  'admin-self-delete-blocked',
+  'invalid-transition',
+  'valid-transition',
+  'update-status-nonexistent-order',
+  'admin-users-malformed-token',
+  'update-status-regular-user-token',
+  'admin-users-no-password-leak',
+  'update-status-missing-field',
+  'delete-non-numeric-id',
+  'delete-sql-injection-id',
+  'admin-users-exposes-lockout-fields',
+  'admin-orders-empty-token',
+  'status-update-reflected',
+  'delete-negative-id',
+  'orders-most-recent-first',
+  'orphaned-order-survives-user-delete',
+]);
+
+const validateApiCase: DataRowValidator<ApiCase> = (row, index) => {
+  if (typeof row.category !== 'string' || typeof row.description !== 'string' || typeof row.action !== 'string') {
+    throw new Error(`dashboard-api-cases.json row ${index + 1}: category, description and action are required`);
+  }
+  if (!ALLOWED_ACTIONS.has(row.action)) {
+    throw new Error(`dashboard-api-cases.json row ${index + 1}: unknown action "${row.action}"`);
+  }
+  if ((row.action === 'invalid-transition' || row.action === 'valid-transition') &&
+      (typeof row.from !== 'string' || typeof row.to !== 'string')) {
+    throw new Error(`dashboard-api-cases.json row ${index + 1}: transition cases require from and to`);
+  }
+};
+
+const cases = loadJsonArray<ApiCase>('dashboard-api-cases.json', 12, validateApiCase);
 
 const TRANSITION_PATH: Record<string, string[]> = {
   pending: [],
@@ -37,12 +84,16 @@ async function regularUserToken(request: APIRequestContext, caseId: string): Pro
   await deleteUserByEmail(email).catch(() => undefined);
   await ensureFreshAccount(request, email, 'ValidPassword1!');
   const res = await apiLogin(request, email, 'ValidPassword1!');
-  return (await res.json()).token;
+  const body = (await res.json()) as { token?: unknown };
+  if (typeof body.token !== 'string') throw new Error(`Login setup failed for ${email}`);
+  return body.token;
 }
 
 async function adminToken(request: APIRequestContext): Promise<string> {
   const res = await apiLogin(request, ADMIN_CREDENTIALS.email, ADMIN_CREDENTIALS.password);
-  return (await res.json()).token;
+  const body = (await res.json()) as { token?: unknown };
+  if (typeof body.token !== 'string') throw new Error('Admin login setup failed');
+  return body.token;
 }
 
 /** Creates one order and walks it to `fromStatus`, returning its id. */
@@ -51,7 +102,9 @@ async function seedOrderAt(request: APIRequestContext, userTok: string, adminTok
     headers: { Authorization: `Bearer ${userTok}` },
     data: { total_amount: 100000, items: [] },
   });
-  const orderId = (await res.json()).orderId as number;
+  const body = (await res.json()) as { orderId?: unknown };
+  if (typeof body.orderId !== 'number') throw new Error('Checkout setup did not return a numeric orderId');
+  const orderId = body.orderId;
   for (const status of TRANSITION_PATH[fromStatus] ?? []) {
     await request.put(`${API_BASE_URL}/api/admin/orders/${orderId}/status`, {
       headers: { Authorization: `Bearer ${adminTok}` },
@@ -103,12 +156,12 @@ test.describe('FR-13 Dashboard/admin API access control', () => {
           const victimEmail = `dash-victim-${c.caseId.toLowerCase()}@eshop.com`;
           await deleteUserByEmail(victimEmail).catch(() => undefined);
           await ensureFreshAccount(request, victimEmail, 'ValidPassword1!');
-          const victimRes = await apiLogin(request, victimEmail, 'ValidPassword1!');
           const admin = await adminToken(request);
-          const victimList = await (
+          const victimList = (await (
             await request.get(`${API_BASE_URL}/api/admin/users`, { headers: { Authorization: `Bearer ${admin}` } })
-          ).json();
+          ).json()) as AdminUserRow[];
           const victimId = victimList.find((u: AdminUserRow) => u.email === victimEmail)?.id;
+          if (typeof victimId !== 'number') throw new Error(`Victim account was not found: ${victimEmail}`);
           const attackerToken = await regularUserToken(request, `${c.caseId}-attacker`);
           const res = await request.delete(`${API_BASE_URL}/api/admin/users/${victimId}`, {
             headers: { Authorization: `Bearer ${attackerToken}` },
@@ -134,11 +187,14 @@ test.describe('FR-13 Dashboard/admin API access control', () => {
           await ensureFreshAccount(request, disposableAdminEmail, 'ValidPassword1!');
           await promoteToAdmin(disposableAdminEmail);
           const selfRes = await apiLogin(request, disposableAdminEmail, 'ValidPassword1!');
-          const selfToken = (await selfRes.json()).token;
-          const users = await (
+          const selfLogin = (await selfRes.json()) as { token?: unknown };
+          if (typeof selfLogin.token !== 'string') throw new Error('Disposable admin login setup failed');
+          const selfToken = selfLogin.token;
+          const users = (await (
             await request.get(`${API_BASE_URL}/api/admin/users`, { headers: { Authorization: `Bearer ${selfToken}` } })
-          ).json();
+          ).json()) as AdminUserRow[];
           const selfUser = users.find((u: AdminUserRow) => u.email === disposableAdminEmail);
+          if (!selfUser) throw new Error(`Disposable admin account was not found: ${disposableAdminEmail}`);
           const res = await request.delete(`${API_BASE_URL}/api/admin/users/${selfUser.id}`, {
             headers: { Authorization: `Bearer ${selfToken}` },
           });
@@ -200,9 +256,9 @@ test.describe('FR-13 Dashboard/admin API access control', () => {
         }
         case 'admin-users-no-password-leak': {
           const admin = await adminToken(request);
-          const users = await (
+          const users = (await (
             await request.get(`${API_BASE_URL}/api/admin/users`, { headers: { Authorization: `Bearer ${admin}` } })
-          ).json();
+          ).json()) as AdminUserRow[];
           expect(users.every((u: AdminUserRow) => u.password === undefined)).toBe(true);
           break;
         }
@@ -228,15 +284,15 @@ test.describe('FR-13 Dashboard/admin API access control', () => {
         }
         case 'delete-sql-injection-id': {
           const admin = await adminToken(request);
-          const before = await (
+          const before = (await (
             await request.get(`${API_BASE_URL}/api/admin/users`, { headers: { Authorization: `Bearer ${admin}` } })
-          ).json();
+          ).json()) as AdminUserRow[];
           const res = await request.delete(`${API_BASE_URL}/api/admin/users/${encodeURIComponent('1 OR 1=1')}`, {
             headers: { Authorization: `Bearer ${admin}` },
           });
-          const after = await (
+          const after = (await (
             await request.get(`${API_BASE_URL}/api/admin/users`, { headers: { Authorization: `Bearer ${admin}` } })
-          ).json();
+          ).json()) as AdminUserRow[];
           // Spec-conformant expectation: malformed id is rejected outright.
           expect(res.status()).toBe(400);
           // Regardless of the status code above, the user table must never be wiped.
@@ -245,11 +301,11 @@ test.describe('FR-13 Dashboard/admin API access control', () => {
         }
         case 'admin-users-exposes-lockout-fields': {
           const admin = await adminToken(request);
-          const users = await (
+          const users = (await (
             await request.get(`${API_BASE_URL}/api/admin/users`, { headers: { Authorization: `Bearer ${admin}` } })
-          ).json();
+          ).json()) as AdminUserRow[];
           expect(users.length).toBeGreaterThan(0);
-          expect(users.every((u: any) => 'login_attempts' in u && 'locked_until' in u)).toBe(true);
+          expect(users.every((u) => 'login_attempts' in u && 'locked_until' in u)).toBe(true);
           break;
         }
         case 'admin-orders-empty-token': {
@@ -268,10 +324,10 @@ test.describe('FR-13 Dashboard/admin API access control', () => {
             headers: { Authorization: `Bearer ${admin}` },
             data: { status: 'confirmed' },
           });
-          const orders = await (
+          const orders = (await (
             await request.get(`${API_BASE_URL}/api/admin/orders`, { headers: { Authorization: `Bearer ${admin}` } })
-          ).json();
-          const updated = orders.find((o: any) => o.id === orderId);
+          ).json()) as OrderRow[];
+          const updated = orders.find((o) => o.id === orderId);
           expect(updated?.status).toBe('confirmed');
           break;
         }
@@ -289,9 +345,9 @@ test.describe('FR-13 Dashboard/admin API access control', () => {
           const admin = await adminToken(request);
           const olderId = await seedOrderAt(request, userTok, admin, 'pending');
           const newerId = await seedOrderAt(request, userTok, admin, 'pending');
-          const orders = await (
+          const orders = (await (
             await request.get(`${API_BASE_URL}/api/admin/orders`, { headers: { Authorization: `Bearer ${admin}` } })
-          ).json();
+          ).json()) as OrderRow[];
           expect(orders[0]?.id).toBe(newerId);
           expect(orders[1]?.id).toBe(olderId);
           break;
@@ -302,20 +358,23 @@ test.describe('FR-13 Dashboard/admin API access control', () => {
           await deleteUserByEmail(email).catch(() => undefined);
           await ensureFreshAccount(request, email, 'ValidPassword1!');
           const userRes = await apiLogin(request, email, 'ValidPassword1!');
-          const userTok = (await userRes.json()).token;
+          const userLogin = (await userRes.json()) as { token?: unknown };
+          if (typeof userLogin.token !== 'string') throw new Error('Orphan-order user login setup failed');
+          const userTok = userLogin.token;
           const admin = await adminToken(request);
           const orderId = await seedOrderAt(request, userTok, admin, 'pending');
-          const users = await (
+          const users = (await (
             await request.get(`${API_BASE_URL}/api/admin/users`, { headers: { Authorization: `Bearer ${admin}` } })
-          ).json();
+          ).json()) as AdminUserRow[];
           const userId = users.find((u: AdminUserRow) => u.email === email)?.id;
+          if (typeof userId !== 'number') throw new Error(`Orphan-order user was not found: ${email}`);
           await request.delete(`${API_BASE_URL}/api/admin/users/${userId}`, {
             headers: { Authorization: `Bearer ${admin}` },
           });
-          const orders = await (
+          const orders = (await (
             await request.get(`${API_BASE_URL}/api/admin/orders`, { headers: { Authorization: `Bearer ${admin}` } })
-          ).json();
-          const orphaned = orders.find((o: any) => o.id === orderId);
+          ).json()) as OrderRow[];
+          const orphaned = orders.find((o) => o.id === orderId);
           expect(orphaned).toBeTruthy();
           break;
         }

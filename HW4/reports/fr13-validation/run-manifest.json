@@ -1,0 +1,24 @@
+{
+  "generatedAt": "2026-08-09T15:53:10.086Z",
+  "studentId": "23127207",
+  "manifest": [
+    {
+      "feature": "dashboard",
+      "browser": "chromium",
+      "exitCode": 1,
+      "reportPath": "reports/fr13-validation/dashboard/chromium/index.html"
+    },
+    {
+      "feature": "dashboard",
+      "browser": "firefox",
+      "exitCode": 1,
+      "reportPath": "reports/fr13-validation/dashboard/firefox/index.html"
+    },
+    {
+      "feature": "dashboard",
+      "browser": "webkit",
+      "exitCode": 1,
+      "reportPath": "reports/fr13-validation/dashboard/webkit/index.html"
+    }
+  ]
+}

@@ -5,7 +5,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-export function loadJsonArray<T extends { caseId: string }>(fileName: string, minCount: number): T[] {
+export type DataRowValidator<T> = (row: T, index: number) => void;
+
+export function loadJsonArray<T extends { caseId: string }>(
+  fileName: string,
+  minCount: number,
+  validateRow?: DataRowValidator<T>,
+): T[] {
   const filePath = path.join(__dirname, '../../test-data', fileName);
   if (!fs.existsSync(filePath)) {
     throw new Error(`Test data file not found: ${filePath}`);
@@ -18,7 +24,7 @@ export function loadJsonArray<T extends { caseId: string }>(fileName: string, mi
     throw new Error(`${fileName} must contain at least ${minCount} cases, found ${parsed.length}`);
   }
   const seen = new Set<string>();
-  for (const row of parsed) {
+  for (const [index, row] of parsed.entries()) {
     if (!row || typeof row.caseId !== 'string' || row.caseId.length === 0) {
       throw new Error(`${fileName}: every case must have a non-empty caseId`);
     }
@@ -26,6 +32,7 @@ export function loadJsonArray<T extends { caseId: string }>(fileName: string, mi
       throw new Error(`${fileName}: duplicate caseId "${row.caseId}"`);
     }
     seen.add(row.caseId);
+    validateRow?.(row as T, index);
   }
   return parsed as T[];
 }

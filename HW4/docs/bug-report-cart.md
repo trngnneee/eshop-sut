@@ -1,8 +1,8 @@
 # Bug Report — FR-07 (Shopping Cart)
 
 **Student ID:** 23127207 · **Reproduced by:** `tests/cart.spec.ts`, `tests/cart-api.spec.ts`  
-**Execution evidence:** Chromium, Firefox, and WebKit each ran the full 77-case suite and produced
-the identical result **39 passed / 38 failed / 77**. Reports:
+**Execution evidence:** Chromium, Firefox, and WebKit each ran the full 92-case suite and produced
+the identical result **46 passed / 46 failed / 92**. Reports:
 `HW4/reports/cart/{chromium,firefox,webkit}/index.html`, each labeled `Run by: 23127207` with an
 ISO timestamp.
 
@@ -10,9 +10,9 @@ An earlier run surfaced a test-isolation bug (two edge cases mutated the shared 
 catalog without restoring it, contaminating a later browser's run with stale data) — fixed by
 switching those cases to a disposable, self-cleaning product; see `docs/ai-review-cart.md` §3.
 
-> **GitHub Issues status:** all 6 new findings below have been filed as real GitHub Issues
-> (#322–#324, #328, #336–#337) with screenshot evidence attached. The existing HW02 issue links
-> for previously-known bugs are in `docs/hw02-reference/tests/issues_list.txt`.
+> **GitHub Issues status:** all 7 new findings below have been filed as real GitHub Issues
+> (#322–#324, #328, #336–#337, #339) with screenshot evidence attached. The existing HW02 issue
+> links for previously-known bugs are in `docs/hw02-reference/tests/issues_list.txt`.
 
 ## A. Previously known bugs reproduced
 
@@ -115,6 +115,20 @@ switching those cases to a disposable, self-cleaning product; see `docs/ai-revie
   'confirmed'`), confirming this is a known-wrong condition left in place.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/337 (screenshot attached)
 
+### NEW-BUG-FR07-07 — `POST /api/checkout` performs no validation
+
+- **Severity:** Medium (data integrity)
+- **Cases:** `TC-CART-097` (missing `total_amount`), `TC-CART-098` (negative `total_amount`),
+  `TC-CART-099` (missing `shipping_address`)
+- **Steps:** Call checkout with each field missing/invalid in turn.
+- **Expected:** `4xx` validation error for each.
+- **Actual:** All three return `200 Checkout successful` and create a real order row with the
+  invalid/missing data as-is.
+- **Evidence:** The checkout handler inserts `req.body.total_amount`/`shipping_address` directly
+  with no validation — a distinct facet of the same trust-the-client family as `BUG-FR07-B-13`,
+  but about missing/invalid fields rather than merely attacker-controlled ones.
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/339 (screenshot attached)
+
 ## C. Testability note — not filed as a product bug
 
 `TC-CART-020` and `TC-CART-021` attempt `abc` and `!@#` through an HTML
@@ -125,9 +139,9 @@ API case `TC-CART-066` covers string quantity at the server boundary without thi
 
 ## D. Filing note
 
-The 6 new findings above are intentionally numbered separately from the known HW02 `BUG-FR07-B-*`
-IDs and have been filed as GitHub Issues #322–#324, #328, #336–#337, each with a screenshot
-generated from a real failing run attached as evidence. `NEW-BUG-FR07-05` and `-06` were found by
-a deliberate source review of the checkout/order endpoints (`ai-review-cart.md` §3d) rather than
-by adding more UI-level coverage — a related coupon-limit-bypass observation was found the same
-way but deliberately *not* filed here, since coupons are outside FR-07's scope (see §3d).
+The 7 new findings above are intentionally numbered separately from the known HW02 `BUG-FR07-B-*`
+IDs and have been filed as GitHub Issues #322–#324, #328, #336–#337, #339, each with a screenshot
+generated from a real failing run attached as evidence. `NEW-BUG-FR07-05`, `-06`, and `-07` were
+found by a deliberate source review of the checkout/order endpoints (`ai-review-cart.md` §3d/§3e)
+rather than by adding more UI-level coverage — a related coupon-limit-bypass observation was found
+the same way but deliberately *not* filed here, since coupons are outside FR-07's scope.

@@ -102,5 +102,41 @@
     "category": "api-security",
     "description": "Mã đặt lại mật khẩu (resetToken) từ /api/forgot-password phải đủ độ khó đoán (không chỉ là số 4 chữ số dễ brute-force)",
     "action": "reset-token-strength"
+  },
+  {
+    "caseId": "TC-API-011",
+    "category": "api-security",
+    "description": "CRITICAL: PUT /api/users/me KHÔNG được cho phép user tự đặt role='admin' cho chính mình (privilege escalation qua mass assignment)",
+    "action": "self-promote-to-admin-blocked"
+  },
+  {
+    "caseId": "TC-API-012",
+    "category": "api-validation",
+    "description": "API /api/register phải từ chối khi thiếu hẳn trường password trong request body",
+    "action": "register-missing-password-rejected"
+  },
+  {
+    "caseId": "TC-API-013",
+    "category": "api-validation",
+    "description": "API /api/register phải từ chối khi thiếu hẳn trường email trong request body",
+    "action": "register-missing-email-rejected"
+  },
+  {
+    "caseId": "TC-API-014",
+    "category": "api-security",
+    "description": "API /api/reset-password phải từ chối resetToken sai (không khớp với token đã cấp)",
+    "action": "reset-wrong-token-rejected"
+  },
+  {
+    "caseId": "TC-API-015",
+    "category": "api-validation",
+    "description": "API /api/forgot-password với email không tồn tại phải trả 404, không lộ tồn tại/không tồn tại qua status khác",
+    "action": "forgot-password-nonexistent-email"
+  },
+  {
+    "caseId": "TC-API-016",
+    "category": "api-positive",
+    "description": "Yêu cầu forgot-password lần 2 phải vô hiệu hóa resetToken đã cấp ở lần đầu (không dùng lại được token cũ)",
+    "action": "old-reset-token-invalidated-by-new-request"
   }
 ]

@@ -28,5 +28,14 @@
   { "caseId": "TC-CART-090", "category": "api-validation", "description": "POST /api/cart với quantity âm VÀ price âm cùng lúc (compound invalid) vẫn bị backend chấp nhận thay vì từ chối cả hai", "action": "post-compound-invalid" },
   { "caseId": "TC-CART-091", "category": "api-consistency", "description": "Thêm nhiều sản phẩm khác nhau liên tiếp, GET /api/cart phải trả về đúng và đủ tất cả item theo thứ tự đã thêm", "action": "post-multiple-order-consistency" },
   { "caseId": "TC-CART-095", "category": "api-security", "description": "GET /api/orders/:id KHÔNG được cho phép xem đơn hàng của người khác khi không có token / không phải chủ đơn (IDOR)", "action": "unauthenticated-order-view-blocked" },
-  { "caseId": "TC-CART-096", "category": "api-state-guard", "description": "Đơn hàng đã ở trạng thái shipping thì khách hàng KHÔNG được phép tự hủy (PUT /api/orders/:id/cancel)", "action": "cancel-shipping-order-blocked" }
+  { "caseId": "TC-CART-096", "category": "api-state-guard", "description": "Đơn hàng đã ở trạng thái shipping thì khách hàng KHÔNG được phép tự hủy (PUT /api/orders/:id/cancel)", "action": "cancel-shipping-order-blocked" },
+  { "caseId": "TC-CART-097", "category": "api-validation", "description": "POST /api/checkout phải từ chối khi thiếu trường total_amount", "action": "checkout-missing-total-rejected" },
+  { "caseId": "TC-CART-098", "category": "api-validation", "description": "POST /api/checkout phải từ chối total_amount âm", "action": "checkout-negative-total-rejected" },
+  { "caseId": "TC-CART-099", "category": "api-validation", "description": "POST /api/checkout phải từ chối khi thiếu trường shipping_address", "action": "checkout-missing-address-rejected" },
+  { "caseId": "TC-CART-106", "category": "api-validation", "description": "POST /api/cart với price = 0 chính xác vẫn được chấp nhận (thiếu validate biên)", "bugRef": "BUG-FR07-B-13", "action": "post-price-value", "price": 0 },
+  { "caseId": "TC-CART-107", "category": "api-validation", "description": "POST /api/cart với quantity thập phân âm (-0.5) vẫn được chấp nhận", "bugRef": "BUG-FR07-B-01", "action": "post-quantity-value", "quantity": -0.5 },
+  { "caseId": "TC-CART-108", "category": "api-validation", "description": "POST /api/cart với quantity kiểu boolean (true) vẫn không gây lỗi 500", "action": "post-quantity-raw", "quantityRaw": true },
+  { "caseId": "TC-CART-109", "category": "api-validation", "description": "POST /api/cart với quantity kiểu mảng rỗng ([]) vẫn không gây lỗi 500", "action": "post-quantity-raw", "quantityRaw": [] },
+  { "caseId": "TC-CART-110", "category": "api-validation", "description": "POST /api/cart với quantity là chuỗi không phải số (\"abc\") vẫn không gây lỗi 500", "action": "post-quantity-raw", "quantityRaw": "abc" },
+  { "caseId": "TC-CART-111", "category": "api-validation", "description": "POST /api/cart với price kiểu chuỗi chữ (\"expensive\") vẫn được backend chấp nhận thay vì từ chối", "action": "post-price-value", "price": "expensive" }
 ]

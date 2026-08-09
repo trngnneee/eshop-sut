@@ -2,7 +2,7 @@
 
 **Student ID:** 23127207 · **Feature:** FR-13 — Pool C  
 **Spec files:** `tests/dashboard.spec.ts`, `tests/dashboard-api.spec.ts`  
-**Data files:** `test-data/dashboard-data-cases.json` (20), `test-data/dashboard-api-cases.json` (28) — **48 test cases total**
+**Data files:** `test-data/dashboard-data-cases.json` (32), `test-data/dashboard-api-cases.json` (36) — **68 test cases total**
 
 ## 1. Coverage design
 
@@ -99,6 +99,29 @@ users` was read in source but never exercised with a genuinely orphaned row).
 Both passed — a useful negative-space result: it rules out an entire class of resilience bug
 (broken ordering, orphan-row corruption) that the earlier 46-case pass had not directly tested for.
 
+## 2d. Fourth pass — full state-transition matrix + revenue boundary volume (68 cases total)
+
+Reading `backend/server.js`'s status-transition handler directly (rather than only the cases
+already selected) revealed the *complete* valid-transition table:
+`pending→{confirmed,canceled}`, `confirmed→{shipping,canceled}`, `shipping→delivered`,
+`canceled→delivered` (the known bug) — everything else is rejected. The earlier passes had only
+exercised a subset of this table. Eight more cases fill in every remaining cell with zero new spec
+code (reusing the existing `valid-transition`/`invalid-transition` actions):
+`pending→canceled` (valid), `pending→shipping`, `confirmed→delivered`, `confirmed→pending`,
+`shipping→confirmed`, `shipping→canceled`, `delivered→pending`, `canceled→confirmed` (all
+invalid) — `TC-DASHBOARD-ORD-012` through `ORD-019`. All eight pass, giving this suite genuine
+0-switch coverage of the entire transition table, not just the cells that happened to be picked
+first.
+
+Twelve more revenue/order-count boundary cases were added to `dashboard-data-cases.json` reusing
+the existing data-driven UI shape: single-pending-order, two-delivered-orders-different-amounts,
+1₫ and 0.01₫ delivered boundaries, a null+negative+valid mix, all-canceled, an invalid
+shipping→canceled transition attempt (revenue must stay unchanged), a 7-order mixed-non-delivered
+combo, repeated-decimal float-precision sums, a very-large single order, and a
+negative+positive-delivered mix. Every case seeding at least one delivered order fails against the
+known `BUG-FR13-C-01` doubling bug (consistent with every other delivered-order case already in
+the suite); every case with zero delivered orders passes.
+
 ## 3. API review results
 
 ### 3.1 Confirmed known bugs
@@ -166,7 +189,7 @@ multiple assertion patterns while keeping the metric oracle numeric rather than 
 
 ## 6. Review conclusion
 
-All three browsers produced the identical **24 passed / 24 failed / 48 total**. Every failure is a
+All three browsers produced the identical **36 passed / 32 failed / 68 total**. Every failure is a
 server-side calculation, resilience, or authorization defect (revenue doubling, an unguarded
 fetch-chain break, missing role checks, missing self-delete/nonexistent-id/malformed-id guards, an
 over-permissive state transition) — none is a browser-rendering difference, consistent with a
