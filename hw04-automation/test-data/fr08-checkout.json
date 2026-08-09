@@ -1,0 +1,217 @@
+{
+  "feature": "FR-08",
+  "featureName": "Checkout",
+  "source": "EShop README FR-08; HW02 Feature B; HW04 Task 1",
+  "cases": [
+    {
+      "id": "TC-CHECKOUT-001",
+      "category": "negative",
+      "purpose": "Guest clicking Tiến hành thanh toán from cart is blocked and sent to login",
+      "preconditions": "Cart has items; user is logged out",
+      "setup": { "login": false, "seedCartCount": 1 },
+      "journey": "guestCartCheckout",
+      "inputs": {},
+      "expected": {
+        "assertions": [
+          { "type": "dialogMatches", "pattern": "đăng nhập" },
+          { "type": "url", "pattern": "/login" }
+        ]
+      }
+    },
+    {
+      "id": "TC-CHECKOUT-002",
+      "category": "negative",
+      "purpose": "Direct /checkout access without login must be blocked (FR-08 auth gate)",
+      "preconditions": "No auth token",
+      "setup": { "login": false, "seedCartCount": 0 },
+      "journey": "guestDirectCheckout",
+      "inputs": {},
+      "expected": {
+        "assertions": [
+          { "type": "url", "pattern": "/login" },
+          { "type": "hidden", "target": "confirmButton" }
+        ]
+      }
+    },
+    {
+      "id": "TC-CHECKOUT-003",
+      "category": "negative",
+      "purpose": "Logged-in user with empty cart must not complete checkout",
+      "preconditions": "Authenticated; cart empty",
+      "setup": { "login": true, "seedCartCount": 0 },
+      "journey": "emptyCartCheckout",
+      "inputs": {},
+      "expected": {
+        "assertions": [
+          { "type": "hidden", "target": "successHeading" },
+          { "type": "url", "pattern": "/(checkout|cart)" }
+        ]
+      }
+    },
+    {
+      "id": "TC-CHECKOUT-004",
+      "category": "positive",
+      "purpose": "Logged-in user with cart items completes checkout successfully",
+      "preconditions": "Authenticated; cart has ≥1 item",
+      "setup": { "login": true, "seedCartCount": 1 },
+      "journey": "fullCheckout",
+      "inputs": {},
+      "expected": {
+        "assertions": [
+          { "type": "visible", "target": "successHeading" },
+          { "type": "containText", "target": "successHeading", "value": "Thanh toán thành công" }
+        ]
+      }
+    },
+    {
+      "id": "TC-CHECKOUT-005",
+      "category": "validation",
+      "purpose": "Checkout lists purchased product line(s) before confirm",
+      "preconditions": "Authenticated; cart seeded",
+      "setup": { "login": true, "seedCartCount": 1 },
+      "journey": "inspectCheckout",
+      "inputs": {},
+      "expected": {
+        "assertions": [
+          { "type": "visible", "target": "heading" },
+          { "type": "visible", "target": "productList" },
+          { "type": "count", "target": "productLines", "min": 1 }
+        ]
+      }
+    },
+    {
+      "id": "TC-CHECKOUT-006",
+      "category": "validation",
+      "purpose": "Checkout total label uses Vietnamese đồng formatting",
+      "preconditions": "Authenticated; cart seeded",
+      "setup": { "login": true, "seedCartCount": 1 },
+      "journey": "inspectCheckout",
+      "inputs": {},
+      "expected": {
+        "assertions": [
+          { "type": "visible", "target": "totalLabel" },
+          { "type": "containText", "target": "payableTotal", "value": "₫" }
+        ]
+      }
+    },
+    {
+      "id": "TC-CHECKOUT-007",
+      "category": "validation",
+      "purpose": "Payment total must not be directly editable by the user (FR-08)",
+      "preconditions": "On checkout with items",
+      "setup": { "login": true, "seedCartCount": 1 },
+      "journey": "inspectCheckout",
+      "inputs": {},
+      "expected": {
+        "assertions": [
+          { "type": "totalReadonly" }
+        ]
+      }
+    },
+    {
+      "id": "TC-CHECKOUT-008",
+      "category": "negative",
+      "purpose": "Backend must store cart-computed total, not a client-tampered total_amount",
+      "preconditions": "Authenticated; cart seeded; UI total tampered downward",
+      "setup": { "login": true, "seedCartCount": 1 },
+      "journey": "tamperTotalCheckout",
+      "inputs": { "tamperedTotal": 1 },
+      "expected": {
+        "assertions": [
+          { "type": "visible", "target": "successHeading" },
+          { "type": "orderTotalEquals", "source": "cartTotal" }
+        ]
+      }
+    },
+    {
+      "id": "TC-CHECKOUT-009",
+      "category": "state",
+      "purpose": "Cart is cleared after successful checkout (FR-08)",
+      "preconditions": "Successful checkout just completed",
+      "setup": { "login": true, "seedCartCount": 1 },
+      "journey": "fullCheckout",
+      "inputs": {},
+      "expected": {
+        "assertions": [
+          { "type": "visible", "target": "successHeading" },
+          { "type": "cartEmpty" }
+        ]
+      }
+    },
+    {
+      "id": "TC-CHECKOUT-010",
+      "category": "ui",
+      "purpose": "Checkout page shows order confirmation heading when reachable with items",
+      "preconditions": "Authenticated; cart seeded",
+      "setup": { "login": true, "seedCartCount": 1 },
+      "journey": "inspectCheckout",
+      "inputs": {},
+      "expected": {
+        "assertions": [
+          { "type": "visible", "target": "heading" },
+          { "type": "containText", "target": "heading", "value": "Xác Nhận Đơn Hàng" },
+          { "type": "url", "pattern": "/checkout" }
+        ]
+      }
+    },
+    {
+      "id": "TC-CHECKOUT-011",
+      "category": "ui",
+      "purpose": "Confirm payment button is visible on checkout",
+      "preconditions": "Authenticated; cart seeded",
+      "setup": { "login": true, "seedCartCount": 1 },
+      "journey": "inspectCheckout",
+      "inputs": {},
+      "expected": {
+        "assertions": [
+          { "type": "visible", "target": "confirmButton" },
+          { "type": "containText", "target": "confirmButton", "value": "Xác Nhận Thanh Toán" }
+        ]
+      }
+    },
+    {
+      "id": "TC-CHECKOUT-012",
+      "category": "negative",
+      "purpose": "Unauthenticated API checkout is rejected",
+      "preconditions": "No JWT",
+      "setup": { "login": false, "seedCartCount": 0 },
+      "journey": "apiCheckoutUnauthorized",
+      "inputs": { "total_amount": 1000 },
+      "expected": {
+        "assertions": [
+          { "type": "apiStatus", "status": 401 }
+        ]
+      }
+    },
+    {
+      "id": "TC-CHECKOUT-013",
+      "category": "boundary",
+      "purpose": "Checkout lists two distinct product lines when cart has two items",
+      "preconditions": "Authenticated; cart seeded with 2 products",
+      "setup": { "login": true, "seedCartCount": 2 },
+      "journey": "inspectCheckout",
+      "inputs": {},
+      "expected": {
+        "assertions": [
+          { "type": "count", "target": "productLines", "min": 2 },
+          { "type": "visible", "target": "productList" }
+        ]
+      }
+    },
+    {
+      "id": "TC-CHECKOUT-014",
+      "category": "boundary",
+      "purpose": "Checkout line shows quantity marker for a single-unit item",
+      "preconditions": "Authenticated; one item qty 1",
+      "setup": { "login": true, "seedCartCount": 1 },
+      "journey": "inspectCheckout",
+      "inputs": {},
+      "expected": {
+        "assertions": [
+          { "type": "containText", "target": "productList", "value": "x 1" },
+          { "type": "visible", "target": "confirmButton" }
+        ]
+      }
+    }
+  ]
+}
