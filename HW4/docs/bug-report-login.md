@@ -2,12 +2,12 @@
 
 **Student ID:** 23127207 · Reproduced by: `HW4/tests/login.spec.ts`, `HW4/tests/login-api.spec.ts`
 **Environment:** Chromium, Firefox, WebKit (Playwright) — all 3 browsers reproduce every bug below identically (server-side logic, browser-independent).
-**Execution evidence:** all 3 browsers ran the full 69-case suite and produced the identical
-**51 passed / 18 failed / 69 total**.
+**Execution evidence:** all 3 browsers ran the full 72-case suite and produced the identical
+**51 passed / 21 failed / 72 total**.
 
-> **GitHub Issues status:** all 4 new findings below have been filed as real GitHub Issues
-> (#318–#321) via `gh issue create`, with screenshot evidence attached. The already-known bugs
-> below (#1–#12) were never filed as GitHub Issues even in HW02 (confirmed: zero `FR02`/`login`
+> **GitHub Issues status:** all 7 new findings below have been filed as real GitHub Issues
+> (#318–#321, #333–#335) via `gh issue create`, with screenshot evidence attached. The already-known
+> bugs below (#1–#12) were never filed as GitHub Issues even in HW02 (confirmed: zero `FR02`/`login`
 > hits in `tests/issues_list.txt`) and remain open to file separately if needed.
 
 ## A. Already-known bugs reproduced by this automation run
@@ -62,7 +62,34 @@
 - **Reproduced by:** `TC-LOGIN-028` (`tests/login.spec.ts`), all 3 browsers.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/321 (screenshot attached)
 
-## How the 4 new issues above were filed
+### NEW-BUG-LOGIN-05 — Duplicate email registration silently creates an unreachable second account
+- **Severity:** High (data integrity)
+- **Steps:** `POST /api/register` twice with the same email but different passwords/names.
+- **Expected:** The second registration is rejected (e.g. `409 Conflict`).
+- **Actual:** Both succeed with `200`. `users.email` has no `UNIQUE` constraint and the handler
+  never checks for an existing row; `SELECT * FROM users WHERE email = ?` always resolves to the
+  first-inserted row, so the second account can never log in with the password its owner chose.
+- **Reproduced by:** `TC-API-008` (`tests/login-api.spec.ts`), all 3 browsers.
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/333 (screenshot attached)
+
+### NEW-BUG-LOGIN-06 — `POST /api/register` accepts an empty-string password
+- **Severity:** High (security — no password policy)
+- **Steps:** `POST /api/register` with `password: ""`, then log in with the same empty password.
+- **Expected:** Registration rejects an empty/too-short password with a `4xx` error.
+- **Actual:** `200` on both register and the subsequent login — no validation exists at all.
+- **Reproduced by:** `TC-API-009` (`tests/login-api.spec.ts`), all 3 browsers.
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/334 (screenshot attached)
+
+### NEW-BUG-LOGIN-07 — Password-reset token is a brute-forceable 4-digit number
+- **Severity:** High (security — account takeover via brute force)
+- **Steps:** `POST /api/forgot-password` with a valid email; inspect the returned `resetToken`.
+- **Expected:** A cryptographically random token resistant to brute-forcing.
+- **Actual:** Always a 4-digit decimal string (`Math.floor(1000 + Math.random() * 9000)`) — only
+  9000 possible values, with no rate limit on `/api/reset-password` and no stored expiry.
+- **Reproduced by:** `TC-API-010` (`tests/login-api.spec.ts`), all 3 browsers.
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/335 (screenshot attached)
+
+## How the 7 new issues above were filed
 
 Installed `gh` CLI locally (`winget install --id GitHub.cli`), authenticated via
 `gh auth login` (browser device-flow — no token ever typed anywhere), then filed each with:

@@ -1,7 +1,7 @@
 # AI Review & Gap Analysis — FR-02 (Login & Account Lockout)
 
 **Student ID:** 23127207 · **Feature:** FR-02 — Pool A · **Spec files:** `tests/login.spec.ts`, `tests/login-api.spec.ts`
-**Data files:** `test-data/login-cases.json` (31), `test-data/login-ui-cases.json` (14), `test-data/login-lockout-cases.json` (13), `test-data/login-api-cases.json` (11) — **69 test cases total**
+**Data files:** `test-data/login-cases.json` (31), `test-data/login-ui-cases.json` (14), `test-data/login-lockout-cases.json` (13), `test-data/login-api-cases.json` (14) — **72 test cases total**
 
 ## 1. Where this suite came from
 
@@ -86,6 +86,26 @@ documented in `ai-review-cart.md` §3 and `ai-review-dashboard.md` §2, just in 
 by giving all three session-lifecycle cases that touch the login counter (`042`, `043`, `046`) a
 disposable per-case account instead of the shared seed one.
 
+## 3c. Fourth pass — register / forgot-password gap hunt (72 cases total)
+
+Every prior pass only ever exercised the `/api/login` endpoint itself. A deliberate source
+review of `/api/register` and `/api/forgot-password` — parts of FR-02's authentication surface
+that no earlier case touched at all — turned up three previously-undocumented bugs, each
+confirmed live against the running backend before being written up as a test case:
+
+| ID | Severity | Finding | Case |
+|---|---|---|---|
+| NEW-BUG-LOGIN-05 | **High** | `users.email` has no `UNIQUE` constraint and `POST /api/register` never checks for an existing row — registering twice with the same email silently creates a second, permanently unreachable account (login always resolves to the *first* row) | `TC-API-008` |
+| NEW-BUG-LOGIN-06 | **High** | `POST /api/register` performs zero validation — an empty-string password is accepted and immediately usable to log in | `TC-API-009` |
+| NEW-BUG-LOGIN-07 | **High** | `/api/forgot-password`'s reset token is `Math.floor(1000 + Math.random() * 9000).toString()` — always a 4-digit number (9000 possible values), with no rate limit on `/api/reset-password` and no stored expiry | `TC-API-010` |
+
+All three are logged in `docs/bug-report-login.md` and filed as real GitHub Issues (#333–#335)
+with screenshot evidence. This pass is a useful illustration of the difference between *adding
+more cases in an already-covered area* (diminishing returns) and *reading the SUT source for an
+untested code path* (still finds genuine, previously-unknown defects even after 69 cases) — the
+three new cases needed no new spec-file shape, only three new `switch` branches in the existing
+`login-api.spec.ts`.
+
 ## 4. Cases not automated
 
 | Case | Reason |
@@ -103,8 +123,8 @@ disposable per-case account instead of the shared seed one.
 `localStorage` inspection), `expect(status).not.toBe(...)`, `expect(payload).toHaveProperty(...)` —
 **9 distinct patterns** across the two spec files (requirement: ≥3).
 
-## 6. Execution evidence (final, all 3 browsers, 69 cases)
+## 6. Execution evidence (final, all 3 browsers, 72 cases)
 
-Chromium, Firefox, and WebKit each produced the identical **51 passed / 18 failed / 69 total**.
+Chromium, Firefox, and WebKit each produced the identical **51 passed / 21 failed / 72 total**.
 Reports: `HW4/reports/login/{chromium,firefox,webkit}/index.html`, each labeled `Run by: 23127207`
 with an ISO timestamp.

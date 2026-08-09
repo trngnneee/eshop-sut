@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import * as path from 'path';
-import { API_BASE_URL, apiLogin, decodeJwtPayload } from './utils/api';
+import { API_BASE_URL, apiLogin, decodeJwtPayload, registerUser } from './utils/api';
+import { deleteUserByEmail } from './utils/db';
 import { loadJsonArray } from './utils/data';
 
 // Reuses the backend's own already-installed jsonwebtoken package to forge adversarial
@@ -102,6 +103,37 @@ test.describe('FR-02 Login API contract', () => {
           const res2 = await apiLogin(request, c.email!, c.password!);
           const body2 = await res2.json();
           expect(body1.token).not.toBe(body2.token);
+          break;
+        }
+        case 'duplicate-email-rejected': {
+          const email = `dup-${c.caseId.toLowerCase()}@eshop.com`;
+          await deleteUserByEmail(email).catch(() => undefined);
+          const first = await registerUser(request, { name: 'First', email, password: 'FirstPass1!' });
+          expect(first.status()).toBeLessThan(300);
+          const second = await registerUser(request, { name: 'Second', email, password: 'SecondPass1!' });
+          // Spec-conformant expectation: a duplicate email must be rejected, not silently
+          // accepted as a second, unreachable account with the same login identifier.
+          expect(second.status()).toBeGreaterThanOrEqual(400);
+          break;
+        }
+        case 'empty-password-rejected': {
+          const email = `empty-pw-${c.caseId.toLowerCase()}@eshop.com`;
+          await deleteUserByEmail(email).catch(() => undefined);
+          const res = await registerUser(request, { name: 'Empty PW', email, password: '' });
+          // Spec-conformant expectation: registration must enforce a minimum password
+          // policy, not accept an empty string as a valid credential.
+          expect(res.status()).toBeGreaterThanOrEqual(400);
+          break;
+        }
+        case 'reset-token-strength': {
+          const email = `reset-strength-${c.caseId.toLowerCase()}@eshop.com`;
+          await deleteUserByEmail(email).catch(() => undefined);
+          await registerUser(request, { name: 'Reset Strength', email, password: 'ValidPassword1!' });
+          const res = await request.post(`${API_BASE_URL}/api/forgot-password`, { data: { email } });
+          const { resetToken } = await res.json();
+          // Spec-conformant expectation: a reset token should be long/random enough to
+          // resist brute-forcing (e.g. not a plain 4-digit number, only 9000 possibilities).
+          expect(String(resetToken).length).toBeGreaterThanOrEqual(6);
           break;
         }
         default:

@@ -84,5 +84,23 @@
     "action": "tokens-differ-across-logins",
     "email": "test@eshop.com",
     "password": "Test1234!"
+  },
+  {
+    "caseId": "TC-API-008",
+    "category": "api-data-integrity",
+    "description": "Đăng ký 2 lần với cùng 1 email phải bị từ chối (email phải là duy nhất), không được tạo 2 tài khoản trùng email",
+    "action": "duplicate-email-rejected"
+  },
+  {
+    "caseId": "TC-API-009",
+    "category": "api-validation",
+    "description": "API /api/register phải từ chối mật khẩu rỗng, không được tạo tài khoản với password=''",
+    "action": "empty-password-rejected"
+  },
+  {
+    "caseId": "TC-API-010",
+    "category": "api-security",
+    "description": "Mã đặt lại mật khẩu (resetToken) từ /api/forgot-password phải đủ độ khó đoán (không chỉ là số 4 chữ số dễ brute-force)",
+    "action": "reset-token-strength"
   }
 ]

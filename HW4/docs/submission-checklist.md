@@ -11,12 +11,12 @@ self-assessment — update the number once the demo video is recorded).
 | 1 | Main report (Markdown) | ✅ Done | `HW4/docs/main-report.md` |
 | 1b | Main report (PDF) | ⬜ **Manual step** | Export `main-report.md` to PDF (VS Code "Markdown PDF" extension, or open in a browser preview and Print → Save as PDF) |
 | 2 | Public GitHub repo link (scripts, data, reports) | ✅ Done | `HW4-Khoa` branch pushed to `https://github.com/trngnneee/eshop-sut/tree/HW4-Khoa` |
-| 3 | Multi-browser HTML reports | ✅ Done | `HW4/reports/{login,cart,dashboard}/{chromium,firefox,webkit}/index.html` (9 reports, all labeled `Run by: 23127207` + ISO timestamp; 192 cases / 576 runs total) |
+| 3 | Multi-browser HTML reports | ✅ Done | `HW4/reports/{login,cart,dashboard}/{chromium,firefox,webkit}/index.html` (9 reports, all labeled `Run by: 23127207` + ISO timestamp; 195 cases / 585 runs total) |
 | 4 | Unlisted YouTube demo video link | ⬜ **Manual step (you must record)** | Script/checklist: `HW4/docs/demo-video-script.md` |
 | 5 | AI Critique (Markdown + PDF) | MD ✅ / PDF ⬜ | `HW4/docs/ai-critique.md` |
 | 6 | AI Audit Report (Markdown + PDF) | MD ✅ / PDF ⬜ | `HW4/docs/ai-audit-report.md` |
 | 7 | Git commit log (text file) | ✅ Done | `HW4/commit_log.txt` |
-| 8 | Bug report + GitHub Issue screenshots | ✅ Done | `HW4/docs/bug-report-{login,cart,dashboard}.md` — all 12 new bugs filed as real Issues [#318–#329](https://github.com/trngnneee/eshop-sut/issues?q=is%3Aissue+318..329+in%3Anumber) with screenshot evidence attached (`HW4/docs/bug-evidence/`) |
+| 8 | Bug report + GitHub Issue screenshots | ✅ Done | `HW4/docs/bug-report-{login,cart,dashboard}.md` — all 15 new bugs filed as real Issues [#318–#329](https://github.com/trngnneee/eshop-sut/issues?q=is%3Aissue+318..329+in%3Anumber) + [#333–#335](https://github.com/trngnneee/eshop-sut/issues?q=is%3Aissue+333..335+in%3Anumber) with screenshot evidence attached (`HW4/docs/bug-evidence/`) |
 | 9 | README.md with self-assessment + test summary | ✅ Done | `HW4/README.md` |
 | 10 | Any supporting materials | ✅ Done | `HW4/docs/hw02-reference/` (source test-case pool), `HW4/docs/system-analysis.md`, `HW4/docs/prompt-log.md` |
 
@@ -55,6 +55,9 @@ Filed issues:
 | NEW-BUG-FR13-03 (canceled → delivered resurrection) | [#327](https://github.com/trngnneee/eshop-sut/issues/327) |
 | NEW-BUG-FR07-04 (cart not synced across tabs) | [#328](https://github.com/trngnneee/eshop-sut/issues/328) |
 | NEW-BUG-FR13-04 (DELETE user id format not validated) | [#329](https://github.com/trngnneee/eshop-sut/issues/329) |
+| NEW-BUG-LOGIN-05 (duplicate-email registration -> unreachable ghost account) | [#333](https://github.com/trngnneee/eshop-sut/issues/333) |
+| NEW-BUG-LOGIN-06 (empty-string password accepted, no validation) | [#334](https://github.com/trngnneee/eshop-sut/issues/334) |
+| NEW-BUG-LOGIN-07 (4-digit brute-forceable password-reset token) | [#335](https://github.com/trngnneee/eshop-sut/issues/335) |
 
 The 30 already-known bugs this run reproduced were mostly already filed in HW02
 (`docs/hw02-reference/tests/issues_list.txt` has the links; the 12 FR-02 login bugs were never
