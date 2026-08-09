@@ -2,7 +2,7 @@
 
 **Student ID:** 23127207 · **Feature:** FR-13 — Pool C  
 **Spec files:** `tests/dashboard.spec.ts`, `tests/dashboard-api.spec.ts`  
-**Data files:** `test-data/dashboard-data-cases.json` (32), `test-data/dashboard-api-cases.json` (36) — **68 test cases total**
+**Data files:** `test-data/dashboard-data-cases.json` (85), `test-data/dashboard-api-cases.json` (36) — **121 test cases total**
 
 ## 1. Coverage design
 
@@ -187,9 +187,21 @@ equality, `expect.poll` for rendered metrics, visible-text checks, dialog-conten
 state checks, and browser reload after a state transition. This satisfies the HW04 requirement for
 multiple assertion patterns while keeping the metric oracle numeric rather than string-only.
 
+## 2e. Fifth pass — pure revenue-boundary volume to reach 400 cases suite-wide (121 cases total)
+
+53 more cases were added to `dashboard-data-cases.json`, reusing the existing data-driven UI shape
+(zero spec changes), per the same suite-wide 400-case request described in `ai-review-login.md`
+§3e: 30 more single-delivered-order revenue-boundary values (5 numbers), 10 more multi-order mixed-
+status combinations, 10 more order-count-only scale cases (1 through 40 all-pending orders,
+revenue must stay 0), and 3 more state-transition cases. Every case seeding at least one delivered
+order fails against the known `BUG-FR13-C-01` doubling bug — generated and verified programmatically
+(a small Python script computed each case's `expectedRevenue` from its own `orders` array, so the
+oracle can't drift from the input data by hand-arithmetic mistake) — and every case with zero
+delivered orders passes, both consistent with every earlier pass in this suite.
+
 ## 6. Review conclusion
 
-All three browsers produced the identical **36 passed / 32 failed / 68 total**. Every failure is a
+All three browsers produced the identical **50 passed / 71 failed / 121 total**. Every failure is a
 server-side calculation, resilience, or authorization defect (revenue doubling, an unguarded
 fetch-chain break, missing role checks, missing self-delete/nonexistent-id/malformed-id guards, an
 over-permissive state transition) — none is a browser-rendering difference, consistent with a

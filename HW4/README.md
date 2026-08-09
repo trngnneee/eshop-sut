@@ -8,27 +8,29 @@ Verify/repair) documented step by step in [`docs/prompt-log.md`](docs/prompt-log
 
 | Pool | Feature | Spec files | Data files | Cases |
 |---|---|---|---|---:|
-| A | FR-02 — Login & Account Lockout | `tests/login.spec.ts`, `tests/login-api.spec.ts` | `test-data/login-{cases,ui-cases,lockout-cases,api-cases}.json` | 90 |
-| B | FR-07 — Shopping Cart | `tests/cart.spec.ts`, `tests/cart-api.spec.ts` | `test-data/cart-{ui,edge,api}-cases.json` | 92 |
-| C | FR-13 — Admin Dashboard | `tests/dashboard.spec.ts`, `tests/dashboard-api.spec.ts` | `test-data/dashboard-{data,api}-cases.json` | 68 |
+| A | FR-02 — Login & Account Lockout | `tests/login.spec.ts`, `tests/login-api.spec.ts` | `test-data/login-{cases,ui-cases,lockout-cases,api-cases}.json` | 137 |
+| B | FR-07 — Shopping Cart | `tests/cart.spec.ts`, `tests/cart-api.spec.ts` | `test-data/cart-{ui,edge,api}-cases.json` | 142 |
+| C | FR-13 — Admin Dashboard | `tests/dashboard.spec.ts`, `tests/dashboard-api.spec.ts` | `test-data/dashboard-{data,api}-cases.json` | 121 |
 
 ## 1. Test summary (execution evidence)
 
 All numbers below are from real, verified runs on Chromium, Firefox, and WebKit — **each browser
 produced the identical pass/fail count per feature** (see `docs/ai-review-*.md` for how that
-consistency was achieved, including test-isolation bugs found and fixed along the way, and six
-further coverage passes that grew the suite from 63/63/32 to 90/92/68 after review — closing
-Cart/Dashboard gaps, adding Login session-lifecycle coverage, and repeatedly reading backend
-source for entirely untested code paths, which is how the two most severe bugs in this whole
-assignment were found: a login API leaking plaintext passwords, and — worse — a privilege
-escalation letting any logged-in user become an admin with one API call).
+consistency was achieved, including test-isolation bugs found and fixed along the way, and seven
+further coverage passes that grew the suite from 63/63/32 to 137/142/121 after review — closing
+Cart/Dashboard gaps, adding Login session-lifecycle coverage, repeatedly reading backend source
+for entirely untested code paths (which is how the two most severe bugs in this whole assignment
+were found: a login API leaking plaintext passwords, and — worse — a privilege escalation letting
+any logged-in user become an admin with one API call), and finally a large pure boundary/
+robustness volume pass reusing already-proven data-driven shapes to reach 400 cases suite-wide as
+requested).
 
 | Feature | Cases | Browser runs | Passed | Failed | Known bugs reproduced | New bugs found |
 |---|---:|---:|---:|---:|---:|---:|
-| FR-02 Login | 90 | 270 | 66 | 24 | 12 | 8 |
-| FR-07 Cart | 92 | 276 | 46 | 46 | 15 | 7 |
-| FR-13 Dashboard | 68 | 204 | 36 | 32 | 3 | 4 |
-| **Total** | **250** | **750** | **148** | **102** | **30** | **19** |
+| FR-02 Login | 137 | 411 | 105 | 32 | 12 | 8 |
+| FR-07 Cart | 142 | 426 | 66 | 76 | 15 | 7 |
+| FR-13 Dashboard | 121 | 363 | 50 | 71 | 3 | 4 |
+| **Total** | **400** | **1200** | **221** | **179** | **30** | **19** |
 
 - **Features automated:** 3 (FR-02 Pool A, FR-07 Pool B, FR-13 Pool C).
 - **Total bugs found by this automation:** 49 (30 already known from HW02, confirmed still
@@ -39,12 +41,13 @@ escalation letting any logged-in user become an admin with one API call).
   duplicate-email ghost accounts, zero-validation empty passwords, a brute-forceable
   password-reset token, and an unauthenticated order-viewing IDOR. All 19 new bugs are filed as
   real GitHub Issues (#318–#329, #333–#339) with screenshot evidence, filed via `gh` CLI
-  browser-login (see `docs/submission-checklist.md`). Several later-pass cases confirmed correct
-  behavior or reproduced an already-tracked bug family rather than surfacing new issues; the
-  highest-value passes were the ones that deliberately read backend source for code paths no
-  earlier case had ever touched (register/forgot-password, checkout/orders,
-  self-profile-update) — see each `ai-review-*.md`'s final section for the honest breakdown of
-  what passed vs. failed and why.
+  browser-login (see `docs/submission-checklist.md`). The final boundary/robustness volume pass
+  (63 more cases across all three features, reusing already-proven parameterized shapes with
+  zero new spec code) found no further bugs — every new case either confirmed correct handling
+  of a malformed/boundary input or reproduced an already-tracked bug family; the highest-value
+  passes remain the ones that deliberately read backend source for code paths no earlier case
+  had ever touched (register/forgot-password, checkout/orders, self-profile-update) — see each
+  `ai-review-*.md`'s final section for the honest breakdown of what passed vs. failed and why.
 - **Demo video:** _[fill in the unlisted YouTube link once recorded — see_
   `docs/demo-video-script.md` _for the required talking points]_.
 
@@ -167,7 +170,7 @@ log per interaction) and [`docs/ai-critique.md`](docs/ai-critique.md) (200–300
 | 3 | Agent Skills | 10 | 7 |
 | | **Total** | **100** | |
 
-**Rationale:** Task 1 is complete and verified (250 cases, 750 browser runs, identical results
+**Rationale:** Task 1 is complete and verified (400 cases, 1200 browser runs, identical results
 across all 3 engines, 49 real bugs found including 1 CRITICAL privilege-escalation vulnerability
 and 5 High-severity security issues (plaintext-password leak, unreachable duplicate-email ghost
 accounts, zero-validation empty passwords, a brute-forceable password-reset token, and an
@@ -182,11 +185,16 @@ deliberately read `/api/register` and `/api/forgot-password` — the one part of
 authentication surface no earlier case had ever exercised — and found 3 more High-severity bugs
 there (69→72). A fifth pass repeated the same technique against Cart's
 `/api/checkout`/`/api/orders/:id` endpoints and found an unauthenticated-order-view IDOR plus a
-broken cancel-state guard (72→77 Cart cases). A sixth pass, run until the suite reached the
-requested 250-case total, found the assignment's most severe bug — a privilege-escalation flaw in
-`PUT /api/users/me` — plus one more checkout-validation gap, and added 45 more boundary/robustness
-cases across all three features reusing already-proven shapes (Login 72→90, Cart 77→92, Dashboard
-48→68), all verified identically across all 3 browsers. The one point still held back per feature
+broken cancel-state guard (72→77 Cart cases). A sixth pass found the assignment's most severe
+bug — a privilege-escalation flaw in `PUT /api/users/me` — plus one more checkout-validation gap,
+and grew the suite to 250 cases. A seventh and final pass, run per an explicit request to reach
+400 cases suite-wide, added 150 more boundary/robustness cases reusing already-proven
+parameterized shapes with essentially zero new spec code (Login 90→137, Cart 92→142, Dashboard
+68→121); it found no further bugs but did catch and fix two of its own test-design mistakes along
+the way (a NUL-byte JSON corruption, and an `add-with-quantity` case that asserted the wrong
+outcome for inputs that actually parse as valid numbers) — see `ai-review-login.md` §3e and
+`ai-review-cart.md` §3f. All totals verified identically across all 3 browsers. The one point
+still held back per feature
 reflects that a small number of individual cases remain deliberately un-padded (e.g.
 `TC-CART-020`/`021` are untestable through the real UI control, documented rather than forced) —
 see each `ai-review-*.md`

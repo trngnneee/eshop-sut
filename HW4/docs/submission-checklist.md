@@ -11,7 +11,7 @@ self-assessment — update the number once the demo video is recorded).
 | 1 | Main report (Markdown) | ✅ Done | `HW4/docs/main-report.md` |
 | 1b | Main report (PDF) | ⬜ **Manual step** | Export `main-report.md` to PDF (VS Code "Markdown PDF" extension, or open in a browser preview and Print → Save as PDF) |
 | 2 | Public GitHub repo link (scripts, data, reports) | ✅ Done | `HW4-Khoa` branch pushed to `https://github.com/trngnneee/eshop-sut/tree/HW4-Khoa` |
-| 3 | Multi-browser HTML reports | ✅ Done | `HW4/reports/{login,cart,dashboard}/{chromium,firefox,webkit}/index.html` (9 reports, all labeled `Run by: 23127207` + ISO timestamp; 250 cases / 750 runs total) |
+| 3 | Multi-browser HTML reports | ✅ Done | `HW4/reports/{login,cart,dashboard}/{chromium,firefox,webkit}/index.html` (9 reports, all labeled `Run by: 23127207` + ISO timestamp; 400 cases / 1200 runs total) |
 | 4 | Unlisted YouTube demo video link | ⬜ **Manual step (you must record)** | Script/checklist: `HW4/docs/demo-video-script.md` |
 | 5 | AI Critique (Markdown + PDF) | MD ✅ / PDF ⬜ | `HW4/docs/ai-critique.md` |
 | 6 | AI Audit Report (Markdown + PDF) | MD ✅ / PDF ⬜ | `HW4/docs/ai-audit-report.md` |

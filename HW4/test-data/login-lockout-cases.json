@@ -106,5 +106,127 @@
     "action": "reset-password-unlock",
     "wrongAttempts": 3,
     "newPassword": "NewValidPass1!"
+  },
+  {
+    "caseId": "TC-LOCK-BVA-008",
+    "category": "lockout-boundary",
+    "description": "Sau 4 lần đăng nhập sai, bộ đếm phải đúng bằng 4 (theo spec +1/lần)",
+    "bugRef": "BUG-FR02-A-01",
+    "action": "wrong-then-check-attempts",
+    "wrongAttempts": 4,
+    "expectedAttempts": 4
+  },
+  {
+    "caseId": "TC-LOCK-BVA-009",
+    "category": "lockout-boundary",
+    "description": "Sau 5 lần đăng nhập sai, bộ đếm phải đúng bằng 5 (theo spec +1/lần)",
+    "action": "wrong-then-check-attempts",
+    "wrongAttempts": 5,
+    "expectedAttempts": 5
+  },
+  {
+    "caseId": "TC-LOCK-BVA-010",
+    "category": "lockout-boundary",
+    "description": "Sau 10 lần đăng nhập sai (quy mô lớn), bộ đếm phải đúng bằng 10",
+    "action": "wrong-then-check-attempts",
+    "wrongAttempts": 10,
+    "expectedAttempts": 10
+  },
+  {
+    "caseId": "TC-LOCK-BVA-011",
+    "category": "lockout-boundary",
+    "description": "Sau đúng 2 lần đăng nhập sai, tài khoản chưa bị khóa (biên dưới ngưỡng khóa)",
+    "bugRef": "BUG-FR02-A-01",
+    "action": "wrong-then-check-locked",
+    "wrongAttempts": 2,
+    "expectedLocked": false
+  },
+  {
+    "caseId": "TC-LOCK-BVA-012",
+    "category": "lockout-boundary",
+    "description": "Sau đúng 3 lần đăng nhập sai, tài khoản phải bị khóa (đúng ngưỡng khóa theo spec)",
+    "bugRef": "BUG-FR02-A-01",
+    "action": "wrong-then-check-locked",
+    "wrongAttempts": 3,
+    "expectedLocked": true
+  },
+  {
+    "caseId": "TC-LOCK-BVA-013",
+    "category": "lockout-boundary",
+    "description": "Sau 4 lần đăng nhập sai (vượt ngưỡng), tài khoản vẫn phải bị khóa",
+    "action": "wrong-then-check-locked",
+    "wrongAttempts": 4,
+    "expectedLocked": true
+  },
+  {
+    "caseId": "TC-LOCK-BVA-014",
+    "category": "lockout-boundary",
+    "description": "Sau 1 lần đăng nhập sai duy nhất, lần đăng nhập đúng tiếp theo phải thành công",
+    "action": "wrong-then-correct-login",
+    "wrongAttempts": 1,
+    "expectedFinalOutcome": "success"
+  },
+  {
+    "caseId": "TC-LOCK-BVA-015",
+    "category": "lockout-boundary",
+    "description": "Sau đúng 3 lần đăng nhập sai (đạt ngưỡng khóa), lần đăng nhập đúng tiếp theo phải bị chặn",
+    "bugRef": "BUG-FR02-A-01",
+    "action": "wrong-then-correct-login",
+    "wrongAttempts": 3,
+    "expectedFinalOutcome": "blocked"
+  },
+  {
+    "caseId": "TC-LOCK-BVA-016",
+    "category": "concurrency",
+    "description": "2 request đăng nhập sai đồng thời phải được xử lý tuần tự/an toàn, không mất đếm",
+    "action": "concurrent-wrong-attempts",
+    "concurrentAttempts": 2
+  },
+  {
+    "caseId": "TC-LOCK-BVA-017",
+    "category": "concurrency",
+    "description": "5 request đăng nhập sai đồng thời phải được xử lý tuần tự/an toàn, không mất đếm",
+    "action": "concurrent-wrong-attempts",
+    "concurrentAttempts": 5
+  },
+  {
+    "caseId": "TC-LOCK-BVA-018",
+    "category": "concurrency",
+    "description": "10 request đăng nhập sai đồng thời (quy mô lớn) phải được xử lý an toàn, không mất đếm",
+    "action": "concurrent-wrong-attempts",
+    "concurrentAttempts": 10
+  },
+  {
+    "caseId": "TC-LOCK-BVA-019",
+    "category": "lockout-boundary",
+    "description": "Trong lúc đã bị khóa, thêm 3 lần đăng nhập sai nữa không được làm bộ đếm tăng thêm",
+    "action": "while-locked-no-growth",
+    "wrongAttempts": 3,
+    "extraWrongAttemptsWhileLocked": 3
+  },
+  {
+    "caseId": "TC-LOCK-BVA-020",
+    "category": "lockout-boundary",
+    "description": "Trong lúc đã bị khóa, thêm 10 lần đăng nhập sai nữa (quy mô lớn) không được làm bộ đếm tăng thêm",
+    "action": "while-locked-no-growth",
+    "wrongAttempts": 3,
+    "extraWrongAttemptsWhileLocked": 10
+  },
+  {
+    "caseId": "TC-LOCK-BVA-021",
+    "category": "lockout-boundary",
+    "description": "Sau 2 lần sai rồi 1 lần đúng (reset), 1 lần sai tiếp theo phải tính lại từ 1, không cộng dồn số cũ",
+    "bugRef": "BUG-FR02-A-01",
+    "action": "interleaved-reset-check",
+    "firstWrongAttempts": 2,
+    "expectedAttemptsAfterSecondWrong": 1
+  },
+  {
+    "caseId": "TC-LOCK-BVA-022",
+    "category": "lockout-boundary",
+    "description": "Sau 2 lần sai rồi đăng nhập đúng, bộ đếm phải reset về 0",
+    "action": "reset-on-success",
+    "wrongAttempts": 2,
+    "expectedAttemptsAfterSuccess": 0
   }
 ]

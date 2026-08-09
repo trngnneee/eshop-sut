@@ -138,5 +138,125 @@
     "category": "api-positive",
     "description": "Yêu cầu forgot-password lần 2 phải vô hiệu hóa resetToken đã cấp ở lần đầu (không dùng lại được token cũ)",
     "action": "old-reset-token-invalidated-by-new-request"
+  },
+  {
+    "caseId": "TC-API-017",
+    "category": "api-validation",
+    "description": "API /api/login với email kiểu số (type confusion) không được gây lỗi 500",
+    "action": "missing-field",
+    "body": { "email": 123, "password": "Test1234!" },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-018",
+    "category": "api-validation",
+    "description": "API /api/login với password kiểu số (type confusion) không được gây lỗi 500",
+    "action": "missing-field",
+    "body": { "email": "test@eshop.com", "password": 123456 },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-019",
+    "category": "api-validation",
+    "description": "API /api/login với email = null không được gây lỗi 500",
+    "action": "missing-field",
+    "body": { "email": null, "password": "Test1234!" },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-020",
+    "category": "api-validation",
+    "description": "API /api/login với password = null không được gây lỗi 500",
+    "action": "missing-field",
+    "body": { "email": "test@eshop.com", "password": null },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-021",
+    "category": "api-validation",
+    "description": "API /api/login với email kiểu mảng rỗng không được gây lỗi 500",
+    "action": "missing-field",
+    "body": { "email": [], "password": "Test1234!" },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-022",
+    "category": "api-validation",
+    "description": "API /api/login với password kiểu object rỗng không được gây lỗi 500",
+    "action": "missing-field",
+    "body": { "email": "test@eshop.com", "password": {} },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-023",
+    "category": "api-validation",
+    "description": "API /api/login với email kiểu boolean không được gây lỗi 500",
+    "action": "missing-field",
+    "body": { "email": true, "password": "Test1234!" },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-024",
+    "category": "api-validation",
+    "description": "API /api/login với body rỗng hoàn toàn không được gây lỗi 500",
+    "action": "missing-field",
+    "body": {},
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-025",
+    "category": "api-mass-assignment",
+    "description": "API /api/login bỏ qua trường thừa 'admin: true' trong body (không mass-assignment)",
+    "action": "extra-fields",
+    "body": { "email": "test@eshop.com", "password": "Test1234!", "admin": true },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-026",
+    "category": "api-security",
+    "description": "API /api/login với payload cố gắng prototype pollution (__proto__) không được gây lỗi 500",
+    "action": "extra-fields",
+    "body": { "email": "test@eshop.com", "password": "Test1234!", "__proto__": { "polluted": true } },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-027",
+    "category": "api-mass-assignment",
+    "description": "API /api/login bỏ qua trường thừa 'id' cố gắng ghi đè user id (không mass-assignment)",
+    "action": "extra-fields",
+    "body": { "email": "test@eshop.com", "password": "Test1234!", "id": 1 },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-028",
+    "category": "api-validation",
+    "description": "API /api/login với email chỉ toàn khoảng trắng không được gây lỗi 500",
+    "action": "missing-field",
+    "body": { "email": "   ", "password": "Test1234!" },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-029",
+    "category": "api-validation",
+    "description": "API /api/login với password chỉ toàn khoảng trắng không được gây lỗi 500",
+    "action": "missing-field",
+    "body": { "email": "test@eshop.com", "password": "   " },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-030",
+    "category": "api-validation",
+    "description": "API /api/login với body chỉ có email, thiếu hẳn key password không được gây lỗi 500",
+    "action": "missing-field",
+    "body": { "email": "test@eshop.com " },
+    "expectedStatusNot": 500
+  },
+  {
+    "caseId": "TC-API-031",
+    "category": "api-mass-assignment",
+    "description": "API /api/login bỏ qua trường thừa 'login_attempts' cố gắng ghi đè bộ đếm khóa (không mass-assignment)",
+    "action": "extra-fields",
+    "body": { "email": "test@eshop.com", "password": "Test1234!", "login_attempts": -999 },
+    "expectedStatusNot": 500
   }
 ]

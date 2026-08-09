@@ -1,7 +1,7 @@
 # AI Review & Gap Analysis — FR-02 (Login & Account Lockout)
 
 **Student ID:** 23127207 · **Feature:** FR-02 — Pool A · **Spec files:** `tests/login.spec.ts`, `tests/login-api.spec.ts`
-**Data files:** `test-data/login-cases.json` (43), `test-data/login-ui-cases.json` (14), `test-data/login-lockout-cases.json` (13), `test-data/login-api-cases.json` (20) — **90 test cases total**
+**Data files:** `test-data/login-cases.json` (60), `test-data/login-ui-cases.json` (14), `test-data/login-lockout-cases.json` (28), `test-data/login-api-cases.json` (35) — **137 test cases total**
 
 ## 1. Where this suite came from
 
@@ -150,8 +150,34 @@ extending `login-cases.json`'s data-driven loop with zero spec changes for the U
 `localStorage` inspection), `expect(status).not.toBe(...)`, `expect(payload).toHaveProperty(...)` —
 **9 distinct patterns** across the two spec files (requirement: ≥3).
 
-## 6. Execution evidence (final, all 3 browsers, 90 cases)
+## 3e. Seventh pass — pure boundary/robustness volume to reach 400 cases suite-wide (137 cases total)
 
-Chromium, Firefox, and WebKit each produced the identical **66 passed / 24 failed / 90 total**.
+Per an explicit request to keep growing the suite until it reached 400 cases total across all
+three features, 47 more cases were added, deliberately reusing already-proven, fully-parameterized
+shapes rather than writing new spec code — the point of data-driven design:
+
+- **17 more `login-cases.json` rows** (Shape A, `nonexistent` mode, zero spec changes): unusual
+  TLDs, malformed dot placement, control characters (`\n`/`\t`) in passwords, SQL injection
+  (`UNION SELECT`, `DROP TABLE`), IP-literal domains, Base64-looking passwords, empty
+  email+password together, etc. All 17 pass — the login form and backend reject every one
+  without crashing.
+- **15 more `login-lockout-cases.json` rows**: filled in the boundary values the earlier lockout
+  passes hadn't covered for each already-proven action (`wrongAttempts` of 2/3/4/5/10,
+  `concurrentAttempts` of 2/5/10, larger `extraWrongAttemptsWhileLocked`, etc.) — zero new
+  `dashboard.spec.ts`-style spec code, pure data volume against the existing switch cases.
+- **15 more `login-api-cases.json` rows**: reused the already-parameterized `missing-field` and
+  `extra-fields` actions with new `body` payloads — type-confusion values (numeric/null/array/
+  boolean email or password), a `__proto__` prototype-pollution attempt, and extra fields trying
+  to override `id`/`login_attempts`. All 15 pass (no 500s), a useful robustness confirmation.
+
+**One self-inflicted tooling bug found and fixed while authoring this pass:** an edit describing a
+NUL-byte password case accidentally wrote a literal NUL byte into `login-cases.json` instead of an
+escaped ` `, corrupting the JSON. Fixed by stripping the byte with a small Python script and
+rewriting the case to test a plain embedded space instead — a reminder that generated test data
+itself needs the same "verify, don't assume" discipline as the code under test.
+
+## 6. Execution evidence (final, all 3 browsers, 137 cases)
+
+Chromium, Firefox, and WebKit each produced the identical **105 passed / 32 failed / 137 total**.
 Reports: `HW4/reports/login/{chromium,firefox,webkit}/index.html`, each labeled `Run by: 23127207`
 with an ISO timestamp.

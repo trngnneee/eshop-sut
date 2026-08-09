@@ -2,8 +2,10 @@
 
 **Student ID:** 23127207 · Reproduced by: `HW4/tests/login.spec.ts`, `HW4/tests/login-api.spec.ts`
 **Environment:** Chromium, Firefox, WebKit (Playwright) — all 3 browsers reproduce every bug below identically (server-side logic, browser-independent).
-**Execution evidence:** all 3 browsers ran the full 90-case suite and produced the identical
-**66 passed / 24 failed / 90 total**.
+**Execution evidence:** all 3 browsers ran the full 137-case suite and produced the identical
+**105 passed / 32 failed / 137 total**. (No new bugs were found in the final boundary/robustness
+volume pass — see `ai-review-login.md` §3e; every new case either confirmed correct handling of a
+malformed input or reproduced an already-listed bug's failure pattern.)
 
 > **GitHub Issues status:** all 8 new findings below have been filed as real GitHub Issues
 > (#318–#321, #333–#335, #338) via `gh issue create`, with screenshot evidence attached. The

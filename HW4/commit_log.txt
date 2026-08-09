@@ -1,4 +1,5 @@
 === Full git log ===
+efd8c70 feat(hw4): sixth pass — CRITICAL privilege escalation + boundary volume to 250 cases
 8e5e0d2 docs(hw4): add evidence for privilege-escalation and checkout-validation bugs
 88cf88d feat(hw4): fifth pass — bug hunt in checkout/order endpoints (75->77 Cart cases)
 689dfbd docs(hw4): add evidence screenshots for 2 new checkout/order bugs
@@ -70,7 +71,8 @@ b4a0df5 Update Backend URL call cho FE
 85af3ba first upload
 2f9bf2b Initial commit
 
-=== Commits touching .spec.ts files (12 total, min 8 required) ===
+=== Commits touching .spec.ts files (13 total, min 8 required) ===
+efd8c70 feat(hw4): sixth pass — CRITICAL privilege escalation + boundary volume to 250 cases
 88cf88d feat(hw4): fifth pass — bug hunt in checkout/order endpoints (75->77 Cart cases)
 2540ef0 feat(hw4): fourth pass — deliberate bug hunt in register/forgot-password (69->72 Login cases)
 5bc9af4 feat(hw4): third coverage pass — Login session-lifecycle + Cart/Dashboard targeted cases

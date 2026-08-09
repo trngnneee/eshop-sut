@@ -2,7 +2,7 @@
 
 **Student ID:** 23127207 · **Feature:** FR-07 — Pool B  
 **Spec files:** `tests/cart.spec.ts`, `tests/cart-api.spec.ts`  
-**Data files:** `test-data/cart-ui-cases.json` (48), `test-data/cart-edge-cases.json` (5), `test-data/cart-api-cases.json` (39) — **92 test cases total**
+**Data files:** `test-data/cart-ui-cases.json` (68), `test-data/cart-edge-cases.json` (5), `test-data/cart-api-cases.json` (69) — **142 test cases total**
 
 ## 1. Scope and conversion from HW02
 
@@ -184,6 +184,38 @@ produced the identical result to Chromium/WebKit, confirming it was a one-off ti
 real cross-browser difference — consistent with this project's "green on one browser is a
 hypothesis" principle from `.agents/skills/playwright-skill/playwright-skill.md`.
 
+## 3f. Seventh pass — pure boundary/robustness volume to reach 400 cases suite-wide (142 cases total)
+
+50 more cases were added reusing already-proven, fully-parameterized shapes, per the same
+suite-wide 400-case request described in `ai-review-login.md` §3e:
+
+- **30 more `cart-api-cases.json` rows**: many more distinct boundary values through the existing
+  `post-quantity-value`/`post-price-value`/`post-quantity-raw` actions — tiny decimals, large
+  negative/positive magnitudes beyond `Number.MAX_SAFE_INTEGER`, and type-confused values (`null`,
+  `{}`, `[]`, `true`, numeric-looking strings). The value-boundary cases fail (same known-bug
+  family as `BUG-FR07-B-01`/`B-13`/`B-15`); the raw-type-confusion cases pass (no 500s).
+- **20 more `cart-ui-cases.json` rows**: 10 more `subtotal-single`/`quantity-value-in-cell`
+  quantity boundaries (all pass), and 10 more `add-with-quantity` malformed-string attempts.
+
+**One test-design mistake found and fixed while authoring the UI batch:** the first draft of the
+10 new `add-with-quantity` strings included values like `"+5"`, `"5 "`, `" 5"`, `"05"` — these all
+parse successfully via `parseInt()` to a valid `5`, so asserting "cart must stay empty" was simply
+the wrong oracle for a valid quantity, not a defect. Caught by running the batch before assuming
+it was correct (the same "verify, don't assume" discipline from the login-cases fix in §3e) and
+replaced with genuinely non-numeric strings (`"abc5"`, `"$5"`, `"null"`, `"V"`, `"%5"`, `"!"`).
+
+**A second, more informative discovery from that same corrected batch:** *every* one of the 10
+non-numeric strings still fails the "cart stays empty" assertion — not because the SUT accepts an
+invalid quantity, but because `input[type=number]` silently refuses to accept non-numeric
+keystrokes at the browser level, leaving the field at its default value, so the product is added
+anyway with quantity 1. This is the exact same automation-limitation root cause already documented
+for `TC-CART-020`/`021` in §C of `bug-report-cart.md` ("Playwright's `fill()` raises `Cannot type
+text into input[type=number]`... a limitation of the UI test data/control combination, not
+evidence the SUT accepted the invalid string") — this pass shows the limitation applies to the
+*entire* non-numeric-string equivalence class through this control, not just those two characters.
+The corresponding API-level cases (`TC-CART-045`/`066`/`110`, etc.) remain the correct oracle for
+this boundary.
+
 ## 5. Assertion-pattern inventory
 
 The suite exercises more than the required three patterns, including `toHaveURL`, `toBeVisible`,
@@ -194,7 +226,7 @@ positive.
 
 ## 6. Review conclusion
 
-All three browsers now produce the **exact same result: 46 passed / 46 failed / 92 total**,
+All three browsers now produce the **exact same result: 66 passed / 76 failed / 142 total**,
 confirmed after the test-isolation fix in Section 3. Cross-browser identity (rather than
 coincidence) is the useful signal here: every failure is a server-side or React-state defect, not
 a browser-rendering difference, which is consistent with a Vietnamese e-commerce SPA whose bugs

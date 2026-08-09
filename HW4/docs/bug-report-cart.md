@@ -1,8 +1,10 @@
 # Bug Report — FR-07 (Shopping Cart)
 
 **Student ID:** 23127207 · **Reproduced by:** `tests/cart.spec.ts`, `tests/cart-api.spec.ts`  
-**Execution evidence:** Chromium, Firefox, and WebKit each ran the full 92-case suite and produced
-the identical result **46 passed / 46 failed / 92**. Reports:
+**Execution evidence:** Chromium, Firefox, and WebKit each ran the full 142-case suite and produced
+the identical result **66 passed / 76 failed / 142**. (No new bugs in the final boundary/robustness
+volume pass — see `ai-review-cart.md` §3f, including a note on `input[type=number]`'s UI-control
+limitation applying to a wider class of non-numeric strings than previously documented.) Reports:
 `HW4/reports/cart/{chromium,firefox,webkit}/index.html`, each labeled `Run by: 23127207` with an
 ISO timestamp.
 
