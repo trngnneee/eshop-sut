@@ -1,0 +1,36 @@
+# Git commit log — HW04 (PLACEHOLDER)
+
+**Status:** NOT READY FOR SUBMISSION
+
+This file must be replaced with a real `git log` export from a **public** GitHub repository.
+
+## HW04 §12 rules (from the PDF)
+
+- At least **8** commits
+- Over at least **4** calendar days
+- Only commits that change test-script files (`.spec.js`, `.spec.ts`, or equivalent) count
+- Commits that only touch README / PDF / docs do **not** count
+- Provide this log as a text file in the Moodle zip
+
+## Current local state (2026-08-09)
+
+- `SoftwareTesting-HW/HW4/23127271/` has **no `.git` directory**
+- Workspace root also has **no git history for HW04**
+- Therefore there are **0** counting commits today
+
+## How to produce this file (after real history exists)
+
+```powershell
+cd SoftwareTesting-HW\HW4\23127271
+git log --date=iso --name-only -- tests/*.spec.js > git-commit-log.txt
+```
+
+Optional filter to prove counting commits:
+
+```powershell
+git log --date=iso --name-only --diff-filter=ACMR -- tests/
+```
+
+Paste the public repo URL below once published:
+
+- GitHub repo: _TBD_

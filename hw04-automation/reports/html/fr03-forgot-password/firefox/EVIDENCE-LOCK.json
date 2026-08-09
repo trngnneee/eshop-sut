@@ -1,0 +1,9 @@
+﻿{
+    "frozenAt":  "2026-08-09T21:15:13.1734875+07:00",
+    "archive":  "evidence/feature-a-fr03-frozen-2026-08-07",
+    "browser":  "firefox",
+    "studentId":  "23127271",
+    "reason":  "Feature A evidence lock — do not overwrite when running Feature B/C",
+    "frozen":  true,
+    "feature":  "fr03-forgot-password"
+}

@@ -1,0 +1,51 @@
+{
+  "studentId": "23127271",
+  "runBy": "Run by: 23127271",
+  "feature": "fr08-checkout",
+  "generatedAt": "2026-08-09T14:45:02.557Z",
+  "cells": [
+    {
+      "feature": "fr08-checkout",
+      "featureName": "FR-08 Checkout",
+      "browser": "chromium",
+      "exitCode": 1,
+      "reportPath": "reports\\html\\fr08-checkout\\chromium",
+      "indexHtml": "C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\SoftwareTesting-HW\\HW4\\23127271\\reports\\html\\fr08-checkout\\chromium\\index.html",
+      "labelFound": true,
+      "timestamp": "2026-08-09T14:40:58.453Z",
+      "reportTitle": "Run by: 23127271 | FR-08 Checkout | chromium | 2026-08-09T14:40:58.453Z",
+      "skippedFrozen": false
+    },
+    {
+      "feature": "fr08-checkout",
+      "featureName": "FR-08 Checkout",
+      "browser": "firefox",
+      "exitCode": 1,
+      "reportPath": "reports\\html\\fr08-checkout\\firefox",
+      "indexHtml": "C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\SoftwareTesting-HW\\HW4\\23127271\\reports\\html\\fr08-checkout\\firefox\\index.html",
+      "labelFound": true,
+      "timestamp": "2026-08-09T14:41:55.102Z",
+      "reportTitle": "Run by: 23127271 | FR-08 Checkout | firefox | 2026-08-09T14:41:55.102Z",
+      "skippedFrozen": false
+    },
+    {
+      "feature": "fr08-checkout",
+      "featureName": "FR-08 Checkout",
+      "browser": "webkit",
+      "exitCode": 1,
+      "reportPath": "reports\\html\\fr08-checkout\\webkit",
+      "indexHtml": "C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\SoftwareTesting-HW\\HW4\\23127271\\reports\\html\\fr08-checkout\\webkit\\index.html",
+      "labelFound": true,
+      "timestamp": "2026-08-09T14:43:52.641Z",
+      "reportTitle": "Run by: 23127271 | FR-08 Checkout | webkit | 2026-08-09T14:43:52.641Z",
+      "skippedFrozen": false
+    }
+  ],
+  "summary": {
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "skippedFrozen": 0,
+    "labelsOk": 3
+  }
+}

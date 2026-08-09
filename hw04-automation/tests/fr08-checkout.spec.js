@@ -1,4 +1,4 @@
-// @ts-check
+﻿// @ts-check
 const { test, expect } = require('@playwright/test');
 const { loadFeatureCases } = require('../helpers/load-test-data');
 const {
@@ -19,7 +19,7 @@ const { cases } = loadFeatureCases('fr08-checkout.json', {
 });
 
 /**
- * Assertion patterns (HW04 Task 1 — ≥3 distinct):
+ * Assertion patterns (HW04 Task 1 / matrix evidence â€” â‰¥3 distinct):
  * 1. Visibility / hidden
  * 2. Text content
  * 3. URL / navigation
@@ -37,7 +37,7 @@ async function injectAuthToken(page, token) {
     localStorage.setItem('token', t);
   }, token);
   await page.reload();
-  await expect(page.getByRole('button', { name: /Thoát|Đăng xuất/i })).toBeVisible({
+  await expect(page.getByRole('button', { name: /ThoÃ¡t|ÄÄƒng xuáº¥t/i })).toBeVisible({
     timeout: 15_000,
   });
 }
@@ -103,7 +103,7 @@ async function runJourney(page, tc, session, runtime) {
     if (await checkout.confirmButton().count()) {
       await checkout.confirmPayment();
       await page
-        .getByRole('heading', { name: /Thanh toán thành công/i })
+        .getByRole('heading', { name: /Thanh toÃ¡n thÃ nh cÃ´ng/i })
         .waitFor({ state: 'visible', timeout: 3_000 })
         .catch(() => {});
     }
@@ -190,7 +190,7 @@ async function applyAssertions(page, tc, session, runtime) {
       }
       case 'totalReadonly': {
         const input = checkout.totalInput();
-        // Spec: total not user-editable — editable number input is a defect.
+        // Spec: total not user-editable â€” editable number input is a defect.
         if ((await input.count()) === 0) {
           expect(true).toBe(true);
           break;
@@ -205,7 +205,7 @@ async function applyAssertions(page, tc, session, runtime) {
       }
       case 'cartEmpty': {
         // SPA navigate so we observe post-checkout cart state (not a remount).
-        await page.getByRole('link', { name: /Giỏ hàng/i }).click();
+        await page.getByRole('link', { name: /Giá» hÃ ng/i }).click();
         await page.waitForURL(/\/cart/);
         await expect(cart.emptyMessage()).toBeVisible({ timeout: 10_000 });
         break;
@@ -229,7 +229,7 @@ async function applyAssertions(page, tc, session, runtime) {
 }
 
 for (const tc of cases) {
-  test.describe(`FR-08 Checkout — ${tc.id}`, () => {
+  test.describe(`FR-08 Checkout â€” ${tc.id}`, () => {
     /** @type {{ email: string, password: string, token: string | null, cartTotal: number }} */
     let session;
     /** @type {{ dialogMessages: string[], apiStatus?: number }} */
