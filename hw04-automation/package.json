@@ -1,0 +1,20 @@
+{
+  "name": "eshop-hw04-playwright",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:list": "playwright test --list",
+    "test:matrix": "node scripts/run-matrix.js",
+    "test:matrix:fr03": "node scripts/run-matrix.js fr03",
+    "test:matrix:fr08": "node scripts/run-matrix.js fr08",
+    "test:matrix:fr15": "node scripts/run-matrix.js fr15",
+    "test:matrix:a": "npm run test:matrix:fr03",
+    "test:matrix:b": "npm run test:matrix:fr08",
+    "test:matrix:c": "npm run test:matrix:fr15",
+    "evidence:verify-fr03": "node scripts/verify-fr03-evidence.js",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}

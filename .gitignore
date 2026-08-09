@@ -1,1 +1,5 @@
 node_modules
+backend/database.sqlite
+hw04-automation/node_modules/
+hw04-automation/test-results/
+
