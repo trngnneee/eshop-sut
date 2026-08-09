@@ -30,5 +30,12 @@
   { "caseId": "TC-CART-060", "category": "ui-missing-info", "description": "Không hiển thị thông tin tồn kho khả dụng và không cảnh báo khi vượt quá tồn kho", "bugRef": "BUG-FR07-B-12", "check": "stock-info-missing" },
   { "caseId": "TC-CART-076", "category": "state-guard", "description": "Cho phép nhấn Checkout khi giỏ hàng trống thay vì chặn lại", "bugRef": "BUG-FR07-B-17", "check": "checkout-blocked-when-empty" },
   { "caseId": "TC-CART-087", "category": "persistence", "description": "Giỏ hàng có bị mất sau khi refresh trang hay không", "check": "reload-persistence" },
-  { "caseId": "TC-CART-089", "category": "state-guard", "description": "Giỏ hàng không được xóa sạch sau khi thanh toán thành công", "bugRef": "BUG-FR07-B-19", "check": "checkout-clears-cart" }
+  { "caseId": "TC-CART-089", "category": "state-guard", "description": "Giỏ hàng không được xóa sạch sau khi thanh toán thành công", "bugRef": "BUG-FR07-B-19", "check": "checkout-clears-cart" },
+  { "caseId": "TC-CART-055", "category": "i18n", "description": "Sản phẩm có tên tiếng Việt có dấu hiển thị đúng trong giỏ hàng", "check": "diacritics-product-name" },
+  { "caseId": "TC-CART-056", "category": "i18n", "description": "Sản phẩm có tên chứa ký tự đặc biệt an toàn (&, \", ') hiển thị đúng, không vỡ layout", "check": "special-char-product-name" },
+  { "caseId": "TC-CART-081", "category": "boundary", "description": "Sản phẩm có tên rất dài không làm vỡ giao diện giỏ hàng", "check": "long-product-name" },
+  { "caseId": "TC-CART-082", "category": "security-xss", "description": "Sản phẩm có tên chứa mã HTML/script không được thực thi khi hiển thị trong giỏ hàng", "check": "xss-product-name" },
+  { "caseId": "TC-CART-083", "category": "boundary", "description": "Giỏ hàng có nhiều dòng sản phẩm (10+) vẫn hiển thị đầy đủ, không bị treo/lỗi", "check": "many-items-cart" },
+  { "caseId": "TC-CART-084", "category": "boundary", "description": "Tổng tiền giỏ hàng có giá trị rất lớn vẫn hiển thị đúng định dạng, không tràn số", "check": "very-large-total" },
+  { "caseId": "TC-CART-050", "category": "cross-tab", "description": "Mở giỏ hàng ở tab/context khác sau khi đã thêm sản phẩm ở tab đầu — không đồng bộ do state chỉ ở client", "check": "cross-tab-no-sync" }
 ]

@@ -98,6 +98,22 @@ test.describe('FR-13 Admin Dashboard metrics (data-driven)', () => {
         return;
       }
 
+      if (c.check === 'offline-during-load') {
+        // App.jsx's fetchData() fires 5 sequential axios calls with a single catch block
+        // that only handles 401/403 (forces logout); any other failure — including one
+        // request in the middle of the chain being unreachable — breaks the whole chain
+        // silently with no user-facing message. Abort just one call (admin/orders) so the
+        // login itself still succeeds and only the data-load step is affected — a more
+        // targeted repro than a full offline reload (which would also break the SPA shell).
+        await page.route('**/api/admin/orders', (route) => route.abort());
+        await loginAdminUI(page, ADMIN_CREDENTIALS.email, ADMIN_CREDENTIALS.password);
+        await page.waitForTimeout(1000);
+        // Spec-conformant expectation: the admin should be told something went wrong
+        // instead of seeing an unexplained blank/stale dashboard.
+        await expect(page.getByText(/lỗi|error|không thể tải|thử lại/i)).toBeVisible();
+        return;
+      }
+
       await clearAllOrders();
       const userToken = (await (await apiLogin(request, SEED_USER_CREDENTIALS.email, SEED_USER_CREDENTIALS.password)).json()).token;
       const adminToken = (await (await apiLogin(request, ADMIN_CREDENTIALS.email, ADMIN_CREDENTIALS.password)).json()).token;

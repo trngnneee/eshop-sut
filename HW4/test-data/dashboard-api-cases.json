@@ -15,5 +15,14 @@
   { "caseId": "TC-DASHBOARD-ACL-008", "category": "access-control", "description": "PUT /api/admin/orders/:id/status với token của user thường phải bị từ chối", "bugRef": "BUG-FR13-C-02", "action": "update-status-regular-user-token" },
   { "caseId": "TC-DASHBOARD-ORD-005", "category": "state-transition", "description": "Chuyển trạng thái hợp lệ confirmed -> shipping phải thành công", "action": "valid-transition", "from": "confirmed", "to": "shipping" },
   { "caseId": "TC-DASHBOARD-ORD-006", "category": "state-transition", "description": "Chuyển trạng thái hợp lệ shipping -> delivered phải thành công", "action": "valid-transition", "from": "shipping", "to": "delivered" },
-  { "caseId": "TC-DASHBOARD-USR-003", "category": "data-exposure", "description": "GET /api/admin/users không được lộ trường password của user trong danh sách", "action": "admin-users-no-password-leak" }
+  { "caseId": "TC-DASHBOARD-USR-003", "category": "data-exposure", "description": "GET /api/admin/users không được lộ trường password của user trong danh sách", "action": "admin-users-no-password-leak" },
+  { "caseId": "TC-DASHBOARD-ORD-007", "category": "state-transition", "description": "Cập nhật trạng thái đơn hàng bằng một chuỗi không hợp lệ (ví dụ 'banana') phải bị từ chối", "action": "invalid-transition", "from": "pending", "to": "banana" },
+  { "caseId": "TC-DASHBOARD-ORD-008", "category": "state-transition", "description": "Cập nhật trạng thái đơn hàng nhưng thiếu hẳn trường status trong body phải bị từ chối", "action": "update-status-missing-field" },
+  { "caseId": "TC-DASHBOARD-ACL-009", "category": "access-control", "description": "DELETE /api/admin/users/:id với id không phải dạng số (vd 'abc') phải bị từ chối 400, không phải 200", "action": "delete-non-numeric-id" },
+  { "caseId": "TC-DASHBOARD-ACL-010", "category": "access-control", "description": "DELETE /api/admin/users/:id với id dạng SQL injection không được xóa nhầm toàn bộ bảng user", "action": "delete-sql-injection-id" },
+  { "caseId": "TC-DASHBOARD-USR-004", "category": "data-exposure", "description": "GET /api/admin/users phải hiển thị đúng login_attempts và locked_until để admin theo dõi khóa tài khoản", "action": "admin-users-exposes-lockout-fields" },
+  { "caseId": "TC-DASHBOARD-ORD-009", "category": "state-transition", "description": "Chuyển trạng thái hợp lệ confirmed -> canceled phải thành công", "action": "valid-transition", "from": "confirmed", "to": "canceled" },
+  { "caseId": "TC-DASHBOARD-ACL-011", "category": "access-control", "description": "GET /api/admin/orders với Authorization header rỗng không được gây lỗi 500", "action": "admin-orders-empty-token" },
+  { "caseId": "TC-DASHBOARD-ORD-010", "category": "data-integrity", "description": "Sau khi cập nhật trạng thái đơn hàng, GET /api/admin/orders phải phản ánh trạng thái mới ngay lập tức", "action": "status-update-reflected" },
+  { "caseId": "TC-DASHBOARD-USR-005", "category": "access-control", "description": "DELETE /api/admin/users/:id với id âm (vd -1) phải bị từ chối 400, không phải 200", "action": "delete-negative-id" }
 ]

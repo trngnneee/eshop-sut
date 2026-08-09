@@ -16,11 +16,11 @@ self-assessment — update the number once the demo video is recorded).
 | 5 | AI Critique (Markdown + PDF) | MD ✅ / PDF ⬜ | `HW4/docs/ai-critique.md` |
 | 6 | AI Audit Report (Markdown + PDF) | MD ✅ / PDF ⬜ | `HW4/docs/ai-audit-report.md` |
 | 7 | Git commit log (text file) | ✅ Done | `HW4/commit_log.txt` |
-| 8 | Bug report + GitHub Issue screenshots | ✅ Done | `HW4/docs/bug-report-{login,cart,dashboard}.md` — all 10 new bugs filed as real Issues [#318–#327](https://github.com/trngnneee/eshop-sut/issues?q=is%3Aissue+318..327+in%3Anumber) with screenshot evidence attached (`HW4/docs/bug-evidence/`) |
+| 8 | Bug report + GitHub Issue screenshots | ✅ Done | `HW4/docs/bug-report-{login,cart,dashboard}.md` — all 12 new bugs filed as real Issues [#318–#329](https://github.com/trngnneee/eshop-sut/issues?q=is%3Aissue+318..329+in%3Anumber) with screenshot evidence attached (`HW4/docs/bug-evidence/`) |
 | 9 | README.md with self-assessment + test summary | ✅ Done | `HW4/README.md` |
 | 10 | Any supporting materials | ✅ Done | `HW4/docs/hw02-reference/` (source test-case pool), `HW4/docs/system-analysis.md`, `HW4/docs/prompt-log.md` |
 
-## How the 10 new bugs were filed on GitHub Issues
+## How the 12 new bugs were filed on GitHub Issues
 
 Pasting a raw token into this chat kept getting the token auto-revoked within seconds (GitHub's
 secret-scanning protection triggers when a token is shared with an AI assistant) — 4 tokens in a
@@ -53,8 +53,10 @@ Filed issues:
 | NEW-BUG-FR13-01 (delete nonexistent user → 200) | [#325](https://github.com/trngnneee/eshop-sut/issues/325) |
 | NEW-BUG-FR13-02 (admin self-delete) | [#326](https://github.com/trngnneee/eshop-sut/issues/326) |
 | NEW-BUG-FR13-03 (canceled → delivered resurrection) | [#327](https://github.com/trngnneee/eshop-sut/issues/327) |
+| NEW-BUG-FR07-04 (cart not synced across tabs) | [#328](https://github.com/trngnneee/eshop-sut/issues/328) |
+| NEW-BUG-FR13-04 (DELETE user id format not validated) | [#329](https://github.com/trngnneee/eshop-sut/issues/329) |
 
-The 29 already-known bugs this run reproduced were mostly already filed in HW02
+The 30 already-known bugs this run reproduced were mostly already filed in HW02
 (`docs/hw02-reference/tests/issues_list.txt` has the links; the 12 FR-02 login bugs were never
 filed even then — file them the same way if you want full coverage, referencing
 `docs/hw02-reference/tests/bug/login/BUG-FR02-A-*.md` for the original write-ups).

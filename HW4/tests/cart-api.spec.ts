@@ -191,6 +191,28 @@ test.describe('FR-07 Cart API contract', () => {
           expect(res.status()).toBe(404);
           break;
         }
+        case 'post-compound-invalid': {
+          const res = await request.post(`${API_BASE_URL}/api/cart`, {
+            headers: auth,
+            data: { id: CATALOG_PRODUCT.id, name: CATALOG_PRODUCT.name, price: -100, quantity: -5 },
+          });
+          expect(res.status()).toBe(400);
+          break;
+        }
+        case 'post-multiple-order-consistency': {
+          const items = [
+            { id: 1, name: 'iPhone 15 Pro Max', price: 30000000 },
+            { id: 2, name: 'Samsung Galaxy S24 Ultra', price: 28000000 },
+            { id: 4, name: 'Tai nghe AirPods Pro 2', price: 6000000 },
+          ];
+          for (const item of items) {
+            await request.post(`${API_BASE_URL}/api/cart`, { headers: auth, data: { ...item, quantity: 1 } });
+          }
+          const cart: CartItem[] = await (await request.get(`${API_BASE_URL}/api/cart`, { headers: auth })).json();
+          expect(cart).toHaveLength(items.length);
+          expect(items.every((item) => cart.some((c2) => c2.id === item.id))).toBe(true);
+          break;
+        }
         default:
           throw new Error(`Unknown API action "${c.action}" for ${c.caseId}`);
       }

@@ -1,8 +1,8 @@
 # Bug Report — FR-07 (Shopping Cart)
 
 **Student ID:** 23127207 · **Reproduced by:** `tests/cart.spec.ts`, `tests/cart-api.spec.ts`  
-**Execution evidence:** Chromium, Firefox, and WebKit each ran the full 63-case suite and produced
-the identical result **29 passed / 34 failed / 63**. Reports:
+**Execution evidence:** Chromium, Firefox, and WebKit each ran the full 72-case suite and produced
+the identical result **36 passed / 36 failed / 72**. Reports:
 `HW4/reports/cart/{chromium,firefox,webkit}/index.html`, each labeled `Run by: 23127207` with an
 ISO timestamp.
 
@@ -10,8 +10,8 @@ An earlier run surfaced a test-isolation bug (two edge cases mutated the shared 
 catalog without restoring it, contaminating a later browser's run with stale data) — fixed by
 switching those cases to a disposable, self-cleaning product; see `docs/ai-review-cart.md` §3.
 
-> **GitHub Issues status:** all 3 new findings below have been filed as real GitHub Issues
-> (#322–#324) with screenshot evidence attached. The existing HW02 issue links for
+> **GitHub Issues status:** all 4 new findings below have been filed as real GitHub Issues
+> (#322–#324, #328) with screenshot evidence attached. The existing HW02 issue links for
 > previously-known bugs are in `docs/hw02-reference/tests/issues_list.txt`.
 
 ## A. Previously known bugs reproduced
@@ -76,6 +76,20 @@ switching those cases to a disposable, self-cleaning product; see `docs/ai-revie
   check before calling `addToCart`. The API has the related known validation defect
   `BUG-FR07-B-01`.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/324 (screenshot attached)
+
+### NEW-BUG-FR07-04 — Cart is not synced across browser tabs
+
+- **Severity:** Medium
+- **Cases:** `TC-CART-050`
+- **Steps:** Log in and add a product in one tab; open the cart page in a second tab of the same
+  logged-in session.
+- **Expected:** The item added in the first tab is visible in the second tab.
+- **Actual:** The second tab shows an empty cart.
+- **Evidence:** `frontend-web/src/context/CartContext.jsx` has no `localStorage`,
+  `BroadcastChannel`, or server sync — every tab's `CartProvider` is an independent in-memory
+  instance. Distinct from `NEW-BUG-FR07-02` (that one is sequential reload/re-login; this one is
+  two tabs open concurrently in the same session).
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/328 (screenshot attached)
 
 ## C. Testability note — not filed as a product bug
 

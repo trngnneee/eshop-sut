@@ -206,6 +206,83 @@ test.describe('FR-13 Dashboard/admin API access control', () => {
           expect(users.every((u: AdminUserRow) => u.password === undefined)).toBe(true);
           break;
         }
+        case 'update-status-missing-field': {
+          await clearAllOrders();
+          const userTok = await regularUserToken(request, c.caseId);
+          const admin = await adminToken(request);
+          const orderId = await seedOrderAt(request, userTok, admin, 'pending');
+          const res = await request.put(`${API_BASE_URL}/api/admin/orders/${orderId}/status`, {
+            headers: { Authorization: `Bearer ${admin}` },
+            data: {},
+          });
+          expect(res.status()).toBe(400);
+          break;
+        }
+        case 'delete-non-numeric-id': {
+          const admin = await adminToken(request);
+          const res = await request.delete(`${API_BASE_URL}/api/admin/users/abc`, {
+            headers: { Authorization: `Bearer ${admin}` },
+          });
+          expect(res.status()).toBe(400);
+          break;
+        }
+        case 'delete-sql-injection-id': {
+          const admin = await adminToken(request);
+          const before = await (
+            await request.get(`${API_BASE_URL}/api/admin/users`, { headers: { Authorization: `Bearer ${admin}` } })
+          ).json();
+          const res = await request.delete(`${API_BASE_URL}/api/admin/users/${encodeURIComponent('1 OR 1=1')}`, {
+            headers: { Authorization: `Bearer ${admin}` },
+          });
+          const after = await (
+            await request.get(`${API_BASE_URL}/api/admin/users`, { headers: { Authorization: `Bearer ${admin}` } })
+          ).json();
+          // Spec-conformant expectation: malformed id is rejected outright.
+          expect(res.status()).toBe(400);
+          // Regardless of the status code above, the user table must never be wiped.
+          expect(after.length).toBe(before.length);
+          break;
+        }
+        case 'admin-users-exposes-lockout-fields': {
+          const admin = await adminToken(request);
+          const users = await (
+            await request.get(`${API_BASE_URL}/api/admin/users`, { headers: { Authorization: `Bearer ${admin}` } })
+          ).json();
+          expect(users.length).toBeGreaterThan(0);
+          expect(users.every((u: any) => 'login_attempts' in u && 'locked_until' in u)).toBe(true);
+          break;
+        }
+        case 'admin-orders-empty-token': {
+          const res = await request.get(`${API_BASE_URL}/api/admin/orders`, {
+            headers: { Authorization: 'Bearer ' },
+          });
+          expect(res.status()).not.toBe(500);
+          break;
+        }
+        case 'status-update-reflected': {
+          await clearAllOrders();
+          const userTok = await regularUserToken(request, c.caseId);
+          const admin = await adminToken(request);
+          const orderId = await seedOrderAt(request, userTok, admin, 'pending');
+          await request.put(`${API_BASE_URL}/api/admin/orders/${orderId}/status`, {
+            headers: { Authorization: `Bearer ${admin}` },
+            data: { status: 'confirmed' },
+          });
+          const orders = await (
+            await request.get(`${API_BASE_URL}/api/admin/orders`, { headers: { Authorization: `Bearer ${admin}` } })
+          ).json();
+          const updated = orders.find((o: any) => o.id === orderId);
+          expect(updated?.status).toBe('confirmed');
+          break;
+        }
+        case 'delete-negative-id': {
+          const admin = await adminToken(request);
+          const res = await request.delete(`${API_BASE_URL}/api/admin/users/-1`, {
+            headers: { Authorization: `Bearer ${admin}` },
+          });
+          expect(res.status()).toBe(400);
+          break;
+        }
         default:
           throw new Error(`Unknown action "${c.action}" for ${c.caseId}`);
       }

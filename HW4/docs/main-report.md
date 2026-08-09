@@ -6,17 +6,18 @@ FR-13 Admin Dashboard (Pool C)
 
 ## 1. Summary
 
-158 data-driven Playwright test cases were generated with AI, reviewed, corrected, and executed
-across Chromium/Firefox/WebKit (474 browser runs total), producing **the same pass/fail count on
+181 data-driven Playwright test cases were generated with AI, reviewed, corrected, and executed
+across Chromium/Firefox/WebKit (543 browser runs total), producing **the same pass/fail count on
 all three engines for every feature** — strong evidence that failures are real application/data
-defects, not browser flakiness. 90 cases passed; 68 failed, reproducing 29 already-known HW02
-bugs and surfacing 10 new ones, including a High-severity plaintext-password leak in the login API.
+defects, not browser flakiness. 104 cases passed; 77 failed, reproducing 30 already-known HW02
+bugs and surfacing 12 new ones, including a High-severity plaintext-password leak in the login API.
+All 12 new bugs are filed as real GitHub Issues (#318–#329) with screenshot evidence.
 
 | Feature | Cases | Passed | Failed | Report |
 |---|---:|---:|---:|---|
 | FR-02 Login | 63 | 46 | 17 | `reports/login/{chromium,firefox,webkit}/index.html` |
-| FR-07 Cart | 63 | 29 | 34 | `reports/cart/{chromium,firefox,webkit}/index.html` |
-| FR-13 Dashboard | 32 | 15 | 17 | `reports/dashboard/{chromium,firefox,webkit}/index.html` |
+| FR-07 Cart | 72 | 36 | 36 | `reports/cart/{chromium,firefox,webkit}/index.html` |
+| FR-13 Dashboard | 46 | 22 | 24 | `reports/dashboard/{chromium,firefox,webkit}/index.html` |
 
 ## 2. Process (Task 1 requirement: AI-first, step by step)
 
@@ -62,12 +63,13 @@ Recurring patterns across all three:
 ## 4. Bug reports
 
 - [`bug-report-login.md`](bug-report-login.md) — 12 known + 4 new
-- [`bug-report-cart.md`](bug-report-cart.md) — 15 known + 3 new
-- [`bug-report-dashboard.md`](bug-report-dashboard.md) — 2 known + 3 new
+- [`bug-report-cart.md`](bug-report-cart.md) — 15 known + 4 new
+- [`bug-report-dashboard.md`](bug-report-dashboard.md) — 3 known + 4 new
 
-GitHub Issues could not be filed automatically from this environment (no `gh` CLI / `GITHUB_TOKEN`
-available); each bug report contains ready-to-file titles and bodies, plus links to the HW02 issues
-already open for the bugs that were already filed then.
+All 12 new bugs were filed as real GitHub Issues ([#318–#329](https://github.com/trngnneee/eshop-sut/issues?q=is%3Aissue+318..329+in%3Anumber))
+with screenshot evidence attached, via `gh` CLI browser-login authentication (pasting a raw token
+into chat triggered GitHub's near-instant secret-scanning revocation four times in a row before
+this approach was used — see `docs/submission-checklist.md`).
 
 ## 5. Cases not automated
 

@@ -1,8 +1,8 @@
 # Bug Report — FR-13 (Admin Dashboard)
 
 **Student ID:** 23127207 · **Reproduced by:** `tests/dashboard.spec.ts`, `tests/dashboard-api.spec.ts`  
-**Execution evidence:** Chromium, Firefox, and WebKit each ran the full 32-case suite and produced
-the identical result **15 passed / 17 failed / 32**. Reports:
+**Execution evidence:** Chromium, Firefox, and WebKit each ran the full 46-case suite and produced
+the identical result **22 passed / 24 failed / 46**. Reports:
 `HW4/reports/dashboard/{chromium,firefox,webkit}/index.html`, each labeled `Run by: 23127207` with
 an ISO timestamp.
 
@@ -10,9 +10,10 @@ An earlier run's `admin-self-delete-blocked` case genuinely deleted the real see
 (confirming the bug below) and broke every later dashboard case in that run — fixed by promoting a
 disposable throwaway account to `role='admin'` instead; see `docs/ai-review-dashboard.md` §2.
 
-> **GitHub Issues status:** all 3 new findings below have been filed as real GitHub Issues
-> (#325–#327) with screenshot evidence attached. Existing HW02 issue links for previously-known
-> bugs are listed in `docs/hw02-reference/tests/issues_list.txt`.
+> **GitHub Issues status:** all 4 new findings below have been filed as real GitHub Issues
+> (#325–#327, #329) with screenshot evidence attached. Existing HW02 issue links for
+> previously-known bugs (including `BUG-FR13-C-03`, reproduced below) are listed in
+> `docs/hw02-reference/tests/issues_list.txt`.
 
 ## A. Known issue reproduced
 
@@ -27,6 +28,19 @@ disposable throwaway account to `role='admin'` instead; see `docs/ai-review-dash
 - **Evidence:** `backend/server.js` applies `authenticateToken` to the routes but never checks
   `req.user.role === 'admin'`.
 - **Existing issue:** `https://github.com/trngnneee/eshop-sut/issues/157` (from the HW02 reference list).
+
+### BUG-FR13-C-03 — Dashboard data load has no resilience to a failed sub-request
+
+- **Severity:** Medium
+- **Cases:** `TC-DASHBOARD-RESIL-001`
+- **Steps:** Intercept and abort just the `GET /api/admin/orders` call (so login itself still
+  succeeds), then observe the dashboard after login.
+- **Expected:** The admin sees a clear error/retry message.
+- **Actual:** No message appears; `App.jsx`'s `fetchData()` runs 5 sequential `axios.get` calls
+  with one shared `catch` block that only handles `401`/`403` — any other failure (including one
+  request being unreachable) breaks the chain silently.
+- **Existing issue:** `https://github.com/trngnneee/eshop-sut/issues/158` (from the HW02 reference
+  list; this run reproduces it with a browser-level repro instead of only static source review).
 
 ## B. New findings from the API run
 
@@ -64,6 +78,22 @@ disposable throwaway account to `role='admin'` instead; see `docs/ai-review-dash
 - **Evidence:** The state-transition handler explicitly allows `currentStatus === "canceled"`
   with `status === "delivered"`.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/327 (screenshot attached)
+
+### NEW-BUG-FR13-04 — `DELETE /api/admin/users/:id` never validates the id format
+
+- **Severity:** Medium
+- **Cases:** `TC-DASHBOARD-ACL-009` (non-numeric id), `TC-DASHBOARD-ACL-010` (SQL-injection-shaped
+  id), `TC-DASHBOARD-USR-005` (negative id)
+- **Steps:** `DELETE /api/admin/users/abc`, `DELETE /api/admin/users/1%20OR%201=1`, and
+  `DELETE /api/admin/users/-1`, each with a valid admin token.
+- **Expected:** HTTP `400` for a malformed id, in all three cases.
+- **Actual:** HTTP `200` `{"message":"User deleted"}` for all three, even though nothing matched.
+- **Evidence:** The route runs `DELETE FROM users WHERE id = ?` with the raw route parameter and
+  never validates it is a positive integer before querying — a distinct root cause from
+  `NEW-BUG-FR13-01` (that one is a *valid-format but nonexistent* id; this one is a *malformed* id
+  that should never reach the query at all). The SQL-injection-shaped id did not delete other rows
+  (parameterized query), but the endpoint still misreports success for an input it should reject.
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/329 (screenshot attached)
 
 ## C. Known UI defect — confirmed on Chromium, Firefox, and WebKit
 

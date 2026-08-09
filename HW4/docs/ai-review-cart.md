@@ -2,7 +2,7 @@
 
 **Student ID:** 23127207 · **Feature:** FR-07 — Pool B  
 **Spec files:** `tests/cart.spec.ts`, `tests/cart-api.spec.ts`  
-**Data files:** `test-data/cart-ui-cases.json` (32), `test-data/cart-edge-cases.json` (5), `test-data/cart-api-cases.json` (26) — **63 test cases total**
+**Data files:** `test-data/cart-ui-cases.json` (39), `test-data/cart-edge-cases.json` (5), `test-data/cart-api-cases.json` (28) — **72 test cases total**
 
 ## 1. Scope and conversion from HW02
 
@@ -12,9 +12,13 @@ three different shapes rather than repeating one happy path:
 
 | Shape | Cases | Main oracle |
 |---|---:|---|
-| Cart page UI/UX | 32 | Cart rendering, navigation, quantity boundaries, totals, controls, checkout guard |
+| Cart page UI/UX | 39 | Cart rendering, navigation, quantity boundaries, totals, controls, checkout guard, i18n/XSS product names, scale, cross-tab sync |
 | Cross-session/data-integrity edge cases | 5 | User switching, reload/re-login, deleted/changed products, checkout tampering |
-| Cart API contract/security | 26 | Authentication, validation, product integrity, type safety, mass assignment |
+| Cart API contract/security | 28 | Authentication, validation, product integrity, type safety, mass assignment, compound-invalid input, multi-item consistency |
+
+A second pass (after the user explicitly asked for deeper coverage, twice) added 9 more cases:
+i18n/special-character/very-long/XSS product names, a 12-item cart, a very-large total, cross-tab
+sync, a compound-invalid API payload, and multi-item order consistency — see §3b.
 
 The data files are external JSON arrays. The loaders validate that each file exists, contains an
 array, has the required minimum size, and has no duplicate `caseId`. The tests annotate every case
@@ -89,6 +93,19 @@ also passed because `CartContext` merges by product ID. This distinction is usef
 | Cart persistence is not implemented | `TC-CART-072`, `TC-CART-087` | The cart is held only in `useState`; re-login/reload remounts `CartProvider` and loses the item. This is a cross-session/data-persistence gap, distinct from the post-checkout cleanup bug. |
 | Frontend quantity validation is missing | `TC-CART-017`, `018`, `019`, `022` | `ProductDetail.jsx` calls `parseInt(quantity)` without checking integer, positivity, or finite value. Invalid numeric values can still be inserted into `CartContext`, producing a non-empty cart when the expected result is rejection. The API manifestation is the known `BUG-FR07-B-01`. |
 | Two nonnumeric UI values were not injectable through the real control | `TC-CART-020`, `021` | Playwright fails before the assertion because HTML `input[type=number]` rejects `abc` and `!@#`. These are automation/data-model limitations, not valid SUT failures. The API type-validation case remains the stronger oracle for this boundary. |
+| **Cart is not synced across browser tabs** | `TC-CART-050` | Each tab's `CartProvider` is an independent in-memory instance with no `localStorage`/`BroadcastChannel`/server sync — a second tab of the same logged-in session sees an empty cart. New, distinct from the reload/re-login persistence gap above (this is *concurrent* tabs, not sequential sessions). Filed as [#328](https://github.com/trngnneee/eshop-sut/issues/328). |
+
+## 3b. Second pass — deeper coverage (72 cases total)
+
+After reviewing the first pass, 9 more cases were added to close specific gaps rather than pad the
+count: Vietnamese-diacritics and safe-special-character product names (`TC-CART-055/056`, both
+**pass** — display is correct), a very long product name and a 12-item cart (`081`, `083`, both
+**pass** — no layout break), an XSS payload as a product name (`082`, **passes** — React's default
+JSX escaping prevents script execution, a genuine positive security confirmation), a very large
+total amount (`084`, **passes** — no overflow/scientific notation), cross-tab sync (`050`,
+**fails** — new finding above), a compound-invalid API payload combining negative price *and*
+negative quantity (`090`, **fails** — same root cause as the known `BUG-FR07-B-01`/`B-13`, not a
+new bug), and multi-item order consistency at the API level (`091`, **passes**).
 
 ## 5. Assertion-pattern inventory
 
@@ -100,7 +117,7 @@ positive.
 
 ## 6. Review conclusion
 
-All three browsers now produce the **exact same result: 29 passed / 34 failed / 63 total**,
+All three browsers now produce the **exact same result: 36 passed / 36 failed / 72 total**,
 confirmed after the test-isolation fix in Section 3. Cross-browser identity (rather than
 coincidence) is the useful signal here: every failure is a server-side or React-state defect, not
 a browser-rendering difference, which is consistent with a Vietnamese e-commerce SPA whose bugs

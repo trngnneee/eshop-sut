@@ -158,5 +158,75 @@
     ],
     "expectedOrderCount": 10,
     "expectedRevenue": 100000
+  },
+  {
+    "caseId": "TC-DASHBOARD-RESIL-001",
+    "category": "resilience",
+    "description": "Mất kết nối mạng ngay khi vừa đăng nhập admin phải hiển thị thông báo lỗi rõ ràng, không được để trang trắng hoặc số liệu trống không giải thích",
+    "check": "offline-during-load"
+  },
+  {
+    "caseId": "TC-DASHBOARD-BVA-007",
+    "category": "boundary",
+    "description": "20 đơn hàng hỗn hợp trạng thái vẫn đếm và cộng doanh thu đúng ở quy mô lớn hơn",
+    "orders": [
+      { "amount": 50000, "finalStatus": "delivered" },
+      { "amount": 50000, "finalStatus": "delivered" },
+      { "amount": 50000, "finalStatus": "delivered" },
+      { "amount": 50000, "finalStatus": "delivered" },
+      { "amount": 50000, "finalStatus": "delivered" },
+      { "amount": 50000, "finalStatus": "delivered" },
+      { "amount": 50000, "finalStatus": "delivered" },
+      { "amount": 50000, "finalStatus": "delivered" },
+      { "amount": 50000, "finalStatus": "delivered" },
+      { "amount": 50000, "finalStatus": "delivered" },
+      { "amount": 50000, "finalStatus": "pending" },
+      { "amount": 50000, "finalStatus": "pending" },
+      { "amount": 50000, "finalStatus": "pending" },
+      { "amount": 50000, "finalStatus": "pending" },
+      { "amount": 50000, "finalStatus": "pending" },
+      { "amount": 50000, "finalStatus": "confirmed" },
+      { "amount": 50000, "finalStatus": "confirmed" },
+      { "amount": 50000, "finalStatus": "canceled" },
+      { "amount": 50000, "finalStatus": "canceled" },
+      { "amount": 50000, "finalStatus": "shipping" }
+    ],
+    "expectedOrderCount": 20,
+    "expectedRevenue": 500000
+  },
+  {
+    "caseId": "TC-DASHBOARD-BVA-008",
+    "category": "boundary",
+    "description": "Nhiều đơn delivered có phần thập phân cộng dồn không lệch số do sai số dấu phẩy động",
+    "orders": [
+      { "amount": 100000.25, "finalStatus": "delivered" },
+      { "amount": 200000.25, "finalStatus": "delivered" },
+      { "amount": 300000.25, "finalStatus": "delivered" },
+      { "amount": 400000.25, "finalStatus": "delivered" },
+      { "amount": 500000.25, "finalStatus": "delivered" }
+    ],
+    "expectedOrderCount": 5,
+    "expectedRevenue": 1500001.25
+  },
+  {
+    "caseId": "TC-DASHBOARD-DT-010",
+    "category": "boundary",
+    "description": "Đơn hàng delivered có total_amount đúng bằng 0 vẫn được đếm nhưng không cộng thêm doanh thu",
+    "orders": [
+      { "amount": 0, "finalStatus": "delivered" },
+      { "amount": 100000, "finalStatus": "delivered" }
+    ],
+    "expectedOrderCount": 2,
+    "expectedRevenue": 100000
+  },
+  {
+    "caseId": "TC-DASHBOARD-DT-011",
+    "category": "state-transition",
+    "description": "Đơn hàng bị hủy (pending -> canceled) không được tính vào doanh thu",
+    "orders": [
+      { "amount": 300000, "finalStatus": "canceled" }
+    ],
+    "expectedOrderCount": 1,
+    "expectedRevenue": 0
   }
 ]

@@ -107,6 +107,16 @@ function cartRow(page: Page, productName: string) {
   return page.locator('tr').filter({ hasText: productName });
 }
 
+/** Creates a throwaway product via the (unauthenticated — no authenticateToken middleware
+ * on this route) product-management API, for cases that need a specific name/price
+ * without touching the shared seed catalog. */
+async function createDisposableProduct(request: APIRequestContext, name: string, price = 100000): Promise<number> {
+  const res = await request.post(`${API_BASE_URL}/api/products`, {
+    data: { name, price, description: '', imageUrl: '', category_id: 1 },
+  });
+  return (await res.json()).id as number;
+}
+
 // ---------------------------------------------------------------------------------
 // Shape A — Cart page UI/UX (32 cases)
 //
@@ -319,6 +329,80 @@ test.describe('FR-07 Shopping Cart UI', () => {
           await gotoHome(page);
           await gotoCart(page);
           await expect(page.getByText('Giỏ hàng của bạn đang trống')).toBeVisible();
+          break;
+        }
+        case 'diacritics-product-name': {
+          const name = 'Bàn phím cơ Dạ Quang Đặc Biệt';
+          const id = await createDisposableProduct(request, name);
+          await addFromDetailByUrl(page, id);
+          await gotoCart(page);
+          await expect(cartRow(page, name)).toBeVisible();
+          break;
+        }
+        case 'special-char-product-name': {
+          const name = `Tai nghe "Pro" & Co.`;
+          const id = await createDisposableProduct(request, name);
+          await addFromDetailByUrl(page, id);
+          await gotoCart(page);
+          await expect(cartRow(page, name)).toBeVisible();
+          break;
+        }
+        case 'long-product-name': {
+          const name = 'Sản phẩm siêu dài dùng để kiểm tra layout '.repeat(6).trim();
+          const id = await createDisposableProduct(request, name);
+          await addFromDetailByUrl(page, id);
+          await gotoCart(page);
+          await expect(page.locator('tbody tr')).toHaveCount(1);
+          await expect(page.locator('body')).toBeVisible();
+          break;
+        }
+        case 'xss-product-name': {
+          const name = `<script>window.__xssFired = true</script>`;
+          const id = await createDisposableProduct(request, name);
+          let dialogAppeared = false;
+          page.on('dialog', async (d) => {
+            dialogAppeared = true;
+            await d.dismiss();
+          });
+          await addFromDetailByUrl(page, id);
+          await gotoCart(page);
+          const fired = await page.evaluate(() => (window as any).__xssFired === true);
+          expect(fired).toBe(false);
+          expect(dialogAppeared).toBe(false);
+          break;
+        }
+        case 'many-items-cart': {
+          const ids: number[] = [];
+          for (let i = 0; i < 12; i++) {
+            ids.push(await createDisposableProduct(request, `Bulk Item ${i}`, 10000 + i));
+          }
+          await page.reload(); // safe: cart is still empty here, this just refreshes Home's product list
+          for (const id of ids) {
+            await gotoProductDetail(page, id);
+            const addButton = page.getByRole('button', { name: /Thêm vào giỏ hàng|Đã thêm/ });
+            await addButton.click();
+            await addButton.click();
+          }
+          await gotoCart(page);
+          await expect(page.locator('tbody tr')).toHaveCount(12);
+          break;
+        }
+        case 'very-large-total': {
+          const id = await createDisposableProduct(request, 'Kim Cương Xanh', 999999999999);
+          await addFromDetailByUrl(page, id);
+          await gotoCart(page);
+          await expect(page.locator('div.text-xl.font-bold')).not.toContainText(/e\+|NaN/i);
+          await expect(page.locator('div.text-xl.font-bold')).toContainText('999.999.999.999');
+          break;
+        }
+        case 'cross-tab-no-sync': {
+          await addFromDetailReliable(page, PRODUCT_A_ID);
+          const secondPage = await page.context().newPage();
+          await secondPage.goto('/cart');
+          // Spec-conformant expectation (per a synced-cart design): the item added in the
+          // first tab should be visible in a second tab of the same logged-in session.
+          await expect(secondPage.getByText(PRODUCT_A_NAME)).toBeVisible();
+          await secondPage.close();
           break;
         }
         default:
