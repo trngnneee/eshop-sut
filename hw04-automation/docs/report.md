@@ -10,7 +10,7 @@
 |---|---|---|
 | A | FR-05 - Product listing and search | {{Yes / No}} |
 | B | FR-11 - Order history view (user) | {{Yes / No}} |
-| C | FR-xx - {{name}} | {{Yes / No}} |
+| C | FR-19 - User management (admin) | {{Yes / No}} |
 
 ---
 
@@ -113,6 +113,88 @@ _Pending execution._
 
 ---
 
-## 4. Feature C - FR-xx {{name}}
+## 4. Feature C - FR-19 Quản Lý Người Dùng Admin
 
-_Pending._
+### Spec Summary
+
+FR-19 thuộc phân hệ Web Admin và yêu cầu admin quản lý danh sách người dùng. Theo README, admin phải xem được danh sách tất cả người dùng nhưng không được làm lộ mật khẩu. Admin có thể xóa người dùng, ngoại trừ trường hợp không được xóa chính tài khoản đang đăng nhập.
+
+Luồng UI hiện tại nằm trong ứng dụng `frontend-admin`. Admin đăng nhập bằng form admin qua `POST /api/login`; UI chỉ lưu token nếu response trả về user có `role = "admin"`. Sau khi có token, app gọi `fetchData()` và lấy danh sách user qua `GET /api/admin/users`. Tab "Người dùng" hiển thị bảng quản lý với các cột checkbox, ID, Email, Role, Số ĐT và Hành động. Mỗi dòng user có nút "Xóa", nút này gọi `DELETE /api/admin/users/:id` rồi fetch lại dữ liệu.
+
+API spec xác định nhóm Admin API yêu cầu `Authorization: Bearer <token>` và tài khoản phải có quyền admin. Riêng FR-19 gồm hai endpoint: `GET /api/admin/users` để lấy danh sách người dùng và `DELETE /api/admin/users/:id` để xóa người dùng. Backend hiện tại trả về các cột `id`, `name`, `email`, `role`, `login_attempts`, `locked_until`, `shipping_address`; không select cột `password`, đáp ứng yêu cầu không lộ mật khẩu ở API list user. Tuy nhiên UI admin hiện chỉ hiển thị `id`, `email`, `role`, `phone`; trường `phone` không có trong SELECT của endpoint list user, nên cột Số ĐT có khả năng rỗng dữ liệu.
+
+Ràng buộc quan trọng cần đưa vào test design: danh sách user chỉ được truy cập bằng token hợp lệ của admin; user thường hoặc request không token không được xem/xóa user; response list không được chứa `password`; xóa user thành công phải làm user biến mất khỏi danh sách; admin không được tự xóa tài khoản đang đăng nhập. Điểm lệch spec/code đang nghi nhận: middleware `authenticateToken` chỉ verify JWT và không kiểm tra `role = "admin"` cho `/api/admin/*`, nên user thường có token hợp lệ có thể gọi admin API; `DELETE /api/admin/users/:id` không chặn id bằng `req.user.id`, nên có nguy cơ cho phép admin tự xóa chính mình. Các lệch này sẽ được thiết kế thành security/negative test và nếu automation xác nhận thất bại thì ghi bug.
+
+### 4.1 Test Cases (>=12)
+
+Chi tiết đầy đủ: `docs/test-cases/FR-19-test-cases.md`. Mỗi test case cũng có file riêng từ `docs/test-cases/TC-FR19-01.md` đến `docs/test-cases/TC-FR19-14.md`.
+
+| ID | Type | Description | Expected Result |
+|---|---|---|---|
+| TC-FR19-01 | Positive | Admin xem được bảng quản lý người dùng | Heading/bảng user hiển thị, có ít nhất 2 dòng seed |
+| TC-FR19-02 | Positive | Bảng user hiển thị các cột quản lý chính | Có các cột ID, Email, Role, Số ĐT, Hành động |
+| TC-FR19-03 | Security | API list user không trả về password | Status 200 và không object user nào có field `password` |
+| TC-FR19-04 | Positive | UI hiển thị user seed và role tương ứng | Admin seed có role admin, user seed có role user |
+| TC-FR19-05 | Positive | Admin xóa được user thường | Delete thành công với status/message phù hợp |
+| TC-FR19-06 | Positive | User đã xóa biến mất khỏi danh sách | Email user đã xóa không còn trong API/UI |
+| TC-FR19-07 | Security | Admin không được tự xóa tài khoản đang đăng nhập | Request bị từ chối và admin vẫn tồn tại |
+| TC-FR19-08 | Negative | API list user từ chối request không token | Trả 401 Unauthorized |
+| TC-FR19-09 | Negative | API list user từ chối token không hợp lệ | Trả 403 Forbidden |
+| TC-FR19-10 | Security | User thường không được lấy danh sách user | Trả 403 Forbidden, không trả list user |
+| TC-FR19-11 | Security | User thường không được xóa user | Trả 403 Forbidden, target user vẫn tồn tại |
+| TC-FR19-12 | Negative | UI admin từ chối đăng nhập bằng user thường | Báo không phải admin, không hiển thị dashboard |
+| TC-FR19-13 | Edge | Xóa một user không ảnh hưởng user khác | Target bị xóa, protected user vẫn tồn tại |
+| TC-FR19-14 | Security | UI không hiển thị password | Không có cột/text password trên bảng user |
+
+### 4.2 Test Data
+
+Location: `data/fr19.json`.
+
+Schema chính:
+- `users`: tài khoản seed admin/user và các user động dùng cho xóa, bảo vệ, và non-admin security checks.
+- `api`: các route login, register, list user và delete user.
+- `specification`: cột UI bắt buộc, field API bắt buộc, field cấm `password`, ràng buộc admin-only và self-delete forbidden.
+- Các key theo từng test case như `ui_admin_user_list`, `api_list_excludes_password`, `self_delete_blocked`, `api_non_admin_list_forbidden`, `delete_one_user_preserves_others`, `ui_no_password_visible`.
+- `testCases`: mapping ổn định từ `TC-FR19-01` đến `TC-FR19-14` sang `dataRef`.
+
+### 4.3 AI-Driven Generation Process
+
+Stage 1 phân tích đặc tả FR-19 từ README, API specification, admin frontend, backend auth/user endpoints và database seed/schema. Stage 2 tạo `docs/test-cases/FR-19-test-cases.md`, các file riêng `TC-FR19-01.md` đến `TC-FR19-14.md`, và `data/fr19.json`. Stage 3 tạo page object `tests/pages/AdminUserManagementPage.js` và locator review `docs/locator-review/FR-19-locators.md`.
+
+Locator/page object chính:
+- `goto()` mở trang admin `/`.
+- `login(email, password)` và `loginAsAdminAndWaitForUsers(email, password)` thao tác form login và chờ `GET /api/admin/users`.
+- `openUsersTab()` mở tab "Người dùng" và chờ heading "Quản lý Người dùng".
+- `loginHeading`, `emailInput`, `passwordInput`, `loginButton`, `adminHeading`, `usersNavItem`, `logoutNavItem` hỗ trợ luồng đăng nhập/admin shell.
+- `userManagementHeading`, `usersTable`, `tableHeaders`, `userRows` định vị khu vực quản lý người dùng.
+- `headerByName(name)`, `rowByEmail(email)`, `rowCount()` hỗ trợ kiểm tra header, dòng user và số lượng user.
+- `userIdCell(row)`, `userEmailCell(row)`, `userRoleCell(row)`, `userPhoneCell(row)`, `userActionCell(row)`, `deleteButton(row)` hỗ trợ kiểm tra dữ liệu từng dòng và thao tác xóa user.
+
+### 4.4 Assertion Patterns Used
+
+Stage 4 hiện đã sinh automation cho `TC-FR19-01` đến `TC-FR19-08` trong `tests/fr19-user-management.spec.js`.
+
+Assertion patterns hiện dùng:
+- `toBeVisible`: kiểm tra heading quản lý user, bảng user, header bảng và dòng user seed hiển thị.
+- `toHaveText`: kiểm tra heading, email cell và role cell khớp dữ liệu mong đợi.
+- `expect(...).toBeGreaterThanOrEqual(...)`: kiểm tra số dòng user tối thiểu.
+- `expect(response.status()).toBe(...)`: kiểm tra status API list user.
+- `expect(...).toHaveProperty(...)` và `not.toHaveProperty(...)`: kiểm tra object user có field bắt buộc và không lộ field `password`.
+- `expect(response.ok()).toBeTruthy()`: kiểm tra API setup/delete thành công ở các bước chuẩn bị.
+- `toHaveCount`: kiểm tra user đã xóa không còn xuất hiện trong UI.
+
+### 4.5 Human Review - What The AI Got Wrong / Missed
+
+_Pending post-execution review._
+
+### 4.6 Execution Results
+
+_Pending execution._
+
+### 4.7 Bugs Found (if any)
+
+_Pending execution._
+
+### 4.8 Test Cases Not Automated (if any)
+
+_Pending execution._

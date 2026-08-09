@@ -157,8 +157,62 @@ I use AI tools for the following tasks:
   AI đã cập nhật `hw04-automation/tests/fr11-order-history.spec.js` để thêm automation cho `TC-FR11-09` đến `TC-FR11-14`, hoàn tất đủ 14 test case FR-11. Script bổ sung helper đăng ký user động `registerViaApi`, `uniqueUser`, `createOrderForNewUser` và `openProfileWithoutToken`. Các test mới kiểm tra trạng thái `canceled`, isolation không thấy đơn user khác, UI chưa đăng nhập, API không token trả `401`, API token sai trả `403`, và empty state cho user mới chưa có đơn. Spec hiện có đủ 14 test case và cú pháp đã được kiểm tra bằng `node --check`.
 - **Accepted as-is / Modified:** Pending human review.
 
+### [18] FR-19 - Phân tích yêu cầu quản lý người dùng admin
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 16:16
+- **Prompt:**
+  > Phân tích FR-19
+- **Output:**
+  AI đã đọc skill HW04 automation-testing, `feature_pools.md`, `README.md`, `api_specification.md`, `frontend-admin/src/App.jsx`, `backend/server.js` và `backend/database.js`. AI xác định FR-19 thuộc Pool C, phạm vi chính là admin xem danh sách tất cả người dùng không lộ password và xóa người dùng, trừ trường hợp không được xóa chính tài khoản đang đăng nhập. Output cũng ghi rõ UI hiện tại nằm ở tab "Người dùng" của admin app, gọi `GET /api/admin/users` và `DELETE /api/admin/users/:id`; backend list user không select `password`. Các điểm cần đưa vào test security gồm request không token, token user thường, response không chứa password, xóa user thành công, và chặn self-delete. AI cũng ghi nhận lệch spec/code tiềm năng: middleware admin API hiện chỉ verify JWT, chưa kiểm tra `role = "admin"`, và delete user chưa chặn id của tài khoản đang đăng nhập.
+- **Accepted as-is / Modified:** Pending human review.
+
+### [19] FR-19 - Thiết kế test case và dữ liệu kiểm thử
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 16:21
+- **Prompt:**
+  > tiếp tục Stage 2 để thiết kế ít nhất 12 test case + tạo data file cho FR-19
+- **Output:**
+  AI đã tạo `hw04-automation/docs/test-cases/FR-19-test-cases.md` với 14 test case cho FR-19, bao phủ luồng tích cực, tiêu cực, biên và bảo mật. Bộ test kiểm tra admin xem bảng user, các cột bắt buộc, API/UI không lộ password, hiển thị user seed và role, xóa user thường, user đã xóa biến mất khỏi danh sách, chặn admin tự xóa chính mình, request không token/token sai, user thường không được list/xóa user, UI admin từ chối user thường, và xóa một user không ảnh hưởng user khác. AI cũng tạo `hw04-automation/data/fr19.json` chứa users, API routes, expectation theo từng dataRef và mapping `TC-FR19-01` đến `TC-FR19-14`. Mỗi test case có file riêng `TC-FR19-01.md` đến `TC-FR19-14.md`; JSON đã được validate bằng `ConvertFrom-Json`.
+- **Accepted as-is / Modified:** Modified after human review. Người review yêu cầu các file vừa tạo phải dùng tiếng Việt có dấu.
+
+### [20] FR-19 - Việt hóa có dấu artifact Stage 2
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 16:27
+- **Prompt:**
+  > Yêu cầu modify các file vừa tạo thành tiếng việt có dấu.
+- **Output:**
+  AI đã cập nhật `hw04-automation/docs/test-cases/FR-19-test-cases.md`, 14 file riêng từ `TC-FR19-01.md` đến `TC-FR19-14.md`, `hw04-automation/data/fr19.json`, và phần FR-19 trong `hw04-automation/docs/report.md` để chuyển phần mô tả, bước kiểm thử, expected result và dữ liệu người đọc thấy sang tiếng Việt có dấu. Các ID test case, JSON key, endpoint và field kỹ thuật được giữ ổn định để phục vụ Stage 3/4. JSON `fr19.json` đã được validate lại bằng `ConvertFrom-Json` và vẫn có đủ 14 mapping test case.
+- **Accepted as-is / Modified:** Pending human review.
+
+### [21] FR-19 - Tạo locator/page object cho quản lý người dùng admin
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 16:31
+- **Prompt:**
+  > tiếp tục Stage 3 để tạo locators/page object cho FR-19
+- **Output:**
+  AI đã đọc `frontend-admin/src/App.jsx`, `hw04-automation/data/fr19.json` và các page object hiện có, sau đó tạo `hw04-automation/tests/pages/AdminUserManagementPage.js`. Page object gồm locator/handler cho form admin login, input Email/Password, nút Login, admin shell, tab Người dùng, heading "Quản lý Người dùng", bảng user, header, dòng user, dòng theo email, cell ID/Email/Role/Số ĐT/Hành động, checkbox dòng và nút Xóa theo dòng. AI cũng tạo `hw04-automation/docs/locator-review/FR-19-locators.md` để ghi độ ổn định selector và rủi ro do frontend admin chưa có `data-testid`. Cú pháp JS đã được kiểm tra bằng `node --check`.
+- **Accepted as-is / Modified:** Pending human review.
+
+### [22] FR-19 - Sinh automation cho TC-FR19-01 đến TC-FR19-04
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 16:33
+- **Prompt:**
+  > tiếp tục Stage 4 để sinh automation script cho FR-19 từ TC-01 ->TC-04
+- **Output:**
+  AI đã tạo `hw04-automation/tests/fr19-user-management.spec.js` với automation cho `TC-FR19-01` đến `TC-FR19-04`, dùng `AdminUserManagementPage` và `data/fr19.json`. Spec bổ sung helper `loginViaApi`, `openAdminUserManagement` và `expectUserDoesNotExposeForbiddenFields`. Các test kiểm tra admin mở được bảng quản lý người dùng, bảng có các cột bắt buộc, API `GET /api/admin/users` không trả field `password`, và UI hiển thị user seed kèm role tương ứng. Script dùng nhiều assertion pattern: `toBeVisible`, `toHaveText`, `toBeGreaterThanOrEqual`, `response.status()`, `toHaveProperty` và `not.toHaveProperty`. Cú pháp spec và page object đã được kiểm tra bằng `node --check`.
+- **Accepted as-is / Modified:** Pending human review.
+
+### [23] FR-19 - Sinh automation cho TC-FR19-05 đến TC-FR19-08
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 16:52
+- **Prompt:**
+  > tiếp tục Stage 4 để sinh automation script cho FR-19 từ TC-05 ->TC-08
+- **Output:**
+  AI đã cập nhật `hw04-automation/tests/fr19-user-management.spec.js` để thêm automation cho `TC-FR19-05` đến `TC-FR19-08`. Script bổ sung helper `registerViaApi`, `uniqueUser`, `authHeaders`, `deleteEndpoint`, `getAdminUsersViaApi`, `findUserByEmail`, `createUserAndFindInAdminList`, `deleteUserViaApi` và `createTemporaryAdmin`. Các test mới kiểm tra admin xóa user thường, user đã xóa biến mất khỏi API/UI, admin không được tự xóa chính tài khoản đang đăng nhập, và API list user từ chối request không token. Riêng TC-FR19-07 dùng admin tạm thay vì seed admin để tránh phá dữ liệu seed nếu SUT có bug self-delete. AI cũng cập nhật `data/fr19.json` thêm route `userProfile` và user template `selfDeleteAdmin`. Cú pháp spec/page object đã được kiểm tra bằng `node --check` và JSON đã được validate lại bằng `ConvertFrom-Json`.
+- **Accepted as-is / Modified:** Pending human review.
+
 ## Tool declaration summary
 
 | Tool | Used for | # of interactions |
 |---|---|---|
-| Codex (GPT-5) | Phân tích FR-05/FR-11, thiết kế test case Markdown, tạo dữ liệu kiểm thử, tạo locator/page object, review selector, sinh automation theo từng test case, cập nhật skill và scaffold Playwright config | 17 |
+| Codex (GPT-5) | Phân tích FR-05/FR-11/FR-19, thiết kế test case Markdown, tạo dữ liệu kiểm thử, tạo locator/page object, review selector, sinh automation theo từng test case, cập nhật skill và scaffold Playwright config | 23 |

@@ -1,0 +1,165 @@
+{
+  "feature": "FR-19",
+  "name": "Quản lý người dùng admin",
+  "basePath": "/",
+  "adminTab": "users",
+  "api": {
+    "login": "/api/login",
+    "register": "/api/register",
+    "userProfile": "/api/users/me",
+    "adminUsers": "/api/admin/users",
+    "adminDeleteUser": "/api/admin/users/{id}"
+  },
+  "specification": {
+    "source": "README.md - FR-19; api_specification.md - 6.1; README.md - FR-12 access control",
+    "requiredUiColumns": ["ID", "Email", "Role", "Số ĐT", "Hành động"],
+    "requiredApiFields": ["id", "name", "email", "role"],
+    "forbiddenFields": ["password"],
+    "adminOnly": true,
+    "selfDeleteForbidden": true
+  },
+  "users": {
+    "admin": {
+      "email": "admin@eshop.com",
+      "password": "Admin123!",
+      "name": "Admin User",
+      "role": "admin"
+    },
+    "seedUser": {
+      "email": "test@eshop.com",
+      "password": "Test1234!",
+      "name": "Test User",
+      "role": "user"
+    },
+    "deletableUser": {
+      "namePrefix": "FR19 User dùng để xóa",
+      "emailPrefix": "fr19-delete-user",
+      "emailDomain": "example.com",
+      "password": "Delete123!",
+      "role": "user"
+    },
+    "protectedOtherUser": {
+      "namePrefix": "FR19 User cần giữ lại",
+      "emailPrefix": "fr19-protected-user",
+      "emailDomain": "example.com",
+      "password": "Protect123!",
+      "role": "user"
+    },
+    "nonAdminActor": {
+      "namePrefix": "FR19 User thường kiểm tra quyền",
+      "emailPrefix": "fr19-non-admin",
+      "emailDomain": "example.com",
+      "password": "User1234!",
+      "role": "user"
+    },
+    "selfDeleteAdmin": {
+      "namePrefix": "FR19 Admin tạm kiểm tra self-delete",
+      "emailPrefix": "fr19-self-delete-admin",
+      "emailDomain": "example.com",
+      "password": "TempAdmin123!",
+      "role": "admin"
+    }
+  },
+  "ui_admin_user_list": {
+    "description": "Admin đăng nhập và mở tab Người dùng.",
+    "loginUserRef": "users.admin",
+    "expectedHeading": "Quản lý Người dùng",
+    "expectedMinimumRows": 2
+  },
+  "ui_required_columns": {
+    "description": "Bảng user hiển thị các cột quản lý chính.",
+    "expectedHeaders": ["ID", "Email", "Role", "Số ĐT", "Hành động"]
+  },
+  "api_list_excludes_password": {
+    "description": "GET /api/admin/users không trả về password.",
+    "loginUserRef": "users.admin",
+    "forbiddenFields": ["password"],
+    "expectedStatus": 200
+  },
+  "ui_seed_users_visible": {
+    "description": "Danh sách hiển thị user seed admin và user thường.",
+    "expectedUsers": ["users.admin", "users.seedUser"],
+    "expectedRoles": {
+      "admin@eshop.com": "admin",
+      "test@eshop.com": "user"
+    }
+  },
+  "delete_regular_user": {
+    "description": "Admin xóa user thường mới tạo.",
+    "loginUserRef": "users.admin",
+    "targetUserRef": "users.deletableUser",
+    "expectedDeleteStatus": 200,
+    "expectedMessage": "User deleted"
+  },
+  "deleted_user_removed_from_list": {
+    "description": "User đã xóa không còn xuất hiện trong danh sách sau refresh.",
+    "loginUserRef": "users.admin",
+    "targetUserRef": "users.deletableUser",
+    "expectedVisibleAfterDelete": false
+  },
+  "self_delete_blocked": {
+    "description": "Admin không được xóa chính tài khoản đang đăng nhập.",
+    "loginUserRef": "users.selfDeleteAdmin",
+    "targetUserRef": "users.selfDeleteAdmin",
+    "expectedStatus": 403,
+    "expectedStillPresent": true
+  },
+  "api_without_token": {
+    "description": "GET admin users không có token bị từ chối.",
+    "expectedStatus": 401,
+    "expectedError": "Unauthorized"
+  },
+  "api_invalid_token": {
+    "description": "GET admin users với token sai bị từ chối.",
+    "token": "invalid.fr19.token",
+    "expectedStatus": 403,
+    "expectedError": "Forbidden"
+  },
+  "api_non_admin_list_forbidden": {
+    "description": "User thường có token hợp lệ không được lấy danh sách user.",
+    "loginUserRef": "users.nonAdminActor",
+    "expectedStatus": 403,
+    "expectedError": "Forbidden"
+  },
+  "api_non_admin_delete_forbidden": {
+    "description": "User thường có token hợp lệ không được xóa user.",
+    "loginUserRef": "users.nonAdminActor",
+    "targetUserRef": "users.protectedOtherUser",
+    "expectedStatus": 403,
+    "expectedStillPresent": true
+  },
+  "ui_non_admin_login_rejected": {
+    "description": "UI admin không cho user role user vào dashboard.",
+    "loginUserRef": "users.seedUser",
+    "expectedAlert": "Bạn không phải là admin!",
+    "forbiddenHeading": "Quản lý Người dùng"
+  },
+  "delete_one_user_preserves_others": {
+    "description": "Xóa một user không làm mất các user khác.",
+    "loginUserRef": "users.admin",
+    "deleteTargetRef": "users.deletableUser",
+    "preservedUserRef": "users.protectedOtherUser",
+    "expectedPreserved": true
+  },
+  "ui_no_password_visible": {
+    "description": "UI danh sách user không hiển thị mật khẩu hoặc cột password.",
+    "forbiddenHeaderTexts": ["Password", "Mật khẩu"],
+    "forbiddenCellValues": ["Admin123!", "Test1234!"]
+  },
+  "testCases": [
+    { "id": "TC-FR19-01", "dataRef": "ui_admin_user_list" },
+    { "id": "TC-FR19-02", "dataRef": "ui_required_columns" },
+    { "id": "TC-FR19-03", "dataRef": "api_list_excludes_password" },
+    { "id": "TC-FR19-04", "dataRef": "ui_seed_users_visible" },
+    { "id": "TC-FR19-05", "dataRef": "delete_regular_user" },
+    { "id": "TC-FR19-06", "dataRef": "deleted_user_removed_from_list" },
+    { "id": "TC-FR19-07", "dataRef": "self_delete_blocked" },
+    { "id": "TC-FR19-08", "dataRef": "api_without_token" },
+    { "id": "TC-FR19-09", "dataRef": "api_invalid_token" },
+    { "id": "TC-FR19-10", "dataRef": "api_non_admin_list_forbidden" },
+    { "id": "TC-FR19-11", "dataRef": "api_non_admin_delete_forbidden" },
+    { "id": "TC-FR19-12", "dataRef": "ui_non_admin_login_rejected" },
+    { "id": "TC-FR19-13", "dataRef": "delete_one_user_preserves_others" },
+    { "id": "TC-FR19-14", "dataRef": "ui_no_password_visible" }
+  ]
+}
