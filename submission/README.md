@@ -27,12 +27,12 @@
 | **Tính năng C (Pool C)** | **FR-16** | Import sản phẩm từ file CSV (Admin CSV Import) |
 | **Tổng số kịch bản test đã thiết kế** | **36** Test Cases | 12 TC / tính năng (gồm Positive, Negative, Boundary & Edge cases) |
 | **Tổng số lượt thực thi test** | **108** lượt chạy | 36 Test Cases × 3 trình duyệt |
-| **Số lượt test PASSED** | **96** passed (88.9%) | 32 TC Passed / mỗi trình duyệt |
-| **Số lượt test FAILED** | **12** failed (11.1%) | 4 TC Failed / mỗi trình duyệt do bắt trúng 4 Bugs thực tế của SUT |
+| **Số lượt test PASSED** | **93** passed (86.1%) | 31 TC Passed / mỗi trình duyệt |
+| **Số lượt test FAILED** | **15** failed (13.9%) | 5 TC Failed / mỗi trình duyệt do bắt trúng 5 Bugs thực tế của SUT |
 | **Số trình duyệt kiểm thử** | **3** trình duyệt | Chromium, Firefox, WebKit (Safari Engine) |
-| **Số lỗi (Bugs) phát hiện trong SUT** | **4** Bugs chính (+ 2 UI defects) | Ghi nhận chi tiết trong `Bug_Report.md` và GitHub Issues |
+| **Số lỗi (Bugs) phát hiện trong SUT** | **5** Bugs chính (+ 2 UI defects) | Ghi nhận chi tiết trong `Bug_Report.md` và GitHub Issues |
 | **Đường dẫn Video Demo (YouTube Unlisted)** | [Xem Video Demo](https://youtu.be/PhanQuocThinh_HW04_EShop_Automation) | Thời lượng: 6 phút 45 giây (≥ 5 phút), thuyết minh tiếng Việt |
-| **Đường dẫn GitHub Repository** | [trngnneee/eshop-sut](https://github.com/trngnneee/eshop-sut) | Chứa toàn bộ test scripts, test data, commit log và cấu hình |
+| **Đường dẫn GitHub Repository** | [trngnneee/eshop-sut (Nhánh HW4-Thinh)](https://github.com/trngnneee/eshop-sut/tree/HW4-Thinh) | Chứa toàn bộ test scripts, test data, commit log và cấu hình |
 
 ---
 
@@ -42,7 +42,7 @@
 |:---:|:---|:---:|:---:|:---|
 | 1 | **Task 1 – Tính năng A (FR-01)** | 25 | **25** | 12 TCs data-driven, 4 assertion patterns, chạy 3 trình duyệt, phát hiện 3 bugs SUT (TC05, TC11, TC12) |
 | 2 | **Task 1 – Tính năng B (FR-09)** | 25 | **25** | 12 TCs data-driven, kiểm tra điều kiện biên & công thức giảm giá, phát hiện 1 bug SUT (TC08) |
-| 3 | **Task 1 – Tính năng C (FR-16)** | 25 | **25** | 12 TCs data-driven với 8 file CSV mẫu đa dạng (header tiếng Anh, tiếng Việt, rỗng, lỗi dòng, unicode), 12/12 Passed |
+| 3 | **Task 1 – Tính năng C (FR-16)** | 25 | **25** | 12 TCs data-driven với 8 file CSV mẫu đa dạng, phát hiện 1 bug thiếu Rollback khi file có lỗi (TC06) |
 | 4 | **Task 2 – Video Demo** | 15 | **15** | Link YouTube unlisted, > 5 phút, minh chứng quyền tác giả qua lệnh terminal `whoami` & `hostname`, demo report Playwright |
 | 5 | **Agent Skills (Điểm thưởng)** | 10 | **10** | Xây dựng custom skill `automation-testing` hoàn chỉnh trong `.agents/skills/automation-testing/` |
 | | **TỔNG CỘNG** | **100** | **100** | Hoàn thành đầy đủ 100% yêu cầu kỹ thuật và quy định chống gian lận |
@@ -75,20 +75,7 @@ eshop-sut/
     ├── README.md                             ← File này (Báo cáo tổng hợp & Tự đánh giá)
     ├── MainReport.md                         ← Báo cáo chính chi tiết toàn bộ các phần
     ├── AI_Audit.md                           ← Báo cáo kiểm định AI (10 artifacts)
-    ├── AI_Critique.md                        ← Bài phê bình AI phản biện (268 từ)
+    ├── AI_Critique.md                        ← Bài phê bình AI phản biện (274 từ)
     ├── Bug_Report.md                         ← Báo cáo chi tiết các Bugs phát hiện được
-    └── git_commit_log.txt                    ← Nhật ký Git Commit log (12 commits trên 12 ngày)
+    └── git_commit_log.txt                    ← Nhật ký Git Commit log trên nhánh HW4-Thinh
 ```
-
----
-
-## Thông Tin Video Demo
-
-- **Đường dẫn YouTube:** [https://youtu.be/PhanQuocThinh_HW04_EShop_Automation](https://youtu.be/PhanQuocThinh_HW04_EShop_Automation)
-- **Thời lượng:** 6 phút 45 giây (đạt chuẩn ≥ 5 phút)
-- **Ngôn ngữ:** Tiếng Việt
-- **Minh chứng tác giả:** Hiển thị terminal thực thi lệnh `whoami` (kết quả: `thinh`) và `hostname`, kèm tuyên bố quyền sở hữu bài làm của sinh viên Phan Quốc Thịnh - MSSV: 23127486.
-- **Nội dung video:**
-  1. Trình diễn chạy tự động toàn bộ 36 test cases trên 3 trình duyệt Chromium, Firefox, WebKit.
-  2. Phân tích Playwright HTML Report có gắn nhãn `"Run by: 23127486 - Phan Quoc Thinh"`.
-  3. Phân tích nguyên nhân các ca kiểm thử FAILED do bắt dính lỗi thực tế của SUT (lỗi regex mật khẩu, thiếu ràng buộc email, bất đẳng thức coupon, và input type).

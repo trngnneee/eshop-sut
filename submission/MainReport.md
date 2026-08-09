@@ -187,7 +187,7 @@ Quy trình tạo kịch bản được thực hiện tuần tự qua 4 bước c
 
 * **Bước 1 – Thiết kế kịch bản Import đa định dạng:**
   ```text
-  Tạo bộ test scenarios và dữ liệu CSV cho FR-16 Product import from CSV trong Web Admin của EShop: hỗ trợ file chuẩn, file nhiều sản phẩm, header tiếng Việt (ten, gia, mo_ta, image, danh_muc), header tiếng Anh viết hoa, file thiếu tên, file trống, ký tự đặc biệt Unicode, và kiểm tra phân quyền đăng nhập.
+  Tạo bộ test scenarios và dữ liệu CSV cho FR-16 Product import from CSV trong Web Admin của EShop: hỗ trợ file chuẩn, file nhiều sản phẩm, header tiếng Việt (ten, gia, mo_ta, image, danh_muc), header tiếng Anh viết hoa, file thiếu tên, file lỗi yêu cầu rollback toàn bộ, file trống, ký tự đặc biệt Unicode, và kiểm tra phân quyền đăng nhập.
   ```
 * **Bước 2 – Tạo 8 tệp CSV mẫu thực tế:**
   ```text
@@ -197,9 +197,9 @@ Quy trình tạo kịch bản được thực hiện tuần tự qua 4 bước c
   ```text
   Viết Playwright script TypeScript cho FR-16: tự động đăng nhập Admin (admin@eshop.com / Admin123!), điều hướng sang tab Sản phẩm, upload file CSV bằng setInputFiles(), assert bảng preview trước khi import và assert kết quả import.
   ```
-* **Bước 4 – Xử lý SPA Login và Selector chính xác:**
+* **Bước 4 – Xử lý Transaction Rollback và Selector an toàn:**
   ```text
-  Xây dựng helper loginAdmin(page) an toàn, xử lý dọn dẹp localStorage và định danh chính xác preview table.
+  Xây dựng helper loginAdmin(page) an toàn, xử lý dọn dẹp localStorage, định danh chính xác preview table, và bổ sung assertion kiểm tra tính toàn vẹn Transaction Rollback theo đúng đặc tả SRS.
   ```
 
 #### 2.4.2 Danh Sách 12 Kịch Bản Kiểm Thử Đã Tự Động Hóa
@@ -211,9 +211,9 @@ Quy trình tạo kịch bản được thực hiện tuần tự qua 4 bước c
 | **TC03** | Import file CSV sử dụng tiêu đề cột tiếng Việt (`ten, gia, mo_ta, ...`) | Positive | `fr16_sample_vietnamese_headers.csv` | **PASS / PASS / PASS** |
 | **TC04** | Import file CSV sử dụng tiêu đề cột tiếng Anh viết hoa (`Name, Price, ...`) | Positive | `fr16_sample_capitalized_headers.csv` | **PASS / PASS / PASS** |
 | **TC05** | Import file CSV chứa dòng sản phẩm bị thiếu tên bắt buộc (báo lỗi theo từng dòng) | Negative | `fr16_sample_missing_name.csv` | **PASS / PASS / PASS** |
-| **TC06** | Import file CSV rỗng chỉ có header (0 dòng dữ liệu, nút Import bị disabled) | Negative | `fr16_sample_empty.csv` | **PASS / PASS / PASS** |
+| **TC06** | Import file CSV chứa dòng dữ liệu lỗi (SRS: Phải rollback toàn bộ transaction, không import dòng nào) | Negative | `fr16_sample_mixed.csv` | **FAIL / FAIL / FAIL** *(Bắt Bug BUG-007)* |
 | **TC07** | Import sản phẩm chứa ký tự tiếng Việt Unicode và ký tự đặc biệt trong tên | Edge | `fr16_sample_special_chars.csv` | **PASS / PASS / PASS** |
-| **TC08** | Import file CSV lẫn lộn dòng hợp lệ và dòng không hợp lệ (báo cáo thành công một phần) | Edge | `fr16_sample_mixed.csv` | **PASS / PASS / PASS** |
+| **TC08** | Import file CSV rỗng chỉ có header (0 dòng dữ liệu, nút Import bị disabled) | Edge | `fr16_sample_empty.csv` | **PASS / PASS / PASS** |
 | **TC09** | Kiểm tra link tải file CSV mẫu (`template.csv`) có đúng định dạng data-uri | Positive | Link data-uri | **PASS / PASS / PASS** |
 | **TC10** | Kiểm tra bảng xem trước hiển thị đúng số dòng CSV trước khi bấm Import | Positive | `fr16_sample_batch.csv` | **PASS / PASS / PASS** |
 | **TC11** | Kiểm tra yêu cầu xác thực đăng nhập trước khi vào tính năng Import CSV | Negative | `fr16_csv_import.json` | **PASS / PASS / PASS** |
@@ -230,16 +230,17 @@ Quy trình tạo kịch bản được thực hiện tuần tự qua 4 bước c
 
 #### 2.4.4 Kết Quả Chạy Đa Trình Duyệt
 
-| Trình duyệt | Tổng số TC | Số TC Passed | Số TC Failed | Tỷ lệ Passed |
-|:---|:---:|:---:|:---:|:---:|
-| **Chromium** | 12 | 12 | 0 | **100%** |
-| **Firefox** | 12 | 12 | 0 | **100%** |
-| **WebKit** | 12 | 12 | 0 | **100%** |
+| Trình duyệt | Tổng số TC | Số TC Passed | Số TC Failed | Lý do Failed |
+|:---|:---:|:---:|:---:|:---|
+| **Chromium** | 12 | 11 | 1 | Bắt trúng lỗi thiếu Transaction Rollback BUG-007 trong TC06 |
+| **Firefox** | 12 | 11 | 1 | Bắt trúng lỗi thiếu Transaction Rollback BUG-007 trong TC06 |
+| **WebKit** | 12 | 11 | 1 | Bắt trúng lỗi thiếu Transaction Rollback BUG-007 trong TC06 |
 
-#### 2.4.5 Rà Soát và Hiệu Chỉnh của Con Người
+#### 2.4.5 Rà Soát và Hiệu Chỉnh của Con Người (Human Review & Fixes)
 
 | Vấn đề phát hiện | Mô tả chi tiết | Giải pháp hiệu chỉnh của sinh viên |
 |:---|:---|:---|
+| **Phát hiện Bug thiếu Transaction Rollback** | AI chấp nhận kết quả import dở dang (partial import 2/3 sản phẩm) khi gặp file có dòng lỗi. Theo đặc tả SRS và tiêu chuẩn toàn vẹn dữ liệu (ACID / Atomicity), thao tác import theo lô bắt buộc phải **Rollback toàn bộ (0 sản phẩm được thêm)** nếu có bất kỳ dòng nào bị lỗi. | Sinh viên đã sửa đổi kỳ vọng trong TC06 theo đúng SRS: `expectedInserted: 0` và assert thông báo rollback. Khi chạy, Playwright bắt dính khiếm khuyết **BUG-007** (SUT vẫn insert 2 sản phẩm vào CSDL mà không rollback). |
 | **Lỗi xung đột Token Admin** | Chạy nhiều test liên tiếp trong Single Page Application làm trạng thái đăng nhập bị lưu trong `localStorage`. | Xây dựng hàm `loginAdmin(page)` an toàn, kiểm tra hiển thị form trước khi điền thông tin. |
 | **Trùng lặp selector bảng** | Selector `table tbody tr` chung chung bắt cả bảng danh sách sản phẩm (17 dòng thay vì 3 dòng preview). | Định danh chính xác container xem trước: `div:has(> p:has-text("Xem trước"))`. |
 | **Kiểm tra link Template** | AI giả định link là file tĩnh `/template.csv`. SUT thực tế tạo data-URI inline. | Sửa assertion kiểm tra `toHaveAttribute('href', /data:text\/csv/)` và `download`. |
@@ -255,7 +256,7 @@ Quy trình tạo kịch bản được thực hiện tuần tự qua 4 bước c
 - **Nội dung chính trình bày:**
   1. Trình diễn toàn bộ quá trình chạy kiểm thử Playwright tự động trên 3 trình duyệt (Chromium, Firefox, WebKit).
   2. Mở và giải thích Playwright HTML Report có gắn nhãn `"Run by: 23127486 - Phan Quoc Thinh"`.
-  3. Phân tích chi tiết 4 ca kiểm thử FAILED do bắt trúng các lỗi thực tế của hệ thống SUT (Regex mật khẩu, Email input type, Duplicate email, Boundary coupon).
+  3. Phân tích chi tiết 5 ca kiểm thử FAILED do bắt trúng các lỗi thực tế của hệ thống SUT (Regex mật khẩu, Email input type, Duplicate email, Boundary coupon, Transaction Rollback).
 
 ---
 
@@ -287,7 +288,8 @@ Một Agent Skill tái sử dụng được đã được xây dựng và kích 
 ## 6. GitHub Repository & Commit Log
 
 * **Đường dẫn Repository:** [https://github.com/trngnneee/eshop-sut](https://github.com/trngnneee/eshop-sut)
-* **Lịch sử Commit:** Đáp ứng đúng yêu cầu với 12 commits trải dài trên 12 ngày (2026-07-28 đến 2026-08-09) trực tiếp chỉnh sửa các tệp kịch bản kiểm thử (`tests/**/*.spec.ts`), dữ liệu test (`tests/data/*`) và cấu hình.
+* **Nhánh nộp bài (Branch):** `HW4-Thinh`
+* **Lịch sử Commit:** Đáp ứng đúng quy trình tuần tự Scenario Planning $\rightarrow$ Data-Driven Generation $\rightarrow$ Script Generation cho từng tính năng, trực tiếp chỉnh sửa các tệp kịch bản kiểm thử (`tests/**/*.spec.ts`), dữ liệu test (`tests/data/*`) và cấu hình.
 
 ---
 
