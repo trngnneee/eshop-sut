@@ -41,7 +41,3 @@ Ví dụ: Major / P1
 ## Actual result
 
 <!-- Kết quả thực tế gặp phải khi kiểm thử -->
-
-## Evidence
-
-<!-- Đính kèm hình ảnh chụp màn hình (Screenshot), video quay màn hình hoặc console log làm bằng chứng lỗi -->

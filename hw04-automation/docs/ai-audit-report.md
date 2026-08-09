@@ -220,8 +220,27 @@ I use AI tools for the following tasks:
   AI đã cập nhật `hw04-automation/tests/fr19-user-management.spec.js` để thêm automation cho `TC-FR19-09` đến `TC-FR19-14`, hoàn tất đủ 14 test case FR-19. Các test mới kiểm tra token không hợp lệ bị từ chối, user thường không được list user, user thường không được xóa user, UI admin từ chối đăng nhập bằng user thường, xóa một user không ảnh hưởng user khác, và UI không hiển thị password. Spec hiện dùng dữ liệu từ `data/fr19.json`, page object `AdminUserManagementPage`, helper API dùng email unique, và nhiều assertion pattern gồm `toBeVisible`, `toHaveText`, `toHaveCount`, `toContainText` phủ định, `response.status()`, `body.error`, `toHaveProperty`/`not.toHaveProperty`, `toBeTruthy`, `toBeUndefined` và `Array.isArray`. Cú pháp spec/page object đã được kiểm tra bằng `node --check`; spec hiện có đủ 14 test case theo `Select-String`.
 - **Accepted as-is / Modified:** Pending human review.
 
+### [25] HW04 - Tạo bug report và cập nhật trạng thái test case sau Playwright report
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 18:46
+- **Prompt:**
+  > Dựa vào kết quả từ report sau khi chạy playwright hãy viết các bug report bằng template bug-report-template.md
+  > Đồng thời cập nhật trạng thái của các test case
+- **Output:**
+  AI đã đọc `hw04-automation/reports/html/index.html`, giải nén metadata/report JSON nhúng trong Playwright HTML report, đối chiếu `test-results/*/error-context.md`, `README.md`, `backend/server.js`, `frontend-web/src/pages/Home.jsx` và `frontend-admin/src/App.jsx`. AI đã cập nhật trạng thái toàn bộ test case trong `docs/test-cases/`: FR-05 có 7 passed/10 failed, FR-11 có 14 passed/0 failed, FR-19 có 11 passed/3 failed. AI cũng tạo 10 bug report trong `docs/bug/`: `BUG-FR05-001` đến `BUG-FR05-008`, `BUG-FR19-001`, `BUG-FR19-002`, và cập nhật `docs/report.md` với execution results, bugs found, evidence path và metadata report `Run by: 23127158`, `Run at (ISO): 2026-08-09T11:29:27.604Z`.
+- **Accepted as-is / Modified:** Modified sau self-review. AI ban đầu quên ghi audit log cho bước hậu xử lý report; entry này được bổ sung theo yêu cầu review của người dùng và summary count được cập nhật tương ứng.
+
+### [26] HW04 - Chuyển evidence bug report sang screenshot
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 18:50
+- **Prompt:**
+  > À với cả chỗ evidence bạn hãy để screen shot vào đừng để text
+- **Output:**
+  AI đã tạo thư mục `hw04-automation/docs/bug/evidence/`, copy các screenshot fail đại diện của FR-05 từ `test-results` sang tên file ASCII theo mã bug, tạo thêm 3 screenshot evidence cho các fail API-only của FR-19, rồi cập nhật Evidence section trong 10 bug report để dùng Markdown image `![...](evidence/...)` thay vì bullet text path tới `error-context.md`, `trace.zip` hoặc `test-failed-1.png`. AI đã kiểm tra lại bằng `rg` để đảm bảo không còn `error-context`, `trace.zip`, `test-failed-1` trong các bug report `BUG-*.md`.
+- **Accepted as-is / Modified:** Modified theo feedback của người dùng. Lý do: evidence dạng text path không tiện cho người chấm; ảnh nhúng giúp bug report đọc được trực tiếp trong Markdown preview.
+
 ## Tool declaration summary
 
 | Tool | Used for | # of interactions |
 |---|---|---|
-| Codex (GPT-5) | Phân tích FR-05/FR-11/FR-19, thiết kế test case Markdown, tạo dữ liệu kiểm thử, tạo locator/page object, review selector, sinh automation theo từng test case, cập nhật skill và scaffold Playwright config | 24 |
+| Codex (GPT-5) | Phân tích FR-05/FR-11/FR-19, thiết kế test case Markdown, tạo dữ liệu kiểm thử, tạo locator/page object, review selector, sinh automation theo từng test case, cập nhật skill và scaffold Playwright config, phân tích Playwright report, tạo bug report, cập nhật trạng thái test case, chuyển evidence bug report sang screenshot | 26 |

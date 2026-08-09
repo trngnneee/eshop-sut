@@ -38,6 +38,32 @@ Sau review, FR-05 được bổ sung thêm 3 edge/security test case, nâng tổ
 | Chưa kiểm tra ký tự Unicode/emoji trong keyword | Edge case/i18n | Bổ sung `TC-FR05-17`, assert summary giữ đúng Unicode/emoji và không lỗi API/UI | AI bỏ sót i18n vì seed data chủ yếu là tên sản phẩm ASCII/tiếng Việt có dấu đơn giản |
 | Locator/test hiện phụ thuộc vào `searchSummary` vì frontend chưa có `data-testid` riêng cho keyword rendered text | Selector/assertion | Giữ locator hiện có nhưng scope kiểm tra element injected bên trong `searchSummary` để giảm đọc nhầm DOM ngoài vùng cần test | Ứng dụng chưa thiết kế sẵn testability hook cho search summary |
 
+### 2.6 Execution Results
+
+Playwright HTML report: `reports/html/index.html`. Run metadata trong report: `Run by: 23127158`, `Run at (ISO): 2026-08-09T11:29:27.604Z`.
+
+| Browser | Total | Passed | Failed | Skipped |
+|---|---:|---:|---:|---:|
+| Chromium | 17 | 7 | 10 | 0 |
+| Firefox | 17 | 7 | 10 | 0 |
+| WebKit | 17 | 7 | 10 | 0 |
+| **Unique test cases** | **17** | **7** | **10** | **0** |
+
+Failed test cases: `TC-FR05-03`, `TC-FR05-06`, `TC-FR05-08`, `TC-FR05-09`, `TC-FR05-10`, `TC-FR05-11`, `TC-FR05-12`, `TC-FR05-13`, `TC-FR05-14`, `TC-FR05-15`.
+
+### 2.7 Bugs Found
+
+| Bug ID | Found by | Summary | Severity / Priority | Report |
+|---|---|---|---|---|
+| BUG-FR05-001 | TC-FR05-03 | Giá sản phẩm hiển thị `VND` thay vì `₫` | Major / P1 | `docs/bug/BUG-FR05-001-price-format.md` |
+| BUG-FR05-002 | TC-FR05-06 | Không hiển thị empty state khi tìm kiếm không có kết quả | Major / P1 | `docs/bug/BUG-FR05-002-empty-state.md` |
+| BUG-FR05-003 | TC-FR05-08 | Tìm kiếm không trim khoảng trắng đầu/cuối | Minor / P2 | `docs/bug/BUG-FR05-003-search-trim.md` |
+| BUG-FR05-004 | TC-FR05-09, TC-FR05-10, TC-FR05-15 | Từ khóa tìm kiếm bị render thành HTML | Critical / P0 | `docs/bug/BUG-FR05-004-search-xss.md` |
+| BUG-FR05-005 | TC-FR05-11 | API tìm kiếm nối chuỗi SQL trực tiếp | Critical / P0 | `docs/bug/BUG-FR05-005-sql-injection-search.md` |
+| BUG-FR05-006 | TC-FR05-12 | Ảnh sản phẩm thiếu alt text mô tả | Minor / P2 | `docs/bug/BUG-FR05-006-image-alt.md` |
+| BUG-FR05-007 | TC-FR05-13 | Trang chủ có nhiều hơn một thẻ h1 | Minor / P2 | `docs/bug/BUG-FR05-007-multiple-h1.md` |
+| BUG-FR05-008 | TC-FR05-14 | Không hiển thị loading state khi tải sản phẩm | Minor / P2 | `docs/bug/BUG-FR05-008-loading-state.md` |
+
 ---
 
 ## 3. Feature B - FR-11 Order History View (User)
@@ -117,19 +143,26 @@ Stage 4 script generation is complete. Test execution is pending after human rev
 
 ### 3.5 Human Review - What The AI Got Wrong / Missed
 
-_Pending post-execution review._
+Không phát hiện fail sau execution. Bộ locator/API setup của FR-11 ổn định trên cả Chromium, Firefox và WebKit. Rủi ro còn lại là format ngày chưa được đặc tả chặt, nên automation chỉ kiểm tra ngày hiển thị và parse được thay vì ép một format cụ thể.
 
 ### 3.6 Execution Results
 
-_Pending execution._
+Playwright HTML report: `reports/html/index.html`. Run metadata trong report: `Run by: 23127158`, `Run at (ISO): 2026-08-09T11:29:27.604Z`.
+
+| Browser | Total | Passed | Failed | Skipped |
+|---|---:|---:|---:|---:|
+| Chromium | 14 | 14 | 0 | 0 |
+| Firefox | 14 | 14 | 0 | 0 |
+| WebKit | 14 | 14 | 0 | 0 |
+| **Unique test cases** | **14** | **14** | **0** | **0** |
 
 ### 3.7 Bugs Found (if any)
 
-_Pending execution._
+Không có bug được phát hiện từ run Playwright hiện tại.
 
 ### 3.8 Test Cases Not Automated (if any)
 
-_Pending execution._
+Không có.
 
 ---
 
@@ -209,16 +242,29 @@ Stage 4 script generation is complete. Test execution is pending after human rev
 
 ### 4.5 Human Review - What The AI Got Wrong / Missed
 
-_Pending post-execution review._
+Execution xác nhận các nghi vấn đã nêu ở Stage 1: backend chỉ verify JWT nhưng chưa enforce `role = "admin"` cho `/api/admin/*`, và endpoint xóa user chưa chặn self-delete. Các fail lặp lại trên cả 3 browser vì đây là lỗi API, không phải lỗi selector hay timing.
 
 ### 4.6 Execution Results
 
-_Pending execution._
+Playwright HTML report: `reports/html/index.html`. Run metadata trong report: `Run by: 23127158`, `Run at (ISO): 2026-08-09T11:29:27.604Z`.
+
+| Browser | Total | Passed | Failed | Skipped |
+|---|---:|---:|---:|---:|
+| Chromium | 14 | 11 | 3 | 0 |
+| Firefox | 14 | 11 | 3 | 0 |
+| WebKit | 14 | 11 | 3 | 0 |
+| **Unique test cases** | **14** | **11** | **3** | **0** |
+
+Failed test cases: `TC-FR19-07`, `TC-FR19-10`, `TC-FR19-11`.
 
 ### 4.7 Bugs Found (if any)
 
-_Pending execution._
+| Bug ID | Found by | Summary | Severity / Priority | Report |
+|---|---|---|---|---|
+| BUG-FR19-001 | TC-FR19-07 | Admin có thể tự xóa tài khoản đang đăng nhập | Critical / P0 | `docs/bug/BUG-FR19-001-self-delete.md` |
+| BUG-FR19-002 | TC-FR19-10, TC-FR19-11 | User thường có token hợp lệ gọi được Admin API | Critical / P0 | `docs/bug/BUG-FR19-002-admin-role-bypass.md` |
 
 ### 4.8 Test Cases Not Automated (if any)
 
-_Pending execution._
+Không có.
+
