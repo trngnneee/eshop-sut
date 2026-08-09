@@ -2,7 +2,7 @@
 
 **Student ID:** 23127207 · **Feature:** FR-13 — Pool C  
 **Spec files:** `tests/dashboard.spec.ts`, `tests/dashboard-api.spec.ts`  
-**Data files:** `test-data/dashboard-data-cases.json` (20), `test-data/dashboard-api-cases.json` (26) — **46 test cases total**
+**Data files:** `test-data/dashboard-data-cases.json` (20), `test-data/dashboard-api-cases.json` (28) — **48 test cases total**
 
 ## 1. Coverage design
 
@@ -79,9 +79,25 @@ any assertion's expected value.
 
 ## 2b. Execution evidence
 
-All three browsers produced the identical result **22 passed / 24 failed / 46 total**. Reports:
+All three browsers produced the identical result **24 passed / 24 failed / 48 total**. Reports:
 `HW4/reports/dashboard/{chromium,firefox,webkit}/index.html`, each labeled `Run by: 23127207` with
 an ISO timestamp.
+
+## 2c. Third pass — two more data-integrity cases
+
+`TC-DASHBOARD-ORD-011` and `TC-DASHBOARD-USR-006` close two gaps the earlier passes left open:
+whether `GET /api/admin/orders` actually honors its `ORDER BY orders.id DESC` clause (previously
+only asserted indirectly, never checked against two orders of a known creation order), and whether
+deleting a user cascades to — or corrupts — that user's existing orders (the route's `LEFT JOIN
+users` was read in source but never exercised with a genuinely orphaned row).
+
+| Case | Check | Result |
+|---|---|---|
+| `TC-DASHBOARD-ORD-011` | A newer order's `id` appears before an older order's `id` in the response array | **Passes** |
+| `TC-DASHBOARD-USR-006` | An order survives (with a null/absent `user_name`) after its owning user is deleted | **Passes** — the `LEFT JOIN` correctly returns the orphaned row rather than silently dropping it or throwing |
+
+Both passed — a useful negative-space result: it rules out an entire class of resilience bug
+(broken ordering, orphan-row corruption) that the earlier 46-case pass had not directly tested for.
 
 ## 3. API review results
 
@@ -150,7 +166,7 @@ multiple assertion patterns while keeping the metric oracle numeric rather than 
 
 ## 6. Review conclusion
 
-All three browsers produced the identical **22 passed / 24 failed / 46 total**. Every failure is a
+All three browsers produced the identical **24 passed / 24 failed / 48 total**. Every failure is a
 server-side calculation, resilience, or authorization defect (revenue doubling, an unguarded
 fetch-chain break, missing role checks, missing self-delete/nonexistent-id/malformed-id guards, an
 over-permissive state transition) — none is a browser-rendering difference, consistent with a

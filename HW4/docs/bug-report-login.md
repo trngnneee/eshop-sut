@@ -2,6 +2,8 @@
 
 **Student ID:** 23127207 · Reproduced by: `HW4/tests/login.spec.ts`, `HW4/tests/login-api.spec.ts`
 **Environment:** Chromium, Firefox, WebKit (Playwright) — all 3 browsers reproduce every bug below identically (server-side logic, browser-independent).
+**Execution evidence:** all 3 browsers ran the full 69-case suite and produced the identical
+**51 passed / 18 failed / 69 total**.
 
 > **GitHub Issues status:** all 4 new findings below have been filed as real GitHub Issues
 > (#318–#321) via `gh issue create`, with screenshot evidence attached. The already-known bugs
@@ -22,7 +24,7 @@
 | 8 | BUG-FR02-A-11 | Submit button has no loading/disabled state | TC-LOGIN-009 | Button remains enabled right after click |
 | 9 | BUG-FR02-A-12 | No show/hide password toggle | TC-LOGIN-010 | Toggle control not found |
 | 10 | BUG-FR02-A-14 | No route guard on `/login` while already authenticated | TC-LOGIN-012 | Re-visiting `/login` does not redirect away |
-| 11 | BUG-FR02-A-15 | Bad tab order / missing `autocomplete` attributes | TC-LOGIN-020, TC-LOGIN-021 | Focus order wrong; `autocomplete` attribute absent |
+| 11 | BUG-FR02-A-15 | Bad tab order / missing `autocomplete` attributes | TC-LOGIN-020, TC-LOGIN-021, TC-LOGIN-045 | Focus order wrong; `autocomplete` attribute absent on both the email field and (confirmed in a later pass) the password field (`current-password`) |
 | 12 | BUG-FR02-A-17 | Password reset does not clear lockout state | TC-LOGIN-030 | Login with the new password still returns 403 while locked |
 
 ## B. New defects found by this automation pass

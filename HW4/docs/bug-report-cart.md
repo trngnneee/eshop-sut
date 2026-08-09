@@ -1,8 +1,8 @@
 # Bug Report — FR-07 (Shopping Cart)
 
 **Student ID:** 23127207 · **Reproduced by:** `tests/cart.spec.ts`, `tests/cart-api.spec.ts`  
-**Execution evidence:** Chromium, Firefox, and WebKit each ran the full 72-case suite and produced
-the identical result **36 passed / 36 failed / 72**. Reports:
+**Execution evidence:** Chromium, Firefox, and WebKit each ran the full 75-case suite and produced
+the identical result **39 passed / 36 failed / 75**. Reports:
 `HW4/reports/cart/{chromium,firefox,webkit}/index.html`, each labeled `Run by: 23127207` with an
 ISO timestamp.
 

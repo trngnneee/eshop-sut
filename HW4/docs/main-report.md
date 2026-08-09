@@ -6,18 +6,18 @@ FR-13 Admin Dashboard (Pool C)
 
 ## 1. Summary
 
-181 data-driven Playwright test cases were generated with AI, reviewed, corrected, and executed
-across Chromium/Firefox/WebKit (543 browser runs total), producing **the same pass/fail count on
+192 data-driven Playwright test cases were generated with AI, reviewed, corrected, and executed
+across Chromium/Firefox/WebKit (576 browser runs total), producing **the same pass/fail count on
 all three engines for every feature** — strong evidence that failures are real application/data
-defects, not browser flakiness. 104 cases passed; 77 failed, reproducing 30 already-known HW02
+defects, not browser flakiness. 114 cases passed; 78 failed, reproducing 30 already-known HW02
 bugs and surfacing 12 new ones, including a High-severity plaintext-password leak in the login API.
 All 12 new bugs are filed as real GitHub Issues (#318–#329) with screenshot evidence.
 
 | Feature | Cases | Passed | Failed | Report |
 |---|---:|---:|---:|---|
-| FR-02 Login | 63 | 46 | 17 | `reports/login/{chromium,firefox,webkit}/index.html` |
-| FR-07 Cart | 72 | 36 | 36 | `reports/cart/{chromium,firefox,webkit}/index.html` |
-| FR-13 Dashboard | 46 | 22 | 24 | `reports/dashboard/{chromium,firefox,webkit}/index.html` |
+| FR-02 Login | 69 | 51 | 18 | `reports/login/{chromium,firefox,webkit}/index.html` |
+| FR-07 Cart | 75 | 39 | 36 | `reports/cart/{chromium,firefox,webkit}/index.html` |
+| FR-13 Dashboard | 48 | 24 | 24 | `reports/dashboard/{chromium,firefox,webkit}/index.html` |
 
 ## 2. Process (Task 1 requirement: AI-first, step by step)
 

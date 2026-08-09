@@ -120,9 +120,23 @@ test.describe('FR-02 Login form submission (data-driven)', () => {
 // ---------------------------------------------------------------------------------
 test.describe('FR-02 Login UI standards', () => {
   for (const c of uiCases) {
-    test(`${c.caseId}: ${c.description}`, async ({ page }, testInfo) => {
+    test(`${c.caseId}: ${c.description}`, async ({ page, request }, testInfo) => {
       testInfo.annotations.push({ type: 'Run by', description: STUDENT_ID });
       if (c.bugRef) testInfo.annotations.push({ type: 'Bug ref', description: c.bugRef });
+
+      // Session-lifecycle cases deliberately send a wrong-password attempt or otherwise
+      // touch the account's login_attempts counter — never do that against the shared
+      // seed account (test@eshop.com), or a lockout here breaks every later case in this
+      // describe block that also logs in as that account. Give these a disposable account.
+      const sessionLifecycleCases = ['TC-LOGIN-042', 'TC-LOGIN-043', 'TC-LOGIN-046'];
+      let email = c.email;
+      let password = c.password;
+      if (sessionLifecycleCases.includes(c.caseId)) {
+        email = `${c.caseId.toLowerCase()}@eshop.com`;
+        password = c.caseId === 'TC-LOGIN-046' ? 'WrongPassword1!' : 'Test1234!';
+        await deleteUserByEmail(email).catch(() => undefined);
+        await ensureFreshAccount(request, email, c.caseId === 'TC-LOGIN-046' ? 'ValidPassword1!' : password);
+      }
 
       await page.goto('/login');
 
@@ -179,6 +193,70 @@ test.describe('FR-02 Login UI standards', () => {
           await page.waitForTimeout(1000);
           await expect(page.locator('body')).toBeVisible();
           await page.context().setOffline(false);
+          break;
+        }
+        case 'session-persist-reload': {
+          await fillLoginForm(page, email!, password!);
+          await submitLogin(page);
+          await expect(page).toHaveURL(HOME_URL);
+          // Assertion pattern: reload the page and confirm the session survived it —
+          // token lives in localStorage (not React state), so a real reload rehydrates it.
+          await page.reload();
+          await expect(page.getByRole('button', { name: 'Thoát' })).toBeVisible();
+          const tokenAfterReload = await page.evaluate(() => localStorage.getItem('token'));
+          expect(tokenAfterReload).toBeTruthy();
+          break;
+        }
+        case 'logout-clears-session': {
+          await fillLoginForm(page, email!, password!);
+          await submitLogin(page);
+          await expect(page).toHaveURL(HOME_URL);
+          await page.getByRole('button', { name: 'Thoát' }).click();
+          // Assertion pattern 1: UI reverts to the logged-out link
+          await expect(page.getByRole('link', { name: 'Đăng nhập' })).toBeVisible();
+          // Assertion pattern 2: the token is actually gone from storage, not just hidden in the UI
+          const tokenAfterLogout = await page.evaluate(() => localStorage.getItem('token'));
+          expect(tokenAfterLogout).toBeNull();
+          break;
+        }
+        case 'invalid-token-auto-logout': {
+          await page.goto('/');
+          await page.evaluate(() => localStorage.setItem('token', 'not-a-real-jwt-string'));
+          await page.reload();
+          // The AuthContext effect fires GET /api/users/me with the bad token, gets a
+          // non-2xx, and calls logout() — the header must show the guest state again.
+          await expect(page.getByRole('link', { name: 'Đăng nhập' })).toBeVisible();
+          const tokenAfter = await page.evaluate(() => localStorage.getItem('token'));
+          expect(tokenAfter).toBeNull();
+          break;
+        }
+        case 'password-autocomplete': {
+          const pwInput = page.locator('div').filter({ hasText: /^Mật khẩu$/ }).locator('input');
+          await expect(pwInput).toHaveAttribute('autocomplete', 'current-password');
+          break;
+        }
+        case 'loading-resets-after-failure': {
+          await fillLoginForm(page, email!, password!);
+          const button = page.getByRole('button', { name: /Sign In|Đăng nhập/ });
+          await button.click();
+          // Assertion pattern: after the failed request settles, the button must be
+          // interactive again (not stuck disabled forever) so the user can retry.
+          await expect(button).toBeEnabled();
+          await expect(page).toHaveURL(/\/login/);
+          break;
+        }
+        case 'forged-token-rejected': {
+          // A structurally valid JWT (3 dot-separated base64url parts) signed with the
+          // wrong secret — jwt.verify() on the backend must reject it just like garbage.
+          const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
+          const payload = Buffer.from(JSON.stringify({ id: 1, email: 'forged@eshop.com', exp: Math.floor(Date.now() / 1000) + 3600 })).toString('base64url');
+          const forgedToken = `${header}.${payload}.forged-signature-not-valid`;
+          await page.goto('/');
+          await page.evaluate((t) => localStorage.setItem('token', t), forgedToken);
+          await page.reload();
+          await expect(page.getByRole('link', { name: 'Đăng nhập' })).toBeVisible();
+          const tokenAfter = await page.evaluate(() => localStorage.getItem('token'));
+          expect(tokenAfter).toBeNull();
           break;
         }
         default:

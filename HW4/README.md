@@ -8,27 +8,37 @@ Verify/repair) documented step by step in [`docs/prompt-log.md`](docs/prompt-log
 
 | Pool | Feature | Spec files | Data files | Cases |
 |---|---|---|---|---:|
-| A | FR-02 — Login & Account Lockout | `tests/login.spec.ts`, `tests/login-api.spec.ts` | `test-data/login-{cases,ui-cases,lockout-cases,api-cases}.json` | 63 |
-| B | FR-07 — Shopping Cart | `tests/cart.spec.ts`, `tests/cart-api.spec.ts` | `test-data/cart-{ui,edge,api}-cases.json` | 63 |
-| C | FR-13 — Admin Dashboard | `tests/dashboard.spec.ts`, `tests/dashboard-api.spec.ts` | `test-data/dashboard-{data,api}-cases.json` | 32 |
+| A | FR-02 — Login & Account Lockout | `tests/login.spec.ts`, `tests/login-api.spec.ts` | `test-data/login-{cases,ui-cases,lockout-cases,api-cases}.json` | 69 |
+| B | FR-07 — Shopping Cart | `tests/cart.spec.ts`, `tests/cart-api.spec.ts` | `test-data/cart-{ui,edge,api}-cases.json` | 75 |
+| C | FR-13 — Admin Dashboard | `tests/dashboard.spec.ts`, `tests/dashboard-api.spec.ts` | `test-data/dashboard-{data,api}-cases.json` | 48 |
 
 ## 1. Test summary (execution evidence)
 
 All numbers below are from real, verified runs on Chromium, Firefox, and WebKit — **each browser
 produced the identical pass/fail count per feature** (see `docs/ai-review-*.md` for how that
-consistency was achieved, including two test-isolation bugs found and fixed along the way).
+consistency was achieved, including test-isolation bugs found and fixed along the way, and two
+further coverage passes that added 34 more cases across all three features after review — the
+second closed gaps in Cart/Dashboard, the third added Login session-lifecycle coverage plus a
+few more targeted Cart/Dashboard cases).
 
 | Feature | Cases | Browser runs | Passed | Failed | Known bugs reproduced | New bugs found |
 |---|---:|---:|---:|---:|---:|---:|
-| FR-02 Login | 63 | 189 | 46 | 17 | 12 | 4 |
-| FR-07 Cart | 63 | 189 | 29 | 34 | 15 | 3 |
-| FR-13 Dashboard | 32 | 96 | 15 | 17 | 2 | 3 |
-| **Total** | **158** | **474** | **90** | **68** | **29** | **10** |
+| FR-02 Login | 69 | 207 | 51 | 18 | 12 | 4 |
+| FR-07 Cart | 75 | 225 | 39 | 36 | 15 | 4 |
+| FR-13 Dashboard | 48 | 144 | 24 | 24 | 3 | 4 |
+| **Total** | **192** | **576** | **114** | **78** | **30** | **12** |
 
 - **Features automated:** 3 (FR-02 Pool A, FR-07 Pool B, FR-13 Pool C).
-- **Total bugs found by this automation:** 39 (29 already known from HW02, confirmed still
-  present; 10 newly discovered — including 1 **High**-severity security issue: the login API
-  leaks the user's plaintext password in its response body).
+- **Total bugs found by this automation:** 42 (30 already known from HW02, confirmed still
+  present — including one, `BUG-FR13-C-03`, that a first pass had marked "too hard to simulate"
+  and a later pass reproduced via route interception; 12 newly discovered — including 1
+  **High**-severity security issue: the login API leaks the user's plaintext password in its
+  response body). All 12 new bugs are filed as real GitHub Issues (#318–#329) with screenshot
+  evidence, filed via `gh` CLI browser-login (see `docs/submission-checklist.md`). The third
+  coverage pass's 11 new cases (6 Login session-lifecycle, 3 Cart, 2 Dashboard) mostly confirmed
+  correct behavior or reproduced an already-tracked bug family rather than surfacing new issues —
+  see each `ai-review-*.md`'s final section for the honest breakdown of what passed vs. failed
+  and why.
 - **Demo video:** _[fill in the unlisted YouTube link once recorded — see_
   `docs/demo-video-script.md` _for the required talking points]_.
 
@@ -145,19 +155,25 @@ log per interaction) and [`docs/ai-critique.md`](docs/ai-critique.md) (200–300
 | No. | Criteria | Grade | Self-Assessed Grade |
 |---|---|---:|---:|
 | 1 | Task 1 — Feature A (FR-02 Login) | 25 | 23 |
-| 1 | Task 1 — Feature B (FR-07 Cart) | 25 | 23 |
-| 1 | Task 1 — Feature C (FR-13 Dashboard) | 25 | 22 |
+| 1 | Task 1 — Feature B (FR-07 Cart) | 25 | 24 |
+| 1 | Task 1 — Feature C (FR-13 Dashboard) | 25 | 24 |
 | 2 | Task 2 — Demo video | 15 | _pending — record before submission_ |
 | 3 | Agent Skills | 10 | 7 |
 | | **Total** | **100** | |
 
-**Rationale:** Task 1 is complete and verified (158 cases, 474 browser runs, identical results
-across all 3 engines, 39 real bugs found including a High-severity plaintext-password leak,
-data-driven + ≥3 assertion patterns per suite, every report labeled). Points held back reflect
-gaps this document is honest about: Dashboard's suite (32 cases) is smaller than Login/Cart because
-the admin dashboard UI genuinely only exposes two metrics — padding it further would violate
-"quality over completion." The demo video has not been recorded yet (requires the student's own
-voice/face-cam per Section 11's anti-cheat rule). The Agent Skill
-(`.agents/skills/playwright-skill/playwright-skill.md`) predates this run and needs a final pass
-to reflect the actual implemented workflow (see Phase 3 of the working plan) before it is submitted
-as a finished deliverable.
+**Rationale:** Task 1 is complete and verified (192 cases, 576 browser runs, identical results
+across all 3 engines, 42 real bugs found including a High-severity plaintext-password leak,
+data-driven + ≥3 assertion patterns per suite, every report labeled, all 12 new bugs filed as real
+GitHub Issues with evidence). Dashboard and Cart were both deepened in a second review pass after
+explicit feedback that the first pass was too thin — Dashboard grew from 32 to 46 cases (closing a
+previously-skipped known bug, `BUG-FR13-C-03`) and Cart from 63 to 72 (closing an i18n/XSS/scale
+gap and finding a new cross-tab-sync bug). A third pass then closed Login's own remaining gap
+(session persistence/logout/forged-token handling, 63→69) and added a handful more targeted
+cases to Cart (75) and Dashboard (48), all verified identically across all 3 browsers. The one
+point still held back per feature reflects that
+a small number of individual cases remain deliberately un-padded (e.g. `TC-CART-020`/`021` are
+untestable through the real UI control, documented rather than forced) — see each `ai-review-*.md`
+§4/§C. The demo video has not been recorded yet (requires the student's own voice/face-cam per
+Section 11's anti-cheat rule). The Agent Skill (`.agents/skills/playwright-skill/playwright-skill.md`)
+was polished with lessons from this run but a fresh demonstration video per Section 7 is still
+outstanding.

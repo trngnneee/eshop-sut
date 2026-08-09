@@ -2,7 +2,7 @@
 
 **Student ID:** 23127207 · **Feature:** FR-07 — Pool B  
 **Spec files:** `tests/cart.spec.ts`, `tests/cart-api.spec.ts`  
-**Data files:** `test-data/cart-ui-cases.json` (39), `test-data/cart-edge-cases.json` (5), `test-data/cart-api-cases.json` (28) — **72 test cases total**
+**Data files:** `test-data/cart-ui-cases.json` (42), `test-data/cart-edge-cases.json` (5), `test-data/cart-api-cases.json` (28) — **75 test cases total**
 
 ## 1. Scope and conversion from HW02
 
@@ -107,6 +107,36 @@ total amount (`084`, **passes** — no overflow/scientific notation), cross-tab 
 negative quantity (`090`, **fails** — same root cause as the known `BUG-FR07-B-01`/`B-13`, not a
 new bug), and multi-item order consistency at the API level (`091`, **passes**).
 
+## 3c. Third pass — targeted quantity/removal/navigation cases (75 cases total)
+
+Three more cases closed narrower gaps the earlier passes left open: none of the existing cases
+checked the *exact* quantity value rendered in the cart's quantity cell (only totals derived from
+it), removal of a row from the *middle* of a multi-item cart (only "remove the only item" and
+"remove one of two" existed), or a positive confirmation that normal client-side navigation between
+Cart and Home preserves state (only the page-*reload* case and the negative cross-tab case existed).
+
+| Case | Check | Result |
+|---|---|---|
+| `TC-CART-092` | Cart quantity cell shows exactly the value set when adding (7) | **Passes** |
+| `TC-CART-093` | Removing the middle row of a 3-item cart leaves the other two rows intact | **Passes** |
+| `TC-CART-094` | Cart survives a Cart→Home→Cart round trip via in-app link clicks | **Passes** |
+
+**Two script bugs found and fixed while adding these** (both instances of the same root cause
+documented in §3: `addFromDetailByUrl`'s `page.goto()` wipes any cart state accumulated by an
+earlier `addFromDetailReliable` call, because it's a real navigation, not a client-side route
+change):
+
+1. `TC-CART-092` initially called `addFromDetailByUrl` (which adds one unit via its own two-click
+   workaround) and *then* set the quantity field and clicked add again — the two calls stacked
+   instead of the second overriding the first, producing 8 instead of 7. Fixed by navigating with a
+   plain `page.goto()` and setting the quantity **before** the first add-click.
+2. `TC-CART-093` added product A via `addFromDetailReliable` (client-side nav), then tried to add
+   the disposable "middle" product via `addFromDetailByUrl` — that `goto()` silently wiped product A
+   from the cart, so the cart only ever had 2 rows, not 3. Fixed by creating the disposable product
+   *before* any navigation and reloading once while the cart is still empty (the same safe pattern
+   `many-items-cart` already used), so all three products can be added via the client-side-preserving
+   `addFromDetailReliable` helper.
+
 ## 5. Assertion-pattern inventory
 
 The suite exercises more than the required three patterns, including `toHaveURL`, `toBeVisible`,
@@ -117,7 +147,7 @@ positive.
 
 ## 6. Review conclusion
 
-All three browsers now produce the **exact same result: 36 passed / 36 failed / 72 total**,
+All three browsers now produce the **exact same result: 39 passed / 36 failed / 75 total**,
 confirmed after the test-isolation fix in Section 3. Cross-browser identity (rather than
 coincidence) is the useful signal here: every failure is a server-side or React-state defect, not
 a browser-rendering difference, which is consistent with a Vietnamese e-commerce SPA whose bugs

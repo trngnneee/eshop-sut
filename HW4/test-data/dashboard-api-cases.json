@@ -24,5 +24,7 @@
   { "caseId": "TC-DASHBOARD-ORD-009", "category": "state-transition", "description": "Chuyển trạng thái hợp lệ confirmed -> canceled phải thành công", "action": "valid-transition", "from": "confirmed", "to": "canceled" },
   { "caseId": "TC-DASHBOARD-ACL-011", "category": "access-control", "description": "GET /api/admin/orders với Authorization header rỗng không được gây lỗi 500", "action": "admin-orders-empty-token" },
   { "caseId": "TC-DASHBOARD-ORD-010", "category": "data-integrity", "description": "Sau khi cập nhật trạng thái đơn hàng, GET /api/admin/orders phải phản ánh trạng thái mới ngay lập tức", "action": "status-update-reflected" },
-  { "caseId": "TC-DASHBOARD-USR-005", "category": "access-control", "description": "DELETE /api/admin/users/:id với id âm (vd -1) phải bị từ chối 400, không phải 200", "action": "delete-negative-id" }
+  { "caseId": "TC-DASHBOARD-USR-005", "category": "access-control", "description": "DELETE /api/admin/users/:id với id âm (vd -1) phải bị từ chối 400, không phải 200", "action": "delete-negative-id" },
+  { "caseId": "TC-DASHBOARD-ORD-011", "category": "data-integrity", "description": "GET /api/admin/orders phải trả về đơn hàng mới nhất lên đầu danh sách (ORDER BY id DESC)", "action": "orders-most-recent-first" },
+  { "caseId": "TC-DASHBOARD-USR-006", "category": "data-integrity", "description": "Xóa user rồi vẫn phải xem được đơn hàng cũ của họ trong /api/admin/orders (LEFT JOIN không xóa cascade đơn hàng mồ côi)", "action": "orphaned-order-survives-user-delete" }
 ]

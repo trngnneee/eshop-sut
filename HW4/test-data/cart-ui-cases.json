@@ -37,5 +37,8 @@
   { "caseId": "TC-CART-082", "category": "security-xss", "description": "Sản phẩm có tên chứa mã HTML/script không được thực thi khi hiển thị trong giỏ hàng", "check": "xss-product-name" },
   { "caseId": "TC-CART-083", "category": "boundary", "description": "Giỏ hàng có nhiều dòng sản phẩm (10+) vẫn hiển thị đầy đủ, không bị treo/lỗi", "check": "many-items-cart" },
   { "caseId": "TC-CART-084", "category": "boundary", "description": "Tổng tiền giỏ hàng có giá trị rất lớn vẫn hiển thị đúng định dạng, không tràn số", "check": "very-large-total" },
-  { "caseId": "TC-CART-050", "category": "cross-tab", "description": "Mở giỏ hàng ở tab/context khác sau khi đã thêm sản phẩm ở tab đầu — không đồng bộ do state chỉ ở client", "check": "cross-tab-no-sync" }
+  { "caseId": "TC-CART-050", "category": "cross-tab", "description": "Mở giỏ hàng ở tab/context khác sau khi đã thêm sản phẩm ở tab đầu — không đồng bộ do state chỉ ở client", "check": "cross-tab-no-sync" },
+  { "caseId": "TC-CART-092", "category": "calculation", "description": "Số lượng hiển thị trong ô Số lượng của bảng giỏ hàng phải khớp đúng giá trị đã nhập lúc thêm (vd 7)", "check": "quantity-value-in-cell", "quantity": 7 },
+  { "caseId": "TC-CART-093", "category": "positive", "description": "Xóa 1 sản phẩm ở giữa giỏ hàng 3 sản phẩm chỉ xóa đúng dòng đó, 2 dòng còn lại phải nguyên vẹn", "check": "remove-middle-item" },
+  { "caseId": "TC-CART-094", "category": "positive", "description": "Giỏ hàng vẫn giữ nguyên khi điều hướng qua lại Cart -> Home -> Cart bằng link trong app (không reload trang)", "check": "nav-preserves-cart" }
 ]

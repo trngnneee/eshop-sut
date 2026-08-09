@@ -60,5 +60,49 @@
     "check": "offline-submit",
     "email": "test@eshop.com",
     "password": "Test1234!"
+  },
+  {
+    "caseId": "TC-LOGIN-042",
+    "category": "session-lifecycle",
+    "description": "Sau khi đăng nhập, reload trang vẫn giữ trạng thái đăng nhập (token trong localStorage được rehydrate)",
+    "check": "session-persist-reload",
+    "email": "test@eshop.com",
+    "password": "Test1234!"
+  },
+  {
+    "caseId": "TC-LOGIN-043",
+    "category": "session-lifecycle",
+    "description": "Nhấn nút Thoát xóa token khỏi localStorage và trả giao diện về trạng thái chưa đăng nhập",
+    "check": "logout-clears-session",
+    "email": "test@eshop.com",
+    "password": "Test1234!"
+  },
+  {
+    "caseId": "TC-LOGIN-044",
+    "category": "session-lifecycle",
+    "description": "Token không hợp lệ (chuỗi rác) trong localStorage khiến app tự động đăng xuất khi tải trang",
+    "check": "invalid-token-auto-logout"
+  },
+  {
+    "caseId": "TC-LOGIN-045",
+    "category": "accessibility",
+    "description": "Trường mật khẩu có autocomplete=\"current-password\" để tương thích trình quản lý mật khẩu",
+    "bugRef": "BUG-FR02-A-15",
+    "check": "password-autocomplete"
+  },
+  {
+    "caseId": "TC-LOGIN-046",
+    "category": "ui-loading-state",
+    "description": "Sau khi đăng nhập thất bại, nút Đăng nhập phải hết trạng thái loading (được bật lại) chứ không kẹt mãi mãi",
+    "bugRef": "BUG-FR02-A-11",
+    "check": "loading-resets-after-failure",
+    "email": "test@eshop.com",
+    "password": "WrongPassword1!"
+  },
+  {
+    "caseId": "TC-LOGIN-047",
+    "category": "security-session",
+    "description": "JWT có cấu trúc hợp lệ nhưng ký sai secret trong localStorage phải bị backend từ chối, khiến app tự động đăng xuất",
+    "check": "forged-token-rejected"
   }
 ]

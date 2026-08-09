@@ -405,6 +405,56 @@ test.describe('FR-07 Shopping Cart UI', () => {
           await secondPage.close();
           break;
         }
+        case 'quantity-value-in-cell': {
+          const name = `Qty Check ${c.caseId}`;
+          const id = await createDisposableProduct(request, name, 50000);
+          // Navigate directly by URL (first navigation of the test, so this is safe —
+          // see addFromDetailByUrl's doc comment), then set the quantity BEFORE adding
+          // so the two-click workaround for the "first click swallowed" bug doesn't add
+          // an extra unit at the default quantity first.
+          await page.goto(`/product/${id}`);
+          await page.locator('input[type="number"]').fill(String(c.quantity));
+          const addButton = page.getByRole('button', { name: /Thêm vào giỏ hàng|Đã thêm/ });
+          await addButton.click();
+          await addButton.click();
+          await gotoCart(page);
+          await expect(cartRow(page, name).locator('td').nth(2)).toHaveText(String(c.quantity));
+          break;
+        }
+        case 'remove-middle-item': {
+          const middleName = `Middle Item ${c.caseId}`;
+          // Create the disposable product BEFORE any navigation, then reload once while
+          // the cart is still empty (safe — see 'many-items-cart') so Home's product list
+          // includes it; addFromDetailByUrl's page.goto() would otherwise wipe whatever
+          // was already added by a prior addFromDetailReliable call in this same test.
+          const middleId = await createDisposableProduct(request, middleName, 77000);
+          await page.reload();
+          await addFromDetailReliable(page, PRODUCT_A_ID);
+          await addFromDetailReliable(page, middleId);
+          await addFromDetailReliable(page, PRODUCT_B_ID);
+          await gotoCart(page);
+          await expect(page.locator('tbody tr')).toHaveCount(3);
+          await cartRow(page, middleName).getByRole('button', { name: 'Xóa' }).click();
+          // Assertion pattern: the two untouched rows must still be present and correct
+          // after removing the middle row, not just "count went down by one".
+          await expect(page.locator('tbody tr')).toHaveCount(2);
+          await expect(cartRow(page, PRODUCT_A_NAME)).toBeVisible();
+          await expect(cartRow(page, PRODUCT_B_NAME)).toBeVisible();
+          await expect(cartRow(page, middleName)).toHaveCount(0);
+          break;
+        }
+        case 'nav-preserves-cart': {
+          await addFromDetailReliable(page, PRODUCT_A_ID);
+          await gotoCart(page);
+          await expect(cartRow(page, PRODUCT_A_NAME)).toBeVisible();
+          // Round-trip through the app via in-app link clicks (never page.goto()) —
+          // confirms the positive case that CartContext state DOES survive normal
+          // client-side navigation, distinct from TC-CART-087's page-reload check.
+          await gotoHome(page);
+          await gotoCart(page);
+          await expect(cartRow(page, PRODUCT_A_NAME)).toBeVisible();
+          break;
+        }
         default:
           throw new Error(`Unknown UI check "${c.check}" for ${c.caseId}`);
       }

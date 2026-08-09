@@ -283,6 +283,42 @@ test.describe('FR-13 Dashboard/admin API access control', () => {
           expect(res.status()).toBe(400);
           break;
         }
+        case 'orders-most-recent-first': {
+          await clearAllOrders();
+          const userTok = await regularUserToken(request, c.caseId);
+          const admin = await adminToken(request);
+          const olderId = await seedOrderAt(request, userTok, admin, 'pending');
+          const newerId = await seedOrderAt(request, userTok, admin, 'pending');
+          const orders = await (
+            await request.get(`${API_BASE_URL}/api/admin/orders`, { headers: { Authorization: `Bearer ${admin}` } })
+          ).json();
+          expect(orders[0]?.id).toBe(newerId);
+          expect(orders[1]?.id).toBe(olderId);
+          break;
+        }
+        case 'orphaned-order-survives-user-delete': {
+          await clearAllOrders();
+          const email = `dash-${c.caseId.toLowerCase()}@eshop.com`;
+          await deleteUserByEmail(email).catch(() => undefined);
+          await ensureFreshAccount(request, email, 'ValidPassword1!');
+          const userRes = await apiLogin(request, email, 'ValidPassword1!');
+          const userTok = (await userRes.json()).token;
+          const admin = await adminToken(request);
+          const orderId = await seedOrderAt(request, userTok, admin, 'pending');
+          const users = await (
+            await request.get(`${API_BASE_URL}/api/admin/users`, { headers: { Authorization: `Bearer ${admin}` } })
+          ).json();
+          const userId = users.find((u: AdminUserRow) => u.email === email)?.id;
+          await request.delete(`${API_BASE_URL}/api/admin/users/${userId}`, {
+            headers: { Authorization: `Bearer ${admin}` },
+          });
+          const orders = await (
+            await request.get(`${API_BASE_URL}/api/admin/orders`, { headers: { Authorization: `Bearer ${admin}` } })
+          ).json();
+          const orphaned = orders.find((o: any) => o.id === orderId);
+          expect(orphaned).toBeTruthy();
+          break;
+        }
         default:
           throw new Error(`Unknown action "${c.action}" for ${c.caseId}`);
       }

@@ -1,7 +1,7 @@
 # AI Review & Gap Analysis — FR-02 (Login & Account Lockout)
 
 **Student ID:** 23127207 · **Feature:** FR-02 — Pool A · **Spec files:** `tests/login.spec.ts`, `tests/login-api.spec.ts`
-**Data files:** `test-data/login-cases.json` (31), `test-data/login-ui-cases.json` (8), `test-data/login-lockout-cases.json` (13), `test-data/login-api-cases.json` (11) — **63 test cases total**
+**Data files:** `test-data/login-cases.json` (31), `test-data/login-ui-cases.json` (14), `test-data/login-lockout-cases.json` (13), `test-data/login-api-cases.json` (11) — **69 test cases total**
 
 ## 1. Where this suite came from
 
@@ -58,9 +58,33 @@ during triage, both path-resolution typos in `require()` calls, fixed before thi
 | NEW-BUG-LOGIN-03 | Low | Two logins issued within the same second produce byte-identical JWTs (only second-resolution `iat`, no `exp`/`jti`) | TC-JWT-006 |
 | NEW-BUG-LOGIN-04 | Medium | Email lookup is case-sensitive (`WHERE email = ?` with default SQLite BINARY collation) — the same account cannot log in with a different letter case | TC-LOGIN-028 |
 
-These four are logged in `docs/bug-report-login.md` and are candidates for new GitHub Issues
-(see that file for ready-to-file titles/bodies — this environment has no `gh` CLI / GitHub token
-available to file them automatically).
+These four are logged in `docs/bug-report-login.md` and were filed as real GitHub Issues
+(#318–#321) with screenshot evidence.
+
+## 3b. Third pass — session-lifecycle coverage (69 cases total)
+
+The first two passes covered a single login attempt end-to-end but never touched what happens
+*after* a successful login — reload, logout, or a corrupted/forged token — even though
+`AuthContext.jsx`'s `useEffect` (rehydrate-from-`localStorage` + auto-logout-on-401/403) is a
+distinct piece of logic from the login form itself. Six cases were added to close that gap:
+
+| Case | Check | Result |
+|---|---|---|
+| `TC-LOGIN-042` | Session survives a real page reload (token rehydrated from `localStorage`) | **Passes** — positive confirmation |
+| `TC-LOGIN-043` | Clicking "Thoát" clears the token from `localStorage`, not just the UI | **Passes** |
+| `TC-LOGIN-044` | A garbage (non-JWT) string in `localStorage.token` triggers auto-logout on load | **Passes** — `AuthContext`'s `.catch(() => logout())` handles this correctly |
+| `TC-LOGIN-045` | Password field has `autocomplete="current-password"` | **Fails** — same root cause as `BUG-FR02-A-15` (the SUT never sets `autocomplete` on any auth input); not filed as a separate issue |
+| `TC-LOGIN-046` | Loading state resets (button re-enabled) after a *failed* login, not just before submit | **Passes** |
+| `TC-LOGIN-047` | A structurally-valid JWT signed with the wrong secret is rejected by the backend, triggering auto-logout | **Passes** — `jwt.verify()` correctly rejects a bad signature |
+
+**Script bug found and fixed while adding these:** `TC-LOGIN-046` initially sent a wrong-password
+attempt against the shared seed account `test@eshop.com` (the same account several other UI-standard
+cases in this describe block also log into with the *correct* password). That wrong attempt
+increments the account's `login_attempts` by 2 towards a lockout, which then made every later case
+sharing that account fail for the wrong reason — the exact same class of shared-mutable-state bug
+documented in `ai-review-cart.md` §3 and `ai-review-dashboard.md` §2, just in a third feature. Fixed
+by giving all three session-lifecycle cases that touch the login counter (`042`, `043`, `046`) a
+disposable per-case account instead of the shared seed one.
 
 ## 4. Cases not automated
 
@@ -74,6 +98,13 @@ available to file them automatically).
 
 ## 5. Assertion pattern inventory
 
-`toHaveURL`, `toBeVisible`, `toContainText`/`toHaveText`, `toBeDisabled`, `toHaveAttribute`,
-`toBeFocused`, `expect(status).not.toBe(...)`, `expect(payload).toHaveProperty(...)` — **8
-distinct patterns** across the two spec files (requirement: ≥3).
+`toHaveURL`, `toBeVisible`, `toContainText`/`toHaveText`, `toBeDisabled`/`toBeEnabled`,
+`toHaveAttribute`, `toBeFocused`, `page.evaluate()` + `expect(x).toBeTruthy()/toBeNull()` (direct
+`localStorage` inspection), `expect(status).not.toBe(...)`, `expect(payload).toHaveProperty(...)` —
+**9 distinct patterns** across the two spec files (requirement: ≥3).
+
+## 6. Execution evidence (final, all 3 browsers, 69 cases)
+
+Chromium, Firefox, and WebKit each produced the identical **51 passed / 18 failed / 69 total**.
+Reports: `HW4/reports/login/{chromium,firefox,webkit}/index.html`, each labeled `Run by: 23127207`
+with an ISO timestamp.
