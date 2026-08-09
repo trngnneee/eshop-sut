@@ -1,0 +1,105 @@
+[
+  {
+    "id": "TC01",
+    "type": "positive",
+    "description": "Import file CSV hợp lệ chứa 1 sản phẩm với đầy đủ các cột chuẩn",
+    "csvFile": "fr16_sample_valid.csv",
+    "expectedInserted": 1,
+    "expectedErrors": 0,
+    "expectedResult": "success"
+  },
+  {
+    "id": "TC02",
+    "type": "positive",
+    "description": "Import hàng loạt nhiều sản phẩm (3 sản phẩm) thuộc nhiều danh mục",
+    "csvFile": "fr16_sample_batch.csv",
+    "expectedInserted": 3,
+    "expectedErrors": 0,
+    "expectedResult": "success"
+  },
+  {
+    "id": "TC03",
+    "type": "positive",
+    "description": "Import file CSV sử dụng tiêu đề cột tiếng Việt (ten, gia, mo_ta, image, danh_muc)",
+    "csvFile": "fr16_sample_vietnamese_headers.csv",
+    "expectedInserted": 1,
+    "expectedErrors": 0,
+    "expectedResult": "success"
+  },
+  {
+    "id": "TC04",
+    "type": "positive",
+    "description": "Import file CSV sử dụng tiêu đề cột tiếng Anh viết hoa (Name, Price, Description, ...)",
+    "csvFile": "fr16_sample_capitalized_headers.csv",
+    "expectedInserted": 1,
+    "expectedErrors": 0,
+    "expectedResult": "success"
+  },
+  {
+    "id": "TC05",
+    "type": "negative",
+    "description": "Import file CSV chứa dòng sản phẩm bị thiếu tên bắt buộc (báo lỗi theo từng dòng)",
+    "csvFile": "fr16_sample_missing_name.csv",
+    "expectedInserted": 0,
+    "expectedErrors": 1,
+    "expectedResult": "partial_or_error"
+  },
+  {
+    "id": "TC06",
+    "type": "negative",
+    "description": "Import file CSV rỗng chỉ có header (0 dòng dữ liệu, nút Import bị disabled)",
+    "csvFile": "fr16_sample_empty.csv",
+    "expectedInserted": 0,
+    "expectedErrors": 0,
+    "expectedResult": "button_disabled_or_empty_preview"
+  },
+  {
+    "id": "TC07",
+    "type": "edge",
+    "description": "Import sản phẩm chứa ký tự tiếng Việt Unicode và ký tự đặc biệt trong tên",
+    "csvFile": "fr16_sample_special_chars.csv",
+    "expectedInserted": 1,
+    "expectedErrors": 0,
+    "expectedResult": "success"
+  },
+  {
+    "id": "TC08",
+    "type": "edge",
+    "description": "Import file CSV lẫn lộn dòng hợp lệ và dòng không hợp lệ (báo cáo thành công một phần)",
+    "csvFile": "fr16_sample_mixed.csv",
+    "expectedInserted": 2,
+    "expectedErrors": 1,
+    "expectedResult": "partial_success"
+  },
+  {
+    "id": "TC09",
+    "type": "positive",
+    "description": "Kiểm tra link tải file CSV mẫu (template.csv) có đúng định dạng data-uri",
+    "csvFile": null,
+    "expectedResult": "template_link_valid"
+  },
+  {
+    "id": "TC10",
+    "type": "positive",
+    "description": "Kiểm tra bảng xem trước hiển thị đúng số dòng CSV trước khi bấm Import",
+    "csvFile": "fr16_sample_batch.csv",
+    "expectedRowCount": 3,
+    "expectedResult": "preview_matches"
+  },
+  {
+    "id": "TC11",
+    "type": "negative",
+    "description": "Kiểm tra yêu cầu xác thực đăng nhập trước khi vào tính năng Import CSV",
+    "csvFile": null,
+    "expectedResult": "unauthenticated_login_required"
+  },
+  {
+    "id": "TC12",
+    "type": "edge",
+    "description": "Kiểm tra sản phẩm sau khi import được lưu vĩnh viễn vào CSDL và hiển thị trong danh sách",
+    "csvFile": "fr16_sample_valid.csv",
+    "expectedInserted": 1,
+    "expectedErrors": 0,
+    "expectedResult": "persisted_in_table"
+  }
+]
