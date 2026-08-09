@@ -40,6 +40,8 @@ For each feature independently, perform and preserve a trace of these stages. Do
 
 Record the actual stage prompts and concise outcomes in one existing assignment log if the repository has one; otherwise create a single `docs/ai-conversion-log.md`. Include feature, stage, prompt, relevant inputs, output/decision, and affected files. Never fabricate tool transcripts or claim an execution that did not occur.
 
+If a prior assignment on the same SUT already produced manually-designed test-case documents and/or a bug list for these features (e.g. a previous homework's test-design deliverable), treat that pool as the primary input to the Design/Review stages instead of inventing cases from nothing — convert and select from it, prioritizing every case tied to an already-known bug so the automation has real defects to prove. State the source explicitly in the log.
+
 ## Design the test cases
 
 Treat “at least 12” as applying to each feature, not to the suite total. The minimum logical suite is therefore 36 cases before browser expansion.
@@ -80,6 +82,8 @@ Use typed data models in TypeScript and reject unsafe `any`. A generated test mu
 
 Avoid shared mutable state. Create unique entities where needed and clean them up. Use API or fixtures for deterministic setup when permitted, while keeping the feature behavior itself exercised through the intended UI unless the assignment says otherwise.
 
+**The backend is one long-lived process shared by every browser in the matrix.** A case that mutates shared seed data (an account's password/role, a catalog product's price, a global setting) and does not restore it will silently corrupt whichever browser's run happens to execute after it — including a *different* browser project in the same matrix, not just a later run. This is easy to miss because the mutating case itself may pass; the damage shows up as an unrelated failure in a case that looks unaffected. Treat any test whose whole point is proving a destructive action is unguarded (e.g. "user can delete their own account", "price can be tampered") as high-risk: create a disposable throwaway entity for it (a fresh registered account promoted via direct DB write if the public API can't create one with the needed role, a fresh product created via the API) rather than ever operating on a real seeded fixture the rest of the suite depends on.
+
 ## Implement maintainable Playwright tests
 
 Prefer TypeScript with `@playwright/test`. Reuse the repository's page objects and fixtures if they are sound; add abstractions only when they remove real duplication.
@@ -92,6 +96,8 @@ Use resilient, user-facing locators in this order:
 4. CSS only when no stable semantic locator exists.
 
 Avoid XPath, positional selectors, arbitrary sleeps, tests dependent on execution order, swallowed errors, and conditional assertions that silently skip verification. Use Playwright's web-first waiting and assertions.
+
+**Know whether the app under test keeps client-side state that a full navigation destroys.** A single-page app's cart/wizard/draft state held only in a JS framework's in-memory store (not `localStorage`, not synced to the backend) is wiped by any `page.goto()`, including a `goto()` to the exact URL the page is already on. If a case needs to preserve state built up over several prior steps, navigate between those steps by clicking an in-app link/button (a client-side route change) instead of calling `page.goto()` again; reserve a real navigation for the one case that is specifically testing whether state survives a reload.
 
 Across the suite use at least three distinct meaningful assertion patterns. Prefer more when justified, for example:
 
@@ -144,6 +150,8 @@ Configure the Playwright HTML reporter with `open: 'never'`, a per-run `outputFo
 Run by: <actual-student-id> | <feature-name> | <browser>
 ```
 
+If the assignment's anti-cheat rule requires an ISO timestamp alongside the student ID (common — it proves the report wasn't pre-generated once and copied), inject it as a post-processing step run right after each `playwright test` invocation, using the actual wall-clock time of that run, not a value computed ahead of time.
+
 Pass the feature, browser, student ID, and report directory through a small matrix runner or environment variables consumed by `playwright.config.ts`. Keep the exact label `Run by:`. Ensure repeated runs do not overwrite other matrix cells.
 
 Prefer a deterministic runner that iterates the nine cells and invokes Playwright once per cell. It must:
@@ -179,6 +187,8 @@ When a run fails, distinguish among:
 - environment or dependency failure.
 
 Repair automation and data defects. Preserve legitimate product failures and their evidence. Never delete tests, loosen assertions, add broad skips, or increase retries merely to obtain green output.
+
+**A green run on one browser is a hypothesis, not evidence.** Re-run the same suite on a second browser before trusting the first result. A suite that mutates shared state without cleanup can pass cleanly on the browser that runs first and only fail on whichever browser runs second, for a completely unrelated-looking reason (see the shared-mutable-state warning above) — this class of bug is invisible from a single-browser run by construction. Treat identical pass/fail counts across all three browsers as the actual completion signal, not merely "it ran three times."
 
 ## Completion gate
 
