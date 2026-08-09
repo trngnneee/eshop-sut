@@ -211,8 +211,17 @@ I use AI tools for the following tasks:
   AI đã cập nhật `hw04-automation/tests/fr19-user-management.spec.js` để thêm automation cho `TC-FR19-05` đến `TC-FR19-08`. Script bổ sung helper `registerViaApi`, `uniqueUser`, `authHeaders`, `deleteEndpoint`, `getAdminUsersViaApi`, `findUserByEmail`, `createUserAndFindInAdminList`, `deleteUserViaApi` và `createTemporaryAdmin`. Các test mới kiểm tra admin xóa user thường, user đã xóa biến mất khỏi API/UI, admin không được tự xóa chính tài khoản đang đăng nhập, và API list user từ chối request không token. Riêng TC-FR19-07 dùng admin tạm thay vì seed admin để tránh phá dữ liệu seed nếu SUT có bug self-delete. AI cũng cập nhật `data/fr19.json` thêm route `userProfile` và user template `selfDeleteAdmin`. Cú pháp spec/page object đã được kiểm tra bằng `node --check` và JSON đã được validate lại bằng `ConvertFrom-Json`.
 - **Accepted as-is / Modified:** Pending human review.
 
+### [24] FR-19 - Sinh automation cho TC-FR19-09 đến TC-FR19-14
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 17:04
+- **Prompt:**
+  > Chấp nhận. Tiếp tục sinh automation cho TC-FR19-09 đến TC-FR19-14
+- **Output:**
+  AI đã cập nhật `hw04-automation/tests/fr19-user-management.spec.js` để thêm automation cho `TC-FR19-09` đến `TC-FR19-14`, hoàn tất đủ 14 test case FR-19. Các test mới kiểm tra token không hợp lệ bị từ chối, user thường không được list user, user thường không được xóa user, UI admin từ chối đăng nhập bằng user thường, xóa một user không ảnh hưởng user khác, và UI không hiển thị password. Spec hiện dùng dữ liệu từ `data/fr19.json`, page object `AdminUserManagementPage`, helper API dùng email unique, và nhiều assertion pattern gồm `toBeVisible`, `toHaveText`, `toHaveCount`, `toContainText` phủ định, `response.status()`, `body.error`, `toHaveProperty`/`not.toHaveProperty`, `toBeTruthy`, `toBeUndefined` và `Array.isArray`. Cú pháp spec/page object đã được kiểm tra bằng `node --check`; spec hiện có đủ 14 test case theo `Select-String`.
+- **Accepted as-is / Modified:** Pending human review.
+
 ## Tool declaration summary
 
 | Tool | Used for | # of interactions |
 |---|---|---|
-| Codex (GPT-5) | Phân tích FR-05/FR-11/FR-19, thiết kế test case Markdown, tạo dữ liệu kiểm thử, tạo locator/page object, review selector, sinh automation theo từng test case, cập nhật skill và scaffold Playwright config | 23 |
+| Codex (GPT-5) | Phân tích FR-05/FR-11/FR-19, thiết kế test case Markdown, tạo dữ liệu kiểm thử, tạo locator/page object, review selector, sinh automation theo từng test case, cập nhật skill và scaffold Playwright config | 24 |

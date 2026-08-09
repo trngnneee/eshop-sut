@@ -172,7 +172,7 @@ Locator/page object chính:
 
 ### 4.4 Assertion Patterns Used
 
-Stage 4 hiện đã sinh automation cho `TC-FR19-01` đến `TC-FR19-08` trong `tests/fr19-user-management.spec.js`.
+Stage 4 đã sinh automation cho toàn bộ `TC-FR19-01` đến `TC-FR19-14` trong `tests/fr19-user-management.spec.js`.
 
 Assertion patterns hiện dùng:
 - `toBeVisible`: kiểm tra heading quản lý user, bảng user, header bảng và dòng user seed hiển thị.
@@ -182,6 +182,10 @@ Assertion patterns hiện dùng:
 - `expect(...).toHaveProperty(...)` và `not.toHaveProperty(...)`: kiểm tra object user có field bắt buộc và không lộ field `password`.
 - `expect(response.ok()).toBeTruthy()`: kiểm tra API setup/delete thành công ở các bước chuẩn bị.
 - `toHaveCount`: kiểm tra user đã xóa không còn xuất hiện trong UI.
+- `expect(body.error).toBe(...)`: kiểm tra lỗi API khi không token, token sai hoặc user thường gọi admin API.
+- `toContainText` dạng phủ định qua `not.toContainText`: kiểm tra bảng user không hiển thị password seed.
+
+Stage 4 script generation is complete. Test execution is pending after human review approval.
 
 ### 4.5 Human Review - What The AI Got Wrong / Missed
 

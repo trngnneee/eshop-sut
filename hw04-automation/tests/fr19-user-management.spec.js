@@ -309,4 +309,140 @@ test.describe("FR-19 - Quản lý người dùng admin", () => {
     expect(body.error).toBe(expectedData.expectedError);
     expect(Array.isArray(body)).toBeFalsy();
   });
+
+  test("TC-FR19-09 - API list user từ chối token không hợp lệ", async ({
+    request,
+  }) => {
+    const expectedData = fr19Data.api_invalid_token;
+    const response = await request.get(`${API_BASE_URL}${fr19Data.api.adminUsers}`, {
+      headers: authHeaders(expectedData.token),
+    });
+    const body = await response.json();
+
+    expect(response.status()).toBe(expectedData.expectedStatus);
+    expect(body.error).toBe(expectedData.expectedError);
+    expect(Array.isArray(body)).toBeFalsy();
+  });
+
+  test("TC-FR19-10 - User thường không được lấy danh sách user", async ({
+    request,
+  }) => {
+    const expectedData = fr19Data.api_non_admin_list_forbidden;
+    const nonAdminUser = uniqueUser(fr19Data.users.nonAdminActor, "tc10");
+
+    await registerViaApi(request, nonAdminUser);
+    const nonAdminLogin = await loginViaApi(request, nonAdminUser);
+
+    const response = await request.get(`${API_BASE_URL}${fr19Data.api.adminUsers}`, {
+      headers: authHeaders(nonAdminLogin.token),
+    });
+    const body = await response.json();
+
+    expect(response.status()).toBe(expectedData.expectedStatus);
+    expect(body.error).toBe(expectedData.expectedError);
+    expect(Array.isArray(body)).toBeFalsy();
+  });
+
+  test("TC-FR19-11 - User thường không được xóa user", async ({ request }) => {
+    const expectedData = fr19Data.api_non_admin_delete_forbidden;
+    const adminLogin = await loginViaApi(request, fr19Data.users.admin);
+    const nonAdminUser = uniqueUser(fr19Data.users.nonAdminActor, "tc11-actor");
+    const protectedUser = await createUserAndFindInAdminList(
+      request,
+      adminLogin.token,
+      fr19Data.users.protectedOtherUser,
+      "tc11-target",
+    );
+
+    await registerViaApi(request, nonAdminUser);
+    const nonAdminLogin = await loginViaApi(request, nonAdminUser);
+
+    const deleteResponse = await deleteUserViaApi(
+      request,
+      nonAdminLogin.token,
+      protectedUser.id,
+    );
+
+    expect(deleteResponse.status()).toBe(expectedData.expectedStatus);
+
+    const usersAfterDeleteAttempt = await getAdminUsersViaApi(
+      request,
+      adminLogin.token,
+    );
+    expect(findUserByEmail(usersAfterDeleteAttempt, protectedUser.email)).toBeTruthy();
+  });
+
+  test("TC-FR19-12 - UI admin từ chối đăng nhập bằng user thường", async ({
+    page,
+  }) => {
+    const expectedData = fr19Data.ui_non_admin_login_rejected;
+    const adminPage = new AdminUserManagementPage(page);
+
+    page.on("dialog", async (dialog) => {
+      expect(dialog.message()).toBe(expectedData.expectedAlert);
+      await dialog.accept();
+    });
+
+    await adminPage.goto(ADMIN_BASE_URL);
+    await adminPage.login(
+      fr19Data.users.seedUser.email,
+      fr19Data.users.seedUser.password,
+    );
+
+    await expect(adminPage.loginHeading).toBeVisible();
+    await expect(adminPage.userManagementHeading).toHaveCount(0);
+  });
+
+  test("TC-FR19-13 - Xóa một user không ảnh hưởng user khác", async ({
+    page,
+    request,
+  }) => {
+    const expectedData = fr19Data.delete_one_user_preserves_others;
+    const adminLogin = await loginViaApi(request, fr19Data.users.admin);
+    const targetUser = await createUserAndFindInAdminList(
+      request,
+      adminLogin.token,
+      fr19Data.users.deletableUser,
+      "tc13-target",
+    );
+    const protectedUser = await createUserAndFindInAdminList(
+      request,
+      adminLogin.token,
+      fr19Data.users.protectedOtherUser,
+      "tc13-protected",
+    );
+
+    const deleteResponse = await deleteUserViaApi(
+      request,
+      adminLogin.token,
+      targetUser.id,
+    );
+    expect(deleteResponse.ok()).toBeTruthy();
+
+    const usersAfterDelete = await getAdminUsersViaApi(
+      request,
+      adminLogin.token,
+    );
+    expect(findUserByEmail(usersAfterDelete, targetUser.email)).toBeUndefined();
+    expect(findUserByEmail(usersAfterDelete, protectedUser.email)).toBeTruthy();
+
+    const adminPage = await openAdminUserManagement(page);
+    await expect(adminPage.rowByEmail(targetUser.email)).toHaveCount(0);
+    if (expectedData.expectedPreserved) {
+      await expect(adminPage.rowByEmail(protectedUser.email)).toBeVisible();
+    }
+  });
+
+  test("TC-FR19-14 - UI không hiển thị password", async ({ page }) => {
+    const expectedData = fr19Data.ui_no_password_visible;
+    const adminPage = await openAdminUserManagement(page);
+
+    for (const forbiddenHeaderText of expectedData.forbiddenHeaderTexts) {
+      await expect(adminPage.headerByName(forbiddenHeaderText)).toHaveCount(0);
+    }
+
+    for (const forbiddenCellValue of expectedData.forbiddenCellValues) {
+      await expect(adminPage.usersTable).not.toContainText(forbiddenCellValue);
+    }
+  });
 });
