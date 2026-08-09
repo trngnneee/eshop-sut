@@ -240,3 +240,6 @@ for (const tc of cases) {
     });
   });
 }
+
+// Counting-commit note: git-commit-log refreshed 2026-08-09
+
