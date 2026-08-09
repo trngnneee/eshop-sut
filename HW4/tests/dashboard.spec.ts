@@ -74,6 +74,9 @@ async function readMetricNumber(page: Page, heading: string): Promise<number> {
   return parseFloat(cleaned);
 }
 
+// Assertion patterns in this file: toBeVisible (dialog/login-form checks), toContain
+// (dialog message text), and expect.poll(...).toBe (exact numeric equality on the two
+// rendered metric cards — the primary oracle for the revenue-doubling bug).
 test.describe('FR-13 Admin Dashboard metrics (data-driven)', () => {
   for (const c of dataCases) {
     test(`${c.caseId}: ${c.description}`, async ({ page, request }, testInfo) => {

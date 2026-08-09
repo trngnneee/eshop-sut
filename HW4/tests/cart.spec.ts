@@ -109,6 +109,11 @@ function cartRow(page: Page, productName: string) {
 
 // ---------------------------------------------------------------------------------
 // Shape A — Cart page UI/UX (32 cases)
+//
+// Assertion patterns demonstrated across this file's switch cases: toBeVisible (most
+// checks), toHaveCount (row/product counting), toContainText (price/subtotal text),
+// toBeDisabled (checkout guard), toHaveText (exact quantity cell value), and plain
+// `expect(x).toBe(y)` on captured dialog state/badge text (not.toBe for change checks).
 // ---------------------------------------------------------------------------------
 test.describe('FR-07 Shopping Cart UI', () => {
   for (const c of uiCases) {
