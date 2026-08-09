@@ -5,12 +5,15 @@ nền / mất task tracking) và cần một phiên mới tiếp tục đúng ch
 
 ---
 
+đã
+
 ## PROMPT
 
 Tiếp tục thực hiện HW04 (Automation Testing) cho repo EShop tại
 `C:\My Workspace\HCMUS\Test\Week 3\Hw2`, branch `HW4-Khoa`, Student ID **23127207**.
 
 **Bối cảnh đã xác lập (không cần phân tích lại):**
+
 - 3 tính năng tự động hóa (kế thừa từ HW02, branch `HW2-Khoa`): **FR-02** Login & Lockout (Pool A),
   **FR-07** Shopping Cart (Pool B), **FR-13** Admin Dashboard (Pool C).
 - Playwright + TypeScript, chạy 3 browser (chromium/firefox/webkit) qua
@@ -22,6 +25,7 @@ Tiếp tục thực hiện HW04 (Automation Testing) cho repo EShop tại
 - Plan chi tiết đầy đủ tại: `C:\Users\THIEN DUC\.claude\plans\d-a-theo-file-hw4-docs-2026-hw4-automati-distributed-hippo.md`
 
 **Ràng buộc môi trường quan trọng — LUÔN làm bước này trước khi chạy test:**
+
 1. Port 3000 trên máy này có thể bị 1 tiến trình khác (`ship-price`, không liên quan) chiếm dụng.
    Nếu vậy: khởi động backend bằng `PORT=3001 npm start` (trong `backend/`), và dùng
    `API_BASE_URL=http://localhost:3001` khi chạy Playwright test. Đây CHỈ là workaround cục bộ
@@ -38,6 +42,7 @@ Tiếp tục thực hiện HW04 (Automation Testing) cho repo EShop tại
    `page.goto()` lần thứ 2 trong cùng 1 test.
 
 **Trạng thái tiến độ (theo TaskList — dùng TaskList để xem lại):**
+
 - ✅ Phase 0 (scaffold) — xong, đã commit.
 - ✅ Phase 1a (FR-02 Login, 63 case, 3 browser) — xong, đã commit
   (`feat(hw4): automate FR-02 Login & Lockout with 63 data-driven cases`). Kết quả: 46 passed /
@@ -62,6 +67,7 @@ Tiếp tục thực hiện HW04 (Automation Testing) cho repo EShop tại
 - ⏳ Phase 4 (đóng gói zip nộp bài) — chưa làm.
 
 **Việc cần làm tiếp theo ngay:**
+
 1. Khởi động lại backend/frontend-web/frontend-admin (theo ràng buộc #1–#2).
 2. Chạy `cart.spec.ts` + `cart-api.spec.ts` trên chromium trước (verify không còn lỗi do
    page.goto() làm mất cart state), sửa tiếp nếu còn sai, rồi chạy đủ 3 browser.

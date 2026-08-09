@@ -1,5 +1,5 @@
 import { test, expect, type APIRequestContext } from '@playwright/test';
-import { API_BASE_URL, ensureFreshAccount, apiLogin } from './utils/api';
+import { API_BASE_URL, ensureFreshAccount, apiLogin, loginAdminToken } from './utils/api';
 import { loadJsonArray } from './utils/data';
 
 const STUDENT_ID = '23127207';
@@ -211,6 +211,41 @@ test.describe('FR-07 Cart API contract', () => {
           const cart: CartItem[] = await (await request.get(`${API_BASE_URL}/api/cart`, { headers: auth })).json();
           expect(cart).toHaveLength(items.length);
           expect(items.every((item) => cart.some((c2) => c2.id === item.id))).toBe(true);
+          break;
+        }
+        case 'unauthenticated-order-view-blocked': {
+          // Checkout as the "victim" to create a real order with private data in it
+          // (shipping_address), then try to read it back via GET /api/orders/:id with
+          // NO Authorization header at all — this route has no authenticateToken
+          // middleware and no ownership check, so anyone who can guess/enumerate an
+          // order id can currently read any customer's shipping address and order total.
+          const checkoutRes = await request.post(`${API_BASE_URL}/api/checkout`, {
+            headers: auth,
+            data: { total_amount: 555000, shipping_address: `Secret Address ${c.caseId}` },
+          });
+          const { orderId } = await checkoutRes.json();
+          const unauthRes = await request.get(`${API_BASE_URL}/api/orders/${orderId}`);
+          // Spec-conformant expectation: viewing an order requires authentication and
+          // ownership (or admin), not just knowing/guessing its numeric id.
+          expect([401, 403]).toContain(unauthRes.status());
+          break;
+        }
+        case 'cancel-shipping-order-blocked': {
+          const checkoutRes = await request.post(`${API_BASE_URL}/api/checkout`, {
+            headers: auth,
+            data: { total_amount: 200000, shipping_address: 'N/A' },
+          });
+          const { orderId } = await checkoutRes.json();
+          const adminTok = await loginAdminToken(request);
+          const adminAuth = { Authorization: `Bearer ${adminTok}` };
+          await request.put(`${API_BASE_URL}/api/admin/orders/${orderId}/status`, { headers: adminAuth, data: { status: 'confirmed' } });
+          await request.put(`${API_BASE_URL}/api/admin/orders/${orderId}/status`, { headers: adminAuth, data: { status: 'shipping' } });
+          const cancelRes = await request.put(`${API_BASE_URL}/api/orders/${orderId}/cancel`, { headers: auth });
+          // Spec-conformant expectation: once an order is out for shipping, the customer
+          // should no longer be able to self-cancel it (only pending/confirmed orders
+          // should be cancelable) — the SUT's own source comment on this handler agrees
+          // ("Lẽ ra phải là: if (order.status !== 'pending' && order.status !== 'confirmed')").
+          expect(cancelRes.status()).toBe(400);
           break;
         }
         default:

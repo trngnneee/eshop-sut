@@ -2,7 +2,7 @@
 
 **Student ID:** 23127207 · **Feature:** FR-07 — Pool B  
 **Spec files:** `tests/cart.spec.ts`, `tests/cart-api.spec.ts`  
-**Data files:** `test-data/cart-ui-cases.json` (42), `test-data/cart-edge-cases.json` (5), `test-data/cart-api-cases.json` (28) — **75 test cases total**
+**Data files:** `test-data/cart-ui-cases.json` (42), `test-data/cart-edge-cases.json` (5), `test-data/cart-api-cases.json` (30) — **77 test cases total**
 
 ## 1. Scope and conversion from HW02
 
@@ -95,6 +95,30 @@ also passed because `CartContext` merges by product ID. This distinction is usef
 | Two nonnumeric UI values were not injectable through the real control | `TC-CART-020`, `021` | Playwright fails before the assertion because HTML `input[type=number]` rejects `abc` and `!@#`. These are automation/data-model limitations, not valid SUT failures. The API type-validation case remains the stronger oracle for this boundary. |
 | **Cart is not synced across browser tabs** | `TC-CART-050` | Each tab's `CartProvider` is an independent in-memory instance with no `localStorage`/`BroadcastChannel`/server sync — a second tab of the same logged-in session sees an empty cart. New, distinct from the reload/re-login persistence gap above (this is *concurrent* tabs, not sequential sessions). Filed as [#328](https://github.com/trngnneee/eshop-sut/issues/328). |
 
+## 3d. Fifth pass — deliberate bug hunt in checkout/order endpoints (77 cases total)
+
+The same deliberate-source-review technique applied to Login's register/forgot-password gap
+(see `ai-review-login.md` §3c) was repeated here against `/api/checkout`, `/api/orders/:id`, and
+`/api/orders/:id/cancel` — parts of the checkout journey that only the UI-level
+`checkout-clears-cart`/`checkout-editable-total-tampering` cases had ever touched, never at the
+API contract level. Two new bugs were found and confirmed live before being written up:
+
+| ID | Severity | Finding | Case |
+|---|---|---|---|
+| NEW-BUG-FR07-05 | **High** | `GET /api/orders/:id` has **no `authenticateToken` middleware and no ownership check** — unlike every other `/api/orders*` route. Anyone who can guess/enumerate a numeric order id can read that order's shipping address, total, and status without logging in as anyone (IDOR, OWASP A01) | `TC-CART-095` |
+| NEW-BUG-FR07-06 | Medium | A customer can self-cancel an order that is already `shipping`; the cancel handler only blocks `delivered`/`canceled`. The SUT's own source comment on this handler documents the intended, stricter condition (`!== 'pending' && !== 'confirmed'`), confirming this is a known-wrong condition, not an ambiguous design choice | `TC-CART-096` |
+
+Both filed as real GitHub Issues (#336, #337) with screenshot evidence.
+
+**One related observation, deliberately not filed as a bug:** `POST /api/apply-coupon` skips its
+per-user usage-limit check entirely when `user_id` is omitted from the request body, and the
+route has no `authenticateToken` — an unauthenticated caller can apply a coupon past its
+`max_uses_per_user` limit indefinitely simply by never sending `user_id`. This is a real defect,
+but coupons are their own feature area outside FR-07's boundary as scoped for this assignment
+(the same reasoning already applied to the unauthenticated `POST /api/products` route in §3 —
+Product Management is FR-15, not this feature), so it is noted here rather than turned into a
+`TC-CART-*` case or a new GitHub Issue.
+
 ## 3b. Second pass — deeper coverage (72 cases total)
 
 After reviewing the first pass, 9 more cases were added to close specific gaps rather than pad the
@@ -147,7 +171,7 @@ positive.
 
 ## 6. Review conclusion
 
-All three browsers now produce the **exact same result: 39 passed / 36 failed / 75 total**,
+All three browsers now produce the **exact same result: 39 passed / 38 failed / 77 total**,
 confirmed after the test-isolation fix in Section 3. Cross-browser identity (rather than
 coincidence) is the useful signal here: every failure is a server-side or React-state defect, not
 a browser-rendering difference, which is consistent with a Vietnamese e-commerce SPA whose bugs

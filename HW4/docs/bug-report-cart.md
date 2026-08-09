@@ -1,8 +1,8 @@
 # Bug Report — FR-07 (Shopping Cart)
 
 **Student ID:** 23127207 · **Reproduced by:** `tests/cart.spec.ts`, `tests/cart-api.spec.ts`  
-**Execution evidence:** Chromium, Firefox, and WebKit each ran the full 75-case suite and produced
-the identical result **39 passed / 36 failed / 75**. Reports:
+**Execution evidence:** Chromium, Firefox, and WebKit each ran the full 77-case suite and produced
+the identical result **39 passed / 38 failed / 77**. Reports:
 `HW4/reports/cart/{chromium,firefox,webkit}/index.html`, each labeled `Run by: 23127207` with an
 ISO timestamp.
 
@@ -10,9 +10,9 @@ An earlier run surfaced a test-isolation bug (two edge cases mutated the shared 
 catalog without restoring it, contaminating a later browser's run with stale data) — fixed by
 switching those cases to a disposable, self-cleaning product; see `docs/ai-review-cart.md` §3.
 
-> **GitHub Issues status:** all 4 new findings below have been filed as real GitHub Issues
-> (#322–#324, #328) with screenshot evidence attached. The existing HW02 issue links for
-> previously-known bugs are in `docs/hw02-reference/tests/issues_list.txt`.
+> **GitHub Issues status:** all 6 new findings below have been filed as real GitHub Issues
+> (#322–#324, #328, #336–#337) with screenshot evidence attached. The existing HW02 issue links
+> for previously-known bugs are in `docs/hw02-reference/tests/issues_list.txt`.
 
 ## A. Previously known bugs reproduced
 
@@ -91,6 +91,30 @@ switching those cases to a disposable, self-cleaning product; see `docs/ai-revie
   two tabs open concurrently in the same session).
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/328 (screenshot attached)
 
+### NEW-BUG-FR07-05 — `GET /api/orders/:id` has no authentication or ownership check (IDOR)
+
+- **Severity:** High (broken access control — OWASP A01)
+- **Cases:** `TC-CART-095`
+- **Steps:** Check out as any user to get a real `orderId`, then `GET /api/orders/:id` with no
+  `Authorization` header at all.
+- **Expected:** `401`/`403` — viewing an order requires authentication and ownership (or admin).
+- **Actual:** `200` with the full order body (`shipping_address`, `total_amount`, `status`,
+  `user_id`). Unlike every other `/api/orders*` route, this one has no `authenticateToken`
+  middleware and no ownership comparison — any numeric id can be enumerated.
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/336 (screenshot attached)
+
+### NEW-BUG-FR07-06 — Customer can cancel an order that is already `shipping`
+
+- **Severity:** Medium (broken state guard)
+- **Cases:** `TC-CART-096`
+- **Steps:** Check out, have an admin advance the order to `shipping`, then call
+  `PUT /api/orders/:id/cancel` with the owning customer's own token.
+- **Expected:** `400` — only `pending`/`confirmed` orders should be customer-cancelable.
+- **Actual:** `200 Order canceled successfully`. The handler only blocks `delivered`/`canceled`;
+  its own source comment documents the intended, stricter condition (`!== 'pending' && !==
+  'confirmed'`), confirming this is a known-wrong condition left in place.
+- **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/337 (screenshot attached)
+
 ## C. Testability note — not filed as a product bug
 
 `TC-CART-020` and `TC-CART-021` attempt `abc` and `!@#` through an HTML
@@ -101,6 +125,9 @@ API case `TC-CART-066` covers string quantity at the server boundary without thi
 
 ## D. Filing note
 
-The 3 new findings above are intentionally numbered separately from the known HW02 `BUG-FR07-B-*`
-IDs and have been filed as GitHub Issues #322–#324, each with a screenshot generated from a real
-failing run attached as evidence.
+The 6 new findings above are intentionally numbered separately from the known HW02 `BUG-FR07-B-*`
+IDs and have been filed as GitHub Issues #322–#324, #328, #336–#337, each with a screenshot
+generated from a real failing run attached as evidence. `NEW-BUG-FR07-05` and `-06` were found by
+a deliberate source review of the checkout/order endpoints (`ai-review-cart.md` §3d) rather than
+by adding more UI-level coverage — a related coupon-limit-bypass observation was found the same
+way but deliberately *not* filed here, since coupons are outside FR-07's scope (see §3d).

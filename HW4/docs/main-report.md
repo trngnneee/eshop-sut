@@ -6,19 +6,20 @@ FR-13 Admin Dashboard (Pool C)
 
 ## 1. Summary
 
-195 data-driven Playwright test cases were generated with AI, reviewed, corrected, and executed
-across Chromium/Firefox/WebKit (585 browser runs total), producing **the same pass/fail count on
+197 data-driven Playwright test cases were generated with AI, reviewed, corrected, and executed
+across Chromium/Firefox/WebKit (591 browser runs total), producing **the same pass/fail count on
 all three engines for every feature** — strong evidence that failures are real application/data
-defects, not browser flakiness. 114 cases passed; 81 failed, reproducing 30 already-known HW02
-bugs and surfacing 15 new ones, including 4 High-severity security issues: a plaintext-password
+defects, not browser flakiness. 114 cases passed; 83 failed, reproducing 30 already-known HW02
+bugs and surfacing 17 new ones, including 5 High-severity security issues: a plaintext-password
 leak in the login API, unreachable duplicate-email ghost accounts, zero-validation empty
-passwords, and a brute-forceable 4-digit password-reset token. All 15 new bugs are filed as real
-GitHub Issues (#318–#329, #333–#335) with screenshot evidence.
+passwords, a brute-forceable 4-digit password-reset token, and an unauthenticated order-viewing
+IDOR. All 17 new bugs are filed as real GitHub Issues (#318–#329, #333–#337) with screenshot
+evidence.
 
 | Feature | Cases | Passed | Failed | Report |
 |---|---:|---:|---:|---|
 | FR-02 Login | 72 | 51 | 21 | `reports/login/{chromium,firefox,webkit}/index.html` |
-| FR-07 Cart | 75 | 39 | 36 | `reports/cart/{chromium,firefox,webkit}/index.html` |
+| FR-07 Cart | 77 | 39 | 38 | `reports/cart/{chromium,firefox,webkit}/index.html` |
 | FR-13 Dashboard | 48 | 24 | 24 | `reports/dashboard/{chromium,firefox,webkit}/index.html` |
 
 ## 2. Process (Task 1 requirement: AI-first, step by step)

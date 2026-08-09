@@ -1,4 +1,6 @@
 === Full git log ===
+689dfbd docs(hw4): add evidence screenshots for 2 new checkout/order bugs
+2540ef0 feat(hw4): fourth pass — deliberate bug hunt in register/forgot-password (69->72 Login cases)
 e3f749c docs(hw4): add evidence screenshots for 3 new bugs found in register/forgot-password
 4ec07a2 docs(hw4): regenerate commit_log.txt with the third coverage-pass commit
 5bc9af4 feat(hw4): third coverage pass — Login session-lifecycle + Cart/Dashboard targeted cases
@@ -66,7 +68,8 @@ b4a0df5 Update Backend URL call cho FE
 85af3ba first upload
 2f9bf2b Initial commit
 
-=== Commits touching .spec.ts files (10 total, min 8 required) ===
+=== Commits touching .spec.ts files (11 total, min 8 required) ===
+2540ef0 feat(hw4): fourth pass — deliberate bug hunt in register/forgot-password (69->72 Login cases)
 5bc9af4 feat(hw4): third coverage pass — Login session-lifecycle + Cart/Dashboard targeted cases
 873fbc9 feat(hw4): deepen Cart and Dashboard coverage after review (72/46 cases)
 9f1a569 docs(hw4): label assertion patterns in cart.spec.ts and dashboard.spec.ts

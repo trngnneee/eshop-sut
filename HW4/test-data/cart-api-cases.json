@@ -26,5 +26,7 @@
   { "caseId": "TC-CART-085", "category": "api-validation", "description": "GET /api/cart với token sai định dạng (không phải JWT) phải bị từ chối gọn gàng, không 500", "action": "get-cart-malformed-token" },
   { "caseId": "TC-CART-086", "category": "api-security", "description": "Gửi request cập nhật/xóa item không thuộc giỏ hàng của user hiện tại", "action": "cross-user-item-access" },
   { "caseId": "TC-CART-090", "category": "api-validation", "description": "POST /api/cart với quantity âm VÀ price âm cùng lúc (compound invalid) vẫn bị backend chấp nhận thay vì từ chối cả hai", "action": "post-compound-invalid" },
-  { "caseId": "TC-CART-091", "category": "api-consistency", "description": "Thêm nhiều sản phẩm khác nhau liên tiếp, GET /api/cart phải trả về đúng và đủ tất cả item theo thứ tự đã thêm", "action": "post-multiple-order-consistency" }
+  { "caseId": "TC-CART-091", "category": "api-consistency", "description": "Thêm nhiều sản phẩm khác nhau liên tiếp, GET /api/cart phải trả về đúng và đủ tất cả item theo thứ tự đã thêm", "action": "post-multiple-order-consistency" },
+  { "caseId": "TC-CART-095", "category": "api-security", "description": "GET /api/orders/:id KHÔNG được cho phép xem đơn hàng của người khác khi không có token / không phải chủ đơn (IDOR)", "action": "unauthenticated-order-view-blocked" },
+  { "caseId": "TC-CART-096", "category": "api-state-guard", "description": "Đơn hàng đã ở trạng thái shipping thì khách hàng KHÔNG được phép tự hủy (PUT /api/orders/:id/cancel)", "action": "cancel-shipping-order-blocked" }
 ]
