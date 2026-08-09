@@ -82,16 +82,18 @@ Locator/page object chính:
 
 ### 3.4 Assertion Patterns Used
 
-Stage 4 partial generated for `TC-FR11-01` to `TC-FR11-04` in `tests/fr11-order-history.spec.js`.
+Stage 4 generated for all FR-11 test cases, `TC-FR11-01` to `TC-FR11-14`, in `tests/fr11-order-history.spec.js`.
 
 Assertion patterns currently used:
 - `toBeVisible`: kiểm tra heading, bảng lịch sử và các dòng đơn hàng xuất hiện.
 - `toHaveText`: kiểm tra mã đơn dạng `#<id>` và tổng tiền đúng expected text.
+- `toContainText`: kiểm tra label trạng thái tiếng Việt trong badge.
+- `toHaveClass`: kiểm tra class màu của badge trạng thái.
 - `not.toContainText`: kiểm tra tổng tiền không dùng đơn vị cấm `VND`.
 - `expect(...).toBeGreaterThanOrEqual(...)`: kiểm tra số dòng đơn tối thiểu.
 - `expect.soft(...).not.toBe("")`: kiểm tra các cell bắt buộc không rỗng mà vẫn gom lỗi theo từng dòng.
 
-Remaining Stage 4 work: generate automation for `TC-FR11-05` to `TC-FR11-14`.
+Stage 4 script generation is complete. Test execution is pending after human review approval.
 
 ### 3.5 Human Review - What The AI Got Wrong / Missed
 

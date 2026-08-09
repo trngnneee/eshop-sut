@@ -127,7 +127,7 @@ I use AI tools for the following tasks:
   > tiếp tục Stage 3: tạo locators/page object cho FR-11
 - **Output:**
   AI đã đọc `frontend-web/src/pages/Profile.jsx`, `hw04-automation/data/fr11.json` và page object FR-05 hiện có, sau đó tạo `hw04-automation/tests/pages/OrderHistoryPage.js`. Page object gồm locator/handler cho trang `/profile`, thông báo chưa đăng nhập, heading lịch sử đơn hàng, empty state, bảng đơn hàng, header, dòng đơn, cell mã đơn/ngày/tổng tiền/trạng thái/thao tác, badge trạng thái, nút hủy đơn và helper chờ response `GET /api/orders/my-orders`. AI cũng tạo `hw04-automation/docs/locator-review/FR-11-locators.md` để ghi rõ độ ổn định của từng selector và rủi ro do frontend chưa có `data-testid`. Cú pháp JS đã được kiểm tra bằng `node --check`.
-- **Accepted as-is / Modified:** Pending human review.
+- **Accepted as-is / Modified:** Accepted by human review.
 
 ### [15] FR-11 - Sinh automation cho TC-FR11-01 đến TC-FR11-04
 - **Tool:** Codex (GPT-5)
@@ -136,10 +136,29 @@ I use AI tools for the following tasks:
   > tiếp tục Stage 4: sinh automation script cho test case FR-11 từ 01->04
 - **Output:**
   AI đã tạo `hw04-automation/tests/fr11-order-history.spec.js` với automation cho `TC-FR11-01` đến `TC-FR11-04`. Spec dùng `OrderHistoryPage` và `data/fr11.json`, có helper login qua API, tạo order qua `POST /api/checkout`, set token vào localStorage, mở `/profile`, chờ `GET /api/orders/my-orders`, rồi assert bảng lịch sử, header/cell bắt buộc, mã đơn dạng `#<id>` và format tổng tiền. Script hiện dùng nhiều assertion pattern: `toBeVisible`, `toHaveText`, `not.toContainText`, `toBeGreaterThanOrEqual`, và `expect.soft(...).not.toBe("")`. Cú pháp spec và page object đã được kiểm tra bằng `node --check`.
+- **Accepted as-is / Modified:** Accepted by human review.
+
+### [16] FR-11 - Sinh automation cho TC-FR11-05 đến TC-FR11-08
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 15:14
+- **Prompt:**
+  > tiếp tục Stage 4: sinh automation script cho test case FR-11 từ 05->08
+- **Output:**
+  AI đã cập nhật `hw04-automation/tests/fr11-order-history.spec.js` để thêm automation cho `TC-FR11-05` đến `TC-FR11-08`. Script bổ sung helper `updateOrderStatusViaApi`, `moveOrderToTargetStatus`, `primaryFixtureByKey`, `createPrimaryOrderForStatus` và `expectStatusBadge`. Các test mới tạo đơn cho user chính, dùng token admin để chuyển trạng thái theo state machine hợp lệ (`pending`, `confirmed`, `shipping`, `delivered`), mở `/profile`, rồi assert badge trạng thái có label tiếng Việt và class màu mong đợi từ `data/fr11.json`. Cú pháp spec đã được kiểm tra bằng `node --check`.
+- **Accepted as-is / Modified:** Accepted by human review.
+
+### [17] FR-11 - Sinh automation cho TC-FR11-09 đến TC-FR11-14
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 15:24
+- **Prompt:**
+  > Tôi chấp nhận sau khi review.
+  > Tiếp tục Stage 4: sinh automation script cho test case FR-11 từ 09->14
+- **Output:**
+  AI đã cập nhật `hw04-automation/tests/fr11-order-history.spec.js` để thêm automation cho `TC-FR11-09` đến `TC-FR11-14`, hoàn tất đủ 14 test case FR-11. Script bổ sung helper đăng ký user động `registerViaApi`, `uniqueUser`, `createOrderForNewUser` và `openProfileWithoutToken`. Các test mới kiểm tra trạng thái `canceled`, isolation không thấy đơn user khác, UI chưa đăng nhập, API không token trả `401`, API token sai trả `403`, và empty state cho user mới chưa có đơn. Spec hiện có đủ 14 test case và cú pháp đã được kiểm tra bằng `node --check`.
 - **Accepted as-is / Modified:** Pending human review.
 
 ## Tool declaration summary
 
 | Tool | Used for | # of interactions |
 |---|---|---|
-| Codex (GPT-5) | Phân tích FR-05/FR-11, thiết kế test case Markdown, tạo dữ liệu kiểm thử, tạo locator/page object, review selector, sinh automation theo từng test case, cập nhật skill và scaffold Playwright config | 15 |
+| Codex (GPT-5) | Phân tích FR-05/FR-11, thiết kế test case Markdown, tạo dữ liệu kiểm thử, tạo locator/page object, review selector, sinh automation theo từng test case, cập nhật skill và scaffold Playwright config | 17 |

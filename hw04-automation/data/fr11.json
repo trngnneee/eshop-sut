@@ -131,15 +131,15 @@
     "checks": [
       {
         "fixtureRef": "primary_pending",
-        "expectedAmountText": "125.000 ₫"
+        "expectedAmountText": "125,000 ₫"
       },
       {
         "fixtureRef": "primary_confirmed",
-        "expectedAmountText": "250.000 ₫"
+        "expectedAmountText": "250,000 ₫"
       },
       {
         "fixtureRef": "primary_shipping",
-        "expectedAmountText": "375.000 ₫"
+        "expectedAmountText": "375,000 ₫"
       }
     ],
     "forbiddenUnitText": "VND"

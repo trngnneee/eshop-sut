@@ -15,7 +15,7 @@
 Error: expect(locator).toHaveText(expected) failed
 
 Locator:  locator('div.border.rounded.shadow-sm.p-4.flex.flex-col.bg-white').filter({ has: getByRole('heading', { name: 'iPhone 15 Pro Max', level: 2 }) }).locator('p.text-red-500').first()
-Expected: "30.000.000 ₫"
+Expected: "30,000,000 ₫"
 Received: "30,000,000 VND"
 Timeout:  5000ms
 
