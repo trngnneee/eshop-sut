@@ -1,4 +1,4 @@
-# [BUG][Module] Tóm tắt lỗi ngắn gọn
+﻿# [BUG][Module] Tóm tắt lỗi ngắn gọn
 
 
 ## Found by Test Case

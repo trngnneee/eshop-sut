@@ -1,4 +1,4 @@
-# Locator Review - FR-19 Quản Lý Người Dùng Admin
+﻿# Locator Review - FR-19 Quản Lý Người Dùng Admin
 
 Nguồn DOM đã đọc: `frontend-admin/src/App.jsx`.
 

@@ -1,4 +1,4 @@
-class OrderHistoryPage {
+﻿class OrderHistoryPage {
   constructor(page) {
     this.page = page;
 

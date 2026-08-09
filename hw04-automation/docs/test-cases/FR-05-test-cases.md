@@ -1,4 +1,4 @@
-# Bộ Test Case FR-05 - Xem Danh Sách Và Tìm Kiếm Sản Phẩm
+﻿# Bộ Test Case FR-05 - Xem Danh Sách Và Tìm Kiếm Sản Phẩm
 
 Tính năng: FR-05 - Xem danh sách và tìm kiếm sản phẩm  
 Phạm vi: Trang chủ web, danh sách sản phẩm dạng lưới và chức năng tìm kiếm theo tên sản phẩm  
@@ -33,10 +33,13 @@ Nguồn đặc tả: `README.md`, mục FR-05
 | TC-FR05-12 | Khả năng truy cập | Ảnh sản phẩm có alt text mô tả | Trang chủ đã tải xong danh sách sản phẩm | 1. Mở trang chủ<br>2. Kiểm tra tất cả ảnh sản phẩm | data/fr05.json: all_products | Mỗi ảnh sản phẩm có `alt` khác rỗng và mô tả đúng sản phẩm | Trung bình | Chưa chạy |
 | TC-FR05-13 | HTML ngữ nghĩa | Trang chủ chỉ có đúng một thẻ h1 | Trang chủ đã tải xong danh sách sản phẩm | 1. Mở trang chủ<br>2. Đếm số thẻ `<h1>` trong document | data/fr05.json: h1_rule | Trang chỉ có đúng một thẻ `<h1>` | Trung bình | Chưa chạy |
 | TC-FR05-14 | Trạng thái tải | Hiển thị loading khi đang tải dữ liệu sản phẩm | Có thể delay hoặc intercept response của API sản phẩm | 1. Delay response API sản phẩm<br>2. Mở trang chủ<br>3. Quan sát UI trước khi response hoàn tất | data/fr05.json: delayed_api | Loading indicator hiển thị trong lúc chờ dữ liệu | Trung bình | Chưa chạy |
+| TC-FR05-15 | Bảo mật/biên | Payload `<image onerror>` không được render hoặc thực thi | Trang chủ đang mở | 1. Nhập payload `<image src=1 href=1 onerror="javascript:alert(1)"></image>`<br>2. Gửi form tìm kiếm<br>3. Quan sát dialog và DOM summary | data/fr05.json: image_onerror_payload | Payload hiển thị như text; không có dialog `alert(1)`; không có element `image`/`img[src="1"]` được chèn vào summary | Nghiêm trọng | Chưa chạy |
+| TC-FR05-16 | Biên | Tìm kiếm bằng từ khóa rất dài | Trang chủ đang mở | 1. Nhập keyword dài trong data file<br>2. Gửi form tìm kiếm<br>3. Quan sát summary, error panel và danh sách kết quả | data/fr05.json: long_keyword | Không lỗi UI/API; không hiện error panel; summary hiển thị keyword an toàn; không có sản phẩm phù hợp | Trung bình | Chưa chạy |
+| TC-FR05-17 | Biên | Tìm kiếm bằng từ khóa Unicode/emoji | Trang chủ đang mở | 1. Nhập keyword Unicode/emoji<br>2. Gửi form tìm kiếm<br>3. Quan sát summary, error panel và danh sách kết quả | data/fr05.json: unicode_keyword | Không lỗi UI/API; summary hiển thị đúng Unicode/emoji; không có sản phẩm phù hợp nếu không có match | Trung bình | Chưa chạy |
 
 ## Checklist Bao Phủ
 
-- [x] Có ít nhất 12 test case cho tính năng này
+- [x] Có ít nhất 12 test case cho tính năng này; sau review bổ sung thành 17 test case
 - [x] Có ít nhất một test case tích cực
 - [x] Có ít nhất một test case tiêu cực
 - [x] Có ít nhất một test case biên

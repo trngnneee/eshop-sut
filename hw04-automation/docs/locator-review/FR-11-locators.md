@@ -1,4 +1,4 @@
-# Locator Review - FR-11 Order History View
+﻿# Locator Review - FR-11 Order History View
 
 Nguồn DOM đã đọc: `frontend-web/src/pages/Profile.jsx`.
 

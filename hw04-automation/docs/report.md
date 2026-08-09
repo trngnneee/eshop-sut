@@ -1,4 +1,4 @@
-# HW04 - Automation Testing Report
+﻿# HW04 - Automation Testing Report
 
 **Student ID:** {{STUDENT_ID}}
 **Repository:** {{GITHUB_REPO_URL}}
@@ -17,6 +17,26 @@
 ## 2. Feature A - FR-05 Product Listing And Search
 
 Các test case và automation hiện đang nằm trong `docs/test-cases/`, `data/fr05.json`, `tests/pages/ProductListingPage.js`, và `tests/fr05-listing.spec.js`.
+
+
+### 2.1 Test Case Update After Review
+
+Sau review, FR-05 được bổ sung thêm 3 edge/security test case, nâng tổng số case từ 14 lên 17:
+
+| ID | Type | Description | Expected Result |
+|---|---|---|---|
+| TC-FR05-15 | Security/Edge | Tìm kiếm bằng payload `<image src=1 href=1 onerror="javascript:alert(1)"></image>` | Payload hiển thị như text, không tạo element `image`/`img[src="1"]`, không bật dialog `alert(1)` |
+| TC-FR05-16 | Edge | Tìm kiếm bằng keyword rất dài | Không lỗi UI/API, không hiện error panel, summary hiển thị an toàn, không có kết quả phù hợp |
+| TC-FR05-17 | Edge | Tìm kiếm bằng keyword Unicode/emoji | Không lỗi UI/API, summary giữ đúng Unicode/emoji, không có kết quả phù hợp nếu seed data không match |
+
+### 2.5 Human Review - What The AI Got Wrong / Missed
+
+| Issue | Category | Fix applied | Likely cause |
+|---|---|---|---|
+| Bộ test XSS ban đầu có HTML/script payload nhưng thiếu biến thể event-handler qua thẻ media/image như `<image onerror>` | Edge case/security | Bổ sung `TC-FR05-15`, data key `image_onerror_payload`, và automation assert không dialog, không element injected trong `searchSummary` | AI thường nghĩ đến `<script>` trước, nhưng XSS thực tế hay đi qua event handler như `onerror` |
+| Chưa kiểm tra input tìm kiếm rất dài | Edge case | Bổ sung `TC-FR05-16` với keyword dài, assert không error panel và không vỡ search summary | Prompt ban đầu tập trung vào chức năng chính và security phổ biến, chưa ép boundary input length |
+| Chưa kiểm tra ký tự Unicode/emoji trong keyword | Edge case/i18n | Bổ sung `TC-FR05-17`, assert summary giữ đúng Unicode/emoji và không lỗi API/UI | AI bỏ sót i18n vì seed data chủ yếu là tên sản phẩm ASCII/tiếng Việt có dấu đơn giản |
+| Locator/test hiện phụ thuộc vào `searchSummary` vì frontend chưa có `data-testid` riêng cho keyword rendered text | Selector/assertion | Giữ locator hiện có nhưng scope kiểm tra element injected bên trong `searchSummary` để giảm đọc nhầm DOM ngoài vùng cần test | Ứng dụng chưa thiết kế sẵn testability hook cho search summary |
 
 ---
 

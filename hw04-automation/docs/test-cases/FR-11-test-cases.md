@@ -1,4 +1,4 @@
-# Bộ Test Case FR-11 - Xem Lịch Sử Đơn Hàng
+﻿# Bộ Test Case FR-11 - Xem Lịch Sử Đơn Hàng
 
 Tính năng: FR-11 - Xem lịch sử đơn hàng của người dùng  
 Phạm vi: Trang `/profile`, khu vực "Lịch sử đơn hàng", API `GET /api/orders/my-orders`  

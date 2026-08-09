@@ -22,7 +22,7 @@ Timeout:  5000ms
 Call log:
   - Expect "toHaveText" with timeout 5000ms
   - waiting for locator('div.border.rounded.shadow-sm.p-4.flex.flex-col.bg-white').filter({ has: getByRole('heading', { name: 'iPhone 15 Pro Max', level: 2 }) }).locator('p.text-red-500').first()
-    13 × locator resolved to <p class="text-red-500 font-bold mb-2">30,000,000 VND</p>
+    14 × locator resolved to <p class="text-red-500 font-bold mb-2">30,000,000 VND</p>
        - unexpected value "30,000,000 VND"
 
 ```
@@ -34,7 +34,7 @@ Call log:
 # Test source
 
 ```ts
-  1   | const { test, expect } = require("@playwright/test");
+  1   | ﻿const { test, expect } = require("@playwright/test");
   2   | const { ProductListingPage } = require("./pages/ProductListingPage");
   3   | const fr05Data = require("../data/fr05.json");
   4   | 

@@ -1,4 +1,4 @@
-class AdminUserManagementPage {
+﻿class AdminUserManagementPage {
   constructor(page) {
     this.page = page;
 

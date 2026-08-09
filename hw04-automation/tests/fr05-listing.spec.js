@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+﻿const { test, expect } = require("@playwright/test");
 const { ProductListingPage } = require("./pages/ProductListingPage");
 const fr05Data = require("../data/fr05.json");
 
@@ -192,11 +192,10 @@ test.describe("FR-05 - Xem danh sách và tìm kiếm sản phẩm", () => {
     await expect(page.locator(expectedData.forbiddenSelector)).toHaveCount(0);
   });
 
-  test("TC-FR05-10 - Từ khóa chứa script không được thực thi", async ({
-    page,
-  }) => {
+  test("TC-FR05-10 - Từ khóa chứa script không được thực thi", async ({page,}) => {
     const productListingPage = await openProductListing(page);
     const expectedData = fr05Data.script_payload;
+
     let dialogText = null;
 
     page.on("dialog", async (dialog) => {
@@ -204,11 +203,16 @@ test.describe("FR-05 - Xem danh sách và tìm kiếm sản phẩm", () => {
       await dialog.dismiss();
     });
 
-    await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
-
-    await expect(productListingPage.searchSummary).toContainText(
-      expectedData.expectedDisplayedText,
+    await searchAndWaitForProducts(
+      page,
+      productListingPage,
+      expectedData.keyword,
     );
+
+    await expect(
+      productListingPage.searchSummary.locator("script"),
+    ).toHaveCount(0);
+
     expect(dialogText).not.toBe(expectedData.forbiddenDialogText);
   });
 
@@ -274,6 +278,66 @@ test.describe("FR-05 - Xem danh sách và tìm kiếm sản phẩm", () => {
 
     await expect(productListingPage.productCards).toHaveCount(
       expectedData.expectedFinalCount,
+    );
+  });
+
+  test("TC-FR05-15 - Payload image onerror không được render hoặc thực thi", async ({
+    page,
+  }) => {
+    const productListingPage = await openProductListing(page);
+    const expectedData = fr05Data.image_onerror_payload;
+    const dialogMessages = [];
+
+    page.on("dialog", async (dialog) => {
+      dialogMessages.push(dialog.message());
+      await dialog.dismiss();
+    });
+
+    await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+
+    await expect(productListingPage.searchSummary).toContainText(
+      expectedData.expectedDisplayedText,
+    );
+
+    for (const forbiddenSelector of expectedData.forbiddenSelectors) {
+      await expect(
+        productListingPage.searchSummary.locator(forbiddenSelector),
+      ).toHaveCount(0);
+    }
+
+    expect(dialogMessages).not.toContain(expectedData.forbiddenDialogText);
+    await expect(productListingPage.productCards).toHaveCount(
+      expectedData.expectedSafeCount,
+    );
+  });
+
+  test("TC-FR05-16 - Tìm kiếm bằng từ khóa rất dài", async ({ page }) => {
+    const productListingPage = await openProductListing(page);
+    const expectedData = fr05Data.long_keyword;
+
+    await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+
+    await expect(productListingPage.errorPanel).toHaveCount(0);
+    await expect(productListingPage.searchSummary).toContainText(
+      expectedData.expectedSummaryContains,
+    );
+    await expect(productListingPage.productCards).toHaveCount(
+      expectedData.expectedCount,
+    );
+  });
+
+  test("TC-FR05-17 - Tìm kiếm bằng từ khóa Unicode/emoji", async ({ page }) => {
+    const productListingPage = await openProductListing(page);
+    const expectedData = fr05Data.unicode_keyword;
+
+    await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+
+    await expect(productListingPage.errorPanel).toHaveCount(0);
+    await expect(productListingPage.searchSummary).toContainText(
+      expectedData.expectedSummaryContains,
+    );
+    await expect(productListingPage.productCards).toHaveCount(
+      expectedData.expectedCount,
     );
   });
 });

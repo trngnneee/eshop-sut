@@ -208,45 +208,45 @@ Call log:
   192 |     await expect(page.locator(expectedData.forbiddenSelector)).toHaveCount(0);
   193 |   });
   194 | 
-  195 |   test("TC-FR05-10 - Từ khóa chứa script không được thực thi", async ({
-  196 |     page,
-  197 |   }) => {
-  198 |     const productListingPage = await openProductListing(page);
-  199 |     const expectedData = fr05Data.script_payload;
-  200 |     let dialogText = null;
-  201 | 
-  202 |     page.on("dialog", async (dialog) => {
-  203 |       dialogText = dialog.message();
-  204 |       await dialog.dismiss();
-  205 |     });
-  206 | 
-  207 |     await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
-  208 | 
-  209 |     await expect(productListingPage.searchSummary).toContainText(
-  210 |       expectedData.expectedDisplayedText,
-  211 |     );
-  212 |     expect(dialogText).not.toBe(expectedData.forbiddenDialogText);
-  213 |   });
-  214 | 
-  215 |   test("TC-FR05-11 - Payload kiểu SQL injection không được trả về dữ liệu ngoài phạm vi tìm kiếm", async ({
-  216 |     page,
-  217 |   }) => {
-  218 |     const productListingPage = await openProductListing(page);
-  219 |     const expectedData = fr05Data.sql_payload;
-  220 | 
-  221 |     await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
-  222 | 
-  223 |     await expect(productListingPage.errorPanel).toHaveCount(0);
-  224 |     await expect(productListingPage.errorPanel).not.toContainText(
-  225 |       expectedData.forbiddenErrorText,
-  226 |     );
-  227 |     await expect(productListingPage.productCards).toHaveCount(
-  228 |       expectedData.expectedSafeCount,
-  229 |     );
-  230 |     await expect(productListingPage.productCards).not.toHaveCount(
-  231 |       expectedData.forbiddenAllProductCount,
-  232 |     );
-  233 |   });
-  234 | 
-  235 |   test("TC-FR05-12 - Ảnh sản phẩm có alt text mô tả", async ({ page }) => {
+  195 |   test("TC-FR05-10 - Từ khóa chứa script không được thực thi", async ({page,}) => {
+  196 |     const productListingPage = await openProductListing(page);
+  197 |     const expectedData = fr05Data.script_payload;
+  198 | 
+  199 |     let dialogText = null;
+  200 | 
+  201 |     page.on("dialog", async (dialog) => {
+  202 |       dialogText = dialog.message();
+  203 |       await dialog.dismiss();
+  204 |     });
+  205 | 
+  206 |     await searchAndWaitForProducts(
+  207 |       page,
+  208 |       productListingPage,
+  209 |       expectedData.keyword,
+  210 |     );
+  211 | 
+  212 |     await expect(
+  213 |       productListingPage.searchSummary.locator("script"),
+  214 |     ).toHaveCount(0);
+  215 | 
+  216 |     expect(dialogText).not.toBe(expectedData.forbiddenDialogText);
+  217 |   });
+  218 | 
+  219 |   test("TC-FR05-11 - Payload kiểu SQL injection không được trả về dữ liệu ngoài phạm vi tìm kiếm", async ({
+  220 |     page,
+  221 |   }) => {
+  222 |     const productListingPage = await openProductListing(page);
+  223 |     const expectedData = fr05Data.sql_payload;
+  224 | 
+  225 |     await searchAndWaitForProducts(page, productListingPage, expectedData.keyword);
+  226 | 
+  227 |     await expect(productListingPage.errorPanel).toHaveCount(0);
+  228 |     await expect(productListingPage.errorPanel).not.toContainText(
+  229 |       expectedData.forbiddenErrorText,
+  230 |     );
+  231 |     await expect(productListingPage.productCards).toHaveCount(
+  232 |       expectedData.expectedSafeCount,
+  233 |     );
+  234 |     await expect(productListingPage.productCards).not.toHaveCount(
+  235 |       expectedData.forbiddenAllProductCount,
 ```

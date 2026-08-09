@@ -1,254 +1,293 @@
-{
-  "feature": "FR-05",
-  "name": "Xem danh sách và tìm kiếm sản phẩm",
-  "basePath": "/",
-  "api": {
-    "products": "/api/products",
-    "productsSearch": "/api/products?search={keyword}"
-  },
-  "specification": {
-    "source": "README.md - FR-05",
-    "priceUnit": "₫",
-    "thousandsSeparator": ".",
-    "safeKeywordDisplay": true,
-    "requiresLoadingState": true,
-    "requiresEmptyState": true,
-    "expectedH1Count": 1
-  },
-  "seedProducts": [
-    {
-      "id": 1,
-      "name": "iPhone 15 Pro Max",
-      "price": 30000000,
-      "expectedPriceText": "30,000,000 ₫",
-      "categoryId": 1,
-      "expectedImageAlt": "iPhone 15 Pro Max"
-    },
-    {
-      "id": 2,
-      "name": "Samsung Galaxy S24 Ultra",
-      "price": 28000000,
-      "expectedPriceText": "28,000,000 ₫",
-      "categoryId": 1,
-      "expectedImageAlt": "Samsung Galaxy S24 Ultra"
-    },
-    {
-      "id": 3,
-      "name": "MacBook Pro M3",
-      "price": 45000000,
-      "expectedPriceText": "45,000,000 ₫",
-      "categoryId": 2,
-      "expectedImageAlt": "MacBook Pro M3"
-    },
-    {
-      "id": 4,
-      "name": "Tai nghe AirPods Pro 2",
-      "price": 6000000,
-      "expectedPriceText": "6,000,000 ₫",
-      "categoryId": 3,
-      "expectedImageAlt": "Tai nghe AirPods Pro 2"
-    },
-    {
-      "id": 5,
-      "name": "Keychron Q1",
-      "price": 4000000,
-      "expectedPriceText": "4,000,000 ₫",
-      "categoryId": 3,
-      "expectedImageAlt": "Keychron Q1"
-    }
-  ],
-  "all_products": {
-    "description": "Danh sách mặc định trên trang chủ phải hiển thị tất cả sản phẩm seed.",
-    "keyword": "",
-    "expectedCount": 5,
-    "expectedVisibleNames": [
-      "iPhone 15 Pro Max",
-      "Samsung Galaxy S24 Ultra",
-      "MacBook Pro M3",
-      "Tai nghe AirPods Pro 2",
-      "Keychron Q1"
-    ]
-  },
-  "price_format": {
-    "description": "Giá sản phẩm phải hiển thị theo đặc tả FR-05: dùng đơn vị ₫ và phân cách hàng nghìn.",
-    "checks": [
-      {
-        "productName": "iPhone 15 Pro Max",
-        "expectedPriceText": "30,000,000 ₫"
-      },
-      {
-        "productName": "Samsung Galaxy S24 Ultra",
-        "expectedPriceText": "28,000,000 ₫"
-      },
-      {
-        "productName": "MacBook Pro M3",
-        "expectedPriceText": "45,000,000 ₫"
-      },
-      {
-        "productName": "Tai nghe AirPods Pro 2",
-        "expectedPriceText": "6,000,000 ₫"
-      },
-      {
-        "productName": "Keychron Q1",
-        "expectedPriceText": "4,000,000 ₫"
-      }
-    ]
-  },
-  "exact_match": {
-    "description": "Tìm kiếm bằng đúng tên sản phẩm.",
-    "keyword": "MacBook Pro M3",
-    "expectedCount": 1,
-    "expectedVisibleNames": [
-      "MacBook Pro M3"
-    ],
-    "expectedHiddenNames": [
-      "iPhone 15 Pro Max",
-      "Samsung Galaxy S24 Ultra",
-      "Tai nghe AirPods Pro 2",
-      "Keychron Q1"
-    ],
-    "expectedSearchSummaryContains": "MacBook Pro M3"
-  },
-  "partial_match": {
-    "description": "Tìm kiếm bằng một phần tên sản phẩm và có nhiều kết quả phù hợp.",
-    "keyword": "Pro",
-    "expectedCount": 3,
-    "expectedVisibleNames": [
-      "iPhone 15 Pro Max",
-      "MacBook Pro M3",
-      "Tai nghe AirPods Pro 2"
-    ],
-    "expectedHiddenNames": [
-      "Samsung Galaxy S24 Ultra",
-      "Keychron Q1"
-    ],
-    "expectedSearchSummaryContains": "Pro"
-  },
-  "no_result": {
-    "description": "Từ khóa tìm kiếm không khớp với sản phẩm nào.",
-    "keyword": "SanPhamKhongTonTaiFR05",
-    "expectedCount": 0,
-    "expectedEmptyStateText": "Không có sản phẩm phù hợp",
-    "expectedVisibleNames": [],
-    "expectedHiddenNames": [
-      "iPhone 15 Pro Max",
-      "Samsung Galaxy S24 Ultra",
-      "MacBook Pro M3",
-      "Tai nghe AirPods Pro 2",
-      "Keychron Q1"
-    ]
-  },
-  "empty_keyword": {
-    "description": "Gửi form với từ khóa rỗng phải hiển thị lại toàn bộ danh sách sản phẩm.",
-    "keyword": "",
-    "expectedCount": 5,
-    "expectedVisibleNames": [
-      "iPhone 15 Pro Max",
-      "Samsung Galaxy S24 Ultra",
-      "MacBook Pro M3",
-      "Tai nghe AirPods Pro 2",
-      "Keychron Q1"
-    ]
-  },
-  "padded_keyword": {
-    "description": "Từ khóa có khoảng trắng ở đầu và cuối.",
-    "keyword": "  MacBook  ",
-    "normalizedKeyword": "MacBook",
-    "expectedBehavior": "Hệ thống xử lý ổn định, không lỗi giao diện hoặc lỗi API. Nếu đặc tả được làm rõ thêm, ưu tiên hành vi trim khoảng trắng trước khi tìm kiếm.",
-    "expectedIfTrimmed": {
-      "expectedCount": 1,
-      "expectedVisibleNames": [
-        "MacBook Pro M3"
-      ]
-    }
-  },
-  "html_payload": {
-    "description": "Payload HTML phải được hiển thị như văn bản thường trong phần tóm tắt tìm kiếm.",
-    "keyword": "<strong id=\"fr05-html-injection\">Injected</strong>",
-    "forbiddenSelector": "#fr05-html-injection",
-    "expectedDisplayedText": "Injected"
-  },
-  "script_payload": {
-    "description": "Payload dạng script không được thực thi.",
-    "keyword": "<script>alert('xss-fr05')</script>",
-    "forbiddenDialogText": "xss-fr05",
-    "expectedDisplayedText": "<script>alert('xss-fr05')</script>"
-  },
-  "sql_payload": {
-    "description": "Payload kiểu SQL injection không được làm lộ dữ liệu ngoài phạm vi tìm kiếm.",
-    "keyword": "%' OR '1'='1",
-    "expectedSafeCount": 0,
-    "forbiddenAllProductCount": 5,
-    "forbiddenErrorText": "Database Error"
-  },
-  "h1_rule": {
-    "description": "Trang chủ phải có đúng một thẻ h1.",
-    "expectedH1Count": 1,
-    "expectedMainHeadingText": "Danh sách sản phẩm"
-  },
-  "delayed_api": {
-    "description": "Làm chậm request sản phẩm để kiểm tra trạng thái loading theo đặc tả.",
-    "routePattern": "**/api/products**",
-    "delayMs": 1500,
-    "expectedLoadingText": "Đang tải",
-    "expectedFinalCount": 5
-  },
-  "testCases": [
-    {
-      "id": "TC-FR05-01",
-      "dataRef": "all_products"
-    },
-    {
-      "id": "TC-FR05-02",
-      "dataRef": "all_products"
-    },
-    {
-      "id": "TC-FR05-03",
-      "dataRef": "price_format"
-    },
-    {
-      "id": "TC-FR05-04",
-      "dataRef": "exact_match"
-    },
-    {
-      "id": "TC-FR05-05",
-      "dataRef": "partial_match"
-    },
-    {
-      "id": "TC-FR05-06",
-      "dataRef": "no_result"
-    },
-    {
-      "id": "TC-FR05-07",
-      "dataRef": "empty_keyword"
-    },
-    {
-      "id": "TC-FR05-08",
-      "dataRef": "padded_keyword"
-    },
-    {
-      "id": "TC-FR05-09",
-      "dataRef": "html_payload"
-    },
-    {
-      "id": "TC-FR05-10",
-      "dataRef": "script_payload"
-    },
-    {
-      "id": "TC-FR05-11",
-      "dataRef": "sql_payload"
-    },
-    {
-      "id": "TC-FR05-12",
-      "dataRef": "all_products"
-    },
-    {
-      "id": "TC-FR05-13",
-      "dataRef": "h1_rule"
-    },
-    {
-      "id": "TC-FR05-14",
-      "dataRef": "delayed_api"
-    }
-  ]
+﻿{
+    "feature":  "FR-05",
+    "name":  "Xem danh sách và tìm kiếm sản phẩm",
+    "basePath":  "/",
+    "api":  {
+                "products":  "/api/products",
+                "productsSearch":  "/api/products?search={keyword}"
+            },
+    "specification":  {
+                          "source":  "README.md - FR-05",
+                          "priceUnit":  "₫",
+                          "thousandsSeparator":  ".",
+                          "safeKeywordDisplay":  true,
+                          "requiresLoadingState":  true,
+                          "requiresEmptyState":  true,
+                          "expectedH1Count":  1
+                      },
+    "seedProducts":  [
+                         {
+                             "id":  1,
+                             "name":  "iPhone 15 Pro Max",
+                             "price":  30000000,
+                             "expectedPriceText":  "30,000,000 ₫",
+                             "categoryId":  1,
+                             "expectedImageAlt":  "iPhone 15 Pro Max"
+                         },
+                         {
+                             "id":  2,
+                             "name":  "Samsung Galaxy S24 Ultra",
+                             "price":  28000000,
+                             "expectedPriceText":  "28,000,000 ₫",
+                             "categoryId":  1,
+                             "expectedImageAlt":  "Samsung Galaxy S24 Ultra"
+                         },
+                         {
+                             "id":  3,
+                             "name":  "MacBook Pro M3",
+                             "price":  45000000,
+                             "expectedPriceText":  "45,000,000 ₫",
+                             "categoryId":  2,
+                             "expectedImageAlt":  "MacBook Pro M3"
+                         },
+                         {
+                             "id":  4,
+                             "name":  "Tai nghe AirPods Pro 2",
+                             "price":  6000000,
+                             "expectedPriceText":  "6,000,000 ₫",
+                             "categoryId":  3,
+                             "expectedImageAlt":  "Tai nghe AirPods Pro 2"
+                         },
+                         {
+                             "id":  5,
+                             "name":  "Keychron Q1",
+                             "price":  4000000,
+                             "expectedPriceText":  "4,000,000 ₫",
+                             "categoryId":  3,
+                             "expectedImageAlt":  "Keychron Q1"
+                         }
+                     ],
+    "all_products":  {
+                         "description":  "Danh sách mặc định trên trang chủ phải hiển thị tất cả sản phẩm seed.",
+                         "keyword":  "",
+                         "expectedCount":  5,
+                         "expectedVisibleNames":  [
+                                                      "iPhone 15 Pro Max",
+                                                      "Samsung Galaxy S24 Ultra",
+                                                      "MacBook Pro M3",
+                                                      "Tai nghe AirPods Pro 2",
+                                                      "Keychron Q1"
+                                                  ]
+                     },
+    "price_format":  {
+                         "description":  "Giá sản phẩm phải hiển thị theo đặc tả FR-05: dùng đơn vị ₫ và phân cách hàng nghìn.",
+                         "checks":  [
+                                        {
+                                            "productName":  "iPhone 15 Pro Max",
+                                            "expectedPriceText":  "30,000,000 ₫"
+                                        },
+                                        {
+                                            "productName":  "Samsung Galaxy S24 Ultra",
+                                            "expectedPriceText":  "28,000,000 ₫"
+                                        },
+                                        {
+                                            "productName":  "MacBook Pro M3",
+                                            "expectedPriceText":  "45,000,000 ₫"
+                                        },
+                                        {
+                                            "productName":  "Tai nghe AirPods Pro 2",
+                                            "expectedPriceText":  "6,000,000 ₫"
+                                        },
+                                        {
+                                            "productName":  "Keychron Q1",
+                                            "expectedPriceText":  "4,000,000 ₫"
+                                        }
+                                    ]
+                     },
+    "exact_match":  {
+                        "description":  "Tìm kiếm bằng đúng tên sản phẩm.",
+                        "keyword":  "MacBook Pro M3",
+                        "expectedCount":  1,
+                        "expectedVisibleNames":  [
+                                                     "MacBook Pro M3"
+                                                 ],
+                        "expectedHiddenNames":  [
+                                                    "iPhone 15 Pro Max",
+                                                    "Samsung Galaxy S24 Ultra",
+                                                    "Tai nghe AirPods Pro 2",
+                                                    "Keychron Q1"
+                                                ],
+                        "expectedSearchSummaryContains":  "MacBook Pro M3"
+                    },
+    "partial_match":  {
+                          "description":  "Tìm kiếm bằng một phần tên sản phẩm và có nhiều kết quả phù hợp.",
+                          "keyword":  "Pro",
+                          "expectedCount":  3,
+                          "expectedVisibleNames":  [
+                                                       "iPhone 15 Pro Max",
+                                                       "MacBook Pro M3",
+                                                       "Tai nghe AirPods Pro 2"
+                                                   ],
+                          "expectedHiddenNames":  [
+                                                      "Samsung Galaxy S24 Ultra",
+                                                      "Keychron Q1"
+                                                  ],
+                          "expectedSearchSummaryContains":  "Pro"
+                      },
+    "no_result":  {
+                      "description":  "Từ khóa tìm kiếm không khớp với sản phẩm nào.",
+                      "keyword":  "SanPhamKhongTonTaiFR05",
+                      "expectedCount":  0,
+                      "expectedEmptyStateText":  "Không có sản phẩm phù hợp",
+                      "expectedVisibleNames":  [
+
+                                               ],
+                      "expectedHiddenNames":  [
+                                                  "iPhone 15 Pro Max",
+                                                  "Samsung Galaxy S24 Ultra",
+                                                  "MacBook Pro M3",
+                                                  "Tai nghe AirPods Pro 2",
+                                                  "Keychron Q1"
+                                              ]
+                  },
+    "empty_keyword":  {
+                          "description":  "Gửi form với từ khóa rỗng phải hiển thị lại toàn bộ danh sách sản phẩm.",
+                          "keyword":  "",
+                          "expectedCount":  5,
+                          "expectedVisibleNames":  [
+                                                       "iPhone 15 Pro Max",
+                                                       "Samsung Galaxy S24 Ultra",
+                                                       "MacBook Pro M3",
+                                                       "Tai nghe AirPods Pro 2",
+                                                       "Keychron Q1"
+                                                   ]
+                      },
+    "padded_keyword":  {
+                           "description":  "Từ khóa có khoảng trắng ở đầu và cuối.",
+                           "keyword":  "  MacBook  ",
+                           "normalizedKeyword":  "MacBook",
+                           "expectedBehavior":  "Hệ thống xử lý ổn định, không lỗi giao diện hoặc lỗi API. Nếu đặc tả được làm rõ thêm, ưu tiên hành vi trim khoảng trắng trước khi tìm kiếm.",
+                           "expectedIfTrimmed":  {
+                                                     "expectedCount":  1,
+                                                     "expectedVisibleNames":  [
+                                                                                  "MacBook Pro M3"
+                                                                              ]
+                                                 }
+                       },
+    "html_payload":  {
+                         "description":  "Payload HTML phải được hiển thị như văn bản thường trong phần tóm tắt tìm kiếm.",
+                         "keyword":  "\u003cstrong id=\"fr05-html-injection\"\u003eInjected\u003c/strong\u003e",
+                         "forbiddenSelector":  "#fr05-html-injection",
+                         "expectedDisplayedText":  "Injected"
+                     },
+    "script_payload":  {
+                           "description":  "Payload dạng script không được thực thi.",
+                           "keyword":  "\u003cscript\u003ealert(\"xss-fr05\")\u003c/script\u003e",
+                           "forbiddenDialogText":  "xss-fr05",
+                           "expectedDisplayedText":  "\u003cscript\u003ealert(\"xss-fr05\")\u003c/script\u003e"
+                       },
+    "sql_payload":  {
+                        "description":  "Payload kiểu SQL injection không được làm lộ dữ liệu ngoài phạm vi tìm kiếm.",
+                        "keyword":  "%\u0027 OR \u00271\u0027=\u00271",
+                        "expectedSafeCount":  0,
+                        "forbiddenAllProductCount":  5,
+                        "forbiddenErrorText":  "Database Error"
+                    },
+    "h1_rule":  {
+                    "description":  "Trang chủ phải có đúng một thẻ h1.",
+                    "expectedH1Count":  1,
+                    "expectedMainHeadingText":  "Danh sách sản phẩm"
+                },
+    "delayed_api":  {
+                        "description":  "Làm chậm request sản phẩm để kiểm tra trạng thái loading theo đặc tả.",
+                        "routePattern":  "**/api/products**",
+                        "delayMs":  1500,
+                        "expectedLoadingText":  "Đang tải",
+                        "expectedFinalCount":  5
+                    },
+    "image_onerror_payload":  {
+                                  "description":  "Payload image onerror phải được hiển thị như văn bản thường, không được tạo element và không được thực thi JavaScript.",
+                                  "keyword":  "\u003cimage src=1 href=1 onerror=\"javascript:alert(1)\"\u003e\u003c/image\u003e",
+                                  "forbiddenDialogText":  "1",
+                                  "forbiddenSelectors":  [
+                                                             "image",
+                                                             "img[src=\"1\"]"
+                                                         ],
+                                  "expectedDisplayedText":  "\u003cimage src=1 href=1 onerror=\"javascript:alert(1)\"\u003e\u003c/image\u003e",
+                                  "expectedSafeCount":  0
+                              },
+    "long_keyword":  {
+                         "description":  "Từ khóa rất dài không được làm vỡ giao diện hoặc gây lỗi API.",
+                         "keyword":  "FR05-LONG-KEYWORD-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                         "expectedCount":  0,
+                         "expectedNoErrorPanel":  true,
+                         "expectedSummaryContains":  "FR05-LONG-KEYWORD"
+                     },
+    "unicode_keyword":  {
+                            "description":  "Từ khóa Unicode/emoji không được làm lỗi tìm kiếm hoặc render sai summary.",
+                            "keyword":  "điện thoại 🚀",
+                            "expectedCount":  0,
+                            "expectedNoErrorPanel":  true,
+                            "expectedSummaryContains":  "điện thoại 🚀"
+                        },
+    "testCases":  [
+                      {
+                          "id":  "TC-FR05-01",
+                          "dataRef":  "all_products"
+                      },
+                      {
+                          "id":  "TC-FR05-02",
+                          "dataRef":  "all_products"
+                      },
+                      {
+                          "id":  "TC-FR05-03",
+                          "dataRef":  "price_format"
+                      },
+                      {
+                          "id":  "TC-FR05-04",
+                          "dataRef":  "exact_match"
+                      },
+                      {
+                          "id":  "TC-FR05-05",
+                          "dataRef":  "partial_match"
+                      },
+                      {
+                          "id":  "TC-FR05-06",
+                          "dataRef":  "no_result"
+                      },
+                      {
+                          "id":  "TC-FR05-07",
+                          "dataRef":  "empty_keyword"
+                      },
+                      {
+                          "id":  "TC-FR05-08",
+                          "dataRef":  "padded_keyword"
+                      },
+                      {
+                          "id":  "TC-FR05-09",
+                          "dataRef":  "html_payload"
+                      },
+                      {
+                          "id":  "TC-FR05-10",
+                          "dataRef":  "script_payload"
+                      },
+                      {
+                          "id":  "TC-FR05-11",
+                          "dataRef":  "sql_payload"
+                      },
+                      {
+                          "id":  "TC-FR05-12",
+                          "dataRef":  "all_products"
+                      },
+                      {
+                          "id":  "TC-FR05-13",
+                          "dataRef":  "h1_rule"
+                      },
+                      {
+                          "id":  "TC-FR05-14",
+                          "dataRef":  "delayed_api"
+                      },
+                      {
+                          "id":  "TC-FR05-15",
+                          "dataRef":  "image_onerror_payload"
+                      },
+                      {
+                          "id":  "TC-FR05-16",
+                          "dataRef":  "long_keyword"
+                      },
+                      {
+                          "id":  "TC-FR05-17",
+                          "dataRef":  "unicode_keyword"
+                      }
+                  ]
 }

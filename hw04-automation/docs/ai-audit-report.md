@@ -19,7 +19,7 @@ I use AI tools for the following tasks:
 - **Prompt:**
   > Hãy tạo các file md cho các test case
 - **Output:**
-  AI đã tạo `hw04-automation/docs/test-cases/FR-05-test-cases.md` và các file Markdown riêng từ `TC-FR05-01.md` đến `TC-FR05-14.md`. Bộ test gồm 14 test case bao phủ luồng positive, edge case, negative/security, accessibility, semantic HTML và loading behavior. Tất cả test case đang có `Status = Not Run` vì chưa sinh và chạy automation script.
+  AI đã tạo `hw04-automation/docs/test-cases/FR-05-test-cases.md` và các file Markdown riêng từ `TC-FR05-01.md` đến `TC-FR05-14.md`. Bộ test gồm 14 test case bao phủ luồng positive, edge case, negative/security, accessibility, semantic HTML và loading behavior. Tất cả test case đang có `Status = Not Run` và chưa sinh và chạy automation script.
 - **Accepted as-is / Modified:** Modified after human feedback. Yêu cầu chuyển nội dung các file sang tiếng Việt có dấu, đúng chính tả, và làm rõ expected result theo đặc tả. AI đã cập nhật lại toàn bộ file Markdown sang tiếng Việt và bổ sung ghi chú rằng giá mong đợi phải dùng đơn vị `₫`, không dùng `VND`.
 
 ### [3] FR-05 - Tạo file dữ liệu kiểm thử
@@ -74,7 +74,7 @@ I use AI tools for the following tasks:
   > Bước B: sinh automation cho **TC-FR05-05**, **TC-FR05-06,**  **TC-FR05-07, TC-FR05-08** dùng locator trên
 - **Output:**
   AI đã cập nhật `hw04-automation/tests/fr05-listing.spec.js` để thêm automation cho bốn test case tiếp theo. `TC-FR05-05` kiểm tra tìm kiếm partial keyword `Pro`; `TC-FR05-06` kiểm tra trường hợp không có kết quả và empty state; `TC-FR05-07` kiểm tra submit từ khóa rỗng hiển thị lại toàn bộ sản phẩm; `TC-FR05-08` kiểm tra từ khóa có khoảng trắng đầu/cuối không gây lỗi giao diện hoặc API. AI cũng bổ sung helper `emptyStateMessage(message)` trong `ProductListingPage.js` để locator empty state được tái sử dụng qua page object.
-- **Accepted as-is / Modified:** Modified TC-FR05-08. Automation ban đầu chỉ kiểm tra grid visible và productCount >= 0, chưa thực sự kiểm tra behavior trim keyword. 
+- **Accepted as-is / Modified:** Modified TC-FR05-08. Automation ban đầu chỉ kiểm tra grid visible và productCount >= 0, chưa thực sự kiểm tra behavior trim keyword.
 ### [9] FR-05 - Step B sinh automation cho TC-FR05-09 đến TC-FR05-12
 - **Tool:** Codex (GPT-5)
 - **Date/time:** 2026-08-09 01:02

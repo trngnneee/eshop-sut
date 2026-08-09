@@ -1,4 +1,4 @@
-# Bộ Test Case FR-19 - Quản Lý Người Dùng Admin
+﻿# Bộ Test Case FR-19 - Quản Lý Người Dùng Admin
 
 Tính năng: FR-19 - Quản lý người dùng trong Web Admin  
 Phạm vi: Admin UI tab "Người dùng", API `GET /api/admin/users`, API `DELETE /api/admin/users/:id`  
