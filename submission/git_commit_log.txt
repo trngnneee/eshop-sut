@@ -14,6 +14,9 @@
 ## Danh Sách Lịch Sử Commit (Commit History)
 
 ```
+23e35f1 | 2026-08-09 | Phan Quốc Thịnh | docs(submission): update reports with BUG-007 transaction rollback and 31 passed / 5 failed metrics
+5383744 | 2026-08-09 | Phan Quốc Thịnh | fix(fr16): assert atomic transaction rollback on TC06 when CSV contains errors
+d4bbbfe | 2026-08-09 | Phan Quốc Thịnh | docs(submission): finalize MainReport, AI Audit, AI Critique, Bug Report and commit log
 25339fa | 2026-08-09 | Phan Quốc Thịnh | feat(fr16): implement admin authentication and CSV upload automation suite
 eda8434 | 2026-08-09 | Phan Quốc Thịnh | feat(fr16): create multi-format CSV files and data-driven schema for product import
 0990dfc | 2026-08-09 | Phan Quốc Thịnh | feat(fr16): plan 12 test scenarios for Product CSV Import (formats, headers, errors)
@@ -32,7 +35,7 @@ f7a4818 | 2026-08-09 | Phan Quốc Thịnh | feat(fr01): plan 12 test scenarios 
 
 | Chỉ số đánh giá | Giá trị thực tế | Yêu cầu tối thiểu của đề bài |
 |:---|:---:|:---:|
-| **Tổng số commits tính năng kiểm thử** | **10 commits** | ≥ 8 commits |
+| **Tổng số commits** | **13 commits** | ≥ 8 commits |
 | **Trình tự thực hiện cho mỗi tính năng** | **Scenario Planning $\rightarrow$ Data-Driven $\rightarrow$ Script Generation** | Tuân thủ AI-First từng bước |
 | **Nhánh nộp bài (Branch)** | `HW4-Thinh` | Theo phân nhánh bài tập |
 | **Các tệp được theo dõi commit** | `tests/fr01_registration.spec.ts`, `tests/fr09_coupons.spec.ts`, `tests/fr16_csv_import.spec.ts`, `tests/data/*`, `docs/scenarios/*`, `playwright.config.ts` | Chỉnh sửa trực tiếp test scripts & data |
@@ -43,5 +46,5 @@ f7a4818 | 2026-08-09 | Phan Quốc Thịnh | feat(fr01): plan 12 test scenarios 
 
 ```bash
 # Thực thi tại thư mục gốc của repository:
-git log --pretty=format:"%h | %ad | %an | %s" --date=short -n 10
+git log --pretty=format:"%h | %ad | %an | %s" --date=short -n 13
 ```
