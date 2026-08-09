@@ -186,6 +186,40 @@ Call log:
   242 |       );
   243 |     }
   244 |   });
-  245 | });
-  246 | 
+  245 | 
+  246 |   test("TC-FR05-13 - Trang chủ chỉ có đúng một thẻ h1", async ({ page }) => {
+  247 |     const productListingPage = await openProductListing(page);
+  248 |     const expectedData = fr05Data.h1_rule;
+  249 | 
+  250 |     await expect(productListingPage.allHeadingsLevel1).toHaveCount(
+  251 |       expectedData.expectedH1Count,
+  252 |     );
+  253 |     await expect(productListingPage.mainHeading).toContainText(
+  254 |       expectedData.expectedMainHeadingText,
+  255 |     );
+  256 |   });
+  257 | 
+  258 |   test("TC-FR05-14 - Hiển thị loading khi đang tải dữ liệu sản phẩm", async ({
+  259 |     page,
+  260 |   }) => {
+  261 |     const expectedData = fr05Data.delayed_api;
+  262 |     const productListingPage = new ProductListingPage(page);
+  263 | 
+  264 |     await page.route(expectedData.routePattern, async (route) => {
+  265 |       await new Promise((resolve) => setTimeout(resolve, expectedData.delayMs));
+  266 |       await route.continue();
+  267 |     });
+  268 | 
+  269 |     await productListingPage.goto();
+  270 | 
+  271 |     await expect(
+  272 |       productListingPage.loadingIndicator(expectedData.expectedLoadingText),
+  273 |     ).toBeVisible();
+  274 | 
+  275 |     await expect(productListingPage.productCards).toHaveCount(
+  276 |       expectedData.expectedFinalCount,
+  277 |     );
+  278 |   });
+  279 | });
+  280 | 
 ```
