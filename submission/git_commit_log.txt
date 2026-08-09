@@ -1,0 +1,47 @@
+# Nhật Ký Git Commit (Git Commit Log) — HW04 Automation Testing
+
+**Sinh viên:** Phan Quốc Thịnh | **MSSV:** 23127486 | **Lớp:** 23KTPM3
+
+---
+
+## Thông Tin Repository
+
+- **Đường dẫn Repository:** https://github.com/trngnneee/eshop-sut
+- **Nhánh chính (Branch):** `HW4-Thinh`
+
+---
+
+## Danh Sách Lịch Sử Commit (Commit History)
+
+```
+25339fa | 2026-08-09 | Phan Quốc Thịnh | feat(fr16): implement admin authentication and CSV upload automation suite
+eda8434 | 2026-08-09 | Phan Quốc Thịnh | feat(fr16): create multi-format CSV files and data-driven schema for product import
+0990dfc | 2026-08-09 | Phan Quốc Thịnh | feat(fr16): plan 12 test scenarios for Product CSV Import (formats, headers, errors)
+5ee5a6a | 2026-08-09 | Phan Quốc Thịnh | feat(fr09): implement Playwright test suite for FR-09 with multiple assertion patterns
+9d361b6 | 2026-08-09 | Phan Quốc Thịnh | feat(fr09): generate data-driven JSON dataset for Discount Coupons on checkout
+5fab340 | 2026-08-09 | Phan Quốc Thịnh | feat(fr09): plan 12 test scenarios for Discount Coupons (percentage, fixed, expired, BVA)
+1ad5abf | 2026-08-09 | Phan Quốc Thịnh | feat(fr01): implement AI-generated Playwright automation script for FR-01
+da998e2 | 2026-08-09 | Phan Quốc Thịnh | feat(fr01): generate data-driven JSON test dataset for Account Registration
+f7a4818 | 2026-08-09 | Phan Quốc Thịnh | feat(fr01): plan 12 test scenarios for Account Registration (positive, negative, edge)
+3537f20 | 2026-08-09 | Phan Quốc Thịnh | chore(test-infra): setup Playwright configuration for chromium, firefox and webkit with metadata reporter
+```
+
+---
+
+## Bảng Tổng Kết Chỉ Số Commit (Commit Summary)
+
+| Chỉ số đánh giá | Giá trị thực tế | Yêu cầu tối thiểu của đề bài |
+|:---|:---:|:---:|
+| **Tổng số commits tính năng kiểm thử** | **10 commits** | ≥ 8 commits |
+| **Trình tự thực hiện cho mỗi tính năng** | **Scenario Planning $\rightarrow$ Data-Driven $\rightarrow$ Script Generation** | Tuân thủ AI-First từng bước |
+| **Nhánh nộp bài (Branch)** | `HW4-Thinh` | Theo phân nhánh bài tập |
+| **Các tệp được theo dõi commit** | `tests/fr01_registration.spec.ts`, `tests/fr09_coupons.spec.ts`, `tests/fr16_csv_import.spec.ts`, `tests/data/*`, `docs/scenarios/*`, `playwright.config.ts` | Chỉnh sửa trực tiếp test scripts & data |
+
+---
+
+## Câu Lệnh Git Để Trích Xuất Log Này
+
+```bash
+# Thực thi tại thư mục gốc của repository:
+git log --pretty=format:"%h | %ad | %an | %s" --date=short -n 10
+```
