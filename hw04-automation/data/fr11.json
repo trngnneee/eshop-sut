@@ -1,0 +1,260 @@
+{
+  "feature": "FR-11",
+  "name": "Xem lịch sử đơn hàng của người dùng",
+  "basePath": "/profile",
+  "api": {
+    "login": "/api/login",
+    "register": "/api/register",
+    "checkout": "/api/checkout",
+    "myOrders": "/api/orders/my-orders",
+    "adminOrderStatus": "/api/admin/orders/{id}/status"
+  },
+  "specification": {
+    "source": "README.md - FR-11; api_specification.md - 4.4",
+    "requiredColumns": ["Mã ĐH", "Ngày đặt", "Tổng tiền", "Trạng thái"],
+    "orderScope": "Người dùng chỉ xem được đơn hàng của chính mình.",
+    "expectedSort": "id DESC",
+    "currencyUnit": "₫",
+    "dateFormatIsSpecified": false
+  },
+  "users": {
+    "primary": {
+      "email": "test@eshop.com",
+      "password": "Test1234!",
+      "name": "Test User"
+    },
+    "admin": {
+      "email": "admin@eshop.com",
+      "password": "Admin123!",
+      "name": "Admin User"
+    },
+    "other": {
+      "name": "FR11 Other User",
+      "email": "fr11-other-user@example.com",
+      "password": "Other123!"
+    },
+    "emptyHistory": {
+      "name": "FR11 Empty User",
+      "email": "fr11-empty-user@example.com",
+      "password": "Empty123!"
+    }
+  },
+  "orderFixtures": {
+    "primary": [
+      {
+        "key": "primary_pending",
+        "total_amount": 125000,
+        "shipping_address": "FR11 primary pending address",
+        "targetStatus": "pending",
+        "expectedAmountText": "125.000 ₫"
+      },
+      {
+        "key": "primary_confirmed",
+        "total_amount": 250000,
+        "shipping_address": "FR11 primary confirmed address",
+        "targetStatus": "confirmed",
+        "expectedAmountText": "250.000 ₫"
+      },
+      {
+        "key": "primary_shipping",
+        "total_amount": 375000,
+        "shipping_address": "FR11 primary shipping address",
+        "targetStatus": "shipping",
+        "expectedAmountText": "375.000 ₫"
+      },
+      {
+        "key": "primary_delivered",
+        "total_amount": 500000,
+        "shipping_address": "FR11 primary delivered address",
+        "targetStatus": "delivered",
+        "expectedAmountText": "500.000 ₫"
+      },
+      {
+        "key": "primary_canceled",
+        "total_amount": 625000,
+        "shipping_address": "FR11 primary canceled address",
+        "targetStatus": "canceled",
+        "expectedAmountText": "625.000 ₫"
+      }
+    ],
+    "other": [
+      {
+        "key": "other_user_order",
+        "total_amount": 999000,
+        "shipping_address": "FR11 other user address",
+        "targetStatus": "pending",
+        "expectedAmountText": "999.000 ₫"
+      }
+    ]
+  },
+  "statusExpectations": {
+    "pending": {
+      "label": "Chờ xác nhận",
+      "classContains": ["bg-yellow-100", "text-yellow-800"]
+    },
+    "confirmed": {
+      "label": "Đã xác nhận",
+      "classContains": ["bg-indigo-100", "text-indigo-800"]
+    },
+    "shipping": {
+      "label": "Đang giao",
+      "classContains": ["bg-blue-100", "text-blue-800"]
+    },
+    "delivered": {
+      "label": "Đã giao",
+      "classContains": ["bg-green-100", "text-green-800"]
+    },
+    "canceled": {
+      "label": "Đã hủy",
+      "classContains": ["bg-red-100", "text-red-800"]
+    }
+  },
+  "primary_user_orders": {
+    "description": "User chính có nhiều đơn hàng để kiểm tra bảng lịch sử.",
+    "userRef": "users.primary",
+    "fixtureRefs": ["primary_pending", "primary_confirmed", "primary_shipping"],
+    "expectedMinimumRows": 3,
+    "expectedSectionHeading": "Lịch sử đơn hàng"
+  },
+  "required_columns": {
+    "description": "Các cột bắt buộc theo FR-11.",
+    "expectedHeaders": ["Mã ĐH", "Ngày đặt", "Tổng tiền", "Trạng thái"],
+    "forbiddenEmptyRequiredCells": true
+  },
+  "order_id_display": {
+    "description": "Mã đơn trên UI phải khớp id từ API.",
+    "expectedPrefix": "#",
+    "sourceField": "id"
+  },
+  "amount_format": {
+    "description": "Tổng tiền hiển thị có phân cách hàng nghìn và đơn vị tiền tệ.",
+    "checks": [
+      {
+        "fixtureRef": "primary_pending",
+        "expectedAmountText": "125.000 ₫"
+      },
+      {
+        "fixtureRef": "primary_confirmed",
+        "expectedAmountText": "250.000 ₫"
+      },
+      {
+        "fixtureRef": "primary_shipping",
+        "expectedAmountText": "375.000 ₫"
+      }
+    ],
+    "forbiddenUnitText": "VND"
+  },
+  "status_pending": {
+    "fixtureRef": "primary_pending",
+    "status": "pending",
+    "expected": "statusExpectations.pending"
+  },
+  "status_confirmed": {
+    "fixtureRef": "primary_confirmed",
+    "status": "confirmed",
+    "expected": "statusExpectations.confirmed"
+  },
+  "status_shipping": {
+    "fixtureRef": "primary_shipping",
+    "status": "shipping",
+    "expected": "statusExpectations.shipping"
+  },
+  "status_delivered": {
+    "fixtureRef": "primary_delivered",
+    "status": "delivered",
+    "expected": "statusExpectations.delivered"
+  },
+  "status_canceled": {
+    "fixtureRef": "primary_canceled",
+    "status": "canceled",
+    "expected": "statusExpectations.canceled"
+  },
+  "other_user_isolation": {
+    "description": "Đơn của user phụ không được xuất hiện trong lịch sử user chính.",
+    "primaryUserRef": "users.primary",
+    "otherUserRef": "users.other",
+    "otherOrderRef": "other_user_order",
+    "forbiddenAmountText": "999.000 ₫"
+  },
+  "unauthenticated_profile": {
+    "description": "UI profile khi chưa đăng nhập.",
+    "clearLocalStorageKeys": ["token"],
+    "expectedMessage": "Vui lòng đăng nhập",
+    "forbiddenSectionHeading": "Lịch sử đơn hàng"
+  },
+  "api_without_token": {
+    "description": "API lịch sử đơn hàng từ chối request không có token.",
+    "expectedStatus": 401,
+    "expectedError": "Unauthorized"
+  },
+  "api_invalid_token": {
+    "description": "API lịch sử đơn hàng từ chối token không hợp lệ.",
+    "token": "invalid.fr11.token",
+    "expectedStatus": 403,
+    "expectedError": "Forbidden"
+  },
+  "empty_order_history": {
+    "description": "User chưa có đơn hàng thấy empty state.",
+    "userRef": "users.emptyHistory",
+    "expectedOrderCount": 0,
+    "expectedEmptyStateText": "Bạn chưa có đơn hàng nào."
+  },
+  "testCases": [
+    {
+      "id": "TC-FR11-01",
+      "dataRef": "primary_user_orders"
+    },
+    {
+      "id": "TC-FR11-02",
+      "dataRef": "required_columns"
+    },
+    {
+      "id": "TC-FR11-03",
+      "dataRef": "order_id_display"
+    },
+    {
+      "id": "TC-FR11-04",
+      "dataRef": "amount_format"
+    },
+    {
+      "id": "TC-FR11-05",
+      "dataRef": "status_pending"
+    },
+    {
+      "id": "TC-FR11-06",
+      "dataRef": "status_confirmed"
+    },
+    {
+      "id": "TC-FR11-07",
+      "dataRef": "status_shipping"
+    },
+    {
+      "id": "TC-FR11-08",
+      "dataRef": "status_delivered"
+    },
+    {
+      "id": "TC-FR11-09",
+      "dataRef": "status_canceled"
+    },
+    {
+      "id": "TC-FR11-10",
+      "dataRef": "other_user_isolation"
+    },
+    {
+      "id": "TC-FR11-11",
+      "dataRef": "unauthenticated_profile"
+    },
+    {
+      "id": "TC-FR11-12",
+      "dataRef": "api_without_token"
+    },
+    {
+      "id": "TC-FR11-13",
+      "dataRef": "api_invalid_token"
+    },
+    {
+      "id": "TC-FR11-14",
+      "dataRef": "empty_order_history"
+    }
+  ]
+}

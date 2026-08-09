@@ -93,8 +93,53 @@ I use AI tools for the following tasks:
   AI đã cập nhật `hw04-automation/tests/fr05-listing.spec.js` để thêm `TC-FR05-13` và `TC-FR05-14`. TC13 kiểm tra trang chủ chỉ có đúng một thẻ `h1` và heading chính chứa text mong đợi từ `data/fr05.json`. TC14 dùng `page.route` để delay request sản phẩm theo `delayed_api.delayMs`, sau đó kiểm tra loading indicator trong lúc dữ liệu đang tải và xác nhận danh sách sản phẩm xuất hiện sau khi response hoàn tất. AI cũng bổ sung helper `loadingIndicator(message)` trong `ProductListingPage.js`.
 - **Accepted as-is / Modified:** Accepted by human review.
 
+### [11] FR-11 - Phân tích yêu cầu xem lịch sử đơn hàng
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 14:10
+- **Prompt:**
+  > Phân tích FR-11
+- **Output:**
+  AI đã đọc skill HW04 automation-testing, `feature_pools.md`, `README.md`, `api_specification.md`, `frontend-web/src/App.jsx`, `frontend-web/src/pages/Profile.jsx`, `frontend-web/src/context/AuthContext.jsx`, `backend/server.js` và `backend/database.js`. AI xác định FR-11 thuộc Pool B, phạm vi chính là user đã đăng nhập xem lịch sử đơn hàng của chính mình qua trang `/profile` và API `GET /api/orders/my-orders`. Output cũng ghi rõ các trường bắt buộc cần hiển thị: mã đơn, ngày đặt, tổng tiền, trạng thái hiện tại; trạng thái phải dịch sang tiếng Việt và phân biệt màu. Các điểm mơ hồ được ghi lại gồm định dạng ngày/tiền, empty state, loading/error state và việc UI hiện có nút hủy đơn thuộc phạm vi liên quan FR-10 hơn là yêu cầu cốt lõi của FR-11.
+- **Accepted as-is / Modified:** Accepted by human review.
+
+### [12] FR-11 - Thiết kế test case và dữ liệu kiểm thử
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 14:14
+- **Prompt:**
+  > tiếp tục Stage 2: thiết kế ít nhất 12 test case + tạo data file cho FR-11
+- **Output:**
+  AI đã tạo `hw04-automation/docs/test-cases/FR-11-test-cases.md` với 14 test case cho FR-11, bao phủ luồng tích cực, tiêu cực, biên và bảo mật. Bộ test kiểm tra bảng lịch sử đơn hàng, các trường bắt buộc, định dạng mã đơn/tổng tiền, đủ 5 trạng thái đơn hàng bằng tiếng Việt và màu sắc, isolation giữa user chính và user khác, UI khi chưa đăng nhập, API không token/token sai, và empty state cho user chưa có đơn. AI cũng tạo `hw04-automation/data/fr11.json` chứa users, API routes, fixture đơn hàng, expected label/class trạng thái, expected amount text và mapping `TC-FR11-01` đến `TC-FR11-14`. JSON đã được validate bằng `ConvertFrom-Json`.
+- **Accepted as-is / Modified:** Modified after human review. Thiếu artifact file riêng trong Stage 2 ban đầu.
+
+### [13] FR-11 - Sửa Stage 2 để có file riêng từng test case
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 14:17
+- **Prompt:**
+  > Sao không có từng file md cho từng test case. Hãy cập nhật lại skill để ở stage 2 không chỉ sinh 1 file chung mà sinh riêng từng file test case nữa.
+- **Output:**
+  AI đã cập nhật `.agents/skills/hw04-automation-testing/SKILL.md` để Stage 2 bắt buộc sinh cả file tổng `docs/test-cases/FR-xx-test-cases.md` và từng file riêng `docs/test-cases/TC-FRxx-NN.md`. AI cũng bổ sung 14 file riêng cho FR-11 từ `TC-FR11-01.md` đến `TC-FR11-14.md`, mỗi file có metadata, bước thực hiện, expected result và assertion gợi ý. File tổng `FR-11-test-cases.md` và `docs/report.md` được cập nhật để tham chiếu các file riêng này.
+- **Accepted as-is / Modified:** Accepted by human review.
+
+### [14] FR-11 - Tạo locator/page object cho lịch sử đơn hàng
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 14:26
+- **Prompt:**
+  > tiếp tục Stage 3: tạo locators/page object cho FR-11
+- **Output:**
+  AI đã đọc `frontend-web/src/pages/Profile.jsx`, `hw04-automation/data/fr11.json` và page object FR-05 hiện có, sau đó tạo `hw04-automation/tests/pages/OrderHistoryPage.js`. Page object gồm locator/handler cho trang `/profile`, thông báo chưa đăng nhập, heading lịch sử đơn hàng, empty state, bảng đơn hàng, header, dòng đơn, cell mã đơn/ngày/tổng tiền/trạng thái/thao tác, badge trạng thái, nút hủy đơn và helper chờ response `GET /api/orders/my-orders`. AI cũng tạo `hw04-automation/docs/locator-review/FR-11-locators.md` để ghi rõ độ ổn định của từng selector và rủi ro do frontend chưa có `data-testid`. Cú pháp JS đã được kiểm tra bằng `node --check`.
+- **Accepted as-is / Modified:** Pending human review.
+
+### [15] FR-11 - Sinh automation cho TC-FR11-01 đến TC-FR11-04
+- **Tool:** Codex (GPT-5)
+- **Date/time:** 2026-08-09 14:35
+- **Prompt:**
+  > tiếp tục Stage 4: sinh automation script cho test case FR-11 từ 01->04
+- **Output:**
+  AI đã tạo `hw04-automation/tests/fr11-order-history.spec.js` với automation cho `TC-FR11-01` đến `TC-FR11-04`. Spec dùng `OrderHistoryPage` và `data/fr11.json`, có helper login qua API, tạo order qua `POST /api/checkout`, set token vào localStorage, mở `/profile`, chờ `GET /api/orders/my-orders`, rồi assert bảng lịch sử, header/cell bắt buộc, mã đơn dạng `#<id>` và format tổng tiền. Script hiện dùng nhiều assertion pattern: `toBeVisible`, `toHaveText`, `not.toContainText`, `toBeGreaterThanOrEqual`, và `expect.soft(...).not.toBe("")`. Cú pháp spec và page object đã được kiểm tra bằng `node --check`.
+- **Accepted as-is / Modified:** Pending human review.
+
 ## Tool declaration summary
 
 | Tool | Used for | # of interactions |
 |---|---|---|
-| Codex (GPT-5) | Phân tích FR-05, thiết kế test case Markdown, tạo dữ liệu kiểm thử, tạo locator/page object, review selector, sinh automation theo từng test case và scaffold Playwright config | 10 |
+| Codex (GPT-5) | Phân tích FR-05/FR-11, thiết kế test case Markdown, tạo dữ liệu kiểm thử, tạo locator/page object, review selector, sinh automation theo từng test case, cập nhật skill và scaffold Playwright config | 15 |
