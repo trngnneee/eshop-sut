@@ -93,7 +93,12 @@ test.describe('FR-16: Product Import from CSV Suite', () => {
       await importBtn.click();
 
       // Assert import results
-      if (tc.expectedResult === 'success' || tc.expectedResult === 'persisted_in_table') {
+      if (tc.id === 'TC06' || tc.expectedResult === 'rollback_required') {
+        // BUG-007 / Defect: SUT must rollback entire batch (0 inserted) when error occurs in CSV rows
+        const resultBanner = page.locator('div.bg-green-100, div.bg-yellow-100, div.bg-red-100');
+        await expect(resultBanner).toBeVisible({ timeout: 8000 });
+        await expect(resultBanner, 'SRS Requirement: CSV import transaction must rollback completely (0 inserted) when errors occur').toContainText('Import hoàn tất: 0/');
+      } else if (tc.expectedResult === 'success' || tc.expectedResult === 'persisted_in_table') {
         const successBanner = page.locator('div.bg-green-100');
         await expect(successBanner).toBeVisible({ timeout: 8000 });
         await expect(successBanner).toContainText(`Import hoàn tất: ${tc.expectedInserted}`);
@@ -104,7 +109,7 @@ test.describe('FR-16: Product Import from CSV Suite', () => {
           const productTable = page.locator('table').last();
           await expect(productTable).toContainText('Chuột Gaming Razer');
         }
-      } else if (tc.expectedResult === 'partial_or_error' || tc.expectedResult === 'partial_success') {
+      } else if (tc.expectedResult === 'partial_or_error') {
         const resultBanner = page.locator('div.bg-green-100, div.bg-yellow-100, div.bg-red-100');
         await expect(resultBanner).toBeVisible({ timeout: 8000 });
         if (tc.expectedErrors && tc.expectedErrors > 0) {

@@ -47,11 +47,11 @@
   {
     "id": "TC06",
     "type": "negative",
-    "description": "Import file CSV rỗng chỉ có header (0 dòng dữ liệu, nút Import bị disabled)",
-    "csvFile": "fr16_sample_empty.csv",
+    "description": "Import file CSV chứa dòng dữ liệu lỗi (SRS: Phải rollback toàn bộ transaction, không import dòng nào)",
+    "csvFile": "fr16_sample_mixed.csv",
     "expectedInserted": 0,
-    "expectedErrors": 0,
-    "expectedResult": "button_disabled_or_empty_preview"
+    "expectedErrors": 1,
+    "expectedResult": "rollback_required"
   },
   {
     "id": "TC07",
@@ -65,11 +65,11 @@
   {
     "id": "TC08",
     "type": "edge",
-    "description": "Import file CSV lẫn lộn dòng hợp lệ và dòng không hợp lệ (báo cáo thành công một phần)",
-    "csvFile": "fr16_sample_mixed.csv",
-    "expectedInserted": 2,
-    "expectedErrors": 1,
-    "expectedResult": "partial_success"
+    "description": "Import file CSV rỗng chỉ có header (0 dòng dữ liệu, nút Import bị disabled)",
+    "csvFile": "fr16_sample_empty.csv",
+    "expectedInserted": 0,
+    "expectedErrors": 0,
+    "expectedResult": "button_disabled_or_empty_preview"
   },
   {
     "id": "TC09",
