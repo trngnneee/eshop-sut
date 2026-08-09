@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page, type APIRequestContext } from '@playwright/test';
 import { API_BASE_URL, apiLogin, ADMIN_CREDENTIALS, SEED_USER_CREDENTIALS } from './utils/api';
 import { clearAllOrders } from './utils/db';
 import { loadJsonArray } from './utils/data';
@@ -35,7 +35,7 @@ const TRANSITION_PATH: Record<string, string[]> = {
 };
 
 async function seedOrder(
-  request: any,
+  request: APIRequestContext,
   userToken: string,
   adminToken: string,
   amount: number | null,

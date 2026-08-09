@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type APIRequestContext } from '@playwright/test';
 import { API_BASE_URL, ensureFreshAccount, apiLogin } from './utils/api';
 import { loadJsonArray } from './utils/data';
 
@@ -19,7 +19,7 @@ interface ApiCase {
 
 const cases = loadJsonArray<ApiCase>('cart-api-cases.json', 1);
 
-async function freshToken(request: any, suffix: string): Promise<string> {
+async function freshToken(request: APIRequestContext, suffix: string): Promise<string> {
   const email = `cart-${suffix}@eshop.com`;
   await ensureFreshAccount(request, email, 'ValidPassword1!');
   const res = await apiLogin(request, email, 'ValidPassword1!');

@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page, type APIRequestContext } from '@playwright/test';
 import { API_BASE_URL, apiLogin, SEED_USER_CREDENTIALS } from './utils/api';
 import { loadJsonArray } from './utils/data';
 
@@ -42,7 +42,7 @@ const edgeCases = loadJsonArray<EdgeCase>('cart-edge-cases.json', 1);
 // *clicking* an in-app link/button (a client-side route change) instead of calling
 // `page.goto()` a second time within the same test.
 // ---------------------------------------------------------------------------------
-async function loginViaToken(page: Page, request: any, email: string, password: string) {
+async function loginViaToken(page: Page, request: APIRequestContext, email: string, password: string) {
   const res = await apiLogin(request, email, password);
   const body = await res.json();
   await page.goto('/');

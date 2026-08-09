@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type APIRequestContext } from '@playwright/test';
 import { API_BASE_URL, apiLogin, ensureFreshAccount, ADMIN_CREDENTIALS } from './utils/api';
 import { clearAllOrders, deleteUserByEmail, promoteToAdmin } from './utils/db';
 import { loadJsonArray } from './utils/data';
@@ -25,7 +25,7 @@ const TRANSITION_PATH: Record<string, string[]> = {
   delivered: ['confirmed', 'shipping', 'delivered'],
 };
 
-async function regularUserToken(request: any, caseId: string): Promise<string> {
+async function regularUserToken(request: APIRequestContext, caseId: string): Promise<string> {
   const email = `dash-${caseId.toLowerCase()}@eshop.com`;
   await deleteUserByEmail(email).catch(() => undefined);
   await ensureFreshAccount(request, email, 'ValidPassword1!');
@@ -33,13 +33,13 @@ async function regularUserToken(request: any, caseId: string): Promise<string> {
   return (await res.json()).token;
 }
 
-async function adminToken(request: any): Promise<string> {
+async function adminToken(request: APIRequestContext): Promise<string> {
   const res = await apiLogin(request, ADMIN_CREDENTIALS.email, ADMIN_CREDENTIALS.password);
   return (await res.json()).token;
 }
 
 /** Creates one order and walks it to `fromStatus`, returning its id. */
-async function seedOrderAt(request: any, userTok: string, adminTok: string, fromStatus: string): Promise<number> {
+async function seedOrderAt(request: APIRequestContext, userTok: string, adminTok: string, fromStatus: string): Promise<number> {
   const res = await request.post(`${API_BASE_URL}/api/checkout`, {
     headers: { Authorization: `Bearer ${userTok}` },
     data: { total_amount: 100000, items: [] },
