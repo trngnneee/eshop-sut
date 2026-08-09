@@ -15,6 +15,13 @@ interface ApiCase {
   to?: string;
 }
 
+/** Shape of one row in the /api/admin/users response — only the fields these cases inspect. */
+interface AdminUserRow {
+  id: number;
+  email: string;
+  password?: unknown;
+}
+
 const cases = loadJsonArray<ApiCase>('dashboard-api-cases.json', 1);
 
 const TRANSITION_PATH: Record<string, string[]> = {
@@ -101,7 +108,7 @@ test.describe('FR-13 Dashboard/admin API access control', () => {
           const victimList = await (
             await request.get(`${API_BASE_URL}/api/admin/users`, { headers: { Authorization: `Bearer ${admin}` } })
           ).json();
-          const victimId = victimList.find((u: any) => u.email === victimEmail)?.id;
+          const victimId = victimList.find((u: AdminUserRow) => u.email === victimEmail)?.id;
           const attackerToken = await regularUserToken(request, `${c.caseId}-attacker`);
           const res = await request.delete(`${API_BASE_URL}/api/admin/users/${victimId}`, {
             headers: { Authorization: `Bearer ${attackerToken}` },
@@ -131,7 +138,7 @@ test.describe('FR-13 Dashboard/admin API access control', () => {
           const users = await (
             await request.get(`${API_BASE_URL}/api/admin/users`, { headers: { Authorization: `Bearer ${selfToken}` } })
           ).json();
-          const selfUser = users.find((u: any) => u.email === disposableAdminEmail);
+          const selfUser = users.find((u: AdminUserRow) => u.email === disposableAdminEmail);
           const res = await request.delete(`${API_BASE_URL}/api/admin/users/${selfUser.id}`, {
             headers: { Authorization: `Bearer ${selfToken}` },
           });
@@ -196,7 +203,7 @@ test.describe('FR-13 Dashboard/admin API access control', () => {
           const users = await (
             await request.get(`${API_BASE_URL}/api/admin/users`, { headers: { Authorization: `Bearer ${admin}` } })
           ).json();
-          expect(users.every((u: any) => u.password === undefined)).toBe(true);
+          expect(users.every((u: AdminUserRow) => u.password === undefined)).toBe(true);
           break;
         }
         default:

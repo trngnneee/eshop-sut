@@ -17,6 +17,14 @@ interface ApiCase {
   quantityRaw?: unknown;
 }
 
+/** Shape of one item in the /api/cart response — only the fields these cases inspect. */
+interface CartItem {
+  id: number;
+  name?: string;
+  price?: number;
+  isAdmin?: unknown;
+}
+
 const cases = loadJsonArray<ApiCase>('cart-api-cases.json', 1);
 
 async function freshToken(request: APIRequestContext, suffix: string): Promise<string> {
@@ -55,14 +63,14 @@ test.describe('FR-07 Cart API contract', () => {
           });
           expect(res.status()).toBe(200);
           const cart = await (await request.get(`${API_BASE_URL}/api/cart`, { headers: auth })).json();
-          expect(cart.some((i: any) => i.id === CATALOG_PRODUCT.id)).toBe(true);
+          expect(cart.some((i: CartItem) => i.id === CATALOG_PRODUCT.id)).toBe(true);
           break;
         }
         case 'post-duplicate-id-merges': {
           await request.post(`${API_BASE_URL}/api/cart`, { headers: auth, data: { ...CATALOG_PRODUCT, quantity: 2 } });
           await request.post(`${API_BASE_URL}/api/cart`, { headers: auth, data: { ...CATALOG_PRODUCT, quantity: 3 } });
           const cart = await (await request.get(`${API_BASE_URL}/api/cart`, { headers: auth })).json();
-          expect(cart.filter((i: any) => i.id === CATALOG_PRODUCT.id)).toHaveLength(1);
+          expect(cart.filter((i: CartItem) => i.id === CATALOG_PRODUCT.id)).toHaveLength(1);
           break;
         }
         case 'post-quantity-value': {
@@ -123,7 +131,7 @@ test.describe('FR-07 Cart API contract', () => {
             data: { id: CATALOG_PRODUCT.id, name: 'TOTALLY DIFFERENT NAME', price: CATALOG_PRODUCT.price, quantity: 1 },
           });
           const cart = await (await request.get(`${API_BASE_URL}/api/cart`, { headers: auth })).json();
-          const item = cart.find((i: any) => i.id === CATALOG_PRODUCT.id);
+          const item = cart.find((i: CartItem) => i.id === CATALOG_PRODUCT.id);
           expect(item?.name).toBe(CATALOG_PRODUCT.name);
           break;
         }
@@ -133,7 +141,7 @@ test.describe('FR-07 Cart API contract', () => {
             data: { id: CATALOG_PRODUCT.id, name: CATALOG_PRODUCT.name, price: 1, quantity: 1 },
           });
           const cart = await (await request.get(`${API_BASE_URL}/api/cart`, { headers: auth })).json();
-          const item = cart.find((i: any) => i.id === CATALOG_PRODUCT.id);
+          const item = cart.find((i: CartItem) => i.id === CATALOG_PRODUCT.id);
           expect(item?.price).toBe(CATALOG_PRODUCT.price);
           break;
         }
@@ -164,7 +172,7 @@ test.describe('FR-07 Cart API contract', () => {
             data: { ...CATALOG_PRODUCT, quantity: 1, isAdmin: true, discount: 99 },
           });
           const cart = await (await request.get(`${API_BASE_URL}/api/cart`, { headers: auth })).json();
-          const item = cart.find((i: any) => i.id === CATALOG_PRODUCT.id);
+          const item = cart.find((i: CartItem) => i.id === CATALOG_PRODUCT.id);
           expect(item?.isAdmin).toBeUndefined();
           break;
         }
