@@ -1,0 +1,19 @@
+[
+  { "caseId": "TC-DASHBOARD-ACL-001", "category": "access-control", "description": "GET /api/admin/users không có token phải bị từ chối", "action": "admin-users-no-token" },
+  { "caseId": "TC-DASHBOARD-ACL-002", "category": "access-control", "description": "GET /api/admin/users với token của user thường (không phải admin) phải bị từ chối", "bugRef": "BUG-FR13-C-02", "action": "admin-users-regular-user-token" },
+  { "caseId": "TC-DASHBOARD-ACL-003", "category": "access-control", "description": "GET /api/admin/orders với token của user thường phải bị từ chối", "bugRef": "BUG-FR13-C-02", "action": "admin-orders-regular-user-token" },
+  { "caseId": "TC-DASHBOARD-ACL-004", "category": "access-control", "description": "GET /api/admin/orders không có token phải bị từ chối", "action": "admin-orders-no-token" },
+  { "caseId": "TC-DASHBOARD-ACL-005", "category": "access-control", "description": "DELETE /api/admin/users/:id không có token phải bị từ chối", "action": "delete-user-no-token" },
+  { "caseId": "TC-DASHBOARD-ACL-006", "category": "access-control", "description": "DELETE /api/admin/users/:id với token của user thường phải bị từ chối", "bugRef": "BUG-FR13-C-02", "action": "delete-user-regular-user-token" },
+  { "caseId": "TC-DASHBOARD-USR-001", "category": "data-integrity", "description": "DELETE /api/admin/users/:id với id không tồn tại phải trả lỗi 404, không phải 200 thành công giả", "action": "delete-nonexistent-user" },
+  { "caseId": "TC-DASHBOARD-USR-002", "category": "state-guard", "description": "Admin không được phép tự xóa chính tài khoản admin đang đăng nhập", "action": "admin-self-delete-blocked" },
+  { "caseId": "TC-DASHBOARD-ORD-001", "category": "state-transition", "description": "Chuyển trạng thái đơn hàng trực tiếp từ pending sang delivered (bỏ qua các bước) phải bị từ chối", "action": "invalid-transition", "from": "pending", "to": "delivered" },
+  { "caseId": "TC-DASHBOARD-ORD-002", "category": "state-transition", "description": "Chuyển trạng thái đơn hàng từ canceled sang delivered không được phép (đơn đã hủy không thể hồi sinh)", "action": "invalid-transition", "from": "canceled", "to": "delivered" },
+  { "caseId": "TC-DASHBOARD-ORD-003", "category": "state-transition", "description": "Cập nhật trạng thái cho order id không tồn tại phải trả 404", "action": "update-status-nonexistent-order" },
+  { "caseId": "TC-DASHBOARD-ORD-004", "category": "state-transition", "description": "Chuyển trạng thái hợp lệ pending -> confirmed phải thành công", "action": "valid-transition", "from": "pending", "to": "confirmed" },
+  { "caseId": "TC-DASHBOARD-ACL-007", "category": "access-control", "description": "GET /api/admin/users với token dạng sai định dạng (không phải JWT) không được gây lỗi 500", "action": "admin-users-malformed-token" },
+  { "caseId": "TC-DASHBOARD-ACL-008", "category": "access-control", "description": "PUT /api/admin/orders/:id/status với token của user thường phải bị từ chối", "bugRef": "BUG-FR13-C-02", "action": "update-status-regular-user-token" },
+  { "caseId": "TC-DASHBOARD-ORD-005", "category": "state-transition", "description": "Chuyển trạng thái hợp lệ confirmed -> shipping phải thành công", "action": "valid-transition", "from": "confirmed", "to": "shipping" },
+  { "caseId": "TC-DASHBOARD-ORD-006", "category": "state-transition", "description": "Chuyển trạng thái hợp lệ shipping -> delivered phải thành công", "action": "valid-transition", "from": "shipping", "to": "delivered" },
+  { "caseId": "TC-DASHBOARD-USR-003", "category": "data-exposure", "description": "GET /api/admin/users không được lộ trường password của user trong danh sách", "action": "admin-users-no-password-leak" }
+]

@@ -62,6 +62,20 @@ export function deleteUserByEmail(email: string): Promise<void> {
   );
 }
 
+/** Promotes an existing user to role='admin' (no public API sets role — /api/register
+ * always defaults to 'user'). Used to build a disposable admin account for destructive
+ * admin-permission tests instead of ever touching the real seed admin@eshop.com row. */
+export function promoteToAdmin(email: string): Promise<void> {
+  return withDb(
+    (db) =>
+      new Promise((resolve, reject) => {
+        db.run("UPDATE users SET role = 'admin' WHERE email = ?", [email], (err: Error | null) =>
+          err ? reject(err) : resolve(),
+        );
+      }),
+  );
+}
+
 /** Wipes every order so each FR-13 dashboard case starts from a known, empty order book
  * (there is no DELETE-order API endpoint on the SUT). */
 export function clearAllOrders(): Promise<void> {

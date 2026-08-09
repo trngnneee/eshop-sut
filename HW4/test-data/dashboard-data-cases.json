@@ -1,0 +1,162 @@
+[
+  {
+    "caseId": "TC-DASHBOARD-DT-001",
+    "category": "domain-testing",
+    "description": "1 đơn pending 100k + 2 đơn delivered 200k mỗi đơn => Tổng đơn = 3, Tổng doanh thu = 400k",
+    "bugRef": "BUG-FR13-C-01",
+    "orders": [
+      { "amount": 100000, "finalStatus": "pending" },
+      { "amount": 200000, "finalStatus": "delivered" },
+      { "amount": 200000, "finalStatus": "delivered" }
+    ],
+    "expectedOrderCount": 3,
+    "expectedRevenue": 400000
+  },
+  {
+    "caseId": "TC-DASHBOARD-BVA-001",
+    "category": "boundary",
+    "description": "Không có đơn hàng nào => Tổng đơn = 0, Tổng doanh thu = 0",
+    "orders": [],
+    "expectedOrderCount": 0,
+    "expectedRevenue": 0
+  },
+  {
+    "caseId": "TC-DASHBOARD-BVA-002",
+    "category": "boundary",
+    "description": "Đúng 1 đơn delivered duy nhất => doanh thu phải bằng đúng giá trị đơn đó",
+    "bugRef": "BUG-FR13-C-01",
+    "orders": [{ "amount": 500000, "finalStatus": "delivered" }],
+    "expectedOrderCount": 1,
+    "expectedRevenue": 500000
+  },
+  {
+    "caseId": "TC-DASHBOARD-DT-002",
+    "category": "domain-testing",
+    "description": "Toàn bộ đơn ở trạng thái pending => doanh thu = 0 dù có nhiều đơn",
+    "orders": [
+      { "amount": 100000, "finalStatus": "pending" },
+      { "amount": 200000, "finalStatus": "pending" },
+      { "amount": 300000, "finalStatus": "pending" }
+    ],
+    "expectedOrderCount": 3,
+    "expectedRevenue": 0
+  },
+  {
+    "caseId": "TC-DASHBOARD-DT-003",
+    "category": "domain-testing",
+    "description": "Đơn confirmed và shipping (chưa delivered) không được tính vào doanh thu",
+    "orders": [
+      { "amount": 100000, "finalStatus": "confirmed" },
+      { "amount": 200000, "finalStatus": "shipping" }
+    ],
+    "expectedOrderCount": 2,
+    "expectedRevenue": 0
+  },
+  {
+    "caseId": "TC-DASHBOARD-DT-004",
+    "category": "domain-testing",
+    "description": "Đơn canceled không được tính vào doanh thu",
+    "orders": [{ "amount": 500000, "finalStatus": "canceled" }],
+    "expectedOrderCount": 1,
+    "expectedRevenue": 0
+  },
+  {
+    "caseId": "TC-DASHBOARD-DT-005",
+    "category": "data-integrity",
+    "description": "Đơn hàng thiếu total_amount (null) không được làm hỏng phép tính tổng doanh thu của các đơn khác",
+    "bugRef": "BUG-FR13-C-04",
+    "orders": [
+      { "amount": 300000, "finalStatus": "delivered" },
+      { "amount": null, "finalStatus": "delivered" }
+    ],
+    "expectedOrderCount": 2,
+    "expectedRevenue": 300000
+  },
+  {
+    "caseId": "TC-DASHBOARD-BVA-003",
+    "category": "boundary",
+    "description": "Đơn hàng có total_amount âm không được làm doanh thu hiển thị số âm vô lý",
+    "orders": [{ "amount": -50000, "finalStatus": "delivered" }],
+    "expectedOrderCount": 1,
+    "expectedRevenue": 0
+  },
+  {
+    "caseId": "TC-DASHBOARD-BVA-004",
+    "category": "boundary",
+    "description": "Đơn hàng có total_amount rất lớn vẫn hiển thị đúng, không tràn số/hiển thị ký hiệu khoa học",
+    "orders": [{ "amount": 999999999, "finalStatus": "delivered" }],
+    "expectedOrderCount": 1,
+    "expectedRevenue": 999999999
+  },
+  {
+    "caseId": "TC-DASHBOARD-DT-006",
+    "category": "domain-testing",
+    "description": "Nhiều đơn delivered (5 đơn) cộng dồn doanh thu chính xác",
+    "orders": [
+      { "amount": 100000, "finalStatus": "delivered" },
+      { "amount": 200000, "finalStatus": "delivered" },
+      { "amount": 300000, "finalStatus": "delivered" },
+      { "amount": 400000, "finalStatus": "delivered" },
+      { "amount": 500000, "finalStatus": "delivered" }
+    ],
+    "expectedOrderCount": 5,
+    "expectedRevenue": 1500000
+  },
+  {
+    "caseId": "TC-DASHBOARD-DT-007",
+    "category": "domain-testing",
+    "description": "Tổng số đơn hàng phải đếm tất cả trạng thái, không chỉ riêng delivered",
+    "orders": [
+      { "amount": 100000, "finalStatus": "pending" },
+      { "amount": 200000, "finalStatus": "confirmed" },
+      { "amount": 300000, "finalStatus": "shipping" },
+      { "amount": 400000, "finalStatus": "delivered" },
+      { "amount": 500000, "finalStatus": "canceled" }
+    ],
+    "expectedOrderCount": 5,
+    "expectedRevenue": 400000
+  },
+  {
+    "caseId": "TC-DASHBOARD-BVA-005",
+    "category": "boundary",
+    "description": "Đơn hàng có total_amount là số thập phân vẫn được cộng đúng, không làm tròn sai",
+    "orders": [{ "amount": 150000.5, "finalStatus": "delivered" }],
+    "expectedOrderCount": 1,
+    "expectedRevenue": 150000.5
+  },
+  {
+    "caseId": "TC-DASHBOARD-STATE-001",
+    "category": "state-transition",
+    "description": "Doanh thu phải cập nhật ngay sau khi admin chuyển 1 đơn từ shipping sang delivered",
+    "orders": [{ "amount": 250000, "finalStatus": "shipping" }],
+    "expectedOrderCount": 1,
+    "expectedRevenue": 0,
+    "thenTransitionLastOrderTo": "delivered",
+    "expectedRevenueAfterTransition": 250000
+  },
+  {
+    "caseId": "TC-DASHBOARD-LOGIN-001",
+    "category": "access-control-ui",
+    "description": "Tài khoản không phải admin không đăng nhập được vào trang Admin (chặn ở phía Client)",
+    "check": "non-admin-blocked-at-login"
+  },
+  {
+    "caseId": "TC-DASHBOARD-BVA-006",
+    "category": "boundary",
+    "description": "10 đơn delivered cùng giá trị nhỏ, kiểm tra không lệch số do làm tròn tích lũy",
+    "orders": [
+      { "amount": 10000, "finalStatus": "delivered" },
+      { "amount": 10000, "finalStatus": "delivered" },
+      { "amount": 10000, "finalStatus": "delivered" },
+      { "amount": 10000, "finalStatus": "delivered" },
+      { "amount": 10000, "finalStatus": "delivered" },
+      { "amount": 10000, "finalStatus": "delivered" },
+      { "amount": 10000, "finalStatus": "delivered" },
+      { "amount": 10000, "finalStatus": "delivered" },
+      { "amount": 10000, "finalStatus": "delivered" },
+      { "amount": 10000, "finalStatus": "delivered" }
+    ],
+    "expectedOrderCount": 10,
+    "expectedRevenue": 100000
+  }
+]
