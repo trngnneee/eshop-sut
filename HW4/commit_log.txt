@@ -1,0 +1,62 @@
+9f1a569 2026-08-09 17:10:12 +0700 docs(hw4): label assertion patterns in cart.spec.ts and dashboard.spec.ts
+9ef22fa 2026-08-09 17:06:49 +0700 refactor(hw4): type the /api/cart and /api/admin/users response shapes
+4cdc046 2026-08-09 17:05:34 +0700 refactor(hw4): replace request: any with request: APIRequestContext
+f97806d 2026-08-09 17:04:27 +0700 refactor(hw4): extract shared loadJsonArray() into tests/utils/data.ts
+9c67b3a 2026-08-09 16:00:22 +0700 feat(hw4): automate FR-13 Admin Dashboard with 32 data-driven cases
+7c084b6 2026-08-09 15:45:34 +0700 feat(hw4): automate FR-07 Shopping Cart with 63 data-driven cases
+4e52f10 2026-08-08 20:57:46 +0700 feat(hw4): automate FR-02 Login & Lockout with 63 data-driven cases
+cdacc51 2026-08-08 20:20:46 +0700 chore(hw4): scaffold per-feature x browser report matrix
+1678a00 2026-07-28 00:31:54 +0700 updt skills
+43fefdf 2026-07-27 23:00:14 +0700 l
+609b6e6 2026-07-14 19:17:36 +0700 chore: remove assignment directory from seminar branch
+f124338 2026-07-10 01:44:21 +0700 updt skill
+2b0adb0 2026-07-10 00:48:12 +0700 ok
+fed8f6e 2026-06-29 02:37:30 +0700 docs: add commit_log.txt for submission
+d3781a3 2026-06-29 02:37:22 +0700 docs: fix absolute paths to relative and correct screenshot paths/extensions across login, cart, dashboard, and mobile-cart reports
+d944f41 2026-06-29 01:09:54 +0700 docs: update GitHub Issue links in summary tables
+eaa2ff0 2026-06-29 00:57:40 +0700 docs: complete Domain & BVA test cases, execution results and bug reports for FR-13 Dashboard
+5e0cead 2026-06-28 16:36:30 +0700 Complete domain & BVA testing reports and AI audit log for FR-02 and FR-07
+ad02d9c 2026-06-28 04:58:23 +0700 update screenshot links in cart bug reports after sync
+a0d2923 2026-06-28 04:57:49 +0700 add updated local evidence screenshots
+64ac52e 2026-06-28 04:52:43 +0700 delete BUG-FR07-B-18 and TC-CART-083 and renumber remaining cart files
+1228eb5 2026-06-28 04:48:37 +0700 delete BUG-FR07-B-17 and TC-CART-087 and renumber remaining cart assets
+f10ac6b 2026-06-28 04:37:16 +0700 add bug reports B-13 to B-20 and evidence screenshots for cart
+de2e039 2026-06-28 04:33:43 +0700 update test results for TC-CART-061..090 after executing against active SUT
+3c07b67 2026-06-28 04:31:37 +0700 add 30 new cart test cases TC-CART-061 to 090
+c893cbf 2026-06-28 04:19:27 +0700 update screenshot links in cart bug reports
+647ba44 2026-06-28 04:18:51 +0700 update cart bugs and testcases with renumbering and blackbox
+0aabe29 2026-06-27 14:48:18 +0700 test(cart): implement BUG-FR07-B-13 (missing add-to-cart toast feedback)
+e90d18e 2026-06-27 14:29:31 +0700 test(cart): implement 15 new test cases (TC-CART-048 to 062) and generate 3 new bug reports
+5212bbd 2026-06-27 12:48:17 +0700 test: renumber login/lockout test cases and bugs to be continuous, delete bug 22 (issue #52)
+80a23e3 2026-06-27 02:25:27 +0700 docs(bug): update bug reports and GitHub issues using user-provided login screenshots
+65ac9e1 2026-06-26 21:47:01 +0700 test(cart): execute 47 test cases for FR-07, generate 9 bug reports and sprint-3 test run
+a7902dc 2026-06-26 21:17:04 +0700 docs(tests): generate 47 test cases for FR-07 Cart and update traceability matrix
+eb10cd2 2026-06-26 15:06:57 +0700 docs(bug): update bug reports and upload real screenshot evidence for BUG-FR02-A-01 to 22
+9e4b5f0 2026-06-26 14:55:09 +0700 docs: add AI Audit Report and AI Critique for FR-02
+e30d000 2026-06-26 05:39:30 +0700 docs: update extra test cases and matrix with static analysis bugs #50-#52
+e5a851f 2026-06-26 05:36:10 +0700 docs: add 73 extra test cases for login, lockout, jwt, remember me, google oauth, errors, and api contract
+4cf736b 2026-06-26 05:23:25 +0700 docs: add 8 new lockout test cases, update advanced tests and bug reports
+9ba7cc1 2026-06-25 16:42:55 +0700 update skill
+6e05ac8 2026-06-25 14:22:53 +0700 updt testcase login
+d5eaf83 2026-06-23 16:34:22 +0700 update skill and FR2
+dc41066 2026-06-23 13:54:44 +0700 setup skill for agent(antigravity)
+ddfb42f 2026-06-08 16:47:44 +0700 Test case login
+ad020a0 2026-06-08 16:45:12 +0700 Test case login
+d897a21 2026-06-08 16:42:32 +0700 Update issue templates
+957052d 2026-06-07 23:52:40 +0700 Fix url frontend-admin
+b4a0df5 2026-06-07 23:33:10 +0700 Update Backend URL call cho FE
+1673255 2026-06-07 23:24:17 +0700 Fix
+4c3230c 2026-06-07 23:19:08 +0700 Remove
+4065ae3 2026-06-07 23:16:38 +0700 Update sqlite3 version
+3650c56 2026-06-07 23:08:16 +0700 Push
+85af3ba 2026-05-15 08:30:35 +0700 first upload
+2f9bf2b 2026-05-15 08:27:44 +0700 Initial commit
+--- Commits touching .spec.ts files (qualify toward the 8-commit minimum) ---
+9f1a569 2026-08-09 17:10:12 +0700 docs(hw4): label assertion patterns in cart.spec.ts and dashboard.spec.ts
+9ef22fa 2026-08-09 17:06:49 +0700 refactor(hw4): type the /api/cart and /api/admin/users response shapes
+4cdc046 2026-08-09 17:05:34 +0700 refactor(hw4): replace request: any with request: APIRequestContext
+f97806d 2026-08-09 17:04:27 +0700 refactor(hw4): extract shared loadJsonArray() into tests/utils/data.ts
+9c67b3a 2026-08-09 16:00:22 +0700 feat(hw4): automate FR-13 Admin Dashboard with 32 data-driven cases
+7c084b6 2026-08-09 15:45:34 +0700 feat(hw4): automate FR-07 Shopping Cart with 63 data-driven cases
+4e52f10 2026-08-08 20:57:46 +0700 feat(hw4): automate FR-02 Login & Lockout with 63 data-driven cases
+43fefdf 2026-07-27 23:00:14 +0700 l
