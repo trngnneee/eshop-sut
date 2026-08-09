@@ -61,3 +61,14 @@ export function deleteUserByEmail(email: string): Promise<void> {
       }),
   );
 }
+
+/** Wipes every order so each FR-13 dashboard case starts from a known, empty order book
+ * (there is no DELETE-order API endpoint on the SUT). */
+export function clearAllOrders(): Promise<void> {
+  return withDb(
+    (db) =>
+      new Promise((resolve, reject) => {
+        db.run('DELETE FROM orders', [], (err: Error | null) => (err ? reject(err) : resolve()));
+      }),
+  );
+}

@@ -1,0 +1,7 @@
+[
+  { "caseId": "TC-CART-071", "category": "session-edge", "description": "Thêm sản phẩm rồi logout, login bằng user khác không được thấy giỏ hàng của user trước", "action": "cart-cleared-on-user-switch" },
+  { "caseId": "TC-CART-072", "category": "session-edge", "description": "Login user A thêm sản phẩm, logout, login lại user A — kỳ vọng giỏ hàng còn hoặc được thông báo rõ đã mất", "action": "cart-lost-on-relogin" },
+  { "caseId": "TC-CART-078", "category": "data-integrity", "description": "Giỏ hàng chứa sản phẩm đã bị xóa khỏi hệ thống (qua trang Checkout) không được vỡ giao diện", "action": "cart-with-deleted-product" },
+  { "caseId": "TC-CART-080", "category": "data-integrity", "description": "Giỏ hàng chứa sản phẩm đã bị đổi giá sau khi thêm — giỏ hàng vẫn dùng giá cũ (không đồng bộ giá)", "bugRef": "BUG-FR07-B-13", "action": "cart-with-price-changed-product" },
+  { "caseId": "TC-CART-088-CHECKOUT-TAMPER", "category": "api-security", "description": "Sửa trực tiếp ô Tổng tiền thanh toán trên trang Checkout thành giá trị bất kỳ rồi xác nhận vẫn được backend chấp nhận (Price Tampering qua Checkout)", "bugRef": "BUG-FR07-B-13", "action": "checkout-editable-total-tampering", "tamperedTotal": 1000 }
+]

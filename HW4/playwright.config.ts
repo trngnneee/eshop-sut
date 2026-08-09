@@ -65,9 +65,17 @@ export default defineConfig({
   ],
   use: {
     baseURL: cfg.baseURL,
-    trace: 'on',
-    screenshot: 'on',
-    video: 'on',
+    // EShop is a Vietnamese storefront and its `toLocaleString()` currency formatting
+    // depends on the browser's locale — pin it so assertions on "1.234.567 ₫"-style
+    // text are deterministic instead of depending on the host machine's default locale.
+    locale: 'vi-VN',
+    // FR-02 (login) was run with trace/video/screenshot always-on while this suite was
+    // still being validated. For FR-07/FR-13 (much larger case counts) evidence is kept
+    // only for failing tests to keep the repo size reasonable — full failure diagnostics
+    // (trace, video, screenshot) are still captured for every bug this suite finds.
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
   },
   projects: [
     {
