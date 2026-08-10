@@ -61,7 +61,10 @@ test.describe(data.feature, { tag: ['@fr14', '@pool-c', '@admin'] }, () => {
           const rowsBefore = await admin.rows.count();
           await admin.addCategory(name);
           if (tc.expected.accepted) {
-            await expect(admin.cellByName(name)).toBeVisible();
+            await expect(
+              admin.cellByName(name),
+              'danh mục hợp lệ phải xuất hiện trong bảng sau khi thêm',
+            ).toBeVisible();
             await expect(admin.rows).toHaveCount(rowsBefore + 1);
           } else {
             // Spec: tên bắt buộc → không được thêm dòng mới vào bảng

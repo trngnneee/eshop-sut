@@ -76,9 +76,15 @@ test.describe(data.feature, { tag: ['@fr09', '@pool-b', '@checkout'] }, () => {
         ).toContainText(`${fmt(tc.expected.final!)} ₫`);
       } else {
         // rejected — spec yêu cầu từ chối kèm thông báo lý do
-        await expect(checkout.couponError).toBeVisible();
+        await expect(
+          checkout.couponError,
+          'spec FR-09 yêu cầu từ chối kèm thông báo lý do khi vi phạm điều kiện C1–C5',
+        ).toBeVisible();
         await expect(checkout.couponError).toContainText(tc.expected.errorContains!);
-        await expect(checkout.couponSuccess).toBeHidden();
+        await expect(
+          checkout.couponSuccess,
+          'mã bị từ chối thì không được hiển thị khối áp dụng thành công',
+        ).toBeHidden();
       }
     });
   }
