@@ -3,7 +3,7 @@ name: Newman API Tests
 on:
   push:
     branches:
-      - 'HW4-Thinh'
+      - 'HW6-Thinh'
   pull_request:
     branches:
       - main
