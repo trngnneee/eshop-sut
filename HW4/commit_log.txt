@@ -1,4 +1,5 @@
 === Full git log ===
+c151563 docs(hw4): add evidence screenshots for the 30 already-known bugs too
 9fb76ee refactor(hw4): drop the NEW- prefix from all new-bug IDs and evidence filenames
 4f0fba8 docs(hw4): add demo video links (automation run + Agent Skill)
 7f3dbb7 feat(hw4): seventh pass — pure boundary/robustness volume to reach 400 cases suite-wide

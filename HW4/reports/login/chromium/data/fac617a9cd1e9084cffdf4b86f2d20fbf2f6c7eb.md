@@ -1,0 +1,260 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: login.spec.ts >> FR-02 Login form submission (data-driven) >> TC-LOGIN-005: Email có khoảng trắng đầu/cuối phải được trim và đăng nhập thành công
+- Location: tests\login.spec.ts:87:9
+
+# Error details
+
+```
+Error: expect(page).toHaveURL(expected) failed
+
+Expected: "http://localhost:5173/"
+Received: "http://localhost:5173/login"
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveURL" with timeout 5000ms
+    14 × locator resolved to <html lang="en">…</html>
+       - unexpected value "http://localhost:5173/login"
+
+```
+
+```yaml
+- banner:
+  - link "EShop":
+    - /url: /
+  - navigation:
+    - link "Giỏ hàng":
+      - /url: /cart
+    - link "Đăng nhập":
+      - /url: /login
+    - link "Đăng ký":
+      - /url: /register
+- main:
+  - heading "Đăng Ký" [level=2]
+  - text: Username
+  - textbox: test@eshop.com
+  - text: Mật khẩu
+  - textbox: Test1234!
+  - link "Quên mật khẩu?":
+    - /url: /forgot-password
+  - button "Sign In"
+  - text: Chưa có tài khoản?
+  - link "Đăng ký ngay":
+    - /url: /register
+  - text: Đăng nhập thất bại. Vui lòng kiểm tra lại.
+- contentinfo: © 2026 EShop SUT. Dành cho mục đích kiểm thử.
+```
+
+# Test source
+
+```ts
+  8   | 
+  9   | // ---------------------------------------------------------------------------------
+  10  | // Data models + runtime validation (Section: "Make the scripts data-driven")
+  11  | // ---------------------------------------------------------------------------------
+  12  | interface SimpleLoginCase {
+  13  |   caseId: string;
+  14  |   category: string;
+  15  |   description: string;
+  16  |   bugRef?: string;
+  17  |   accountMode: 'shared-existing' | 'fresh' | 'nonexistent';
+  18  |   registerEmail?: string;
+  19  |   registerPassword?: string;
+  20  |   email: string;
+  21  |   password: string;
+  22  |   expectedOutcome: 'success' | 'error';
+  23  |   expectedErrorContains?: string;
+  24  | }
+  25  | 
+  26  | interface UiCase {
+  27  |   caseId: string;
+  28  |   category: string;
+  29  |   description: string;
+  30  |   bugRef?: string;
+  31  |   check: string;
+  32  |   email?: string;
+  33  |   password?: string;
+  34  | }
+  35  | 
+  36  | interface LockoutCase {
+  37  |   caseId: string;
+  38  |   category: string;
+  39  |   description: string;
+  40  |   bugRef?: string;
+  41  |   action: string;
+  42  |   wrongAttempts?: number;
+  43  |   expectedAttempts?: number;
+  44  |   expectedLocked?: boolean;
+  45  |   expectedFinalOutcome?: 'success' | 'blocked';
+  46  |   expectedMaxLockDurationMs?: number;
+  47  |   expectedAttemptsAfterSuccess?: number;
+  48  |   firstWrongAttempts?: number;
+  49  |   expectedAttemptsAfterSecondWrong?: number;
+  50  |   concurrentAttempts?: number;
+  51  |   extraWrongAttemptsWhileLocked?: number;
+  52  |   newPassword?: string;
+  53  | }
+  54  | 
+  55  | const simpleCases = loadJsonArray<SimpleLoginCase>('login-cases.json', 12);
+  56  | const uiCases = loadJsonArray<UiCase>('login-ui-cases.json', 1);
+  57  | const lockoutCases = loadJsonArray<LockoutCase>('login-lockout-cases.json', 1);
+  58  | 
+  59  | // ---------------------------------------------------------------------------------
+  60  | // Page helpers (the SUT's Login.jsx has no <label for>, so inputs are located via
+  61  | // their surrounding field container text - see docs/system-analysis.md)
+  62  | // ---------------------------------------------------------------------------------
+  63  | async function fillLoginForm(page: Page, email: string, password: string) {
+  64  |   await page.locator('div').filter({ hasText: /^Username$/ }).locator('input').fill(email);
+  65  |   await page.locator('div').filter({ hasText: /^Mật khẩu$/ }).locator('input').fill(password);
+  66  | }
+  67  | 
+  68  | async function submitLogin(page: Page) {
+  69  |   await page.getByRole('button', { name: /Sign In|Đăng nhập/ }).click();
+  70  | }
+  71  | 
+  72  | // ---------------------------------------------------------------------------------
+  73  | // Shape A - single login attempt, fresh/shared/nonexistent account (31 cases)
+  74  | // ---------------------------------------------------------------------------------
+  75  | test.describe('FR-02 Login form submission (data-driven)', () => {
+  76  |   // Several cases here use the shared seed account (test@eshop.com) with its CORRECT
+  77  |   // password and expect success. If a previous run (or a run of another feature's suite
+  78  |   // against the same long-lived backend) happened to lock that account within the last
+  79  |   // 180s (the real, buggy lock duration — see BUG-FR02-A-02), those cases fail for a
+  80  |   // reason that has nothing to do with what they're actually testing. Force it unlocked
+  81  |   // once before this describe block runs so the suite's own history can't flake it.
+  82  |   test.beforeAll(async () => {
+  83  |     await forceLockedUntil('test@eshop.com', null).catch(() => undefined);
+  84  |   });
+  85  | 
+  86  |   for (const c of simpleCases) {
+  87  |     test(`${c.caseId}: ${c.description}`, async ({ page, request }, testInfo) => {
+  88  |       testInfo.annotations.push({ type: 'Run by', description: STUDENT_ID });
+  89  |       if (c.bugRef) testInfo.annotations.push({ type: 'Bug ref', description: c.bugRef });
+  90  | 
+  91  |       if (c.accountMode === 'fresh') {
+  92  |         await deleteUserByEmail(c.registerEmail!).catch(() => undefined);
+  93  |         await ensureFreshAccount(request, c.registerEmail!, c.registerPassword!);
+  94  |       }
+  95  | 
+  96  |       let dialogAppeared = false;
+  97  |       page.on('dialog', async (dialog) => {
+  98  |         dialogAppeared = true;
+  99  |         await dialog.dismiss();
+  100 |       });
+  101 | 
+  102 |       await page.goto('/login');
+  103 |       await fillLoginForm(page, c.email, c.password);
+  104 |       await submitLogin(page);
+  105 | 
+  106 |       if (c.expectedOutcome === 'success') {
+  107 |         // Assertion pattern 1: URL navigation
+> 108 |         await expect(page).toHaveURL(HOME_URL);
+      |                            ^ Error: expect(page).toHaveURL(expected) failed
+  109 |         // Assertion pattern 2: element visibility
+  110 |         await expect(page.getByRole('button', { name: 'Thoát' })).toBeVisible();
+  111 |       } else {
+  112 |         // Assertion pattern 1 (negated): stays on the login page
+  113 |         await expect(page).toHaveURL(/\/login/);
+  114 |         if (c.expectedErrorContains) {
+  115 |           // Assertion pattern 3: text content
+  116 |           await expect(page.getByText(c.expectedErrorContains, { exact: false })).toBeVisible();
+  117 |         }
+  118 |       }
+  119 | 
+  120 |       if (c.caseId === 'TC-LOGIN-016') {
+  121 |         // Security oracle for the XSS case: no JS dialog must ever fire.
+  122 |         expect(dialogAppeared).toBe(false);
+  123 |       }
+  124 |     });
+  125 |   }
+  126 | });
+  127 | 
+  128 | // ---------------------------------------------------------------------------------
+  129 | // Shape B - UI/UX/accessibility standards (7 cases)
+  130 | // ---------------------------------------------------------------------------------
+  131 | test.describe('FR-02 Login UI standards', () => {
+  132 |   for (const c of uiCases) {
+  133 |     test(`${c.caseId}: ${c.description}`, async ({ page, request }, testInfo) => {
+  134 |       testInfo.annotations.push({ type: 'Run by', description: STUDENT_ID });
+  135 |       if (c.bugRef) testInfo.annotations.push({ type: 'Bug ref', description: c.bugRef });
+  136 | 
+  137 |       // Session-lifecycle cases deliberately send a wrong-password attempt or otherwise
+  138 |       // touch the account's login_attempts counter - never do that against the shared
+  139 |       // seed account (test@eshop.com), or a lockout here breaks every later case in this
+  140 |       // describe block that also logs in as that account. Give these a disposable account.
+  141 |       const sessionLifecycleCases = ['TC-LOGIN-042', 'TC-LOGIN-043', 'TC-LOGIN-046'];
+  142 |       let email = c.email;
+  143 |       let password = c.password;
+  144 |       if (sessionLifecycleCases.includes(c.caseId)) {
+  145 |         email = `${c.caseId.toLowerCase()}@eshop.com`;
+  146 |         password = c.caseId === 'TC-LOGIN-046' ? 'WrongPassword1!' : 'Test1234!';
+  147 |         await deleteUserByEmail(email).catch(() => undefined);
+  148 |         await ensureFreshAccount(request, email, c.caseId === 'TC-LOGIN-046' ? 'ValidPassword1!' : password);
+  149 |       }
+  150 | 
+  151 |       await page.goto('/login');
+  152 | 
+  153 |       switch (c.check) {
+  154 |         case 'form-standards': {
+  155 |           await expect(page.getByRole('heading')).toHaveText(/Đăng Nhập|Đăng nhập/i);
+  156 |           await expect(page.getByText('Email', { exact: false })).toBeVisible();
+  157 |           const pwInput = page.locator('div').filter({ hasText: /^Mật khẩu$/ }).locator('input');
+  158 |           await expect(pwInput).toHaveAttribute('type', 'password');
+  159 |           await expect(page.getByRole('button', { name: 'Đăng nhập' })).toBeVisible();
+  160 |           break;
+  161 |         }
+  162 |         case 'loading-state': {
+  163 |           await fillLoginForm(page, c.email!, c.password!);
+  164 |           const button = page.getByRole('button', { name: /Sign In|Đăng nhập/ });
+  165 |           await button.click();
+  166 |           await expect(button).toBeDisabled();
+  167 |           break;
+  168 |         }
+  169 |         case 'password-toggle': {
+  170 |           const toggle = page.getByRole('button', { name: /hiện mật khẩu|show password|toggle password/i });
+  171 |           await expect(toggle).toBeVisible();
+  172 |           break;
+  173 |         }
+  174 |         case 'route-guard': {
+  175 |           await fillLoginForm(page, c.email!, c.password!);
+  176 |           await submitLogin(page);
+  177 |           await expect(page).toHaveURL(HOME_URL);
+  178 |           await page.goto('/login');
+  179 |           await expect(page).not.toHaveURL(/\/login/);
+  180 |           break;
+  181 |         }
+  182 |         case 'no-credentials-in-url': {
+  183 |           await fillLoginForm(page, c.email!, c.password!);
+  184 |           await submitLogin(page);
+  185 |           await expect(page).not.toHaveURL(new RegExp(c.password!.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  186 |           break;
+  187 |         }
+  188 |         case 'tab-order': {
+  189 |           const emailInput = page.locator('div').filter({ hasText: /^Username$/ }).locator('input');
+  190 |           await page.keyboard.press('Tab');
+  191 |           await expect(emailInput).toBeFocused();
+  192 |           break;
+  193 |         }
+  194 |         case 'autofill-attributes': {
+  195 |           const emailInput = page.locator('div').filter({ hasText: /^Username$/ }).locator('input');
+  196 |           await expect(emailInput).toHaveAttribute('autocomplete', 'username');
+  197 |           break;
+  198 |         }
+  199 |         case 'offline-submit': {
+  200 |           await fillLoginForm(page, c.email!, c.password!);
+  201 |           await page.context().setOffline(true);
+  202 |           await submitLogin(page);
+  203 |           await page.waitForTimeout(1000);
+  204 |           await expect(page.locator('body')).toBeVisible();
+  205 |           await page.context().setOffline(false);
+  206 |           break;
+  207 |         }
+  208 |         case 'session-persist-reload': {
+```

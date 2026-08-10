@@ -58,7 +58,7 @@ const lockoutCases = loadJsonArray<LockoutCase>('login-lockout-cases.json', 1);
 
 // ---------------------------------------------------------------------------------
 // Page helpers (the SUT's Login.jsx has no <label for>, so inputs are located via
-// their surrounding field container text — see docs/system-analysis.md)
+// their surrounding field container text - see docs/system-analysis.md)
 // ---------------------------------------------------------------------------------
 async function fillLoginForm(page: Page, email: string, password: string) {
   await page.locator('div').filter({ hasText: /^Username$/ }).locator('input').fill(email);
@@ -70,9 +70,19 @@ async function submitLogin(page: Page) {
 }
 
 // ---------------------------------------------------------------------------------
-// Shape A — single login attempt, fresh/shared/nonexistent account (31 cases)
+// Shape A - single login attempt, fresh/shared/nonexistent account (31 cases)
 // ---------------------------------------------------------------------------------
 test.describe('FR-02 Login form submission (data-driven)', () => {
+  // Several cases here use the shared seed account (test@eshop.com) with its CORRECT
+  // password and expect success. If a previous run (or a run of another feature's suite
+  // against the same long-lived backend) happened to lock that account within the last
+  // 180s (the real, buggy lock duration — see BUG-FR02-A-02), those cases fail for a
+  // reason that has nothing to do with what they're actually testing. Force it unlocked
+  // once before this describe block runs so the suite's own history can't flake it.
+  test.beforeAll(async () => {
+    await forceLockedUntil('test@eshop.com', null).catch(() => undefined);
+  });
+
   for (const c of simpleCases) {
     test(`${c.caseId}: ${c.description}`, async ({ page, request }, testInfo) => {
       testInfo.annotations.push({ type: 'Run by', description: STUDENT_ID });
@@ -116,7 +126,7 @@ test.describe('FR-02 Login form submission (data-driven)', () => {
 });
 
 // ---------------------------------------------------------------------------------
-// Shape B — UI/UX/accessibility standards (7 cases)
+// Shape B - UI/UX/accessibility standards (7 cases)
 // ---------------------------------------------------------------------------------
 test.describe('FR-02 Login UI standards', () => {
   for (const c of uiCases) {
@@ -125,7 +135,7 @@ test.describe('FR-02 Login UI standards', () => {
       if (c.bugRef) testInfo.annotations.push({ type: 'Bug ref', description: c.bugRef });
 
       // Session-lifecycle cases deliberately send a wrong-password attempt or otherwise
-      // touch the account's login_attempts counter — never do that against the shared
+      // touch the account's login_attempts counter - never do that against the shared
       // seed account (test@eshop.com), or a lockout here breaks every later case in this
       // describe block that also logs in as that account. Give these a disposable account.
       const sessionLifecycleCases = ['TC-LOGIN-042', 'TC-LOGIN-043', 'TC-LOGIN-046'];
@@ -199,7 +209,7 @@ test.describe('FR-02 Login UI standards', () => {
           await fillLoginForm(page, email!, password!);
           await submitLogin(page);
           await expect(page).toHaveURL(HOME_URL);
-          // Assertion pattern: reload the page and confirm the session survived it —
+          // Assertion pattern: reload the page and confirm the session survived it -
           // token lives in localStorage (not React state), so a real reload rehydrates it.
           await page.reload();
           await expect(page.getByRole('button', { name: 'Thoát' })).toBeVisible();
@@ -224,7 +234,7 @@ test.describe('FR-02 Login UI standards', () => {
           await page.evaluate(() => localStorage.setItem('token', 'not-a-real-jwt-string'));
           await page.reload();
           // The AuthContext effect fires GET /api/users/me with the bad token, gets a
-          // non-2xx, and calls logout() — the header must show the guest state again.
+          // non-2xx, and calls logout() - the header must show the guest state again.
           await expect(page.getByRole('link', { name: 'Đăng nhập' })).toBeVisible();
           const tokenAfter = await page.evaluate(() => localStorage.getItem('token'));
           expect(tokenAfter).toBeNull();
@@ -247,7 +257,7 @@ test.describe('FR-02 Login UI standards', () => {
         }
         case 'forged-token-rejected': {
           // A structurally valid JWT (3 dot-separated base64url parts) signed with the
-          // wrong secret — jwt.verify() on the backend must reject it just like garbage.
+          // wrong secret - jwt.verify() on the backend must reject it just like garbage.
           const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
           const payload = Buffer.from(JSON.stringify({ id: 1, email: 'forged@eshop.com', exp: Math.floor(Date.now() / 1000) + 3600 })).toString('base64url');
           const forgedToken = `${header}.${payload}.forged-signature-not-valid`;
@@ -267,7 +277,7 @@ test.describe('FR-02 Login UI standards', () => {
 });
 
 // ---------------------------------------------------------------------------------
-// Shape C — account lockout state machine (12 cases)
+// Shape C - account lockout state machine (12 cases)
 // Uses the API for the repeated wrong-password setup steps (fast + deterministic) and
 // a direct DB fixture to simulate "the lock window has elapsed" instead of sleeping for
 // the real ~3 minutes; the decisive outcome of each case is still checked exactly the
