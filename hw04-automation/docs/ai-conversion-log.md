@@ -28,9 +28,13 @@ HW04 Task 1 also requires Features B and C (≥12 each) for a full 9-cell matrix
 
 ## Stage trace
 
+Per-stage markdown (same pattern as FR-15): `fr03-analysis.md` · `fr03-design.md` · `fr03-review.md` · `fr03-model-data.md` · `fr03-map-automation.md` · `fr03-verify-chromium.md`.
+
 ### 1. Analyze
 
 **Prompt intent:** Extract FR-03 actors, preconditions, state transitions, inputs, outputs from README and cross-check HW04 Task 1 (≥12 cases, data-driven, ≥3 assertion patterns, 3 browsers, labeled HTML reports).
+
+**Artifact:** `docs/fr03-analysis.md`
 
 **Outcome:**
 - Two-step flow: email → OTP + new password + confirm (spec).
@@ -42,11 +46,15 @@ HW04 Task 1 also requires Features B and C (≥12 each) for a full 9-cell matrix
 
 **Prompt intent:** Propose ≥12 uniquely identified cases (positive / negative / boundary / validation / UI).
 
+**Artifact:** `docs/fr03-design.md`
+
 **Outcome:** 14 cases TC-FORGOT-001…014 covering happy path, request failures, OTP failures, password strength, and UI contract rules from the spec (not the defective SUT).
 
 ### 3. Review
 
 **Prompt intent:** Remove duplicates; map every expected result to an observable oracle; keep spec oracles even when SUT is defective.
+
+**Artifact:** `docs/fr03-review.md`
 
 **Outcome:**
 - Happy-path oracle: success dialog + `/login` + API login with new password.
@@ -57,11 +65,15 @@ HW04 Task 1 also requires Features B and C (≥12 each) for a full 9-cell matrix
 
 **Prompt intent:** External JSON schema; map every case ID to one record; no inline case arrays in the spec.
 
-**Outcome:** `test-data/fr03-forgot-password.json` with `journey`, `inputs`, and `expected.assertions[]` vocabulary. Loader rejects unknown journeys/assertion types, duplicate IDs, and fewer than 12 records.
+**Artifact:** `docs/fr03-model-data.md` · `test-data/fr03-forgot-password.json`
+
+**Outcome:** JSON with `journey`, `inputs`, and `expected.assertions[]` vocabulary. Loader rejects unknown journeys/assertion types, duplicate IDs, and fewer than 12 records.
 
 ### 5. Map automation
 
 **Prompt intent:** Stable locators, setup/cleanup, isolation, assertion patterns.
+
+**Artifact:** `docs/fr03-map-automation.md`
 
 **Outcome:**
 - Page object `pages/ForgotPasswordPage.js` (`getByRole` / label / form inputs).
@@ -82,6 +94,8 @@ HW04 Task 1 also requires Features B and C (≥12 each) for a full 9-cell matrix
 ### 7. Verify and repair
 
 **Prompt intent:** List tests → Chromium sample → full 3-browser matrix; confirm `Run by: 23127271` in each report.
+
+**Artifact:** `docs/fr03-verify-chromium.md`
 
 **Outcome (executed 2026-08-07):**
 - Discovery: 14 cases × 3 projects = **42** listed tests.
@@ -137,13 +151,15 @@ Feature B Analyze→Generate stages will be appended below when implementation s
 
 ### Stage outcomes
 
-1. **Analyze** — auth gate, non-editable total, line items, server recalc, cart clear; SUT defects confirmed in `Checkout.jsx` / `POST /api/checkout`.
-2. **Design** — 14 cases (pos/neg/boundary/validation/state/API).
-3. **Review** — keep spec oracles for 002/003/007/008/009; map to observable UI/API checks.
-4. **Model data** — external JSON + FR-08 journey/assertion vocabulary in loader.
-5. **Map automation** — SPA navigation after seed (in-memory cart); page objects; API helpers.
+Per-stage markdown: `fr08-analysis.md` · `fr08-design.md` · `fr08-review.md` · `fr08-model-data.md` · `fr08-map-automation.md` · `fr08-verify-chromium.md`.
+
+1. **Analyze** — auth gate, non-editable total, line items, server recalc, cart clear; SUT defects confirmed in `Checkout.jsx` / `POST /api/checkout` → `fr08-analysis.md`.
+2. **Design** — 14 cases (pos/neg/boundary/validation/state/API) → `fr08-design.md`.
+3. **Review** — keep spec oracles for 002/003/007/008/009; map to observable UI/API checks → `fr08-review.md`.
+4. **Model data** — external JSON + FR-08 journey/assertion vocabulary in loader → `fr08-model-data.md`.
+5. **Map automation** — SPA navigation after seed (in-memory cart); page objects; API helpers → `fr08-map-automation.md`.
 6. **Generate** — spec/data/pages/helpers; bug reports BUG-FR08-001…005.
-7. **Verify** — Chromium 9/5; matrix 9 pass / 5 fail × 3 browsers; labels `Run by: 23127271`; `evidence:verify-fr03` OK.
+7. **Verify** — Chromium 9/5; matrix 9 pass / 5 fail × 3 browsers; labels `Run by: 23127271`; `evidence:verify-fr03` OK → `fr08-verify-chromium.md`.
 
 ### Assertion patterns (FR-08)
 
@@ -158,3 +174,97 @@ Feature B Analyze→Generate stages will be appended below when implementation s
 ### Product defects (not softened)
 
 002 route guard · 003 empty cart · 007 editable total · 008 trusts client total · 009 cart not cleared
+
+---
+
+## Feature C — FR-15 Product CRUD Admin (Analyze → Generate · 2026-08-10)
+
+**Status:** Stages 1–6 done. **Verify** (matrix) **not started**.  
+**Evidence:** FR-03 frozen + FR-08 reports untouched; FR-15 suite implemented, not matrix-executed yet.
+
+### Requirement ledger (updated)
+
+| Feature | Source | Case IDs | Count | Data file | Spec file | Browsers | Reports |
+| --- | --- | --- | ---: | --- | --- | --- | --- |
+| FR-03 (A) | done | TC-FORGOT-001…014 | 14 | `fr03-forgot-password.json` | `fr03-forgot-password.spec.js` | 3 | frozen |
+| FR-08 (B) | done | TC-CHECKOUT-001…014 | 14 | `fr08-checkout.json` | `fr08-checkout.spec.js` | 3 | kept |
+| FR-15 (C) | README FR-15 + FR-12 | TC-PRODUCT-001…014 | 14 | `fr15-admin-product.json` | `fr15-admin-product.spec.js` | 3 | `reports/html/fr15-admin-product/<browser>/` |
+
+### 1. Analyze
+
+**Prompt intent:** Extract FR-15 actors, preconditions, CRUD transitions, input rules (Tên / Giá / Danh mục), outputs, and ambiguities from README; cross-check Admin SPA + product APIs; keep FR-03/FR-08 evidence; do **not** design cases or write code.
+
+**Outcome:**
+- Actor: Admin (`role = admin`); unauthenticated / non-admin must not mutate products (FR-12).
+- CRUD: Create / Read list / Update (scoped to one id) / Delete; Admin UI at `http://localhost:5174` tab **Sản phẩm**.
+- Rules: name required ≤255; price required and **> 0**; category required from existing list; edit must not change sibling products.
+- SUT gaps noted (for later oracles, not softened): product `POST/PUT/DELETE` without auth; no server validation; after edit UI `fakeMassUpdatedProducts` renames **all** rows; price display lacks thousand separators; admin login email not `type="email"`.
+- Ambiguities logged: exact error copy, integer vs decimal price, delete-confirm out of FR-15, FR-16 Import must not inflate FR-15 case count.
+- Full write-up: `docs/fr15-analysis.md` · feature folder: `HW4/FR-15/README.md`.
+
+### 2. Design
+
+**Prompt intent:** From Analysis, propose ≥12 distinct case IDs (positive CRUD + negative/boundary). No JSON, no Playwright.
+
+**Outcome:** **14** cases `TC-PRODUCT-001…014` in `docs/fr15-design.md`:
+- Positive CRUD: 001 Create · 002 View · 003 Edit · 005 Delete  
+- State: 004 edit isolation (siblings unchanged)  
+- Negative: 006 empty name · 009 price 0 · 010 negative price · 012 invalid/missing category · 013 no JWT · 014 non-admin JWT  
+- Boundary: 007 name 255 · 008 name 256 · 011 price `1`  
+- Spec oracles kept (incl. FR-12); FR-16 Import excluded.
+
+### 3. Review
+
+**Prompt intent:** Drop semantic duplicates; map every expected result to an observable oracle; list cases likely to fail from SUT defects. No code.
+
+**Outcome:** `docs/fr15-review.md`
+- **No IDs removed** (14 kept). Narrowed 001 vs 002 oracles; 012 stays one ID (primary: invalid `category_id`).
+- Oracles locked: API status/persistence + UI visibility; no brittle alert text; 004 asserts UI **and** API.
+- **Likely fail (defect):** 004, 006, 008, 009, 010, 012, 013, 014 (**8**).  
+- **Likely pass:** 001, 002, 003 (API), 005, 007, 011 (~6).  
+- Spec oracles preserved (same policy as FR-03/FR-08).
+
+### 4. Model data
+
+**Prompt intent:** External JSON from reviewed cases; primitives only; no selectors/secrets in the data file.
+
+**Outcome:** `test-data/fr15-admin-product.json` — **14** records `TC-PRODUCT-001…014`.
+- Journeys: `uiCreate` · `uiView` · `uiEdit` · `uiEditIsolation` · `uiDelete` · `apiCreate`
+- Auth via `setup.authMode` (`admin`/`user`/`none`) — credentials resolved at runtime by helpers, not stored in JSON
+- Name BVA via `nameMode`/`nameLength` (no inline 255-char blobs); assertion targets are logical keys only
+- Schema notes: `docs/fr15-model-data.md`
+
+### 5. Map automation
+
+**Prompt intent:** Choose stable locators, admin setup/cleanup, journey actions, and expect vocabulary. Do **not** generate the full Playwright spec yet.
+
+**Outcome:** `docs/fr15-map-automation.md`
+- Locators: Admin login placeholders, nav **Sản phẩm**, form placeholders, row-by-name + Sửa/Xóa
+- Setup: `authMode` → JWT / `adminToken` inject; seed/cleanup via product API; unique name resolution
+- Journey dispatcher table + assertion → `expect` mapping (≥3 patterns: visibility, text, API/plain)
+- Generate file list locked (`AdminProductPage.js`, `product-api.js`, `fr15-admin-product.spec.js`, loader allow-lists)
+
+### 6. Generate
+
+**Prompt intent:** Implement page object + data-driven Playwright spec from JSON; keep Review oracles; do not soften assertions.
+
+**Outcome:**
+- `pages/AdminProductPage.js` — login inject/`adminToken`, Products tab, form, row-by-name Sửa/Xóa
+- `helpers/product-api.js` — CRUD/list/resolve name+category
+- `helpers/auth-api.js` — `getAdminCredentials` / `loginAdmin` (env, not JSON)
+- `helpers/load-test-data.js` — FR-15 journeys + assertions allow-lists
+- `tests/fr15-admin-product.spec.js` — 14 cases from `fr15-admin-product.json`; journey dispatcher; strict expects
+- `scripts/run-matrix.js` — FR-15 cells use `ADMIN_BASE_URL` / `5174`
+- Discovery: **14 × 3 = 42** listed tests (`npx playwright test tests/fr15-admin-product.spec.js --list`)
+
+### 7. Verify (Chromium smoke · 2026-08-10)
+
+**Prompt intent:** Run FR-15 on Chromium; list failures; propose targeted repairs — do **not** change expected to match buggy UI.
+
+**Outcome:** `docs/fr15-verify-chromium.md`
+- **6 passed:** 001, 002, 003, 005, 007, 011  
+- **8 failed (product defects, oracles kept):** 004 (UI mass-rename), 006/008/009/010/012 (validation → 200), 013/014 (FR-12 auth → 200)  
+- Proposed automation-only clarity for 004 (row-index assert) — optional; **no** expected softening  
+- Env fixes used: install Chromium; start Admin `:5174`
+
+Full 3-browser matrix still open.
