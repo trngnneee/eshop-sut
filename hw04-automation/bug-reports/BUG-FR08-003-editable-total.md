@@ -15,3 +15,7 @@ Checkout renders `<input type="number">` bound to `editableTotal` (red bold), fu
 
 ## Evidence
 TC-CHECKOUT-007 failure screenshots.
+
+## GitHub Issue
+
+https://github.com/trngnneee/eshop-sut/issues/379

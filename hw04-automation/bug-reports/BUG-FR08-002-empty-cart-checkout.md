@@ -15,3 +15,7 @@ Logged-in user on `/checkout` with empty cart can confirm and sees “Thanh toá
 
 ## Evidence
 `test-results/fr08-checkout/<browser>/` for TC-CHECKOUT-003.
+
+## GitHub Issue
+
+https://github.com/trngnneee/eshop-sut/issues/378

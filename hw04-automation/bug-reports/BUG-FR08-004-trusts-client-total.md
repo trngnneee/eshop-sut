@@ -15,3 +15,7 @@ After lowering the UI total to `1`, `POST /api/checkout` stores `total_amount = 
 
 ## Evidence
 TC-CHECKOUT-008: Expected cart total, Received `1`.
+
+## GitHub Issue
+
+https://github.com/trngnneee/eshop-sut/issues/380

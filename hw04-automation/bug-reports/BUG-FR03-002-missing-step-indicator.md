@@ -31,4 +31,4 @@ TC-FORGOT-011 failure screenshots in `test-results/`.
 
 ## GitHub Issue
 
-TBD — attach screenshot when filing.
+https://github.com/trngnneee/eshop-sut/issues/373

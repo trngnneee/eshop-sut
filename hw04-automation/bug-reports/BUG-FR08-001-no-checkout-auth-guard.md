@@ -15,3 +15,7 @@ Guest can open `/checkout` directly; confirm button remains available.
 
 ## Evidence
 Playwright failure under `test-results/fr08-checkout/<browser>/`.
+
+## GitHub Issue
+
+https://github.com/trngnneee/eshop-sut/issues/377

@@ -32,4 +32,4 @@ Playwright `apiStatus` failure for TC-PRODUCT-014 under `test-results/fr15-admin
 
 ## GitHub Issue
 
-TBD — attach screenshot when filing.
+https://github.com/trngnneee/eshop-sut/issues/389

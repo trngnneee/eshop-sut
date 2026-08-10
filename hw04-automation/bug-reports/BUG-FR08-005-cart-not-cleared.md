@@ -15,3 +15,7 @@ After successful payment, the cart must be cleared.
 
 ## Evidence
 TC-CHECKOUT-009: empty-cart message not visible after success.
+
+## GitHub Issue
+
+https://github.com/trngnneee/eshop-sut/issues/381

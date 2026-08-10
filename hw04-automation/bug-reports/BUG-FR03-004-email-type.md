@@ -31,4 +31,4 @@ TC-FORGOT-013 failure (expected `email`, received `text`).
 
 ## GitHub Issue
 
-TBD — attach screenshot when filing.
+https://github.com/trngnneee/eshop-sut/issues/375

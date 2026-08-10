@@ -32,4 +32,4 @@ Playwright failure screenshot for TC-FORGOT-010 under `test-results/fr03-forgot-
 
 ## GitHub Issue
 
-TBD — attach screenshot when filing.
+https://github.com/trngnneee/eshop-sut/issues/372

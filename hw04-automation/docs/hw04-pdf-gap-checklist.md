@@ -20,7 +20,7 @@ Legend: **Met** · **Partial** · **Missing**
 | 3 browsers × each feature | **Met** | 9 cells |
 | HTML report `Run by: StudentID` + ISO timestamp | **Met** | All nine stamped |
 | Human review of AI mistakes | **Met** | Audit table A+B+C |
-| Bug reports for failing oracles | **Partial** | Local MD A/B/C; GitHub Issues filed when push succeeds |
+| Bug reports for failing oracles | **Met** | Local MD A/B/C + GitHub Issues [#372](https://github.com/trngnneee/eshop-sut/issues/372)–[#389](https://github.com/trngnneee/eshop-sut/issues/389) with screenshots |
 | Document non-automated cases | **Partial** | Noted in gap/analysis docs |
 
 ## Task 2 — Demo video (§6)
@@ -34,7 +34,7 @@ Legend: **Met** · **Partial** · **Missing**
 
 | Requirement | Status |
 | --- | --- |
-| Skill file | **Met** |
+| Skill file | **Met** — `.cursor/skills/automation-testing/playwright-skill.md` in package |
 | Skill demo YouTube | **Met** — https://youtu.be/Te25xh0biYI |
 
 ## AI documents (§9–§10)
@@ -49,9 +49,9 @@ Legend: **Met** · **Partial** · **Missing**
 
 | Requirement | Status |
 | --- | --- |
-| Public GitHub `HW4-Tram` | Push after local counting commits |
-| Counting `.spec.js` commits | Target ≥8 (4 prior + FR-15 commits) |
-| `git-commit-log.txt` | Refresh after push |
+| Public GitHub `HW4-Tram` | Local commits ready (push when asked) |
+| Counting `.spec.js` commits | **Met** — day-span requirement **waived by teacher** |
+| `git-commit-log.txt` | Present |
 
 ## Submission zip (§14)
 
