@@ -24,7 +24,12 @@ jobs:
 
       - name: Install backend dependencies
         working-directory: backend
-        run: npm ci
+        shell: bash
+        # The committed package-lock.json is out of sync with package.json
+        # (npm 10 reports "Missing: picomatch@4.0.5 from lock file"), so npm ci
+        # fails. We fall back to npm install rather than modifying the SUT,
+        # which this exercise must not change.
+        run: npm ci || npm install
 
       - name: Start backend
         working-directory: backend
@@ -54,7 +59,7 @@ jobs:
             --environment mini-api-testing/mini-local.postman_environment.json \
             --iteration-data mini-api-testing/mini-products.data.json \
             --reporters cli,json \
-            --reporter-json-export mini-newman-report.json \
+            --reporter-json-export mini-api-testing/mini-newman-report.json \
             --verbose
 
       - name: Upload Newman report
@@ -62,7 +67,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: newman-report
-          path: mini-newman-report.json
+          path: mini-api-testing/mini-newman-report.json
 
       - name: Upload backend log on failure
         if: failure()
