@@ -1,7 +1,11 @@
 # Git commit log — HW04 (repo: trngnneee/eshop-sut, branch: HW04-Nguyen)
-# Exported: 2026-08-10T04:31:44Z
+# Exported: 2026-08-10T04:37:48Z
 
 ## Full history
+13f7a3d | 2026-08-10 11:37:23 +0700 | trngnneee | docs: add AI Critique (AI-04) document for automation testing
+23fce9d | 2026-08-10 11:37:05 +0700 | trngnneee | docs: note Drive folder contains both Task 2 demo and agent-skill demo videos
+2f17697 | 2026-08-10 11:35:38 +0700 | trngnneee | docs: add AI Critique (AI-04) and playwright-data-driven-suite agent skill
+a86fa39 | 2026-08-10 11:31:44 +0700 | trngnneee | docs: refresh git commit log export
 06d23e6 | 2026-08-10 11:31:15 +0700 | trngnneee | docs: add AI Privacy Checklist (En) for HW04
 4b705f1 | 2026-08-10 11:31:08 +0700 | trngnneee | docs: add AI Disclosure Form (En) for HW04 Task 3
 e85a29e | 2026-08-10 11:31:00 +0700 | trngnneee | docs: add AI Audit Report (En) for HW04 Task 2
