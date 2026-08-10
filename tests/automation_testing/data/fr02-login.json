@@ -1,0 +1,125 @@
+{
+  "feature": "FR-02 — Đăng nhập & Khóa tài khoản",
+  "loginCases": [
+    {
+      "id": "FR02-TC01",
+      "type": "positive",
+      "title": "Đăng nhập thành công với user hợp lệ",
+      "email": "test@eshop.com",
+      "password": "Test1234!",
+      "expected": { "outcome": "success", "greeting": "Chào, Test User" }
+    },
+    {
+      "id": "FR02-TC02",
+      "type": "positive",
+      "title": "Đăng nhập thành công với tài khoản admin trên web user",
+      "email": "admin@eshop.com",
+      "password": "Admin123!",
+      "expected": { "outcome": "success", "greeting": "Chào, Admin User" }
+    },
+    {
+      "id": "FR02-TC03",
+      "type": "negative",
+      "title": "Sai mật khẩu → báo lỗi chung, không lộ nguyên nhân, ở lại trang login",
+      "email": "test@eshop.com",
+      "password": "WrongPass1!",
+      "expected": { "outcome": "error", "status": 401, "errorContains": "Đăng nhập thất bại" }
+    },
+    {
+      "id": "FR02-TC04",
+      "type": "negative",
+      "title": "Email chưa đăng ký → báo lỗi chung",
+      "email": "nouser_hw04@sut.test",
+      "password": "Whatever1!",
+      "expected": { "outcome": "error", "status": 401, "errorContains": "Đăng nhập thất bại" }
+    },
+    {
+      "id": "FR02-TC05",
+      "type": "negative",
+      "title": "Email trống → HTML5 validation chặn submit",
+      "email": "",
+      "password": "Test1234!",
+      "expected": { "outcome": "blocked" }
+    },
+    {
+      "id": "FR02-TC06",
+      "type": "negative",
+      "title": "Mật khẩu trống → HTML5 validation chặn submit",
+      "email": "test@eshop.com",
+      "password": "",
+      "expected": { "outcome": "blocked" }
+    },
+    {
+      "id": "FR02-TC07",
+      "type": "negative",
+      "title": "Email sai định dạng phải bị chặn bởi type=email (spec FR-02)",
+      "email": "notanemail",
+      "password": "Test1234!",
+      "expected": { "outcome": "blocked" }
+    },
+    {
+      "id": "FR02-TC08",
+      "type": "edge",
+      "title": "Email có khoảng trắng bao quanh → không khớp tài khoản nào, báo lỗi",
+      "email": "  test@eshop.com  ",
+      "password": "Test1234!",
+      "expected": { "outcome": "error", "status": 401, "errorContains": "Đăng nhập thất bại" }
+    }
+  ],
+  "uiChecks": [
+    {
+      "id": "FR02-UI01",
+      "type": "ui",
+      "title": "Tiêu đề trang login phải là 'Đăng nhập'",
+      "check": "heading",
+      "expected": "Đăng nhập"
+    },
+    {
+      "id": "FR02-UI02",
+      "type": "ui",
+      "title": "Ô email phải có type=email (spec FR-02 yêu cầu validate HTML5)",
+      "check": "email-type",
+      "expected": "email"
+    },
+    {
+      "id": "FR02-UI03",
+      "type": "ui",
+      "title": "Ô mật khẩu phải được che ký tự (type=password)",
+      "check": "password-type",
+      "expected": "password"
+    },
+    {
+      "id": "FR02-UI04",
+      "type": "ui",
+      "title": "Có liên kết 'Quên mật khẩu?' dẫn tới trang khôi phục",
+      "check": "forgot-link",
+      "expected": "Quên mật khẩu?"
+    }
+  ],
+  "lockoutScenarios": [
+    {
+      "id": "FR02-LK01",
+      "type": "edge",
+      "title": "2 lần sai rồi đăng nhập đúng → phải thành công (bộ đếm +1/lần, chưa chạm ngưỡng 3)",
+      "wrongAttempts": 2,
+      "waitSeconds": 0,
+      "expected": { "outcome": "success" }
+    },
+    {
+      "id": "FR02-LK02",
+      "type": "negative",
+      "title": "Sai từ 3 lần liên tiếp → tài khoản bị tạm khóa (đăng nhập đúng vẫn bị chặn, API trả 403)",
+      "wrongAttempts": 3,
+      "waitSeconds": 0,
+      "expected": { "outcome": "locked", "status": 403 }
+    },
+    {
+      "id": "FR02-LK03",
+      "type": "edge",
+      "title": "Chờ 31 giây sau khi bị khóa (spec: khóa 30s) rồi đăng nhập đúng → phải thành công",
+      "wrongAttempts": 3,
+      "waitSeconds": 31,
+      "expected": { "outcome": "success" }
+    }
+  ]
+}

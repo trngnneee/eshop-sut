@@ -1,0 +1,103 @@
+{
+  "feature": "FR-14 — Quản lý Danh mục (CRUD)",
+  "cases": [
+    {
+      "id": "FR14-TC01",
+      "type": "positive",
+      "action": "view",
+      "title": "Bảng danh mục hiển thị đủ cột và các danh mục mặc định",
+      "expected": {
+        "headers": ["ID", "Tên Danh Mục", "Hành động"],
+        "contains": ["Điện thoại", "Laptop", "Phụ kiện"]
+      }
+    },
+    {
+      "id": "FR14-TC02",
+      "type": "positive",
+      "action": "create",
+      "title": "Thêm danh mục với tên hợp lệ → xuất hiện trong bảng",
+      "name": "Đồng hồ {{UNIQUE}}",
+      "expected": { "accepted": true }
+    },
+    {
+      "id": "FR14-TC03",
+      "type": "negative",
+      "action": "create",
+      "title": "Tên rỗng phải bị từ chối (spec: tên bắt buộc, không được để trống)",
+      "name": "",
+      "expected": { "accepted": false }
+    },
+    {
+      "id": "FR14-TC04",
+      "type": "negative",
+      "action": "create",
+      "title": "Tên toàn khoảng trắng phải bị từ chối",
+      "name": "   ",
+      "expected": { "accepted": false }
+    },
+    {
+      "id": "FR14-TC05",
+      "type": "edge",
+      "action": "create",
+      "title": "Tên có unicode + emoji được lưu và hiển thị đúng",
+      "name": "Đồ gia dụng 🏠 {{UNIQUE}}",
+      "expected": { "accepted": true }
+    },
+    {
+      "id": "FR14-TC06",
+      "type": "edge",
+      "action": "create",
+      "title": "Tên dài 255 ký tự được chấp nhận và hiển thị",
+      "name": "{{LONG255}}",
+      "expected": { "accepted": true }
+    },
+    {
+      "id": "FR14-TC07",
+      "type": "edge",
+      "action": "create-duplicate",
+      "title": "Tên trùng danh mục có sẵn → được phép (spec không yêu cầu duy nhất)",
+      "name": "Laptop",
+      "expected": { "cellCount": 2 }
+    },
+    {
+      "id": "FR14-TC08",
+      "type": "edge",
+      "action": "create-xss",
+      "title": "Tên chứa thẻ HTML hiển thị dạng văn bản thuần, không bị render",
+      "name": "<b>xss-check</b> {{UNIQUE}}",
+      "expected": { "literalText": "<b>xss-check</b>" }
+    },
+    {
+      "id": "FR14-TC09",
+      "type": "positive",
+      "action": "delete",
+      "title": "Xóa danh mục vừa tạo → biến mất khỏi bảng",
+      "name": "Sẽ xóa {{UNIQUE}}",
+      "expected": {}
+    },
+    {
+      "id": "FR14-TC10",
+      "type": "positive",
+      "action": "persist",
+      "title": "Danh mục mới vẫn còn sau khi tải lại trang (đã lưu vào CSDL)",
+      "name": "Bền vững {{UNIQUE}}",
+      "expected": {}
+    },
+    {
+      "id": "FR14-TC11",
+      "type": "positive",
+      "action": "select-integration",
+      "title": "Danh mục mới xuất hiện trong dropdown danh mục của form sản phẩm",
+      "name": "DM cho SP {{UNIQUE}}",
+      "expected": {}
+    },
+    {
+      "id": "FR14-TC12",
+      "type": "positive",
+      "action": "input-cleared",
+      "title": "Ô nhập tên được xóa trống sau khi thêm thành công",
+      "name": "Reset input {{UNIQUE}}",
+      "expected": {}
+    }
+  ]
+}

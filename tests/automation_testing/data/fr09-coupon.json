@@ -1,0 +1,123 @@
+{
+  "feature": "FR-09 — Mã giảm giá (Coupon)",
+  "cases": [
+    {
+      "id": "FR09-TC01",
+      "type": "positive",
+      "title": "SAVE10 (10%) với đơn 500.000 → giảm 50.000, thành tiền 450.000",
+      "auth": "user",
+      "code": "SAVE10",
+      "total": 500000,
+      "expected": { "outcome": "applied", "discount": 50000, "final": 450000 }
+    },
+    {
+      "id": "FR09-TC02",
+      "type": "positive",
+      "title": "BIGBUY (giảm cố định 50k) với đơn 600.000 → thành tiền 550.000",
+      "auth": "user",
+      "code": "BIGBUY",
+      "total": 600000,
+      "expected": { "outcome": "applied", "discount": 50000, "final": 550000 }
+    },
+    {
+      "id": "FR09-TC03",
+      "type": "positive",
+      "title": "VIP100 (giảm cố định 100k) với đơn 1.000.000 → thành tiền 900.000",
+      "auth": "user",
+      "code": "VIP100",
+      "total": 1000000,
+      "expected": { "outcome": "applied", "discount": 100000, "final": 900000 }
+    },
+    {
+      "id": "FR09-TC04",
+      "type": "edge",
+      "title": "Biên C3: VIP100 với đơn đúng ngưỡng 300.000 → phải được áp dụng (điều kiện >=)",
+      "auth": "user",
+      "code": "VIP100",
+      "total": 300000,
+      "expected": { "outcome": "applied", "discount": 100000, "final": 200000 }
+    },
+    {
+      "id": "FR09-TC05",
+      "type": "edge",
+      "title": "Biên C3: BIGBUY với đơn đúng ngưỡng 500.000 → phải được áp dụng (điều kiện >=)",
+      "auth": "user",
+      "code": "BIGBUY",
+      "total": 500000,
+      "expected": { "outcome": "applied", "discount": 50000, "final": 450000 }
+    },
+    {
+      "id": "FR09-TC06",
+      "type": "negative",
+      "title": "C1: Mã không tồn tại → báo lỗi",
+      "auth": "user",
+      "code": "NOSUCH99",
+      "total": 500000,
+      "expected": { "outcome": "rejected", "errorContains": "không tồn tại" }
+    },
+    {
+      "id": "FR09-TC07",
+      "type": "negative",
+      "title": "C2: Mã EXPIRED đã hết hạn → báo lỗi",
+      "auth": "user",
+      "code": "EXPIRED",
+      "total": 200000,
+      "expected": { "outcome": "rejected", "errorContains": "hết hạn" }
+    },
+    {
+      "id": "FR09-TC08",
+      "type": "negative",
+      "title": "C3: BIGBUY với đơn 400.000 < ngưỡng 500.000 → báo lỗi chưa đủ giá trị",
+      "auth": "user",
+      "code": "BIGBUY",
+      "total": 400000,
+      "expected": { "outcome": "rejected", "errorContains": "tối thiểu" }
+    },
+    {
+      "id": "FR09-TC09",
+      "type": "edge",
+      "title": "Nhập mã chữ thường 'save10' → hệ thống chuẩn hóa và áp dụng đúng 10%",
+      "auth": "user",
+      "code": "save10",
+      "total": 500000,
+      "expected": { "outcome": "applied", "discount": 50000, "final": 450000 }
+    },
+    {
+      "id": "FR09-TC10",
+      "type": "negative",
+      "title": "C4: Khách chưa đăng nhập không được áp mã giảm giá",
+      "auth": "guest",
+      "code": "SAVE10",
+      "total": 500000,
+      "expected": { "outcome": "rejected", "errorContains": "đăng nhập" }
+    },
+    {
+      "id": "FR09-TC11",
+      "type": "negative",
+      "title": "C5: Đã dùng SAVE10 đủ 1 lần (max 1/người) → lần sau bị từ chối",
+      "auth": "fresh-user-with-usage",
+      "code": "SAVE10",
+      "total": 500000,
+      "preUsage": 1,
+      "expected": { "outcome": "rejected", "errorContains": "giới hạn" }
+    },
+    {
+      "id": "FR09-TC12",
+      "type": "negative",
+      "title": "Ô mã trống → nút Áp dụng bị vô hiệu hóa",
+      "auth": "user",
+      "code": "",
+      "total": 500000,
+      "expected": { "outcome": "button-disabled" }
+    },
+    {
+      "id": "FR09-TC13",
+      "type": "positive",
+      "title": "Dòng 'Tổng thanh toán' cập nhật theo thành tiền sau khi áp BIGBUY cho đơn 700.000",
+      "auth": "user",
+      "code": "BIGBUY",
+      "total": 700000,
+      "expected": { "outcome": "applied", "discount": 50000, "final": 650000 }
+    }
+  ]
+}

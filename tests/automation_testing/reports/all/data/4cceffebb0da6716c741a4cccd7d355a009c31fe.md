@@ -1,0 +1,207 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: fr14-category.spec.ts >> FR-14 — Quản lý Danh mục (CRUD) >> FR14-TC03 [negative] Tên rỗng phải bị từ chối (spec: tên bắt buộc, không được để trống)
+- Location: tests/fr14-category.spec.ts:42:9
+
+# Error details
+
+```
+Error: tên rỗng/khoảng trắng phải bị từ chối, số dòng giữ nguyên
+
+expect(locator).toHaveCount(expected) failed
+
+Locator:  locator('table tbody tr')
+Expected: 3
+Received: 4
+Timeout:  7000ms
+
+Call log:
+  - tên rỗng/khoảng trắng phải bị từ chối, số dòng giữ nguyên with timeout 7000ms
+  - waiting for locator('table tbody tr')
+    18 × locator resolved to 4 elements
+       - unexpected value "4"
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - heading "EShop Admin" [level=1] [ref=e5]
+    - list [ref=e6]:
+      - listitem [ref=e7] [cursor=pointer]: Dashboard
+      - listitem [ref=e8] [cursor=pointer]: Danh mục
+      - listitem [ref=e9] [cursor=pointer]: Sản phẩm
+      - listitem [ref=e10] [cursor=pointer]: Mã Giảm Giá
+      - listitem [ref=e11] [cursor=pointer]: Đơn hàng
+      - listitem [ref=e12] [cursor=pointer]: Người dùng
+      - listitem [ref=e13] [cursor=pointer]: Đăng xuất
+  - generic [ref=e15]:
+    - heading "Quản lý Danh mục" [level=2] [ref=e16]
+    - generic [ref=e17]:
+      - textbox "Tên danh mục mới" [ref=e18]
+      - button "Thêm mới" [active] [ref=e19] [cursor=pointer]
+    - table [ref=e20]:
+      - rowgroup [ref=e21]:
+        - row [ref=e22]:
+          - columnheader "ID" [ref=e23]
+          - columnheader "Tên Danh Mục" [ref=e24]
+          - columnheader "Hành động" [ref=e25]
+      - rowgroup [ref=e26]:
+        - row [ref=e27]:
+          - cell "#1" [ref=e28]
+          - cell "Điện thoại" [ref=e29]
+          - cell [ref=e30]:
+            - button "Xóa" [ref=e31] [cursor=pointer]
+        - row [ref=e32]:
+          - cell "#2" [ref=e33]
+          - cell "Laptop" [ref=e34]
+          - cell [ref=e35]:
+            - button "Xóa" [ref=e36] [cursor=pointer]
+        - row [ref=e37]:
+          - cell "#3" [ref=e38]
+          - cell "Phụ kiện" [ref=e39]
+          - cell [ref=e40]:
+            - button "Xóa" [ref=e41] [cursor=pointer]
+        - row [ref=e42]:
+          - cell "#5" [ref=e43]
+          - cell [ref=e44]
+          - cell [ref=e45]:
+            - button "Xóa" [ref=e46] [cursor=pointer]
+```
+
+# Test source
+
+```ts
+  1   | import { test, expect } from '@playwright/test';
+  2   | import { AdminCategoriesPage } from '../pages/AdminCategoriesPage';
+  3   | import { loginToken, getCategories, deleteCategory } from '../utils/api';
+  4   | import data from '../data/fr14-category.json';
+  5   | 
+  6   | // FR-14 — Quản lý Danh mục (CRUD) trên Web Admin
+  7   | // Data-driven: toàn bộ test case đọc từ data/fr14-category.json
+  8   | // Mỗi test chụp snapshot danh mục trước khi chạy; afterEach xóa mọi danh mục phát sinh
+  9   | // để CSDL không bị rác giữa các lần chạy/giữa các browser.
+  10  | 
+  11  | const LONG_255 = 'A'.repeat(255);
+  12  | const resolveName = (raw: string, runId: string) =>
+  13  |   raw.replace('{{UNIQUE}}', runId).replace('{{LONG255}}', LONG_255);
+  14  | 
+  15  | test.describe(data.feature, () => {
+  16  |   let adminToken: string;
+  17  |   let snapshotIds: number[] = [];
+  18  |   let admin: AdminCategoriesPage;
+  19  | 
+  20  |   test.beforeAll(async ({ request }) => {
+  21  |     adminToken = await loginToken(request, 'admin@eshop.com', 'Admin123!');
+  22  |   });
+  23  | 
+  24  |   test.beforeEach(async ({ page, request }) => {
+  25  |     snapshotIds = (await getCategories(request)).map((c) => c.id);
+  26  |     // Bơm token qua localStorage để bỏ qua màn hình login admin (đã có test riêng cho FR-12)
+  27  |     await page.addInitScript((t) => localStorage.setItem('adminToken', t), adminToken);
+  28  |     admin = new AdminCategoriesPage(page);
+  29  |     await admin.gotoCategoriesTab();
+  30  |   });
+  31  | 
+  32  |   test.afterEach(async ({ request }) => {
+  33  |     // Dọn: xóa mọi danh mục không có trong snapshot đầu test
+  34  |     for (const c of await getCategories(request)) {
+  35  |       if (!snapshotIds.includes(c.id)) {
+  36  |         await deleteCategory(request, adminToken, c.id);
+  37  |       }
+  38  |     }
+  39  |   });
+  40  | 
+  41  |   for (const tc of data.cases) {
+  42  |     test(`${tc.id} [${tc.type}] ${tc.title}`, async ({ page }, testInfo) => {
+  43  |       const runId = `${testInfo.project.name}-${Date.now()}`;
+  44  |       const name = tc.name !== undefined ? resolveName(tc.name, runId) : '';
+  45  | 
+  46  |       switch (tc.action) {
+  47  |         case 'view': {
+  48  |           for (const header of tc.expected.headers!) {
+  49  |             await expect(page.getByRole('columnheader', { name: header })).toBeVisible();
+  50  |           }
+  51  |           for (const seeded of tc.expected.contains!) {
+  52  |             await expect.soft(admin.cellByName(seeded).first()).toBeVisible();
+  53  |           }
+  54  |           break;
+  55  |         }
+  56  | 
+  57  |         case 'create': {
+  58  |           const rowsBefore = await admin.rows.count();
+  59  |           await admin.addCategory(name);
+  60  |           if (tc.expected.accepted) {
+  61  |             await expect(admin.cellByName(name)).toBeVisible();
+  62  |             await expect(admin.rows).toHaveCount(rowsBefore + 1);
+  63  |           } else {
+  64  |             // Spec: tên bắt buộc → không được thêm dòng mới vào bảng
+  65  |             await expect(
+  66  |               admin.rows,
+  67  |               'tên rỗng/khoảng trắng phải bị từ chối, số dòng giữ nguyên',
+> 68  |             ).toHaveCount(rowsBefore);
+      |               ^ Error: tên rỗng/khoảng trắng phải bị từ chối, số dòng giữ nguyên
+  69  |           }
+  70  |           break;
+  71  |         }
+  72  | 
+  73  |         case 'create-duplicate': {
+  74  |           await admin.addCategory(name);
+  75  |           await expect(admin.cellByName(name)).toHaveCount(tc.expected.cellCount!);
+  76  |           break;
+  77  |         }
+  78  | 
+  79  |         case 'create-xss': {
+  80  |           await admin.addCategory(name);
+  81  |           // Chuỗi thẻ HTML phải hiển thị nguyên văn, không được render thành phần tử
+  82  |           await expect(admin.table).toContainText(tc.expected.literalText!);
+  83  |           await expect(admin.table.locator('b')).toHaveCount(0);
+  84  |           break;
+  85  |         }
+  86  | 
+  87  |         case 'delete': {
+  88  |           await admin.addCategory(name);
+  89  |           const row = admin.rowByText(name);
+  90  |           await expect(row).toHaveCount(1);
+  91  |           await row.getByRole('button', { name: 'Xóa' }).click();
+  92  |           await expect(admin.rowByText(name)).toHaveCount(0);
+  93  |           break;
+  94  |         }
+  95  | 
+  96  |         case 'persist': {
+  97  |           await admin.addCategory(name);
+  98  |           await expect(admin.cellByName(name)).toBeVisible();
+  99  |           await page.reload();
+  100 |           await admin.openCategoriesTab();
+  101 |           await expect(admin.cellByName(name)).toBeVisible();
+  102 |           break;
+  103 |         }
+  104 | 
+  105 |         case 'select-integration': {
+  106 |           await admin.addCategory(name);
+  107 |           await expect(admin.cellByName(name)).toBeVisible();
+  108 |           await admin.openProductsTab();
+  109 |           await expect(page.locator('select option').filter({ hasText: name })).toHaveCount(1);
+  110 |           break;
+  111 |         }
+  112 | 
+  113 |         case 'input-cleared': {
+  114 |           await admin.addCategory(name);
+  115 |           await expect(admin.cellByName(name)).toBeVisible();
+  116 |           await expect(admin.nameInput).toHaveValue('');
+  117 |           break;
+  118 |         }
+  119 |       }
+  120 |     });
+  121 |   }
+  122 | });
+  123 | 
+```

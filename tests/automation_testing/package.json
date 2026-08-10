@@ -1,0 +1,18 @@
+{
+  "name": "eshop-automation-testing",
+  "version": "1.0.0",
+  "description": "HW04 — Data-driven Playwright automation for EShop SUT (FR-02 Login/Lockout, FR-09 Coupon, FR-14 Category CRUD)",
+  "type": "commonjs",
+  "scripts": {
+    "test": "playwright test",
+    "test:fr02": "REPORT_DIR=reports/fr02-login playwright test fr02-login.spec.ts",
+    "test:fr09": "REPORT_DIR=reports/fr09-coupon playwright test fr09-coupon.spec.ts",
+    "test:fr14": "REPORT_DIR=reports/fr14-category playwright test fr14-category.spec.ts",
+    "report": "playwright show-report reports/all"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.2.0",
+    "typescript": "^7.0.2"
+  }
+}

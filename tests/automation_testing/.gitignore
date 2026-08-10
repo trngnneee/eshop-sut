@@ -1,0 +1,4 @@
+node_modules/
+test-results/
+playwright-report/
+# reports/ KHÔNG ignore — đề yêu cầu nộp HTML reports trong repo
