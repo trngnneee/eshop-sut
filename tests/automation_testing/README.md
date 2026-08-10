@@ -1,5 +1,37 @@
 # EShop Automation Testing — HW04
 
+**Sinh viên:** Đặng Trường Nguyên — MSSV 23127438 — 23KTPM3
+**Repo:** https://github.com/trngnneee/eshop-sut (branch `HW04-Nguyen`)
+
+## Bảng tự chấm (Self-Assessment)
+
+| No. | Criteria | Grade | Self-Assessed Grade |
+|-----|----------|-------|---------------------|
+| 1 | Task 1 - Feature A (FR-02 Đăng nhập & Khóa tài khoản) | 25 | 25 |
+| 1 | Task 1 - Feature B (FR-09 Mã giảm giá) | 25 | 25 |
+| 1 | Task 1 - Feature C (FR-14 Quản lý danh mục CRUD) | 25 | 25 |
+| 2 | Task 2 — Demo video | 15 | 15 |
+| 3 | Agent Skills | 10 | 10 |
+| | **Total** | **100** | **100** |
+
+## Test Summary Report
+
+| Chỉ số | Giá trị |
+|--------|---------|
+| Số features | **3** (FR-02 · FR-09 · FR-14, mỗi pool A/B/C một feature) |
+| Số test case automated | **40** (15 + 13 + 12) — 100% data-driven từ `data/*.json` |
+| Số lượt test executed | **120** (40 TC × 3 browsers) |
+| Passed | **81** |
+| Failed | **39** (= 13 TC × 3 browsers — toàn bộ là fail đúng kỳ vọng, lộ bug SUT vi phạm spec; 0 flaky) |
+| Số browser runs | **9** per-feature (3 features × Chromium/Firefox/WebKit) + 1 run tổng hợp |
+| Số bug phát hiện | **9** — GitHub Issues [#390–#398](https://github.com/trngnneee/eshop-sut/issues?q=label%3A%22found-by%3A+test-case%22) kèm screenshot |
+| HTML reports | `reports/all`, `reports/fr02-login`, `reports/fr09-coupon`, `reports/fr14-category` — đều hiển thị "Run by: 23127438" + ISO timestamp |
+| Demo video (Task 2 + Agent Skill) | https://drive.google.com/drive/folders/1mqqIYAefulrImQr8dNTJc4VmbrVeanh8?usp=sharing |
+| Agent Skill | `.claude/skills/playwright-data-driven-suite/SKILL.md` |
+| Báo cáo chi tiết | `REPORT.md` · AI Audit/Critique: `ai_declaration/` · Git log: `git_log.txt` |
+
+---
+
 Playwright test suite (data-driven, multi-browser) cho 3 features của EShop SUT:
 
 | Pool | Feature | Spec file | Data file | Số TC |
