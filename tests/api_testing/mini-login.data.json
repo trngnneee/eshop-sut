@@ -3,7 +3,7 @@
     "tc_id": "AI-01",
     "name": "Login thanh cong voi tai khoan hop le",
     "body": { "email": "test@eshop.com", "password": "Test1234!" },
-    "expected_status": 200,
+    "expected_status": 999,
     "expected_fields": ["message", "token", "user"],
     "expected_error": null
   },
