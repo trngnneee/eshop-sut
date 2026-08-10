@@ -1,0 +1,107 @@
+{
+  "info": {
+    "_postman_id": "mini-categories-23127271",
+    "name": "MiniHW6 — GET /api/categories",
+    "description": "Data-driven API tests for GET /api/categories (eshop-sut).\nStudent: 23127271\nRun: newman run mini-categories.postman_collection.json -e mini-local.postman_environment.json -d mini-categories.data.json",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /api/categories (data-driven)",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.request.headers.upsert({",
+              "  key: 'X-Student-Id',",
+              "  value: pm.environment.get('studentId'),",
+              "});",
+              "",
+              "const q = pm.iterationData.get('query');",
+              "pm.variables.set('querySuffix', q === undefined || q === null ? '' : String(q));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const tcId = pm.iterationData.get('tc_id') || 'UNKNOWN';",
+              "const expectedStatus = Number(pm.iterationData.get('expected_status'));",
+              "const expectArray = pm.iterationData.get('expect_array') === true || pm.iterationData.get('expect_array') === 'true';",
+              "const expectedMinLength = Number(pm.iterationData.get('expected_min_length') || 0);",
+              "const expectedNameContains = pm.iterationData.get('expected_name_contains') || '';",
+              "",
+              "pm.test(`[MINI][${tcId}] Status is ${expectedStatus}`, function () {",
+              "  pm.response.to.have.status(expectedStatus);",
+              "});",
+              "",
+              "pm.test('[MINI] Response is JSON', function () {",
+              "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});",
+              "",
+              "pm.test('[MINI] Response time < 2000ms', function () {",
+              "  pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "});",
+              "",
+              "let body;",
+              "try {",
+              "  body = pm.response.json();",
+              "} catch (e) {",
+              "  pm.test(`[MINI][${tcId}] Body is parseable JSON`, function () {",
+              "    pm.expect.fail('Response body is not JSON');",
+              "  });",
+              "  return;",
+              "}",
+              "",
+              "if (expectArray) {",
+              "  pm.test(`[MINI][${tcId}] Body is array with length >= ${expectedMinLength}`, function () {",
+              "    pm.expect(body).to.be.an('array');",
+              "    pm.expect(body.length).to.be.at.least(expectedMinLength);",
+              "  });",
+              "",
+              "  pm.test(`[MINI][${tcId}] Each item has id (number) and name (string)`, function () {",
+              "    body.forEach(function (item) {",
+              "      pm.expect(item).to.have.property('id');",
+              "      pm.expect(item.id).to.be.a('number');",
+              "      pm.expect(item).to.have.property('name');",
+              "      pm.expect(item.name).to.be.a('string').and.to.have.lengthOf.at.least(1);",
+              "    });",
+              "  });",
+              "}",
+              "",
+              "if (expectedNameContains) {",
+              "  pm.test(`[MINI][${tcId}] List contains name including \"${expectedNameContains}\"`, function () {",
+              "    const names = body.map(function (i) { return String(i.name); });",
+              "    const hit = names.some(function (n) { return n.indexOf(expectedNameContains) !== -1; });",
+              "    pm.expect(hit).to.eql(true);",
+              "  });",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/categories{{querySuffix}}",
+        "description": "Data-driven categories list. Iteration fields: query, expected_status, expect_array, expected_min_length, expected_name_contains, tc_id."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    }
+  ]
+}

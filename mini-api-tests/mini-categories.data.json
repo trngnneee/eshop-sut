@@ -1,0 +1,52 @@
+[
+  {
+    "tc_id": "CAT-01",
+    "case": "happy_list",
+    "query": "",
+    "expected_status": 200,
+    "expect_array": true,
+    "expected_min_length": 3,
+    "expected_name_contains": "Laptop",
+    "description": "Happy path: trả về danh sách ≥3 danh mục seed, có Laptop"
+  },
+  {
+    "tc_id": "CAT-02",
+    "case": "schema_id_name",
+    "query": "",
+    "expected_status": 200,
+    "expect_array": true,
+    "expected_min_length": 1,
+    "expected_name_contains": "",
+    "description": "Schema: mỗi phần tử có id (number) và name (string) — assert trong script khi expect_array"
+  },
+  {
+    "tc_id": "CAT-03",
+    "case": "seed_dien_thoai",
+    "query": "",
+    "expected_status": 200,
+    "expect_array": true,
+    "expected_min_length": 3,
+    "expected_name_contains": "Điện thoại",
+    "description": "Domain: danh mục seed 'Điện thoại' tồn tại"
+  },
+  {
+    "tc_id": "CAT-04",
+    "case": "ignore_unknown_query",
+    "query": "?foo=bar&limit=999",
+    "expected_status": 200,
+    "expect_array": true,
+    "expected_min_length": 3,
+    "expected_name_contains": "Phụ kiện",
+    "description": "Query lạ bị bỏ qua; vẫn 200 + đủ seed (API không hỗ trợ filter)"
+  },
+  {
+    "tc_id": "CAT-05",
+    "case": "seed_phu_kien",
+    "query": "",
+    "expected_status": 200,
+    "expect_array": true,
+    "expected_min_length": 3,
+    "expected_name_contains": "Phụ kiện",
+    "description": "Domain: danh mục seed 'Phụ kiện' tồn tại"
+  }
+]
