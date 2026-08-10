@@ -15,7 +15,7 @@ const LONG_255 = 'A'.repeat(255);
 const resolveName = (raw: string, runId: string) =>
   raw.replace('{{UNIQUE}}', runId).replace('{{LONG255}}', LONG_255);
 
-test.describe(data.feature, () => {
+test.describe(data.feature, { tag: ['@fr14', '@pool-c', '@admin'] }, () => {
   let adminToken: string;
   let snapshotIds: number[] = [];
   let admin: AdminCategoriesPage;
