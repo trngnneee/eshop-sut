@@ -22,4 +22,17 @@ Student **23127271**
 | BUG-FR08-004 | Backend trusts client total | Critical | TC-CHECKOUT-008 | TBD |
 | BUG-FR08-005 | Cart not cleared after checkout | High | TC-CHECKOUT-009 | TBD |
 
+## FR-15 — Product CRUD Admin (Feature C)
+
+| ID | Title | Severity | Case | GitHub |
+| --- | --- | --- | --- | --- |
+| BUG-FR15-001 | Edit mass-renames sibling UI rows | High | TC-PRODUCT-004 | TBD |
+| BUG-FR15-002 | Empty name accepted (200) | High | TC-PRODUCT-006 | TBD |
+| BUG-FR15-003 | Name length 256 accepted (200) | Medium | TC-PRODUCT-008 | TBD |
+| BUG-FR15-004 | Price 0 accepted (200) | High | TC-PRODUCT-009 | TBD |
+| BUG-FR15-005 | Negative price accepted (200) | High | TC-PRODUCT-010 | TBD |
+| BUG-FR15-006 | Invalid category_id accepted (200) | High | TC-PRODUCT-012 | TBD |
+| BUG-FR15-007 | Create without JWT returns 200 (FR-12) | Critical | TC-PRODUCT-013 | TBD |
+| BUG-FR15-008 | Non-admin JWT can create products (FR-12) | Critical | TC-PRODUCT-014 | TBD |
+
 Evidence: `test-results/<feature>/<browser>/`. File GitHub Issues with screenshots before Moodle zip (HW04 §6).
