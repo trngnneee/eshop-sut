@@ -105,8 +105,8 @@ API contract level. Two new bugs were found and confirmed live before being writ
 
 | ID | Severity | Finding | Case |
 |---|---|---|---|
-| NEW-BUG-FR07-05 | **High** | `GET /api/orders/:id` has **no `authenticateToken` middleware and no ownership check** — unlike every other `/api/orders*` route. Anyone who can guess/enumerate a numeric order id can read that order's shipping address, total, and status without logging in as anyone (IDOR, OWASP A01) | `TC-CART-095` |
-| NEW-BUG-FR07-06 | Medium | A customer can self-cancel an order that is already `shipping`; the cancel handler only blocks `delivered`/`canceled`. The SUT's own source comment on this handler documents the intended, stricter condition (`!== 'pending' && !== 'confirmed'`), confirming this is a known-wrong condition, not an ambiguous design choice | `TC-CART-096` |
+| BUG-FR07-05 | **High** | `GET /api/orders/:id` has **no `authenticateToken` middleware and no ownership check** — unlike every other `/api/orders*` route. Anyone who can guess/enumerate a numeric order id can read that order's shipping address, total, and status without logging in as anyone (IDOR, OWASP A01) | `TC-CART-095` |
+| BUG-FR07-06 | Medium | A customer can self-cancel an order that is already `shipping`; the cancel handler only blocks `delivered`/`canceled`. The SUT's own source comment on this handler documents the intended, stricter condition (`!== 'pending' && !== 'confirmed'`), confirming this is a known-wrong condition, not an ambiguous design choice | `TC-CART-096` |
 
 Both filed as real GitHub Issues (#336, #337) with screenshot evidence.
 
@@ -168,7 +168,7 @@ than only as a setup step for order-endpoint cases) surfaced one more distinct d
 
 | ID | Severity | Finding | Cases |
 |---|---|---|---|
-| NEW-BUG-FR07-07 | Medium | `POST /api/checkout` performs no validation at all — missing `total_amount`, a negative `total_amount`, and a missing `shipping_address` are all accepted and create a real order row | `TC-CART-097`, `098`, `099` |
+| BUG-FR07-07 | Medium | `POST /api/checkout` performs no validation at all — missing `total_amount`, a negative `total_amount`, and a missing `shipping_address` are all accepted and create a real order row | `TC-CART-097`, `098`, `099` |
 
 Filed as GitHub Issue [#339](https://github.com/trngnneee/eshop-sut/issues/339).
 

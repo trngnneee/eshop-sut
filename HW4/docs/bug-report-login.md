@@ -32,7 +32,7 @@ malformed input or reproduced an already-listed bug's failure pattern.)
 
 ## B. New defects found by this automation pass
 
-### NEW-BUG-LOGIN-01 — `POST /api/login` returns HTTP 500 for non-JSON Content-Type
+### BUG-LOGIN-01 — `POST /api/login` returns HTTP 500 for non-JSON Content-Type
 - **Severity:** Medium
 - **Steps:** `POST /api/login` with `Content-Type: text/plain` and a JSON-encoded string body.
 - **Expected:** A graceful `4xx` validation error.
@@ -41,7 +41,7 @@ malformed input or reproduced an already-listed bug's failure pattern.)
 - **Reproduced by:** `TC-API-004` (`tests/login-api.spec.ts`), all 3 browsers.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/319 (screenshot attached)
 
-### NEW-BUG-LOGIN-02 — Login response leaks the user's plaintext password — **High severity**
+### BUG-LOGIN-02 — Login response leaks the user's plaintext password — **High severity**
 - **Severity:** High (security / data exposure)
 - **Steps:** `POST /api/login` with valid credentials.
 - **Expected:** Response body must not contain the password field.
@@ -49,7 +49,7 @@ malformed input or reproduced an already-listed bug's failure pattern.)
 - **Reproduced by:** `TC-API-006` (`tests/login-api.spec.ts`), all 3 browsers.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/318 (screenshot attached)
 
-### NEW-BUG-LOGIN-03 — Identical JWTs for rapid consecutive logins
+### BUG-LOGIN-03 — Identical JWTs for rapid consecutive logins
 - **Severity:** Low
 - **Steps:** Two `POST /api/login` calls with the same valid credentials within the same second.
 - **Expected:** Each login issues a distinguishable token.
@@ -57,7 +57,7 @@ malformed input or reproduced an already-listed bug's failure pattern.)
 - **Reproduced by:** `TC-JWT-006` (`tests/login-api.spec.ts`), all 3 browsers.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/320 (screenshot attached)
 
-### NEW-BUG-LOGIN-04 — Email lookup is case-sensitive
+### BUG-LOGIN-04 — Email lookup is case-sensitive
 - **Severity:** Medium
 - **Steps:** Register with a lowercase email, then log in using the same email fully uppercased with the correct password.
 - **Expected:** Login succeeds (email should be treated case-insensitively).
@@ -65,7 +65,7 @@ malformed input or reproduced an already-listed bug's failure pattern.)
 - **Reproduced by:** `TC-LOGIN-028` (`tests/login.spec.ts`), all 3 browsers.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/321 (screenshot attached)
 
-### NEW-BUG-LOGIN-05 — Duplicate email registration silently creates an unreachable second account
+### BUG-LOGIN-05 — Duplicate email registration silently creates an unreachable second account
 - **Severity:** High (data integrity)
 - **Steps:** `POST /api/register` twice with the same email but different passwords/names.
 - **Expected:** The second registration is rejected (e.g. `409 Conflict`).
@@ -75,7 +75,7 @@ malformed input or reproduced an already-listed bug's failure pattern.)
 - **Reproduced by:** `TC-API-008` (`tests/login-api.spec.ts`), all 3 browsers.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/333 (screenshot attached)
 
-### NEW-BUG-LOGIN-06 — `POST /api/register` accepts an empty-string password
+### BUG-LOGIN-06 — `POST /api/register` accepts an empty-string password
 - **Severity:** High (security — no password policy)
 - **Steps:** `POST /api/register` with `password: ""`, then log in with the same empty password.
 - **Expected:** Registration rejects an empty/too-short password with a `4xx` error.
@@ -83,7 +83,7 @@ malformed input or reproduced an already-listed bug's failure pattern.)
 - **Reproduced by:** `TC-API-009` (`tests/login-api.spec.ts`), all 3 browsers.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/334 (screenshot attached)
 
-### NEW-BUG-LOGIN-07 — Password-reset token is a brute-forceable 4-digit number
+### BUG-LOGIN-07 — Password-reset token is a brute-forceable 4-digit number
 - **Severity:** High (security — account takeover via brute force)
 - **Steps:** `POST /api/forgot-password` with a valid email; inspect the returned `resetToken`.
 - **Expected:** A cryptographically random token resistant to brute-forcing.
@@ -92,7 +92,7 @@ malformed input or reproduced an already-listed bug's failure pattern.)
 - **Reproduced by:** `TC-API-010` (`tests/login-api.spec.ts`), all 3 browsers.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/335 (screenshot attached)
 
-### NEW-BUG-LOGIN-08 — Privilege escalation via `PUT /api/users/me` — **CRITICAL**
+### BUG-LOGIN-08 — Privilege escalation via `PUT /api/users/me` — **CRITICAL**
 - **Severity:** Critical (privilege escalation / mass assignment, OWASP A01/A04)
 - **Steps:** Register + log in as a brand-new regular user, then `PUT /api/users/me` with
   `{"role":"admin"}`.

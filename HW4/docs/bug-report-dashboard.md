@@ -45,7 +45,7 @@ disposable throwaway account to `role='admin'` instead; see `docs/ai-review-dash
 
 ## B. New findings from the API run
 
-### NEW-BUG-FR13-01 — Deleting a nonexistent user returns a false success
+### BUG-FR13-01 — Deleting a nonexistent user returns a false success
 
 - **Severity:** Medium
 - **Case:** `TC-DASHBOARD-USR-001`
@@ -55,7 +55,7 @@ disposable throwaway account to `role='admin'` instead; see `docs/ai-review-dash
 - **Evidence:** `backend/server.js` does not inspect `this.changes` in the delete callback.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/325 (screenshot attached)
 
-### NEW-BUG-FR13-02 — Admin can delete its own account
+### BUG-FR13-02 — Admin can delete its own account
 
 - **Severity:** High
 - **Case:** `TC-DASHBOARD-USR-002`
@@ -68,7 +68,7 @@ disposable throwaway account to `role='admin'` instead; see `docs/ai-review-dash
   direct delete by ID.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/326 (screenshot attached)
 
-### NEW-BUG-FR13-03 — Canceled orders can be resurrected as delivered
+### BUG-FR13-03 — Canceled orders can be resurrected as delivered
 
 - **Severity:** High
 - **Case:** `TC-DASHBOARD-ORD-002`
@@ -80,7 +80,7 @@ disposable throwaway account to `role='admin'` instead; see `docs/ai-review-dash
   with `status === "delivered"`.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/327 (screenshot attached)
 
-### NEW-BUG-FR13-04 — `DELETE /api/admin/users/:id` never validates the id format
+### BUG-FR13-04 — `DELETE /api/admin/users/:id` never validates the id format
 
 - **Severity:** Medium
 - **Cases:** `TC-DASHBOARD-ACL-009` (non-numeric id), `TC-DASHBOARD-ACL-010` (SQL-injection-shaped
@@ -91,7 +91,7 @@ disposable throwaway account to `role='admin'` instead; see `docs/ai-review-dash
 - **Actual:** HTTP `200` `{"message":"User deleted"}` for all three, even though nothing matched.
 - **Evidence:** The route runs `DELETE FROM users WHERE id = ?` with the raw route parameter and
   never validates it is a positive integer before querying — a distinct root cause from
-  `NEW-BUG-FR13-01` (that one is a *valid-format but nonexistent* id; this one is a *malformed* id
+  `BUG-FR13-01` (that one is a *valid-format but nonexistent* id; this one is a *malformed* id
   that should never reach the query at all). The SQL-injection-shaped id did not delete other rows
   (parameterized query), but the endpoint still misreports success for an input it should reject.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/329 (screenshot attached)

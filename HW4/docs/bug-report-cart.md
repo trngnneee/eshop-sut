@@ -38,7 +38,7 @@ switching those cases to a disposable, self-cleaning product; see `docs/ai-revie
 
 ## B. New findings isolated by this automation pass
 
-### NEW-BUG-FR07-01 — Product-detail add button ignores the first click
+### BUG-FR07-01 — Product-detail add button ignores the first click
 
 - **Severity:** Medium
 - **Cases:** `TC-CART-054`
@@ -52,7 +52,7 @@ switching those cases to a disposable, self-cleaning product; see `docs/ai-revie
   visible after one click.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/322 (screenshot attached)
 
-### NEW-BUG-FR07-02 — React-memory cart disappears after reload or re-login
+### BUG-FR07-02 — React-memory cart disappears after reload or re-login
 
 - **Severity:** Medium
 - **Cases:** `TC-CART-072`, `TC-CART-087`
@@ -64,7 +64,7 @@ switching those cases to a disposable, self-cleaning product; see `docs/ai-revie
   localStorage or server synchronization. The Chromium report contains failures for both cases.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/323 (screenshot attached)
 
-### NEW-BUG-FR07-03 — Product-detail quantity has no client-side validation
+### BUG-FR07-03 — Product-detail quantity has no client-side validation
 
 - **Severity:** High
 - **Cases:** `TC-CART-017`, `018`, `019`, `022`
@@ -79,7 +79,7 @@ switching those cases to a disposable, self-cleaning product; see `docs/ai-revie
   `BUG-FR07-B-01`.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/324 (screenshot attached)
 
-### NEW-BUG-FR07-04 — Cart is not synced across browser tabs
+### BUG-FR07-04 — Cart is not synced across browser tabs
 
 - **Severity:** Medium
 - **Cases:** `TC-CART-050`
@@ -89,11 +89,11 @@ switching those cases to a disposable, self-cleaning product; see `docs/ai-revie
 - **Actual:** The second tab shows an empty cart.
 - **Evidence:** `frontend-web/src/context/CartContext.jsx` has no `localStorage`,
   `BroadcastChannel`, or server sync — every tab's `CartProvider` is an independent in-memory
-  instance. Distinct from `NEW-BUG-FR07-02` (that one is sequential reload/re-login; this one is
+  instance. Distinct from `BUG-FR07-02` (that one is sequential reload/re-login; this one is
   two tabs open concurrently in the same session).
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/328 (screenshot attached)
 
-### NEW-BUG-FR07-05 — `GET /api/orders/:id` has no authentication or ownership check (IDOR)
+### BUG-FR07-05 — `GET /api/orders/:id` has no authentication or ownership check (IDOR)
 
 - **Severity:** High (broken access control — OWASP A01)
 - **Cases:** `TC-CART-095`
@@ -105,7 +105,7 @@ switching those cases to a disposable, self-cleaning product; see `docs/ai-revie
   middleware and no ownership comparison — any numeric id can be enumerated.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/336 (screenshot attached)
 
-### NEW-BUG-FR07-06 — Customer can cancel an order that is already `shipping`
+### BUG-FR07-06 — Customer can cancel an order that is already `shipping`
 
 - **Severity:** Medium (broken state guard)
 - **Cases:** `TC-CART-096`
@@ -117,7 +117,7 @@ switching those cases to a disposable, self-cleaning product; see `docs/ai-revie
   'confirmed'`), confirming this is a known-wrong condition left in place.
 - **GitHub Issue:** https://github.com/trngnneee/eshop-sut/issues/337 (screenshot attached)
 
-### NEW-BUG-FR07-07 — `POST /api/checkout` performs no validation
+### BUG-FR07-07 — `POST /api/checkout` performs no validation
 
 - **Severity:** Medium (data integrity)
 - **Cases:** `TC-CART-097` (missing `total_amount`), `TC-CART-098` (negative `total_amount`),
@@ -143,7 +143,7 @@ API case `TC-CART-066` covers string quantity at the server boundary without thi
 
 The 7 new findings above are intentionally numbered separately from the known HW02 `BUG-FR07-B-*`
 IDs and have been filed as GitHub Issues #322–#324, #328, #336–#337, #339, each with a screenshot
-generated from a real failing run attached as evidence. `NEW-BUG-FR07-05`, `-06`, and `-07` were
+generated from a real failing run attached as evidence. `BUG-FR07-05`, `-06`, and `-07` were
 found by a deliberate source review of the checkout/order endpoints (`ai-review-cart.md` §3d/§3e)
 rather than by adding more UI-level coverage — a related coupon-limit-bypass observation was found
 the same way but deliberately *not* filed here, since coupons are outside FR-07's scope.

@@ -180,7 +180,7 @@ test.describe('FR-13 Dashboard/admin API access control', () => {
         case 'admin-self-delete-blocked': {
           // Uses a disposable account promoted to role='admin' via direct DB write
           // instead of the real seed admin@eshop.com — if this really is unguarded
-          // (NEW-BUG-FR13-02), deleting the actual seed admin would permanently break
+          // (BUG-FR13-02), deleting the actual seed admin would permanently break
           // every other admin-authenticated case that runs afterward.
           const disposableAdminEmail = `dash-${c.caseId.toLowerCase()}-admin@eshop.com`;
           await deleteUserByEmail(disposableAdminEmail).catch(() => undefined);

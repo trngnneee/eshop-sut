@@ -44,25 +44,25 @@ Filed issues:
 
 | Bug | Issue |
 |---|---|
-| NEW-BUG-LOGIN-01 (500 on bad Content-Type) | [#319](https://github.com/trngnneee/eshop-sut/issues/319) |
-| NEW-BUG-LOGIN-02 (plaintext password leak, High) | [#318](https://github.com/trngnneee/eshop-sut/issues/318) |
-| NEW-BUG-LOGIN-03 (identical JWTs) | [#320](https://github.com/trngnneee/eshop-sut/issues/320) |
-| NEW-BUG-LOGIN-04 (case-sensitive email) | [#321](https://github.com/trngnneee/eshop-sut/issues/321) |
-| NEW-BUG-FR07-01 (first add-click swallowed) | [#322](https://github.com/trngnneee/eshop-sut/issues/322) |
-| NEW-BUG-FR07-02 (no cart persistence) | [#323](https://github.com/trngnneee/eshop-sut/issues/323) |
-| NEW-BUG-FR07-03 (no quantity validation) | [#324](https://github.com/trngnneee/eshop-sut/issues/324) |
-| NEW-BUG-FR13-01 (delete nonexistent user → 200) | [#325](https://github.com/trngnneee/eshop-sut/issues/325) |
-| NEW-BUG-FR13-02 (admin self-delete) | [#326](https://github.com/trngnneee/eshop-sut/issues/326) |
-| NEW-BUG-FR13-03 (canceled → delivered resurrection) | [#327](https://github.com/trngnneee/eshop-sut/issues/327) |
-| NEW-BUG-FR07-04 (cart not synced across tabs) | [#328](https://github.com/trngnneee/eshop-sut/issues/328) |
-| NEW-BUG-FR13-04 (DELETE user id format not validated) | [#329](https://github.com/trngnneee/eshop-sut/issues/329) |
-| NEW-BUG-LOGIN-05 (duplicate-email registration -> unreachable ghost account) | [#333](https://github.com/trngnneee/eshop-sut/issues/333) |
-| NEW-BUG-LOGIN-06 (empty-string password accepted, no validation) | [#334](https://github.com/trngnneee/eshop-sut/issues/334) |
-| NEW-BUG-LOGIN-07 (4-digit brute-forceable password-reset token) | [#335](https://github.com/trngnneee/eshop-sut/issues/335) |
-| NEW-BUG-FR07-05 (GET /api/orders/:id has no auth/ownership check — IDOR) | [#336](https://github.com/trngnneee/eshop-sut/issues/336) |
-| NEW-BUG-FR07-06 (customer can cancel a 'shipping' order) | [#337](https://github.com/trngnneee/eshop-sut/issues/337) |
-| NEW-BUG-LOGIN-08 (CRITICAL: privilege escalation via PUT /api/users/me) | [#338](https://github.com/trngnneee/eshop-sut/issues/338) |
-| NEW-BUG-FR07-07 (POST /api/checkout has no validation) | [#339](https://github.com/trngnneee/eshop-sut/issues/339) |
+| BUG-LOGIN-01 (500 on bad Content-Type) | [#319](https://github.com/trngnneee/eshop-sut/issues/319) |
+| BUG-LOGIN-02 (plaintext password leak, High) | [#318](https://github.com/trngnneee/eshop-sut/issues/318) |
+| BUG-LOGIN-03 (identical JWTs) | [#320](https://github.com/trngnneee/eshop-sut/issues/320) |
+| BUG-LOGIN-04 (case-sensitive email) | [#321](https://github.com/trngnneee/eshop-sut/issues/321) |
+| BUG-FR07-01 (first add-click swallowed) | [#322](https://github.com/trngnneee/eshop-sut/issues/322) |
+| BUG-FR07-02 (no cart persistence) | [#323](https://github.com/trngnneee/eshop-sut/issues/323) |
+| BUG-FR07-03 (no quantity validation) | [#324](https://github.com/trngnneee/eshop-sut/issues/324) |
+| BUG-FR13-01 (delete nonexistent user → 200) | [#325](https://github.com/trngnneee/eshop-sut/issues/325) |
+| BUG-FR13-02 (admin self-delete) | [#326](https://github.com/trngnneee/eshop-sut/issues/326) |
+| BUG-FR13-03 (canceled → delivered resurrection) | [#327](https://github.com/trngnneee/eshop-sut/issues/327) |
+| BUG-FR07-04 (cart not synced across tabs) | [#328](https://github.com/trngnneee/eshop-sut/issues/328) |
+| BUG-FR13-04 (DELETE user id format not validated) | [#329](https://github.com/trngnneee/eshop-sut/issues/329) |
+| BUG-LOGIN-05 (duplicate-email registration -> unreachable ghost account) | [#333](https://github.com/trngnneee/eshop-sut/issues/333) |
+| BUG-LOGIN-06 (empty-string password accepted, no validation) | [#334](https://github.com/trngnneee/eshop-sut/issues/334) |
+| BUG-LOGIN-07 (4-digit brute-forceable password-reset token) | [#335](https://github.com/trngnneee/eshop-sut/issues/335) |
+| BUG-FR07-05 (GET /api/orders/:id has no auth/ownership check — IDOR) | [#336](https://github.com/trngnneee/eshop-sut/issues/336) |
+| BUG-FR07-06 (customer can cancel a 'shipping' order) | [#337](https://github.com/trngnneee/eshop-sut/issues/337) |
+| BUG-LOGIN-08 (CRITICAL: privilege escalation via PUT /api/users/me) | [#338](https://github.com/trngnneee/eshop-sut/issues/338) |
+| BUG-FR07-07 (POST /api/checkout has no validation) | [#339](https://github.com/trngnneee/eshop-sut/issues/339) |
 
 The 30 already-known bugs this run reproduced were mostly already filed in HW02
 (`docs/hw02-reference/tests/issues_list.txt` has the links; the 12 FR-02 login bugs were never

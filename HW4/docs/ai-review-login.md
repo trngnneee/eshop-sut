@@ -53,10 +53,10 @@ during triage, both path-resolution typos in `require()` calls, fixed before thi
 
 | ID | Severity | Finding | Case |
 |---|---|---|---|
-| NEW-BUG-LOGIN-01 | Medium | `POST /api/login` returns HTTP 500 (unhandled exception) when `Content-Type` is not `application/json`, instead of a graceful 4xx | TC-API-004 |
-| NEW-BUG-LOGIN-02 | **High** | Successful login response body includes the user's **plaintext password** (`user.password`) | TC-API-006 |
-| NEW-BUG-LOGIN-03 | Low | Two logins issued within the same second produce byte-identical JWTs (only second-resolution `iat`, no `exp`/`jti`) | TC-JWT-006 |
-| NEW-BUG-LOGIN-04 | Medium | Email lookup is case-sensitive (`WHERE email = ?` with default SQLite BINARY collation) — the same account cannot log in with a different letter case | TC-LOGIN-028 |
+| BUG-LOGIN-01 | Medium | `POST /api/login` returns HTTP 500 (unhandled exception) when `Content-Type` is not `application/json`, instead of a graceful 4xx | TC-API-004 |
+| BUG-LOGIN-02 | **High** | Successful login response body includes the user's **plaintext password** (`user.password`) | TC-API-006 |
+| BUG-LOGIN-03 | Low | Two logins issued within the same second produce byte-identical JWTs (only second-resolution `iat`, no `exp`/`jti`) | TC-JWT-006 |
+| BUG-LOGIN-04 | Medium | Email lookup is case-sensitive (`WHERE email = ?` with default SQLite BINARY collation) — the same account cannot log in with a different letter case | TC-LOGIN-028 |
 
 These four are logged in `docs/bug-report-login.md` and were filed as real GitHub Issues
 (#318–#321) with screenshot evidence.
@@ -95,9 +95,9 @@ confirmed live against the running backend before being written up as a test cas
 
 | ID | Severity | Finding | Case |
 |---|---|---|---|
-| NEW-BUG-LOGIN-05 | **High** | `users.email` has no `UNIQUE` constraint and `POST /api/register` never checks for an existing row — registering twice with the same email silently creates a second, permanently unreachable account (login always resolves to the *first* row) | `TC-API-008` |
-| NEW-BUG-LOGIN-06 | **High** | `POST /api/register` performs zero validation — an empty-string password is accepted and immediately usable to log in | `TC-API-009` |
-| NEW-BUG-LOGIN-07 | **High** | `/api/forgot-password`'s reset token is `Math.floor(1000 + Math.random() * 9000).toString()` — always a 4-digit number (9000 possible values), with no rate limit on `/api/reset-password` and no stored expiry | `TC-API-010` |
+| BUG-LOGIN-05 | **High** | `users.email` has no `UNIQUE` constraint and `POST /api/register` never checks for an existing row — registering twice with the same email silently creates a second, permanently unreachable account (login always resolves to the *first* row) | `TC-API-008` |
+| BUG-LOGIN-06 | **High** | `POST /api/register` performs zero validation — an empty-string password is accepted and immediately usable to log in | `TC-API-009` |
+| BUG-LOGIN-07 | **High** | `/api/forgot-password`'s reset token is `Math.floor(1000 + Math.random() * 9000).toString()` — always a 4-digit number (9000 possible values), with no rate limit on `/api/reset-password` and no stored expiry | `TC-API-010` |
 
 All three are logged in `docs/bug-report-login.md` and filed as real GitHub Issues (#333–#335)
 with screenshot evidence. This pass is a useful illustration of the difference between *adding
@@ -118,7 +118,7 @@ can) — found the most severe bug in this entire assignment:
 
 | ID | Severity | Finding | Case |
 |---|---|---|---|
-| NEW-BUG-LOGIN-08 | **CRITICAL** | `PUT /api/users/me` destructures `role` straight out of the client-supplied request body and writes it to the database if present — any authenticated user, including a brand-new self-registered account, can `PUT {"role":"admin"}` and become a real, persistent admin. No exploitation of any other bug required | `TC-API-011` |
+| BUG-LOGIN-08 | **CRITICAL** | `PUT /api/users/me` destructures `role` straight out of the client-supplied request body and writes it to the database if present — any authenticated user, including a brand-new self-registered account, can `PUT {"role":"admin"}` and become a real, persistent admin. No exploitation of any other bug required | `TC-API-011` |
 
 Filed as GitHub Issue [#338](https://github.com/trngnneee/eshop-sut/issues/338).
 
@@ -127,10 +127,10 @@ extending `login-cases.json`'s data-driven loop with zero spec changes for the U
 
 | Cases | What they check | Result |
 |---|---|---|
-| `TC-API-012`, `013` | `/api/register` rejects a request missing `password`/`email` entirely | **Fail** — same root cause as `NEW-BUG-LOGIN-06` (zero validation), not a separate issue |
+| `TC-API-012`, `013` | `/api/register` rejects a request missing `password`/`email` entirely | **Fail** — same root cause as `BUG-LOGIN-06` (zero validation), not a separate issue |
 | `TC-API-014` | `/api/reset-password` rejects a wrong `resetToken` | **Passes** |
 | `TC-API-015` | `/api/forgot-password` for a nonexistent email returns `404` | **Passes** |
-| `TC-API-016` | A second `forgot-password` call invalidates the first token | **Passes** — confirms the token IS at least single-generation-valid, even though it never expires by itself (`NEW-BUG-LOGIN-07`) |
+| `TC-API-016` | A second `forgot-password` call invalidates the first token | **Passes** — confirms the token IS at least single-generation-valid, even though it never expires by itself (`BUG-LOGIN-07`) |
 | `TC-LOGIN-048`–`061` (12 cases) | Extremely long email/password, plus-addressing, multiple `@`, SQL-injection password, whitespace-only fields, Unicode/emoji domains, malformed JSON-shaped password, missing domain | **All pass** — the login form and backend correctly reject every one of these without crashing, a genuinely useful negative-space result after finding several validation gaps elsewhere |
 
 ## 4. Cases not automated
