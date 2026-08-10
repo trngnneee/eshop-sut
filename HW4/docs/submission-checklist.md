@@ -2,7 +2,8 @@
 
 **Filename to use:** `23127207_HW04_AI_Automation_<SelfAssessedGrade>.zip`
 (`<SelfAssessedGrade>` = 3-digit number 000–100; see `README.md` §8 for the current honest
-self-assessment — update the number once the demo video is recorded).
+self-assessment — finalize the number after checking the two demo videos against
+`docs/demo-video-script.md`'s required talking points).
 
 ## Status of each required content item
 
@@ -12,7 +13,7 @@ self-assessment — update the number once the demo video is recorded).
 | 1b | Main report (PDF) | ⬜ **Manual step** | Export `main-report.md` to PDF (VS Code "Markdown PDF" extension, or open in a browser preview and Print → Save as PDF) |
 | 2 | Public GitHub repo link (scripts, data, reports) | ✅ Done | `HW4-Khoa` branch pushed to `https://github.com/trngnneee/eshop-sut/tree/HW4-Khoa` |
 | 3 | Multi-browser HTML reports | ✅ Done | `HW4/reports/{login,cart,dashboard}/{chromium,firefox,webkit}/index.html` (9 reports, all labeled `Run by: 23127207` + ISO timestamp; 400 cases / 1200 runs total) |
-| 4 | Unlisted YouTube demo video link | ⬜ **Manual step (you must record)** | Script/checklist: `HW4/docs/demo-video-script.md` |
+| 4 | Unlisted YouTube demo video link | ✅ Done | Automation run: https://youtu.be/ZN3auOEaKxg?si=O-Edex4pLQqU1OIa · Agent Skill: https://youtu.be/J9G12MjwVqU?si=s8RorcAw7v-_K2it (content not reviewed by the AI — verify against `HW4/docs/demo-video-script.md`) |
 | 5 | AI Critique (Markdown + PDF) | MD ✅ / PDF ⬜ | `HW4/docs/ai-critique.md` |
 | 6 | AI Audit Report (Markdown + PDF) | MD ✅ / PDF ⬜ | `HW4/docs/ai-audit-report.md` |
 | 7 | Git commit log (text file) | ✅ Done | `HW4/commit_log.txt` |
@@ -70,8 +71,9 @@ filed even then — file them the same way if you want full coverage, referencin
 
 ## Before zipping
 
-1. Record the demo video (`docs/demo-video-script.md`), upload Unlisted, paste the link into
-   `README.md` §1.
+1. ~~Record the demo video, upload Unlisted, paste the link into `README.md` §1~~ — done: both
+   videos are recorded and linked (see item 4 above). Just double-check each one's content against
+   `docs/demo-video-script.md`'s required talking points before finalizing the grade.
 2. Export `main-report.md`, `ai-audit-report.md`, `ai-critique.md` to PDF alongside their `.md`.
 3. Decide the final self-assessed grade (3 digits) and rename the zip accordingly.
 4. `zip -r 23127207_HW04_AI_Automation_<grade>.zip HW4/` from the repo root (or your OS's

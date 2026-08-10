@@ -48,8 +48,8 @@ requested).
   passes remain the ones that deliberately read backend source for code paths no earlier case
   had ever touched (register/forgot-password, checkout/orders, self-profile-update) — see each
   `ai-review-*.md`'s final section for the honest breakdown of what passed vs. failed and why.
-- **Demo video:** _[fill in the unlisted YouTube link once recorded — see_
-  `docs/demo-video-script.md` _for the required talking points]_.
+- **Demo video (automation run):** https://youtu.be/ZN3auOEaKxg?si=O-Edex4pLQqU1OIa
+- **Demo video (Agent Skill):** https://youtu.be/J9G12MjwVqU?si=s8RorcAw7v-_K2it
 
 Full per-feature breakdown, root-cause analysis, and the exact reproducing case IDs:
 [`docs/ai-review-login.md`](docs/ai-review-login.md) · [`docs/bug-report-login.md`](docs/bug-report-login.md)
@@ -166,7 +166,7 @@ log per interaction) and [`docs/ai-critique.md`](docs/ai-critique.md) (200–300
 | 1 | Task 1 — Feature A (FR-02 Login) | 25 | 23 |
 | 1 | Task 1 — Feature B (FR-07 Cart) | 25 | 24 |
 | 1 | Task 1 — Feature C (FR-13 Dashboard) | 25 | 24 |
-| 2 | Task 2 — Demo video | 15 | _pending — record before submission_ |
+| 2 | Task 2 — Demo video | 15 | _recorded and linked above — content not reviewed by the AI, self-grade pending your own check against_ `docs/demo-video-script.md` |
 | 3 | Agent Skills | 10 | 7 |
 | | **Total** | **100** | |
 
@@ -198,7 +198,7 @@ still held back per feature
 reflects that a small number of individual cases remain deliberately un-padded (e.g.
 `TC-CART-020`/`021` are untestable through the real UI control, documented rather than forced) —
 see each `ai-review-*.md`
-§4/§C. The demo video has not been recorded yet (requires the student's own voice/face-cam per
-Section 11's anti-cheat rule). The Agent Skill (`.agents/skills/playwright-skill/playwright-skill.md`)
-was polished with lessons from this run but a fresh demonstration video per Section 7 is still
-outstanding.
+§4/§C. Both demo videos (automation run, Agent Skill) are recorded and linked in §1 above; the AI
+has not reviewed their content, so double-check each against `docs/demo-video-script.md`'s required
+talking points (≥5 min, Vietnamese narration, multi-browser run + report walkthrough, narrating a
+real fix, face-cam/`whoami` per Section 11's anti-cheat rule) before finalizing the grade above.
