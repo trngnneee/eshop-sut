@@ -124,9 +124,12 @@ Các lỗi/thiếu sót của AI trong quá trình sinh script và cách khắc 
 6. **Race condition khi đếm dòng bảng danh mục** — assert `toHaveCount` ngay sau click có thể pass giả (đếm trước khi bảng refresh). *Fix:* `addCategory()` chờ POST + GET refresh hoàn tất rồi mới assert.
 7. **Định dạng số tiền phụ thuộc locale** — `toLocaleString()` cho kết quả khác nhau giữa browser/máy. *Fix:* cố định `locale: 'en-US'` trong config và format expected value bằng cùng locale.
 
-## 7. Task 2 — Demo video
+## 7. Task 2 — Demo video & Agent Skill video
 
-Video demo (thuyết minh tiếng Việt, chạy script end-to-end trên 3 browsers + HTML report, thuật lại fix đã thực hiện với script AI sinh, kèm bằng chứng tác giả `whoami`/`hostname`):
+Folder Google Drive dưới đây chứa **cả 2 video**:
+
+1. **Video demo Task 2** — thuyết minh tiếng Việt, chạy script end-to-end trên 3 browsers + HTML report, thuật lại fix đã thực hiện với script AI sinh, kèm bằng chứng tác giả `whoami`/`hostname`.
+2. **Video demo Agent Skill** — sử dụng skill `playwright-data-driven-suite` (`.claude/skills/playwright-data-driven-suite/SKILL.md`) end-to-end trên một feature hoàn chỉnh.
 
 - **Google Drive:** https://drive.google.com/drive/folders/1mqqIYAefulrImQr8dNTJc4VmbrVeanh8?usp=sharing
 
