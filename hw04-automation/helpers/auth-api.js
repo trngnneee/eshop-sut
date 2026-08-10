@@ -30,6 +30,30 @@ async function loginUser(credentials) {
 }
 
 /**
+ * Admin credentials from env — never from test-data JSON.
+ * @returns {{ email: string, password: string }}
+ */
+function getAdminCredentials() {
+  return {
+    email: process.env.ADMIN_EMAIL || 'admin@eshop.com',
+    password: process.env.ADMIN_PASSWORD || 'Admin123!',
+  };
+}
+
+/**
+ * @returns {Promise<{ status: number, body: any, token: string | null }>}
+ */
+async function loginAdmin() {
+  const creds = getAdminCredentials();
+  const result = await loginUser(creds);
+  return {
+    status: result.status,
+    body: result.body,
+    token: result.body?.token || null,
+  };
+}
+
+/**
  * @param {string} token
  * @param {{ total_amount: number, shipping_address?: string, items?: unknown[] }} payload
  */
@@ -74,6 +98,8 @@ module.exports = {
   API_BASE_URL,
   registerUser,
   loginUser,
+  getAdminCredentials,
+  loginAdmin,
   checkoutApi,
   getMyOrders,
   listProducts,

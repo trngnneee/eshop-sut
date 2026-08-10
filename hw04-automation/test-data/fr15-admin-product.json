@@ -1,0 +1,357 @@
+{
+  "feature": "FR-15",
+  "featureName": "Admin Product CRUD",
+  "source": "EShop README FR-15 + FR-12; HW04 Feature C Review",
+  "cases": [
+    {
+      "id": "TC-PRODUCT-001",
+      "category": "positive",
+      "purpose": "Admin creates a product with valid name, price > 0, and existing category",
+      "preconditions": "Admin session; at least one category exists",
+      "setup": {
+        "authMode": "admin",
+        "ensureCategory": true,
+        "cleanupProduct": true
+      },
+      "journey": "uiCreate",
+      "inputs": {
+        "nameMode": "unique",
+        "namePrefix": "HW04-P001",
+        "price": 150000,
+        "categoryMode": "existingFirst",
+        "description": "FR-15 create happy path",
+        "imageUrl": ""
+      },
+      "expected": {
+        "assertions": [
+          { "type": "apiProductExists", "match": "namePriceCategory" },
+          { "type": "apiStatus", "min": 200, "max": 299, "on": "createResponse" }
+        ]
+      }
+    },
+    {
+      "id": "TC-PRODUCT-002",
+      "category": "positive",
+      "purpose": "Admin can view an existing product row (Read)",
+      "preconditions": "Admin session; known product exists from setup",
+      "setup": {
+        "authMode": "admin",
+        "seedProduct": true,
+        "cleanupProduct": true
+      },
+      "journey": "uiView",
+      "inputs": {
+        "nameMode": "unique",
+        "namePrefix": "HW04-P002",
+        "price": 99000,
+        "categoryMode": "existingFirst"
+      },
+      "expected": {
+        "assertions": [
+          { "type": "visible", "target": "productRow" },
+          { "type": "containText", "target": "productRow", "valueFrom": "productName" },
+          { "type": "containText", "target": "priceCell", "value": "₫" }
+        ]
+      }
+    },
+    {
+      "id": "TC-PRODUCT-003",
+      "category": "positive",
+      "purpose": "Admin edit updates the target product fields in persistence",
+      "preconditions": "Admin session; product A exists",
+      "setup": {
+        "authMode": "admin",
+        "seedProduct": true,
+        "cleanupProduct": true
+      },
+      "journey": "uiEdit",
+      "inputs": {
+        "nameMode": "unique",
+        "namePrefix": "HW04-P003-A",
+        "price": 120000,
+        "categoryMode": "existingFirst",
+        "editNamePrefix": "HW04-P003-A-EDIT",
+        "editPrice": 125000
+      },
+      "expected": {
+        "assertions": [
+          { "type": "apiProductFieldEquals", "field": "name", "valueFrom": "editedName" },
+          { "type": "apiProductFieldEquals", "field": "price", "valueFrom": "editedPrice" },
+          { "type": "apiProductAbsent", "match": "originalName" }
+        ]
+      }
+    },
+    {
+      "id": "TC-PRODUCT-004",
+      "category": "state",
+      "purpose": "Editing product A must not change sibling product B (UI and API)",
+      "preconditions": "Admin session; products A and B exist with distinct names",
+      "setup": {
+        "authMode": "admin",
+        "seedProduct": true,
+        "seedSibling": true,
+        "cleanupProduct": true
+      },
+      "journey": "uiEditIsolation",
+      "inputs": {
+        "nameMode": "unique",
+        "namePrefix": "HW04-P004-A",
+        "siblingNamePrefix": "HW04-P004-B",
+        "price": 110000,
+        "siblingPrice": 220000,
+        "categoryMode": "existingFirst",
+        "editNamePrefix": "HW04-P004-A-EDIT",
+        "editPrice": 115000
+      },
+      "expected": {
+        "assertions": [
+          { "type": "apiSiblingUnchanged", "fields": ["name", "price"] },
+          { "type": "uiSiblingNameUnchanged", "target": "siblingRow" }
+        ]
+      }
+    },
+    {
+      "id": "TC-PRODUCT-005",
+      "category": "positive",
+      "purpose": "Admin deletes a product",
+      "preconditions": "Admin session; disposable product exists",
+      "setup": {
+        "authMode": "admin",
+        "seedProduct": true,
+        "cleanupProduct": false
+      },
+      "journey": "uiDelete",
+      "inputs": {
+        "nameMode": "unique",
+        "namePrefix": "HW04-P005",
+        "price": 50000,
+        "categoryMode": "existingFirst"
+      },
+      "expected": {
+        "assertions": [
+          { "type": "apiProductAbsent", "match": "productName" },
+          { "type": "hidden", "target": "productRow" }
+        ]
+      }
+    },
+    {
+      "id": "TC-PRODUCT-006",
+      "category": "negative",
+      "purpose": "Empty product name must be rejected",
+      "preconditions": "Admin session available for authenticated API call",
+      "setup": {
+        "authMode": "admin",
+        "ensureCategory": true,
+        "cleanupProduct": true
+      },
+      "journey": "apiCreate",
+      "inputs": {
+        "nameMode": "empty",
+        "price": 100000,
+        "categoryMode": "existingFirst",
+        "description": ""
+      },
+      "expected": {
+        "assertions": [
+          { "type": "apiStatus", "min": 400, "max": 499, "on": "createResponse" },
+          { "type": "apiProductAbsent", "match": "emptyName" }
+        ]
+      }
+    },
+    {
+      "id": "TC-PRODUCT-007",
+      "category": "boundary",
+      "purpose": "Product name of length 255 is accepted",
+      "preconditions": "Admin session; category exists",
+      "setup": {
+        "authMode": "admin",
+        "ensureCategory": true,
+        "cleanupProduct": true
+      },
+      "journey": "apiCreate",
+      "inputs": {
+        "nameMode": "fixedLength",
+        "nameLength": 255,
+        "nameChar": "A",
+        "price": 100000,
+        "categoryMode": "existingFirst"
+      },
+      "expected": {
+        "assertions": [
+          { "type": "apiStatus", "min": 200, "max": 299, "on": "createResponse" },
+          { "type": "apiProductExists", "match": "nameExact" }
+        ]
+      }
+    },
+    {
+      "id": "TC-PRODUCT-008",
+      "category": "boundary",
+      "purpose": "Product name of length 256 must be rejected",
+      "preconditions": "Admin session; category exists",
+      "setup": {
+        "authMode": "admin",
+        "ensureCategory": true,
+        "cleanupProduct": true
+      },
+      "journey": "apiCreate",
+      "inputs": {
+        "nameMode": "fixedLength",
+        "nameLength": 256,
+        "nameChar": "B",
+        "price": 100000,
+        "categoryMode": "existingFirst"
+      },
+      "expected": {
+        "assertions": [
+          { "type": "apiStatus", "min": 400, "max": 499, "on": "createResponse" },
+          { "type": "apiProductAbsent", "match": "nameExact" }
+        ]
+      }
+    },
+    {
+      "id": "TC-PRODUCT-009",
+      "category": "negative",
+      "purpose": "Price 0 must be rejected (must be > 0)",
+      "preconditions": "Admin session; category exists",
+      "setup": {
+        "authMode": "admin",
+        "ensureCategory": true,
+        "cleanupProduct": true
+      },
+      "journey": "apiCreate",
+      "inputs": {
+        "nameMode": "unique",
+        "namePrefix": "HW04-P009",
+        "price": 0,
+        "categoryMode": "existingFirst"
+      },
+      "expected": {
+        "assertions": [
+          { "type": "apiStatus", "min": 400, "max": 499, "on": "createResponse" },
+          { "type": "apiProductAbsent", "match": "productName" }
+        ]
+      }
+    },
+    {
+      "id": "TC-PRODUCT-010",
+      "category": "negative",
+      "purpose": "Negative price must be rejected",
+      "preconditions": "Admin session; category exists",
+      "setup": {
+        "authMode": "admin",
+        "ensureCategory": true,
+        "cleanupProduct": true
+      },
+      "journey": "apiCreate",
+      "inputs": {
+        "nameMode": "unique",
+        "namePrefix": "HW04-P010",
+        "price": -1,
+        "categoryMode": "existingFirst"
+      },
+      "expected": {
+        "assertions": [
+          { "type": "apiStatus", "min": 400, "max": 499, "on": "createResponse" },
+          { "type": "apiProductAbsent", "match": "productName" }
+        ]
+      }
+    },
+    {
+      "id": "TC-PRODUCT-011",
+      "category": "boundary",
+      "purpose": "Minimal positive integer price 1 is accepted",
+      "preconditions": "Admin session; category exists",
+      "setup": {
+        "authMode": "admin",
+        "ensureCategory": true,
+        "cleanupProduct": true
+      },
+      "journey": "apiCreate",
+      "inputs": {
+        "nameMode": "unique",
+        "namePrefix": "HW04-P011",
+        "price": 1,
+        "categoryMode": "existingFirst"
+      },
+      "expected": {
+        "assertions": [
+          { "type": "apiStatus", "min": 200, "max": 299, "on": "createResponse" },
+          { "type": "apiProductExists", "match": "namePrice" },
+          { "type": "apiProductFieldEquals", "field": "price", "value": 1 }
+        ]
+      }
+    },
+    {
+      "id": "TC-PRODUCT-012",
+      "category": "negative",
+      "purpose": "Invalid category_id must be rejected",
+      "preconditions": "Admin session",
+      "setup": {
+        "authMode": "admin",
+        "cleanupProduct": true
+      },
+      "journey": "apiCreate",
+      "inputs": {
+        "nameMode": "unique",
+        "namePrefix": "HW04-P012",
+        "price": 100000,
+        "categoryMode": "invalidId",
+        "categoryId": 999999
+      },
+      "expected": {
+        "assertions": [
+          { "type": "apiStatus", "min": 400, "max": 499, "on": "createResponse" },
+          { "type": "apiProductAbsent", "match": "productName" }
+        ]
+      }
+    },
+    {
+      "id": "TC-PRODUCT-013",
+      "category": "negative",
+      "purpose": "Unauthenticated POST /api/products must be rejected (FR-12)",
+      "preconditions": "No Authorization header",
+      "setup": {
+        "authMode": "none",
+        "cleanupProduct": true
+      },
+      "journey": "apiCreate",
+      "inputs": {
+        "nameMode": "unique",
+        "namePrefix": "HW04-P013",
+        "price": 100000,
+        "categoryMode": "literal",
+        "categoryId": 1
+      },
+      "expected": {
+        "assertions": [
+          { "type": "apiStatus", "min": 401, "max": 403, "on": "createResponse" },
+          { "type": "apiProductAbsent", "match": "productName" }
+        ]
+      }
+    },
+    {
+      "id": "TC-PRODUCT-014",
+      "category": "negative",
+      "purpose": "Non-admin JWT must not create products (FR-12)",
+      "preconditions": "Valid user-role JWT (not admin)",
+      "setup": {
+        "authMode": "user",
+        "cleanupProduct": true
+      },
+      "journey": "apiCreate",
+      "inputs": {
+        "nameMode": "unique",
+        "namePrefix": "HW04-P014",
+        "price": 100000,
+        "categoryMode": "literal",
+        "categoryId": 1
+      },
+      "expected": {
+        "assertions": [
+          { "type": "apiStatus", "min": 401, "max": 403, "on": "createResponse" },
+          { "type": "apiProductAbsent", "match": "productName" }
+        ]
+      }
+    }
+  ]
+}

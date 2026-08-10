@@ -19,6 +19,15 @@ const FR08_JOURNEYS = new Set([
   'apiCheckoutUnauthorized',
 ]);
 
+const FR15_JOURNEYS = new Set([
+  'uiCreate',
+  'uiView',
+  'uiEdit',
+  'uiEditIsolation',
+  'uiDelete',
+  'apiCreate',
+]);
+
 const FR03_ASSERTIONS = new Set([
   'visible',
   'hidden',
@@ -46,13 +55,25 @@ const FR08_ASSERTIONS = new Set([
   'apiStatus',
 ]);
 
+const FR15_ASSERTIONS = new Set([
+  'visible',
+  'hidden',
+  'containText',
+  'apiStatus',
+  'apiProductExists',
+  'apiProductAbsent',
+  'apiProductFieldEquals',
+  'apiSiblingUnchanged',
+  'uiSiblingNameUnchanged',
+]);
+
 /**
  * Load and validate external case data (JSON only — never inline in specs).
  *
  * @param {string} relativePath path under test-data/
  * @param {{
  *   minCases?: number,
- *   feature?: 'FR-03' | 'FR-08',
+ *   feature?: 'FR-03' | 'FR-08' | 'FR-15',
  *   allowedJourneys?: Set<string>,
  *   allowedAssertions?: Set<string>,
  * }} [options]
@@ -62,10 +83,18 @@ function loadFeatureCases(relativePath, options = {}) {
   const feature = options.feature || 'FR-03';
   const allowedJourneys =
     options.allowedJourneys ||
-    (feature === 'FR-08' ? FR08_JOURNEYS : FR03_JOURNEYS);
+    (feature === 'FR-08'
+      ? FR08_JOURNEYS
+      : feature === 'FR-15'
+        ? FR15_JOURNEYS
+        : FR03_JOURNEYS);
   const allowedAssertions =
     options.allowedAssertions ||
-    (feature === 'FR-08' ? FR08_ASSERTIONS : FR03_ASSERTIONS);
+    (feature === 'FR-08'
+      ? FR08_ASSERTIONS
+      : feature === 'FR-15'
+        ? FR15_ASSERTIONS
+        : FR03_ASSERTIONS);
 
   const absolutePath = path.resolve(__dirname, '..', 'test-data', relativePath);
 
@@ -128,6 +157,13 @@ function loadFeatureCases(relativePath, options = {}) {
       if (typeof c.setup.seedCartCount !== 'number') {
         throw new Error(`Case ${c.id} requires setup.seedCartCount number`);
       }
+    } else if (feature === 'FR-15') {
+      const mode = c.setup.authMode;
+      if (!['admin', 'user', 'none'].includes(mode)) {
+        throw new Error(
+          `Case ${c.id} requires setup.authMode of admin|user|none`,
+        );
+      }
     } else if (typeof c.setup.createUser !== 'boolean') {
       throw new Error(`Case ${c.id} requires setup.createUser boolean`);
     }
@@ -153,8 +189,10 @@ module.exports = {
   loadFeatureCases,
   FR03_JOURNEYS,
   FR08_JOURNEYS,
+  FR15_JOURNEYS,
   FR03_ASSERTIONS,
   FR08_ASSERTIONS,
+  FR15_ASSERTIONS,
   // backward-compatible aliases
   ALLOWED_JOURNEYS: FR03_JOURNEYS,
   ALLOWED_ASSERTIONS: FR03_ASSERTIONS,

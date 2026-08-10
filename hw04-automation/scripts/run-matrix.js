@@ -182,6 +182,15 @@ function runCell(feature, browser) {
     PLAYWRIGHT_HTML_OPEN: 'never',
   };
 
+  // FR-15 Admin SPA is on 5174; storefront cases keep default 5173.
+  if (feature.slug === 'fr15-admin-product') {
+    env.BASE_URL =
+      process.env.ADMIN_BASE_URL ||
+      process.env.BASE_URL_ADMIN ||
+      'http://localhost:5174';
+    env.ADMIN_BASE_URL = env.BASE_URL;
+  }
+
   console.log(`\n=== ${feature.name} @ ${browser} ===`);
   console.log(`Report: ${reportDir}`);
   console.log(`Title: ${reportTitle}`);
