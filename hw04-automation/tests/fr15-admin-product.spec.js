@@ -476,3 +476,5 @@ for (const tc of cases) {
     });
   });
 }
+
+// Matrix cell manifests: reports/run-manifest-fr15-admin-product.json (2026-08-10).
