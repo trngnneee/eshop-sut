@@ -1,0 +1,37 @@
+[
+  {
+    "tc_name": "Valid registration",
+    "req_name": "Valid Name",
+    "req_email": "test23127486_1@domain.com",
+    "req_password": "Password123!",
+    "expected_status": 200
+  },
+  {
+    "tc_name": "Missing email",
+    "req_name": "Missing Email",
+    "req_email": "",
+    "req_password": "Password123!",
+    "expected_status": 400
+  },
+  {
+    "tc_name": "Missing password",
+    "req_name": "Missing Pass",
+    "req_email": "test23127486_2@domain.com",
+    "req_password": "",
+    "expected_status": 400
+  },
+  {
+    "tc_name": "Invalid email format",
+    "req_name": "Invalid Email",
+    "req_email": "test23127486_3domain.com",
+    "req_password": "Password123!",
+    "expected_status": 400
+  },
+  {
+    "tc_name": "Duplicate email",
+    "req_name": "Duplicate Email",
+    "req_email": "test23127486_1@domain.com",
+    "req_password": "Password123!",
+    "expected_status": 400
+  }
+]
