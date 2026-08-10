@@ -1,0 +1,27 @@
+# Git commit log — HW04 (repo: trngnneee/eshop-sut, branch: HW04-Nguyen)
+# Exported: 2026-08-10T04:24:50Z
+
+## Full history
+a5488ac | 2026-08-10 11:21:30 +0700 | trngnneee | docs: update AI Disclosure Form and Privacy Checklist for HW04
+8763c16 | 2026-08-10 11:20:17 +0700 | trngnneee | docs: update AI Audit Report (ai_declaration) for HW04 Task 1
+583c6ba | 2026-08-10 11:06:26 +0700 | trngnneee | chore: add Cloudinary upload script + URL mapping for bug screenshots
+8afbaa4 | 2026-08-10 10:55:52 +0700 | trngnneee | docs: add HW04 test summary report and bug screenshots
+3534c10 | 2026-08-10 10:50:57 +0700 | trngnneee | feat: add automated tests for login, coupon application, and category management
+c291580 | 2026-07-09 21:24:43 +0700 | Đặng Trường Nguyên | Delete tests directory
+c067b7f | 2026-07-09 21:24:33 +0700 | Đặng Trường Nguyên | Delete Requirements directory
+63b004e | 2026-07-09 21:24:19 +0700 | Đặng Trường Nguyên | Delete .agents/skills/domain_and_boundary_testing directory
+dc41066 | 2026-06-23 13:54:44 +0700 | khoadangwneee | setup skill for agent(antigravity)
+ddfb42f | 2026-06-08 16:47:44 +0700 | khoadangwneee | Test case login
+ad020a0 | 2026-06-08 16:45:12 +0700 | khoadangwneee | Test case login
+d897a21 | 2026-06-08 16:42:32 +0700 | Đặng Trường Nguyên | Update issue templates
+957052d | 2026-06-07 23:52:40 +0700 | trngnneee | Fix url frontend-admin
+b4a0df5 | 2026-06-07 23:33:10 +0700 | trngnneee | Update Backend URL call cho FE
+1673255 | 2026-06-07 23:24:17 +0700 | trngnneee | Fix
+4c3230c | 2026-06-07 23:19:08 +0700 | trngnneee | Remove
+4065ae3 | 2026-06-07 23:16:38 +0700 | trngnneee | Update sqlite3 version
+3650c56 | 2026-06-07 23:08:16 +0700 | trngnneee | Push
+85af3ba | 2026-05-15 08:30:35 +0700 | ttbhanh-hcmus | first upload
+2f9bf2b | 2026-05-15 08:27:44 +0700 | Hanh Tran | Initial commit
+
+## Commits touching test-script files (*.spec.ts / *.spec.js) — counted for the 8-commit minimum
+3534c10 | 2026-08-10 10:50:57 +0700 | trngnneee | feat: add automated tests for login, coupon application, and category management
