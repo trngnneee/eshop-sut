@@ -14,7 +14,8 @@ disposable throwaway account to `role='admin'` instead; see `docs/ai-review-dash
 > **GitHub Issues status:** all 4 new findings below have been filed as real GitHub Issues
 > (#325–#327, #329) with screenshot evidence attached. Existing HW02 issue links for
 > previously-known bugs (including `BUG-FR13-C-03`, reproduced below) are listed in
-> `docs/hw02-reference/tests/issues_list.txt`.
+> `docs/hw02-reference/tests/issues_list.txt` — each one now also has a rendered evidence
+> screenshot in `docs/bug-evidence/` from this run's own actual Expected/Actual failure text.
 
 ## A. Known issue reproduced
 
@@ -27,7 +28,7 @@ disposable throwaway account to `role='admin'` instead; see `docs/ai-review-dash
 - **Expected:** `403 Forbidden` for a valid non-admin token.
 - **Actual:** Requests are accepted (the API tests receive successful behavior rather than `403`).
 - **Evidence:** `backend/server.js` applies `authenticateToken` to the routes but never checks
-  `req.user.role === 'admin'`.
+  `req.user.role === 'admin'`. [Screenshot](bug-evidence/BUG-FR13-C-02-admin-routes-no-role-check.png)
 - **Existing issue:** `https://github.com/trngnneee/eshop-sut/issues/157` (from the HW02 reference list).
 
 ### BUG-FR13-C-03 — Dashboard data load has no resilience to a failed sub-request
@@ -40,6 +41,7 @@ disposable throwaway account to `role='admin'` instead; see `docs/ai-review-dash
 - **Actual:** No message appears; `App.jsx`'s `fetchData()` runs 5 sequential `axios.get` calls
   with one shared `catch` block that only handles `401`/`403` — any other failure (including one
   request being unreachable) breaks the chain silently.
+- **Evidence:** [Screenshot](bug-evidence/BUG-FR13-C-03-no-resilience-to-failed-request.png)
 - **Existing issue:** `https://github.com/trngnneee/eshop-sut/issues/158` (from the HW02 reference
   list; this run reproduces it with a browser-level repro instead of only static source review).
 
@@ -111,4 +113,5 @@ disposable throwaway account to `role='admin'` instead; see `docs/ai-review-dash
 - **Actual:** `frontend-admin/src/App.jsx` computes `sum + o.total_amount * 2`, so every delivered
   amount is doubled (e.g. a single 500,000₫ delivered order displays as 1,000,000₫). Negative
   amounts also produce negative revenue since there is no nonnegative-data guard.
+- **Evidence:** [Screenshot](bug-evidence/BUG-FR13-C-01-revenue-doubled.png)
 - **Existing issue:** `https://github.com/trngnneee/eshop-sut/issues/156`.

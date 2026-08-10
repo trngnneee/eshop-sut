@@ -17,7 +17,7 @@ self-assessment — finalize the number after checking the two demo videos again
 | 5 | AI Critique (Markdown + PDF) | MD ✅ / PDF ⬜ | `HW4/docs/ai-critique.md` |
 | 6 | AI Audit Report (Markdown + PDF) | MD ✅ / PDF ⬜ | `HW4/docs/ai-audit-report.md` |
 | 7 | Git commit log (text file) | ✅ Done | `HW4/commit_log.txt` |
-| 8 | Bug report + GitHub Issue screenshots | ✅ Done | `HW4/docs/bug-report-{login,cart,dashboard}.md` — all 19 new bugs filed as real Issues [#318–#329](https://github.com/trngnneee/eshop-sut/issues?q=is%3Aissue+318..329+in%3Anumber) + [#333–#339](https://github.com/trngnneee/eshop-sut/issues?q=is%3Aissue+333..339+in%3Anumber) with screenshot evidence attached (`HW4/docs/bug-evidence/`) |
+| 8 | Bug report + GitHub Issue screenshots | ✅ Done | `HW4/docs/bug-report-{login,cart,dashboard}.md` — all 19 new bugs filed as real Issues [#318–#329](https://github.com/trngnneee/eshop-sut/issues?q=is%3Aissue+318..329+in%3Anumber) + [#333–#339](https://github.com/trngnneee/eshop-sut/issues?q=is%3Aissue+333..339+in%3Anumber) with screenshot evidence attached. The 30 already-known bugs also have a rendered evidence screenshot each (linked inline from each bug-report table/entry), so all 49 bugs total have local evidence in `HW4/docs/bug-evidence/` (19 also attached to their GitHub Issue; the 30 known ones link to pre-existing HW02 issues that predate this run) |
 | 9 | README.md with self-assessment + test summary | ✅ Done | `HW4/README.md` |
 | 10 | Any supporting materials | ✅ Done | `HW4/docs/hw02-reference/` (source test-case pool), `HW4/docs/system-analysis.md`, `HW4/docs/prompt-log.md` |
 

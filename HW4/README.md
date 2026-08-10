@@ -41,7 +41,10 @@ requested).
   duplicate-email ghost accounts, zero-validation empty passwords, a brute-forceable
   password-reset token, and an unauthenticated order-viewing IDOR. All 19 new bugs are filed as
   real GitHub Issues (#318–#329, #333–#339) with screenshot evidence, filed via `gh` CLI
-  browser-login (see `docs/submission-checklist.md`). The final boundary/robustness volume pass
+  browser-login (see `docs/submission-checklist.md`). All 49 bugs total — the 30 already-known
+  ones included, not just the 19 new — now have a rendered evidence screenshot in
+  `HW4/docs/bug-evidence/`, linked inline from each `bug-report-*.md` entry. The final
+  boundary/robustness volume pass
   (63 more cases across all three features, reusing already-proven parameterized shapes with
   zero new spec code) found no further bugs — every new case either confirmed correct handling
   of a malformed/boundary input or reproduced an already-tracked bug family; the highest-value

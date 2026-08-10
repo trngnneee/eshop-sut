@@ -14,27 +14,29 @@ switching those cases to a disposable, self-cleaning product; see `docs/ai-revie
 
 > **GitHub Issues status:** all 7 new findings below have been filed as real GitHub Issues
 > (#322–#324, #328, #336–#337, #339) with screenshot evidence attached. The existing HW02 issue
-> links for previously-known bugs are in `docs/hw02-reference/tests/issues_list.txt`.
+> links for previously-known bugs are in `docs/hw02-reference/tests/issues_list.txt` — each one now
+> also has a rendered evidence screenshot in `docs/bug-evidence/` from this run's own actual
+> Expected/Actual failure text.
 
 ## A. Previously known bugs reproduced
 
-| # | Bug ID | Reproducing cases | Actual result |
-|---:|---|---|---|
-| 1 | `BUG-FR07-B-01` | `TC-CART-043`, `044`, `045` | API returns `200` for quantity `0`, `-3`, and `1.5`; invalid items are accepted |
-| 2 | `BUG-FR07-B-04` | `TC-CART-023` | No `+/-` quantity controls exist in the cart row |
-| 3 | `BUG-FR07-B-05` | `TC-CART-030` | Delete runs without a native confirmation dialog |
-| 4 | `BUG-FR07-B-06` | `TC-CART-008` | Total label is “Tổng tạm tính”, not “Tổng cộng” |
-| 5 | `BUG-FR07-B-07` | `TC-CART-002` | Empty cart has no icon/image illustration |
-| 6 | `BUG-FR07-B-08` | `TC-CART-004` | Breadcrumb is absent |
-| 7 | `BUG-FR07-B-10` | `TC-CART-046`, `057`, `058`, `062` | Missing quantity/id/price and tampered name are accepted |
-| 8 | `BUG-FR07-B-11` | `TC-CART-038` | No success toast/alert appears after add |
-| 9 | `BUG-FR07-B-12` | `TC-CART-060` | No stock information or over-stock warning is shown |
-| 10 | `BUG-FR07-B-13` | `TC-CART-059`, `063`, `080`, `088-CHECKOUT-TAMPER` | Client-provided price/checkout total is trusted |
-| 11 | `BUG-FR07-B-14` | `TC-CART-061` | Product ID `999999` is accepted and stored |
-| 12 | `BUG-FR07-B-15` | `TC-CART-045` | Quantity type is not validated by the API |
-| 13 | `BUG-FR07-B-16` | `TC-CART-070` | Extra fields, including `isAdmin`, survive in the stored cart item |
-| 14 | `BUG-FR07-B-17` | `TC-CART-076` | Empty checkout submit control is enabled |
-| 15 | `BUG-FR07-B-19` | `TC-CART-089` | Successful checkout leaves the cart populated |
+| # | Bug ID | Reproducing cases | Actual result | Evidence |
+|---:|---|---|---|---|
+| 1 | `BUG-FR07-B-01` | `TC-CART-043`, `044`, `045` | API returns `200` for quantity `0`, `-3`, and `1.5`; invalid items are accepted | [screenshot](bug-evidence/BUG-FR07-B-01-invalid-quantity-accepted.png) |
+| 2 | `BUG-FR07-B-04` | `TC-CART-023` | No `+/-` quantity controls exist in the cart row | [screenshot](bug-evidence/BUG-FR07-B-04-no-quantity-controls.png) |
+| 3 | `BUG-FR07-B-05` | `TC-CART-030` | Delete runs without a native confirmation dialog | [screenshot](bug-evidence/BUG-FR07-B-05-no-delete-confirm-dialog.png) |
+| 4 | `BUG-FR07-B-06` | `TC-CART-008` | Total label is “Tổng tạm tính”, not “Tổng cộng” | [screenshot](bug-evidence/BUG-FR07-B-06-wrong-total-label.png) |
+| 5 | `BUG-FR07-B-07` | `TC-CART-002` | Empty cart has no icon/image illustration | [screenshot](bug-evidence/BUG-FR07-B-07-empty-cart-no-icon.png) |
+| 6 | `BUG-FR07-B-08` | `TC-CART-004` | Breadcrumb is absent | [screenshot](bug-evidence/BUG-FR07-B-08-no-breadcrumb.png) |
+| 7 | `BUG-FR07-B-10` | `TC-CART-046`, `057`, `058`, `062` | Missing quantity/id/price and tampered name are accepted | [screenshot](bug-evidence/BUG-FR07-B-10-missing-fields-accepted.png) |
+| 8 | `BUG-FR07-B-11` | `TC-CART-038` | No success toast/alert appears after add | [screenshot](bug-evidence/BUG-FR07-B-11-no-toast-on-add.png) |
+| 9 | `BUG-FR07-B-12` | `TC-CART-060` | No stock information or over-stock warning is shown | [screenshot](bug-evidence/BUG-FR07-B-12-no-stock-info.png) |
+| 10 | `BUG-FR07-B-13` | `TC-CART-059`, `063`, `080`, `088-CHECKOUT-TAMPER` | Client-provided price/checkout total is trusted | [screenshot](bug-evidence/BUG-FR07-B-13-client-total-trusted.png) |
+| 11 | `BUG-FR07-B-14` | `TC-CART-061` | Product ID `999999` is accepted and stored | [screenshot](bug-evidence/BUG-FR07-B-14-nonexistent-product-accepted.png) |
+| 12 | `BUG-FR07-B-15` | `TC-CART-045` | Quantity type is not validated by the API | [screenshot](bug-evidence/BUG-FR07-B-15-quantity-type-not-validated.png) |
+| 13 | `BUG-FR07-B-16` | `TC-CART-070` | Extra fields, including `isAdmin`, survive in the stored cart item | [screenshot](bug-evidence/BUG-FR07-B-16-mass-assignment-extra-fields.png) |
+| 14 | `BUG-FR07-B-17` | `TC-CART-076` | Empty checkout submit control is enabled | [screenshot](bug-evidence/BUG-FR07-B-17-checkout-enabled-when-empty.png) |
+| 15 | `BUG-FR07-B-19` | `TC-CART-089` | Successful checkout leaves the cart populated | [screenshot](bug-evidence/BUG-FR07-B-19-checkout-does-not-clear-cart.png) |
 
 ## B. New findings isolated by this automation pass
 

@@ -1,4 +1,7 @@
 === Full git log ===
+9fb76ee refactor(hw4): drop the NEW- prefix from all new-bug IDs and evidence filenames
+4f0fba8 docs(hw4): add demo video links (automation run + Agent Skill)
+7f3dbb7 feat(hw4): seventh pass — pure boundary/robustness volume to reach 400 cases suite-wide
 efd8c70 feat(hw4): sixth pass — CRITICAL privilege escalation + boundary volume to 250 cases
 8e5e0d2 docs(hw4): add evidence for privilege-escalation and checkout-validation bugs
 88cf88d feat(hw4): fifth pass — bug hunt in checkout/order endpoints (75->77 Cart cases)
@@ -71,7 +74,8 @@ b4a0df5 Update Backend URL call cho FE
 85af3ba first upload
 2f9bf2b Initial commit
 
-=== Commits touching .spec.ts files (13 total, min 8 required) ===
+=== Commits touching .spec.ts files (14 total, min 8 required) ===
+9fb76ee refactor(hw4): drop the NEW- prefix from all new-bug IDs and evidence filenames
 efd8c70 feat(hw4): sixth pass — CRITICAL privilege escalation + boundary volume to 250 cases
 88cf88d feat(hw4): fifth pass — bug hunt in checkout/order endpoints (75->77 Cart cases)
 2540ef0 feat(hw4): fourth pass — deliberate bug hunt in register/forgot-password (69->72 Login cases)

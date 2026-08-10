@@ -11,24 +11,26 @@ malformed input or reproduced an already-listed bug's failure pattern.)
 > (#318–#321, #333–#335, #338) via `gh issue create`, with screenshot evidence attached. The
 > already-known bugs below (#1–#12) were never filed as GitHub Issues even in HW02 (confirmed:
 > zero `FR02`/`login` hits in `tests/issues_list.txt`) and remain open to file separately if
-> needed.
+> needed — each one now also has a rendered evidence screenshot in `docs/bug-evidence/` (generated
+> from this run's own actual Expected/Actual failure text, same as the new findings below), even
+> though there is no existing GitHub Issue yet to attach it to.
 
 ## A. Already-known bugs reproduced by this automation run
 
 | # | Bug ID | Title | Reproducing case(s) | Evidence |
 |---|---|---|---|---|
-| 1 | BUG-FR02-A-01 | Failed-login counter increments by 2 instead of 1 | TC-LOGIN-002, TC-LOGIN-023, TC-LOGIN-024 | `login_attempts` reads 2 after a single wrong password |
-| 2 | BUG-FR02-A-02 | Lockout duration is 180s, not the spec'd ~30s | TC-LOGIN-025 | Measured `locked_until - triggerTime` ≈ 180013ms |
-| 3 | BUG-FR02-A-04 | Login page heading reads "Đăng Ký" instead of "Đăng Nhập" | TC-LOGIN-004 | `getByRole('heading')` text mismatch |
-| 4 | BUG-FR02-A-05 | Email field labeled "Username" instead of "Email" | TC-LOGIN-004 | Label text assertion |
-| 5 | BUG-FR02-A-06 | Submit button reads "Sign In" instead of "Đăng nhập" | TC-LOGIN-004 | Button text assertion |
-| 6 | BUG-FR02-A-07 | Password input has `type="text"` (not masked) | TC-LOGIN-004 | `toHaveAttribute('type','password')` fails |
-| 7 | BUG-FR02-A-09 | Email is not trimmed server-side | TC-LOGIN-005 | Login with padded email fails instead of succeeding |
-| 8 | BUG-FR02-A-11 | Submit button has no loading/disabled state | TC-LOGIN-009 | Button remains enabled right after click |
-| 9 | BUG-FR02-A-12 | No show/hide password toggle | TC-LOGIN-010 | Toggle control not found |
-| 10 | BUG-FR02-A-14 | No route guard on `/login` while already authenticated | TC-LOGIN-012 | Re-visiting `/login` does not redirect away |
-| 11 | BUG-FR02-A-15 | Bad tab order / missing `autocomplete` attributes | TC-LOGIN-020, TC-LOGIN-021, TC-LOGIN-045 | Focus order wrong; `autocomplete` attribute absent on both the email field and (confirmed in a later pass) the password field (`current-password`) |
-| 12 | BUG-FR02-A-17 | Password reset does not clear lockout state | TC-LOGIN-030 | Login with the new password still returns 403 while locked |
+| 1 | BUG-FR02-A-01 | Failed-login counter increments by 2 instead of 1 | TC-LOGIN-002, TC-LOGIN-023, TC-LOGIN-024 | `login_attempts` reads 2 after a single wrong password — [screenshot](bug-evidence/BUG-FR02-A-01-counter-increments-by-2.png) |
+| 2 | BUG-FR02-A-02 | Lockout duration is 180s, not the spec'd ~30s | TC-LOGIN-025 | Measured `locked_until - triggerTime` ≈ 180013ms — [screenshot](bug-evidence/BUG-FR02-A-02-lockout-duration-180s.png) |
+| 3 | BUG-FR02-A-04 | Login page heading reads "Đăng Ký" instead of "Đăng Nhập" | TC-LOGIN-004 | `getByRole('heading')` text mismatch — [screenshot](bug-evidence/BUG-FR02-A-04-wrong-heading-text.png) |
+| 4 | BUG-FR02-A-05 | Email field labeled "Username" instead of "Email" | TC-LOGIN-004 | Label text assertion — [screenshot](bug-evidence/BUG-FR02-A-05-email-field-labeled-username.png) |
+| 5 | BUG-FR02-A-06 | Submit button reads "Sign In" instead of "Đăng nhập" | TC-LOGIN-004 | Button text assertion — [screenshot](bug-evidence/BUG-FR02-A-06-submit-button-sign-in.png) |
+| 6 | BUG-FR02-A-07 | Password input has `type="text"` (not masked) | TC-LOGIN-004 | `toHaveAttribute('type','password')` fails — [screenshot](bug-evidence/BUG-FR02-A-07-password-not-masked.png) |
+| 7 | BUG-FR02-A-09 | Email is not trimmed server-side | TC-LOGIN-005 | Login with padded email fails instead of succeeding — [screenshot](bug-evidence/BUG-FR02-A-09-email-not-trimmed.png) |
+| 8 | BUG-FR02-A-11 | Submit button has no loading/disabled state | TC-LOGIN-009 | Button remains enabled right after click — [screenshot](bug-evidence/BUG-FR02-A-11-no-loading-state.png) |
+| 9 | BUG-FR02-A-12 | No show/hide password toggle | TC-LOGIN-010 | Toggle control not found — [screenshot](bug-evidence/BUG-FR02-A-12-no-password-toggle.png) |
+| 10 | BUG-FR02-A-14 | No route guard on `/login` while already authenticated | TC-LOGIN-012 | Re-visiting `/login` does not redirect away — [screenshot](bug-evidence/BUG-FR02-A-14-no-route-guard.png) |
+| 11 | BUG-FR02-A-15 | Bad tab order / missing `autocomplete` attributes | TC-LOGIN-020, TC-LOGIN-021, TC-LOGIN-045 | Focus order wrong; `autocomplete` attribute absent on both the email field and (confirmed in a later pass) the password field (`current-password`) — [screenshot](bug-evidence/BUG-FR02-A-15-bad-tab-order-missing-autocomplete.png) |
+| 12 | BUG-FR02-A-17 | Password reset does not clear lockout state | TC-LOGIN-030 | Login with the new password still returns 403 while locked — [screenshot](bug-evidence/BUG-FR02-A-17-reset-does-not-clear-lockout.png) |
 
 ## B. New defects found by this automation pass
 
