@@ -13,7 +13,7 @@ import data from '../data/fr02-login.json';
 //   FR02-LK01        → issue #393 (bộ đếm tăng +2/lần thay vì +1)
 //   FR02-LK03        → issue #394 (khóa 180s thay vì 30s)
 
-test.describe(data.feature, () => {
+test.describe(data.feature, { tag: ['@fr02', '@pool-a', '@auth'] }, () => {
   // ---- Nhóm 1: các ca đăng nhập (positive / negative / edge) ----
   for (const tc of data.loginCases) {
     test(`${tc.id} [${tc.type}] ${tc.title}`, async ({ page }) => {
