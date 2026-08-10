@@ -46,7 +46,7 @@ Final responsibility for the accuracy, originality, and integrity of this submis
 | Class / Cohort: | 23KTPM3 |
 | Course: | CS423 / CSC13003 – Software Testing |
 | Instructor: | Msc. Tran Thi Bich Hanh |
-| Date: | 25/07/2026 |
+| Date: | 10/08/2026 |
 | Signature: | ![signature](./signature.png) |
 
 ## References
