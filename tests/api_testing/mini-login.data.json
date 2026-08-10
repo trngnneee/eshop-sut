@@ -1,0 +1,42 @@
+[
+  {
+    "tc_id": "AI-01",
+    "name": "Login thanh cong voi tai khoan hop le",
+    "body": { "email": "test@eshop.com", "password": "Test1234!" },
+    "expected_status": 200,
+    "expected_fields": ["message", "token", "user"],
+    "expected_error": null
+  },
+  {
+    "tc_id": "AI-04",
+    "name": "Sai mat khau voi email ton tai",
+    "body": { "email": "test@eshop.com", "password": "WrongPass999!" },
+    "expected_status": 401,
+    "expected_fields": ["error"],
+    "expected_error": "Invalid email or password"
+  },
+  {
+    "tc_id": "AI-05",
+    "name": "Email khong ton tai trong he thong",
+    "body": { "email": "nonexistent.23127438@nowhere.test", "password": "AnyPass123!" },
+    "expected_status": 401,
+    "expected_fields": ["error"],
+    "expected_error": "Invalid email or password"
+  },
+  {
+    "tc_id": "AI-09",
+    "name": "SQL injection vao truong email",
+    "body": { "email": "' OR '1'='1' --", "password": "x" },
+    "expected_status": 401,
+    "expected_fields": ["error"],
+    "expected_error": "Invalid email or password"
+  },
+  {
+    "tc_id": "EX-02",
+    "name": "Email va password la chuoi rong (edge case)",
+    "body": { "email": "", "password": "" },
+    "expected_status": 401,
+    "expected_fields": ["error"],
+    "expected_error": "Invalid email or password"
+  }
+]

@@ -1,0 +1,60 @@
+# Mini Exercise — API Testing CI (MSSV: 23127438)
+# Tự động khởi động provider (eshop-sut backend), cài Newman,
+# chạy collection với iteration data và upload report.
+name: Newman API tests
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  newman-api-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm install
+
+      - name: Start provider (eshop-sut backend)
+        working-directory: backend
+        run: |
+          nohup node server.js > server.log 2>&1 &
+          echo "Waiting for backend on http://localhost:3000 ..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:3000/api/products/1 > /dev/null; then
+              echo "Backend is up."
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Backend failed to start:"
+          cat server.log
+          exit 1
+
+      - name: Install Newman
+        run: npm install --global newman
+
+      - name: Run Newman collection (data-driven, 5 iterations)
+        working-directory: tests/api_testing
+        run: |
+          newman run mini-login.postman_collection.json \
+            --environment mini-local.postman_environment.json \
+            --iteration-data mini-login.data.json \
+            --reporters cli,json \
+            --reporter-json-export mini-newman-report.json
+
+      - name: Upload Newman report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mini-newman-report
+          path: tests/api_testing/mini-newman-report.json

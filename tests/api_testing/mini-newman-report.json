@@ -1,0 +1,2169 @@
+{
+  "collection": {
+    "_": {
+      "postman_id": "c4a1f8e2-7b3d-4e9a-8c5f-mini-login-col"
+    },
+    "item": [
+      {
+        "id": "8b409a1e-658f-402b-97a9-7b5ff5e7870a",
+        "name": "POST /api/login (data-driven)",
+        "request": {
+          "description": {
+            "content": "Đăng nhập hệ thống. Body được ghi đè từ iteration data trong pre-request script.",
+            "type": "text/plain"
+          },
+          "url": {
+            "path": [
+              "api",
+              "login"
+            ],
+            "host": [
+              "{{baseUrl}}"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "prerequest",
+            "script": {
+              "id": "0b314bda-2d03-4344-ab39-3ba57d0322fa",
+              "type": "text/javascript",
+              "exec": [
+                "// Gắn MSSV vào header cho mọi request (yêu cầu B4.3)",
+                "pm.request.headers.upsert({",
+                "  key: \"X-Student-Id\",",
+                "  value: pm.environment.get(\"studentId\"),",
+                "});",
+                "",
+                "// Build request body từ iteration data — cho phép test case thiếu field",
+                "const body = pm.iterationData.get(\"body\") || {};",
+                "pm.request.body.update({",
+                "  mode: \"raw\",",
+                "  raw: JSON.stringify(body),",
+                "  options: { raw: { language: \"json\" } },",
+                "});",
+                "",
+                "console.log(\"X-Student-Id =\", pm.request.headers.get(\"X-Student-Id\"), \"| tc_id =\", pm.iterationData.get(\"tc_id\"));"
+              ],
+              "_lastExecutionId": "4a9df531-ebd7-4cb8-9478-88d680017a62"
+            }
+          },
+          {
+            "listen": "test",
+            "script": {
+              "id": "5e1e5149-f1c6-4dab-9cc3-95edc4f31b4e",
+              "type": "text/javascript",
+              "exec": [
+                "const tcId = pm.iterationData.get(\"tc_id\") || \"TC\";",
+                "const tcName = pm.iterationData.get(\"name\") || \"\";",
+                "const expectedStatus = pm.iterationData.get(\"expected_status\");",
+                "const expectedFields = pm.iterationData.get(\"expected_fields\") || [];",
+                "const expectedError = pm.iterationData.get(\"expected_error\");",
+                "",
+                "// 1. Status code đúng kỳ vọng (data-driven)",
+                "pm.test(`[${tcId}] ${tcName} — status ${expectedStatus}`, function () {",
+                "  pm.response.to.have.status(expectedStatus);",
+                "});",
+                "",
+                "// 2. Assertion tự viết: Content-Type phải là JSON (yêu cầu B4.3)",
+                "pm.test(`[MINI] Response is JSON`, function () {",
+                "  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+                "});",
+                "",
+                "// 3. Assertion tự viết: response time dưới ngưỡng (collection variable)",
+                "const maxMs = Number(pm.collectionVariables.get(\"maxResponseMs\"));",
+                "pm.test(`[MINI] Response time < ${maxMs}ms`, function () {",
+                "  pm.expect(pm.response.responseTime).to.be.below(maxMs);",
+                "});",
+                "",
+                "// 4. Schema validation: response chứa đúng các field kỳ vọng",
+                "pm.test(`[${tcId}] Body has fields: ${expectedFields.join(\", \")}`, function () {",
+                "  const json = pm.response.json();",
+                "  expectedFields.forEach((f) => pm.expect(json, `missing field '${f}'`).to.have.property(f));",
+                "});",
+                "",
+                "if (expectedStatus === 200) {",
+                "  // 5a. Positive case: token là JWT 3 phần, user.email khớp input, message đúng",
+                "  pm.test(`[${tcId}] Token is a well-formed JWT`, function () {",
+                "    const json = pm.response.json();",
+                "    pm.expect(json.token).to.be.a(\"string\");",
+                "    pm.expect(json.token.split(\".\")).to.have.lengthOf(3);",
+                "  });",
+                "  pm.test(`[${tcId}] user.email matches login email`, function () {",
+                "    const json = pm.response.json();",
+                "    pm.expect(json.user.email).to.eql(pm.iterationData.get(\"body\").email);",
+                "    pm.expect(json.message).to.eql(\"Login successful\");",
+                "  });",
+                "} else if (expectedError) {",
+                "  // 5b. Negative case: thông báo lỗi chung, không tiết lộ email có tồn tại hay không",
+                "  pm.test(`[${tcId}] Error message is generic`, function () {",
+                "    pm.expect(pm.response.json().error).to.eql(expectedError);",
+                "  });",
+                "}"
+              ],
+              "_lastExecutionId": "242877cc-3cce-443d-905d-3b5f5fc3177f"
+            }
+          }
+        ]
+      }
+    ],
+    "event": [],
+    "variable": [
+      {
+        "type": "string",
+        "value": "2000",
+        "key": "maxResponseMs"
+      }
+    ],
+    "info": {
+      "_postman_id": "c4a1f8e2-7b3d-4e9a-8c5f-mini-login-col",
+      "name": "Mini API Testing - POST /api/login (23127438)",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "description": {
+        "content": "Data-driven test collection for POST /api/login of eshop-sut.\nRun with: newman run mini-login.postman_collection.json --environment mini-local.postman_environment.json --iteration-data mini-login.data.json",
+        "type": "text/plain"
+      }
+    }
+  },
+  "environment": {
+    "_": {
+      "postman_variable_scope": "environment",
+      "postman_exported_using": "Postman/11.0"
+    },
+    "id": "b7f3d9a0-1e2c-4c5d-9f6a-mini-login-env",
+    "name": "mini-local",
+    "values": [
+      {
+        "type": "any",
+        "value": "http://localhost:3000",
+        "key": "baseUrl"
+      },
+      {
+        "type": "any",
+        "value": "23127438",
+        "key": "studentId"
+      }
+    ]
+  },
+  "globals": {
+    "id": "9a5634cf-050e-4905-bdc8-8aa67ec50503",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 10,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "tests": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 26,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 4,
+      "responseMin": 1,
+      "responseMax": 14,
+      "responseSd": 5.019960159204454,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1786349883633,
+      "completed": 1786349883718
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 1,
+          "cycles": 5,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "1c5dd052-d032-487f-b95b-bff222843eb4",
+          "httpRequestId": "ba217b1a-7b4d-4a4f-a60d-0c18647d7d04"
+        },
+        "item": {
+          "id": "8b409a1e-658f-402b-97a9-7b5ff5e7870a",
+          "name": "POST /api/login (data-driven)",
+          "request": {
+            "description": {
+              "content": "Đăng nhập hệ thống. Body được ghi đè từ iteration data trong pre-request script.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "0b314bda-2d03-4344-ab39-3ba57d0322fa",
+                "type": "text/javascript",
+                "exec": [
+                  "// Gắn MSSV vào header cho mọi request (yêu cầu B4.3)",
+                  "pm.request.headers.upsert({",
+                  "  key: \"X-Student-Id\",",
+                  "  value: pm.environment.get(\"studentId\"),",
+                  "});",
+                  "",
+                  "// Build request body từ iteration data — cho phép test case thiếu field",
+                  "const body = pm.iterationData.get(\"body\") || {};",
+                  "pm.request.body.update({",
+                  "  mode: \"raw\",",
+                  "  raw: JSON.stringify(body),",
+                  "  options: { raw: { language: \"json\" } },",
+                  "});",
+                  "",
+                  "console.log(\"X-Student-Id =\", pm.request.headers.get(\"X-Student-Id\"), \"| tc_id =\", pm.iterationData.get(\"tc_id\"));"
+                ],
+                "_lastExecutionId": "4a9df531-ebd7-4cb8-9478-88d680017a62"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "5e1e5149-f1c6-4dab-9cc3-95edc4f31b4e",
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = pm.iterationData.get(\"tc_id\") || \"TC\";",
+                  "const tcName = pm.iterationData.get(\"name\") || \"\";",
+                  "const expectedStatus = pm.iterationData.get(\"expected_status\");",
+                  "const expectedFields = pm.iterationData.get(\"expected_fields\") || [];",
+                  "const expectedError = pm.iterationData.get(\"expected_error\");",
+                  "",
+                  "// 1. Status code đúng kỳ vọng (data-driven)",
+                  "pm.test(`[${tcId}] ${tcName} — status ${expectedStatus}`, function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "// 2. Assertion tự viết: Content-Type phải là JSON (yêu cầu B4.3)",
+                  "pm.test(`[MINI] Response is JSON`, function () {",
+                  "  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+                  "});",
+                  "",
+                  "// 3. Assertion tự viết: response time dưới ngưỡng (collection variable)",
+                  "const maxMs = Number(pm.collectionVariables.get(\"maxResponseMs\"));",
+                  "pm.test(`[MINI] Response time < ${maxMs}ms`, function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(maxMs);",
+                  "});",
+                  "",
+                  "// 4. Schema validation: response chứa đúng các field kỳ vọng",
+                  "pm.test(`[${tcId}] Body has fields: ${expectedFields.join(\", \")}`, function () {",
+                  "  const json = pm.response.json();",
+                  "  expectedFields.forEach((f) => pm.expect(json, `missing field '${f}'`).to.have.property(f));",
+                  "});",
+                  "",
+                  "if (expectedStatus === 200) {",
+                  "  // 5a. Positive case: token là JWT 3 phần, user.email khớp input, message đúng",
+                  "  pm.test(`[${tcId}] Token is a well-formed JWT`, function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.token).to.be.a(\"string\");",
+                  "    pm.expect(json.token.split(\".\")).to.have.lengthOf(3);",
+                  "  });",
+                  "  pm.test(`[${tcId}] user.email matches login email`, function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.user.email).to.eql(pm.iterationData.get(\"body\").email);",
+                  "    pm.expect(json.message).to.eql(\"Login successful\");",
+                  "  });",
+                  "} else if (expectedError) {",
+                  "  // 5b. Negative case: thông báo lỗi chung, không tiết lộ email có tồn tại hay không",
+                  "  pm.test(`[${tcId}] Error message is generic`, function () {",
+                  "    pm.expect(pm.response.json().error).to.eql(expectedError);",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "242877cc-3cce-443d-905d-3b5f5fc3177f"
+              }
+            }
+          ]
+        },
+        "request": {
+          "description": {
+            "content": "Đăng nhập hệ thống. Body được ghi đè từ iteration data trong pre-request script.",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "login"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127438"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "386ea2cc-4d10-46f6-9963-2a3071731a1d",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "49",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"email\":\"test@eshop.com\",\"password\":\"Test1234!\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "ef0a7b79-d33f-456e-af22-1970b0bf8a0f",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "366"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"16e-aFIKMlZzzQBXHXbcVVrnBRgjbok\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:18:03 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              76,
+              111,
+              103,
+              105,
+              110,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              116,
+              111,
+              107,
+              101,
+              110,
+              34,
+              58,
+              34,
+              101,
+              121,
+              74,
+              104,
+              98,
+              71,
+              99,
+              105,
+              79,
+              105,
+              74,
+              73,
+              85,
+              122,
+              73,
+              49,
+              78,
+              105,
+              73,
+              115,
+              73,
+              110,
+              82,
+              53,
+              99,
+              67,
+              73,
+              54,
+              73,
+              107,
+              112,
+              88,
+              86,
+              67,
+              74,
+              57,
+              46,
+              101,
+              121,
+              74,
+              112,
+              90,
+              67,
+              73,
+              54,
+              77,
+              105,
+              119,
+              105,
+              99,
+              109,
+              57,
+              115,
+              90,
+              83,
+              73,
+              54,
+              73,
+              110,
+              86,
+              122,
+              90,
+              88,
+              73,
+              105,
+              76,
+              67,
+              74,
+              112,
+              89,
+              88,
+              81,
+              105,
+              79,
+              106,
+              69,
+              51,
+              79,
+              68,
+              89,
+              122,
+              78,
+              68,
+              107,
+              52,
+              79,
+              68,
+              78,
+              57,
+              46,
+              76,
+              69,
+              52,
+              108,
+              87,
+              53,
+              49,
+              86,
+              74,
+              86,
+              67,
+              121,
+              100,
+              77,
+              97,
+              111,
+              110,
+              57,
+              57,
+              107,
+              70,
+              78,
+              99,
+              99,
+              106,
+              89,
+              81,
+              88,
+              118,
+              66,
+              103,
+              82,
+              102,
+              81,
+              103,
+              89,
+              87,
+              83,
+              78,
+              77,
+              108,
+              53,
+              111,
+              34,
+              44,
+              34,
+              117,
+              115,
+              101,
+              114,
+              34,
+              58,
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              50,
+              44,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              34,
+              84,
+              101,
+              115,
+              116,
+              32,
+              85,
+              115,
+              101,
+              114,
+              34,
+              44,
+              34,
+              101,
+              109,
+              97,
+              105,
+              108,
+              34,
+              58,
+              34,
+              116,
+              101,
+              115,
+              116,
+              64,
+              101,
+              115,
+              104,
+              111,
+              112,
+              46,
+              99,
+              111,
+              109,
+              34,
+              44,
+              34,
+              112,
+              97,
+              115,
+              115,
+              119,
+              111,
+              114,
+              100,
+              34,
+              58,
+              34,
+              84,
+              101,
+              115,
+              116,
+              49,
+              50,
+              51,
+              52,
+              33,
+              34,
+              44,
+              34,
+              114,
+              111,
+              108,
+              101,
+              34,
+              58,
+              34,
+              117,
+              115,
+              101,
+              114,
+              34,
+              44,
+              34,
+              108,
+              111,
+              103,
+              105,
+              110,
+              95,
+              97,
+              116,
+              116,
+              101,
+              109,
+              112,
+              116,
+              115,
+              34,
+              58,
+              50,
+              44,
+              34,
+              108,
+              111,
+              99,
+              107,
+              101,
+              100,
+              95,
+              117,
+              110,
+              116,
+              105,
+              108,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              114,
+              101,
+              115,
+              101,
+              116,
+              95,
+              116,
+              111,
+              107,
+              101,
+              110,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              115,
+              104,
+              105,
+              112,
+              112,
+              105,
+              110,
+              103,
+              95,
+              97,
+              100,
+              100,
+              114,
+              101,
+              115,
+              115,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              112,
+              104,
+              111,
+              110,
+              101,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              125,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 14,
+          "responseSize": 366
+        },
+        "id": "8b409a1e-658f-402b-97a9-7b5ff5e7870a",
+        "assertions": [
+          {
+            "assertion": "[AI-01] Login thanh cong voi tai khoan hop le — status 200",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response time < 2000ms",
+            "skipped": false
+          },
+          {
+            "assertion": "[AI-01] Body has fields: message, token, user",
+            "skipped": false
+          },
+          {
+            "assertion": "[AI-01] Token is a well-formed JWT",
+            "skipped": false
+          },
+          {
+            "assertion": "[AI-01] user.email matches login email",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "10c5c437-b017-4d6e-9161-6c456440bf90",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 1,
+          "cr": true,
+          "httpRequestId": "d679df92-17a7-481e-b6cb-d531c3a43082"
+        },
+        "item": {
+          "id": "8b409a1e-658f-402b-97a9-7b5ff5e7870a",
+          "name": "POST /api/login (data-driven)",
+          "request": {
+            "description": {
+              "content": "Đăng nhập hệ thống. Body được ghi đè từ iteration data trong pre-request script.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "0b314bda-2d03-4344-ab39-3ba57d0322fa",
+                "type": "text/javascript",
+                "exec": [
+                  "// Gắn MSSV vào header cho mọi request (yêu cầu B4.3)",
+                  "pm.request.headers.upsert({",
+                  "  key: \"X-Student-Id\",",
+                  "  value: pm.environment.get(\"studentId\"),",
+                  "});",
+                  "",
+                  "// Build request body từ iteration data — cho phép test case thiếu field",
+                  "const body = pm.iterationData.get(\"body\") || {};",
+                  "pm.request.body.update({",
+                  "  mode: \"raw\",",
+                  "  raw: JSON.stringify(body),",
+                  "  options: { raw: { language: \"json\" } },",
+                  "});",
+                  "",
+                  "console.log(\"X-Student-Id =\", pm.request.headers.get(\"X-Student-Id\"), \"| tc_id =\", pm.iterationData.get(\"tc_id\"));"
+                ],
+                "_lastExecutionId": "4a9df531-ebd7-4cb8-9478-88d680017a62"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "5e1e5149-f1c6-4dab-9cc3-95edc4f31b4e",
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = pm.iterationData.get(\"tc_id\") || \"TC\";",
+                  "const tcName = pm.iterationData.get(\"name\") || \"\";",
+                  "const expectedStatus = pm.iterationData.get(\"expected_status\");",
+                  "const expectedFields = pm.iterationData.get(\"expected_fields\") || [];",
+                  "const expectedError = pm.iterationData.get(\"expected_error\");",
+                  "",
+                  "// 1. Status code đúng kỳ vọng (data-driven)",
+                  "pm.test(`[${tcId}] ${tcName} — status ${expectedStatus}`, function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "// 2. Assertion tự viết: Content-Type phải là JSON (yêu cầu B4.3)",
+                  "pm.test(`[MINI] Response is JSON`, function () {",
+                  "  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+                  "});",
+                  "",
+                  "// 3. Assertion tự viết: response time dưới ngưỡng (collection variable)",
+                  "const maxMs = Number(pm.collectionVariables.get(\"maxResponseMs\"));",
+                  "pm.test(`[MINI] Response time < ${maxMs}ms`, function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(maxMs);",
+                  "});",
+                  "",
+                  "// 4. Schema validation: response chứa đúng các field kỳ vọng",
+                  "pm.test(`[${tcId}] Body has fields: ${expectedFields.join(\", \")}`, function () {",
+                  "  const json = pm.response.json();",
+                  "  expectedFields.forEach((f) => pm.expect(json, `missing field '${f}'`).to.have.property(f));",
+                  "});",
+                  "",
+                  "if (expectedStatus === 200) {",
+                  "  // 5a. Positive case: token là JWT 3 phần, user.email khớp input, message đúng",
+                  "  pm.test(`[${tcId}] Token is a well-formed JWT`, function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.token).to.be.a(\"string\");",
+                  "    pm.expect(json.token.split(\".\")).to.have.lengthOf(3);",
+                  "  });",
+                  "  pm.test(`[${tcId}] user.email matches login email`, function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.user.email).to.eql(pm.iterationData.get(\"body\").email);",
+                  "    pm.expect(json.message).to.eql(\"Login successful\");",
+                  "  });",
+                  "} else if (expectedError) {",
+                  "  // 5b. Negative case: thông báo lỗi chung, không tiết lộ email có tồn tại hay không",
+                  "  pm.test(`[${tcId}] Error message is generic`, function () {",
+                  "    pm.expect(pm.response.json().error).to.eql(expectedError);",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "242877cc-3cce-443d-905d-3b5f5fc3177f"
+              }
+            }
+          ]
+        },
+        "request": {
+          "description": {
+            "content": "Đăng nhập hệ thống. Body được ghi đè từ iteration data trong pre-request script.",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "login"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127438"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "e84783ef-9ce5-49c1-ad32-486d3e354e75",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "53",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"email\":\"test@eshop.com\",\"password\":\"WrongPass999!\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "bef749f0-f2e1-4507-a561-cb69b93fba2c",
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "37"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"25-3YG4LRpklFolV4uVOnUIRm2hZA0\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:18:03 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              101,
+              114,
+              114,
+              111,
+              114,
+              34,
+              58,
+              34,
+              73,
+              110,
+              118,
+              97,
+              108,
+              105,
+              100,
+              32,
+              101,
+              109,
+              97,
+              105,
+              108,
+              32,
+              111,
+              114,
+              32,
+              112,
+              97,
+              115,
+              115,
+              119,
+              111,
+              114,
+              100,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 2,
+          "responseSize": 37
+        },
+        "id": "8b409a1e-658f-402b-97a9-7b5ff5e7870a",
+        "assertions": [
+          {
+            "assertion": "[AI-04] Sai mat khau voi email ton tai — status 401",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response time < 2000ms",
+            "skipped": false
+          },
+          {
+            "assertion": "[AI-04] Body has fields: error",
+            "skipped": false
+          },
+          {
+            "assertion": "[AI-04] Error message is generic",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "27c736c4-2d6b-4ddc-91c6-94b243d4bab2",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 2,
+          "cr": true,
+          "httpRequestId": "187802cf-1d34-461b-8423-27bc221ecd25"
+        },
+        "item": {
+          "id": "8b409a1e-658f-402b-97a9-7b5ff5e7870a",
+          "name": "POST /api/login (data-driven)",
+          "request": {
+            "description": {
+              "content": "Đăng nhập hệ thống. Body được ghi đè từ iteration data trong pre-request script.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "0b314bda-2d03-4344-ab39-3ba57d0322fa",
+                "type": "text/javascript",
+                "exec": [
+                  "// Gắn MSSV vào header cho mọi request (yêu cầu B4.3)",
+                  "pm.request.headers.upsert({",
+                  "  key: \"X-Student-Id\",",
+                  "  value: pm.environment.get(\"studentId\"),",
+                  "});",
+                  "",
+                  "// Build request body từ iteration data — cho phép test case thiếu field",
+                  "const body = pm.iterationData.get(\"body\") || {};",
+                  "pm.request.body.update({",
+                  "  mode: \"raw\",",
+                  "  raw: JSON.stringify(body),",
+                  "  options: { raw: { language: \"json\" } },",
+                  "});",
+                  "",
+                  "console.log(\"X-Student-Id =\", pm.request.headers.get(\"X-Student-Id\"), \"| tc_id =\", pm.iterationData.get(\"tc_id\"));"
+                ],
+                "_lastExecutionId": "4a9df531-ebd7-4cb8-9478-88d680017a62"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "5e1e5149-f1c6-4dab-9cc3-95edc4f31b4e",
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = pm.iterationData.get(\"tc_id\") || \"TC\";",
+                  "const tcName = pm.iterationData.get(\"name\") || \"\";",
+                  "const expectedStatus = pm.iterationData.get(\"expected_status\");",
+                  "const expectedFields = pm.iterationData.get(\"expected_fields\") || [];",
+                  "const expectedError = pm.iterationData.get(\"expected_error\");",
+                  "",
+                  "// 1. Status code đúng kỳ vọng (data-driven)",
+                  "pm.test(`[${tcId}] ${tcName} — status ${expectedStatus}`, function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "// 2. Assertion tự viết: Content-Type phải là JSON (yêu cầu B4.3)",
+                  "pm.test(`[MINI] Response is JSON`, function () {",
+                  "  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+                  "});",
+                  "",
+                  "// 3. Assertion tự viết: response time dưới ngưỡng (collection variable)",
+                  "const maxMs = Number(pm.collectionVariables.get(\"maxResponseMs\"));",
+                  "pm.test(`[MINI] Response time < ${maxMs}ms`, function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(maxMs);",
+                  "});",
+                  "",
+                  "// 4. Schema validation: response chứa đúng các field kỳ vọng",
+                  "pm.test(`[${tcId}] Body has fields: ${expectedFields.join(\", \")}`, function () {",
+                  "  const json = pm.response.json();",
+                  "  expectedFields.forEach((f) => pm.expect(json, `missing field '${f}'`).to.have.property(f));",
+                  "});",
+                  "",
+                  "if (expectedStatus === 200) {",
+                  "  // 5a. Positive case: token là JWT 3 phần, user.email khớp input, message đúng",
+                  "  pm.test(`[${tcId}] Token is a well-formed JWT`, function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.token).to.be.a(\"string\");",
+                  "    pm.expect(json.token.split(\".\")).to.have.lengthOf(3);",
+                  "  });",
+                  "  pm.test(`[${tcId}] user.email matches login email`, function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.user.email).to.eql(pm.iterationData.get(\"body\").email);",
+                  "    pm.expect(json.message).to.eql(\"Login successful\");",
+                  "  });",
+                  "} else if (expectedError) {",
+                  "  // 5b. Negative case: thông báo lỗi chung, không tiết lộ email có tồn tại hay không",
+                  "  pm.test(`[${tcId}] Error message is generic`, function () {",
+                  "    pm.expect(pm.response.json().error).to.eql(expectedError);",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "242877cc-3cce-443d-905d-3b5f5fc3177f"
+              }
+            }
+          ]
+        },
+        "request": {
+          "description": {
+            "content": "Đăng nhập hệ thống. Body được ghi đè từ iteration data trong pre-request script.",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "login"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127438"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "ca4f7aa2-e499-43d3-ae03-345370acf5bf",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "70",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"email\":\"nonexistent.23127438@nowhere.test\",\"password\":\"AnyPass123!\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "06a81259-8553-4df4-8c16-cd291dfb4d21",
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "37"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"25-3YG4LRpklFolV4uVOnUIRm2hZA0\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:18:03 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              101,
+              114,
+              114,
+              111,
+              114,
+              34,
+              58,
+              34,
+              73,
+              110,
+              118,
+              97,
+              108,
+              105,
+              100,
+              32,
+              101,
+              109,
+              97,
+              105,
+              108,
+              32,
+              111,
+              114,
+              32,
+              112,
+              97,
+              115,
+              115,
+              119,
+              111,
+              114,
+              100,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 1,
+          "responseSize": 37
+        },
+        "id": "8b409a1e-658f-402b-97a9-7b5ff5e7870a",
+        "assertions": [
+          {
+            "assertion": "[AI-05] Email khong ton tai trong he thong — status 401",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response time < 2000ms",
+            "skipped": false
+          },
+          {
+            "assertion": "[AI-05] Body has fields: error",
+            "skipped": false
+          },
+          {
+            "assertion": "[AI-05] Error message is generic",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "3b9e51ed-826e-4572-8b97-2428bc3a435b",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 3,
+          "cr": true,
+          "httpRequestId": "1cbf981f-2c82-4c69-8c78-c32223cb97d8"
+        },
+        "item": {
+          "id": "8b409a1e-658f-402b-97a9-7b5ff5e7870a",
+          "name": "POST /api/login (data-driven)",
+          "request": {
+            "description": {
+              "content": "Đăng nhập hệ thống. Body được ghi đè từ iteration data trong pre-request script.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "0b314bda-2d03-4344-ab39-3ba57d0322fa",
+                "type": "text/javascript",
+                "exec": [
+                  "// Gắn MSSV vào header cho mọi request (yêu cầu B4.3)",
+                  "pm.request.headers.upsert({",
+                  "  key: \"X-Student-Id\",",
+                  "  value: pm.environment.get(\"studentId\"),",
+                  "});",
+                  "",
+                  "// Build request body từ iteration data — cho phép test case thiếu field",
+                  "const body = pm.iterationData.get(\"body\") || {};",
+                  "pm.request.body.update({",
+                  "  mode: \"raw\",",
+                  "  raw: JSON.stringify(body),",
+                  "  options: { raw: { language: \"json\" } },",
+                  "});",
+                  "",
+                  "console.log(\"X-Student-Id =\", pm.request.headers.get(\"X-Student-Id\"), \"| tc_id =\", pm.iterationData.get(\"tc_id\"));"
+                ],
+                "_lastExecutionId": "4a9df531-ebd7-4cb8-9478-88d680017a62"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "5e1e5149-f1c6-4dab-9cc3-95edc4f31b4e",
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = pm.iterationData.get(\"tc_id\") || \"TC\";",
+                  "const tcName = pm.iterationData.get(\"name\") || \"\";",
+                  "const expectedStatus = pm.iterationData.get(\"expected_status\");",
+                  "const expectedFields = pm.iterationData.get(\"expected_fields\") || [];",
+                  "const expectedError = pm.iterationData.get(\"expected_error\");",
+                  "",
+                  "// 1. Status code đúng kỳ vọng (data-driven)",
+                  "pm.test(`[${tcId}] ${tcName} — status ${expectedStatus}`, function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "// 2. Assertion tự viết: Content-Type phải là JSON (yêu cầu B4.3)",
+                  "pm.test(`[MINI] Response is JSON`, function () {",
+                  "  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+                  "});",
+                  "",
+                  "// 3. Assertion tự viết: response time dưới ngưỡng (collection variable)",
+                  "const maxMs = Number(pm.collectionVariables.get(\"maxResponseMs\"));",
+                  "pm.test(`[MINI] Response time < ${maxMs}ms`, function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(maxMs);",
+                  "});",
+                  "",
+                  "// 4. Schema validation: response chứa đúng các field kỳ vọng",
+                  "pm.test(`[${tcId}] Body has fields: ${expectedFields.join(\", \")}`, function () {",
+                  "  const json = pm.response.json();",
+                  "  expectedFields.forEach((f) => pm.expect(json, `missing field '${f}'`).to.have.property(f));",
+                  "});",
+                  "",
+                  "if (expectedStatus === 200) {",
+                  "  // 5a. Positive case: token là JWT 3 phần, user.email khớp input, message đúng",
+                  "  pm.test(`[${tcId}] Token is a well-formed JWT`, function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.token).to.be.a(\"string\");",
+                  "    pm.expect(json.token.split(\".\")).to.have.lengthOf(3);",
+                  "  });",
+                  "  pm.test(`[${tcId}] user.email matches login email`, function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.user.email).to.eql(pm.iterationData.get(\"body\").email);",
+                  "    pm.expect(json.message).to.eql(\"Login successful\");",
+                  "  });",
+                  "} else if (expectedError) {",
+                  "  // 5b. Negative case: thông báo lỗi chung, không tiết lộ email có tồn tại hay không",
+                  "  pm.test(`[${tcId}] Error message is generic`, function () {",
+                  "    pm.expect(pm.response.json().error).to.eql(expectedError);",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "242877cc-3cce-443d-905d-3b5f5fc3177f"
+              }
+            }
+          ]
+        },
+        "request": {
+          "description": {
+            "content": "Đăng nhập hệ thống. Body được ghi đè từ iteration data trong pre-request script.",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "login"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127438"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "089ab904-e96c-4b65-9207-e95771d9823d",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "42",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"email\":\"' OR '1'='1' --\",\"password\":\"x\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "d945ea57-7619-454e-83c9-6ff868386cbe",
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "37"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"25-3YG4LRpklFolV4uVOnUIRm2hZA0\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:18:03 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              101,
+              114,
+              114,
+              111,
+              114,
+              34,
+              58,
+              34,
+              73,
+              110,
+              118,
+              97,
+              108,
+              105,
+              100,
+              32,
+              101,
+              109,
+              97,
+              105,
+              108,
+              32,
+              111,
+              114,
+              32,
+              112,
+              97,
+              115,
+              115,
+              119,
+              111,
+              114,
+              100,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 1,
+          "responseSize": 37
+        },
+        "id": "8b409a1e-658f-402b-97a9-7b5ff5e7870a",
+        "assertions": [
+          {
+            "assertion": "[AI-09] SQL injection vao truong email — status 401",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response time < 2000ms",
+            "skipped": false
+          },
+          {
+            "assertion": "[AI-09] Body has fields: error",
+            "skipped": false
+          },
+          {
+            "assertion": "[AI-09] Error message is generic",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "e35050de-99a1-4a01-bc7c-3815ff3bfd3c",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 4,
+          "cr": true,
+          "httpRequestId": "168d46cf-9592-4710-b03c-3c0acdc6b01f"
+        },
+        "item": {
+          "id": "8b409a1e-658f-402b-97a9-7b5ff5e7870a",
+          "name": "POST /api/login (data-driven)",
+          "request": {
+            "description": {
+              "content": "Đăng nhập hệ thống. Body được ghi đè từ iteration data trong pre-request script.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "0b314bda-2d03-4344-ab39-3ba57d0322fa",
+                "type": "text/javascript",
+                "exec": [
+                  "// Gắn MSSV vào header cho mọi request (yêu cầu B4.3)",
+                  "pm.request.headers.upsert({",
+                  "  key: \"X-Student-Id\",",
+                  "  value: pm.environment.get(\"studentId\"),",
+                  "});",
+                  "",
+                  "// Build request body từ iteration data — cho phép test case thiếu field",
+                  "const body = pm.iterationData.get(\"body\") || {};",
+                  "pm.request.body.update({",
+                  "  mode: \"raw\",",
+                  "  raw: JSON.stringify(body),",
+                  "  options: { raw: { language: \"json\" } },",
+                  "});",
+                  "",
+                  "console.log(\"X-Student-Id =\", pm.request.headers.get(\"X-Student-Id\"), \"| tc_id =\", pm.iterationData.get(\"tc_id\"));"
+                ],
+                "_lastExecutionId": "4a9df531-ebd7-4cb8-9478-88d680017a62"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "5e1e5149-f1c6-4dab-9cc3-95edc4f31b4e",
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = pm.iterationData.get(\"tc_id\") || \"TC\";",
+                  "const tcName = pm.iterationData.get(\"name\") || \"\";",
+                  "const expectedStatus = pm.iterationData.get(\"expected_status\");",
+                  "const expectedFields = pm.iterationData.get(\"expected_fields\") || [];",
+                  "const expectedError = pm.iterationData.get(\"expected_error\");",
+                  "",
+                  "// 1. Status code đúng kỳ vọng (data-driven)",
+                  "pm.test(`[${tcId}] ${tcName} — status ${expectedStatus}`, function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "// 2. Assertion tự viết: Content-Type phải là JSON (yêu cầu B4.3)",
+                  "pm.test(`[MINI] Response is JSON`, function () {",
+                  "  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+                  "});",
+                  "",
+                  "// 3. Assertion tự viết: response time dưới ngưỡng (collection variable)",
+                  "const maxMs = Number(pm.collectionVariables.get(\"maxResponseMs\"));",
+                  "pm.test(`[MINI] Response time < ${maxMs}ms`, function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(maxMs);",
+                  "});",
+                  "",
+                  "// 4. Schema validation: response chứa đúng các field kỳ vọng",
+                  "pm.test(`[${tcId}] Body has fields: ${expectedFields.join(\", \")}`, function () {",
+                  "  const json = pm.response.json();",
+                  "  expectedFields.forEach((f) => pm.expect(json, `missing field '${f}'`).to.have.property(f));",
+                  "});",
+                  "",
+                  "if (expectedStatus === 200) {",
+                  "  // 5a. Positive case: token là JWT 3 phần, user.email khớp input, message đúng",
+                  "  pm.test(`[${tcId}] Token is a well-formed JWT`, function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.token).to.be.a(\"string\");",
+                  "    pm.expect(json.token.split(\".\")).to.have.lengthOf(3);",
+                  "  });",
+                  "  pm.test(`[${tcId}] user.email matches login email`, function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.user.email).to.eql(pm.iterationData.get(\"body\").email);",
+                  "    pm.expect(json.message).to.eql(\"Login successful\");",
+                  "  });",
+                  "} else if (expectedError) {",
+                  "  // 5b. Negative case: thông báo lỗi chung, không tiết lộ email có tồn tại hay không",
+                  "  pm.test(`[${tcId}] Error message is generic`, function () {",
+                  "    pm.expect(pm.response.json().error).to.eql(expectedError);",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "242877cc-3cce-443d-905d-3b5f5fc3177f"
+              }
+            }
+          ]
+        },
+        "request": {
+          "description": {
+            "content": "Đăng nhập hệ thống. Body được ghi đè từ iteration data trong pre-request script.",
+            "type": "text/plain"
+          },
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "login"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127438"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "b9bae74a-028b-4ce2-b195-5c94e1954037",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "26",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"email\":\"\",\"password\":\"\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "f5997607-72bc-4651-b29e-6d26b04747b7",
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "37"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"25-3YG4LRpklFolV4uVOnUIRm2hZA0\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:18:03 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              101,
+              114,
+              114,
+              111,
+              114,
+              34,
+              58,
+              34,
+              73,
+              110,
+              118,
+              97,
+              108,
+              105,
+              100,
+              32,
+              101,
+              109,
+              97,
+              105,
+              108,
+              32,
+              111,
+              114,
+              32,
+              112,
+              97,
+              115,
+              115,
+              119,
+              111,
+              114,
+              100,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 2,
+          "responseSize": 37
+        },
+        "id": "8b409a1e-658f-402b-97a9-7b5ff5e7870a",
+        "assertions": [
+          {
+            "assertion": "[EX-02] Email va password la chuoi rong (edge case) — status 401",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "[MINI] Response time < 2000ms",
+            "skipped": false
+          },
+          {
+            "assertion": "[EX-02] Body has fields: error",
+            "skipped": false
+          },
+          {
+            "assertion": "[EX-02] Error message is generic",
+            "skipped": false
+          }
+        ]
+      }
+    ],
+    "transfers": {
+      "responseTotal": 514
+    },
+    "failures": [],
+    "error": null
+  }
+}

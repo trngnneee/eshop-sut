@@ -1,0 +1,124 @@
+{
+  "info": {
+    "_postman_id": "c4a1f8e2-7b3d-4e9a-8c5f-mini-login-col",
+    "name": "Mini API Testing - POST /api/login (23127438)",
+    "description": "Data-driven test collection for POST /api/login of eshop-sut.\nRun with: newman run mini-login.postman_collection.json --environment mini-local.postman_environment.json --iteration-data mini-login.data.json",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "maxResponseMs",
+      "value": "2000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "POST /api/login (data-driven)",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Gắn MSSV vào header cho mọi request (yêu cầu B4.3)",
+              "pm.request.headers.upsert({",
+              "  key: \"X-Student-Id\",",
+              "  value: pm.environment.get(\"studentId\"),",
+              "});",
+              "",
+              "// Build request body từ iteration data — cho phép test case thiếu field",
+              "const body = pm.iterationData.get(\"body\") || {};",
+              "pm.request.body.update({",
+              "  mode: \"raw\",",
+              "  raw: JSON.stringify(body),",
+              "  options: { raw: { language: \"json\" } },",
+              "});",
+              "",
+              "console.log(\"X-Student-Id =\", pm.request.headers.get(\"X-Student-Id\"), \"| tc_id =\", pm.iterationData.get(\"tc_id\"));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const tcId = pm.iterationData.get(\"tc_id\") || \"TC\";",
+              "const tcName = pm.iterationData.get(\"name\") || \"\";",
+              "const expectedStatus = pm.iterationData.get(\"expected_status\");",
+              "const expectedFields = pm.iterationData.get(\"expected_fields\") || [];",
+              "const expectedError = pm.iterationData.get(\"expected_error\");",
+              "",
+              "// 1. Status code đúng kỳ vọng (data-driven)",
+              "pm.test(`[${tcId}] ${tcName} — status ${expectedStatus}`, function () {",
+              "  pm.response.to.have.status(expectedStatus);",
+              "});",
+              "",
+              "// 2. Assertion tự viết: Content-Type phải là JSON (yêu cầu B4.3)",
+              "pm.test(`[MINI] Response is JSON`, function () {",
+              "  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+              "});",
+              "",
+              "// 3. Assertion tự viết: response time dưới ngưỡng (collection variable)",
+              "const maxMs = Number(pm.collectionVariables.get(\"maxResponseMs\"));",
+              "pm.test(`[MINI] Response time < ${maxMs}ms`, function () {",
+              "  pm.expect(pm.response.responseTime).to.be.below(maxMs);",
+              "});",
+              "",
+              "// 4. Schema validation: response chứa đúng các field kỳ vọng",
+              "pm.test(`[${tcId}] Body has fields: ${expectedFields.join(\", \")}`, function () {",
+              "  const json = pm.response.json();",
+              "  expectedFields.forEach((f) => pm.expect(json, `missing field '${f}'`).to.have.property(f));",
+              "});",
+              "",
+              "if (expectedStatus === 200) {",
+              "  // 5a. Positive case: token là JWT 3 phần, user.email khớp input, message đúng",
+              "  pm.test(`[${tcId}] Token is a well-formed JWT`, function () {",
+              "    const json = pm.response.json();",
+              "    pm.expect(json.token).to.be.a(\"string\");",
+              "    pm.expect(json.token.split(\".\")).to.have.lengthOf(3);",
+              "  });",
+              "  pm.test(`[${tcId}] user.email matches login email`, function () {",
+              "    const json = pm.response.json();",
+              "    pm.expect(json.user.email).to.eql(pm.iterationData.get(\"body\").email);",
+              "    pm.expect(json.message).to.eql(\"Login successful\");",
+              "  });",
+              "} else if (expectedError) {",
+              "  // 5b. Negative case: thông báo lỗi chung, không tiết lộ email có tồn tại hay không",
+              "  pm.test(`[${tcId}] Error message is generic`, function () {",
+              "    pm.expect(pm.response.json().error).to.eql(expectedError);",
+              "  });",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/login",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "login"]
+        },
+        "description": "Đăng nhập hệ thống. Body được ghi đè từ iteration data trong pre-request script."
+      },
+      "response": []
+    }
+  ]
+}
