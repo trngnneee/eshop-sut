@@ -1,0 +1,14 @@
+D7 status — pending authenticated GitHub Actions execution
+
+ci-pass.png and ci-fail.png are intentionally not fabricated. Capture them from
+the real Actions runs described in test-design.md after pushing C1/C2/C3.
+
+D5 is DONE: mini-newman-report.json is genuine newman 6.2.2 JSON reporter output
+(5 iterations, 18 assertions, 0 failures, X-Student-Id: 23127207 on every request).
+The earlier fallback report has been replaced.
+
+Remaining before submission:
+  1. Push C1 (current state) and capture ci-pass.png from the green Actions run.
+  2. Push C2 with TC-P-001 expected_status changed 200 -> 999; capture ci-fail.png.
+  3. Push C3 restoring expected_status=200; confirm the final commit is green.
+  4. Repack 23127207_Mini_API_Testing.zip with both screenshots and delete this file.

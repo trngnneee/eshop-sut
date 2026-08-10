@@ -1,0 +1,72 @@
+name: Newman API Test
+
+on:
+  push:
+    branches:
+      - "**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Start backend
+        working-directory: backend
+        shell: bash
+        run: |
+          nohup npm start > "$RUNNER_TEMP/backend.log" 2>&1 &
+          echo $! > "$RUNNER_TEMP/backend.pid"
+
+      - name: Wait for backend on port 3000
+        shell: bash
+        run: |
+          for attempt in {1..30}; do
+            if curl --silent --fail http://localhost:3000/api/products/1 > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          cat "$RUNNER_TEMP/backend.log"
+          exit 1
+
+      - name: Install Newman
+        run: npm install --global newman
+
+      - name: Run Newman collection
+        run: |
+          newman run mini-api-testing/mini-products.postman_collection.json \
+            --environment mini-api-testing/mini-local.postman_environment.json \
+            --iteration-data mini-api-testing/mini-products.data.json \
+            --reporters cli,json \
+            --reporter-json-export mini-newman-report.json \
+            --verbose
+
+      - name: Upload Newman report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-report
+          path: mini-newman-report.json
+
+      - name: Upload backend log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-log
+          path: ${{ runner.temp }}/backend.log

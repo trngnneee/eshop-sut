@@ -1,0 +1,57 @@
+Mini Exercise evidence — POST /api/products
+Date: 2026-08-10
+Base URL: http://localhost:3000
+Student ID header used by collection: X-Student-Id: 23127207
+
+=== smoke GET /api/products/1 ===
+STATUS 200
+{"id":1,"name":"iPhone 15 Pro Max","price":30000000,"description":"Điện thoại cao cấp của Apple","imageUrl":"https://placehold.co/300x300/png?text=iPhone+15","category_id":1}
+
+=== full valid JSON ===
+STATUS 200
+CONTENT_TYPE application/json; charset=utf-8
+BODY {"message":"Product created","id":6}
+
+=== empty object ===
+STATUS 200
+CONTENT_TYPE application/json; charset=utf-8
+BODY {"message":"Product created","id":7}
+
+=== negative price ===
+STATUS 200
+CONTENT_TYPE application/json; charset=utf-8
+BODY {"message":"Product created","id":8}
+
+=== object price ===
+STATUS 200
+CONTENT_TYPE application/json; charset=utf-8
+BODY {"message":"Product created","id":9}
+
+=== benign XSS ===
+STATUS 200
+CONTENT_TYPE application/json; charset=utf-8
+BODY {"message":"Product created","id":10}
+
+=== benign SQLi ===
+STATUS 200
+CONTENT_TYPE application/json; charset=utf-8
+BODY {"message":"Product created","id":11}
+
+=== non-JSON form ===
+STATUS 500
+CONTENT_TYPE text/html; charset=utf-8
+BODY [empty]
+
+=== follow-up persistence ===
+GET /api/products/9 -> 200
+{"id":9,"name":"Bad Price","price":"[object Object]","description":null,"imageUrl":null,"category_id":1}
+GET /api/products/10 -> 200
+{"id":10,"name":"<script>alert(1)</script>","price":"100","description":null,"imageUrl":null,"category_id":1}
+GET /api/products/11 -> 200
+{"id":11,"name":"A'); DROP TABLE products;--","price":100,"description":null,"imageUrl":null,"category_id":1}
+
+=== local protocol-equivalent five-iteration check ===
+ITERATIONS_TOTAL 5
+ASSERTIONS_TOTAL 18
+ASSERTIONS_FAILED 0
+HEADER_SENT X-Student-Id: 23127207

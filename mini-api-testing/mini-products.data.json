@@ -1,0 +1,73 @@
+[
+  {
+    "tc_id": "TC-P-001",
+    "case_name": "Happy path - full valid payload",
+    "content_type": "application/json",
+    "body": {
+      "name": "Mini Test Product",
+      "price": 1000,
+      "description": "codex",
+      "imageUrl": "http://x/i.png",
+      "category_id": 1
+    },
+    "expected_status": 200,
+    "expect_id": true,
+    "spec_status": 201,
+    "note": "SUT trả 200 thay vì 201; ghi nhận BUG-03 về status REST."
+  },
+  {
+    "tc_id": "TC-P-005",
+    "case_name": "Missing name - no validation",
+    "content_type": "application/json",
+    "body": {
+      "price": 1000,
+      "category_id": 1
+    },
+    "expected_status": 200,
+    "expect_id": true,
+    "spec_status": 400,
+    "note": "SUT vẫn insert bản ghi thiếu name; ghi nhận BUG-02 về input validation."
+  },
+  {
+    "tc_id": "TC-P-003",
+    "case_name": "Negative price - no validation",
+    "content_type": "application/json",
+    "body": {
+      "name": "Negative Price",
+      "price": -5,
+      "category_id": 1
+    },
+    "expected_status": 200,
+    "expect_id": true,
+    "spec_status": 400,
+    "note": "SUT vẫn insert price âm; ghi nhận BUG-02 về input validation."
+  },
+  {
+    "tc_id": "TC-P-012",
+    "case_name": "Benign SQLi payload in name",
+    "content_type": "application/json",
+    "body": {
+      "name": "A'); DROP TABLE products;--",
+      "price": 100,
+      "category_id": 1
+    },
+    "expected_status": 200,
+    "expect_id": true,
+    "spec_status": 200,
+    "note": "Prepared statement lưu payload như literal, không thực thi SQL."
+  },
+  {
+    "tc_id": "TC-EXT-001",
+    "case_name": "Wrong Content-Type - form encoded request",
+    "content_type": "application/x-www-form-urlencoded",
+    "body": {
+      "name": "Wrong Content Type",
+      "price": 100,
+      "category_id": 1
+    },
+    "expected_status": 500,
+    "expect_id": false,
+    "spec_status": 415,
+    "note": "body-parser không tạo req.body cho form request; SUT phát sinh 500 HTML."
+  }
+]
