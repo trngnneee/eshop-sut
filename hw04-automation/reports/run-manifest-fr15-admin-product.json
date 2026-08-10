@@ -1,0 +1,51 @@
+{
+  "studentId": "23127271",
+  "runBy": "Run by: 23127271",
+  "feature": "fr15-admin-product",
+  "generatedAt": "2026-08-09T18:18:23.966Z",
+  "cells": [
+    {
+      "feature": "fr15-admin-product",
+      "featureName": "FR-15 Admin Product CRUD",
+      "browser": "chromium",
+      "exitCode": 1,
+      "reportPath": "reports\\html\\fr15-admin-product\\chromium",
+      "indexHtml": "C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\SoftwareTesting-HW\\HW4\\23127271\\reports\\html\\fr15-admin-product\\chromium\\index.html",
+      "labelFound": true,
+      "timestamp": "2026-08-09T18:14:41.806Z",
+      "reportTitle": "Run by: 23127271 | FR-15 Admin Product CRUD | chromium | 2026-08-09T18:14:41.806Z",
+      "skippedFrozen": false
+    },
+    {
+      "feature": "fr15-admin-product",
+      "featureName": "FR-15 Admin Product CRUD",
+      "browser": "firefox",
+      "exitCode": 1,
+      "reportPath": "reports\\html\\fr15-admin-product\\firefox",
+      "indexHtml": "C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\SoftwareTesting-HW\\HW4\\23127271\\reports\\html\\fr15-admin-product\\firefox\\index.html",
+      "labelFound": true,
+      "timestamp": "2026-08-09T18:15:29.769Z",
+      "reportTitle": "Run by: 23127271 | FR-15 Admin Product CRUD | firefox | 2026-08-09T18:15:29.769Z",
+      "skippedFrozen": false
+    },
+    {
+      "feature": "fr15-admin-product",
+      "featureName": "FR-15 Admin Product CRUD",
+      "browser": "webkit",
+      "exitCode": 1,
+      "reportPath": "reports\\html\\fr15-admin-product\\webkit",
+      "indexHtml": "C:\\DiskD\\HCMUS\\Semester9\\SoftwareTesting\\SoftwareTesting-HW\\HW4\\23127271\\reports\\html\\fr15-admin-product\\webkit\\index.html",
+      "labelFound": true,
+      "timestamp": "2026-08-09T18:17:25.866Z",
+      "reportTitle": "Run by: 23127271 | FR-15 Admin Product CRUD | webkit | 2026-08-09T18:17:25.866Z",
+      "skippedFrozen": false
+    }
+  ],
+  "summary": {
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "skippedFrozen": 0,
+    "labelsOk": 3
+  }
+}
