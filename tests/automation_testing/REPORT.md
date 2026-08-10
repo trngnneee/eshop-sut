@@ -124,7 +124,13 @@ Các lỗi/thiếu sót của AI trong quá trình sinh script và cách khắc 
 6. **Race condition khi đếm dòng bảng danh mục** — assert `toHaveCount` ngay sau click có thể pass giả (đếm trước khi bảng refresh). *Fix:* `addCategory()` chờ POST + GET refresh hoàn tất rồi mới assert.
 7. **Định dạng số tiền phụ thuộc locale** — `toLocaleString()` cho kết quả khác nhau giữa browser/máy. *Fix:* cố định `locale: 'en-US'` trong config và format expected value bằng cùng locale.
 
-## 7. Cách chạy lại
+## 7. Task 2 — Demo video
+
+Video demo (thuyết minh tiếng Việt, chạy script end-to-end trên 3 browsers + HTML report, thuật lại fix đã thực hiện với script AI sinh, kèm bằng chứng tác giả `whoami`/`hostname`):
+
+- **Google Drive:** https://drive.google.com/drive/folders/1mqqIYAefulrImQr8dNTJc4VmbrVeanh8?usp=sharing
+
+## 8. Cách chạy lại
 
 ```bash
 cd tests/automation_testing
