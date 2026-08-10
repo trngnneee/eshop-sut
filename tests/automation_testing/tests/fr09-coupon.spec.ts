@@ -5,6 +5,11 @@ import data from '../data/fr09-coupon.json';
 
 // FR-09 — Mã giảm giá (áp tại trang Checkout)
 // Data-driven: toàn bộ test case đọc từ data/fr09-coupon.json
+//
+// Traceability — các TC fail-đúng-kỳ-vọng đã được xác nhận là bug của SUT:
+//   FR09-TC01 + TC09 → issue #395 (công thức percent total×(1−value), Critical)
+//   FR09-TC04 + TC05 → issue #396 (ngưỡng dùng > thay vì >=)
+//   FR09-TC10        → issue #397 (guest áp mã được — thiếu C4, bỏ qua C5)
 // Mỗi lần chạy đăng ký 1 user mới qua API để lượt dùng coupon không dây sang các lần chạy khác.
 
 const fmt = (n: number) => n.toLocaleString('en-US'); // khớp locale en-US đặt trong config
