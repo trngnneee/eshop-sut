@@ -1,0 +1,63 @@
+name: GET Cart Newman Tests
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+
+jobs:
+  newman:
+    name: Run GET /api/cart Postman collection
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Start backend provider
+        working-directory: backend
+        run: |
+          npm start > ../mini-exercise-get-cart/backend-ci.log 2>&1 &
+
+      - name: Wait for backend
+        run: |
+          for i in {1..30}; do
+            if curl -fsS http://localhost:3000/api/products > /dev/null; then
+              echo "Backend is ready"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Backend did not become ready"
+          cat mini-exercise-get-cart/backend-ci.log || true
+          exit 1
+
+      - name: Run Newman collection
+        run: |
+          npx -y newman run mini-exercise-get-cart/get-cart.postman_collection.json \
+            -e mini-exercise-get-cart/get-cart.postman_environment.json \
+            -d mini-exercise-get-cart/get-cart-data.json \
+            --reporters cli,json \
+            --reporter-json-export mini-exercise-get-cart/get-cart-newman-report.json
+
+      - name: Upload Newman report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: get-cart-newman-report
+          path: |
+            mini-exercise-get-cart/get-cart-newman-report.json
+            mini-exercise-get-cart/backend-ci.log
+          if-no-files-found: warn

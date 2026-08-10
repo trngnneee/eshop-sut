@@ -1,0 +1,2914 @@
+{
+  "collection": {
+    "item": [
+      {
+        "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+        "name": "GET /api/cart - data driven",
+        "request": {
+          "url": {
+            "path": [
+              "api",
+              "cart"
+            ],
+            "host": [
+              "{{base_url}}"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "X-Student-Id",
+              "value": "{{student_id}}"
+            }
+          ],
+          "method": "GET"
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "prerequest",
+            "script": {
+              "id": "a9a0cce0-6803-413e-9150-08f1839cc18e",
+              "type": "text/javascript",
+              "exec": [
+                "const tokenMode = pm.iterationData.get('token_mode');",
+                "const baseUrl = pm.environment.get('base_url');",
+                "const studentId = pm.environment.get('student_id');",
+                "",
+                "pm.request.headers.upsert({ key: 'X-Student-Id', value: studentId });",
+                "pm.request.headers.remove('Authorization');",
+                "",
+                "function setAuthHeader(token) {",
+                "  pm.environment.set('auth_token', token);",
+                "  pm.request.headers.upsert({ key: 'Authorization', value: 'Bearer ' + token });",
+                "}",
+                "",
+                "if (tokenMode === 'missing') {",
+                "  pm.environment.unset('auth_token');",
+                "} else if (tokenMode === 'invalid') {",
+                "  setAuthHeader('invalid-token');",
+                "} else if (tokenMode === 'malformed') {",
+                "  setAuthHeader('not.a.valid.jwt');",
+                "} else {",
+                "  pm.sendRequest({",
+                "    url: baseUrl + '/api/login',",
+                "    method: 'POST',",
+                "    header: { 'Content-Type': 'application/json' },",
+                "    body: {",
+                "      mode: 'raw',",
+                "      raw: JSON.stringify({ email: 'test@eshop.com', password: 'Test1234!' })",
+                "    }",
+                "  }, function (loginErr, loginRes) {",
+                "    if (loginErr) { throw loginErr; }",
+                "    const token = loginRes.json().token;",
+                "    setAuthHeader(token);",
+                "",
+                "    if (pm.iterationData.get('setup_cart') === true || pm.iterationData.get('setup_cart') === 'true') {",
+                "      pm.sendRequest({",
+                "        url: baseUrl + '/api/cart',",
+                "        method: 'POST',",
+                "        header: {",
+                "          'Content-Type': 'application/json',",
+                "          'Authorization': 'Bearer ' + token,",
+                "          'X-Student-Id': studentId",
+                "        },",
+                "        body: {",
+                "          mode: 'raw',",
+                "          raw: JSON.stringify({",
+                "            id: Number(pm.iterationData.get('setup_item_id')),",
+                "            name: pm.iterationData.get('setup_item_name'),",
+                "            price: Number(pm.iterationData.get('setup_item_price')),",
+                "            quantity: Number(pm.iterationData.get('setup_item_quantity'))",
+                "          })",
+                "        }",
+                "      }, function (setupErr) {",
+                "        if (setupErr) { throw setupErr; }",
+                "      });",
+                "    }",
+                "  });",
+                "}"
+              ],
+              "_lastExecutionId": "21cf9fa7-b3cb-4b71-9c62-43b71e7ef942"
+            }
+          },
+          {
+            "listen": "test",
+            "script": {
+              "id": "33040308-f960-43e4-9112-d267cc59cf6e",
+              "type": "text/javascript",
+              "exec": [
+                "const caseId = pm.iterationData.get('case_id');",
+                "const expectedStatus = Number(pm.iterationData.get('expected_status'));",
+                "const expectedIsArray = pm.iterationData.get('expected_is_array') === true || pm.iterationData.get('expected_is_array') === 'true';",
+                "const expectError = pm.iterationData.get('expect_error') === true || pm.iterationData.get('expect_error') === 'true';",
+                "const expectedMinItems = Number(pm.iterationData.get('expected_min_items') || 0);",
+                "const maxResponseMs = Number(pm.iterationData.get('max_response_ms') || 1000);",
+                "",
+                "pm.test(caseId + ' - status code is expected', function () {",
+                "  pm.response.to.have.status(expectedStatus);",
+                "});",
+                "",
+                "pm.test(caseId + ' - Content-Type is JSON', function () {",
+                "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                "});",
+                "",
+                "pm.test(caseId + ' - response time is acceptable', function () {",
+                "  pm.expect(pm.response.responseTime).to.be.below(maxResponseMs);",
+                "});",
+                "",
+                "pm.test(caseId + ' - X-Student-Id header was attached', function () {",
+                "  pm.expect(pm.request.headers.get('X-Student-Id')).to.eql(pm.environment.get('student_id'));",
+                "});",
+                "",
+                "const body = pm.response.json();",
+                "",
+                "if (expectedIsArray) {",
+                "  pm.test(caseId + ' - response body is an array', function () {",
+                "    pm.expect(body).to.be.an('array');",
+                "  });",
+                "",
+                "  pm.test(caseId + ' - response has expected minimum cart items', function () {",
+                "    pm.expect(body.length).to.be.at.least(expectedMinItems);",
+                "  });",
+                "",
+                "  if (expectedMinItems > 0) {",
+                "    pm.test(caseId + ' - cart item schema is valid', function () {",
+                "      pm.expect(body[0]).to.have.property('id');",
+                "      pm.expect(body[0]).to.have.property('name');",
+                "      pm.expect(body[0]).to.have.property('price');",
+                "      pm.expect(body[0]).to.have.property('quantity');",
+                "    });",
+                "  }",
+                "} else if (expectError) {",
+                "  pm.test(caseId + ' - error body contains error field', function () {",
+                "    pm.expect(body).to.be.an('object');",
+                "    pm.expect(body).to.have.property('error');",
+                "  });",
+                "}"
+              ],
+              "_lastExecutionId": "ee07ed4b-9a6d-4eae-b04b-371a43dd4726"
+            }
+          }
+        ]
+      }
+    ],
+    "event": [],
+    "variable": [],
+    "info": {
+      "_postman_id": "e59457fa-9f3e-4935-91c8-342a3b6d1b9b",
+      "name": "Mini Exercise - GET /api/cart",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    }
+  },
+  "environment": {
+    "_": {
+      "postman_variable_scope": "environment",
+      "postman_exported_using": "Codex"
+    },
+    "id": "9f3d6d5e-2a8b-4a0d-bdc2-get-cart-env",
+    "name": "GET Cart Mini Exercise Environment",
+    "values": [
+      {
+        "type": "any",
+        "value": "http://localhost:3000",
+        "key": "base_url"
+      },
+      {
+        "type": "any",
+        "value": "23127158",
+        "key": "student_id"
+      },
+      {
+        "type": "any",
+        "value": "not.a.valid.jwt",
+        "key": "auth_token"
+      }
+    ]
+  },
+  "globals": {
+    "id": "dc88bab3-6bd0-4865-bc81-83a4a2b7f5ed",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 10,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 8,
+        "pending": 0,
+        "failed": 0
+      },
+      "tests": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 28,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 5,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 9.5,
+      "responseMin": 3,
+      "responseMax": 45,
+      "responseSd": 13.44432965974875,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1786352399784,
+      "completed": 1786352400383
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 1,
+          "cycles": 5,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "c6238e29-2a03-4bb4-9b17-ef39d8cfe63e",
+          "httpRequestId": "dbdada38-44f2-43c7-8ea6-c17f208ea57f"
+        },
+        "item": {
+          "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+          "name": "GET /api/cart - data driven",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "cart"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "X-Student-Id",
+                "value": "{{student_id}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "a9a0cce0-6803-413e-9150-08f1839cc18e",
+                "type": "text/javascript",
+                "exec": [
+                  "const tokenMode = pm.iterationData.get('token_mode');",
+                  "const baseUrl = pm.environment.get('base_url');",
+                  "const studentId = pm.environment.get('student_id');",
+                  "",
+                  "pm.request.headers.upsert({ key: 'X-Student-Id', value: studentId });",
+                  "pm.request.headers.remove('Authorization');",
+                  "",
+                  "function setAuthHeader(token) {",
+                  "  pm.environment.set('auth_token', token);",
+                  "  pm.request.headers.upsert({ key: 'Authorization', value: 'Bearer ' + token });",
+                  "}",
+                  "",
+                  "if (tokenMode === 'missing') {",
+                  "  pm.environment.unset('auth_token');",
+                  "} else if (tokenMode === 'invalid') {",
+                  "  setAuthHeader('invalid-token');",
+                  "} else if (tokenMode === 'malformed') {",
+                  "  setAuthHeader('not.a.valid.jwt');",
+                  "} else {",
+                  "  pm.sendRequest({",
+                  "    url: baseUrl + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: {",
+                  "      mode: 'raw',",
+                  "      raw: JSON.stringify({ email: 'test@eshop.com', password: 'Test1234!' })",
+                  "    }",
+                  "  }, function (loginErr, loginRes) {",
+                  "    if (loginErr) { throw loginErr; }",
+                  "    const token = loginRes.json().token;",
+                  "    setAuthHeader(token);",
+                  "",
+                  "    if (pm.iterationData.get('setup_cart') === true || pm.iterationData.get('setup_cart') === 'true') {",
+                  "      pm.sendRequest({",
+                  "        url: baseUrl + '/api/cart',",
+                  "        method: 'POST',",
+                  "        header: {",
+                  "          'Content-Type': 'application/json',",
+                  "          'Authorization': 'Bearer ' + token,",
+                  "          'X-Student-Id': studentId",
+                  "        },",
+                  "        body: {",
+                  "          mode: 'raw',",
+                  "          raw: JSON.stringify({",
+                  "            id: Number(pm.iterationData.get('setup_item_id')),",
+                  "            name: pm.iterationData.get('setup_item_name'),",
+                  "            price: Number(pm.iterationData.get('setup_item_price')),",
+                  "            quantity: Number(pm.iterationData.get('setup_item_quantity'))",
+                  "          })",
+                  "        }",
+                  "      }, function (setupErr) {",
+                  "        if (setupErr) { throw setupErr; }",
+                  "      });",
+                  "    }",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "21cf9fa7-b3cb-4b71-9c62-43b71e7ef942"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "33040308-f960-43e4-9112-d267cc59cf6e",
+                "type": "text/javascript",
+                "exec": [
+                  "const caseId = pm.iterationData.get('case_id');",
+                  "const expectedStatus = Number(pm.iterationData.get('expected_status'));",
+                  "const expectedIsArray = pm.iterationData.get('expected_is_array') === true || pm.iterationData.get('expected_is_array') === 'true';",
+                  "const expectError = pm.iterationData.get('expect_error') === true || pm.iterationData.get('expect_error') === 'true';",
+                  "const expectedMinItems = Number(pm.iterationData.get('expected_min_items') || 0);",
+                  "const maxResponseMs = Number(pm.iterationData.get('max_response_ms') || 1000);",
+                  "",
+                  "pm.test(caseId + ' - status code is expected', function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - Content-Type is JSON', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - response time is acceptable', function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(maxResponseMs);",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - X-Student-Id header was attached', function () {",
+                  "  pm.expect(pm.request.headers.get('X-Student-Id')).to.eql(pm.environment.get('student_id'));",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "if (expectedIsArray) {",
+                  "  pm.test(caseId + ' - response body is an array', function () {",
+                  "    pm.expect(body).to.be.an('array');",
+                  "  });",
+                  "",
+                  "  pm.test(caseId + ' - response has expected minimum cart items', function () {",
+                  "    pm.expect(body.length).to.be.at.least(expectedMinItems);",
+                  "  });",
+                  "",
+                  "  if (expectedMinItems > 0) {",
+                  "    pm.test(caseId + ' - cart item schema is valid', function () {",
+                  "      pm.expect(body[0]).to.have.property('id');",
+                  "      pm.expect(body[0]).to.have.property('name');",
+                  "      pm.expect(body[0]).to.have.property('price');",
+                  "      pm.expect(body[0]).to.have.property('quantity');",
+                  "    });",
+                  "  }",
+                  "} else if (expectError) {",
+                  "  pm.test(caseId + ' - error body contains error field', function () {",
+                  "    pm.expect(body).to.be.an('object');",
+                  "    pm.expect(body).to.have.property('error');",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "ee07ed4b-9a6d-4eae-b04b-371a43dd4726"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "cart"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "X-Student-Id",
+              "value": "23127158"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6InVzZXIiLCJpYXQiOjE3ODYzNTIzOTl9.xSunGWmci2iwfw60lGX2YKcT8P8vtqB5ShhSnX7HBB4"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "200717c9-b0fa-44f6-bab4-6fcb0cddb7a2",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "0b6b3680-223c-494b-a0ea-d33e38565fd4",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "2"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:59:59 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              91,
+              93
+            ]
+          },
+          "cookie": [],
+          "responseTime": 5,
+          "responseSize": 2
+        },
+        "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+        "assertions": [
+          {
+            "assertion": "GET_CART_EMPTY_VALID_TOKEN - status code is expected",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_EMPTY_VALID_TOKEN - Content-Type is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_EMPTY_VALID_TOKEN - response time is acceptable",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_EMPTY_VALID_TOKEN - X-Student-Id header was attached",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_EMPTY_VALID_TOKEN - response body is an array",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_EMPTY_VALID_TOKEN - response has expected minimum cart items",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 1,
+          "cycles": 5,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "c6238e29-2a03-4bb4-9b17-ef39d8cfe63e",
+          "httpRequestId": "dbdada38-44f2-43c7-8ea6-c17f208ea57f"
+        },
+        "item": {
+          "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+          "name": "GET /api/cart - data driven",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "cart"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "X-Student-Id",
+                "value": "{{student_id}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "a9a0cce0-6803-413e-9150-08f1839cc18e",
+                "type": "text/javascript",
+                "exec": [
+                  "const tokenMode = pm.iterationData.get('token_mode');",
+                  "const baseUrl = pm.environment.get('base_url');",
+                  "const studentId = pm.environment.get('student_id');",
+                  "",
+                  "pm.request.headers.upsert({ key: 'X-Student-Id', value: studentId });",
+                  "pm.request.headers.remove('Authorization');",
+                  "",
+                  "function setAuthHeader(token) {",
+                  "  pm.environment.set('auth_token', token);",
+                  "  pm.request.headers.upsert({ key: 'Authorization', value: 'Bearer ' + token });",
+                  "}",
+                  "",
+                  "if (tokenMode === 'missing') {",
+                  "  pm.environment.unset('auth_token');",
+                  "} else if (tokenMode === 'invalid') {",
+                  "  setAuthHeader('invalid-token');",
+                  "} else if (tokenMode === 'malformed') {",
+                  "  setAuthHeader('not.a.valid.jwt');",
+                  "} else {",
+                  "  pm.sendRequest({",
+                  "    url: baseUrl + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: {",
+                  "      mode: 'raw',",
+                  "      raw: JSON.stringify({ email: 'test@eshop.com', password: 'Test1234!' })",
+                  "    }",
+                  "  }, function (loginErr, loginRes) {",
+                  "    if (loginErr) { throw loginErr; }",
+                  "    const token = loginRes.json().token;",
+                  "    setAuthHeader(token);",
+                  "",
+                  "    if (pm.iterationData.get('setup_cart') === true || pm.iterationData.get('setup_cart') === 'true') {",
+                  "      pm.sendRequest({",
+                  "        url: baseUrl + '/api/cart',",
+                  "        method: 'POST',",
+                  "        header: {",
+                  "          'Content-Type': 'application/json',",
+                  "          'Authorization': 'Bearer ' + token,",
+                  "          'X-Student-Id': studentId",
+                  "        },",
+                  "        body: {",
+                  "          mode: 'raw',",
+                  "          raw: JSON.stringify({",
+                  "            id: Number(pm.iterationData.get('setup_item_id')),",
+                  "            name: pm.iterationData.get('setup_item_name'),",
+                  "            price: Number(pm.iterationData.get('setup_item_price')),",
+                  "            quantity: Number(pm.iterationData.get('setup_item_quantity'))",
+                  "          })",
+                  "        }",
+                  "      }, function (setupErr) {",
+                  "        if (setupErr) { throw setupErr; }",
+                  "      });",
+                  "    }",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "21cf9fa7-b3cb-4b71-9c62-43b71e7ef942"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "33040308-f960-43e4-9112-d267cc59cf6e",
+                "type": "text/javascript",
+                "exec": [
+                  "const caseId = pm.iterationData.get('case_id');",
+                  "const expectedStatus = Number(pm.iterationData.get('expected_status'));",
+                  "const expectedIsArray = pm.iterationData.get('expected_is_array') === true || pm.iterationData.get('expected_is_array') === 'true';",
+                  "const expectError = pm.iterationData.get('expect_error') === true || pm.iterationData.get('expect_error') === 'true';",
+                  "const expectedMinItems = Number(pm.iterationData.get('expected_min_items') || 0);",
+                  "const maxResponseMs = Number(pm.iterationData.get('max_response_ms') || 1000);",
+                  "",
+                  "pm.test(caseId + ' - status code is expected', function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - Content-Type is JSON', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - response time is acceptable', function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(maxResponseMs);",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - X-Student-Id header was attached', function () {",
+                  "  pm.expect(pm.request.headers.get('X-Student-Id')).to.eql(pm.environment.get('student_id'));",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "if (expectedIsArray) {",
+                  "  pm.test(caseId + ' - response body is an array', function () {",
+                  "    pm.expect(body).to.be.an('array');",
+                  "  });",
+                  "",
+                  "  pm.test(caseId + ' - response has expected minimum cart items', function () {",
+                  "    pm.expect(body.length).to.be.at.least(expectedMinItems);",
+                  "  });",
+                  "",
+                  "  if (expectedMinItems > 0) {",
+                  "    pm.test(caseId + ' - cart item schema is valid', function () {",
+                  "      pm.expect(body[0]).to.have.property('id');",
+                  "      pm.expect(body[0]).to.have.property('name');",
+                  "      pm.expect(body[0]).to.have.property('price');",
+                  "      pm.expect(body[0]).to.have.property('quantity');",
+                  "    });",
+                  "  }",
+                  "} else if (expectError) {",
+                  "  pm.test(caseId + ' - error body contains error field', function () {",
+                  "    pm.expect(body).to.be.an('object');",
+                  "    pm.expect(body).to.have.property('error');",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "ee07ed4b-9a6d-4eae-b04b-371a43dd4726"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "cart"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "X-Student-Id",
+              "value": "23127158"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6InVzZXIiLCJpYXQiOjE3ODYzNTIzOTl9.xSunGWmci2iwfw60lGX2YKcT8P8vtqB5ShhSnX7HBB4"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "200717c9-b0fa-44f6-bab4-6fcb0cddb7a2",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "0b6b3680-223c-494b-a0ea-d33e38565fd4",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "2"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 08:59:59 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              91,
+              93
+            ]
+          },
+          "cookie": [],
+          "responseTime": 5,
+          "responseSize": 2
+        },
+        "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+        "assertions": [
+          {
+            "assertion": "GET_CART_EMPTY_VALID_TOKEN - status code is expected",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_EMPTY_VALID_TOKEN - Content-Type is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_EMPTY_VALID_TOKEN - response time is acceptable",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_EMPTY_VALID_TOKEN - X-Student-Id header was attached",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_EMPTY_VALID_TOKEN - response body is an array",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_EMPTY_VALID_TOKEN - response has expected minimum cart items",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "11712ef0-533c-4806-a54b-d0945bdb40f9",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 1,
+          "cr": true,
+          "httpRequestId": "9e42e4b5-f472-479c-b976-b65db875e577"
+        },
+        "item": {
+          "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+          "name": "GET /api/cart - data driven",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "cart"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "X-Student-Id",
+                "value": "{{student_id}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "a9a0cce0-6803-413e-9150-08f1839cc18e",
+                "type": "text/javascript",
+                "exec": [
+                  "const tokenMode = pm.iterationData.get('token_mode');",
+                  "const baseUrl = pm.environment.get('base_url');",
+                  "const studentId = pm.environment.get('student_id');",
+                  "",
+                  "pm.request.headers.upsert({ key: 'X-Student-Id', value: studentId });",
+                  "pm.request.headers.remove('Authorization');",
+                  "",
+                  "function setAuthHeader(token) {",
+                  "  pm.environment.set('auth_token', token);",
+                  "  pm.request.headers.upsert({ key: 'Authorization', value: 'Bearer ' + token });",
+                  "}",
+                  "",
+                  "if (tokenMode === 'missing') {",
+                  "  pm.environment.unset('auth_token');",
+                  "} else if (tokenMode === 'invalid') {",
+                  "  setAuthHeader('invalid-token');",
+                  "} else if (tokenMode === 'malformed') {",
+                  "  setAuthHeader('not.a.valid.jwt');",
+                  "} else {",
+                  "  pm.sendRequest({",
+                  "    url: baseUrl + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: {",
+                  "      mode: 'raw',",
+                  "      raw: JSON.stringify({ email: 'test@eshop.com', password: 'Test1234!' })",
+                  "    }",
+                  "  }, function (loginErr, loginRes) {",
+                  "    if (loginErr) { throw loginErr; }",
+                  "    const token = loginRes.json().token;",
+                  "    setAuthHeader(token);",
+                  "",
+                  "    if (pm.iterationData.get('setup_cart') === true || pm.iterationData.get('setup_cart') === 'true') {",
+                  "      pm.sendRequest({",
+                  "        url: baseUrl + '/api/cart',",
+                  "        method: 'POST',",
+                  "        header: {",
+                  "          'Content-Type': 'application/json',",
+                  "          'Authorization': 'Bearer ' + token,",
+                  "          'X-Student-Id': studentId",
+                  "        },",
+                  "        body: {",
+                  "          mode: 'raw',",
+                  "          raw: JSON.stringify({",
+                  "            id: Number(pm.iterationData.get('setup_item_id')),",
+                  "            name: pm.iterationData.get('setup_item_name'),",
+                  "            price: Number(pm.iterationData.get('setup_item_price')),",
+                  "            quantity: Number(pm.iterationData.get('setup_item_quantity'))",
+                  "          })",
+                  "        }",
+                  "      }, function (setupErr) {",
+                  "        if (setupErr) { throw setupErr; }",
+                  "      });",
+                  "    }",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "21cf9fa7-b3cb-4b71-9c62-43b71e7ef942"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "33040308-f960-43e4-9112-d267cc59cf6e",
+                "type": "text/javascript",
+                "exec": [
+                  "const caseId = pm.iterationData.get('case_id');",
+                  "const expectedStatus = Number(pm.iterationData.get('expected_status'));",
+                  "const expectedIsArray = pm.iterationData.get('expected_is_array') === true || pm.iterationData.get('expected_is_array') === 'true';",
+                  "const expectError = pm.iterationData.get('expect_error') === true || pm.iterationData.get('expect_error') === 'true';",
+                  "const expectedMinItems = Number(pm.iterationData.get('expected_min_items') || 0);",
+                  "const maxResponseMs = Number(pm.iterationData.get('max_response_ms') || 1000);",
+                  "",
+                  "pm.test(caseId + ' - status code is expected', function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - Content-Type is JSON', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - response time is acceptable', function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(maxResponseMs);",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - X-Student-Id header was attached', function () {",
+                  "  pm.expect(pm.request.headers.get('X-Student-Id')).to.eql(pm.environment.get('student_id'));",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "if (expectedIsArray) {",
+                  "  pm.test(caseId + ' - response body is an array', function () {",
+                  "    pm.expect(body).to.be.an('array');",
+                  "  });",
+                  "",
+                  "  pm.test(caseId + ' - response has expected minimum cart items', function () {",
+                  "    pm.expect(body.length).to.be.at.least(expectedMinItems);",
+                  "  });",
+                  "",
+                  "  if (expectedMinItems > 0) {",
+                  "    pm.test(caseId + ' - cart item schema is valid', function () {",
+                  "      pm.expect(body[0]).to.have.property('id');",
+                  "      pm.expect(body[0]).to.have.property('name');",
+                  "      pm.expect(body[0]).to.have.property('price');",
+                  "      pm.expect(body[0]).to.have.property('quantity');",
+                  "    });",
+                  "  }",
+                  "} else if (expectError) {",
+                  "  pm.test(caseId + ' - error body contains error field', function () {",
+                  "    pm.expect(body).to.be.an('object');",
+                  "    pm.expect(body).to.have.property('error');",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "ee07ed4b-9a6d-4eae-b04b-371a43dd4726"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "cart"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "X-Student-Id",
+              "value": "23127158"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6InVzZXIiLCJpYXQiOjE3ODYzNTI0MDB9.HIMpu_6aO2H3NYxy9IA26OhKbp_LsW-nAlTmpVs54y0"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "6324a394-89ed-4da4-9f76-b10979bbbfea",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "e89357db-930d-47a0-b14a-433872ecc199",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "67"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"43-lPg8iTOsxDGrNGs1pkHkRM/S3W8\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 09:00:00 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              91,
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              49,
+              44,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              34,
+              105,
+              80,
+              104,
+              111,
+              110,
+              101,
+              32,
+              49,
+              53,
+              32,
+              80,
+              114,
+              111,
+              32,
+              77,
+              97,
+              120,
+              34,
+              44,
+              34,
+              112,
+              114,
+              105,
+              99,
+              101,
+              34,
+              58,
+              51,
+              48,
+              48,
+              48,
+              48,
+              48,
+              48,
+              48,
+              44,
+              34,
+              113,
+              117,
+              97,
+              110,
+              116,
+              105,
+              116,
+              121,
+              34,
+              58,
+              49,
+              125,
+              93
+            ]
+          },
+          "cookie": [],
+          "responseTime": 4,
+          "responseSize": 67
+        },
+        "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+        "assertions": [
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - status code is expected",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - Content-Type is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - response time is acceptable",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - X-Student-Id header was attached",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - response body is an array",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - response has expected minimum cart items",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - cart item schema is valid",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "11712ef0-533c-4806-a54b-d0945bdb40f9",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 1,
+          "cr": true,
+          "httpRequestId": "9e42e4b5-f472-479c-b976-b65db875e577"
+        },
+        "item": {
+          "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+          "name": "GET /api/cart - data driven",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "cart"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "X-Student-Id",
+                "value": "{{student_id}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "a9a0cce0-6803-413e-9150-08f1839cc18e",
+                "type": "text/javascript",
+                "exec": [
+                  "const tokenMode = pm.iterationData.get('token_mode');",
+                  "const baseUrl = pm.environment.get('base_url');",
+                  "const studentId = pm.environment.get('student_id');",
+                  "",
+                  "pm.request.headers.upsert({ key: 'X-Student-Id', value: studentId });",
+                  "pm.request.headers.remove('Authorization');",
+                  "",
+                  "function setAuthHeader(token) {",
+                  "  pm.environment.set('auth_token', token);",
+                  "  pm.request.headers.upsert({ key: 'Authorization', value: 'Bearer ' + token });",
+                  "}",
+                  "",
+                  "if (tokenMode === 'missing') {",
+                  "  pm.environment.unset('auth_token');",
+                  "} else if (tokenMode === 'invalid') {",
+                  "  setAuthHeader('invalid-token');",
+                  "} else if (tokenMode === 'malformed') {",
+                  "  setAuthHeader('not.a.valid.jwt');",
+                  "} else {",
+                  "  pm.sendRequest({",
+                  "    url: baseUrl + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: {",
+                  "      mode: 'raw',",
+                  "      raw: JSON.stringify({ email: 'test@eshop.com', password: 'Test1234!' })",
+                  "    }",
+                  "  }, function (loginErr, loginRes) {",
+                  "    if (loginErr) { throw loginErr; }",
+                  "    const token = loginRes.json().token;",
+                  "    setAuthHeader(token);",
+                  "",
+                  "    if (pm.iterationData.get('setup_cart') === true || pm.iterationData.get('setup_cart') === 'true') {",
+                  "      pm.sendRequest({",
+                  "        url: baseUrl + '/api/cart',",
+                  "        method: 'POST',",
+                  "        header: {",
+                  "          'Content-Type': 'application/json',",
+                  "          'Authorization': 'Bearer ' + token,",
+                  "          'X-Student-Id': studentId",
+                  "        },",
+                  "        body: {",
+                  "          mode: 'raw',",
+                  "          raw: JSON.stringify({",
+                  "            id: Number(pm.iterationData.get('setup_item_id')),",
+                  "            name: pm.iterationData.get('setup_item_name'),",
+                  "            price: Number(pm.iterationData.get('setup_item_price')),",
+                  "            quantity: Number(pm.iterationData.get('setup_item_quantity'))",
+                  "          })",
+                  "        }",
+                  "      }, function (setupErr) {",
+                  "        if (setupErr) { throw setupErr; }",
+                  "      });",
+                  "    }",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "21cf9fa7-b3cb-4b71-9c62-43b71e7ef942"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "33040308-f960-43e4-9112-d267cc59cf6e",
+                "type": "text/javascript",
+                "exec": [
+                  "const caseId = pm.iterationData.get('case_id');",
+                  "const expectedStatus = Number(pm.iterationData.get('expected_status'));",
+                  "const expectedIsArray = pm.iterationData.get('expected_is_array') === true || pm.iterationData.get('expected_is_array') === 'true';",
+                  "const expectError = pm.iterationData.get('expect_error') === true || pm.iterationData.get('expect_error') === 'true';",
+                  "const expectedMinItems = Number(pm.iterationData.get('expected_min_items') || 0);",
+                  "const maxResponseMs = Number(pm.iterationData.get('max_response_ms') || 1000);",
+                  "",
+                  "pm.test(caseId + ' - status code is expected', function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - Content-Type is JSON', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - response time is acceptable', function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(maxResponseMs);",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - X-Student-Id header was attached', function () {",
+                  "  pm.expect(pm.request.headers.get('X-Student-Id')).to.eql(pm.environment.get('student_id'));",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "if (expectedIsArray) {",
+                  "  pm.test(caseId + ' - response body is an array', function () {",
+                  "    pm.expect(body).to.be.an('array');",
+                  "  });",
+                  "",
+                  "  pm.test(caseId + ' - response has expected minimum cart items', function () {",
+                  "    pm.expect(body.length).to.be.at.least(expectedMinItems);",
+                  "  });",
+                  "",
+                  "  if (expectedMinItems > 0) {",
+                  "    pm.test(caseId + ' - cart item schema is valid', function () {",
+                  "      pm.expect(body[0]).to.have.property('id');",
+                  "      pm.expect(body[0]).to.have.property('name');",
+                  "      pm.expect(body[0]).to.have.property('price');",
+                  "      pm.expect(body[0]).to.have.property('quantity');",
+                  "    });",
+                  "  }",
+                  "} else if (expectError) {",
+                  "  pm.test(caseId + ' - error body contains error field', function () {",
+                  "    pm.expect(body).to.be.an('object');",
+                  "    pm.expect(body).to.have.property('error');",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "ee07ed4b-9a6d-4eae-b04b-371a43dd4726"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "cart"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "X-Student-Id",
+              "value": "23127158"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6InVzZXIiLCJpYXQiOjE3ODYzNTI0MDB9.HIMpu_6aO2H3NYxy9IA26OhKbp_LsW-nAlTmpVs54y0"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "6324a394-89ed-4da4-9f76-b10979bbbfea",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "e89357db-930d-47a0-b14a-433872ecc199",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "67"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"43-lPg8iTOsxDGrNGs1pkHkRM/S3W8\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 09:00:00 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              91,
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              49,
+              44,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              34,
+              105,
+              80,
+              104,
+              111,
+              110,
+              101,
+              32,
+              49,
+              53,
+              32,
+              80,
+              114,
+              111,
+              32,
+              77,
+              97,
+              120,
+              34,
+              44,
+              34,
+              112,
+              114,
+              105,
+              99,
+              101,
+              34,
+              58,
+              51,
+              48,
+              48,
+              48,
+              48,
+              48,
+              48,
+              48,
+              44,
+              34,
+              113,
+              117,
+              97,
+              110,
+              116,
+              105,
+              116,
+              121,
+              34,
+              58,
+              49,
+              125,
+              93
+            ]
+          },
+          "cookie": [],
+          "responseTime": 4,
+          "responseSize": 67
+        },
+        "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+        "assertions": [
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - status code is expected",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - Content-Type is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - response time is acceptable",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - X-Student-Id header was attached",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - response body is an array",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - response has expected minimum cart items",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - cart item schema is valid",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "11712ef0-533c-4806-a54b-d0945bdb40f9",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 1,
+          "cr": true,
+          "httpRequestId": "9e42e4b5-f472-479c-b976-b65db875e577"
+        },
+        "item": {
+          "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+          "name": "GET /api/cart - data driven",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "cart"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "X-Student-Id",
+                "value": "{{student_id}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "a9a0cce0-6803-413e-9150-08f1839cc18e",
+                "type": "text/javascript",
+                "exec": [
+                  "const tokenMode = pm.iterationData.get('token_mode');",
+                  "const baseUrl = pm.environment.get('base_url');",
+                  "const studentId = pm.environment.get('student_id');",
+                  "",
+                  "pm.request.headers.upsert({ key: 'X-Student-Id', value: studentId });",
+                  "pm.request.headers.remove('Authorization');",
+                  "",
+                  "function setAuthHeader(token) {",
+                  "  pm.environment.set('auth_token', token);",
+                  "  pm.request.headers.upsert({ key: 'Authorization', value: 'Bearer ' + token });",
+                  "}",
+                  "",
+                  "if (tokenMode === 'missing') {",
+                  "  pm.environment.unset('auth_token');",
+                  "} else if (tokenMode === 'invalid') {",
+                  "  setAuthHeader('invalid-token');",
+                  "} else if (tokenMode === 'malformed') {",
+                  "  setAuthHeader('not.a.valid.jwt');",
+                  "} else {",
+                  "  pm.sendRequest({",
+                  "    url: baseUrl + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: {",
+                  "      mode: 'raw',",
+                  "      raw: JSON.stringify({ email: 'test@eshop.com', password: 'Test1234!' })",
+                  "    }",
+                  "  }, function (loginErr, loginRes) {",
+                  "    if (loginErr) { throw loginErr; }",
+                  "    const token = loginRes.json().token;",
+                  "    setAuthHeader(token);",
+                  "",
+                  "    if (pm.iterationData.get('setup_cart') === true || pm.iterationData.get('setup_cart') === 'true') {",
+                  "      pm.sendRequest({",
+                  "        url: baseUrl + '/api/cart',",
+                  "        method: 'POST',",
+                  "        header: {",
+                  "          'Content-Type': 'application/json',",
+                  "          'Authorization': 'Bearer ' + token,",
+                  "          'X-Student-Id': studentId",
+                  "        },",
+                  "        body: {",
+                  "          mode: 'raw',",
+                  "          raw: JSON.stringify({",
+                  "            id: Number(pm.iterationData.get('setup_item_id')),",
+                  "            name: pm.iterationData.get('setup_item_name'),",
+                  "            price: Number(pm.iterationData.get('setup_item_price')),",
+                  "            quantity: Number(pm.iterationData.get('setup_item_quantity'))",
+                  "          })",
+                  "        }",
+                  "      }, function (setupErr) {",
+                  "        if (setupErr) { throw setupErr; }",
+                  "      });",
+                  "    }",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "21cf9fa7-b3cb-4b71-9c62-43b71e7ef942"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "33040308-f960-43e4-9112-d267cc59cf6e",
+                "type": "text/javascript",
+                "exec": [
+                  "const caseId = pm.iterationData.get('case_id');",
+                  "const expectedStatus = Number(pm.iterationData.get('expected_status'));",
+                  "const expectedIsArray = pm.iterationData.get('expected_is_array') === true || pm.iterationData.get('expected_is_array') === 'true';",
+                  "const expectError = pm.iterationData.get('expect_error') === true || pm.iterationData.get('expect_error') === 'true';",
+                  "const expectedMinItems = Number(pm.iterationData.get('expected_min_items') || 0);",
+                  "const maxResponseMs = Number(pm.iterationData.get('max_response_ms') || 1000);",
+                  "",
+                  "pm.test(caseId + ' - status code is expected', function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - Content-Type is JSON', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - response time is acceptable', function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(maxResponseMs);",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - X-Student-Id header was attached', function () {",
+                  "  pm.expect(pm.request.headers.get('X-Student-Id')).to.eql(pm.environment.get('student_id'));",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "if (expectedIsArray) {",
+                  "  pm.test(caseId + ' - response body is an array', function () {",
+                  "    pm.expect(body).to.be.an('array');",
+                  "  });",
+                  "",
+                  "  pm.test(caseId + ' - response has expected minimum cart items', function () {",
+                  "    pm.expect(body.length).to.be.at.least(expectedMinItems);",
+                  "  });",
+                  "",
+                  "  if (expectedMinItems > 0) {",
+                  "    pm.test(caseId + ' - cart item schema is valid', function () {",
+                  "      pm.expect(body[0]).to.have.property('id');",
+                  "      pm.expect(body[0]).to.have.property('name');",
+                  "      pm.expect(body[0]).to.have.property('price');",
+                  "      pm.expect(body[0]).to.have.property('quantity');",
+                  "    });",
+                  "  }",
+                  "} else if (expectError) {",
+                  "  pm.test(caseId + ' - error body contains error field', function () {",
+                  "    pm.expect(body).to.be.an('object');",
+                  "    pm.expect(body).to.have.property('error');",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "ee07ed4b-9a6d-4eae-b04b-371a43dd4726"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "cart"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "X-Student-Id",
+              "value": "23127158"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6InVzZXIiLCJpYXQiOjE3ODYzNTI0MDB9.HIMpu_6aO2H3NYxy9IA26OhKbp_LsW-nAlTmpVs54y0"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "6324a394-89ed-4da4-9f76-b10979bbbfea",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "e89357db-930d-47a0-b14a-433872ecc199",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "67"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"43-lPg8iTOsxDGrNGs1pkHkRM/S3W8\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 09:00:00 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              91,
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              49,
+              44,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              34,
+              105,
+              80,
+              104,
+              111,
+              110,
+              101,
+              32,
+              49,
+              53,
+              32,
+              80,
+              114,
+              111,
+              32,
+              77,
+              97,
+              120,
+              34,
+              44,
+              34,
+              112,
+              114,
+              105,
+              99,
+              101,
+              34,
+              58,
+              51,
+              48,
+              48,
+              48,
+              48,
+              48,
+              48,
+              48,
+              44,
+              34,
+              113,
+              117,
+              97,
+              110,
+              116,
+              105,
+              116,
+              121,
+              34,
+              58,
+              49,
+              125,
+              93
+            ]
+          },
+          "cookie": [],
+          "responseTime": 4,
+          "responseSize": 67
+        },
+        "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+        "assertions": [
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - status code is expected",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - Content-Type is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - response time is acceptable",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - X-Student-Id header was attached",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - response body is an array",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - response has expected minimum cart items",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_WITH_ITEM_VALID_TOKEN - cart item schema is valid",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "bfec6677-4849-47ec-93b3-2082765d5bee",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 2,
+          "cr": true,
+          "httpRequestId": "026349ff-0b32-4361-bdae-6e8a591ee6fa"
+        },
+        "item": {
+          "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+          "name": "GET /api/cart - data driven",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "cart"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "X-Student-Id",
+                "value": "{{student_id}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "a9a0cce0-6803-413e-9150-08f1839cc18e",
+                "type": "text/javascript",
+                "exec": [
+                  "const tokenMode = pm.iterationData.get('token_mode');",
+                  "const baseUrl = pm.environment.get('base_url');",
+                  "const studentId = pm.environment.get('student_id');",
+                  "",
+                  "pm.request.headers.upsert({ key: 'X-Student-Id', value: studentId });",
+                  "pm.request.headers.remove('Authorization');",
+                  "",
+                  "function setAuthHeader(token) {",
+                  "  pm.environment.set('auth_token', token);",
+                  "  pm.request.headers.upsert({ key: 'Authorization', value: 'Bearer ' + token });",
+                  "}",
+                  "",
+                  "if (tokenMode === 'missing') {",
+                  "  pm.environment.unset('auth_token');",
+                  "} else if (tokenMode === 'invalid') {",
+                  "  setAuthHeader('invalid-token');",
+                  "} else if (tokenMode === 'malformed') {",
+                  "  setAuthHeader('not.a.valid.jwt');",
+                  "} else {",
+                  "  pm.sendRequest({",
+                  "    url: baseUrl + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: {",
+                  "      mode: 'raw',",
+                  "      raw: JSON.stringify({ email: 'test@eshop.com', password: 'Test1234!' })",
+                  "    }",
+                  "  }, function (loginErr, loginRes) {",
+                  "    if (loginErr) { throw loginErr; }",
+                  "    const token = loginRes.json().token;",
+                  "    setAuthHeader(token);",
+                  "",
+                  "    if (pm.iterationData.get('setup_cart') === true || pm.iterationData.get('setup_cart') === 'true') {",
+                  "      pm.sendRequest({",
+                  "        url: baseUrl + '/api/cart',",
+                  "        method: 'POST',",
+                  "        header: {",
+                  "          'Content-Type': 'application/json',",
+                  "          'Authorization': 'Bearer ' + token,",
+                  "          'X-Student-Id': studentId",
+                  "        },",
+                  "        body: {",
+                  "          mode: 'raw',",
+                  "          raw: JSON.stringify({",
+                  "            id: Number(pm.iterationData.get('setup_item_id')),",
+                  "            name: pm.iterationData.get('setup_item_name'),",
+                  "            price: Number(pm.iterationData.get('setup_item_price')),",
+                  "            quantity: Number(pm.iterationData.get('setup_item_quantity'))",
+                  "          })",
+                  "        }",
+                  "      }, function (setupErr) {",
+                  "        if (setupErr) { throw setupErr; }",
+                  "      });",
+                  "    }",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "21cf9fa7-b3cb-4b71-9c62-43b71e7ef942"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "33040308-f960-43e4-9112-d267cc59cf6e",
+                "type": "text/javascript",
+                "exec": [
+                  "const caseId = pm.iterationData.get('case_id');",
+                  "const expectedStatus = Number(pm.iterationData.get('expected_status'));",
+                  "const expectedIsArray = pm.iterationData.get('expected_is_array') === true || pm.iterationData.get('expected_is_array') === 'true';",
+                  "const expectError = pm.iterationData.get('expect_error') === true || pm.iterationData.get('expect_error') === 'true';",
+                  "const expectedMinItems = Number(pm.iterationData.get('expected_min_items') || 0);",
+                  "const maxResponseMs = Number(pm.iterationData.get('max_response_ms') || 1000);",
+                  "",
+                  "pm.test(caseId + ' - status code is expected', function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - Content-Type is JSON', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - response time is acceptable', function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(maxResponseMs);",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - X-Student-Id header was attached', function () {",
+                  "  pm.expect(pm.request.headers.get('X-Student-Id')).to.eql(pm.environment.get('student_id'));",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "if (expectedIsArray) {",
+                  "  pm.test(caseId + ' - response body is an array', function () {",
+                  "    pm.expect(body).to.be.an('array');",
+                  "  });",
+                  "",
+                  "  pm.test(caseId + ' - response has expected minimum cart items', function () {",
+                  "    pm.expect(body.length).to.be.at.least(expectedMinItems);",
+                  "  });",
+                  "",
+                  "  if (expectedMinItems > 0) {",
+                  "    pm.test(caseId + ' - cart item schema is valid', function () {",
+                  "      pm.expect(body[0]).to.have.property('id');",
+                  "      pm.expect(body[0]).to.have.property('name');",
+                  "      pm.expect(body[0]).to.have.property('price');",
+                  "      pm.expect(body[0]).to.have.property('quantity');",
+                  "    });",
+                  "  }",
+                  "} else if (expectError) {",
+                  "  pm.test(caseId + ' - error body contains error field', function () {",
+                  "    pm.expect(body).to.be.an('object');",
+                  "    pm.expect(body).to.have.property('error');",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "ee07ed4b-9a6d-4eae-b04b-371a43dd4726"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "cart"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "X-Student-Id",
+              "value": "23127158"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "13b9c4ce-ca1e-4de7-8685-fc1b94dd9108",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "ac79dd7c-376e-4de8-9a55-f0cde0eb60d2",
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "24"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"18-XPDV80vbMk4yY1/PADG4jYM4rSI\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 09:00:00 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              101,
+              114,
+              114,
+              111,
+              114,
+              34,
+              58,
+              34,
+              85,
+              110,
+              97,
+              117,
+              116,
+              104,
+              111,
+              114,
+              105,
+              122,
+              101,
+              100,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 4,
+          "responseSize": 24
+        },
+        "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+        "assertions": [
+          {
+            "assertion": "GET_CART_MISSING_TOKEN - status code is expected",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_MISSING_TOKEN - Content-Type is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_MISSING_TOKEN - response time is acceptable",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_MISSING_TOKEN - X-Student-Id header was attached",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_MISSING_TOKEN - error body contains error field",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "3da98207-3a77-4523-9594-3eb8c724ba84",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 3,
+          "cr": true,
+          "httpRequestId": "965b1d09-f3a9-4de2-b892-85b5eff9eb28"
+        },
+        "item": {
+          "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+          "name": "GET /api/cart - data driven",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "cart"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "X-Student-Id",
+                "value": "{{student_id}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "a9a0cce0-6803-413e-9150-08f1839cc18e",
+                "type": "text/javascript",
+                "exec": [
+                  "const tokenMode = pm.iterationData.get('token_mode');",
+                  "const baseUrl = pm.environment.get('base_url');",
+                  "const studentId = pm.environment.get('student_id');",
+                  "",
+                  "pm.request.headers.upsert({ key: 'X-Student-Id', value: studentId });",
+                  "pm.request.headers.remove('Authorization');",
+                  "",
+                  "function setAuthHeader(token) {",
+                  "  pm.environment.set('auth_token', token);",
+                  "  pm.request.headers.upsert({ key: 'Authorization', value: 'Bearer ' + token });",
+                  "}",
+                  "",
+                  "if (tokenMode === 'missing') {",
+                  "  pm.environment.unset('auth_token');",
+                  "} else if (tokenMode === 'invalid') {",
+                  "  setAuthHeader('invalid-token');",
+                  "} else if (tokenMode === 'malformed') {",
+                  "  setAuthHeader('not.a.valid.jwt');",
+                  "} else {",
+                  "  pm.sendRequest({",
+                  "    url: baseUrl + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: {",
+                  "      mode: 'raw',",
+                  "      raw: JSON.stringify({ email: 'test@eshop.com', password: 'Test1234!' })",
+                  "    }",
+                  "  }, function (loginErr, loginRes) {",
+                  "    if (loginErr) { throw loginErr; }",
+                  "    const token = loginRes.json().token;",
+                  "    setAuthHeader(token);",
+                  "",
+                  "    if (pm.iterationData.get('setup_cart') === true || pm.iterationData.get('setup_cart') === 'true') {",
+                  "      pm.sendRequest({",
+                  "        url: baseUrl + '/api/cart',",
+                  "        method: 'POST',",
+                  "        header: {",
+                  "          'Content-Type': 'application/json',",
+                  "          'Authorization': 'Bearer ' + token,",
+                  "          'X-Student-Id': studentId",
+                  "        },",
+                  "        body: {",
+                  "          mode: 'raw',",
+                  "          raw: JSON.stringify({",
+                  "            id: Number(pm.iterationData.get('setup_item_id')),",
+                  "            name: pm.iterationData.get('setup_item_name'),",
+                  "            price: Number(pm.iterationData.get('setup_item_price')),",
+                  "            quantity: Number(pm.iterationData.get('setup_item_quantity'))",
+                  "          })",
+                  "        }",
+                  "      }, function (setupErr) {",
+                  "        if (setupErr) { throw setupErr; }",
+                  "      });",
+                  "    }",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "21cf9fa7-b3cb-4b71-9c62-43b71e7ef942"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "33040308-f960-43e4-9112-d267cc59cf6e",
+                "type": "text/javascript",
+                "exec": [
+                  "const caseId = pm.iterationData.get('case_id');",
+                  "const expectedStatus = Number(pm.iterationData.get('expected_status'));",
+                  "const expectedIsArray = pm.iterationData.get('expected_is_array') === true || pm.iterationData.get('expected_is_array') === 'true';",
+                  "const expectError = pm.iterationData.get('expect_error') === true || pm.iterationData.get('expect_error') === 'true';",
+                  "const expectedMinItems = Number(pm.iterationData.get('expected_min_items') || 0);",
+                  "const maxResponseMs = Number(pm.iterationData.get('max_response_ms') || 1000);",
+                  "",
+                  "pm.test(caseId + ' - status code is expected', function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - Content-Type is JSON', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - response time is acceptable', function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(maxResponseMs);",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - X-Student-Id header was attached', function () {",
+                  "  pm.expect(pm.request.headers.get('X-Student-Id')).to.eql(pm.environment.get('student_id'));",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "if (expectedIsArray) {",
+                  "  pm.test(caseId + ' - response body is an array', function () {",
+                  "    pm.expect(body).to.be.an('array');",
+                  "  });",
+                  "",
+                  "  pm.test(caseId + ' - response has expected minimum cart items', function () {",
+                  "    pm.expect(body.length).to.be.at.least(expectedMinItems);",
+                  "  });",
+                  "",
+                  "  if (expectedMinItems > 0) {",
+                  "    pm.test(caseId + ' - cart item schema is valid', function () {",
+                  "      pm.expect(body[0]).to.have.property('id');",
+                  "      pm.expect(body[0]).to.have.property('name');",
+                  "      pm.expect(body[0]).to.have.property('price');",
+                  "      pm.expect(body[0]).to.have.property('quantity');",
+                  "    });",
+                  "  }",
+                  "} else if (expectError) {",
+                  "  pm.test(caseId + ' - error body contains error field', function () {",
+                  "    pm.expect(body).to.be.an('object');",
+                  "    pm.expect(body).to.have.property('error');",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "ee07ed4b-9a6d-4eae-b04b-371a43dd4726"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "cart"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "X-Student-Id",
+              "value": "23127158"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer invalid-token"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "a4332675-43b4-4db5-a0dc-790b4ea91602",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "765e3553-4022-442e-8486-fcc4d0d049e1",
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "21"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"15-TLNzmZqKxaTuFdX/dVWWPBu44/c\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 09:00:00 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              101,
+              114,
+              114,
+              111,
+              114,
+              34,
+              58,
+              34,
+              70,
+              111,
+              114,
+              98,
+              105,
+              100,
+              100,
+              101,
+              110,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 5,
+          "responseSize": 21
+        },
+        "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+        "assertions": [
+          {
+            "assertion": "GET_CART_INVALID_TOKEN - status code is expected",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_INVALID_TOKEN - Content-Type is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_INVALID_TOKEN - response time is acceptable",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_INVALID_TOKEN - X-Student-Id header was attached",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_INVALID_TOKEN - error body contains error field",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "cf0b91fa-d8e4-4aa5-ad35-6a228e090a88",
+          "length": 1,
+          "cycles": 5,
+          "position": 0,
+          "iteration": 4,
+          "cr": true,
+          "httpRequestId": "dc09c200-2f7d-42b1-ab9e-2df92e20b418"
+        },
+        "item": {
+          "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+          "name": "GET /api/cart - data driven",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "cart"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "X-Student-Id",
+                "value": "{{student_id}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "a9a0cce0-6803-413e-9150-08f1839cc18e",
+                "type": "text/javascript",
+                "exec": [
+                  "const tokenMode = pm.iterationData.get('token_mode');",
+                  "const baseUrl = pm.environment.get('base_url');",
+                  "const studentId = pm.environment.get('student_id');",
+                  "",
+                  "pm.request.headers.upsert({ key: 'X-Student-Id', value: studentId });",
+                  "pm.request.headers.remove('Authorization');",
+                  "",
+                  "function setAuthHeader(token) {",
+                  "  pm.environment.set('auth_token', token);",
+                  "  pm.request.headers.upsert({ key: 'Authorization', value: 'Bearer ' + token });",
+                  "}",
+                  "",
+                  "if (tokenMode === 'missing') {",
+                  "  pm.environment.unset('auth_token');",
+                  "} else if (tokenMode === 'invalid') {",
+                  "  setAuthHeader('invalid-token');",
+                  "} else if (tokenMode === 'malformed') {",
+                  "  setAuthHeader('not.a.valid.jwt');",
+                  "} else {",
+                  "  pm.sendRequest({",
+                  "    url: baseUrl + '/api/login',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: {",
+                  "      mode: 'raw',",
+                  "      raw: JSON.stringify({ email: 'test@eshop.com', password: 'Test1234!' })",
+                  "    }",
+                  "  }, function (loginErr, loginRes) {",
+                  "    if (loginErr) { throw loginErr; }",
+                  "    const token = loginRes.json().token;",
+                  "    setAuthHeader(token);",
+                  "",
+                  "    if (pm.iterationData.get('setup_cart') === true || pm.iterationData.get('setup_cart') === 'true') {",
+                  "      pm.sendRequest({",
+                  "        url: baseUrl + '/api/cart',",
+                  "        method: 'POST',",
+                  "        header: {",
+                  "          'Content-Type': 'application/json',",
+                  "          'Authorization': 'Bearer ' + token,",
+                  "          'X-Student-Id': studentId",
+                  "        },",
+                  "        body: {",
+                  "          mode: 'raw',",
+                  "          raw: JSON.stringify({",
+                  "            id: Number(pm.iterationData.get('setup_item_id')),",
+                  "            name: pm.iterationData.get('setup_item_name'),",
+                  "            price: Number(pm.iterationData.get('setup_item_price')),",
+                  "            quantity: Number(pm.iterationData.get('setup_item_quantity'))",
+                  "          })",
+                  "        }",
+                  "      }, function (setupErr) {",
+                  "        if (setupErr) { throw setupErr; }",
+                  "      });",
+                  "    }",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "21cf9fa7-b3cb-4b71-9c62-43b71e7ef942"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "33040308-f960-43e4-9112-d267cc59cf6e",
+                "type": "text/javascript",
+                "exec": [
+                  "const caseId = pm.iterationData.get('case_id');",
+                  "const expectedStatus = Number(pm.iterationData.get('expected_status'));",
+                  "const expectedIsArray = pm.iterationData.get('expected_is_array') === true || pm.iterationData.get('expected_is_array') === 'true';",
+                  "const expectError = pm.iterationData.get('expect_error') === true || pm.iterationData.get('expect_error') === 'true';",
+                  "const expectedMinItems = Number(pm.iterationData.get('expected_min_items') || 0);",
+                  "const maxResponseMs = Number(pm.iterationData.get('max_response_ms') || 1000);",
+                  "",
+                  "pm.test(caseId + ' - status code is expected', function () {",
+                  "  pm.response.to.have.status(expectedStatus);",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - Content-Type is JSON', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - response time is acceptable', function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(maxResponseMs);",
+                  "});",
+                  "",
+                  "pm.test(caseId + ' - X-Student-Id header was attached', function () {",
+                  "  pm.expect(pm.request.headers.get('X-Student-Id')).to.eql(pm.environment.get('student_id'));",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "if (expectedIsArray) {",
+                  "  pm.test(caseId + ' - response body is an array', function () {",
+                  "    pm.expect(body).to.be.an('array');",
+                  "  });",
+                  "",
+                  "  pm.test(caseId + ' - response has expected minimum cart items', function () {",
+                  "    pm.expect(body.length).to.be.at.least(expectedMinItems);",
+                  "  });",
+                  "",
+                  "  if (expectedMinItems > 0) {",
+                  "    pm.test(caseId + ' - cart item schema is valid', function () {",
+                  "      pm.expect(body[0]).to.have.property('id');",
+                  "      pm.expect(body[0]).to.have.property('name');",
+                  "      pm.expect(body[0]).to.have.property('price');",
+                  "      pm.expect(body[0]).to.have.property('quantity');",
+                  "    });",
+                  "  }",
+                  "} else if (expectError) {",
+                  "  pm.test(caseId + ' - error body contains error field', function () {",
+                  "    pm.expect(body).to.be.an('object');",
+                  "    pm.expect(body).to.have.property('error');",
+                  "  });",
+                  "}"
+                ],
+                "_lastExecutionId": "ee07ed4b-9a6d-4eae-b04b-371a43dd4726"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "cart"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "X-Student-Id",
+              "value": "23127158"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer not.a.valid.jwt"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "2bba2739-ebb2-43e0-9e61-11ea7c742f21",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "89b645bf-d8df-42e2-bd76-f9bbe2502e47",
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "21"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"15-TLNzmZqKxaTuFdX/dVWWPBu44/c\""
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 10 Aug 2026 09:00:00 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              101,
+              114,
+              114,
+              111,
+              114,
+              34,
+              58,
+              34,
+              70,
+              111,
+              114,
+              98,
+              105,
+              100,
+              100,
+              101,
+              110,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 3,
+          "responseSize": 21
+        },
+        "id": "c78601b3-a315-40e8-b6ba-5ffeeb48865c",
+        "assertions": [
+          {
+            "assertion": "GET_CART_MALFORMED_BEARER - status code is expected",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_MALFORMED_BEARER - Content-Type is JSON",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_MALFORMED_BEARER - response time is acceptable",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_MALFORMED_BEARER - X-Student-Id header was attached",
+            "skipped": false
+          },
+          {
+            "assertion": "GET_CART_MALFORMED_BEARER - error body contains error field",
+            "skipped": false
+          }
+        ]
+      }
+    ],
+    "transfers": {
+      "responseTotal": 894
+    },
+    "failures": [],
+    "error": null
+  }
+}

@@ -1,0 +1,56 @@
+[
+  {
+    "case_id": "GET_CART_EMPTY_VALID_TOKEN",
+    "token_mode": "valid_user",
+    "setup_cart": false,
+    "expected_status": 200,
+    "expected_is_array": true,
+    "expected_min_items": 0,
+    "expect_error": false,
+    "max_response_ms": 1000
+  },
+  {
+    "case_id": "GET_CART_WITH_ITEM_VALID_TOKEN",
+    "token_mode": "valid_user",
+    "setup_cart": true,
+    "setup_item_id": 1,
+    "setup_item_name": "iPhone 15 Pro Max",
+    "setup_item_price": 30000000,
+    "setup_item_quantity": 1,
+    "expected_status": 200,
+    "expected_is_array": true,
+    "expected_min_items": 1,
+    "expect_error": false,
+    "max_response_ms": 1000
+  },
+  {
+    "case_id": "GET_CART_MISSING_TOKEN",
+    "token_mode": "missing",
+    "setup_cart": false,
+    "expected_status": 401,
+    "expected_is_array": false,
+    "expected_min_items": 0,
+    "expect_error": true,
+    "max_response_ms": 1000
+  },
+  {
+    "case_id": "GET_CART_INVALID_TOKEN",
+    "token_mode": "invalid",
+    "setup_cart": false,
+    "expected_status": 403,
+    "expected_is_array": false,
+    "expected_min_items": 0,
+    "expect_error": true,
+    "max_response_ms": 1000
+  },
+  {
+    "case_id": "GET_CART_MALFORMED_BEARER",
+    "token_mode": "malformed",
+    "setup_cart": false,
+    "expected_status": 403,
+    "expected_is_array": false,
+    "expected_min_items": 0,
+    "expect_error": true,
+    "max_response_ms": 1000
+  }
+]
