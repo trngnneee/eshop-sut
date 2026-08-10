@@ -5,6 +5,9 @@ import data from '../data/fr14-category.json';
 
 // FR-14 — Quản lý Danh mục (CRUD) trên Web Admin
 // Data-driven: toàn bộ test case đọc từ data/fr14-category.json
+//
+// Traceability — TC fail-đúng-kỳ-vọng đã được xác nhận là bug của SUT:
+//   FR14-TC03 + TC04 → issue #398 (tên rỗng/khoảng trắng vẫn được thêm)
 // Mỗi test chụp snapshot danh mục trước khi chạy; afterEach xóa mọi danh mục phát sinh
 // để CSDL không bị rác giữa các lần chạy/giữa các browser.
 
