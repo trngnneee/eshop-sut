@@ -3,7 +3,7 @@
     "tc_id": "CAT-01",
     "case": "happy_list",
     "query": "",
-    "expected_status": 999,
+    "expected_status": 200,
     "expect_array": true,
     "expected_min_length": 3,
     "expected_name_contains": "Laptop",
