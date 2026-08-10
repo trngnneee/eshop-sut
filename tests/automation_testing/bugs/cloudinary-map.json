@@ -1,0 +1,11 @@
+{
+  "bug-01-login-heading-sai.png": "https://res.cloudinary.com/dnqinxiwo/image/upload/v1786334729/eshop-hw04-bugs/bug-01-login-heading-sai.png",
+  "bug-02-email-khong-validate.png": "https://res.cloudinary.com/dnqinxiwo/image/upload/v1786334730/eshop-hw04-bugs/bug-02-email-khong-validate.png",
+  "bug-03-password-khong-che.png": "https://res.cloudinary.com/dnqinxiwo/image/upload/v1786334731/eshop-hw04-bugs/bug-03-password-khong-che.png",
+  "bug-04-lockout-dem-sai.png": "https://res.cloudinary.com/dnqinxiwo/image/upload/v1786334732/eshop-hw04-bugs/bug-04-lockout-dem-sai.png",
+  "bug-05-lockout-180s.png": "https://res.cloudinary.com/dnqinxiwo/image/upload/v1786334733/eshop-hw04-bugs/bug-05-lockout-180s.png",
+  "bug-06-percent-formula-sai.png": "https://res.cloudinary.com/dnqinxiwo/image/upload/v1786334733/eshop-hw04-bugs/bug-06-percent-formula-sai.png",
+  "bug-07-nguong-boundary-sai.png": "https://res.cloudinary.com/dnqinxiwo/image/upload/v1786334734/eshop-hw04-bugs/bug-07-nguong-boundary-sai.png",
+  "bug-08-guest-ap-ma-duoc.png": "https://res.cloudinary.com/dnqinxiwo/image/upload/v1786334735/eshop-hw04-bugs/bug-08-guest-ap-ma-duoc.png",
+  "bug-09-category-ten-rong.png": "https://res.cloudinary.com/dnqinxiwo/image/upload/v1786334735/eshop-hw04-bugs/bug-09-category-ten-rong.png"
+}
