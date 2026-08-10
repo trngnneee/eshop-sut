@@ -10,7 +10,7 @@
       "imageUrl": "http://x/i.png",
       "category_id": 1
     },
-    "expected_status": 200,
+    "expected_status": 999,
     "expect_id": true,
     "spec_status": 201,
     "note": "SUT trả 200 thay vì 201; ghi nhận BUG-03 về status REST."
