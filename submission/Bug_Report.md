@@ -40,7 +40,7 @@
 | **Độ ưu tiên xử lý (Priority)** | **High (Cao)** |
 | **Trạng thái** | Open |
 | **Phát hiện bởi test case** | `TC12 - Đăng ký với mật khẩu mạnh có ký tự đặc biệt theo chuẩn` (FAILED) |
-| **GitHub Issue** | [Issue #1 - FR-01 Password Regex Defect](https://github.com/trngnneee/eshop-sut/issues/1) |
+| **GitHub Issue** | [Issue #347 - FR-01 Password Regex Defect](https://github.com/trngnneee/eshop-sut/issues/347) |
 
 **Mô tả lỗi:**
 Tại file `frontend-web/src/pages/Register.jsx` dòng 16, biểu thức chính quy (regular expression) kiểm tra độ mạnh mật khẩu được định nghĩa:
@@ -48,6 +48,9 @@ Tại file `frontend-web/src/pages/Register.jsx` dòng 16, biểu thức chính 
 const flawedStrongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\s)[A-Za-z\d\s]{8,}$/;
 ```
 Biểu thức này sử dụng `(?=.*\s)` (bắt buộc phải có ít nhất 1 khoảng trắng) thay vì `(?=.*[@$!%*?&])`, đồng thời tập ký tự cho phép `[A-Za-z\d\s]` lại cấm hoàn toàn các ký tự đặc biệt thông dụng (`!`, `@`, `#`, `$`, `%`, v.v.). Khi người dùng nhập một mật khẩu mạnh chuẩn an toàn (ví dụ: `StrongPass123!@`), hệ thống từ chối và báo lỗi sai: *"Mật khẩu quá yếu! Phải dài tối thiểu 8 ký tự, gồm chữ hoa, chữ thường, số và KÝ TỰ ĐẶC BIỆT."*
+
+**Minh chứng:**
+![](screenshots/FR01-BUG001.png)
 
 ---
 
@@ -62,10 +65,13 @@ Biểu thức này sử dụng `(?=.*\s)` (bắt buộc phải có ít nhất 1 
 | **Độ ưu tiên xử lý (Priority)** | **Medium (Trung bình)** |
 | **Trạng thái** | Open |
 | **Phát hiện bởi test case** | `TC05 - Đăng ký với email sai cú pháp RFC thiếu domain/kí tự @` (FAILED) |
-| **GitHub Issue** | [Issue #2 - FR-01 Email Input Type Defect](https://github.com/trngnneee/eshop-sut/issues/2) |
+| **GitHub Issue** | [Issue #348 - FR-01 Email Input Type Defect](https://github.com/trngnneee/eshop-sut/issues/348) |
 
 **Mô tả lỗi:**
 Tại `frontend-web/src/pages/Register.jsx` dòng 48, trường nhập email được khai báo `<input type="text" ... />` thay vì `<input type="email" ... />`. Do đó, trình duyệt không kích hoạt tính năng kiểm tra tính hợp lệ email của HTML5, cho phép submit chuỗi không đúng định dạng (`invalidemailformat`) lên server.
+
+**Minh chứng:**
+![](screenshots/FR01-BUG002.png)
 
 ---
 
@@ -80,10 +86,13 @@ Tại `frontend-web/src/pages/Register.jsx` dòng 48, trường nhập email đ�
 | **Độ ưu tiên xử lý (Priority)** | **High (Cao)** |
 | **Trạng thái** | Open |
 | **Phát hiện bởi test case** | `TC11 - Đăng ký với email đã tồn tại trong database` (FAILED) |
-| **GitHub Issue** | [Issue #3 - FR-01 Duplicate Email Constraint Defect](https://github.com/trngnneee/eshop-sut/issues/3) |
+| **GitHub Issue** | [Issue #349 - FR-01 Duplicate Email Constraint Defect](https://github.com/trngnneee/eshop-sut/issues/349) |
 
 **Mô tả lỗi:**
 Trong `backend/database.js` và `backend/server.js`, bảng `users` không có ràng buộc `UNIQUE` trên cột `email`. Endpoint `POST /api/register` cũng không kiểm tra email trùng lặp trước khi thực hiện `INSERT`, cho phép tạo nhiều tài khoản cùng email `admin@eshop.com`.
+
+**Minh chứng:**
+![](screenshots/FR01-BUG003.png)
 
 ---
 
@@ -98,10 +107,13 @@ Trong `backend/database.js` và `backend/server.js`, bảng `users` không có r
 | **Độ ưu tiên xử lý (Priority)** | **High (Cao)** |
 | **Trạng thái** | Open |
 | **Phát hiện bởi test case** | `TC08 - Áp dụng mã khi tổng tiền đơn hàng bằng đúng giá trị tối thiểu` (FAILED) |
-| **GitHub Issue** | [Issue #4 - FR-09 Boundary Condition Defect](https://github.com/trngnneee/eshop-sut/issues/4) |
+| **GitHub Issue** | [Issue #350 - FR-09 Boundary Condition Defect](https://github.com/trngnneee/eshop-sut/issues/350) |
 
 **Mô tả lỗi:**
 Tại `backend/server.js` dòng 379, câu lệnh kiểm tra điều kiện áp dụng mã là `if (total_amount > coupon.min_order_amount)`. Khi đơn hàng có tổng tiền đúng bằng mức tối thiểu (ví dụ: 300.000 ₫ == 300.000 ₫), hệ thống từ chối áp dụng và báo lỗi sai: *"Đơn hàng chưa đủ giá trị tối thiểu..."*.
+
+**Minh chứng:**
+![](screenshots/FR09-BUG004.png)
 
 ---
 
@@ -116,7 +128,7 @@ Tại `backend/server.js` dòng 379, câu lệnh kiểm tra điều kiện áp d
 | **Độ ưu tiên xử lý (Priority)** | **High (Cao)** |
 | **Trạng thái** | Open |
 | **Phát hiện bởi test case** | `TC01 - Áp dụng mã giảm giá phần trăm SAVE10` (Code Inspection) |
-| **GitHub Issue** | [Issue #5 - FR-09 Percentage Calculation Formula Defect](https://github.com/trngnneee/eshop-sut/issues/5) |
+| **GitHub Issue** | [Issue #351 - FR-09 Percentage Calculation Formula Defect](https://github.com/trngnneee/eshop-sut/issues/351) |
 
 **Mô tả lỗi:**
 Tại `backend/server.js` dòng 399-401, công thức `discount_amount = Math.floor(total_amount * (1 - coupon.discount_value))` khi `discount_value = 10` sẽ tính ra `-9 * total_amount`, làm tăng tổng tiền phải thanh toán thay vì giảm giá.
@@ -134,7 +146,7 @@ Tại `backend/server.js` dòng 399-401, công thức `discount_amount = Math.fl
 | **Độ ưu tiên xử lý (Priority)** | **Low (Thấp)** |
 | **Trạng thái** | Open |
 | **Phát hiện bởi test case** | `TC01 - Redirect to login after registration` (UI Inspection) |
-| **GitHub Issue** | [Issue #6 - Login Heading Mislabel Defect](https://github.com/trngnneee/eshop-sut/issues/6) |
+| **GitHub Issue** | [Issue #352 - Login Heading Mislabel Defect](https://github.com/trngnneee/eshop-sut/issues/352) |
 
 **Mô tả lỗi:**
 Tại `frontend-web/src/pages/Login.jsx` dòng 24, tiêu đề trang hiển thị `<h2 ...>Đăng Ký</h2>` thay vì `Đăng Nhập`.
@@ -152,7 +164,7 @@ Tại `frontend-web/src/pages/Login.jsx` dòng 24, tiêu đề trang hiển th�
 | **Độ ưu tiên xử lý (Priority)** | **High (Cao)** |
 | **Trạng thái** | Open |
 | **Phát hiện bởi test case** | `TC06 - Import file CSV chứa dòng dữ liệu lỗi (SRS: Phải rollback toàn bộ transaction)` (FAILED) |
-| **GitHub Issue** | [Issue #7 - FR-16 Transaction Rollback Defect](https://github.com/trngnneee/eshop-sut/issues/7) |
+| **GitHub Issue** | [Issue #353 - FR-16 Transaction Rollback Defect](https://github.com/trngnneee/eshop-sut/issues/353) |
 
 **Mô tả lỗi:**
 Tại `backend/server.js` dòng 209-240, endpoint `POST /api/admin/import-products` duyệt từng dòng trong danh sách và chèn trực tiếp vào SQLite mà không sử dụng Database Transaction (`BEGIN TRANSACTION ... COMMIT / ROLLBACK`). Khi gặp file CSV có 1 dòng bị lỗi và 2 dòng hợp lệ (`fr16_sample_mixed.csv`), hệ thống vẫn insert 2 sản phẩm vào CSDL và trả về `Import hoàn tất: 2/3 sản phẩm`.  
@@ -168,6 +180,9 @@ Hệ thống phát hiện dòng lỗi, hủy bỏ toàn bộ transaction, không
 
 **Kết quả thực tế (Actual Result):**
 Hệ thống chèn 2 sản phẩm vào CSDL và hiển thị: *"✅ Import hoàn tất: 2/3 sản phẩm được thêm - Hàng 3: Thiếu tên sản phẩm"*.
+
+**Minh chứng:**
+![](screenshots/FR16-BUG007.png)
 
 ---
 

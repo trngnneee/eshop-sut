@@ -1,0 +1,5 @@
+GitHub Repository & Commit Log
+
+* **Đường dẫn Repository:** [https://github.com/trngnneee/eshop-sut](https://github.com/trngnneee/eshop-sut)
+* **Nhánh nộp bài (Branch):** `HW4-Thinh`
+* **Lịch sử Commit:** Đáp ứng đúng quy trình tuần tự Scenario Planning $\rightarrow$ Data-Driven Generation $\rightarrow$ Script Generation cho từng tính năng, trực tiếp chỉnh sửa các tệp kịch bản kiểm thử (`tests/**/*.spec.ts`), dữ liệu test (`tests/data/*`) và cấu hình.

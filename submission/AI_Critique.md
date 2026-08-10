@@ -19,14 +19,16 @@
 
 ## Bài Phê Bình và Đánh Giá Phản Biện AI (200–300 từ — Bắt buộc)
 
-Trong quá trình sử dụng các mô hình ngôn ngữ lớn (AI) để sinh kịch bản kiểm thử tự động (Playwright) cho hệ thống EShop ở bài tập HW04, tôi ghi nhận một số điểm hạn chế và sai lệch đáng chú ý:
+Trong quá trình rà soát toàn diện các script tự động do AI sinh ra cho FR-01, FR-09 và FR-16, tôi xác định bốn điểm mù mang tính cấu trúc của mô hình ngôn ngữ lớn khi áp dụng vào kiểm thử phần mềm thực tế.
 
-Thứ nhất, AI mắc phải thiên kiến giả định hệ thống lý tưởng (happy path assumption). Khi sinh script cho tính năng Đăng ký (FR-01) và Mã giảm giá (FR-09), AI tự động tạo các assertion giả định rằng hệ thống kiểm tra định dạng email bằng `type="email"` và kiểm tra mật khẩu hợp lệ với các ký tự đặc biệt như `@!#$`. Tuy nhiên, mã nguồn thực tế của SUT lại dùng regex có lỗi `(?=.*\s)` (đòi hỏi khoảng trắng và cấm ký tự đặc biệt), cũng như không đặt ràng buộc `UNIQUE` trên cột `email`. AI đã hoàn toàn bỏ sót các khiếm khuyết tiềm ẩn này trong lần sinh đầu tiên.
+**Điểm mù 1 – Thiên kiến Happy-Path (Happy-Path Assumption Bias):** AI liên tục giả định SUT được triển khai đúng đặc tả chuẩn mà không kiểm chứng mã nguồn thực tế. Ở FR-01, AI dùng `getByLabel('Họ Tên')` để định vị ô nhập liệu — selector hợp lệ theo chuẩn ARIA nhưng hoàn toàn thất bại vì `Register.jsx` của SUT không gán `htmlFor`/`id` cho nhãn. Đây là lỗi accessibility của SUT, và AI không thể phát hiện vì không có khả năng inspect DOM runtime. Tương tự, ở FR-09 AI không đặt câu hỏi về toán tử `>` vs `>=` trong logic điều kiện biên coupon — bỏ qua BUG-004; ở FR-16 AI giả định link template là file tĩnh `/template.csv` trong khi SUT thực ra tạo data-URI nội tuyến.
 
-Thứ hai, AI thường sinh các selector dễ vỡ (fragile selectors) dựa trên text hiển thị cứng như `page.getByRole('heading', { name: 'Đăng Nhập' })`, dẫn đến test bị fail do trang Login của SUT thực tế mang nhãn `Đăng Ký`. Nguyên nhân chính là AI thiếu khả năng truy cập trực tiếp vào DOM runtime động và chỉ suy luận dựa trên ngữ cảnh chung của ứng dụng thương mại điện tử.
+**Điểm mù 2 – Selector Positional và Fragile:** AI dùng `input[type="text"].first()` và `input.nth(1)` (FR-01), `input[type="number"]` (FR-09), `table.last()` và `div:has(> p:has-text("Xem trước"))` (FR-16) — tất cả đều phụ thuộc vào cấu trúc DOM tĩnh. Tôi phải thay thế bằng các kỹ thuật robust hơn như `label:has-text("Họ Tên") + input` (CSS adjacent sibling) và `table.filter({ has: locator('thead th', { hasText: 'Tên SP' }) })`.
 
-Bài học cốt lõi tôi rút ra: AI là công cụ tăng tốc tuyệt vời để sinh khung test case, dữ liệu data-driven và cú pháp boilerplate, nhưng không thể thay thế năng lực kiểm thử phê phán (critical testing) của con người. Người kiểm thử phải kiểm chứng mã nguồn SUT, áp dụng kỹ thuật Boundary Value Analysis và Equivalence Partitioning theo chuẩn ISTQB, đồng thời đối chiếu assertion theo đặc tả SRS để phát hiện đúng các khiếm khuyết phần mềm.
+**Điểm mù 3 – Thiếu Test Isolation:** Scripts không có `afterAll` cleanup, không xóa `adminToken` khỏi localStorage trước mỗi test, không flush React state giữa các iteration và không xử lý sự xung đột giữa Playwright `waitForLoadState('networkidle')` với Vite HMR WebSocket — gây treo vô hạn. Tôi phải đổi sang `domcontentloaded` và thêm `page.reload()` trong helper `loginAdmin`.
+
+**Điểm mù 4 – False-Confidence Assertions:** TC09 (FR-09) kiểm tra nút "Áp dụng" disabled mà không fill code trước — button đã disabled từ khởi tạo. TC11 (FR-16) có thể pass trivially nếu token chưa từng tồn tại. Nguyên nhân: AI sinh assertion theo spec behavior mà không phân tích precondition thực tế của từng test.
+
+**Bài học cốt lõi:** AI là accelerator mạnh cho boilerplate và test data, nhưng đòi hỏi kỹ sư phải đọc mã nguồn SUT, kiểm chứng DOM runtime và tự thiết kế isolation pattern cho môi trường SPA.
 
 ---
-
-*Số lượng từ: 274 từ (đáp ứng đúng chuẩn quy định 200–300 từ)*

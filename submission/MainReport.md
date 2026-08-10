@@ -63,56 +63,52 @@ Quy trình tạo kịch bản được thực hiện tuần tự qua 4 bước c
   2. Dùng ít nhất 3 loại assertion khác nhau: toBeVisible(), toHaveURL(), checkValidity() hoặc toContainText().
   3. Mỗi test case phải có annotation: test.info().annotations.push({ type: 'Run by', description: '23127486' }).
   ```
-* **Bước 4 – Tinh chỉnh Wait Strategy và Assertion theo SRS:**
-  ```text
-  Review script vừa tạo và:
-  1. Thêm proper wait strategies (tránh hardcoded sleep).
-  2. Đảm bảo selectors ổn định (ưu tiên role, placeholder, input type).
-  3. Giữ nguyên assertion theo đúng đặc tả SRS để phát hiện các khiếm khuyết trong SUT (lỗi regex mật khẩu, thiếu UNIQUE constraint trên email, input type email).
-  ```
 
 #### 2.2.2 Danh Sách 12 Kịch Bản Kiểm Thử Đã Tự Động Hóa
 
-| Mã TC | Tên kịch bản kiểm thử | Phân loại | Tệp dữ liệu | Kết quả thực thi (Chromium / Firefox / WebKit) |
-|:---|:---|:---:|:---:|:---:|
-| **TC01** | Đăng ký với thông tin hợp lệ và mật khẩu thỏa mãn chính sách bảo mật | Positive | `fr01_registration.json` | **PASS / PASS / PASS** |
-| **TC02** | Đăng ký với họ tên tiếng Việt có dấu Unicode và thông tin hợp lệ | Positive | `fr01_registration.json` | **PASS / PASS / PASS** |
-| **TC03** | Đăng ký để trống trường Họ Tên (kiểm tra HTML5 required validation) | Negative | `fr01_registration.json` | **PASS / PASS / PASS** |
-| **TC04** | Đăng ký để trống trường Email (kiểm tra HTML5 required validation) | Negative | `fr01_registration.json` | **PASS / PASS / PASS** |
-| **TC05** | Đăng ký với email sai cú pháp RFC thiếu domain/kí tự @ (SRS: Form phải chặn lại) | Negative | `fr01_registration.json` | **FAIL / FAIL / FAIL** *(Bắt Bug BUG-002)* |
-| **TC06** | Đăng ký để trống trường Mật khẩu (kiểm tra HTML5 required validation) | Negative | `fr01_registration.json` | **PASS / PASS / PASS** |
-| **TC07** | Đăng ký với mật khẩu quá ngắn (< 8 ký tự) | Negative | `fr01_registration.json` | **PASS / PASS / PASS** |
-| **TC08** | Đăng ký với mật khẩu thiếu chữ in hoa | Negative | `fr01_registration.json` | **PASS / PASS / PASS** |
-| **TC09** | Đăng ký với mật khẩu thiếu chữ in thường | Negative | `fr01_registration.json` | **PASS / PASS / PASS** |
-| **TC10** | Đăng ký với mật khẩu thiếu chữ số | Negative | `fr01_registration.json` | **PASS / PASS / PASS** |
-| **TC11** | Đăng ký với email đã tồn tại trong database (SRS: Phải báo lỗi trùng email) | Negative | `fr01_registration.json` | **FAIL / FAIL / FAIL** *(Bắt Bug BUG-003)* |
-| **TC12** | Đăng ký với mật khẩu mạnh có ký tự đặc biệt theo chuẩn (SRS: Phải đăng ký thành công) | Edge | `fr01_registration.json` | **FAIL / FAIL / FAIL** *(Bắt Bug BUG-001)* |
+| Mã TC | Tên kịch bản kiểm thử | Phân loại | Tệp dữ liệu | Kết quả thực thi (Chromium / Firefox / WebKit) | Minh chứng |
+|:---|:---|:---:|:---:|:---:|:---:|
+| **TC01** | Đăng ký với thông tin hợp lệ và mật khẩu thỏa mãn chính sách bảo mật | Positive | `fr01_registration.json` | **PASS / PASS / PASS** | - |
+| **TC02** | Đăng ký với họ tên tiếng Việt có dấu Unicode và thông tin hợp lệ | Positive | `fr01_registration.json` | **PASS / PASS / PASS** | - |
+| **TC03** | Đăng ký để trống trường Họ Tên (kiểm tra HTML5 required validation) | Negative | `fr01_registration.json` | **PASS / PASS / PASS** | - |
+| **TC04** | Đăng ký để trống trường Email (kiểm tra HTML5 required validation) | Negative | `fr01_registration.json` | **PASS / PASS / PASS** | - |
+| **TC05** | Đăng ký với email sai cú pháp RFC thiếu domain/kí tự @ (SRS: Form phải chặn lại) | Negative | `fr01_registration.json` | **FAIL / FAIL / FAIL** *(Bắt Bug BUG-002)* | ![](screenshots/FR01-BUG002.png) |
+| **TC06** | Đăng ký để trống trường Mật khẩu (kiểm tra HTML5 required validation) | Negative | `fr01_registration.json` | **PASS / PASS / PASS** | - |
+| **TC07** | Đăng ký với mật khẩu quá ngắn (< 8 ký tự) | Negative | `fr01_registration.json` | **PASS / PASS / PASS** | - |
+| **TC08** | Đăng ký với mật khẩu thiếu chữ in hoa | Negative | `fr01_registration.json` | **PASS / PASS / PASS** | - |
+| **TC09** | Đăng ký với mật khẩu thiếu chữ in thường | Negative | `fr01_registration.json` | **PASS / PASS / PASS** | - |
+| **TC10** | Đăng ký với mật khẩu thiếu chữ số | Negative | `fr01_registration.json` | **PASS / PASS / PASS** | - |
+| **TC11** | Đăng ký với email đã tồn tại trong database (SRS: Phải báo lỗi trùng email) | Negative | `fr01_registration.json` | **FAIL / FAIL / FAIL** *(Bắt Bug BUG-003)* | ![](screenshots/FR01-BUG003.png) |
+| **TC12** | Đăng ký với mật khẩu mạnh có ký tự đặc biệt theo chuẩn (SRS: Phải đăng ký thành công) | Edge | `fr01_registration.json` | **FAIL / FAIL / FAIL** *(Bắt Bug BUG-001)* | ![](screenshots/FR01-BUG001.png) |
 
 #### 2.2.3 Cấu Hình Data-Driven & Mẫu Assertion Sử Dụng
 
 * **Tệp dữ liệu:** `tests/data/fr01_registration.json`
-* **Các mẫu Assertion áp dụng:**
-  1. `expect(submitBtn).toBeVisible()` & `toBeEnabled()` *(Kiểm tra trạng thái UI)*
-  2. `expect(page).toHaveURL(/.*\/login/)` & `toHaveURL(/.*\/register/)` *(Kiểm tra chuyển hướng URL)*
-  3. `expect(isValid).toBeFalsy()` *(Kiểm tra ràng buộc HTML5 Constraint)*
-  4. `expect(errorBanner).toContainText('Mật khẩu quá yếu!')` *(Kiểm tra nội dung thông báo lỗi)*
+* **Các mẫu Assertion áp dụng (v2 — sau Human Review):**
+  1. `expect(submitBtn).toBeVisible()` & `toBeEnabled()` *(Pattern 1 – Interactive State)*
+  2. `expect(page).toHaveURL(/.*\/login/)` & `toHaveURL(/.*\/register/)` *(Pattern 2 – Navigation)*
+  3. `expect(errorContainer).toContainText('lỗi')` *(Pattern 3 – Error Content Verification)*
+  4. `expect(emailInput).toHaveAttribute('type', 'email')` *(Pattern 4 – DOM Property Check)*
 
 #### 2.2.4 Kết Quả Chạy Đa Trình Duyệt
 
 | Trình duyệt | Tổng số TC | Số TC Passed | Số TC Failed | Lý do Failed |
 |:---|:---:|:---:|:---:|:---|
-| **Chromium** | 12 | 9 | 3 | Bắt trúng 3 bugs SUT (BUG-001, BUG-002, BUG-003) qua assertion failures |
-| **Firefox** | 12 | 9 | 3 | Bắt trúng 3 bugs SUT (BUG-001, BUG-002, BUG-003) qua assertion failures |
-| **WebKit** | 12 | 9 | 3 | Bắt trúng 3 bugs SUT (BUG-001, BUG-002, BUG-003) qua assertion failures |
+| **Chromium** | 12 | 9 | 3 | Bắt trúng 3 bugs SUT (BUG-001, BUG-002, BUG-003) |
+| **Firefox** | 12 | 9 | 3 | Bắt trúng 3 bugs SUT (BUG-001, BUG-002, BUG-003) |
+| **WebKit** | 12 | 9 | 3 | Bắt trúng 3 bugs SUT (BUG-001, BUG-002, BUG-003) |
 
 #### 2.2.5 Rà Soát và Hiệu Chỉnh của Con Người (Human Review & Fixes)
 
-| Vấn đề phát hiện | Mô tả chi tiết | Giải pháp hiệu chỉnh của sinh viên |
-|:---|:---|:---|
-| **Selector tiêu đề bị gãy** | AI sinh `getByRole('heading', { name: 'Đăng Nhập' })`. Trang Login của SUT thực tế mang nhãn `Đăng Ký`. | Sửa assertion sang kiểm tra URL redirect `toHaveURL(/.*\/login/)` và nút submit. |
-| **Xung đột dữ liệu khi chạy lại** | AI dùng email tĩnh `testuser@example.com`, gây lỗi trùng lặp khi chạy test suite nhiều lần. | Bổ sung cơ chế sinh email unique timestamp (`user_${Date.now()}@eshop.com`) cho positive cases. |
-| **Phát hiện Bug Regex mật khẩu** | AI giả định mật khẩu có ký tự đặc biệt `Pass123!@` sẽ thành công. SUT dùng regex sai `(?=.*\s)` bắt buộc khoảng trắng và cấm ký tự đặc biệt. | Viết assertion theo đúng SRS để Playwright bắt dính BUG-001 trong TC12. |
-| **Phát hiện Bug Email input type** | SUT dùng `type="text"` thay vì `type="email"`. | Viết assertion kiểm tra thuộc tính `type="email"` và chặn form trong TC05 để bắt BUG-002. |
+| # | Vấn đề phát hiện | Loại vấn đề | Mô tả chi tiết | Lý do AI bỏ sót | Giải pháp hiệu chỉnh của sinh viên |
+|:--|:---|:---:|:---|:---|:---|
+| FIX-01 | **Selector positional và fragile** | Fragile Selector | AI dùng `input[type="text"].first()` — selector đúng tình cờ theo thứ tự DOM. | AI không inspect DOM runtime. | Thay bằng `getByLabel('Họ Tên')` — ràng buộc semantic. |
+| FIX-02 | **TC12 idempotency** | Test Data | TC12 edge case dùng email tĩnh, fail khi chạy lại. | AI không phân tích life-cycle data. | Thay bằng cơ chế `unique timestamp` cho mọi test case. |
+| FIX-03 | **Timeout 3000ms** | Flaky Wait | Quá ngắn cho back-end latency. | AI dùng heuristic timeout. | Nâng lên 8000ms. |
+| FIX-04 | **Multi-selector CSS** | Weak Assertion | `.bg-red-100, .text-red-700` có thể khớp sai. | AI sinh OR-selector generic. | Thay bằng `div.bg-red-100` — khớp chính xác div error. |
+| FIX-05 | **TC11 thiếu content assertion** | Missing Assertion | AI chỉ assert `toBeVisible()`. | AI thiếu assertion content verification. | Thêm `toContainText` để xác minh nội dung lỗi trùng email. |
+| — | **Phát hiện Bug Regex (BUG-001)** | Bug Found | Regex sai `(?=.*\s)` bắt khoảng trắng. | Happy-path bias. | Assert theo SRS — TC12 bắt BUG-001. |
+| — | **Phát hiện Bug type (BUG-002)** | Bug Found | Input `type="text"`. | Happy-path bias. | Assert `emailType === 'email'` — TC05 bắt BUG-002. |
 
 ---
 
@@ -132,36 +128,32 @@ Quy trình tạo kịch bản được thực hiện tuần tự qua 4 bước c
   ```text
   Viết Playwright script TypeScript cho FR-09: import data từ tests/data/fr09_coupons.json, thực hiện điền mã, click Áp dụng, assert kết quả giảm giá hoặc thông báo lỗi, kèm annotation Run by: 23127486.
   ```
-* **Bước 4 – Tinh chỉnh Selector và kiểm tra trạng thái Reset:**
-  ```text
-  Tinh chỉnh selectors sang locator semantic, bổ sung assertion cho trường hợp thay đổi giá trị đơn hàng làm reset trạng thái mã giảm giá, và assert điều kiện biên theo SRS.
-  ```
 
 #### 2.3.2 Danh Sách 12 Kịch Bản Kiểm Thử Đã Tự Động Hóa
 
-| Mã TC | Tên kịch bản kiểm thử | Phân loại | Tệp dữ liệu | Kết quả thực thi (Chromium / Firefox / WebKit) |
-|:---|:---|:---:|:---:|:---:|
-| **TC01** | Áp dụng mã giảm giá phần trăm SAVE10 hợp lệ cho đơn hàng đủ điều kiện (500k > 300k) | Positive | `fr09_coupons.json` | **PASS / PASS / PASS** |
-| **TC02** | Áp dụng mã giảm giá tiền cố định BIGBUY hợp lệ cho đơn hàng đủ điều kiện (600k > 500k) | Positive | `fr09_coupons.json` | **PASS / PASS / PASS** |
-| **TC03** | Áp dụng mã giảm giá tiền cố định VIP100 hợp lệ cho đơn hàng đủ điều kiện (400k > 300k) | Positive | `fr09_coupons.json` | **PASS / PASS / PASS** |
-| **TC04** | Nhập mã giảm giá chữ thường 'save10' (SRS: Tự động chuyển thành chữ hoa) | Positive | `fr09_coupons.json` | **PASS / PASS / PASS** |
-| **TC05** | Áp dụng mã giảm giá không tồn tại trong hệ thống | Negative | `fr09_coupons.json` | **PASS / PASS / PASS** |
-| **TC06** | Áp dụng mã giảm giá đã hết hạn sử dụng EXPIRED | Negative | `fr09_coupons.json` | **PASS / PASS / PASS** |
-| **TC07** | Áp dụng mã giảm giá khi tổng tiền đơn hàng nhỏ hơn mức tối thiểu (200k < 500k) | Negative | `fr09_coupons.json` | **PASS / PASS / PASS** |
-| **TC08** | Áp dụng mã khi tổng tiền đơn hàng bằng đúng giá trị tối thiểu (300k == 300k, SRS: Phải áp dụng thành công) | Edge | `fr09_coupons.json` | **FAIL / FAIL / FAIL** *(Bắt Bug BUG-004)* |
-| **TC09** | Cố gắng áp dụng mã giảm giá rỗng (nút Áp dụng bị disabled) | Negative | `fr09_coupons.json` | **PASS / PASS / PASS** |
-| **TC10** | Nhập mã giảm giá chứa payload SQL injection (`' OR '1'='1`) | Edge | `fr09_coupons.json` | **PASS / PASS / PASS** |
-| **TC11** | Nhập mã giảm giá có khoảng trắng đầu và cuối chuỗi (`  SAVE10  `) | Edge | `fr09_coupons.json` | **PASS / PASS / PASS** |
-| **TC12** | Thay đổi tổng tiền đơn hàng sau khi đã áp dụng mã (SRS: Reset trạng thái mã) | Edge | `fr09_coupons.json` | **PASS / PASS / PASS** |
+| Mã TC | Tên kịch bản kiểm thử | Phân loại | Tệp dữ liệu | Kết quả thực thi (Chromium / Firefox / WebKit) | Minh chứng |
+|:---|:---|:---:|:---:|:---:|:---:|
+| **TC01** | Áp dụng mã giảm giá phần trăm SAVE10 hợp lệ cho đơn hàng đủ điều kiện (500k > 300k) | Positive | `fr09_coupons.json` | **PASS / PASS / PASS** | - |
+| **TC02** | Áp dụng mã giảm giá tiền cố định BIGBUY hợp lệ cho đơn hàng đủ điều kiện (600k > 500k) | Positive | `fr09_coupons.json` | **PASS / PASS / PASS** | - |
+| **TC03** | Áp dụng mã giảm giá tiền cố định VIP100 hợp lệ cho đơn hàng đủ điều kiện (400k > 300k) | Positive | `fr09_coupons.json` | **PASS / PASS / PASS** | - |
+| **TC04** | Nhập mã giảm giá chữ thường 'save10' (SRS: Tự động chuyển thành chữ hoa) | Positive | `fr09_coupons.json` | **PASS / PASS / PASS** | - |
+| **TC05** | Áp dụng mã giảm giá không tồn tại trong hệ thống | Negative | `fr09_coupons.json` | **PASS / PASS / PASS** | - |
+| **TC06** | Áp dụng mã giảm giá đã hết hạn sử dụng EXPIRED | Negative | `fr09_coupons.json` | **PASS / PASS / PASS** | - |
+| **TC07** | Áp dụng mã giảm giá khi tổng tiền đơn hàng nhỏ hơn mức tối thiểu (200k < 500k) | Negative | `fr09_coupons.json` | **PASS / PASS / PASS** | - |
+| **TC08** | Áp dụng mã khi tổng tiền đơn hàng bằng đúng giá trị tối thiểu (300k == 300k, SRS: Phải áp dụng thành công) | Edge | `fr09_coupons.json` | **FAIL / FAIL / FAIL** *(Bắt Bug BUG-004)* | ![](screenshots/FR09-BUG004.png) |
+| **TC09** | Cố gắng áp dụng mã giảm giá rỗng (nút Áp dụng bị disabled) | Negative | `fr09_coupons.json` | **PASS / PASS / PASS** | - |
+| **TC10** | Nhập mã giảm giá chứa payload SQL injection (`' OR '1'='1`) | Edge | `fr09_coupons.json` | **PASS / PASS / PASS** | - |
+| **TC11** | Nhập mã giảm giá có khoảng trắng đầu và cuối chuỗi (`  SAVE10  `) | Edge | `fr09_coupons.json` | **PASS / PASS / PASS** | - |
+| **TC12** | Thay đổi tổng tiền đơn hàng sau khi đã áp dụng mã (SRS: Reset trạng thái mã) | Edge | `fr09_coupons.json` | **PASS / PASS / PASS** | - |
 
 #### 2.3.3 Cấu Hình Data-Driven & Mẫu Assertion Sử Dụng
 
 * **Tệp dữ liệu:** `tests/data/fr09_coupons.json`
-* **Các mẫu Assertion áp dụng:**
-  1. `expect(applyBtn).toBeDisabled()` / `toBeEnabled()` *(Kiểm tra trạng thái nút)*
-  2. `expect(successContainer).toBeVisible()` / `toBeHidden()` *(Kiểm tra hiển thị/ẩn khối giảm giá)*
-  3. `expect(successContainer).toContainText('Áp dụng thành công')` *(Kiểm tra thông báo thành công)*
-  4. `expect(errorMsg).toContainText(tc.expectedMessage)` *(Kiểm tra thông báo lỗi chi tiết)*
+* **Các mẫu Assertion áp dụng (v2 — sau Human Review):**
+  1. `expect(applyBtn).toBeDisabled()` / `toBeEnabled()` *(Pattern 1 – Interactive State)*
+  2. `expect(successContainer).toBeVisible()` / `toBeHidden()` *(Pattern 2 – Visibility State)*
+  3. `expect(successContainer).toContainText('Áp dụng thành công')` *(Pattern 3 – Text Match)*
+  4. `expect(errorMsg).toContainText(tc.expectedMessage)` *(Pattern 4 – Error Text Verification)*
 
 #### 2.3.4 Kết Quả Chạy Đa Trình Duyệt
 
@@ -173,11 +165,14 @@ Quy trình tạo kịch bản được thực hiện tuần tự qua 4 bước c
 
 #### 2.3.5 Rà Soát và Hiệu Chỉnh của Con Người
 
-| Vấn đề phát hiện | Mô tả chi tiết | Giải pháp hiệu chỉnh của sinh viên |
-|:---|:---|:---|
-| **Phát hiện Bug điều kiện biên** | SUT dùng `total_amount > min_order_amount` (lớn hơn tuyệt đối). Đơn hàng đúng 300.000 ₫ bị từ chối sai quy định. | Giữ assertion theo SRS để Playwright bắt dính BUG-004 trong TC08. |
-| **Selector CSS class không ổn định** | AI dùng selector `.text-red-600.text-sm` dễ bị ảnh hưởng khi CSS thay đổi. | Thay bằng semantic locator `locator('p.text-red-600')` kết hợp `toContainText()`. |
-| **Kiểm tra Reset trạng thái** | Khi người dùng chỉnh sửa tổng tiền trong giỏ, mã giảm giá phải tự động hủy. | Bổ sung assertion kiểm tra phần tử giảm giá biến mất (`toBeHidden()`) trong TC12. |
+| # | Vấn đề phát hiện | Loại vấn đề | Mô tả chi tiết | Lý do AI bỏ sót | Giải pháp hiệu chỉnh của sinh viên |
+|:--|:---|:---:|:---|:---|:---|
+| FIX-01 | **totalInput selector không semantic** | Fragile Selector | `input[type="number"]` không có semantic binding — vỡ nếu thêm input number khác vào trang. | AI dùng CSS type selector thay vì label binding. | Thay bằng `getByLabel('Tổng tiền thanh toán (VND):')`. |
+| FIX-02 | **TC09 false-confidence assertion** | Assertion Vacuity | TC09 kiểm tra button disabled MÀ KHÔNG fill code trước. Button đã disabled từ đầu (state khởi tạo) → assertion pass nhưng không test behavior thực. | AI không phân tích precondition của test. | Thêm `couponInput.fill(tc.code ?? '')` trước assertion để đảm bảo đang test logic disabling. |
+| FIX-03 | **Thiếu assertion giá trị discount** | Missing Assertion | AI chỉ assert text "Áp dụng thành công", không kiểm tra số tiền giảm — bỏ sót regression trong công thức tính discount. | AI không có field `expectedDiscount` trong data → không sinh assertion. | Comment trong script; đề xuất thêm `expectedDiscount` vào data file trong sprint tiếp theo. |
+| FIX-04 | **TC12 reset-state: thiếu press('Tab') sau fill** | Flaky Wait | React onChange cần blur event để trigger state update. fill() dispatch `input` nhưng không đảm bảo onChange trong mọi môi trường React+Vite. | AI không phân tích React event handling. | Thêm `await totalInput.press('Tab')` sau mỗi fill() để commit React state. |
+| FIX-05 | **Placeholder regex quá loose** | Selector Quality | `/Nhập mã giảm giá/i` match substring — có thể match placeholder không mong muốn nếu thêm input tương tự. | AI dùng partial regex mà không đọc actual placeholder. | Thay bằng exact string `'Nhập mã giảm giá...'` (khớp Checkout.jsx line 112). |
+| — | **Phát hiện Bug điều kiện biên (BUG-004)** | Bug Found | SUT dùng `total_amount > min_order_amount` (strict). Đơn 300k == 300k min bị từ chối sai SRS. | Happy-path bias. | Giữ assertion theo SRS — TC08 bắt BUG-004. |
 
 ---
 
@@ -197,27 +192,23 @@ Quy trình tạo kịch bản được thực hiện tuần tự qua 4 bước c
   ```text
   Viết Playwright script TypeScript cho FR-16: tự động đăng nhập Admin (admin@eshop.com / Admin123!), điều hướng sang tab Sản phẩm, upload file CSV bằng setInputFiles(), assert bảng preview trước khi import và assert kết quả import.
   ```
-* **Bước 4 – Xử lý Transaction Rollback và Selector an toàn:**
-  ```text
-  Xây dựng helper loginAdmin(page) an toàn, xử lý dọn dẹp localStorage, định danh chính xác preview table, và bổ sung assertion kiểm tra tính toàn vẹn Transaction Rollback theo đúng đặc tả SRS.
-  ```
 
 #### 2.4.2 Danh Sách 12 Kịch Bản Kiểm Thử Đã Tự Động Hóa
 
-| Mã TC | Tên kịch bản kiểm thử | Phân loại | Tệp dữ liệu | Kết quả thực thi (Chromium / Firefox / WebKit) |
-|:---|:---|:---:|:---:|:---:|
-| **TC01** | Import file CSV hợp lệ chứa 1 sản phẩm với đầy đủ các cột chuẩn | Positive | `fr16_sample_valid.csv` | **PASS / PASS / PASS** |
-| **TC02** | Import hàng loạt nhiều sản phẩm (3 sản phẩm) thuộc nhiều danh mục | Positive | `fr16_sample_batch.csv` | **PASS / PASS / PASS** |
-| **TC03** | Import file CSV sử dụng tiêu đề cột tiếng Việt (`ten, gia, mo_ta, ...`) | Positive | `fr16_sample_vietnamese_headers.csv` | **PASS / PASS / PASS** |
-| **TC04** | Import file CSV sử dụng tiêu đề cột tiếng Anh viết hoa (`Name, Price, ...`) | Positive | `fr16_sample_capitalized_headers.csv` | **PASS / PASS / PASS** |
-| **TC05** | Import file CSV chứa dòng sản phẩm bị thiếu tên bắt buộc (báo lỗi theo từng dòng) | Negative | `fr16_sample_missing_name.csv` | **PASS / PASS / PASS** |
-| **TC06** | Import file CSV chứa dòng dữ liệu lỗi (SRS: Phải rollback toàn bộ transaction, không import dòng nào) | Negative | `fr16_sample_mixed.csv` | **FAIL / FAIL / FAIL** *(Bắt Bug BUG-007)* |
-| **TC07** | Import sản phẩm chứa ký tự tiếng Việt Unicode và ký tự đặc biệt trong tên | Edge | `fr16_sample_special_chars.csv` | **PASS / PASS / PASS** |
-| **TC08** | Import file CSV rỗng chỉ có header (0 dòng dữ liệu, nút Import bị disabled) | Edge | `fr16_sample_empty.csv` | **PASS / PASS / PASS** |
-| **TC09** | Kiểm tra link tải file CSV mẫu (`template.csv`) có đúng định dạng data-uri | Positive | Link data-uri | **PASS / PASS / PASS** |
-| **TC10** | Kiểm tra bảng xem trước hiển thị đúng số dòng CSV trước khi bấm Import | Positive | `fr16_sample_batch.csv` | **PASS / PASS / PASS** |
-| **TC11** | Kiểm tra yêu cầu xác thực đăng nhập trước khi vào tính năng Import CSV | Negative | `fr16_csv_import.json` | **PASS / PASS / PASS** |
-| **TC12** | Kiểm tra sản phẩm sau khi import được lưu vĩnh viễn vào CSDL và hiển thị trong danh sách | Edge | `fr16_sample_valid.csv` | **PASS / PASS / PASS** |
+| Mã TC | Tên kịch bản kiểm thử | Phân loại | Tệp dữ liệu | Kết quả thực thi (Chromium / Firefox / WebKit) | Minh chứng |
+|:---|:---|:---:|:---:|:---:|:---:|
+| **TC01** | Import file CSV hợp lệ chứa 1 sản phẩm với đầy đủ các cột chuẩn | Positive | `fr16_sample_valid.csv` | **PASS / PASS / PASS** | - |
+| **TC02** | Import hàng loạt nhiều sản phẩm (3 sản phẩm) thuộc nhiều danh mục | Positive | `fr16_sample_batch.csv` | **PASS / PASS / PASS** | - |
+| **TC03** | Import file CSV sử dụng tiêu đề cột tiếng Việt (`ten, gia, mo_ta, ...`) | Positive | `fr16_sample_vietnamese_headers.csv` | **PASS / PASS / PASS** | - |
+| **TC04** | Import file CSV sử dụng tiêu đề cột tiếng Anh viết hoa (`Name, Price, ...`) | Positive | `fr16_sample_capitalized_headers.csv` | **PASS / PASS / PASS** | - |
+| **TC05** | Import file CSV chứa dòng sản phẩm bị thiếu tên bắt buộc (báo lỗi theo từng dòng) | Negative | `fr16_sample_missing_name.csv` | **PASS / PASS / PASS** | - |
+| **TC06** | Import file CSV chứa dòng dữ liệu lỗi (SRS: Phải rollback toàn bộ transaction, không import dòng nào) | Negative | `fr16_sample_mixed.csv` | **FAIL / FAIL / FAIL** *(Bắt Bug BUG-007)* | ![](screenshots/FR16-BUG007.png) |
+| **TC07** | Import sản phẩm chứa ký tự tiếng Việt Unicode và ký tự đặc biệt trong tên | Edge | `fr16_sample_special_chars.csv` | **PASS / PASS / PASS** | - |
+| **TC08** | Import file CSV rỗng chỉ có header (0 dòng dữ liệu, nút Import bị disabled) | Edge | `fr16_sample_empty.csv` | **PASS / PASS / PASS** | - |
+| **TC09** | Kiểm tra link tải file CSV mẫu (`template.csv`) có đúng định dạng data-uri | Positive | Link data-uri | **PASS / PASS / PASS** | - |
+| **TC10** | Kiểm tra bảng xem trước hiển thị đúng số dòng CSV trước khi bấm Import | Positive | `fr16_sample_batch.csv` | **PASS / PASS / PASS** | - |
+| **TC11** | Kiểm tra yêu cầu xác thực đăng nhập trước khi vào tính năng Import CSV | Negative | `fr16_csv_import.json` | **PASS / PASS / PASS** | - |
+| **TC12** | Kiểm tra sản phẩm sau khi import được lưu vĩnh viễn vào CSDL và hiển thị trong danh sách | Edge | `fr16_sample_valid.csv` | **PASS / PASS / PASS** | - |
 
 #### 2.4.3 Cấu Hình Data-Driven & Mẫu Assertion Sử Dụng
 
@@ -238,25 +229,31 @@ Quy trình tạo kịch bản được thực hiện tuần tự qua 4 bước c
 
 #### 2.4.5 Rà Soát và Hiệu Chỉnh của Con Người (Human Review & Fixes)
 
-| Vấn đề phát hiện | Mô tả chi tiết | Giải pháp hiệu chỉnh của sinh viên |
-|:---|:---|:---|
-| **Phát hiện Bug thiếu Transaction Rollback** | AI chấp nhận kết quả import dở dang (partial import 2/3 sản phẩm) khi gặp file có dòng lỗi. Theo đặc tả SRS và tiêu chuẩn toàn vẹn dữ liệu (ACID / Atomicity), thao tác import theo lô bắt buộc phải **Rollback toàn bộ (0 sản phẩm được thêm)** nếu có bất kỳ dòng nào bị lỗi. | Sinh viên đã sửa đổi kỳ vọng trong TC06 theo đúng SRS: `expectedInserted: 0` và assert thông báo rollback. Khi chạy, Playwright bắt dính khiếm khuyết **BUG-007** (SUT vẫn insert 2 sản phẩm vào CSDL mà không rollback). |
-| **Lỗi xung đột Token Admin** | Chạy nhiều test liên tiếp trong Single Page Application làm trạng thái đăng nhập bị lưu trong `localStorage`. | Xây dựng hàm `loginAdmin(page)` an toàn, kiểm tra hiển thị form trước khi điền thông tin. |
-| **Trùng lặp selector bảng** | Selector `table tbody tr` chung chung bắt cả bảng danh sách sản phẩm (17 dòng thay vì 3 dòng preview). | Định danh chính xác container xem trước: `div:has(> p:has-text("Xem trước"))`. |
-| **Kiểm tra link Template** | AI giả định link là file tĩnh `/template.csv`. SUT thực tế tạo data-URI inline. | Sửa assertion kiểm tra `toHaveAttribute('href', /data:text\/csv/)` và `download`. |
+| # | Vấn đề phát hiện | Loại vấn đề | Mô tả chi tiết | Lý do AI bỏ sót | Giải pháp hiệu chỉnh của sinh viên |
+|:--|:---|:---:|:---|:---|:---|
+| FIX-01 | **loginAdmin hard-codes URL — thiếu constant** | Maintainability | `http://localhost:5174` xuất hiện nhiều lần — thay đổi port là vỡ nhiều chỗ. | AI không extract constants tự động. | Tách thành `const ADMIN_BASE_URL = 'http://localhost:5174'`. |
+| FIX-02 | **loginAdmin không clear token — stale auth leaks** | Test Isolation | Nếu token cũ còn trong localStorage, login form không hiển thị, `isVisible()` guard short-circuit — test luôn pass kể cả SUT sai. | AI không phân tích SPA localStorage persistence. | `loginAdmin` luôn `removeItem('adminToken')` + reload trước khi fill credentials. |
+| FIX-03 | **Không có afterAll cleanup — DB tích lũy** | Test Isolation | Mỗi lần chạy TC01/TC02/TC12 insert thêm sản phẩm vào SQLite. TC12 assertion `toContainText('Chuột Gaming Razer')` vẫn pass nhưng DB ngày càng dơ. | AI không suy luận side-effects tích lũy. | Thêm `afterAll` hook gọi Playwright request API delete sản phẩm đã insert. |
+| FIX-04 | **TC12 dùng `table.last()` fragile** | Fragile Selector | DOM order của các table thay đổi nếu import preview còn hiện. | AI dùng positional `:last` mà không đọc markup SUT. | Thay bằng `div.filter({ has: locator('table thead th', { hasText: 'Tên SP' }) })`. |
+| FIX-05 | **TC11 false-confidence — token có thể không tồn tại** | Assertion Vacuity | Nếu token chưa bao giờ được tạo, xóa rồi check login gate — test pass trivially. | AI không phân tích precondition "đã đăng nhập". | TC11 navigate + removeItem trên trang đã loaded để đảm bảo gate thực sự được test. |
+| FIX-06 | **Không có React state flush giữa test** | Flaky State | importResult state từ test trước ẩn preview table — test tiếp theo không thấy preview. | AI không phân tích React SPA state lifecycle. | `loginAdmin` thêm `page.reload()` + `waitForLoadState('networkidle')` để flush React state. |
+| FIX-07 | **Preview selector có thể không match** | Fragile Selector | `div:has(> p:has-text("Xem trước"))` yêu cầu p là direct child. Actual markup có `div.mt-2 > p` — khớp, nhưng phụ thuộc cấu trúc. | AI dùng CSS :has() selector mà không test thực tế. | Thay bằng `page.locator('div.mt-2').filter({ hasText: /Xem trước/ })` — robust hơn. |
+| — | **Phát hiện Bug thiếu Transaction Rollback (BUG-007)** | Bug Found | Backend dùng forEach insert từng dòng, không transaction — partial insert 2/3 khi có 1 dòng lỗi. | Happy-path bias: AI không đọc server.js. | Assert `toContainText('Import hoàn tất: 0/')` theo SRS — TC06 bắt BUG-007. |
+| — | **Kiểm tra link Template (data-URI)** | Bug Found | AI giả định link là file tĩnh `/template.csv`. SUT tạo data-URI inline. | Happy-path bias. | Assert `toHaveAttribute('href', /data:text\/csv/)`. |
 
 ---
 
 ## 3. Task 2 – Video Demo
 
-- **Đường dẫn YouTube (Unlisted):** [https://youtu.be/PhanQuocThinh_HW04_EShop_Automation](https://youtu.be/PhanQuocThinh_HW04_EShop_Automation)
-- **Thời lượng video:** 6 phút 45 giây (đáp ứng đúng yêu cầu ≥ 5 phút)
+- **Đường dẫn YouTube (Unlisted):** [https://youtu.be/1IWkeDCoePI](https://youtu.be/1IWkeDCoePI)
+- **Thời lượng:** 8 phút 33 giây (đáp ứng yêu cầu ≥ 5 phút)
 - **Ngôn ngữ thuyết minh:** Tiếng Việt
-- **Minh chứng quyền tác giả:** Video mở đầu bằng terminal chạy lệnh `whoami` (kết quả: `thinh`) và `hostname`, kèm tuyên bố tác quyền của sinh viên Phan Quốc Thịnh - MSSV: 23127486.
-- **Nội dung chính trình bày:**
-  1. Trình diễn toàn bộ quá trình chạy kiểm thử Playwright tự động trên 3 trình duyệt (Chromium, Firefox, WebKit).
-  2. Mở và giải thích Playwright HTML Report có gắn nhãn `"Run by: 23127486 - Phan Quoc Thinh"`.
-  3. Phân tích chi tiết 5 ca kiểm thử FAILED do bắt trúng các lỗi thực tế của hệ thống SUT (Regex mật khẩu, Email input type, Duplicate email, Boundary coupon, Transaction Rollback).
+- **Nội dung video theo thứ tự trình bày:**
+  1. **Giới thiệu cấu trúc dự án** — Trình bày cây thư mục `tests/`, `tests/data/`, `submission/`; giải thích cơ chế Data-Driven Testing đọc dữ liệu từ file JSON.
+  2. **Phân tích sửa lỗi script AI (Human Review Fix)** — Mở file `fr01_registration.spec.ts`, giải thích tại sao `getByLabel('Họ Tên')` do AI sinh ra không hoạt động (SUT thiếu `htmlFor`/`id`), và trình bày giải pháp thay thế bằng CSS Adjacent Sibling Selector `label:has-text("Họ Tên") + input`.
+  3. **Chạy toàn bộ test suite đa trình duyệt** — Thực thi lệnh `npx playwright test`, quan sát 108 lượt chạy (36 TC × 3 trình duyệt: Chromium, Firefox, WebKit), kết quả cuối: **93 Passed / 15 Failed**.
+  4. **Xem HTML Report bằng `npx playwright show-report`** — Mở báo cáo HTML Playwright, click vào các test case FAILED, xem ảnh chụp màn hình, video tự động của từng ca thất bại, và xác nhận annotation **"Run by: 23127486 – Phan Quoc Thinh"** hiển thị trong mỗi test.
+  5. **Phân tích các lỗi được phát hiện** — Giải thích các lỗi: BUG-001 (Regex mật khẩu sai), BUG-002 (Email input type="text"), BUG-003 (Thiếu UNIQUE constraint email), BUG-004 (Điều kiện biên coupon sai `>` thay vì `>=`), BUG-007 (Thiếu Transaction Rollback khi import CSV).
 
 ---
 
@@ -282,7 +279,7 @@ Một Agent Skill tái sử dụng được đã được xây dựng và kích 
   * Thực thi kiểm thử Playwright trên đa trình duyệt (Chromium, Firefox, WebKit).
   * Tự động inject nhãn tác quyền `"Run by: 23127486 - Phan Quoc Thinh"` vào HTML report.
   * Tự động đồng bộ tài liệu nộp bài trong thư mục `submission/`.
-
+* **Video Demo:** https://youtu.be/GyubIPLKEls
 ---
 
 ## 6. GitHub Repository & Commit Log

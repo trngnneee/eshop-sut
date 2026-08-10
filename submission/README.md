@@ -31,7 +31,7 @@
 | **Số lượt test FAILED** | **15** failed (13.9%) | 5 TC Failed / mỗi trình duyệt do bắt trúng 5 Bugs thực tế của SUT |
 | **Số trình duyệt kiểm thử** | **3** trình duyệt | Chromium, Firefox, WebKit (Safari Engine) |
 | **Số lỗi (Bugs) phát hiện trong SUT** | **5** Bugs chính (+ 2 UI defects) | Ghi nhận chi tiết trong `Bug_Report.md` và GitHub Issues |
-| **Đường dẫn Video Demo (YouTube Unlisted)** | [Xem Video Demo](https://youtu.be/PhanQuocThinh_HW04_EShop_Automation) | Thời lượng: 6 phút 45 giây (≥ 5 phút), thuyết minh tiếng Việt |
+| **Đường dẫn Video Demo (YouTube Unlisted)** | [Xem Video Demo](https://youtu.be/1IWkeDCoePI) | Thời lượng: 8 phút 33 giây (≥ 5 phút), thuyết minh tiếng Việt |
 | **Đường dẫn GitHub Repository** | [trngnneee/eshop-sut (Nhánh HW4-Thinh)](https://github.com/trngnneee/eshop-sut/tree/HW4-Thinh) | Chứa toàn bộ test scripts, test data, commit log và cấu hình |
 
 ---
@@ -49,7 +49,7 @@
 
 ---
 
-## Cấu Trúc Thư Mục Nộp Bài
+## Cấu Trúc Thư Mục GitHub (chứa scripts, data files, and HTML reports)
 
 ```
 eshop-sut/
