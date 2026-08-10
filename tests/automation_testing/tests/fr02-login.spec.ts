@@ -5,6 +5,13 @@ import data from '../data/fr02-login.json';
 
 // FR-02 — Đăng nhập & Khóa tài khoản
 // Data-driven: toàn bộ test case đọc từ data/fr02-login.json
+//
+// Traceability — các TC fail-đúng-kỳ-vọng đã được xác nhận là bug của SUT:
+//   FR02-UI01        → issue #390 (heading "Đăng Ký" sai)
+//   FR02-UI02 + TC07 → issue #391 (ô email type="text", không validate)
+//   FR02-UI03        → issue #392 (ô mật khẩu không che ký tự)
+//   FR02-LK01        → issue #393 (bộ đếm tăng +2/lần thay vì +1)
+//   FR02-LK03        → issue #394 (khóa 180s thay vì 30s)
 
 test.describe(data.feature, () => {
   // ---- Nhóm 1: các ca đăng nhập (positive / negative / edge) ----
