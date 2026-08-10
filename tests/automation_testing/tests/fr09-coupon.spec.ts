@@ -14,7 +14,7 @@ import data from '../data/fr09-coupon.json';
 
 const fmt = (n: number) => n.toLocaleString('en-US'); // khớp locale en-US đặt trong config
 
-test.describe(data.feature, () => {
+test.describe(data.feature, { tag: ['@fr09', '@pool-b', '@checkout'] }, () => {
   let token: string;
   let couponIds: Record<string, number>;
 
