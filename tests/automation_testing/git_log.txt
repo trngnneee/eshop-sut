@@ -1,7 +1,16 @@
 # Git commit log — HW04 (repo: trngnneee/eshop-sut, branch: HW04-Nguyen)
-# Exported: 2026-08-10T04:40:57Z
+# Exported: 2026-08-10T04:50:26Z
 
 ## Full history
+522851d | 2026-08-10 11:50:07 +0700 | trngnneee | test(fr09,fr14): add descriptive failure messages to key assertions
+1eb4097 | 2026-08-10 11:49:31 +0700 | trngnneee | test(fr14): tag suite with @fr14/@pool-c/@admin for targeted runs
+cd75cc6 | 2026-08-10 11:49:31 +0700 | trngnneee | test(fr09): tag suite with @fr09/@pool-b/@checkout for targeted runs
+e7decc0 | 2026-08-10 11:49:31 +0700 | trngnneee | test(fr02): tag suite with @fr02/@pool-a/@auth for targeted runs
+82f6c47 | 2026-08-10 11:48:43 +0700 | trngnneee | test(fr14): document TC-to-issue traceability for expected-fail cases
+50b0d56 | 2026-08-10 11:48:43 +0700 | trngnneee | test(fr09): document TC-to-issue traceability for expected-fail cases
+fccf83e | 2026-08-10 11:48:43 +0700 | trngnneee | test(fr02): document TC-to-issue traceability for expected-fail cases
+abfb9bd | 2026-08-10 11:46:58 +0700 | trngnneee | docs: add REPORT.pdf (main report PDF export)
+1a5beba | 2026-08-10 11:40:57 +0700 | trngnneee | docs: refresh git commit log export
 889246e | 2026-08-10 11:39:09 +0700 | trngnneee | docs: add self-assessment table and test summary to README
 23685c3 | 2026-08-10 11:37:48 +0700 | trngnneee | docs: refresh git commit log export
 13f7a3d | 2026-08-10 11:37:23 +0700 | trngnneee | docs: add AI Critique (AI-04) document for automation testing
@@ -35,4 +44,11 @@ b4a0df5 | 2026-06-07 23:33:10 +0700 | trngnneee | Update Backend URL call cho FE
 2f9bf2b | 2026-05-15 08:27:44 +0700 | Hanh Tran | Initial commit
 
 ## Commits touching test-script files (*.spec.ts / *.spec.js) — counted for the 8-commit minimum
+522851d | 2026-08-10 11:50:07 +0700 | trngnneee | test(fr09,fr14): add descriptive failure messages to key assertions
+1eb4097 | 2026-08-10 11:49:31 +0700 | trngnneee | test(fr14): tag suite with @fr14/@pool-c/@admin for targeted runs
+cd75cc6 | 2026-08-10 11:49:31 +0700 | trngnneee | test(fr09): tag suite with @fr09/@pool-b/@checkout for targeted runs
+e7decc0 | 2026-08-10 11:49:31 +0700 | trngnneee | test(fr02): tag suite with @fr02/@pool-a/@auth for targeted runs
+82f6c47 | 2026-08-10 11:48:43 +0700 | trngnneee | test(fr14): document TC-to-issue traceability for expected-fail cases
+50b0d56 | 2026-08-10 11:48:43 +0700 | trngnneee | test(fr09): document TC-to-issue traceability for expected-fail cases
+fccf83e | 2026-08-10 11:48:43 +0700 | trngnneee | test(fr02): document TC-to-issue traceability for expected-fail cases
 3534c10 | 2026-08-10 10:50:57 +0700 | trngnneee | feat: add automated tests for login, coupon application, and category management
