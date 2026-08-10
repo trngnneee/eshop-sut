@@ -3,7 +3,7 @@
     "case_id": "GET_CART_EMPTY_VALID_TOKEN",
     "token_mode": "valid_user",
     "setup_cart": false,
-    "expected_status": 999,
+    "expected_status": 200,
     "expected_is_array": true,
     "expected_min_items": 0,
     "expect_error": false,
