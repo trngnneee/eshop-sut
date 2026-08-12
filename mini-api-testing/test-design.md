@@ -210,17 +210,34 @@ For the flattened submission zip, the corresponding command uses the three JSON 
 
 ## 6. Bước 5 — CI/CD
 
-.github/workflows/newman-api-test.yml performs checkout, Node 20 setup, npm ci in backend, starts the existing npm start script in the background, waits for /api/products/1, installs Newman globally, runs the five-iteration collection, and uploads mini-newman-report.json (plus the backend log on failure).
+.github/workflows/newman-api-test.yml performs checkout, Node 20 setup, npm ci with an npm install fallback in backend, starts the existing npm start script in the background, waits for /api/products/1, installs Newman globally, runs the five-iteration collection, and uploads mini-newman-report.json (plus the backend log on failure).
 
-The intended three-commit evidence sequence is:
+The three-commit evidence sequence was executed on branch Khoa-MiniExercise-API of https://github.com/trngnneee/eshop-sut:
 
-1. C1 pass: push the working data file and workflow; capture the green Actions run as ci-pass.png.
-2. C2 intentional fail: change only TC-P-001 expected_status from 200 to 999; push and capture the red run as ci-fail.png.
-3. C3 recovery: restore expected_status=200; push again. The final branch state must be green.
+| Commit | Message | Actions run | Result |
+| --- | --- | --- | --- |
+| 53f5827a | C1: Mini API testing - collection, data, newman report, CI workflow | #9 | Failure (infrastructure defect, see below) |
+| 859a20d8 | C1 fix: tolerate out-of-sync backend lock file in CI | #10 | Success, newman-report artifact 5.32 kB |
+| 08d9727c | C2: intentionally break expected_status to demonstrate CI failure | #11 | Failure, exit code 1 — captured as ci-fail.png |
+| 9c447c76 | Revert "C2: ..." (C3 recovery) | #12 | Success — captured as ci-pass.png; final commit is green |
+
+C2 changed only TC-P-001 expected_status from 200 to 999; C3 restored it with git revert so the history keeps both the break and the recovery explicit.
+
+### Defect found by CI that local execution missed
+
+Run #9 failed at the "Install backend dependencies" step:
+
+    npm error `npm ci` can only install packages when your package.json and
+    npm error package-lock.json ... are in sync.
+    npm error Missing: picomatch@4.0.5 from lock file
+
+The same npm ci command succeeds on the development machine, which runs npm 11.6.1; the GitHub-hosted runner uses the npm bundled with Node 20, which enforces lock-file consistency more strictly. This is exactly the class of defect a pipeline is supposed to surface: an environment-dependent failure invisible to local testing.
+
+The fix was applied in the workflow (npm ci || npm install) rather than by regenerating backend/package-lock.json, because modifying the SUT is out of scope for this exercise and the lock file is shared with the rest of the group.
 
 D5 status: mini-newman-report.json is genuine output of the official Newman JSON reporter (newman 6.2.2) against the local backend on 2026-08-10. Verified counts: 5 iterations (0 failed), 18 assertions (0 failed), every request resolved to http://localhost:3000/api/products, and the X-Student-Id: 23127207 header is present on all five executions.
 
-D7 status: ci-pass.png and ci-fail.png are still outstanding. They require pushing C1/C2/C3 to the group repository with GitHub Actions enabled, and are deliberately not fabricated.
+D7 status: DONE. ci-pass.png is Actions run #12 (the final, reverted commit 9c447c7, Success) and ci-fail.png is run #11 (commit 08d9727, Failure). Both are screenshots of real runs on the group repository.
 
 ## 7. Bước 6 — Postman features
 
