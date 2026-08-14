@@ -1,1 +1,8 @@
 node_modules
+
+# Performance testing toolchain (binaries, do not commit)
+.tools/
+
+# JMeter local artifacts
+*.jmeter.log
+jmeter.log
