@@ -1,0 +1,179 @@
+{
+  "source_file": "performance-testing/results/stress/23127207_Stress_20260814.jtl",
+  "generated_at": "2026-08-15T00:36:21.720688",
+  "corrupted_lines": 0,
+  "run": {
+    "scenario": "Stress",
+    "start_ts": 1786722293136,
+    "end_ts": 1786722772251,
+    "duration_sec": 479.1,
+    "total_samples": 26939,
+    "total_errors": 0,
+    "error_rate_pct": 0.0,
+    "throughput_rps": 56.23,
+    "max_concurrent_threads": 200,
+    "overall_elapsed": {
+      "min": 0,
+      "avg": 99.6,
+      "max": 2241,
+      "p50": 13,
+      "p90": 324,
+      "p95": 586,
+      "p99": 1324
+    }
+  },
+  "labels": {
+    "01_Login": {
+      "count": 5496,
+      "errors": 0,
+      "error_rate_pct": 0.0,
+      "elapsed": {
+        "min": 1,
+        "avg": 112.3,
+        "max": 2121,
+        "p50": 8,
+        "p90": 423,
+        "p95": 667,
+        "p99": 1241
+      },
+      "latency": {
+        "avg": 112.3,
+        "p95": 667
+      },
+      "bytes": {
+        "avg": 685.7,
+        "total": 3768461
+      },
+      "throughput_rps": 11.47
+    },
+    "02_BrowseProducts": {
+      "count": 5430,
+      "errors": 0,
+      "error_rate_pct": 0.0,
+      "elapsed": {
+        "min": 4,
+        "avg": 124.7,
+        "max": 2241,
+        "p50": 14,
+        "p90": 397,
+        "p95": 696,
+        "p99": 1777
+      },
+      "latency": {
+        "avg": 123.4,
+        "p95": 688
+      },
+      "bytes": {
+        "avg": 154039.0,
+        "total": 836431770
+      },
+      "throughput_rps": 11.33
+    },
+    "03_ProductDetail": {
+      "count": 5361,
+      "errors": 0,
+      "error_rate_pct": 0.0,
+      "elapsed": {
+        "min": 1,
+        "avg": 112.0,
+        "max": 2054,
+        "p50": 7,
+        "p90": 378,
+        "p95": 671,
+        "p99": 1616
+      },
+      "latency": {
+        "avg": 112.0,
+        "p95": 671
+      },
+      "bytes": {
+        "avg": 573.6,
+        "total": 3075287
+      },
+      "throughput_rps": 11.19
+    },
+    "04_AddToCart": {
+      "count": 5327,
+      "errors": 0,
+      "error_rate_pct": 0.0,
+      "elapsed": {
+        "min": 0,
+        "avg": 41.2,
+        "max": 1302,
+        "p50": 3,
+        "p90": 108,
+        "p95": 283,
+        "p99": 609
+      },
+      "latency": {
+        "avg": 41.2,
+        "p95": 283
+      },
+      "bytes": {
+        "avg": 294.0,
+        "total": 1566138
+      },
+      "throughput_rps": 11.12
+    },
+    "05_Checkout": {
+      "count": 5325,
+      "errors": 0,
+      "error_rate_pct": 0.0,
+      "elapsed": {
+        "min": 9,
+        "avg": 107.0,
+        "max": 1966,
+        "p50": 25,
+        "p90": 318,
+        "p95": 576,
+        "p99": 1324
+      },
+      "latency": {
+        "avg": 107.0,
+        "p95": 576
+      },
+      "bytes": {
+        "avg": 314.8,
+        "total": 1676268
+      },
+      "throughput_rps": 11.11
+    }
+  },
+  "errors_breakdown": {
+    "200": 26939
+  },
+  "time_slices": [
+    {
+      "slice": "0-120s",
+      "samples": 1820,
+      "p95": 26,
+      "avg_allThreads": 24.1
+    },
+    {
+      "slice": "120-240s",
+      "samples": 3886,
+      "p95": 27,
+      "avg_allThreads": 48.3
+    },
+    {
+      "slice": "240-360s",
+      "samples": 7439,
+      "p95": 361,
+      "avg_allThreads": 96.5
+    },
+    {
+      "slice": "360-480s",
+      "samples": 13794,
+      "p95": 761,
+      "avg_allThreads": 190.4
+    }
+  ],
+  "resource_stats": {
+    "initial_private_mb": 59.74,
+    "final_private_mb": 157.07,
+    "max_private_mb": 178.08,
+    "avg_cpu_percent": 1.4,
+    "max_cpu_percent": 4.13,
+    "memory_leak_mb_per_min": 12.19
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "source_file": "performance-testing/results/endurance/23127207_Endurance_20260814.jtl",
+  "generated_at": "2026-08-15T00:36:22.262462",
+  "corrupted_lines": 0,
+  "run": {
+    "scenario": "Endurance",
+    "start_ts": 1786702304323,
+    "end_ts": 1786703021622,
+    "duration_sec": 717.3,
+    "total_samples": 13355,
+    "total_errors": 0,
+    "error_rate_pct": 0.0,
+    "throughput_rps": 18.62,
+    "max_concurrent_threads": 30,
+    "overall_elapsed": {
+      "min": 0,
+      "avg": 83.5,
+      "max": 3785,
+      "p50": 10,
+      "p90": 141,
+      "p95": 382,
+      "p99": 1658
+    }
+  },
+  "labels": {
+    "01_Login": {
+      "count": 2688,
+      "errors": 0,
+      "error_rate_pct": 0.0,
+      "elapsed": {
+        "min": 1,
+        "avg": 86.4,
+        "max": 3622,
+        "p50": 4,
+        "p90": 146,
+        "p95": 507,
+        "p99": 1984
+      },
+      "latency": {
+        "avg": 86.4,
+        "p95": 507
+      },
+      "bytes": {
+        "avg": 685.7,
+        "total": 1843062
+      },
+      "throughput_rps": 3.75
+    },
+    "02_BrowseProducts": {
+      "count": 2674,
+      "errors": 0,
+      "error_rate_pct": 0.0,
+      "elapsed": {
+        "min": 3,
+        "avg": 113.0,
+        "max": 3627,
+        "p50": 16,
+        "p90": 195,
+        "p95": 459,
+        "p99": 2495
+      },
+      "latency": {
+        "avg": 110.7,
+        "p95": 450
+      },
+      "bytes": {
+        "avg": 154032.0,
+        "total": 411881568
+      },
+      "throughput_rps": 3.73
+    },
+    "03_ProductDetail": {
+      "count": 2667,
+      "errors": 0,
+      "error_rate_pct": 0.0,
+      "elapsed": {
+        "min": 0,
+        "avg": 88.4,
+        "max": 3785,
+        "p50": 3,
+        "p90": 161,
+        "p95": 475,
+        "p99": 1987
+      },
+      "latency": {
+        "avg": 88.3,
+        "p95": 475
+      },
+      "bytes": {
+        "avg": 573.2,
+        "total": 1528629
+      },
+      "throughput_rps": 3.72
+    },
+    "04_AddToCart": {
+      "count": 2663,
+      "errors": 0,
+      "error_rate_pct": 0.0,
+      "elapsed": {
+        "min": 1,
+        "avg": 36.6,
+        "max": 1889,
+        "p50": 2,
+        "p90": 58,
+        "p95": 170,
+        "p99": 765
+      },
+      "latency": {
+        "avg": 36.6,
+        "p95": 170
+      },
+      "bytes": {
+        "avg": 294.0,
+        "total": 782922
+      },
+      "throughput_rps": 3.71
+    },
+    "05_Checkout": {
+      "count": 2663,
+      "errors": 0,
+      "error_rate_pct": 0.0,
+      "elapsed": {
+        "min": 8,
+        "avg": 92.7,
+        "max": 3049,
+        "p50": 23,
+        "p90": 153,
+        "p95": 365,
+        "p99": 1470
+      },
+      "latency": {
+        "avg": 92.7,
+        "p95": 365
+      },
+      "bytes": {
+        "avg": 314.6,
+        "total": 837738
+      },
+      "throughput_rps": 3.71
+    }
+  },
+  "errors_breakdown": {
+    "200": 13355
+  },
+  "time_slices": [
+    {
+      "slice": "0-120s",
+      "samples": 1853,
+      "p95": 47,
+      "avg_allThreads": 27.0
+    },
+    {
+      "slice": "120-240s",
+      "samples": 2443,
+      "p95": 46,
+      "avg_allThreads": 30.0
+    },
+    {
+      "slice": "240-360s",
+      "samples": 2428,
+      "p95": 111,
+      "avg_allThreads": 30.0
+    },
+    {
+      "slice": "360-480s",
+      "samples": 2300,
+      "p95": 525,
+      "avg_allThreads": 30.0
+    },
+    {
+      "slice": "480-600s",
+      "samples": 2341,
+      "p95": 419,
+      "avg_allThreads": 30.0
+    },
+    {
+      "slice": "600-720s",
+      "samples": 1990,
+      "p95": 2112,
+      "avg_allThreads": 29.7
+    }
+  ],
+  "resource_stats": {
+    "initial_private_mb": 60.3,
+    "final_private_mb": 137.39,
+    "max_private_mb": 172.49,
+    "avg_cpu_percent": 0.5,
+    "max_cpu_percent": 1.24,
+    "memory_leak_mb_per_min": 6.45
+  }
+}
