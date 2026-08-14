@@ -1,0 +1,84 @@
+name: Continuous Performance Regression Gate
+
+on:
+  pull_request:
+    paths:
+      - 'backend/**'
+      - 'performance-testing/test-plans/**'
+      - '.github/workflows/perf-regression.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: perf-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke-perf:
+    if: "!contains(github.event.head_commit.message, '[skip perf]')"
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Setup Java JDK for JMeter
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install JMeter
+        run: |
+          mkdir -p .tools/jmeter
+          curl -sL https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.zip -o jmeter.zip
+          unzip -q jmeter.zip -d .tools
+          mv .tools/apache-jmeter-5.6.3/* .tools/jmeter/
+          rm -rf jmeter.zip .tools/apache-jmeter-5.6.3
+
+      - name: Install Backend Dependencies
+        run: |
+          cd backend
+          npm ci
+
+      - name: Initialize Database and Seed Perf Data
+        run: |
+          node backend/database.js
+          node performance-testing/scripts/seed_perf_data.js
+
+      - name: Start Backend Server
+        run: |
+          node backend/server.js &
+          echo $! > backend.pid
+          sleep 3
+          curl -f http://localhost:3000/api/products || exit 1
+
+      - name: Run Smoke Performance Test (3 iterations for median)
+        run: |
+          mkdir -p performance-testing/results/ci
+          for i in 1 2 3; do
+            echo "Running iteration $i/3..."
+            .tools/jmeter/bin/jmeter -n \
+              -t performance-testing/test-plans/23127207_Load_20260814.jmx \
+              -l performance-testing/results/ci/run_$i.jtl \
+              -q performance-testing/scripts/jmeter-user.properties \
+              -Jcsvdir=performance-testing/data
+            python3 performance-testing/scripts/analyze_jtl.py \
+              --jtl performance-testing/results/ci/run_$i.jtl \
+              --out-dir performance-testing/results/ci/run_$i
+          done
+
+      - name: Compare with Baseline and Check Regression
+        run: |
+          python3 .agents/skills/performance_testing/scripts/compare_runs.py \
+            --baseline performance-testing/baseline/baseline.json \
+            --current performance-testing/results/ci/run_2/summary.json \
+            --threshold-warn 10.0 \
+            --threshold-fail 20.0

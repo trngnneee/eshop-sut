@@ -1,0 +1,37 @@
+{
+  "updated_at": "2026-08-14T14:54:13.000Z",
+  "commit": "HW5-load-baseline",
+  "runner": "local-windows-i7-1260P-16GB",
+  "source_run": "performance-testing/results/load/summary.json",
+  "jmeter_version": "5.6.3",
+  "dataset": {
+    "users": 400,
+    "products": 505
+  },
+  "labels": {
+    "01_Login": {
+      "p95_ms": 14,
+      "samples": 1861
+    },
+    "02_BrowseProducts": {
+      "p95_ms": 31,
+      "samples": 1835
+    },
+    "03_ProductDetail": {
+      "p95_ms": 14,
+      "samples": 1831
+    },
+    "04_AddToCart": {
+      "p95_ms": 4,
+      "samples": 1823
+    },
+    "05_Checkout": {
+      "p95_ms": 38,
+      "samples": 1823
+    }
+  },
+  "overall": {
+    "p95_ms": 25,
+    "samples": 9173
+  }
+}
