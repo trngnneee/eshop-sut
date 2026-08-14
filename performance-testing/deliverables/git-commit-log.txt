@@ -1,0 +1,15 @@
+﻿7d064e3f (HEAD -> HW5) docs(perf): add final README, AI audit report, critique, and HW05 summary report
+7594516e feat(perf): package Task 4 agent skill with generator, analyzer, and examples
+2e7ca5c3 feat(perf): add Task 3 CPT proposal, baseline.json, and GitHub Actions workflow
+1b5a26aa docs(perf): add Task 2 AI analysis dialogue and misinterpretation hunt
+a570e1d4 test(perf): execute 4 scenarios, monitor resources, and record execution reports
+9aa63f3b feat(perf): add Spike, Endurance test plans and k6 load script
+a2213a92 feat(perf): add Stress test plan 23127207_Stress_20260814.jmx
+e4012f50 feat(perf): add Load test plan 23127207_Load_20260814.jmx
+9d67479d docs(perf): add Task 1 test design and AI generation log
+0138464c feat(perf): add seed_perf_data.js, reset_lockout.js and generate khoa_users.csv
+48b94281 chore(perf): setup toolchain, .gitignore, and directory structure
+75ed93bb docs(perf): expand group scope with all five member workflows
+2eceff5a docs(perf): add HW05 performance testing build specification
+d5eaf839 (main) update skill and FR2
+dc410669 setup skill for agent(antigravity)
