@@ -1,0 +1,143 @@
+{
+  "meta": {
+    "student_id": "23127207",
+    "workflow_name": "browse_to_buy",
+    "description": "Login -> browse full catalog -> product detail -> add to cart -> checkout",
+    "excluded_endpoints": [
+      "/api/products?search=",
+      "/api/categories",
+      "/api/apply-coupon",
+      "/api/orders/my-orders"
+    ]
+  },
+  "target": {
+    "protocol": "http",
+    "host": "localhost",
+    "port": 3000
+  },
+  "sut_characteristics": {
+    "auth_lockout": {
+      "enabled": true,
+      "spec_threshold": 3,
+      "actual_threshold": 2,
+      "spec_duration_sec": 30,
+      "actual_duration_sec": 180,
+      "source": "backend/server.js:54,57"
+    },
+    "returns_200_on_missing": ["/api/products/{id}"],
+    "in_memory_state": ["userCarts (server.js:14) - no auto cleanup"],
+    "unbounded_queries": ["SELECT * FROM products (server.js:153)"]
+  },
+  "data": {
+    "csv_file": "khoa_users.csv",
+    "columns": ["email", "password", "product_id", "quantity", "price", "total_amount", "shipping_address"],
+    "sharing_mode": "All threads",
+    "recycle_on_eof": true,
+    "stop_thread_on_eof": false,
+    "allow_quoted_data": true
+  },
+  "workflow": [
+    {
+      "label": "01_Login",
+      "group": "auth-heavy",
+      "method": "POST",
+      "path": "/api/login",
+      "body": "{\"email\":\"${email}\",\"password\":\"${password}\"}",
+      "extract": [
+        { "var": "token", "jsonpath": "$.token", "default": "TOKEN_NOT_FOUND" },
+        { "var": "user_id", "jsonpath": "$.user.id", "default": "-1" }
+      ],
+      "assertions": [
+        { "type": "response_code", "value": "200" },
+        { "type": "jsonpath_exists", "value": "$.token" }
+      ],
+      "think_time_ms": { "base": 1000, "random": 1000 }
+    },
+    {
+      "label": "02_BrowseProducts",
+      "group": "read-heavy",
+      "method": "GET",
+      "path": "/api/products",
+      "extract": [
+        { "var": "pid", "jsonpath": "$..id", "match_no": 0, "default": "${product_id}" }
+      ],
+      "assertions": [
+        { "type": "response_code", "value": "200" },
+        { "type": "regex_matches", "value": "^\\s*\\[[\\s\\S]*\\]\\s*$" }
+      ],
+      "think_time_ms": { "base": 2000, "random": 2000 }
+    },
+    {
+      "label": "03_ProductDetail",
+      "group": "read-heavy",
+      "method": "GET",
+      "path": "/api/products/${pid}",
+      "assertions": [
+        { "type": "response_code", "value": "200" },
+        { "type": "jsonpath_exists", "value": "$.name" },
+        { "type": "jsonpath_exists", "value": "$.price" }
+      ],
+      "think_time_ms": { "base": 1000, "random": 1000 }
+    },
+    {
+      "label": "04_AddToCart",
+      "group": "transactional",
+      "method": "POST",
+      "path": "/api/cart",
+      "headers": { "Authorization": "Bearer ${token}" },
+      "body": "{\"product_id\":${pid},\"quantity\":${quantity},\"name\":\"PERF item ${pid}\",\"price\":${price}}",
+      "assertions": [
+        { "type": "response_code", "value": "200" },
+        { "type": "response_contains", "value": "Added to cart" }
+      ],
+      "think_time_ms": { "base": 1000, "random": 500 }
+    },
+    {
+      "label": "05_Checkout",
+      "group": "transactional",
+      "method": "POST",
+      "path": "/api/checkout",
+      "headers": { "Authorization": "Bearer ${token}" },
+      "body": "{\"total_amount\":${total_amount},\"shipping_address\":\"${shipping_address}\"}",
+      "extract": [
+        { "var": "order_id", "jsonpath": "$.orderId", "default": "-1" }
+      ],
+      "assertions": [
+        { "type": "response_code", "value": "200" },
+        { "type": "jsonpath_exists", "value": "$.orderId" }
+      ],
+      "think_time_ms": { "base": 0, "random": 0 }
+    }
+  ],
+  "load_profiles": {
+    "Load": {
+      "threads": 50,
+      "ramp_up_sec": 60,
+      "duration_sec": 300,
+      "listener": "AggregateReport"
+    },
+    "Stress": {
+      "steps": [
+        { "threads": 25, "ramp_up": 30, "delay": 0, "duration": 480 },
+        { "threads": 25, "ramp_up": 30, "delay": 120, "duration": 360 },
+        { "threads": 50, "ramp_up": 30, "delay": 240, "duration": 240 },
+        { "threads": 100, "ramp_up": 30, "delay": 360, "duration": 120 }
+      ],
+      "listener": "SummaryReport"
+    },
+    "Spike": {
+      "baseline": { "threads": 10, "ramp_up": 30, "delay": 0, "duration": 360 },
+      "spikes": [
+        { "threads": 300, "ramp_up": 5, "delay": 60, "duration": 30 },
+        { "threads": 300, "ramp_up": 5, "delay": 240, "duration": 30 }
+      ],
+      "listener": "ViewResultsTree_ErrorsOnly"
+    },
+    "Endurance": {
+      "threads": 30,
+      "ramp_up_sec": 60,
+      "duration_sec": 720,
+      "listener": "AggregateReport"
+    }
+  }
+}

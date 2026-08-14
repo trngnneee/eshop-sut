@@ -1,0 +1,17 @@
+﻿
+=======================================================
+   CONTINUOUS PERFORMANCE COMPARISON REPORT
+   Baseline: performance-testing/baseline/baseline.json
+   Current:  performance-testing/results/load/summary.json
+=======================================================
+
+| Label | Baseline p95 (ms) | Current p95 (ms) | Delta (%) | Status |
+|:---|---:|---:|---:|:---|
+| `01_Login` | 14 | 14 | +0.0% | Γ£à PASS |
+| `02_BrowseProducts` | 31 | 31 | +0.0% | Γ£à PASS |
+| `03_ProductDetail` | 14 | 14 | +0.0% | Γ£à PASS |
+| `04_AddToCart` | 4 | 4 | +0.0% | Γ£à PASS |
+| `05_Checkout` | 38 | 38 | +0.0% | Γ£à PASS |
+
+-------------------------------------------------------
+RESULT: Γ£à ALL CHECKS PASSED

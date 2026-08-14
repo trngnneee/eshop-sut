@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "student_id": "23127200",
+    "workflow_name": "coupon_checkout",
+    "description": "Login -> search products -> product detail -> add to cart -> apply coupon -> checkout",
+    "excluded_endpoints": [
+      "/api/categories",
+      "/api/orders/my-orders"
+    ]
+  },
+  "target": {
+    "protocol": "http",
+    "host": "localhost",
+    "port": 3000
+  },
+  "sut_characteristics": {
+    "auth_lockout": { "enabled": true, "actual_threshold": 2, "actual_duration_sec": 180 }
+  },
+  "data": {
+    "csv_file": "thinh_users.csv",
+    "columns": ["email", "password", "keyword", "coupon_code", "quantity", "price", "total_amount", "shipping_address"],
+    "sharing_mode": "All threads",
+    "recycle_on_eof": true,
+    "stop_thread_on_eof": false,
+    "allow_quoted_data": true
+  },
+  "workflow": [
+    {
+      "label": "01_Login",
+      "group": "auth-heavy",
+      "method": "POST",
+      "path": "/api/login",
+      "body": "{\"email\":\"${email}\",\"password\":\"${password}\"}",
+      "extract": [
+        { "var": "token", "jsonpath": "$.token", "default": "TOKEN_NOT_FOUND" }
+      ],
+      "assertions": [
+        { "type": "response_code", "value": "200" },
+        { "type": "jsonpath_exists", "value": "$.token" }
+      ],
+      "think_time_ms": { "base": 1000, "random": 1000 }
+    },
+    {
+      "label": "02_SearchProducts",
+      "group": "read-heavy",
+      "method": "GET",
+      "path": "/api/products?search=${keyword}",
+      "extract": [
+        { "var": "pid", "jsonpath": "$[0].id", "default": "1" }
+      ],
+      "assertions": [
+        { "type": "response_code", "value": "200" }
+      ],
+      "think_time_ms": { "base": 1500, "random": 1000 }
+    },
+    {
+      "label": "03_ProductDetail",
+      "group": "read-heavy",
+      "method": "GET",
+      "path": "/api/products/${pid}",
+      "assertions": [
+        { "type": "response_code", "value": "200" }
+      ],
+      "think_time_ms": { "base": 1000, "random": 1000 }
+    },
+    {
+      "label": "04_AddToCart",
+      "group": "transactional",
+      "method": "POST",
+      "path": "/api/cart",
+      "headers": { "Authorization": "Bearer ${token}" },
+      "body": "{\"product_id\":${pid},\"quantity\":${quantity},\"name\":\"Search item ${pid}\",\"price\":${price}}",
+      "assertions": [
+        { "type": "response_code", "value": "200" }
+      ],
+      "think_time_ms": { "base": 1000, "random": 500 }
+    },
+    {
+      "label": "05_ApplyCoupon",
+      "group": "transactional",
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": { "Authorization": "Bearer ${token}" },
+      "body": "{\"code\":\"${coupon_code}\",\"amount\":${total_amount}}",
+      "extract": [
+        { "var": "discounted_amount", "jsonpath": "$.final_amount", "default": "${total_amount}" }
+      ],
+      "assertions": [
+        { "type": "response_code", "value": "200" }
+      ],
+      "think_time_ms": { "base": 1000, "random": 500 }
+    },
+    {
+      "label": "06_Checkout",
+      "group": "transactional",
+      "method": "POST",
+      "path": "/api/checkout",
+      "headers": { "Authorization": "Bearer ${token}" },
+      "body": "{\"total_amount\":${discounted_amount},\"shipping_address\":\"${shipping_address}\"}",
+      "extract": [
+        { "var": "order_id", "jsonpath": "$.orderId", "default": "-1" }
+      ],
+      "assertions": [
+        { "type": "response_code", "value": "200" }
+      ],
+      "think_time_ms": { "base": 0, "random": 0 }
+    }
+  ],
+  "load_profiles": {
+    "Load": {
+      "threads": 40,
+      "ramp_up_sec": 60,
+      "duration_sec": 300,
+      "listener": "AggregateReport"
+    }
+  }
+}

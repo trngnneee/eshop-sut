@@ -1,0 +1,2141 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1786722177609,145,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,2,2,http://localhost:3000/api/login,0,0,145
+1786722178928,4,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,3,3,http://localhost:3000/api/login,0,0,3
+1786722180220,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,4,4,http://localhost:3000/api/login,0,0,2
+1786722181018,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,5,5,http://localhost:3000/api/products,0,0,3
+1786722181253,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,5,5,http://localhost:3000/api/products,0,0,3
+1786722181389,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,5,5,http://localhost:3000/api/login,0,0,3
+1786722181936,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,6,6,http://localhost:3000/api/login,0,0,3
+1786722182167,4,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,6,6,http://localhost:3000/api/products/2,0,0,4
+1786722183030,5,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,6,6,http://localhost:3000/api/login,0,0,5
+1786722183157,3,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,7,7,http://localhost:3000/api/products/1,0,0,3
+1786722183496,2,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,7,7,http://localhost:3000/api/cart,0,0,2
+1786722183500,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,7,7,http://localhost:3000/api/checkout,0,0,2
+1786722184085,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,7,7,http://localhost:3000/api/products,0,0,2
+1786722184099,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,7,7,http://localhost:3000/api/products,0,0,2
+1786722184620,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,8,8,http://localhost:3000/api/cart,0,0,3
+1786722184625,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,8,8,http://localhost:3000/api/checkout,0,0,2
+1786722184831,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,8,8,http://localhost:3000/api/products,0,0,3
+1786722185022,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,8,8,http://localhost:3000/api/login,0,0,3
+1786722185063,4,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,8,8,http://localhost:3000/api/login,0,0,3
+1786722185177,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,8,8,http://localhost:3000/api/products,0,0,3
+1786722185282,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,8,8,http://localhost:3000/api/products/3,0,0,2
+1786722185523,3,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,9,9,http://localhost:3000/api/products/5,0,0,3
+1786722185591,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,9,9,http://localhost:3000/api/login,0,0,3
+1786722186347,4,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,9,9,http://localhost:3000/api/login,0,0,4
+1786722186432,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,9,9,http://localhost:3000/api/products/6,0,0,2
+1786722186562,4,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,9,9,http://localhost:3000/api/cart,0,0,4
+1786722186569,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,9,9,http://localhost:3000/api/cart,0,0,3
+1786722186574,3,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,9,9,http://localhost:3000/api/checkout,0,0,3
+1786722186542,35,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,9,9,http://localhost:3000/api/products/4,0,0,35
+1786722186568,9,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,9,9,http://localhost:3000/api/checkout,0,0,9
+1786722186963,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-9,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,10,10,http://localhost:3000/api/login,0,0,2
+1786722187185,8,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,10,10,http://localhost:3000/api/products,0,0,8
+1786722187629,5,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,10,10,http://localhost:3000/api/cart,0,0,5
+1786722187641,5,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,10,10,http://localhost:3000/api/checkout,0,0,5
+1786722187698,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,10,10,http://localhost:3000/api/products,0,0,2
+1786722187732,2,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,10,10,http://localhost:3000/api/cart,0,0,2
+1786722187737,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,10,10,http://localhost:3000/api/checkout,0,0,2
+1786722187762,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,10,10,http://localhost:3000/api/products,0,0,2
+1786722187769,5,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,10,10,http://localhost:3000/api/login,0,0,5
+1786722188245,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,11,11,http://localhost:3000/api/products/8,0,0,2
+1786722188403,4,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-10,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,11,11,http://localhost:3000/api/login,0,0,4
+1786722188573,4,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,11,11,http://localhost:3000/api/login,0,0,4
+1786722189001,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,11,11,http://localhost:3000/api/login,0,0,3
+1786722189240,3,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,12,12,http://localhost:3000/api/products/7,0,0,2
+1786722189280,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,12,12,http://localhost:3000/api/login,0,0,3
+1786722189307,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-11,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,12,12,http://localhost:3000/api/login,0,0,2
+1786722189309,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,12,12,http://localhost:3000/api/cart,0,0,3
+1786722189313,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,12,12,http://localhost:3000/api/checkout,0,0,2
+1786722189738,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,12,12,http://localhost:3000/api/products/1,0,0,2
+1786722189952,5,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-9,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,12,12,http://localhost:3000/api/products,0,0,5
+1786722190235,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,13,13,http://localhost:3000/api/products,0,0,2
+1786722190369,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-12,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,13,13,http://localhost:3000/api/login,0,0,3
+1786722190432,27,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,13,13,http://localhost:3000/api/cart,0,0,27
+1786722190462,4,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,13,13,http://localhost:3000/api/checkout,0,0,3
+1786722190840,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,13,13,http://localhost:3000/api/cart,0,0,3
+1786722190844,3,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,13,13,http://localhost:3000/api/checkout,0,0,2
+1786722191012,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,13,13,http://localhost:3000/api/login,0,0,2
+1786722191288,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,13,13,http://localhost:3000/api/products,0,0,3
+1786722191323,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-13,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,13,13,http://localhost:3000/api/login,0,0,3
+1786722191549,5,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-10,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,14,14,http://localhost:3000/api/products,0,0,5
+1786722191622,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,14,14,http://localhost:3000/api/products,0,0,3
+1786722191632,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,14,14,http://localhost:3000/api/products,0,0,2
+1786722191678,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,14,14,http://localhost:3000/api/products/2,0,0,2
+1786722191681,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-9,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,14,14,http://localhost:3000/api/products/3,0,0,2
+1786722192029,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,14,14,http://localhost:3000/api/login,0,0,2
+1786722192137,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,14,14,http://localhost:3000/api/products,0,0,3
+1786722192333,4,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,14,14,http://localhost:3000/api/login,0,0,4
+1786722192891,3,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,15,15,http://localhost:3000/api/products/5,0,0,2
+1786722192970,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,15,15,http://localhost:3000/api/cart,0,0,3
+1786722192974,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,15,15,http://localhost:3000/api/checkout,0,0,2
+1786722193022,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,15,15,http://localhost:3000/api/products/4,0,0,2
+1786722193055,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-9,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,15,15,http://localhost:3000/api/cart,0,0,3
+1786722193059,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-9,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,15,15,http://localhost:3000/api/checkout,0,0,2
+1786722193117,5,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-14,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,15,15,http://localhost:3000/api/login,0,0,5
+1786722193227,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-11,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,15,15,http://localhost:3000/api/products,0,0,2
+1786722193279,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-10,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,15,15,http://localhost:3000/api/products/6,0,0,2
+1786722193589,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,15,15,http://localhost:3000/api/products/8,0,0,2
+1786722193762,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,15,15,http://localhost:3000/api/products/7,0,0,2
+1786722193908,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-12,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/products,0,0,2
+1786722194014,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/products,0,0,2
+1786722194054,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-13,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/products,0,0,2
+1786722194231,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-15,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/login,0,0,2
+1786722194302,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-9,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/login,0,0,2
+1786722194370,2,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/cart,0,0,2
+1786722194373,3,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/checkout,0,0,3
+1786722194441,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-10,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/cart,0,0,3
+1786722194447,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-10,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/checkout,0,0,2
+1786722194492,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/cart,0,0,3
+1786722194497,8,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/checkout,0,0,7
+1786722194588,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/products,0,0,2
+1786722194653,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/products,0,0,2
+1786722194836,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-11,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/products/1,0,0,2
+1786722194879,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/login,0,0,2
+1786722194936,2,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/cart,0,0,2
+1786722194940,3,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,16,16,http://localhost:3000/api/checkout,0,0,3
+1786722195165,6,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,17,17,http://localhost:3000/api/cart,0,0,6
+1786722195174,3,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,17,17,http://localhost:3000/api/checkout,0,0,2
+1786722195229,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-14,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,17,17,http://localhost:3000/api/products,0,0,2
+1786722195397,6,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-16,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,17,17,http://localhost:3000/api/login,0,0,5
+1786722195438,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-12,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,17,17,http://localhost:3000/api/products/2,0,0,2
+1786722195500,4,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-10,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,17,17,http://localhost:3000/api/login,0,0,4
+1786722195745,4,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,17,17,http://localhost:3000/api/products/3,0,0,4
+1786722195800,3,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-13,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,17,17,http://localhost:3000/api/products/4,0,0,3
+1786722195830,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,17,17,http://localhost:3000/api/products/5,0,0,2
+1786722195903,2,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-11,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,17,17,http://localhost:3000/api/cart,0,0,2
+1786722195907,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-11,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,17,17,http://localhost:3000/api/checkout,0,0,2
+1786722195959,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,17,17,http://localhost:3000/api/login,0,0,2
+1786722196065,4,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,17,17,http://localhost:3000/api/login,0,0,4
+1786722196286,7,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,18,18,http://localhost:3000/api/products/6,0,0,7
+1786722196309,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,18,18,http://localhost:3000/api/login,0,0,2
+1786722196331,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,18,18,http://localhost:3000/api/login,0,0,2
+1786722196612,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-12,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,18,18,http://localhost:3000/api/cart,0,0,3
+1786722196616,3,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-12,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,18,18,http://localhost:3000/api/checkout,0,0,2
+1786722196775,6,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-14,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,18,18,http://localhost:3000/api/products/7,0,0,6
+1786722196855,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-17,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,18,18,http://localhost:3000/api/login,0,0,2
+1786722197009,4,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-15,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,18,18,http://localhost:3000/api/products,0,0,4
+1786722197019,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,18,18,http://localhost:3000/api/cart,0,0,3
+1786722197024,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,18,18,http://localhost:3000/api/checkout,0,0,2
+1786722197195,1,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,18,18,http://localhost:3000/api/cart,0,0,1
+1786722197198,1,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,18,18,http://localhost:3000/api/checkout,0,0,1
+1786722197288,2,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-13,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,18,18,http://localhost:3000/api/cart,0,0,2
+1786722197291,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-13,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,18,18,http://localhost:3000/api/checkout,0,0,2
+1786722197324,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,18,18,http://localhost:3000/api/products,0,0,3
+1786722197461,2,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,19,19,http://localhost:3000/api/cart,0,0,2
+1786722197464,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,19,19,http://localhost:3000/api/checkout,0,0,2
+1786722197611,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-16,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,19,19,http://localhost:3000/api/products,0,0,2
+1786722197679,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-11,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,19,19,http://localhost:3000/api/login,0,0,3
+1786722197774,25,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-12,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,19,19,http://localhost:3000/api/login,0,0,20
+1786722197994,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-18,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,19,19,http://localhost:3000/api/login,0,0,3
+1786722198162,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-9,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,19,19,http://localhost:3000/api/products,0,0,2
+1786722198206,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-15,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,19,19,http://localhost:3000/api/products/8,0,0,2
+1786722198212,1,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-14,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,19,19,http://localhost:3000/api/cart,0,0,1
+1786722198214,1,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-14,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,19,19,http://localhost:3000/api/checkout,0,0,1
+1786722198334,39,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,19,19,http://localhost:3000/api/products,0,0,39
+1786722198407,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,19,19,http://localhost:3000/api/products,0,0,2
+1786722198547,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-10,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,19,19,http://localhost:3000/api/products,0,0,2
+1786722198640,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-13,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,20,20,http://localhost:3000/api/login,0,0,3
+1786722198724,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,20,20,http://localhost:3000/api/login,0,0,2
+1786722198764,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,20,20,http://localhost:3000/api/login,0,0,2
+1786722198849,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,20,20,http://localhost:3000/api/login,0,0,3
+1786722198859,3,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-16,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,20,20,http://localhost:3000/api/products/3,0,0,2
+1786722199090,1,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-19,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,20,20,http://localhost:3000/api/login,0,0,1
+1786722199191,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,20,20,http://localhost:3000/api/products/1,0,0,2
+1786722199220,3,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-9,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,20,20,http://localhost:3000/api/products/2,0,0,3
+1786722199334,2,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-15,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,20,20,http://localhost:3000/api/cart,0,0,2
+1786722199337,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-15,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,20,20,http://localhost:3000/api/checkout,0,0,2
+1786722199340,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,20,20,http://localhost:3000/api/products,0,0,1
+1786722199563,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-17,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,20,20,http://localhost:3000/api/products,0,0,1
+1786722199642,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,20,20,http://localhost:3000/api/products/6,0,0,2
+1786722199860,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-20,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/login,0,0,2
+1786722199871,6,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-16,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/cart,0,0,6
+1786722199878,1,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-16,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/checkout,0,0,1
+1786722200187,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/products,0,0,2
+1786722200207,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-14,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/login,0,0,3
+1786722200305,6,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/products/7,0,0,6
+1786722200319,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-12,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/products,0,0,2
+1786722200421,16,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/cart,0,0,16
+1786722200421,21,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-10,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/products/5,0,0,20
+1786722200443,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/checkout,0,0,2
+1786722200629,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-9,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/cart,0,0,2
+1786722200633,4,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-9,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/checkout,0,0,4
+1786722200881,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/products,0,0,3
+1786722200895,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/cart,0,0,3
+1786722200901,3,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/checkout,0,0,3
+1786722200922,4,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-15,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/login,0,0,3
+1786722200941,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-18,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/products,0,0,3
+1786722200998,3,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,21,21,http://localhost:3000/api/products/4,0,0,3
+1786722201133,3,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-17,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/products/8,0,0,3
+1786722201182,11,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-11,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/products,0,0,11
+1786722201258,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-19,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/products,0,0,2
+1786722201416,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/products,0,0,2
+1786722201507,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-16,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/login,0,0,3
+1786722201555,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-21,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/login,0,0,3
+1786722201706,5,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/cart,0,0,5
+1786722201711,3,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/products/1,0,0,3
+1786722201712,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/checkout,0,0,2
+1786722201826,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-9,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/login,0,0,3
+1786722201862,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-13,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/products,0,0,2
+1786722201922,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-10,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/cart,0,0,3
+1786722201926,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-10,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/checkout,0,0,2
+1786722201997,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/products,0,0,2
+1786722202031,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-22,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/login,0,0,3
+1786722202163,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/login,0,0,3
+1786722202195,3,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-18,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,22,22,http://localhost:3000/api/products/3,0,0,2
+1786722202262,3,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-12,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/products/4,0,0,3
+1786722202312,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/cart,0,0,2
+1786722202316,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/checkout,0,0,2
+1786722202421,4,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/products/1,0,0,4
+1786722202458,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/login,0,0,3
+1786722202531,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-17,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/cart,0,0,2
+1786722202538,4,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-17,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/checkout,0,0,4
+1786722202598,12,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-20,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/products,0,0,12
+1786722202912,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-14,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/products,0,0,2
+1786722202964,1,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-19,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/products/8,0,0,1
+1786722202985,4,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/cart,0,0,4
+1786722202990,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/checkout,0,0,2
+1786722203086,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/products/6,0,0,2
+1786722203123,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-10,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/login,0,0,2
+1786722203132,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/login,0,0,2
+1786722203148,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-11,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/products/2,0,0,2
+1786722203201,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/products/5,0,0,2
+1786722203322,2,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-12,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/cart,0,0,2
+1786722203322,2,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-18,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/cart,0,0,2
+1786722203325,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-12,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/checkout,0,0,2
+1786722203325,1,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-18,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/checkout,0,0,1
+1786722203385,4,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-13,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,23,23,http://localhost:3000/api/products/7,0,0,3
+1786722203515,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/login,0,0,2
+1786722203527,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-15,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/products,0,0,2
+1786722203666,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/cart,0,0,3
+1786722203671,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/checkout,0,0,2
+1786722203758,3,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-20,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/products/3,0,0,3
+1786722204076,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-21,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/products,0,0,3
+1786722204215,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-16,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/products,0,0,3
+1786722204218,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-23,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/login,0,0,3
+1786722204237,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-11,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/cart,0,0,3
+1786722204242,4,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-11,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/checkout,0,0,4
+1786722204342,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-14,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/products/2,0,0,2
+1786722204360,2,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-19,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/cart,0,0,2
+1786722204362,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-19,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/checkout,0,0,2
+1786722204414,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/cart,0,0,3
+1786722204420,3,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/checkout,0,0,2
+1786722204500,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-17,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/login,0,0,3
+1786722204587,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/cart,0,0,3
+1786722204593,1,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-13,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/cart,0,0,1
+1786722204591,3,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/checkout,0,0,3
+1786722204592,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/login,0,0,2
+1786722204595,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-13,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,24,24,http://localhost:3000/api/checkout,0,0,2
+1786722204693,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-22,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,25,25,http://localhost:3000/api/products,0,0,3
+1786722204878,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-9,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,25,25,http://localhost:3000/api/products,0,0,3
+1786722204952,4,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,25,25,http://localhost:3000/api/login,0,0,4
+1786722204959,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-18,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,25,25,http://localhost:3000/api/login,0,0,2
+1786722205156,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-12,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,25,25,http://localhost:3000/api/login,0,0,3
+1786722205242,2,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-20,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,25,25,http://localhost:3000/api/cart,0,0,2
+1786722205246,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-20,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,25,25,http://localhost:3000/api/checkout,0,0,1
+1786722205247,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,25,25,http://localhost:3000/api/products,0,0,2
+1786722205275,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-24,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,25,25,http://localhost:3000/api/login,0,0,2
+1786722205350,7,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-21,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,25,25,http://localhost:3000/api/products/5,0,0,7
+1786722205478,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-19,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,25,25,http://localhost:3000/api/login,0,0,2
+1786722205543,4,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-15,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,25,25,http://localhost:3000/api/products/4,0,0,4
+1786722205594,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-11,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,25,25,http://localhost:3000/api/login,0,0,2
+1786722205656,2,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-14,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,25,25,http://localhost:3000/api/cart,0,0,2
+1786722205659,1,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-14,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,25,25,http://localhost:3000/api/checkout,0,0,1
+1786722205790,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,25,25,http://localhost:3000/api/login,0,0,2
+1786722205834,4,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-22,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/products/2,0,0,4
+1786722205886,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/products,0,0,3
+1786722205900,4,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-16,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/products/6,0,0,4
+1786722205917,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/login,0,0,2
+1786722206264,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/products,0,0,2
+1786722206266,1,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-9,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/products/8,0,0,1
+1786722206336,4,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/products/7,0,0,4
+1786722206537,4,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-13,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/login,0,0,4
+1786722206563,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-15,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/cart,0,0,3
+1786722206567,5,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-15,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/checkout,0,0,5
+1786722206575,6,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/products,0,0,6
+1786722206595,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-25,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/login,0,0,3
+1786722206696,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-21,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/cart,0,0,3
+1786722206700,12,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-21,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/checkout,0,0,10
+1786722206711,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-14,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/login,0,0,3
+1786722206876,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-10,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/products,0,0,2
+1786722206986,2,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-22,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/cart,0,0,2
+1786722206989,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-22,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,26,26,http://localhost:3000/api/checkout,0,0,2
+1786722207042,1,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-16,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/cart,0,0,1
+1786722207044,1,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-16,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/checkout,0,0,1
+1786722207053,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-17,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/products,0,0,2
+1786722207078,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-20,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/login,0,0,2
+1786722207364,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/products,0,0,2
+1786722207552,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-19,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/products,0,0,2
+1786722207591,2,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-9,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/cart,0,0,2
+1786722207594,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-9,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/checkout,0,0,1
+1786722207666,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-26,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/login,0,0,2
+1786722207678,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/products/1,0,0,2
+1786722207740,5,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/cart,0,0,4
+1786722207745,4,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/checkout,0,0,3
+1786722207826,4,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-23,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/products,0,0,4
+1786722207855,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/products/3,0,0,2
+1786722207999,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-21,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/login,0,0,3
+1786722208044,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-24,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/products,0,0,2
+1786722208059,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-12,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/products,0,0,2
+1786722208089,1,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/products,0,0,1
+1786722208156,3,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-10,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,27,27,http://localhost:3000/api/products/4,0,0,3
+1786722208255,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/products,0,0,2
+1786722208374,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-15,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/login,0,0,2
+1786722208398,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-22,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/login,0,0,3
+1786722208422,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-16,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/login,0,0,3
+1786722208493,3,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-8,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/products/4,0,0,3
+1786722208510,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-27,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/login,0,0,3
+1786722208572,3,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-5,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/products/6,0,0,3
+1786722208611,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-9,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/login,0,0,3
+1786722208639,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-17,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/products/7,0,0,2
+1786722208665,7,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-18,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/products,0,0,7
+1786722208826,3,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-2,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/products,0,0,3
+1786722208933,5,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-14,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/products,0,0,5
+1786722208979,3,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-1,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/login,0,0,3
+1786722209017,4,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-23,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/products/5,0,0,4
+1786722209036,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/cart,0,0,3
+1786722209041,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-3,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/checkout,0,0,2
+1786722209139,3,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/cart,0,0,3
+1786722209143,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-4,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/checkout,0,0,2
+1786722209166,4,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-6,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/products/8,0,0,3
+1786722209250,4,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-19,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/products/6,0,0,4
+1786722209264,5,04_AddToCart,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-10,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/cart,0,0,5
+1786722209270,2,05_Checkout,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-10,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/checkout,0,0,2
+1786722209328,2,02_BrowseProducts,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-11,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/products,0,0,2
+1786722209376,2,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-24,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,28,28,http://localhost:3000/api/products/3,0,0,2
+1786722209453,2,01_Login,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-28,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+****** comparison: [[[200                                                                  ]]]
+
+/",2631,0,29,29,http://localhost:3000/api/login,0,0,2
+1786722209551,4,03_ProductDetail,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,"Non HTTP response message: Connect to localhost:3000 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: connect",TG_Load_50VU 1-7,text,false,"Test failed: code expected to equal /
+
+****** received  : [[[Non HTTP response code: org.apache.http.conn.HttpHostConnectException]]]
+
+***
