@@ -32,11 +32,11 @@ Adapted from Med Kharbach, PhD (2026) — AI Use Policy Templates for Higher Edu
 
 Tick all that apply: [x] brainstorming  [x] outlining  [x] drafting  [x] feedback  [ ] revision  [x] coding  [x] data analysis  [ ] visual design  [ ] other (specify).
 
-AI was used to design the "Category-guided buy" end-to-end workflow, generate the four JMeter test plans (Load/Stress/Spike/Soak) via a script, build the data-driven CSV and user pool, write the resource-monitor and `.jtl`-analysis scripts, and draft the evidence documents (Task 1); and — for Task 2 — to analyse the results, propose performance thresholds, and suggest SUT optimizations. I chose the final load parameters, corrected the AI's mistakes (search keyword, lockout behaviour, timer placement, listener choice, assertions), executed all four scenarios on my own hardware, and wrote the human-review reasoning and AI Critique myself. For Task 2, the AI-misinterpretation hunt (8 corrections against the raw `.jtl`) and the feasible/hallucinated judgment on each optimization are entirely my own.
+AI was used to design the "Category-guided buy" end-to-end workflow, generate the four JMeter test plans (Load/Stress/Spike/Soak) via a script, build the data-driven CSV and user pool, write the resource-monitor and `.jtl`-analysis scripts, and draft the evidence documents (Task 1); and — for Task 2 — to analyse the results, propose performance thresholds, and suggest SUT optimizations. I chose the final load parameters, corrected the AI's mistakes (search keyword, lockout behaviour, timer placement, listener choice, assertions), executed all four scenarios on my own hardware, and wrote the human-review reasoning and AI Critique myself. For Task 2, the AI-misinterpretation hunt (5 corrections against the raw `.jtl`) and the feasible/hallucinated judgment on each optimization are entirely my own.
 
 ### 3. Main prompts or tasks given to the AI:
 
-Paste the 2–3 most impactful prompts verbatim. For the full transcript, attach Appendix A (prompt_log.md).
+Paste the 2–3 most impactful prompts verbatim. All nine prompts (P1–P9) are pasted verbatim in the AI Audit Report (Section 3).
 
 Following the AI-first strategy, I did NOT use a single generic prompt. I decomposed the work into nine focused, verifiable prompts — P1–P7 for Task 1, P8–P9 for Task 2; all nine are pasted verbatim in the AI Audit Report (Section 3). The three most impactful:
 

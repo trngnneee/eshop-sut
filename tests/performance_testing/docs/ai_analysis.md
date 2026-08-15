@@ -42,13 +42,13 @@ Per-request (đơn vị **ms**), trích từ output script:
 
 > **Phân tích hiệu năng — EShop backend**
 >
-> 1. **Load:** throughput đạt **12.84 request/phút**, thời gian phản hồi trung bình khoảng **7ms**. Hệ thống ổn định.
-> 2. **Stress:** ở 200 VU, **p99 lên tới 51ms** và xuất hiện **error rate ~0.3%** (chủ yếu do timeout khi tải cao). p95 = 7ms nghĩa là **95% request thành công**, phần còn lại bị chậm hoặc lỗi.
-> 3. **CPU node đạt 42%** ở mức Stress → hệ thống đã **bão hòa (saturated)**; đây chính là **breaking point** của SUT.
-> 4. **Bottleneck** là endpoint `GET /api/products?search` do dùng `LIKE '%...%'` quét toàn bảng — đây là request chậm nhất.
-> 5. **Throughput trần** của SUT là ~12.8 req/s (đo ở Load).
+> 1. **Load:** throughput **12.84 req/s**, thời gian phản hồi **trung bình ~7ms**. Hệ thống ổn định.
+> 2. **Stress (200 VU):** độ trễ đuôi **chạm 51ms** → có dấu hiệu **suy giảm (degradation)** khi tải cao.
+> 3. **CPU node đạt 42%** ở mức Stress → hệ thống đã **gần bão hòa (saturated)**; xem như **breaking point** của SUT.
+> 4. **Bottleneck** là endpoint `GET /api/products?search` do dùng `LIKE '%...%'` quét toàn bảng — request chậm nhất, cần tối ưu trước.
+> 5. **Công suất tối đa** quan sát được ~**12.8 req/s** (đo ở Load).
 >
-> **Đề xuất threshold:** p95 < 500ms; error rate < 5%; throughput mục tiêu ≥ 100 request/phút.
+> **Đề xuất threshold:** p95 < 500ms; error rate < 5%; throughput mục tiêu ≥ 100 req/s.
 >
 > **Đề xuất tối ưu:** (a) thêm index cho `products.name` để tăng tốc search; (b) thêm index cho `users.email`; (c) bật SQLite WAL; (d) thêm **connection pool** cho SQLite; (e) thêm **Redis cache** cho categories/products; (f) chạy **Node cluster / PM2** đa nhân; (g) tăng **DB connection timeout** để hết các spike 51ms.
 
@@ -56,33 +56,30 @@ Per-request (đơn vị **ms**), trích từ output script:
 
 ## 2. Human review — Misinterpretation hunt
 
-Đối chiếu từng phát biểu với `.jtl` thô. **8 lỗi diễn giải:**
+Đối chiếu từng phát biểu với `.jtl` thô. **5 lỗi diễn giải:**
 
 | # | AI nói | Giá trị đúng (từ `.jtl`) | Loại lỗi | Vì sao AI sai |
 |---|---|---|---|---|
-| __M1__ | Load throughput = 12.84 __request/phút__ | 12.84 __request/giây__ (3,833 samples / 298.4s) | __Sai đơn vị__ (nhầm /s thành /phút, lệch 60×) | AI đọc con số trần trụi, không kiểm tra `samples / wall-time`. Đây là lỗi đơn vị kinh điển. |
-| __M2__ | Thời gian phản hồi __trung bình ~7ms__ (Load) | 7ms là __p95__; __mean = 3.2ms, median = 3ms__ | __Nhầm percentile với mean__ | AI lấy cột p95 gọi thành "average". Slide perf-testing: mean ≠ p95; phải phân biệt. |
-| __M3__ | __p99 của Stress = 51ms__ | 51ms là __max__ (1 sample); __p99 thật = 11ms__ | __Nhầm max với p99__ | AI đọc giá trị lớn nhất trong summary rồi gán nhãn p99. Ground truth: chỉ 1/63,398 request chạm 51ms. |
-| __M4__ | Stress có __error rate ~0.3% do timeout__ | __0.00%__ — 0/63,398 lỗi; `err_codes` rỗng | __Bịa lỗi (hallucination)__ | AI "đoán" phải có lỗi khi tải cao, không kiểm cột `success`/`responseCode` thực tế. |
-| __M5__ | "p95=7ms nghĩa là 95% request __thành công__, 5% còn lại chậm/lỗi" | p95 = ngưỡng __thời gian__ (95% request ≤ 7ms); tỉ lệ thành công là __100%__ | __Nhầm định nghĩa percentile ⇄ error rate__ | AI lẫn khái niệm "phân vị thời gian" với "tỉ lệ pass/fail" — hai trục hoàn toàn khác. |
-| __M6__ | CPU 42% → hệ thống __bão hòa / breaking point__ | 42% là của __1 process trên máy 10 core__ (~4.2% tổng CPU); RSS 102MB; __0 lỗi, p95 không đổi__ | __Diễn giải sai bão hòa__ | AI coi "42%" là 42% toàn máy. Bão hòa phải kèm error tăng / latency leo dốc — cả hai đều không xảy ra. |
-| __M7__ | Bottleneck là __search__ (`LIKE` full scan) | Nặng nhất là __checkout__: mean 5.2ms vs search 2.0ms (Stress) | __Suy đoán trái dữ liệu đo__ | AI suy từ code (thấy `LIKE '%q%'`) mà bỏ qua số đo per-request; bảng products chỉ 5 dòng nên full-scan không tốn, còn checkout ghi đĩa (`INSERT orders` + fsync) mới chậm nhất. |
-| __M8__ | Throughput __trần__ của SUT = 12.8 req/s | 12.8 req/s là __baseline có think-time__ (Load); Stress đã đạt __151 req/s__ vẫn 0 lỗi | __Bỏ qua think-time / nhầm baseline với capacity__ | AI lấy số của kịch bản tải nhẹ làm "trần". Trần thật > 151 req/s; giới hạn là think-time + JMeter 1 máy, không phải SUT. |
+| __M1__ | Thời gian phản hồi __trung bình ~7ms__ (Load) | 7ms là __p95__; __mean = 3.2ms, median = 3ms__ | __Nhầm p95 với mean__ | AI lấy đường 95%-line trên dashboard gọi thành "average"; không phân biệt phân vị với trung bình. mean ≠ p95. |
+| __M2__ | Đuôi __51ms → suy giảm khi tải cao__ (Stress) | 51ms là __max của 1 sample__ (1/63,398); __p99 chỉ 11ms__; 0 lỗi | __Đọc max lẻ thành xu hướng hệ thống__ | AI thấy số lớn nhất trong summary rồi suy ra degradation, không xét đó là điểm ngoại lai đơn lẻ (GC pause / SQLite checkpoint). |
+| __M3__ | CPU 42% → hệ thống __bão hòa / breaking point__ | 42% là của __1 process trên máy 10 core__ (~4% tổng CPU); RSS 102MB; __0 lỗi, p95 không đổi__ | __Diễn giải sai bão hòa__ | AI coi "42%" là 42% toàn máy. Bão hòa phải kèm error tăng / latency leo dốc — cả hai đều không xảy ra. |
+| __M4__ | Bottleneck là __search__ (`LIKE` full scan) | Nặng nhất là __checkout__: mean 5.2ms vs search 2.0ms (Stress) | __Suy từ code, trái số đo__ | AI suy từ `LIKE '%q%'` mà bỏ qua số đo per-request; bảng products chỉ 5 dòng nên full-scan không tốn, còn checkout ghi đĩa (`INSERT orders` + fsync) mới chậm nhất. |
+| __M5__ | Công suất __tối đa__ ~12.8 req/s | 12.8 req/s là __baseline có think-time__ (Load); Stress đã đạt __151 req/s__ vẫn 0 lỗi | __Bỏ qua think-time / nhầm baseline với capacity__ | AI lấy số của kịch bản tải nhẹ làm "trần". Trần thật > 151 req/s; giới hạn là think-time + JMeter 1 máy, không phải SUT. |
 
-**Ba lỗi nghiêm trọng nhất:** M4 (bịa lỗi không có), M6 (kết luận sai breaking point), M8 (báo sai công suất hệ thống thấp 12× so với thực đo)
+**Ba lỗi ảnh hưởng nhất:** M3 (kết luận sai breaking point), M4 (sai bottleneck), M5 (báo sai công suất hệ thống thấp 12× so với thực đo)
 
 ---
 
 ## 3. Chốt lại threshold (sau review)
 
-Threshold AI đề xuất **quá lỏng và không bám dữ liệu** (p95 < 500ms trong khi p95 thật chỉ 6–7ms → không bao giờ báo động; "request/phút" sai đơn vị). Ngưỡng đúng phải neo vào **baseline đo được** (regression-based):
+Threshold AI đề xuất **quá lỏng và không bám dữ liệu** (p95 < 500ms trong khi p95 thật chỉ 6–7ms → không bao giờ báo động; error < 5% che mất mọi lỗi thật). Ngưỡng đúng phải neo vào **baseline đo được** (regression-based):
 
 | Metric | AI đề xuất | Chốt lại (bám ground truth) | Lý do |
 |---|---|---|---|
 | p95 latency | < 500ms | **cảnh báo nếu p95 > 25ms** (≈ 3–4× baseline 6–7ms) | 500ms lỏng tới mức vô nghĩa cho SUT này; ngưỡng tương đối bắt được regression thật. |
 | p99 latency | (không nêu) | **< 30ms**; điều tra nếu max > 100ms lặp lại | Phân biệt tail-spike lẻ (GC/checkpoint) với suy giảm bền. |
 | Error rate | < 5% | **< 0.5%** (baseline = 0%) | 5% che mất mọi lỗi thật; SUT hiện 0 lỗi nên ngưỡng phải sát 0. |
-| Throughput | ≥ 100 req/**phút** | **≥ 140 req/giây** ở 200 VU (regression nếu tụt > 20%) | Sửa đơn vị + neo vào 151 req/s đã đo được. |
+| Throughput | ≥ 100 req/s (chung chung) | **≥ 140 req/giây** ở 200 VU (regression nếu tụt > 20%) | Neo vào 151 req/s đã đo được, đặt sàn tương đối để bắt regression. |
 | Breaking point | "đạt ở 200 VU" | **> 200 VU / > 151 req/s** (chưa gãy trong dải test) | Chưa có lỗi/latency leo → chưa chạm ngưỡng gãy. |
 
 ---
@@ -99,7 +96,7 @@ Threshold AI đề xuất **quá lỏng và không bám dữ liệu** (p95 < 500
 | d | Thêm __connection pool__ cho SQLite | __Hallucinated (cho SUT này)__ | `sqlite3` là DB __nhúng 1 file, 1 connection serialize__ — không phải mô hình client-server như Postgres/MySQL. Ghi luôn serialize ở tầng file; "pool" không áp dụng và không tăng throughput. AI bê pattern từ DB mạng sang. |
 | e | __Redis cache__ cho categories/products | __Feasible nhưng thừa / ngoài scope__ | Về kỹ thuật khả thi, nhưng read hiện đã __~2ms__ (SQLite cache trong RAM, seed 5 dòng). Thêm Redis là tối ưu sớm, thêm hạ tầng ngoài SUT — không đáng ở tải này. Chỉ hợp khi bảng lớn + read-heavy thật. |
 | f | __Node cluster / PM2__ đa nhân | __Feasible nhưng có bẫy__ | Máy 10 core, 1 process chỉ dùng ~1 core → về lý thuyết cluster tăng thông lượng. __Nhưng__ giỏ hàng lưu __in-memory__ (`userCarts`, BUG-5) không chia sẻ giữa worker → cluster sẽ __làm hỏng trạng thái giỏ__; SQLite ghi cũng tranh chấp file. Chỉ khả thi nếu chuyển cart sang store dùng chung trước. |
-| g | Tăng __DB connection timeout__ để hết spike 51ms | __Hallucinated__ | 51ms là __max lẻ 1 sample__ (GC pause / SQLite checkpoint), __không phải timeout__ (0 lỗi, không có request bị hủy). Chỉnh timeout không liên quan nguyên nhân. Dựa trên M3/M4 vốn đã sai. |
+| g | Tăng __DB connection timeout__ để hết spike 51ms | __Hallucinated__ | 51ms là __max lẻ 1 sample__ (GC pause / SQLite checkpoint), __không phải timeout__ (0 lỗi, không có request bị hủy). Chỉnh timeout không liên quan nguyên nhân. Dựa trên M2 (đọc sai max lẻ) vốn đã bị hiểu nhầm. |
 
 **Tổng kết phán xét:** 3 feasible thẳng (b, c) + 2 feasible-có-điều-kiện (e, f), **3 hallucinated** (a, d, g). Đáng chú ý: index `users.email` và WAL là hai đề xuất *đúng và rẻ*; còn index cho search, connection pool, và "tăng timeout" là AI áp mẫu sai ngữ cảnh SQLite/embedded.
 
@@ -107,6 +104,6 @@ Threshold AI đề xuất **quá lỏng và không bám dữ liệu** (p95 < 500
 
 ## 5. Bài học
 
-- AI mạnh ở **khung phân tích** (biết cần p95/throughput/error/bottleneck, biết tên các optimization) nhưng **yếu ở con số cụ thể**: nhầm đơn vị (M1), nhầm mean/p95/max (M2, M3), **bịa lỗi không có** (M4), và **áp pattern DB mạng cho SQLite nhúng** (d, a).
-- Nguồn gốc lỗi: AI suy diễn từ mẫu chung ("tải cao thì phải có timeout", "search LIKE thì phải chậm") thay vì đọc **số đo thô** và **code thật**.
+- AI mạnh ở **khung phân tích** (biết cần p95/throughput/error/bottleneck, biết tên các optimization) nhưng **yếu ở diễn giải con số**: nhầm p95 với mean (M1), đọc max lẻ thành xu hướng suy giảm (M2), suy sai bão hòa/bottleneck từ 42% CPU và code `LIKE` (M3, M4), nhầm baseline với capacity (M5); phần optimization thì **áp pattern DB mạng cho SQLite nhúng** (d, a).
+- Nguồn gốc lỗi: AI suy diễn từ mẫu chung ("tải cao thì phải suy giảm", "search LIKE thì phải chậm") và đọc summary thiếu ngữ cảnh, thay vì đọc **số đo thô** và **code thật**.
 - Nguyên tắc rút ra: luôn tự tính lại percentile từ `.jtl` thô làm ground truth; mọi con số AI nêu phải **trace ngược về log**; đề xuất tối ưu phải **đối chiếu driver/áp dụng thực tế** trước khi tin.
