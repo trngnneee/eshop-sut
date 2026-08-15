@@ -51,12 +51,13 @@ Passed — 0 lỗi, RPS/p95 phẳng, **không phát hiện memory leak** ở m�
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-08-15
-- Execution interface: JMeter 5.6.3 non-GUI + Activity Monitor, máy Apple M4 / 16GB / macOS 15.5
+- Execution interface: JMeter 5.6.3 non-GUI + htop (bám PID node backend), máy Apple M4 / 16GB / macOS 15.5
+- Execution time: 19:36–19:48 ICT
 - Observed:
-  - Samples: **14,678** | Error: **0 (0.00%)** | Throughput ổn định **20.44 req/s** | Wall: 718s
-  - Latency (ms): mean 2.5 | p90 5 | **p95 6** | p99 7 | max 118 (GC pause lẻ tẻ, không drift)
-  - node RSS dao động **17–63 MB** quanh ~30MB, **không xu hướng leo dốc** → không leak; CPU đỉnh **7.0%**
-  - **Endurance threshold (Apple M4 / 16GB):** RPS ổn định bền vững ~**20 req/s @ 30 VU** (soak 12 phút, 0 lỗi); và cao hơn nhiều — Stress đạt **151 req/s @ 200 VU vẫn 0 lỗi**. Trần CPU ~30% / RAM ~125MB → SUT không phải nút cổ chai; breaking point > 200 VU.
+  - Samples: **14,719** | Error: **0 (0.00%)** | Throughput ổn định **20.50 req/s** | Wall: 718s
+  - Latency (ms): mean 2.6 | p90 5 | **p95 6** | p99 7 | max 23 (GC pause lẻ tẻ, không drift)
+  - node RSS dao động **~30–42 MB**, kết thúc hạ về ~31MB, **không xu hướng leo dốc** → không leak; CPU đỉnh **6.7%**
+  - **Endurance threshold (Apple M4 / 16GB):** RPS ổn định bền vững ~**20.5 req/s @ 30 VU** (soak 12 phút, 0 lỗi); và cao hơn nhiều — Stress đạt **151 req/s @ 200 VU vẫn 0 lỗi**. Trần CPU ~42% / RAM ~102MB → SUT không phải nút cổ chai; breaking point > 200 VU.
 - Execution result: **Passed**
 - Evidence: `results/soak/23127438_Soak_20260815.jtl`, `results/soak/html_report/`, `results/soak/resource_soak.csv`
-- Screenshot: ![PERF-SOAK-01](../screenshots/PERF-SOAK-01.png)
+- Screenshot: ![PERF-SOAK-01](../screenshots/run_soak_jmeter+monitor.png) — chụp tại t≈360s, Active: 30 ổn định, node ~5% CPU

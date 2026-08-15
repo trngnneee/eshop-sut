@@ -50,12 +50,13 @@ Passed — 0 lỗi chức năng trong happy path. Các vấn đề phát hiện 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-08-15
-- Execution interface: JMeter 5.6.3 non-GUI + Activity Monitor, máy Apple M4 / 16GB / macOS 15.5
+- Execution interface: JMeter 5.6.3 non-GUI + htop (bám PID node backend), máy Apple M4 / 16GB / macOS 15.5
+- Execution time: 19:13–19:18 ICT
 - Observed:
-  - Samples: **3,809** | Error: **0 (0.00%)** | Throughput: **12.76 req/s** | Wall: 298s
-  - Latency (ms): mean 2.7 | p90 5 | **p95 6** | p99 8 | max 34
-  - Per-request p95: login 4 · categories 3 · search 3 · cart 3 · **checkout 7** (nặng nhất — ghi đĩa `INSERT orders`)
-  - Node backend: CPU đỉnh **4.2%** · RSS đỉnh **66 MB**
+  - Samples: **3,833** | Error: **0 (0.00%)** | Throughput: **12.84 req/s** | Wall: 298s
+  - Latency (ms): mean 3.2 | p90 6 | **p95 7** | p99 8 | max 27
+  - Per-request p95: login 5 · categories 4 · search 4 · cart 4 · **checkout 8** (nặng nhất — ghi đĩa `INSERT orders`)
+  - Node backend: CPU đỉnh **5.5%** · RSS đỉnh **47 MB**
 - Execution result: **Passed**
-- Evidence: `results/load/23127438_Load_20260815.jtl`, `results/load/html_report/`, `results/load/resource_load.csv`
-- Screenshot: ![PERF-LOAD-01](../screenshots/PERF-LOAD-01.png)
+- Evidence: `results/load/23127438_Load_20260815.jtl`, `results/load/html_report/`, `results/load/resource_load.csv`, `screenshots/report_load.png`
+- Screenshot: ![PERF-LOAD-01](../screenshots/run_load_jmeter+monitor.png) — JMeter đang chạy (Active: 20, Err 0%) + htop process `node server.js`, chụp tại t≈160s

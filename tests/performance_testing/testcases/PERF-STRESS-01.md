@@ -49,13 +49,14 @@ Passed — hệ ổn định tới 200 VU, **chưa chạm breaking point**; 0 l�
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-08-15
-- Execution interface: JMeter 5.6.3 non-GUI + Activity Monitor, máy Apple M4 / 16GB / macOS 15.5
+- Execution interface: JMeter 5.6.3 non-GUI + htop (bám PID node backend), máy Apple M4 / 16GB / macOS 15.5
+- Execution time: 19:19–19:26 ICT (lockout reset trước run)
 - Observed:
-  - Samples: **63,346** | Error: **0 (0.00%)** | Throughput: **151.11 req/s** (đỉnh 200 VU) | Wall: 419s
-  - Latency (ms): mean 2.0 | p90 4 | **p95 5** | p99 9 | max 56
-  - Per-request p95: login 5 · categories 4 · search 4 · cart 2 · **checkout 7**
-  - Node backend: CPU đỉnh **30.0%** · RSS đỉnh **125 MB**
+  - Samples: **63,398** | Error: **0 (0.00%)** | Throughput: **151.20 req/s** (đỉnh 200 VU) | Wall: 419s
+  - Latency (ms): mean 2.6 | p90 5 | **p95 7** | p99 11 | max 51
+  - Per-request p95: login 6 · categories 5 · search 5 · cart 3 · **checkout 9**
+  - Node backend: CPU đỉnh **41.6%** · RSS đỉnh **102 MB**
   - **Kết luận:** breaking point nằm **> 200 VU / > 151 req/s** — trên phần cứng M4, SUT (Node + SQLite in-process) chưa phải nút cổ chai; giới hạn thực tế là think-time và khả năng sinh thread của JMeter 1 máy.
 - Execution result: **Passed**
-- Evidence: `results/stress/23127438_Stress_20260815.jtl`, `results/stress/html_report/`, `results/stress/resource_stress.csv`
-- Screenshot: ![PERF-STRESS-01](../screenshots/PERF-STRESS-01.png)
+- Evidence: `results/stress/23127438_Stress_20260815.jtl`, `results/stress/html_report/`, `results/stress/resource_stress.csv`, `screenshots/report_stress.png`
+- Screenshot: ![PERF-STRESS-01](../screenshots/run_stress_jmeter+monitor.png) — chụp tại t≈345s, Active: 200, throughput tức thời 264 req/s, node 32% CPU

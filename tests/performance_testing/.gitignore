@@ -1,0 +1,5 @@
+# Credential — KHONG commit
+.env
+
+# JMeter noise
+*.log

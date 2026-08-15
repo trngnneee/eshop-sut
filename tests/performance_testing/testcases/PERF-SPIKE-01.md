@@ -49,13 +49,14 @@ Passed — hấp thụ cú sốc 16×, 0 lỗi, hồi phục ngay. Không phát 
 ## Actual result
 - Executed by: Đặng Trường Nguyên
 - Execution date: 2026-08-15
-- Execution interface: JMeter 5.6.3 non-GUI + Activity Monitor, máy Apple M4 / 16GB / macOS 15.5
+- Execution interface: JMeter 5.6.3 non-GUI + htop (bám PID node backend), máy Apple M4 / 16GB / macOS 15.5
+- Execution time: 19:28–19:33 ICT (lockout reset giữa Stress→Spike, xem `screenshots/lockout_reset_steps.png`)
 - Observed:
-  - Samples: **21,960** | Error: **0 (0.00%)** | Throughput: **73.34 req/s** | Wall: 299s
-  - Latency (ms): mean 1.9 | p90 4 | **p95 5** | p99 8 | **max 60** (đúng thời điểm bơm +150 VU)
-  - Per-request p95: login 5 · categories 4 · search 4 · cart 2 · **checkout 7**
-  - Node backend: CPU đỉnh **30.8%** · RSS đỉnh **86 MB**
-  - **Nhận xét:** p95 vẫn 5ms xuyên suốt, chỉ `max` nhảy lên 60ms lúc spike; không request nào fail → event-loop Node + SQLite hấp thụ burst tốt và hồi phục ngay sau khi tải rút.
+  - Samples: **22,080** | Error: **0 (0.00%)** | Throughput: **73.71 req/s** | Wall: 300s
+  - Latency (ms): mean 2.5 | p90 5 | **p95 6** | p99 10 | **max 33** (đúng thời điểm bơm +150 VU)
+  - Per-request p95: login 6 · categories 5 · search 5 · cart 3 · **checkout 8**
+  - Node backend: CPU đỉnh **41.5%** · RSS đỉnh **70 MB**
+  - **Nhận xét:** p95 vẫn 6ms xuyên suốt, chỉ `max` nhảy lên 33ms lúc spike (throughput tức thời ~222 req/s trong cửa sổ burst); không request nào fail → event-loop Node + SQLite hấp thụ burst tốt và hồi phục ngay sau khi tải rút.
 - Execution result: **Passed**
-- Evidence: `results/spike/23127438_Spike_20260815.jtl`, `results/spike/html_report/`, `results/spike/resource_spike.csv`
-- Screenshot: ![PERF-SPIKE-01](../screenshots/PERF-SPIKE-01.png)
+- Evidence: `results/spike/23127438_Spike_20260815.jtl`, `results/spike/html_report/`, `results/spike/resource_spike.csv`, `screenshots/report_spike.png`
+- Screenshot: ![PERF-SPIKE-01](../screenshots/run_spike_jmeter+monitor.png) — chụp tại t≈125s giữa cửa sổ spike, Active: 160, node 36.9% CPU
