@@ -3,6 +3,7 @@
 > **Sinh viên:** Đặng Đăng Khoa (MSSV: **23127207**)  
 > **Học phần:** Kiểm thử Phần mềm (Software Testing) · **Nhánh Git:** `HW5`  
 > **Workflow:** **Browse-to-buy** (`POST /api/login` $\to$ `GET /api/products` $\to$ `GET /api/products/{id}` $\to$ `POST /api/cart` $\to$ `POST /api/checkout`)  
+> **Repository (public):** https://github.com/trngnneee/eshop-sut · nhánh [`HW5`](https://github.com/trngnneee/eshop-sut/tree/HW5) · toàn bộ mã nguồn SUT và bài làm nằm trong repo này  
 
 ---
 
