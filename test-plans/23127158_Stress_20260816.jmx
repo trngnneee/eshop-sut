@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
   <hashTree>
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="23127158_Stress_20260816" enabled="true">
@@ -39,7 +39,7 @@
         <stringProp name="shareMode">shareMode.all</stringProp>
       </CSVDataSet>
       <hashTree/>
-      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Product Inputs">
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Product Inputs" enabled="true">
         <stringProp name="filename">E:/Testing_23CLC/HW5/eshop-sut/data/product_inputs.csv</stringProp>
         <stringProp name="fileEncoding">UTF-8</stringProp>
         <stringProp name="variableNames">search,product_id,product_name,price,quantity</stringProp>
@@ -51,7 +51,7 @@
         <stringProp name="shareMode">shareMode.all</stringProp>
       </CSVDataSet>
       <hashTree/>
-      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Checkout Inputs">
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Checkout Inputs" enabled="true">
         <stringProp name="filename">E:/Testing_23CLC/HW5/eshop-sut/data/checkout_inputs.csv</stringProp>
         <stringProp name="fileEncoding">UTF-8</stringProp>
         <stringProp name="variableNames">shipping_address,total_amount</stringProp>
@@ -92,28 +92,28 @@
       <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="Ultimate Thread Group - Stress - Buy-then-history - 10/20/35/50 users">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <collectionProp name="ultimatethreadgroupdata">
-          <collectionProp name="stress-step-10-users">
+          <collectionProp name="1281358283">
             <stringProp name="threads">10</stringProp>
             <stringProp name="initial_delay">0</stringProp>
             <stringProp name="startup_time">30</stringProp>
             <stringProp name="hold_load_for">675</stringProp>
             <stringProp name="shutdown_time">30</stringProp>
           </collectionProp>
-          <collectionProp name="stress-step-20-users">
+          <collectionProp name="-1561868597">
             <stringProp name="threads">10</stringProp>
             <stringProp name="initial_delay">150</stringProp>
             <stringProp name="startup_time">30</stringProp>
             <stringProp name="hold_load_for">525</stringProp>
             <stringProp name="shutdown_time">30</stringProp>
           </collectionProp>
-          <collectionProp name="stress-step-35-users">
+          <collectionProp name="-1504631592">
             <stringProp name="threads">15</stringProp>
             <stringProp name="initial_delay">300</stringProp>
             <stringProp name="startup_time">45</stringProp>
             <stringProp name="hold_load_for">360</stringProp>
             <stringProp name="shutdown_time">30</stringProp>
           </collectionProp>
-          <collectionProp name="stress-step-50-users">
+          <collectionProp name="-1470315243">
             <stringProp name="threads">15</stringProp>
             <stringProp name="initial_delay">465</stringProp>
             <stringProp name="startup_time">60</stringProp>
@@ -127,12 +127,12 @@
         </elementProp>
       </kg.apc.jmeter.threads.UltimateThreadGroup>
       <hashTree>
-        <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Think Time 0.5-1.5 seconds">
+        <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Think Time 0.5-1.5 seconds" enabled="true">
           <stringProp name="ConstantTimer.delay">500</stringProp>
           <stringProp name="RandomTimer.range">1000</stringProp>
         </UniformRandomTimer>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="01 Login">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="01 Login" enabled="true">
           <stringProp name="HTTPSampler.path">/api/login</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -177,7 +177,7 @@
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="02 Browse Product List">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="02 Browse Product List" enabled="true">
           <stringProp name="HTTPSampler.path">/api/products</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -196,7 +196,7 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Product List 200">
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Product List 200" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="49586">200</stringProp>
             </collectionProp>
@@ -206,7 +206,7 @@
             <intProp name="Assertion.test_type">8</intProp>
           </ResponseAssertion>
           <hashTree/>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Product List Contains Product">
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Product List Contains Product" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="1296985734">&quot;id&quot;:${product_id}</stringProp>
             </collectionProp>
@@ -238,7 +238,7 @@
             <intProp name="Assertion.test_type">8</intProp>
           </ResponseAssertion>
           <hashTree/>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Product Detail ID">
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Product Detail ID" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="1296985734">&quot;id&quot;:${product_id}</stringProp>
             </collectionProp>
@@ -296,7 +296,7 @@
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="05 Checkout">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="05 Checkout" enabled="true">
           <stringProp name="HTTPSampler.path">/api/checkout</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -392,7 +392,7 @@
           <hashTree/>
         </hashTree>
       </hashTree>
-      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report - Stress" enabled="true">
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report - Stress" enabled="false">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -426,10 +426,9 @@
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename">E:/Testing_23CLC/HW5/eshop-sut/results/stress/23127158_Stress_20260816.jtl</stringProp>
+        <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
     </hashTree>
   </hashTree>
 </jmeterTestPlan>
-

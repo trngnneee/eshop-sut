@@ -67,11 +67,12 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
   > I accept phase 1. Now you can proceed to phase 2 and generate test plan
 - **Output:**
   AI đã sinh Stress JMeter test plan `test-plans/23127158_Stress_20260816.jmx`, reuse các CSV `data/stress_auth_users.csv`, `data/product_inputs.csv`, `data/checkout_inputs.csv`, giữ workflow `Buy-then-history`, correlation JWT `${token}`, checkout `${orderId}`, 12 assertions, think time 500-1500 ms, Aggregate Report listener và output path `results/stress/23127158_Stress_20260816.jtl`. Test plan ban đầu dùng `Ultimate Thread Group` với các mức 10, 20, 35 và 50 users nhưng các row được cấu hình như target độc lập, dẫn đến workload có thể giảm gần về 0 giữa các stress level. Sau khi người dùng reopen interaction, AI chỉ sửa schedule của `Ultimate Thread Group` sang các incremental overlapping thread rows: 10 threads delay 0 startup 30 hold 675 shutdown 30; 10 threads delay 150 startup 30 hold 525 shutdown 30; 15 threads delay 300 startup 45 hold 360 shutdown 30; 15 threads delay 465 startup 60 hold 180 shutdown 30. XML được validate lại, xác nhận có 1 Ultimate Thread Group, 0 standard ThreadGroup, request sequence, CSV, correlation, assertions, think time, listener và JTL output path không đổi.
-- **Kết quả sau review:** Đã chỉnh sửa, hiện đang chờ review lại. Test plan ban đầu đã được thực thi và tạo `results/stress/result.jtl`, nhưng sau đó interaction bị reopen vì workload schedule không phù hợp: tải giảm gần về 0 giữa các stress level. Người dùng yêu cầu chuyển sang continuous stepped profile 10 -> 20 -> 35 -> 50 users bằng các incremental overlapping thread rows. AI đã sửa lại schedule và validate XML; đồng thời tách credential Stress sang `data/stress_auth_users.csv` với 50 tài khoản riêng phù hợp mức peak 50 VU. Test plan mới chưa được chấp nhận để chạy lại.
+- **Kết quả sau review:** Người dùng đã chạy test plan Stress đã sửa, nên bản continuous stepped profile 10 -> 20 -> 35 -> 50 users được xem là đã chấp nhận với corrections. Có thể chuyển sang phân tích kết quả Stress mới.
+
 <!-- AUDIT_ENTRY:interaction-005-stress-generation:END -->
 
 <!-- AUDIT_ENTRY:interaction-006-stress-analysis:START -->
-### [6] Stress Test - Phân tích kết quả lần chạy cũ
+### [6] Stress Test - Phân tích kết quả
 
 - **Công cụ:** Codex (GPT-5)
 - **Thời gian:** 2026-08-16 00:44
@@ -79,7 +80,10 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
   > Read the file at results/stress/result.jtl and proceed to phase 4
 - **Output:**
   AI đã phân tích `results/stress/result.jtl` bằng script `.codex/skills/hw05-performance-testing/scripts/analyze_jtl.py`. Kết quả lần chạy cũ có 20.531 samples, 0 failures, error rate 0,0%, toàn bộ response code là HTTP 200, duration 780,832 giây, request throughput 26,294 req/s và khoảng 3.375 complete workflows. Overall latency có avg 4,948 ms, p95 15 ms, p99 31 ms và max 82 ms. My Orders là sampler chậm nhất với avg 12,260 ms, p95 31 ms và p99 38 ms. AI đã đề xuất threshold cho Stress p95, error rate, workflow throughput và request throughput; đồng thời đề xuất optimization như index cho order-history read, pagination/LIMIT cho `/api/orders/my-orders`, bổ sung HTML Report/resource-monitor screenshot, dùng test accounts tách biệt hơn, và chỉ cân nhắc SQLite WAL/busy timeout nếu các lần test sau có lock error hoặc checkout tail latency tăng.
-- **Kết quả sau review:** Bị từ chối / không còn hiệu lực. Phân tích này sử dụng kết quả từ Stress test plan có workload schedule sau đó được xác định là không phù hợp. Nội dung được giữ lại để phục vụ audit history nhưng không được dùng làm kết quả Stress cuối cùng. Active gate quay lại Interaction [5], nơi Stress Test plan đang chờ review lại sau khi sửa continuous stepped profile.
+  Cập nhật sau review:
+  AI đã phân tích lại `results/stress/result.jtl` của run mới lúc 2026-08-16 04:26:09 đến 04:38:20 +07:00. Kết quả mới có 21.830 samples, 0 failures, error rate 0,0%, toàn bộ response code HTTP 200, duration 730,957 giây, request throughput 29,865 req/s và khoảng 3.618 complete workflows. Overall latency có avg 2,792 ms, p95 7 ms, p99 9 ms và max 188 ms. Theo từng sampler, Checkout có avg cao nhất 6,025 ms, p95 9 ms, p99 11 ms, max 188 ms; My Orders p95 chỉ 5 ms nên không còn là sampler chậm nhất như run cũ. Theo stress level, throughput tăng từ khoảng 9,173 req/s ở 10 users lên 48,008 req/s ở 50 users, p95 vẫn trong khoảng 6-8 ms và không có lỗi. Báo cáo Stress Phase 4 đã được viết lại bằng tiếng Việt, chỉ giữ recommendation cải thiện hệ thống/backend và phân loại các đề xuất như giữ implementation hiện tại, pagination My Orders dài hạn, composite index khi dữ liệu lớn hơn, theo dõi outlier, và SQLite WAL/busy timeout nếu test nặng hơn có lock contention.
+- **Kết quả sau review:** Đã phân tích lại Stress Test từ raw JTL mới sau khi test plan corrected được chạy lại. Phân tích cũ từ plan bị invalidated vẫn được giữ như lịch sử, nhưng đã được supersede bởi run mới. Phần phân tích mới đang chờ human review về interpretation, threshold, recommendation và cách diễn giải các max outlier.
+
 <!-- AUDIT_ENTRY:interaction-006-stress-analysis:END -->
 
 ## Tổng hợp công cụ sử dụng

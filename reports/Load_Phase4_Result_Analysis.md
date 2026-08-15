@@ -100,7 +100,6 @@ Các recommendation dưới đây chỉ tập trung vào cải thiện SUT/backe
 | Thêm pagination hoặc `LIMIT` cho `/api/orders/my-orders` khi dữ liệu orders tăng. | Được chấp nhận / có lý nhưng chưa được Load run chứng minh | My Orders p95 là 3,0 ms và max 7,0 ms trong Load, nhưng endpoint hiện trả toàn bộ orders của user theo `id DESC` | Tránh payload order history tăng không giới hạn khi số đơn hàng lớn. |
 | Cân nhắc composite index `orders(user_id, id DESC)` nếu test nặng hơn cho thấy My Orders latency tăng. | Có lý nhưng chưa được chứng minh | Query My Orders filter theo `user_id` và sort theo `id DESC`; Load hiện chưa chứng minh bottleneck vì p95 chỉ 3,0 ms | Có thể giảm chi phí lookup/sort khi bảng `orders` lớn hơn. |
 | Cân nhắc bật SQLite WAL mode và cấu hình busy timeout nếu Stress/Spike/Endurance xuất hiện lock wait, checkout failure hoặc checkout tail latency lặp lại. | Có lý nhưng chưa được chứng minh | Load có 0 failures; Checkout có avg 7,594 ms, p95 10,0 ms, p99 11,0 ms và một max outlier 164,0 ms | Có thể cải thiện concurrent read/write trong SQLite dưới tải cao hơn. |
-| Kiểm tra backend logic của Checkout nếu outlier 164,0 ms lặp lại ở các lần chạy sau. | Có lý nhưng chưa được chứng minh | Một sample Checkout đạt 164,0 ms trong khi p95/p99 vẫn thấp | Giúp phân biệt local noise, SQLite write contention hoặc logic backend cần tối ưu. |
 
 ## 8. Human review đối với phân tích AI
 
@@ -108,11 +107,9 @@ Theo yêu cầu Task 2 của HW05, phần phân tích do AI tạo ra phải đư
 
 | AI claim / recommendation | Giá trị đúng hoặc diễn giải đúng | Human decision | Lý do |
 |---|---|---|---|
-| Max latency 164,0 ms có thể bị diễn giải quá mức thành vấn đề hiệu năng nghiêm trọng. | Overall p95 = 8,0 ms, p99 = 10,0 ms; Checkout p95 = 10,0 ms, p99 = 11,0 ms; chỉ có một max outlier 164,0 ms. | Corrected | Một outlier cần theo dõi nhưng không chứng minh sustained degradation. |
-| Đề xuất B-tree index cho `products(name)` với query `LIKE '%term%'`. | Product List p95 chỉ 2,0 ms; query có leading wildcard nên không thể giả định B-tree index sẽ giúp. | Hallucinated / rejected | Không giữ đề xuất này nếu chưa đổi query pattern hoặc chưa có query plan chứng minh. |
-| Đề xuất pagination hoặc `LIMIT` cho My Orders. | My Orders p95 hiện chỉ 3,0 ms và max 7,0 ms, nhưng endpoint trả toàn bộ order history của user. | Feasible / accepted | Human review chấp nhận đây là cải thiện hệ thống hợp lý để tránh payload tăng không giới hạn; tuy nhiên không xem đây là bottleneck đã được Load run chứng minh. |
-| Đề xuất index cho My Orders. | My Orders p95 hiện chỉ 3,0 ms và max 7,0 ms. | Plausible but not proven | Có thể hữu ích khi dữ liệu orders lớn hơn, nhưng Load run hiện tại chưa chứng minh bottleneck. |
-| Đề xuất SQLite WAL / busy timeout. | Load run có 0 failures và không có lock error; Checkout có một outlier 164,0 ms. | Plausible but not proven | Chỉ nên áp dụng nếu test nặng hơn cho thấy lock contention hoặc tail latency lặp lại. |
+| Đề xuất pagination hoặc `LIMIT` cho My Orders. | My Orders p95 hiện chỉ 3,0 ms và max 7,0 ms, nhưng endpoint trả toàn bộ order history của user. | Feasible | Đây là cải thiện hệ thống hợp lý để tránh payload tăng không giới hạn; tuy nhiên không xem đây là bottleneck đã được Load run chứng minh. |
+| Đề xuất index cho My Orders. | My Orders p95 hiện chỉ 3,0 ms và max 7,0 ms. | Feasible | Có thể hữu ích khi dữ liệu orders lớn hơn, nhưng Load run hiện tại chưa chứng minh bottleneck. |
+| Đề xuất SQLite WAL / busy timeout. | Load run có 0 failures và không có lock error; Checkout có một outlier 164,0 ms. | Feasible | Chỉ nên áp dụng nếu test nặng hơn cho thấy lock contention hoặc tail latency lặp lại. |
 
 ## 9. Kết luận Load Test
 
