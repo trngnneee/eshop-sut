@@ -1,4 +1,5 @@
-f8483861 (HEAD -> HW5) docs(perf): update final git-commit-log with Task 4 demo and issues deliverable
+e236e382 (HEAD -> HW5) docs(perf): align README bug-report section with the three filed GitHub issues
+044c36f0 (origin/HW5) docs(perf): update final git-commit-log with Task 4 demo and issues deliverable
 117bf221 docs(perf): add Task 4 demo video link, issues evidence, and video generation tooling
 634f7a34 docs(perf): add Task 1 demo video link
 6fe794be docs(perf): file SUT bugs as GitHub issues and fix spike listener evidence
