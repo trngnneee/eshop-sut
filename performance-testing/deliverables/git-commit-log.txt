@@ -1,4 +1,10 @@
-﻿7d064e3f (HEAD -> HW5) docs(perf): add final README, AI audit report, critique, and HW05 summary report
+f8483861 (HEAD -> HW5) docs(perf): update final git-commit-log with Task 4 demo and issues deliverable
+117bf221 docs(perf): add Task 4 demo video link, issues evidence, and video generation tooling
+634f7a34 docs(perf): add Task 1 demo video link
+6fe794be docs(perf): file SUT bugs as GitHub issues and fix spike listener evidence
+e3786cc6 docs(perf): add execution evidence screenshots and capture tooling
+a9956be3 docs(perf): record real git commit history log
+7d064e3f docs(perf): add final README, AI audit report, critique, and HW05 summary report
 7594516e feat(perf): package Task 4 agent skill with generator, analyzer, and examples
 2e7ca5c3 feat(perf): add Task 3 CPT proposal, baseline.json, and GitHub Actions workflow
 1b5a26aa docs(perf): add Task 2 AI analysis dialogue and misinterpretation hunt
