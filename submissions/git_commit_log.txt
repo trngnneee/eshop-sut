@@ -1,0 +1,21 @@
+Git Commit Log – HW05 Performance Testing
+Student: Phan Quoc Thinh
+MSSV: 23127486
+Course: CS423 / CSC13003 – Software Testing (AI-augmented · 2026)
+
+================================================================================
+(Paste the output of `git log --oneline` or `git log --pretty=format:"%h %ad %s" --date=short` here)
+================================================================================
+
+Example format:
+a1b2c3d 2026-08-15 Initial commit – project setup and SUT configuration
+b2c3d4e 2026-08-15 Task 1: Add Load test plan (23127486_Load_YYYYMMDD.jmx)
+c3d4e5f 2026-08-15 Task 1: Add Stress test plan (23127486_Stress_YYYYMMDD.jmx)
+d4e5f6g 2026-08-15 Task 1: Add Spike test plan (23127486_Spike_YYYYMMDD.jmx)
+e5f6g7h 2026-08-15 Task 1: Add CSV test data file (test_data.csv)
+f6g7h8i 2026-08-15 Task 1: Add raw JTL logs (Load, Stress, Spike)
+g7h8i9j 2026-08-15 Task 2: Add AI analysis and misinterpretation hunt
+h8i9j0k 2026-08-15 Task 3: Add continuous performance testing proposal
+i9j0k1l 2026-08-15 Finalize report, AI Audit, and AI Critique
+
+(Replace the above with your actual git log output)
