@@ -58,12 +58,35 @@ For login tests, avoid invalidly locking all test accounts unless that is the in
 
 ## Mandatory Human Review Gates
 
-For each scenario (Load, Stress, Spike), follow the phases below in order.
-Do not skip phases and do not continue past a review gate without an
-explicit user response.
+Treat each meaningful AI-assisted task as one Interaction. Create a new
+Interaction only when the task meaningfully changes, such as moving from test
+design to test-plan generation, from test-plan generation to result analysis,
+or from scenario work to a general assignment task such as AI critique or
+submission validation.
 
+Feedback stays inside the same Interaction. If the user corrects something,
+asks for a revision, clarifies requirements, rejects the result, approves the
+result, asks to re-analyze the same result, or asks to modify the generated
+artifact, do not append the full feedback prompt to the report. Keep only the
+main prompt that started the Interaction, then summarize the feedback and final
+state in the output summary and review outcome. Do not create a new Interaction
+for review messages that belong to the current task.
 
-### Phase 1 — Design
+Use these lifecycle values internally and as script input:
+
+- `Pending Human Review`
+- `Approved`
+- `Approved with Corrections`
+- `Rejected`
+- `Completed`
+
+The report does not render a separate `Status` metadata line. Express the
+current lifecycle state in Vietnamese under `Kết quả sau review`.
+
+For each scenario (Load, Stress, Spike), keep the same review gates and do not
+continue past a review gate without an explicit user response.
+
+### Test Design Interaction
 
 Analyze the verified E2E workflow and propose:
 
@@ -80,17 +103,17 @@ Analyze the verified E2E workflow and propose:
 
 Do not generate the final `.jmx` yet.
 
-At the end:
+Before stopping:
 
 1. Summarize the proposed design.
-2. Create the Phase 1 audit section.
-3. Mark the phase as `Pending Human Review`.
+2. Create the design Interaction audit entry.
+3. Record the review outcome as pending human review.
 4. Ask the user to approve the design or provide corrections.
 5. STOP.
 
 Do not continue until the user replies.
 
-### Phase 2 — Generate Initial Test Plan
+### Test Plan Generation Interaction
 
 After the user approves or corrects the design:
 
@@ -108,17 +131,18 @@ Do not proceed to execution or result analysis until the user confirms.
 
 Before stopping:
 
-1. Update the Phase 1 audit section with the user's review/corrections
-   and mark its final status.
-2. Create the Phase 2 audit section containing:
-   - the prompt that started Phase 2,
-   - the generated test-plan summary,
+1. Update the design Interaction with the user's review/corrections and final
+   review outcome.
+2. Create the test-plan generation Interaction containing:
+   - the prompt that started the Interaction, unless it was already recorded
+     as the design review prompt,
+   - a concise Vietnamese summary of generated artifacts,
    - validation results,
-   - `Human Review: Pending`.
+   - a pending human review outcome.
 3. Ask the user to review the generated test plan.
 4. STOP.
 
-### Phase 3 — Execution
+### Execution Evidence
 
 The student executes the test on the local machine and captures the
 required real evidence.
@@ -129,7 +153,7 @@ Wait until a real `.jtl` file and execution evidence are available.
 
 Then STOP.
 
-### Phase 4 — Result Analysis
+### Result Analysis Interaction
 
 When a real `.jtl` file is available:
 
@@ -156,27 +180,27 @@ When a real `.jtl` file is available:
    - AI-proposed performance thresholds,
    - AI-proposed optimizations and their evidence categories.
 
-Use this Phase 4 output structure:
+Use this result-analysis output structure outside the audit report:
 
 ```md
-## Objective Metrics From Raw JTL
+Objective Metrics From Raw JTL
 
 | Metric | Value | Source |
 |---|---:|---|
 
-## Per-Sampler Metrics From Raw JTL
+Per-Sampler Metrics From Raw JTL
 
 | Sampler / endpoint | Samples | Error % | Avg ms | p95 ms | p99 ms | Throughput req/s |
 |---|---:|---:|---:|---:|---:|---:|
 
-## AI Interpretation
+AI Interpretation
 
-## AI-Proposed Thresholds
+AI-Proposed Thresholds
 
 | Threshold | Proposed value | Rationale | Raw metric used |
 |---|---:|---|---|
 
-## AI-Proposed Optimizations
+AI-Proposed Optimizations
 
 | Recommendation | Evidence category | Metric / observation used | Expected effect |
 |---|---|---|---|
@@ -196,29 +220,32 @@ Before stopping:
 
 1. Save the computed metrics, AI interpretation, and proposed thresholds.
 2. Save the AI-proposed optimizations and evidence categories.
-3. Create the Phase 4 audit section if it does not already exist.
-4. If the Phase 4 section already exists, update that same section.
-5. Set the Phase 4 status to `Pending Human Review`.
+3. Create the result-analysis Interaction if it does not already exist.
+4. If the result-analysis Interaction already exists, update that same
+   Interaction.
+5. Record the review outcome as pending human review.
 6. Ask the user to review the AI interpretation, thresholds,
    optimizations, and any unsupported claims.
 7. STOP.
 
-### Phase 5 — Human Review and Finalization
+### Human Review and Finalization
+
 After receiving the user's review:
-1. Update the Phase 4 audit section with:
+
+1. Update the same result-analysis Interaction with:
    - exact human-review prompt,
    - identified AI misinterpretations,
    - human corrections,
    - corrected raw-log values,
    - recommendation classifications,
-   - Phase 4 status: `Approved` or `Approved with Corrections`.
+   - final review outcome.
 2. Apply the human corrections to the scenario analysis.
 3. Document:
    - AI mistakes or unsupported claims,
    - correct raw-log evidence,
    - review of AI-proposed thresholds.
    - review of AI-proposed optimizations.
-4. Include a human review table:
+4. Include a human review table in the scenario report when needed:
 
 ```md
 | AI claim or recommendation | Raw evidence / correct value | Human decision | Reason |
@@ -254,213 +281,233 @@ When instructions below mention `scripts/...`, resolve that path relative to
 `.codex/skills/hw05-performance-testing/` unless a repo-level `scripts/`
 directory exists with the same helper.
 
-Use `scripts/new_audit_entry.py` when a new scenario phase begins.
+Use `scripts/new_audit_entry.py` when a new Interaction begins.
 
-Use `scripts/update_audit_entry.py` when the user reviews, approves,
-or corrects work belonging to an existing phase.
+Use `scripts/update_audit_entry.py` when the user reviews, approves, rejects,
+or corrects work belonging to an existing Interaction.
 
-The final AI Audit appendix must preserve the original AI proposal,
-the human review, and any revised AI output for each phase.
-Do not reconstruct the audit from memory at the end.
+The final AI Audit appendix must preserve the main prompt for each Interaction,
+human review decisions, revised AI output summaries, lifecycle meaning, and
+audit marker comments. Feedback prompts may be omitted from the rendered report
+when their meaning is already captured in the review outcome. Do not
+reconstruct the audit from memory at the end.
 
 ## Automatic AI Audit Logging
 
-Maintain the AI Audit Report by scenario and phase rather than creating
-a separate top-level entry for every message.
+Maintain the AI Audit Report by Interaction. An Interaction is a meaningful
+AI-assisted task, not every message. Examples include:
 
-Before taking any scenario action, inspect `reports/AI_Audit_Report.md` and
-identify the latest open phase:
+- Load Test Design
+- Load Test Plan Generation
+- Load Result Analysis
+- Stress Test Design
+- Stress Test Plan Generation
+- Stress Result Analysis
+- Spike Test Design
+- Spike Test Plan Generation
+- Spike Result Analysis
+- Endurance Test Design
+- Endurance Result Analysis
+- Continuous Performance Testing Proposal
+- AI Critique
+- Submission Validation
 
-- If the latest phase has `Pending Human Review`, treat the next relevant user
-  message as a review/correction/approval of that SAME phase.
-- Do not generate a `.jmx`, run a test, analyze `.jtl`, or open a new phase
-  until the current phase has been explicitly approved.
-- If the user asks to "continue", "proceed", or "go to phase N" while the
-  current phase is pending, first record that prompt as the human review of the
-  current phase. Only then move to the next phase if the prompt clearly approves
-  the current phase.
-- If the prompt contains corrections but not approval, update the same phase
-  and keep `Status: Pending Human Review`.
+Before taking any assignment action, inspect `reports/AI_Audit_Report.md` and
+identify the latest open Interaction:
 
-Each phase has one audit section identified by:
+- If the latest Interaction's review result says it is waiting for human
+  review, treat the next relevant user message as a review, correction, or
+  approval of that same Interaction.
+- Do not generate a `.jmx`, analyze `.jtl`, finalize conclusions, or open a
+  new Interaction that depends on the pending work until the current
+  Interaction has been explicitly approved.
+- If the user asks to "continue" or "proceed" while the current Interaction is
+  pending, first record that prompt as review input for the current
+  Interaction. Only then start the next meaningful Interaction if the prompt
+  clearly approves the current work.
+- If the prompt contains corrections but not approval, update the same
+  Interaction and keep the review outcome pending.
 
-`{Scenario} + {Phase}`
+Each Interaction has one audit section identified by a stable chronological
+marker ID. Use IDs such as:
 
-For example:
+- `interaction-001-load-design`
+- `interaction-002-load-generation`
+- `interaction-003-load-analysis`
+- `interaction-004-stress-design`
+- `interaction-005-stress-generation`
+- `interaction-006-stress-analysis`
+- `interaction-010-endurance-design`
+- `interaction-011-endurance-analysis`
+- `interaction-012-continuous-testing`
+- `interaction-013-ai-critique`
+- `interaction-014-submission-validation`
 
-- Load / Phase 1 — Design
-- Load / Phase 2 — Generate Test Plan
-- Load / Phase 4 — Result Analysis
+### When an Interaction Starts
 
-### When a phase starts
-
-1. Use `scripts/new_audit_entry.py` to create one audit section for the phase.
+1. Use `scripts/new_audit_entry.py` to create one audit section for the
+   Interaction.
 2. Record:
    - AI tool name
-   - date and time
-   - scenario
-   - phase
-   - exact initial user prompt
-   - initial AI output
-   - `Human Review: Pending` when the phase ends at a review gate
-3. Do not create another top-level audit section for the same phase.
+   - date and time as `YYYY-MM-DD HH:MM`
+   - exact main user prompt that started the Interaction, preserved in its
+     original wording
+   - Vietnamese summary of the AI output, including important artifacts,
+     metrics, validation, and recommendations
+   - review outcome in Vietnamese
+3. Keep the main prompt as a blockquote. Do not append later feedback prompts
+   to `Prompt`; summarize feedback in `Output` or `Kết quả sau review`.
+   Convert any Markdown headings inside captured prompts or summaries into
+   plain text or bold labels so they do not become document-level headings.
+4. Do not create another top-level audit section for the same Interaction.
 
 Example:
 
 ```bash
 python .codex/skills/hw05-performance-testing/scripts/new_audit_entry.py reports/AI_Audit_Report.md \
-  --id load-phase-1 \
-  --scenario Load \
-  --phase 1 \
-  --phase-name Design \
+  --id interaction-001-load-design \
+  --title "Load Test - Thiet ke kich ban kiem thu" \
   --tool "Codex GPT-5" \
   --prompt "<exact initial prompt>" \
-  --output "<initial AI output>" \
+  --output "<Vietnamese output summary>" \
   --status "Pending Human Review"
 ```
 
-### When the user reviews the phase
+### When the User Reviews an Interaction
 
-If the user approves, rejects, or corrects work from the current phase:
+If the user approves, rejects, or corrects work from the current Interaction:
 
-1. Update the SAME audit section using `scripts/update_audit_entry.py`.
-2. Preserve the original prompt and original AI output.
-3. Append:
-   - review date/time
-   - exact human-review prompt
-   - human approval/correction
-   - revised AI output, if the AI changed the artifact
-   - updated phase status
-4. Do not create a new top-level audit entry for review messages that
-   belong to the current phase.
+1. Update the same audit section using `scripts/update_audit_entry.py`.
+2. Preserve existing prompt history and output summary.
+3. Do not append the exact review prompt to the `Prompt` blockquote.
+4. Append a concise revised-output summary when the AI changed the artifact.
+5. Replace the Vietnamese review outcome for that Interaction, including the
+   substance of the human correction or decision.
+6. Do not create a new audit entry for review messages that belong to the
+   current Interaction.
 
 Example:
 
 ```bash
 python .codex/skills/hw05-performance-testing/scripts/update_audit_entry.py reports/AI_Audit_Report.md \
-  --id load-phase-1 \
+  --id interaction-001-load-design \
   --review-prompt "<exact review prompt>" \
   --review "<human decision or correction>" \
-  --revised-output "<revised AI output, if any>" \
+  --revised-output "<Vietnamese revised-output summary, if any>" \
   --status "Approved with Corrections"
 ```
 
-### Phase status
+### Audit Integrity
 
-Use one of:
+Never delete or replace the original main prompt, output summaries, timestamps,
+lifecycle meaning, or marker comments. Review feedback prompts do not need to
+be retained verbatim in the rendered report as long as their decisions and
+corrections remain represented in the same Interaction section.
 
-- `Pending Human Review`
-- `Approved`
-- `Approved with Corrections`
-- `Rejected`
-- `Completed`
-
-### Moving to another phase
-
-Create a new audit section only when the workflow actually moves to
-a new phase or scenario.
-
-### Audit integrity
-
-Never delete or replace the original prompt or initial AI output.
-Updates must append review and revision information inside the same
-phase section.
-
-Before every mandatory STOP, verify that the current phase audit section
+Before every mandatory STOP, verify that the current Interaction audit section
 has been created or updated successfully.
 
-If audit logging fails, report the failure and do not silently claim that
-the interaction was recorded.
+If audit logging fails, report the failure and do not silently claim that the
+Interaction was recorded.
 
-### Audit section lifecycle
+### Interaction Lifecycle
 
-Each scenario phase has exactly one top-level audit section.
-
-A phase audit section follows this lifecycle:
-
-1. Phase starts
+1. Interaction starts:
    - create the audit section
    - save the initial prompt
-   - save the initial AI output
-   - set status to `Pending Human Review` if a review gate is required
+   - save the initial AI output summary
+   - set the review outcome to pending if a review gate is required
+2. User requests corrections:
+   - update the same Interaction section
+   - keep the original main prompt unchanged
+   - summarize the human correction in the review outcome
+   - append the revised AI output summary when applicable
+   - keep the review outcome pending if the revised result still requires
+     approval
+3. User approves:
+   - update the same Interaction section
+   - keep the original main prompt unchanged
+   - set the review outcome to approved or approved with corrections
+4. Start a new Interaction only when the task meaningfully changes.
 
-2. User requests corrections
-   - update the SAME phase section
-   - replace the `Pending human review.` placeholder with the real review
-   - preserve the original prompt and original AI output
-   - append the exact review prompt
-   - append the human correction
-   - append the revised AI output
-   - keep status as `Pending Human Review` if the revised result still
-     requires approval
+### Audit Report Structure
 
-3. User approves
-   - update the SAME phase section
-   - record the exact approval prompt
-   - set status to `Approved` or `Approved with Corrections`
-   - remove any obsolete `Pending human review.` placeholder
+Use this renderable Vietnamese HW04-style structure:
 
-4. Only after approval may the workflow move to the next phase.
+```md
+# AI Audit Report - HW05 Performance Testing
 
-### Audit section structure
+Bao cao nay ghi lai cac lan tuong tac voi cong cu AI trong qua trinh thuc hien HW05 Performance Testing.
 
-Use this structure for each phase:
+## Nhat ky tuong tac
 
-## {Scenario} — Phase {N}: {Phase Name}
+<!-- AUDIT_ENTRY:{interaction-id}:START -->
+### [{N}] {Interaction Title}
 
-- **Started:** {M/D/YYYY h:mm AM/PM}
-- **Tool:** {AI tool}
-- **Status:** {phase status}
-- **Triggered by:** {previous phase approval, when applicable}
+- **Cong cu:** {AI tool}
+- **Thoi gian:** {YYYY-MM-DD HH:MM}
+- **Prompt:**
+  > {exact user prompt}
+- **Output:**
+  {Vietnamese summary of AI output}
+- **Ket qua sau review:** {Vietnamese review result and lifecycle state}
+<!-- AUDIT_ENTRY:{interaction-id}:END -->
 
-### Initial Prompt
+## Tong hop cong cu su dung
 
-{exact prompt that started the phase}
+| Cong cu | Muc dich su dung | So luot tuong tac |
+|---|---|---:|
+| Codex (GPT-5) | Ho tro thiet ke, sinh file JMeter, phan tich ket qua va chinh sua bao cao | {count} |
+```
 
-### Initial AI Output
+Use Vietnamese diacritics in the actual report when the file encoding supports
+UTF-8. The ASCII labels above are only for portable examples in this skill.
 
-{AI proposal/output before human review}
+Keep the audit hierarchy visually consistent:
 
-### Human Review
+- `#` only for the report title
+- `##` only for `Nhật ký tương tác` and `Tổng hợp công cụ sử dụng`
+- `###` only for Interaction entries, formatted as `### [N] Title`
+- No rendered `####` or `#####` headings in the AI Audit Report
+- No separate structural sections for initial prompt, initial output, or review
 
-{Pending human review OR actual review information}
+Do not allow headings copied inside prompts, AI output summaries, reviews, or
+revised output summaries to visually override their parent audit section.
+Preserve their visible text, but neutralize Markdown heading markers by using
+plain text or bold labels.
 
-If corrections are requested:
+### Special Reopen Handling
 
-#### Review Prompt
+If a phase is reopened after testing proves the previous plan is unsuitable,
+do not delete the historical entry. Update the same Interaction's review
+outcome to state that the previous approval is superseded and the revised
+artifact is pending review.
 
-{exact user correction prompt}
+For the current Stress Phase 2 history, preserve that:
 
-#### Human Review / Decision
+- the old generated Stress test plan existed and was executed
+- the phase was reopened after review
+- previous approval should be treated as superseded
+- the revised Stress plan uses a continuous stepped profile `10 -> 20 -> 35 -> 50`
+- the revised plan is pending review and has not yet been accepted for rerun
 
-{structured correction}
+For Stress result analysis based on the old invalidated run, keep the
+historical Interaction but mark it as rejected or no longer valid. Do not use
+it as the final Stress conclusion until a new accepted plan is executed and
+real evidence is available.
 
-#### Revised AI Output
+### Interaction Transition Rule
 
-{AI output after applying the correction}
+If one user message both approves/reviews the current Interaction and requests
+the next task:
 
-If additional reviews occur, append them inside this same Human Review
-section instead of creating another top-level audit entry.
-
-
-### Phase transition rule
-
-If one user message both:
-
-- approves/reviews the current phase, and
-- authorizes moving to the next phase,
-
-record the exact prompt only as the Human Review Prompt of the current
-phase.
-
-When creating the next phase, do not duplicate that prompt.
-
-Instead record:
-
-`Triggered by: {Previous Scenario / Phase} approval`
-
-Only create a new `Initial Prompt` in the next phase when the user sends
-a separate prompt specifically for that phase.
+1. Summarize the review/approval part in the current Interaction's review
+   outcome.
+2. Create the next Interaction only when the prompt clearly starts a new
+   meaningful task.
+3. Do not duplicate the same user prompt as the next Interaction's initial
+   prompt. If no separate prompt exists, use a neutral note such as
+   `<No separate initial prompt; started after prior approval/review.>`.
 
 ## Validation
 
