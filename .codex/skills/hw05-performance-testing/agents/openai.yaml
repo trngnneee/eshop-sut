@@ -1,0 +1,4 @@
+interface:
+  display_name: "HW05 Performance Testing"
+  short_description: "Run HW05 load, stress, spike workflow"
+  default_prompt: "Use $hw05-performance-testing to design, execute, analyze, and package my HW05 performance-testing submission."
