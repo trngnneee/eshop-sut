@@ -11,7 +11,7 @@
 | Video | Nội dung | Link |
 |:---|:---|:---|
 | **Task 1 — Thực thi 4 kịch bản tải** | Thuyết minh tiếng Việt, JMeter và Task Manager trong cùng khung hình, đọc số liệu trực tiếp trên màn hình | https://youtu.be/9AfuhaxZ0Zk |
-| **Task 4 — Demo Agent Skill** | End-to-end: dùng skill sinh test plan cho một endpoint group hoàn chỉnh, và tái sử dụng cho endpoint group thứ hai | `<<CHƯA CÓ — xem 11_AGENT_SKILL_SPEC.md §8>>` |
+| **Task 4 — Demo Agent Skill** | End-to-end: dùng skill sinh test plan cho một endpoint group hoàn chỉnh, và tái sử dụng cho endpoint group thứ hai | https://youtu.be/JP2z4raDbAs |
 
 ---
 

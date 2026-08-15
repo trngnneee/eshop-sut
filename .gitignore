@@ -6,3 +6,8 @@ node_modules
 # JMeter local artifacts
 *.jmeter.log
 jmeter.log
+
+# Video generation build artifacts
+video_demo/
+test_frame.py
+*.mp4
