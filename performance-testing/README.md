@@ -85,22 +85,31 @@ Ba lỗi thật phát hiện trong quá trình kiểm thử hiệu năng đã đ
 
 | # | Issue | Loại | Link |
 |:--|:---|:---|:---|
-| 1 | `[PERF] In-memory cart (userCarts) grows unbounded — memory leak under sustained load` | Performance | https://github.com/trngnneee/eshop-sut/issues/399 |
-| 2 | `[FR-02] Login attempt counter increments by 2 and lockout lasts 180s instead of 30s` | Functional | https://github.com/trngnneee/eshop-sut/issues/400 |
-| 3 | `[FR-06] GET /api/products/:id returns 200 with empty body for non-existent id` | Functional | https://github.com/trngnneee/eshop-sut/issues/401 |
+| #399 | `[PERF] In-memory cart (userCarts) grows unbounded - memory leak under sustained load` | Performance | https://github.com/trngnneee/eshop-sut/issues/399 |
+| #400 | `[FR-02] Login attempt counter increments by 2 and lockout lasts 180s instead of 30s` | Functional | https://github.com/trngnneee/eshop-sut/issues/400 |
+| #401 | `[FR-06] GET /api/products/:id returns 200 with empty body for non-existent id` | Functional | https://github.com/trngnneee/eshop-sut/issues/401 |
 
 Ảnh chụp trang danh sách Issues: `evidence/issues/github-issues-list.png`
 
-### Issue 1: `[BUG] Memory Leak in userCarts Global Object (server.js:14,293)`
-- **Mức độ:** `Critical`
-- **Mô tả:** Mảng `userCarts[userId]` trong heap V8 liên tục tích lũy đối tượng giỏ hàng khi người dùng gọi `POST /api/cart` mà không hề được giải phóng sau khi `POST /api/checkout` hoàn tất.
-- **Bằng chứng:** Trong bài kiểm thử Endurance (30 VU, 12 phút), RAM Private tăng liên tục từ 60.30 MB lên 137.39 MB với tốc độ $6.45\text{ MB/min}$, đẩy độ trễ p95 từ 47ms lên 2,112ms. Dự báo sập container 512MB sau 70 phút.
-- **Đề xuất sửa:** Bổ sung `delete userCarts[userId];` tại callback hoàn tất thanh toán của `POST /api/checkout`.
+### Issue #399 — `[PERF] In-memory cart (userCarts) grows unbounded`
+- **Mức độ:** `Critical` · **Vị trí:** `backend/server.js:14, 293` và `/api/checkout` (`server.js:296-308`)
+- **Mô tả:** Đối tượng toàn cục `userCarts` trong heap V8 liên tục `push()` payload giỏ hàng ở mỗi lần `POST /api/cart`, nhưng handler `POST /api/checkout` chỉ `INSERT` đơn hàng rồi trả về, **không hề có `delete userCarts[userId]`**. Bộ nhớ vì vậy chỉ tăng, không bao giờ được thu hồi.
+- **Bằng chứng:** Kịch bản Endurance (30 VU, 12 phút) — RAM Private tăng từ **60.30 MB** lên **137.39 MB** với tốc độ $6.45\text{ MB/min}$, kéo p95 thoái hóa từ 47ms lên 2,112ms. Số liệu thô: `results/endurance/resource-endurance.csv`. Dự báo cạn bộ nhớ container 512MB sau **70 phút**.
+- **Đề xuất sửa:** Thêm `delete userCarts[userId];` sau khi `INSERT` đơn hàng thành công trong `POST /api/checkout`.
 
-### Issue 2: `[PERF] High Response Latency Under Concurrent Spike Load (server.js:153)`
-- **Mức độ:** `High`
-- **Mô tả:** Khi có đột biến 300 VU đồng thời, câu truy vấn `GET /api/products` thực hiện quét toàn bộ bảng 505 sản phẩm trả về payload 154 KB cho mỗi request, làm nghẽn hàng đợi sự kiện Node.js và đẩy p95 lên trên 1.3 giây.
-- **Đề xuất sửa:** Bổ sung phân trang `LIMIT / OFFSET` cho API danh mục sản phẩm và nén gzip cho response payload.
+### Issue #400 — `[FR-02] Login attempt counter increments by 2 and lockout lasts 180s`
+- **Mức độ:** `High` · **Vị trí:** `backend/server.js:54, 57`
+- **Mô tả:** Đặc tả FR-02 quy định khóa tài khoản sau **3 lần** đăng nhập sai, thời gian khóa **30 giây**. Code thực tế cộng `login_attempts + 2` mỗi lần sai (`server.js:54`) và đặt `locked_until = Date.now() + 180000` (`server.js:57`) — tức **chỉ 2 lần sai là bị khóa, và khóa 3 phút**.
+- **Bằng chứng:** Phát hiện khi thiết kế bước `POST /api/login` cho workflow Browse-to-buy; buộc phải bổ sung `scripts/reset_lockout.js` chạy trước mỗi kịch bản để 400 tài khoản không bị khóa dây chuyền ở Stress/Spike (xem `evidence/stress/lockout-reset.png`).
+- **Đề xuất sửa:** Sửa thành `login_attempts + 1` và `Date.now() + 30000` cho khớp đặc tả.
+
+### Issue #401 — `[FR-06] GET /api/products/:id returns 200 with empty body`
+- **Mức độ:** `Medium` · **Vị trí:** `backend/server.js:161-162`
+- **Mô tả:** Khi không tìm thấy sản phẩm, handler trả `res.status(200).json({})` thay vì `404`. Ngoài ra `server.js:162` ép `price` thành chuỗi khi `id` chẵn, làm kiểu dữ liệu của cùng một trường không nhất quán giữa các bản ghi.
+- **Bằng chứng:** Chính lỗi này khiến assertion chỉ kiểm tra HTTP status trở nên vô nghĩa — test plan phải dùng Response Assertion kiểm **nội dung** body (có `name`/`price`) thay vì chỉ `200`. Xem `deliverables/03_human-review-fixes.md`.
+- **Đề xuất sửa:** Trả `404` khi không có bản ghi và giữ `price` ở kiểu số cho mọi `id`.
+
+> **Ghi chú:** Độ trễ cao của `GET /api/products` dưới tải đột biến (full table scan 505 sản phẩm, payload 154 KB, p95 đỉnh 1,302ms) là **phát hiện hiệu năng đã phân tích trong báo cáo** (§2 và `deliverables/04_execution-report.md`), không đăng thành GitHub Issue riêng vì đây là hệ quả thiết kế API chứ không phải lỗi sai lệch so với đặc tả.
 
 ---
 
