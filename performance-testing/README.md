@@ -70,7 +70,17 @@ performance-testing/
 
 ---
 
-## 3. Bản Thảo Báo Lỗi GitHub Issues (Bug Reports)
+## 3. Báo Lỗi GitHub Issues (Bug Reports)
+
+Ba lỗi thật phát hiện trong quá trình kiểm thử hiệu năng đã được đăng lên GitHub Issues của SUT:
+
+| # | Issue | Loại | Link |
+|:--|:---|:---|:---|
+| 1 | `[PERF] In-memory cart (userCarts) grows unbounded — memory leak under sustained load` | Performance | https://github.com/trngnneee/eshop-sut/issues/399 |
+| 2 | `[FR-02] Login attempt counter increments by 2 and lockout lasts 180s instead of 30s` | Functional | https://github.com/trngnneee/eshop-sut/issues/400 |
+| 3 | `[FR-06] GET /api/products/:id returns 200 with empty body for non-existent id` | Functional | https://github.com/trngnneee/eshop-sut/issues/401 |
+
+Ảnh chụp trang danh sách Issues: `evidence/issues/github-issues-list.png`
 
 ### Issue 1: `[BUG] Memory Leak in userCarts Global Object (server.js:14,293)`
 - **Mức độ:** `Critical`
