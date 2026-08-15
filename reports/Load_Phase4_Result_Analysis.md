@@ -1,85 +1,119 @@
-# Load - Phase 4: Result Analysis
+# Báo cáo kết quả Load Test
 
-## Source Evidence
+## 1. Mục tiêu và phạm vi kiểm thử
 
-- Raw JTL: `results/load/result.jtl`
-- Test plan: `test-plans/23127158_Load_20260815.jmx`
-- Scenario: Load
-- Workflow: Buy-then-history
-- Run window from JTL timestamps: 2026-08-15 23:37:54 +07:00 to 2026-08-15 23:44:14 +07:00
-- Execution evidence gap: `reports/html/load/` is currently empty, and no resource-monitor screenshot was found in the workspace during this analysis pass.
+Load Test được thực hiện cho workflow end-to-end `Buy-then-history` của hệ thống EShop:
 
-## Objective Metrics From Raw JTL
+`Login -> browse product list -> view product detail -> add to cart -> checkout -> read My Orders`
 
-Computed with `.codex/skills/hw05-performance-testing/scripts/analyze_jtl.py`.
+Workflow này bao phủ ba nhóm endpoint backend được yêu cầu trong HW05:
 
-| Metric | Value | Source |
+| Nhóm endpoint | API được kiểm thử trong workflow |
+|---|---|
+| Auth-heavy | `POST /api/login` |
+| Read-heavy | `GET /api/products?search=...`, `GET /api/products/:id`, `GET /api/orders/my-orders` |
+| Transactional | `POST /api/cart`, `POST /api/checkout` |
+
+Mục tiêu của Load Test là kiểm tra hệ thống dưới mức tải ổn định 10 người dùng đồng thời, dùng làm baseline trước khi thực hiện Stress/Spike/Endurance.
+
+## 2. Cấu hình kiểm thử
+
+| Thành phần | Giá trị |
+|---|---|
+| Student ID | `23127158` |
+| Backend base URL | `http://localhost:3000` |
+| Thread model | Ultimate Thread Group |
+| Số người dùng đồng thời | 10 users |
+| Ramp-up | 60 giây |
+| Hold load | 300 giây |
+| Shutdown | 30 giây |
+| Think time | Uniform Random Timer 1000-3000 ms |
+| Dữ liệu đăng nhập | 10 tài khoản riêng cho 10 VU |
+| Dữ liệu sản phẩm | Search term, product ID, product name, price, quantity |
+| Dữ liệu checkout | Shipping address và total amount |
+| Listener/report view | Summary Report |
+
+Bộ dữ liệu đăng nhập chứa 10 tài khoản riêng cho 10 VU, tránh việc toàn bộ thread dùng chung một user. Điều này giúp giảm nhiễu do shared cart/order history trong các lần chạy lại.
+
+Thời gian chạy được suy ra từ timestamp trong JTL: từ `2026-08-16 03:04:57 +07:00` đến `2026-08-16 03:11:18 +07:00`.
+
+## 3. Kết quả tổng quan từ raw JTL
+
+Các số liệu dưới đây được tính từ raw JTL của lần chạy Load Test.
+
+| Metric | Giá trị | Nguồn |
 |---|---:|---|
-| Total samples | 1,727 | `result.jtl` rows |
-| Failures | 0 | `success` column |
-| Error rate | 0.0% | `failures / samples` |
-| Response code distribution | HTTP 200: 1,727 | `responseCode` column |
-| Duration | 380.446 s | first-to-last `timeStamp` |
-| Request throughput | 4.539 req/s | `samples / duration` |
-| Approx. complete workflows | 283 | minimum terminal sampler count, `06 My Orders Verify New Order` |
-| Approx. workflow throughput | 0.744 workflows/s, 44.63 workflows/min | `283 / 380.446 s` |
-| Avg latency | 2.871 ms | `elapsed` column |
-| Median latency | 2.0 ms | `elapsed` column |
-| p90 latency | 5.0 ms | `elapsed` column |
-| p95 latency | 8.0 ms | `elapsed` column |
-| p99 latency | 9.0 ms | `elapsed` column |
-| Max latency | 46.0 ms | `elapsed` column |
+| Tổng số samples | 1.709 | raw JTL |
+| Failures | 0 | cột `success` |
+| Error rate | 0,0% | `failures / samples` |
+| Response code | HTTP 200: 1.709 | cột `responseCode` |
+| Duration | 381,346 giây | timestamp đầu-cuối |
+| Request throughput | 4,481 req/s | `samples / duration` |
+| Complete workflows xấp xỉ | 282 | số sampler cuối `06 My Orders Verify New Order` |
+| Workflow throughput xấp xỉ | 0,739 workflows/s, 44,37 workflows/phút | `282 / 381,346 s` |
+| Avg latency | 3,002 ms | cột `elapsed` |
+| p95 latency | 8,0 ms | cột `elapsed` |
+| p99 latency | 10,0 ms | cột `elapsed` |
+| Max latency | 164,0 ms | cột `elapsed` |
 
-## Per-Sampler Metrics From Raw JTL
+## 4. Kết quả theo từng sampler
 
-| Sampler / endpoint | Samples | Error % | Avg ms | p95 ms | p99 ms | Throughput req/s |
-|---|---:|---:|---:|---:|---:|---:|
-| 01 Login / `POST /api/login` | 292 | 0.0 | 3.051 | 4 | 4 | 0.784 |
-| 02 Browse Product List / `GET /api/products?search=...` | 291 | 0.0 | 1.567 | 2 | 3.1 | 0.784 |
-| 03 View Product Detail / `GET /api/products/:id` | 289 | 0.0 | 1.519 | 2 | 2 | 0.776 |
-| 04 Add To Cart / `POST /api/cart` | 286 | 0.0 | 1.916 | 3 | 3 | 0.768 |
-| 05 Checkout / `POST /api/checkout` | 286 | 0.0 | 6.563 | 9 | 10 | 0.769 |
-| 06 My Orders Verify New Order / `GET /api/orders/my-orders` | 283 | 0.0 | 2.640 | 3 | 4 | 0.785 |
+| Sampler / endpoint | Samples | Error % | Avg ms | p95 ms | p99 ms | Max ms | Throughput req/s |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 01 Login / `POST /api/login` | 288 | 0,0 | 3,097 | 4,0 | 8,13 | 25,0 | 0,778 |
+| 02 Browse Product List / `GET /api/products?search=...` | 288 | 0,0 | 1,587 | 2,0 | 3,0 | 3,0 | 0,778 |
+| 03 View Product Detail / `GET /api/products/:id` | 285 | 0,0 | 1,540 | 2,0 | 3,0 | 4,0 | 0,770 |
+| 04 Add To Cart / `POST /api/cart` | 283 | 0,0 | 1,972 | 3,0 | 3,18 | 4,0 | 0,761 |
+| 05 Checkout / `POST /api/checkout` | 283 | 0,0 | 7,594 | 10,0 | 11,0 | 164,0 | 0,760 |
+| 06 My Orders Verify New Order / `GET /api/orders/my-orders` | 282 | 0,0 | 2,255 | 3,0 | 4,0 | 7,0 | 0,757 |
 
-## AI Interpretation
+## 5. Nhận xét kết quả
 
-The Load run completed successfully from the raw JTL perspective. All 1,727 recorded samples succeeded, and every response code was HTTP 200. Overall latency was low in this local environment: p95 was 8 ms, p99 was 9 ms, and max latency was 46 ms. The measured request throughput was 4.539 req/s.
+Load Test chạy thành công ở mức 10 concurrent users. Tất cả 1.709 samples đều trả về HTTP 200, không có failure và error rate là 0,0%. Điều này cho thấy workflow `Buy-then-history` hoạt động ổn định trong điều kiện tải cơ bản của môi trường local.
 
-The checkout sampler is the slowest step in the workflow, with average latency 6.563 ms and p95 9 ms. This is expected because checkout performs an order insert, while the product list/detail endpoints are read-heavy and stayed around 2 ms p95. The My Orders verification step stayed low at p95 3 ms even after repeated order creation, so the raw Load evidence does not show order-history read degradation at this scale.
+Latency tổng thể thấp: p95 là 8,0 ms và p99 là 10,0 ms. Đây là kết quả tốt cho Load baseline. Request throughput đạt 4,481 req/s, tương ứng khoảng 282 workflow hoàn chỉnh trong 381,346 giây, hay khoảng 44,37 workflow/phút.
 
-Sampler counts are uneven: 292 logins were recorded, but only 283 final My Orders checks completed. For business-flow reporting, the safer completed workflow count is therefore 283, not 292. This likely reflects Ultimate Thread Group ramp-down/stopped iterations near the end of the schedule, but the JTL alone cannot prove the exact stopping cause.
+Checkout là bước chậm nhất trong workflow với avg 7,594 ms, p95 10,0 ms và p99 11,0 ms. Điều này hợp lý vì checkout là bước ghi dữ liệu vào bảng `orders`, trong khi product list/detail và My Orders chủ yếu là thao tác đọc. Có một outlier tại Checkout với max latency 164,0 ms. Tuy nhiên p95/p99 vẫn thấp và không có lỗi, nên không đủ bằng chứng để kết luận hệ thống bị suy giảm hiệu năng kéo dài. Outlier này nên được theo dõi lại ở Stress/Spike/Endurance.
 
-This result is a healthy baseline, not proof of production capacity. The JTL does not include CPU, memory, disk, SQLite lock waits, or server-side profiling. Because no resource-monitor screenshot or HTML report output was found in the workspace, any claim about hardware saturation would be unsupported.
+Số lượng sampler không hoàn toàn bằng nhau: 288 login nhưng chỉ có 282 bước My Orders hoàn tất. Vì vậy, khi báo cáo số workflow hoàn chỉnh, giá trị an toàn là 282 chứ không phải 288. Nguyên nhân có khả năng là một số iteration bị dừng ở giai đoạn ramp-down của Ultimate Thread Group, nhưng raw JTL không đủ thông tin để kết luận chắc chắn.
 
-## AI-Proposed Thresholds
+Báo cáo này chỉ kết luận dựa trên số liệu response-time, throughput, error rate và response code trong raw JTL. Do không phân tích trực tiếp số liệu CPU, RAM hoặc disk I/O trong phần này, báo cáo không đưa ra kết luận về giới hạn phần cứng.
 
-| Threshold | Proposed value | Rationale | Raw metric used |
+## 6. Ngưỡng hiệu năng đề xuất
+
+| Ngưỡng | Giá trị đề xuất | Lý do | Metric dùng làm cơ sở |
 |---|---:|---|---|
-| Overall p95 latency warning | > 50 ms | The observed p95 is 8 ms. A 50 ms warning catches a >6x regression while allowing normal local variance. | Overall p95 = 8 ms |
-| Overall p95 latency fail | > 100 ms | A 100 ms p95 would be >12x this baseline and should fail the Load baseline unless explained by hardware or environment changes. | Overall p95 = 8 ms |
-| Checkout p95 warning | > 75 ms | Checkout is the slowest business-critical sampler at p95 9 ms; 75 ms allows write variance but flags a major regression. | Checkout p95 = 9 ms |
-| Error-rate warning | > 0.5% | The observed error rate is 0.0%; any recurring failures under valid-user Load are worth investigating. | Error rate = 0.0% |
-| Error-rate fail | >= 1.0% | A 1% failure rate in a modest local Load scenario indicates unstable behavior or test-data contamination. | Error rate = 0.0% |
-| Request throughput floor | < 4.0 req/s | Observed throughput is 4.539 req/s; dropping below 4.0 req/s under the same profile suggests regression. | Request throughput = 4.539 req/s |
-| Complete workflow throughput floor | < 0.65 workflows/s | Observed completed workflow throughput is 0.744 workflows/s; this catches material slowdown while allowing noise. | Workflow throughput = 0.744 workflows/s |
+| Overall p95 warning | > 50 ms | Cao hơn baseline p95 8,0 ms hơn 6 lần, đủ nhạy để phát hiện regression nhưng vẫn chừa khoảng dao động local. | Overall p95 = 8,0 ms |
+| Overall p95 fail | > 100 ms | Cao hơn baseline hơn 12 lần; nếu vượt mức này trong cùng profile thì cần xem là lỗi hiệu năng trừ khi có lý do môi trường rõ ràng. | Overall p95 = 8,0 ms |
+| Checkout p95 warning | > 75 ms | Checkout là bước business-critical và chậm nhất, nhưng p95 hiện chỉ 10,0 ms. | Checkout p95 = 10,0 ms |
+| Error-rate warning | > 0,5% | Baseline hiện tại không có lỗi; lỗi lặp lại với credential hợp lệ cần được điều tra. | Error rate = 0,0% |
+| Error-rate fail | >= 1,0% | Mức lỗi 1% trong Load Test local là dấu hiệu không ổn định. | Error rate = 0,0% |
+| Request throughput floor | < 4,0 req/s | Baseline đạt 4,481 req/s; thấp hơn 4,0 req/s trong cùng profile có thể là regression. | Throughput = 4,481 req/s |
+| Complete workflow throughput floor | < 0,65 workflows/s | Baseline đạt 0,739 workflows/s; ngưỡng này giúp phát hiện giảm throughput đáng kể. | Workflow throughput = 0,739 workflows/s |
 
-## AI-Proposed Optimizations
+## 7. Đề xuất cải thiện hệ thống
 
-| Recommendation | Evidence category | Metric / observation used | Expected effect |
+Các recommendation dưới đây chỉ tập trung vào cải thiện SUT/backend. Những việc như chuẩn bị bằng chứng thực thi hoặc điều chỉnh dữ liệu kiểm thử không được tính là system optimization.
+
+| Recommendation | Phân loại | Metric / quan sát dùng làm cơ sở | Tác động kỳ vọng |
 |---|---|---|---|
-| Keep the current implementation as the Load baseline and do not optimize solely from this run. | Supported by raw evidence | 0 failures, 0.0% error rate, all 1,727 responses HTTP 200, overall p95 8 ms | Avoid unnecessary code churn; preserve this run as the baseline for Stress/Spike comparison. |
-| Add per-thread or per-user test accounts instead of reusing only `test@eshop.com` for all load threads. | Plausible but not proven | The original Load run used repeated credentials in `auth_users.csv`; workflow uses cart and orders tied to `user_id`; sampler counts are uneven from 292 login to 283 My Orders. This has been addressed for reruns by `data/load_auth_users.csv`. | Reduce shared-user state interference, make order-history assertions cleaner, and improve repeatability for higher Stress/Spike loads. |
-| Generate the JMeter HTML report after execution and capture backend resource monitor evidence beside JMeter. | Supported by raw evidence | `results/load/result.jtl` exists, but `reports/html/load/` is empty and no resource-monitor screenshot was found | Improves assignment evidence quality; enables correlation of latency with CPU/memory/disk behavior. |
-| Add an index for order-history lookup, for example `CREATE INDEX idx_orders_user_id_id ON orders(user_id, id DESC)`, if Stress/Spike or endurance tests show My Orders latency growth. | Plausible but not proven | My Orders query filters by `user_id` and sorts by `id DESC`; current Load My Orders p95 is only 3 ms, so the bottleneck is not proven | May keep order-history reads stable as the orders table grows; should be validated with larger data volume. |
-| Consider SQLite WAL mode and a configured busy timeout if later Stress/Spike tests show checkout write contention or lock errors. | Plausible but not proven | Checkout is the slowest sampler at avg 6.563 ms and p95 9 ms, but this Load run has 0 failures and no lock errors | Could improve concurrent write/read behavior under heavier workloads; not necessary based on this Load run alone. |
-| Parameterize `/api/products?search=...` SQL instead of interpolating the search term directly. | Plausible but not proven | Backend source shows `LIKE '%${searchQuery}%'`; product search p95 is 2 ms, so this is not a performance bottleneck in the JTL | Improves safety and query correctness; performance impact is likely small for this dataset. |
-| Add a normal B-tree index on `products(name)` and expect it to speed up the current `LIKE '%term%'` search. | Unsupported / possible hallucination | Product search p95 is already 2 ms; the query pattern has a leading wildcard, which commonly prevents normal index use | Do not claim this as a proven optimization unless the query pattern changes or database query plans confirm benefit. |
+| Thêm pagination hoặc `LIMIT` cho `/api/orders/my-orders` khi dữ liệu orders tăng. | Được chấp nhận / có lý nhưng chưa được Load run chứng minh | My Orders p95 là 3,0 ms và max 7,0 ms trong Load, nhưng endpoint hiện trả toàn bộ orders của user theo `id DESC` | Tránh payload order history tăng không giới hạn khi số đơn hàng lớn. |
+| Cân nhắc composite index `orders(user_id, id DESC)` nếu test nặng hơn cho thấy My Orders latency tăng. | Có lý nhưng chưa được chứng minh | Query My Orders filter theo `user_id` và sort theo `id DESC`; Load hiện chưa chứng minh bottleneck vì p95 chỉ 3,0 ms | Có thể giảm chi phí lookup/sort khi bảng `orders` lớn hơn. |
+| Cân nhắc bật SQLite WAL mode và cấu hình busy timeout nếu Stress/Spike/Endurance xuất hiện lock wait, checkout failure hoặc checkout tail latency lặp lại. | Có lý nhưng chưa được chứng minh | Load có 0 failures; Checkout có avg 7,594 ms, p95 10,0 ms, p99 11,0 ms và một max outlier 164,0 ms | Có thể cải thiện concurrent read/write trong SQLite dưới tải cao hơn. |
+| Kiểm tra backend logic của Checkout nếu outlier 164,0 ms lặp lại ở các lần chạy sau. | Có lý nhưng chưa được chứng minh | Một sample Checkout đạt 164,0 ms trong khi p95/p99 vẫn thấp | Giúp phân biệt local noise, SQLite write contention hoặc logic backend cần tối ưu. |
 
-## Human Review Questions
+## 8. Human review đối với phân tích AI
 
-- Confirm whether the uneven sampler counts should be explained as expected ramp-down behavior from the Ultimate Thread Group.
-- Review the optimization evidence categories, especially which items should be treated as feasible, plausible but not proven, unsupported, or hallucinated.
-- Verify whether the missing HTML report and resource-monitor screenshot exist outside the workspace and should be copied into the evidence folder.
-- Review whether the proposed thresholds are reasonable for your hardware and course expectations.
+Theo yêu cầu Task 2 của HW05, phần phân tích do AI tạo ra phải được review lại và chỉ ra những chỗ AI đọc sai, diễn giải sai hoặc đề xuất chưa phù hợp.
 
-Status: Pending Human Review.
+| AI claim / recommendation | Giá trị đúng hoặc diễn giải đúng | Human decision | Lý do |
+|---|---|---|---|
+| Max latency 164,0 ms có thể bị diễn giải quá mức thành vấn đề hiệu năng nghiêm trọng. | Overall p95 = 8,0 ms, p99 = 10,0 ms; Checkout p95 = 10,0 ms, p99 = 11,0 ms; chỉ có một max outlier 164,0 ms. | Corrected | Một outlier cần theo dõi nhưng không chứng minh sustained degradation. |
+| Đề xuất B-tree index cho `products(name)` với query `LIKE '%term%'`. | Product List p95 chỉ 2,0 ms; query có leading wildcard nên không thể giả định B-tree index sẽ giúp. | Hallucinated / rejected | Không giữ đề xuất này nếu chưa đổi query pattern hoặc chưa có query plan chứng minh. |
+| Đề xuất pagination hoặc `LIMIT` cho My Orders. | My Orders p95 hiện chỉ 3,0 ms và max 7,0 ms, nhưng endpoint trả toàn bộ order history của user. | Feasible / accepted | Human review chấp nhận đây là cải thiện hệ thống hợp lý để tránh payload tăng không giới hạn; tuy nhiên không xem đây là bottleneck đã được Load run chứng minh. |
+| Đề xuất index cho My Orders. | My Orders p95 hiện chỉ 3,0 ms và max 7,0 ms. | Plausible but not proven | Có thể hữu ích khi dữ liệu orders lớn hơn, nhưng Load run hiện tại chưa chứng minh bottleneck. |
+| Đề xuất SQLite WAL / busy timeout. | Load run có 0 failures và không có lock error; Checkout có một outlier 164,0 ms. | Plausible but not proven | Chỉ nên áp dụng nếu test nặng hơn cho thấy lock contention hoặc tail latency lặp lại. |
+
+## 9. Kết luận Load Test
+
+Load Test với 10 concurrent users đạt kết quả ổn định: 0 failures, 0,0% error rate, p95 8,0 ms và throughput 4,481 req/s. Checkout là sampler chậm nhất và có một outlier 164,0 ms, nhưng chưa có bằng chứng về suy giảm kéo dài vì p95/p99 vẫn thấp.
