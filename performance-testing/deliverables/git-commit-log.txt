@@ -1,4 +1,6 @@
-c858371e (HEAD -> HW5) docs(perf): add public repository and branch link to README header
+e82a931b (HEAD -> HW5) docs(perf): add PDF versions of report, AI critique and AI audit
+99808eda docs(perf): refresh git-commit-log before packaging submission
+c858371e docs(perf): add public repository and branch link to README header
 c94eb71d docs(perf): regenerate git-commit-log against current HEAD
 e236e382 docs(perf): align README bug-report section with the three filed GitHub issues
 044c36f0 (origin/HW5) docs(perf): update final git-commit-log with Task 4 demo and issues deliverable
