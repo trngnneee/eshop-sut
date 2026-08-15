@@ -30,8 +30,10 @@ tests/performance_testing/
     ├── test_design.md                   (justify tham số từng kịch bản)
     ├── bug_report.md                    (6 bug phát hiện)
     ├── results_summary.md               (bảng kết quả + endurance threshold)
+    ├── ai_analysis.md                   (Task 2 — AI analysis + misinterpretation hunt)
+    ├── ci_proposal.md                   (Task 3 — continuous perf-testing + flowchart)
     └── ai_declaration/                  (AI Audit Report + Disclosure + Privacy Checklist)
-        ├── [AI-02] ... AI Audit Report_En.md   (audit table + 7 điểm AI sai/thiếu + kết luận)
+        ├── [AI-02] ... AI Audit Report_En.md   (audit table P1–P9 + kết luận)
         ├── [AI-03] ... AI Disclosure Form_En.md
         ├── [AI-05] ... AI Privacy Checklist_En.md
         └── signature.png
