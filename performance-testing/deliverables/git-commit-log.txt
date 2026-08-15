@@ -1,4 +1,6 @@
-e236e382 (HEAD -> HW5) docs(perf): align README bug-report section with the three filed GitHub issues
+c858371e (HEAD -> HW5) docs(perf): add public repository and branch link to README header
+c94eb71d docs(perf): regenerate git-commit-log against current HEAD
+e236e382 docs(perf): align README bug-report section with the three filed GitHub issues
 044c36f0 (origin/HW5) docs(perf): update final git-commit-log with Task 4 demo and issues deliverable
 117bf221 docs(perf): add Task 4 demo video link, issues evidence, and video generation tooling
 634f7a34 docs(perf): add Task 1 demo video link
@@ -20,3 +22,4 @@ e4012f50 feat(perf): add Load test plan 23127207_Load_20260814.jmx
 2eceff5a docs(perf): add HW05 performance testing build specification
 d5eaf839 (main) update skill and FR2
 dc410669 setup skill for agent(antigravity)
+ddfb42fc Test case login
