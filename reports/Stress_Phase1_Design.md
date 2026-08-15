@@ -7,7 +7,7 @@
 - Planned test-plan name: `23127158_Stress_20260816`
 - Workflow: Buy-then-history
 - Backend base URL: `http://localhost:3000`
-- Existing CSV files: `data/auth_users.csv`, `data/product_inputs.csv`, `data/checkout_inputs.csv`
+- Existing CSV files: `data/stress_auth_users.csv`, `data/product_inputs.csv`, `data/checkout_inputs.csv`
 - Previous approved Load baseline: 10 users, 60 s ramp-up, 300 s hold, 30 s shutdown, Summary Report listener
 
 ## Proposed Stress Design
@@ -48,11 +48,11 @@ Use a Uniform Random Timer between 500 and 1500 ms between business steps. This 
 
 Reuse the three existing data-driven CSV files:
 
-- `data/auth_users.csv`: `email,password`
+- `data/stress_auth_users.csv`: `email,password` with 50 distinct valid Stress users
 - `data/product_inputs.csv`: `search,product_id,product_name,price,quantity`
 - `data/checkout_inputs.csv`: `shipping_address,total_amount`
 
-Rows should recycle during the stress run. All credentials should remain valid to avoid accidental login lockout. Because the current CSV repeats one account, record this as a known test-data limitation: shared cart and order history may amplify contention and make My Orders grow faster than isolated users would.
+Rows should recycle during the stress run. All credentials should remain valid to avoid accidental login lockout. The Stress authentication CSV uses distinct users so shared cart and order-history state does not collapse into a single account during the 50-user peak.
 
 ### Correlation
 

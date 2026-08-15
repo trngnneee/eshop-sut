@@ -4,7 +4,7 @@
 
 - Test plan: `test-plans/23127158_Stress_20260816.jmx`
 - Existing CSV inputs reused:
-  - `data/auth_users.csv`
+  - `data/stress_auth_users.csv`
   - `data/product_inputs.csv`
   - `data/checkout_inputs.csv`
 - Planned raw JTL path: `results/stress/23127158_Stress_20260816.jtl`
@@ -75,7 +75,7 @@ One arithmetic note was corrected during generation: the approved step schedule 
 
 - The test plan has not been executed in Phase 2.
 - Before Phase 3 execution, open the `.jmx` in JMeter and confirm the Ultimate Thread Group renders correctly.
-- Use valid login data only; the shared `test@eshop.com` account avoids lockout because all rows use the correct password, but it remains a known limitation for user isolation.
+- Use valid login data only; `data/stress_auth_users.csv` provides 50 distinct Stress users for the 50-user peak.
 - During execution, capture the real `.jtl`, HTML report, and screenshot showing JMeter together with backend resource usage.
 
 ## Revision - Continuous Incremental Stress Schedule
