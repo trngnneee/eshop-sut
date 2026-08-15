@@ -75,6 +75,13 @@ def load_rows(path: Path) -> list[dict[str, object]]:
 
 
 def summarize(rows: list[dict[str, object]]) -> dict[str, object]:
+    return {
+        "total": summarize_group(rows),
+        "by_label": summarize_by_label(rows),
+    }
+
+
+def summarize_group(rows: list[dict[str, object]]) -> dict[str, object]:
     elapsed = [float(row["elapsed"]) for row in rows]
     failures = [row for row in rows if not bool(row["success"])]
     timestamps = [float(row["timestamp"]) for row in rows if float(row["timestamp"]) > 0]
@@ -109,23 +116,59 @@ def summarize(rows: list[dict[str, object]]) -> dict[str, object]:
     }
 
 
+def summarize_by_label(rows: list[dict[str, object]]) -> dict[str, dict[str, object]]:
+    grouped: dict[str, list[dict[str, object]]] = {}
+    for row in rows:
+        grouped.setdefault(str(row["label"]), []).append(row)
+    return {
+        label: summarize_group(label_rows)
+        for label, label_rows in sorted(grouped.items())
+    }
+
+
 def print_markdown(path: Path, summary: dict[str, object]) -> None:
-    elapsed = summary["elapsed_ms"]
+    total = summary["total"]
+    assert isinstance(total, dict)
+    elapsed = total["elapsed_ms"]
     assert isinstance(elapsed, dict)
     print(f"# JTL Summary: {path.name}")
     print()
-    print(f"- Samples: {summary['samples']}")
-    print(f"- Failures: {summary['failures']}")
-    print(f"- Error rate: {summary['error_rate_percent']}%")
-    print(f"- Duration: {summary['duration_seconds']} s")
-    print(f"- Throughput: {summary['throughput_rps']} req/s")
+    print("## Total Metrics")
+    print()
+    print(f"- Samples: {total['samples']}")
+    print(f"- Failures: {total['failures']}")
+    print(f"- Error rate: {total['error_rate_percent']}%")
+    print(f"- Duration: {total['duration_seconds']} s")
+    print(f"- Throughput: {total['throughput_rps']} req/s")
     print(f"- Latency p95: {elapsed['p95']} ms")
     print(f"- Latency p99: {elapsed['p99']} ms")
     print(f"- Latency avg: {elapsed['avg']} ms")
     print(f"- Latency max: {elapsed['max']} ms")
     print()
+    print("## Per-Sampler Metrics")
+    print()
+    print("| Sampler / endpoint | Samples | Failures | Error % | Avg ms | p95 ms | p99 ms | Max ms | Throughput req/s |")
+    print("|---|---:|---:|---:|---:|---:|---:|---:|---:|")
+    by_label = summary["by_label"]
+    assert isinstance(by_label, dict)
+    for label, label_summary in by_label.items():
+        assert isinstance(label_summary, dict)
+        label_elapsed = label_summary["elapsed_ms"]
+        assert isinstance(label_elapsed, dict)
+        print(
+            f"| {label} | "
+            f"{label_summary['samples']} | "
+            f"{label_summary['failures']} | "
+            f"{label_summary['error_rate_percent']} | "
+            f"{label_elapsed['avg']} | "
+            f"{label_elapsed['p95']} | "
+            f"{label_elapsed['p99']} | "
+            f"{label_elapsed['max']} | "
+            f"{label_summary['throughput_rps']} |"
+        )
+    print()
     print("## Response Codes")
-    for code, count in sorted(dict(summary["response_codes"]).items()):
+    for code, count in sorted(dict(total["response_codes"]).items()):
         print(f"- {code}: {count}")
 
 

@@ -27,9 +27,15 @@ Use this checklist while preparing the main report, appendix, README, and submis
 ## Analysis Requirements
 
 - Use raw `.jtl` values as the source of truth.
+- Include total metrics and per-sampler/endpoint metrics from the raw `.jtl`.
 - Include AI-generated analysis, then a human correction/review.
 - For every AI misinterpretation, cite the correct metric from raw logs.
-- Classify AI optimization recommendations as feasible or hallucinated.
+- Include AI-proposed thresholds with the raw metric used as rationale.
+- Include AI optimization recommendations with evidence categories.
+- Classify each AI optimization recommendation as feasible, plausible but not
+  proven, unsupported, or hallucinated.
+- Include a human review table:
+  `AI claim or recommendation | Raw evidence / correct value | Human decision | Reason`.
 - Include a 200-300 word AI critique.
 
 ## Continuous Testing Proposal

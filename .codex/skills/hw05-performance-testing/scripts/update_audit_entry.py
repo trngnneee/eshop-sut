@@ -110,25 +110,30 @@ def main() -> int:
         raise SystemExit(f"END marker disappeared unexpectedly: {args.id}")
 
     content = block[:marker_position].rstrip()
+    pending_placeholder = "### Human Review\n\nPending human review."
+    if pending_placeholder in content:
+        content = content.replace(pending_placeholder, "### Human Review", 1).rstrip()
 
     review_block = [
         "",
         f"### Human Review — {timestamp}",
         "",
-        "#### Review Prompt",
+        "##### Review Prompt",
         "",
         args.review_prompt.strip(),
         "",
-        "#### Human Review / Decision",
+        "##### Human Review / Decision",
         "",
         args.review.strip(),
         "",
     ]
 
+    review_block[1] = f"#### Review - {timestamp}"
+
     if args.revised_output.strip():
         review_block.extend(
             [
-                "#### Revised AI Output",
+                "##### Revised AI Output",
                 "",
                 args.revised_output.strip(),
                 "",
@@ -137,7 +142,7 @@ def main() -> int:
 
     review_block.extend(
         [
-            f"#### Phase Status",
+            "##### Phase Status",
             "",
             args.status,
             "",
