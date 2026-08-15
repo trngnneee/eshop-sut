@@ -82,12 +82,48 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
   AI đã phân tích `results/stress/result.jtl` bằng script `.codex/skills/hw05-performance-testing/scripts/analyze_jtl.py`. Kết quả lần chạy cũ có 20.531 samples, 0 failures, error rate 0,0%, toàn bộ response code là HTTP 200, duration 780,832 giây, request throughput 26,294 req/s và khoảng 3.375 complete workflows. Overall latency có avg 4,948 ms, p95 15 ms, p99 31 ms và max 82 ms. My Orders là sampler chậm nhất với avg 12,260 ms, p95 31 ms và p99 38 ms. AI đã đề xuất threshold cho Stress p95, error rate, workflow throughput và request throughput; đồng thời đề xuất optimization như index cho order-history read, pagination/LIMIT cho `/api/orders/my-orders`, bổ sung HTML Report/resource-monitor screenshot, dùng test accounts tách biệt hơn, và chỉ cân nhắc SQLite WAL/busy timeout nếu các lần test sau có lock error hoặc checkout tail latency tăng.
   Cập nhật sau review:
   AI đã phân tích lại `results/stress/result.jtl` của run mới lúc 2026-08-16 04:26:09 đến 04:38:20 +07:00. Kết quả mới có 21.830 samples, 0 failures, error rate 0,0%, toàn bộ response code HTTP 200, duration 730,957 giây, request throughput 29,865 req/s và khoảng 3.618 complete workflows. Overall latency có avg 2,792 ms, p95 7 ms, p99 9 ms và max 188 ms. Theo từng sampler, Checkout có avg cao nhất 6,025 ms, p95 9 ms, p99 11 ms, max 188 ms; My Orders p95 chỉ 5 ms nên không còn là sampler chậm nhất như run cũ. Theo stress level, throughput tăng từ khoảng 9,173 req/s ở 10 users lên 48,008 req/s ở 50 users, p95 vẫn trong khoảng 6-8 ms và không có lỗi. Báo cáo Stress Phase 4 đã được viết lại bằng tiếng Việt, chỉ giữ recommendation cải thiện hệ thống/backend và phân loại các đề xuất như giữ implementation hiện tại, pagination My Orders dài hạn, composite index khi dữ liệu lớn hơn, theo dõi outlier, và SQLite WAL/busy timeout nếu test nặng hơn có lock contention.
-- **Kết quả sau review:** Đã phân tích lại Stress Test từ raw JTL mới sau khi test plan corrected được chạy lại. Phân tích cũ từ plan bị invalidated vẫn được giữ như lịch sử, nhưng đã được supersede bởi run mới. Phần phân tích mới đang chờ human review về interpretation, threshold, recommendation và cách diễn giải các max outlier.
+  Cập nhật sau review:
+  Sau human review, báo cáo Stress Phase 4 đã được chỉnh để dùng overall 95th percentile = 6,0 ms theo JMeter HTML dashboard, ghi rõ khác biệt với custom analyzer 7,0 ms, và bổ sung bảng human review ngay trong report. Bảng optimization được lọc lại để chỉ còn các cải thiện SUT/backend: pagination/LIMIT cho My Orders khi dữ liệu tăng, composite index cho order-history read nếu My Orders latency tăng ở Spike/Endurance hoặc dữ liệu lớn hơn, và SQLite WAL/busy timeout nếu có bằng chứng lock contention. Các nội dung như giữ implementation hiện tại và theo dõi outlier được chuyển thành nhận xét, không còn là recommendation cải thiện hệ thống. File review riêng `reports/Stress_AI_Analysis_Human_Review.md` được tạo để đưa vào main report.
+- **Kết quả sau review:** Human review dựa trên file `reports/Stress_AI_Analysis_Human_Review.md` đã chấp nhận phần lớn diễn giải của AI: Stress Test mới ổn định đến 50 users, 21.830 samples, 0 failures, 0,0% error rate và chưa tìm thấy breakpoint rõ ràng. Review đã sửa cách trình bày percentile tổng: JMeter HTML dashboard ghi overall 95th pct = 6,0 ms, còn custom analyzer ra 7,0 ms do khác cách tính/làm tròn; main report dùng số JMeter HTML để nhất quán evidence. Review cũng loại các mục không phải system optimization như giữ implementation hiện tại hoặc theo dõi outlier khỏi bảng recommendation. Recommendation cuối cùng chỉ giữ pagination/LIMIT cho My Orders như Feasible / accepted nhưng chưa chứng minh bottleneck hiện tại, composite index `orders(user_id, id DESC)` là Plausible but not proven, và SQLite WAL/busy timeout là Plausible but not proven nếu test nặng hơn có lock contention.
 
 <!-- AUDIT_ENTRY:interaction-006-stress-analysis:END -->
+
+<!-- AUDIT_ENTRY:interaction-007-spike-design:START -->
+### [7] Spike Test - Thiết kế kịch bản kiểm thử
+
+- **Công cụ:** Codex (GPT-5)
+- **Thời gian:** 2026-08-16 05:11
+- **Prompt:**
+  > [$hw05-performance-testing](E:\Testing_23CLC\HW5\eshop-sut\.codex\skills\hw05-performance-testing\SKILL.md) 
+  >
+  > Start the Spike Test for my selected E2E workflow:  
+  >
+  > Buy-then-history
+  > Login → browse product list → view product detail → add to cart → checkout → read My Orders to verify the newly created order.
+- **Output:**
+  AI đã bắt đầu Spike Test Phase 1 cho workflow E2E `Buy-then-history`, giữ cùng request sequence đã dùng ở Load và Stress: `POST /api/login`, `GET /api/products`, `GET /api/products/:id`, `POST /api/cart`, `POST /api/checkout`, và `GET /api/orders/my-orders`. Thiết kế đề xuất dùng JMeter với `Ultimate Thread Group`, workload spike gồm baseline ngắn, tăng đột ngột từ 10 users lên 75 users, giữ spike ngắn để quan sát khả năng hấp thụ tải, sau đó giảm về baseline để quan sát phục hồi. Test vẫn data-driven bằng CSV riêng cho auth của Spike cùng các CSV product và checkout hiện có; tiếp tục correlation JWT `${token}` và checkout `${orderId}`, assertion HTTP/JSON cho từng bước, think time ngắn hơn Stress để tạo cú sốc tải rõ ràng. Listener/view được đề xuất là `View Results Tree - Spike` để khác với Summary Report của Load và Aggregate Report của Stress. File dự kiến sau khi được duyệt là `test-plans/23127158_Spike_20260816.jmx`, JTL dự kiến `results/spike/23127158_Spike_20260816.jtl`, HTML report dự kiến `reports/html/spike/`. Chưa sinh file `.jmx`; đang chờ human review/approval của thiết kế Spike trước khi chuyển sang phase sinh test plan.
+  Cập nhật sau review:
+  Thiết kế Spike Phase 1 được điều chỉnh tăng tải: baseline giữ ở 20 users để có nền ổn định, sau đó spike đột ngột lên 150 users trong 30 giây, giữ mức spike 120 giây, rồi giảm về 20 users trong 60 giây và giữ thêm 120 giây để quan sát phục hồi. Think time vẫn ngắn, khoảng 250-750 ms, nhằm tạo cú sốc tải rõ hơn so với Stress Test. Thiết kế cần CSV auth riêng cho Spike với ít nhất 150 tài khoản hợp lệ để tránh contention hoặc lockout do dùng chung user; workflow, endpoint sequence, JWT/orderId correlation, assertions và listener `View Results Tree - Spike` được giữ nguyên. Thiết kế sửa đổi vẫn đang chờ human review, chưa sinh `.jmx` và chưa chạy test.
+  Cập nhật sau review:
+  Thiết kế Spike Phase 1 được điều chỉnh lần hai thành workload lớn hơn để tìm breakpoint: baseline 50 users, spike ramp rất nhanh từ 50 lên 1000 users trong 60 giây, giữ peak 1000 users trong 120 giây, sau đó giảm về 50 users trong 120 giây và giữ baseline phục hồi 180 giây. Think time đề xuất 250-750 ms để vẫn tạo áp lực lớn nhưng tránh vòng lặp request hoàn toàn không thực tế. Vì peak 1000 users có thể vượt khả năng máy local/JMeter/SUT, test plan cần ghi rõ đây là aggressive spike/breakpoint attempt; khi chạy cần quan sát CPU, memory, event-loop/SQLite contention, error rate, p95/p99 và khả năng phục hồi sau spike. CSV auth riêng cho Spike cần ít nhất 1000 tài khoản hợp lệ hoặc một chiến lược đăng nhập hợp lệ không gây lockout/credential contention. Workflow, endpoint sequence, JWT/orderId correlation, assertions và listener `View Results Tree - Spike` vẫn giữ nguyên. Thiết kế sửa đổi vẫn đang chờ human review, chưa sinh `.jmx` và chưa chạy test.
+- **Kết quả sau review:** Thiết kế Spike Phase 1 đã được approve với profile baseline 50 users, spike lên 1000 users, giữ peak 120 giây, giảm về baseline và quan sát phục hồi. Được phép chuyển sang interaction Spike Test plan generation.
+
+<!-- AUDIT_ENTRY:interaction-007-spike-design:END -->
+
+<!-- AUDIT_ENTRY:interaction-008-spike-generation:START -->
+### [8] Spike Test - Sinh JMeter test plan
+
+- **Công cụ:** Codex (GPT-5)
+- **Thời gian:** 2026-08-16 05:30
+- **Prompt:**
+  > <No separate initial prompt; started after prior approval/review.>
+- **Output:**
+  AI đã sinh Spike JMeter test plan `test-plans/23127158_Spike_20260816.jmx` cho StudentID `23127158`, giữ nguyên workflow `Buy-then-history` đã dùng trong Load và Stress: login, browse product list, view product detail, add to cart, checkout, và read My Orders để verify order mới. Test plan dùng `Ultimate Thread Group` với hai dòng schedule: baseline 50 users startup 30 giây, giữ xuyên suốt test; thêm 950 users sau 210 giây, ramp 60 giây để đạt peak 1000 users, giữ peak 120 giây, shutdown nhóm spike trong 120 giây, sau đó quan sát recovery baseline 180 giây và shutdown 60 giây. AI cũng sinh `data/spike_auth_users.csv` gồm 1000 user credentials `spike_user_0001` đến `spike_user_1000`, và cập nhật `backend/database.js` để seed 1000 Spike users khi database được khởi tạo lại. Listener/view của Spike là `View Results Tree - Spike`, khác với Summary Report của Load và Aggregate Report của Stress; JTL path được cấu hình là `results/spike/23127158_Spike_20260816.jtl`. Validation đã xác nhận XML hợp lệ bằng `xmllint`, `backend/database.js` pass `node --check`, JMX có 1 Ultimate Thread Group, 0 standard ThreadGroup, 6 HTTP samplers đúng thứ tự, 3 CSV datasets, 2 JSON extractors, 12 response assertions, JWT/orderId correlation và đúng output path. Chưa chạy test; đang chờ human review test plan.
+- **Kết quả sau review:** Đang chờ người dùng review Spike Phase 2 test plan. Chưa chạy Spike Test và chưa tạo `.jtl` thực thi.
+<!-- AUDIT_ENTRY:interaction-008-spike-generation:END -->
 
 ## Tổng hợp công cụ sử dụng
 
 | Công cụ | Mục đích sử dụng | Số lượt tương tác |
 |---|---|---:|
-| Codex (GPT-5) | Thiết kế Load Test và Stress Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL, đề xuất threshold/optimization, phân loại evidence và cập nhật AI Audit Report | 6 |
+| Codex (GPT-5) | Thiết kế Load Test, Stress Test và Spike Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL, đề xuất threshold/optimization, phân loại evidence và cập nhật AI Audit Report | 8 |

@@ -99,6 +99,10 @@ function initDatabase() {
             const suffix = String(i).padStart(2, '0');
             insertUser.run(`Stress Test User ${suffix}`, `stress_user_${suffix}@eshop.com`, 'Stress1234!', 'user');
         }
+        for (let i = 1; i <= 1000; i += 1) {
+            const suffix = String(i).padStart(4, '0');
+            insertUser.run(`Spike Test User ${suffix}`, `spike_user_${suffix}@eshop.com`, 'Spike1234!', 'user');
+        }
         insertUser.finalize();
 
         // Seed Products
