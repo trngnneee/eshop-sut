@@ -91,11 +91,11 @@ function initDatabase() {
         const insertUser = db.prepare('INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)');
         insertUser.run('Admin User', 'admin@eshop.com', 'Admin123!', 'admin');
         insertUser.run('Test User', 'test@eshop.com', 'Test1234!', 'user');
-        for (let i = 1; i <= 10; i += 1) {
+        for (let i = 1; i <= 50; i += 1) {
             const suffix = String(i).padStart(2, '0');
             insertUser.run(`Load Test User ${suffix}`, `load_user_${suffix}@eshop.com`, 'Load1234!', 'user');
         }
-        for (let i = 1; i <= 50; i += 1) {
+        for (let i = 1; i <= 500; i += 1) {
             const suffix = String(i).padStart(2, '0');
             insertUser.run(`Stress Test User ${suffix}`, `stress_user_${suffix}@eshop.com`, 'Stress1234!', 'user');
         }
