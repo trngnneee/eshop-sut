@@ -2,20 +2,34 @@ Git Commit Log – HW05 Performance Testing
 Student: Phan Quoc Thinh
 MSSV: 23127486
 Course: CS423 / CSC13003 – Software Testing (AI-augmented · 2026)
+Repository: https://github.com/trngnneee/eshop-sut
+Branch: HW5-Thinh
+Author Filter: blueToothFairy <thinhpham2310@gmail.com>
 
 ================================================================================
-(Paste the output of `git log --oneline` or `git log --pretty=format:"%h %ad %s" --date=short` here)
+Summary (git log --oneline --date=short):
 ================================================================================
+cd9323f 2026-08-16 feat: test execution and update submissions reports
+bc82de3 2026-08-16 execute load, stress, spike, soak test plans
+a56c538 2026-08-15 feat: initialize project submission structure with task-specific templates, agent skill definitions, and reporting documentation
 
-Example format:
-a1b2c3d 2026-08-15 Initial commit – project setup and SUT configuration
-b2c3d4e 2026-08-15 Task 1: Add Load test plan (23127486_Load_YYYYMMDD.jmx)
-c3d4e5f 2026-08-15 Task 1: Add Stress test plan (23127486_Stress_YYYYMMDD.jmx)
-d4e5f6g 2026-08-15 Task 1: Add Spike test plan (23127486_Spike_YYYYMMDD.jmx)
-e5f6g7h 2026-08-15 Task 1: Add CSV test data file (test_data.csv)
-f6g7h8i 2026-08-15 Task 1: Add raw JTL logs (Load, Stress, Spike)
-g7h8i9j 2026-08-15 Task 2: Add AI analysis and misinterpretation hunt
-h8i9j0k 2026-08-15 Task 3: Add continuous performance testing proposal
-i9j0k1l 2026-08-15 Finalize report, AI Audit, and AI Critique
+================================================================================
+Detailed Commit Log:
+================================================================================
+commit cd9323f3bcdb9fb338e2776f7540620f7b80960b
+Author: blueToothFairy <thinhpham2310@gmail.com>
+Date:   2026-08-16 21:11:21 +0700
 
-(Replace the above with your actual git log output)
+    feat: test execution and update submissions reports
+
+commit bc82de391bfa32af2b2ade1f5c238c0b3e2c5a25
+Author: blueToothFairy <thinhpham2310@gmail.com>
+Date:   2026-08-16 10:25:12 +0700
+
+    execute load, stress, spike, soak test plans
+
+commit a56c538807b97f099b44d1644387a875d2b28c07
+Author: blueToothFairy <thinhpham2310@gmail.com>
+Date:   2026-08-15 22:04:35 +0700
+
+    feat: initialize project submission structure with task-specific templates, agent skill definitions, and reporting documentation
