@@ -257,8 +257,53 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
 
 <!-- AUDIT_ENTRY:interaction-014-cross-scenario-thresholds:END -->
 
+<!-- AUDIT_ENTRY:interaction-015-endurance-design:START -->
+### [15] Endurance Test - Thiet ke kich ban soak test
+
+- **Công cụ:** Codex (GPT-5)
+- **Thời gian:** 2026-08-17 00:53
+- **Prompt:**
+  > Trong file HW05_Performance_Testing.md có yêu cầu chạy một soak test. Hãy thiết kế một test plan để chạy soak test và ghi vào phần 5 kèm các thông số cần đo để tui đo và ghi lại
+- **Output:**
+  AI đã cập nhật mục 5 Endurance / Soak Test trong main report với thiết kế Soak Test cho workflow Buy-then-history. Test plan đề xuất dùng JMeter Ultimate Thread Group, 300 concurrent users, ramp-up 90 giây, sustained hold 720 giây, ramp-down 60 giây, think time 750-1750 ms, dữ liệu CSV đủ 300+ tài khoản, correlation JWT/orderId và assertions cho các bước Login, Product List, Product Detail, Add To Cart, Checkout, My Orders. Mục 5 cũng bổ sung command chạy dự kiến, đường dẫn JTL/HTML report/screenshot, checklist metric cần đo gồm samples, error rate, throughput, avg/median/p90/p95/p99/max, per-sampler metrics, p95/p99 theo cửa sổ 2 phút, CPU/RAM/disk I/O, maximum stable RPS, memory ceiling và recovery sau ramp-down. Chưa sinh file .jmx và chưa ghi kết quả thực thi; đang chờ human review thiết kế.
+  Cập nhật sau review:
+  AI đã chỉnh mục 5: dòng Test data đổi thành reuse dataset hiện có đủ 300+ tài khoản từ Stress/Spike và tiếp tục dùng product/order CSV hiện có; bỏ toàn bộ mục command chạy dự kiến; đánh số lại các mục con còn lại thành 5.2 Thông Số Cần Đo Và Ghi Lại và 5.3 Tiêu Chí Dừng Và Đánh Giá Ngưỡng Bền.
+- **Kết quả sau review:** Đã chỉnh sửa và được chấp nhận. Người dùng đồng ý thiết kế Soak Test nhưng yêu cầu test data có thể reuse dataset hiện có và bỏ phần command chạy dự kiến khỏi mục 5 để report gọn hơn.
+
+<!-- AUDIT_ENTRY:interaction-015-endurance-design:END -->
+
+<!-- AUDIT_ENTRY:interaction-016-endurance-generation:START -->
+### [16] Endurance Test - Sinh JMeter test plan
+
+- **Công cụ:** Codex (GPT-5)
+- **Thời gian:** 2026-08-17 01:00
+- **Prompt:**
+  > Oke tạo test plan đi
+- **Output:**
+  AI đã sinh JMeter test plan 23127158/test-plans/23127158_Endurance_20260817.jmx bằng cách reuse cấu trúc Stress plan đã được human review và chỉnh thành Endurance/Soak profile. Plan giữ workflow Buy-then-history gồm 6 sampler: Login, Browse Product List, View Product Detail, Add To Cart, Checkout, My Orders Verify New Order. Workload dùng Ultimate Thread Group với 300 users, initial delay 0 giây, startup 90 giây, hold 720 giây và shutdown 60 giây; think time giữ 750-1750 ms. Test data reuse 23127158/data/stress_auth_users.csv với 500 tài khoản, cùng product_inputs.csv và checkout_inputs.csv. Listener đổi tên thành Aggregate Report - Endurance. AI đã validate XML parse thành công, xác nhận testname đúng, schedule đúng, đủ 6 HTTPSamplerProxy và auth dataset đủ >=300 user. Chưa chạy test; đang chờ human review test plan.
+- **Kết quả sau review:** Chấp nhận. Người dùng đã chạy soak test bằng test plan đã sinh và cung cấp resource metrics, nên test plan generation được xem là đã được chấp nhận để sử dụng.
+
+<!-- AUDIT_ENTRY:interaction-016-endurance-generation:END -->
+
+<!-- AUDIT_ENTRY:interaction-017-endurance-analysis:START -->
+### [17] Endurance Test - Phan tich ket qua soak test
+
+- **Công cụ:** Codex (GPT-5)
+- **Thời gian:** 2026-08-17 01:33
+- **Prompt:**
+  > Tôi đã chạy soak test xong hãy đọc html report và điền kết quả. Đây là các kết quả resource mà tôi theo dõi và ghi nhận được:
+  > RAM: initial: 1.2 MB, peak: 73 MB, end: 48.3 MB
+  > CPU: peak 6.4%
+- **Output:**
+  AI đã đọc JMeter HTML report tại 23127158/reports/html-report/soak-profile/statistics.json và điền kết quả thật vào mục 5 Endurance / Soak Test của main report. Kết quả HTML: 189.818 samples, 0 lỗi, error rate 0,0%, avg 5,076 ms, median 6,0 ms, p90 26,0 ms, p95 40,0 ms, p99 71,0 ms, max 242,0 ms, throughput 218,751 req/s, HTTP 200: 189.818. Per-sampler metrics cũng được ghi cho Login, Product List, Product Detail, Add To Cart, Checkout và My Orders. AI đã dùng raw JTL soak_result.jtl để xác nhận thời lượng 867,730 giây và tính stability trong hold phase: throughput khoảng 238,5-239,5 req/s, không lỗi trong các cửa sổ 2 phút; cửa sổ cuối có tail latency cao hơn với p95 31,0 ms và p99 65,0 ms. Resource metrics do người dùng cung cấp được ghi nhận: CPU peak 6,4%, RAM initial 1,2 MB, peak 73,0 MB, end 48,3 MB. Kết luận endurance: 300 users đạt về correctness/resource, maximum stable RPS quan sát được khoảng 238 req/s trong hold phase, nhưng p95/p99 HTML vượt guardrail latency nên cần theo dõi tail latency nếu dùng trong continuous testing.
+  Cập nhật sau review:
+  AI đã đọc lại yêu cầu Determine the endurance threshold trong docs/HW05_Performance_Testing.md và chỉnh mục 5 cho bám sát đề: Soak Test chạy 10-15 phút ở sustained load để tìm hardware threshold bằng số cụ thể. Mục 5 hiện chỉ giữ workload/evidence, bảng Required Endurance Measurements gồm total samples, error count/rate, overall throughput, maximum stable RPS, avg/p95/p99/max latency, response codes, CPU peak, memory initial/peak/end, và kết luận endurance threshold cuối: 300 concurrent users, khoảng 238 stable RPS, memory ceiling 73,0 MB, error rate 0,0%, kèm ghi chú p95/p99 cần theo dõi vì vượt guardrail latency.
+- **Kết quả sau review:** Đã chỉnh sửa và được chấp nhận. Người dùng xác nhận mục 5 Endurance / Soak Test sau khi chỉnh theo đúng yêu cầu đề là ổn.
+
+<!-- AUDIT_ENTRY:interaction-017-endurance-analysis:END -->
+
 ## Tổng hợp công cụ sử dụng
 
 | Công cụ | Mục đích sử dụng | Số lượt tương tác |
 |---|---|---:|
-| Codex (GPT-5) | Thiết kế Load Test, Stress Test và Spike Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL, đề xuất threshold/optimization, viết/chỉnh sửa main report, phân loại evidence và cập nhật AI Audit Report | 14 |
+| Codex (GPT-5) | Thiết kế Load Test, Stress Test, Spike Test và Endurance/Soak Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL/HTML report, đề xuất threshold/optimization, viết/chỉnh sửa main report, phân loại evidence và cập nhật AI Audit Report | 17 |

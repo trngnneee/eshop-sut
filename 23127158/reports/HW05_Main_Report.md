@@ -231,7 +231,46 @@ Nguồn kết quả chính thức: JMeter HTML report `reports/html-report/spike
 
 ## 5. Endurance / Soak Test
 
-_Tạm thời để trống._
+Theo yêu cầu trong `docs/HW05_Performance_Testing.md`, Soak Test cần chạy khoảng 10-15 phút ở sustained load để xác định endurance threshold của phần cứng local bằng số cụ thể, ví dụ maximum stable RPS và memory ceiling. Nguồn kết quả chính thức là JMeter HTML report `reports/html-report/soak-profile/index.html`, đọc qua `reports/html-report/soak-profile/statistics.json`; raw log tương ứng là `results/soak_result.jtl`.
+
+### 5.1 Soak Workload
+
+| Thông số | Giá trị |
+|---|---|
+| Test plan | `test-plans/23127158_Endurance_20260817.jmx` |
+| Raw JTL | `results/soak_result.jtl` |
+| HTML report | `reports/html-report/soak-profile/` |
+| Workflow | `Buy-then-history`: Login -> browse product list -> view product detail -> add to cart -> checkout -> read My Orders |
+| Sustained load | 300 concurrent users |
+| Ramp-up / hold / ramp-down | 90 giây / 720 giây / 60 giây |
+| Actual measured duration | 867,730 giây |
+| Test time | 2026-08-17 01:12:46 -> 2026-08-17 01:27:14 +07:00 |
+| Test data | Reuse `stress_auth_users.csv` đủ 500 tài khoản, cùng `product_inputs.csv` và `checkout_inputs.csv` |
+
+### 5.2 Required Endurance Measurements
+
+| Thông số cần đo theo yêu cầu | Kết quả ghi nhận | Nguồn |
+|---|---:|---|
+| Total samples | 189.818 | HTML report `statistics.json`, dòng `Total.sampleCount` |
+| Error count | 0 | HTML report `statistics.json`, dòng `Total.errorCount` |
+| Error rate | 0,0% | HTML report `statistics.json`, dòng `Total.errorPct` |
+| Overall throughput | 218,751 req/s | HTML report `statistics.json`, dòng `Total.throughput` |
+| Maximum stable RPS trong sustained hold | Khoảng 238 req/s | `soak_result.jtl`, các cửa sổ 2 phút trong hold phase giữ khoảng 238,5-239,5 req/s |
+| Avg response time | 5,076 ms | HTML report `statistics.json`, dòng `Total.meanResTime` |
+| p95 response time | 40,0 ms | HTML report `statistics.json`, dòng `Total.pct2ResTime` |
+| p99 response time | 71,0 ms | HTML report `statistics.json`, dòng `Total.pct3ResTime` |
+| Max response time | 242,0 ms | HTML report `statistics.json`, dòng `Total.maxResTime` |
+| Response codes | HTTP 200: 189.818 | `soak_result.jtl` và HTML report |
+| CPU peak | 6,4% | Resource monitoring do người chạy test ghi nhận |
+| Memory initial | 1,2 MB | Resource monitoring do người chạy test ghi nhận |
+| Memory ceiling / peak | 73,0 MB | Resource monitoring do người chạy test ghi nhận |
+| Memory end | 48,3 MB | Resource monitoring do người chạy test ghi nhận |
+
+### 5.3 Endurance Threshold
+
+Endurance threshold thực nghiệm trên phần cứng local hiện tại được ghi nhận ở mức 300 concurrent users với maximum stable RPS khoảng 238 req/s trong sustained hold 12 phút. Ở ngưỡng này, hệ thống hoàn thành 189.818 request, không có lỗi HTTP/assertion, error rate 0,0%, CPU peak chỉ 6,4% và memory ceiling là 73,0 MB.
+
+Về correctness và resource usage, Soak Test đạt yêu cầu endurance ở mức 300 users. Tuy nhiên, p95/p99 tổng từ HTML report là 40,0 ms / 71,0 ms, cao hơn guardrail latency ở mục 7 cho stepped-load/soak. Vì vậy, ngưỡng bền nên được báo cáo là: **300 concurrent users, khoảng 238 stable RPS, memory ceiling 73,0 MB, error rate 0,0%**, kèm ghi chú rằng tail latency cần tiếp tục theo dõi nếu đưa vào continuous performance testing.
 
 ## 6. AI Analysis of Raw JTL Logs
 
