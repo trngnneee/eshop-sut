@@ -457,7 +457,48 @@ Kết luận sau review: Spike Test baseline 50 users -> peak 500 users được
 
 ## 7. Cross-Scenario Analysis and Final Thresholds
 
-_Tạm thời để trống._
+Phần này so sánh ba scenario đã được chạy lại và đã qua human review. Các metric tổng chính thức lấy từ JMeter HTML report ở mục 4; các nhận xét về peak/recovery lấy từ raw JTL window analysis ở mục 6.
+
+| Scenario | Workload profile | Samples | Error % | Avg ms | p95 ms | p99 ms | Max ms | Throughput req/s | Tóm tắt kết quả |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| Load | 50 users ổn định | 16.714 | 0,0% | 2,671 | 6,0 | 9,0 | 44,0 | 35,061 | Baseline ổn định. |
+| Stress | 50 -> 150 -> 300 -> 500 users | 107.203 | 0,0% | 4,206 | 8,0 | 13,0 | 277,0 | 179,655 | Ổn định khi tải tăng theo bậc; peak 500 users tạo tail latency nhưng vẫn phục hồi được. |
+| Spike | Baseline 50 users, spike lên 500 users | 88.157 | 0,0% | 9,989 | 10,0 | 16,0 | 464,0 | 184,866 | Không có lỗi chức năng; peak window tạo tail latency mạnh nhất nhưng recovery tốt. |
+
+### 7.1 Phân tích xu hướng
+
+Cả ba scenario đều hoàn thành cùng workflow `Buy-then-history` với error rate 0,0%. Điều này cho thấy các profile đã được chấp nhận không làm lộ lỗi chức năng, lỗi HTTP, lỗi assertion hoặc vấn đề dữ liệu/tài khoản trong môi trường local.
+
+Throughput tăng từ 35,061 req/s ở Load lên 179,655 req/s ở Stress và 184,866 req/s ở Spike. Mức tăng này hợp lý vì Stress và Spike tạo áp lực concurrent users cao hơn nhiều so với Load baseline. Phân tích theo từng level của Stress cho thấy throughput tăng gần tuyến tính ở các đoạn ổn định, từ khoảng 39,688 req/s tại 50 users lên 398,477 req/s tại plateau 500 users.
+
+Latency tổng trong HTML report vẫn thấp, nhưng tail latency bắt đầu rõ hơn khi workload mạnh hơn. Load có p95/p99 là 6,0/9,0 ms. Stress có p95/p99 chính thức là 8,0/13,0 ms, nhưng phân tích raw theo level cho thấy plateau 500 users đạt p99 30,0 ms. Spike có p95/p99 chính thức là 10,0/16,0 ms, nhưng phân tích raw theo window cho thấy giai đoạn peak 500 users đạt p95 57,0 ms và p99 200,0 ms. Vì vậy, rủi ro hiệu năng chính không nằm ở average latency, mà nằm ở tail latency ngắn hạn trong các cửa sổ tải cao đột ngột.
+
+Checkout là sampler có mean response time cao nhất ở cả ba scenario: Load avg 5,730 ms, Stress avg 7,192 ms và Spike avg 13,588 ms. Tuy nhiên, ở peak của Spike, tail latency cũng xuất hiện ở Login và My Orders, nên hiện tượng này nên được xem là áp lực toàn workflow hoặc scheduling/contention ở môi trường local cho đến khi backend profiling chứng minh được bottleneck hẹp hơn.
+
+### 7.2 Ngưỡng cuối đề xuất
+
+Các threshold dưới đây được thiết kế như một bộ guardrail dùng lại được cho Continuous Performance Testing Proposal, không chỉ để mô tả riêng từng scenario đã chạy. Chúng được neo theo kết quả local đã được chấp nhận, nhưng khi áp dụng cho CI/CD hoặc môi trường khác cần hiệu chỉnh lại theo baseline mới.
+
+| Guardrail | Threshold cuối | Áp dụng cho | Cơ sở từ bài test | Cách dùng trong continuous testing |
+|---|---:|---|---|---|
+| Functional error gate | Error rate <= 1,0% | Mọi performance run | Load/Stress/Spike đều có error rate 0,0% | Fail pipeline nếu error rate vượt 1,0% hoặc xuất hiện nhóm lỗi HTTP/assertion lặp lại. |
+| Baseline latency gate | Overall p95 <= 15 ms; p99 <= 25 ms | Commit-level smoke/load test nhẹ | Load HTML p95 = 6,0 ms, p99 = 9,0 ms | Chạy thường xuyên để bắt regression latency ở workflow chính khi tải ổn định. |
+| Baseline throughput gate | Throughput >= 30 req/s | Commit-level smoke/load test nhẹ | Load HTML throughput = 35,061 req/s | Cảnh báo nếu capacity baseline giảm rõ so với accepted run. |
+| Stepped-load latency gate | Overall p95 <= 25 ms; p99 <= 50 ms | Nightly/weekly stepped-load test | Stress HTML p95 = 8,0 ms, p99 = 13,0 ms; raw 500-user plateau p99 = 30,0 ms | Phát hiện degradation khi tải tăng dần, đặc biệt ở mức gần 500 users. |
+| Stepped-load throughput gate | Throughput >= 150 req/s | Nightly/weekly stepped-load test | Stress HTML throughput = 179,655 req/s | Cảnh báo nếu throughput dưới tải tăng theo bậc giảm quá nhiều. |
+| Spike peak latency gate | Peak-window p95 <= 60 ms; p99 <= 250 ms | Spike/regression test trước release | Spike peak-window p95 = 57,0 ms, p99 = 200,0 ms | Đánh giá riêng giai đoạn peak spike thay vì chỉ nhìn aggregate toàn bài. |
+| Spike recovery gate | Recovery-window p95 <= 20 ms và error rate = 0,0% | Spike/regression test trước release | Spike recovery-window p95 = 10,0 ms, p99 = 15,0 ms, 0 lỗi | Cảnh báo nếu hệ thống không hồi phục sau khi spike traffic giảm. |
+| Transactional endpoint guardrail | Checkout p95 <= 30 ms dưới non-spike load | Load/Stress/Endurance | Load Checkout p95 = 9,0 ms; Stress Checkout p95 = 13,0 ms | Theo dõi bước transactional quan trọng nhất của workflow. |
+| Spike transactional tail guardrail | Checkout peak-window p99 <= 300 ms | Spike peak window | Spike Checkout peak p99 = 227,940 ms | Cảnh báo tail latency checkout trong traffic burst. |
+| Read-after-write guardrail | My Orders p95 <= 30 ms dưới non-spike load; recovery p95 <= 20 ms sau spike | Stress/Spike/Endurance | Stress My Orders p95 = 10,0 ms; Spike recovery My Orders p95 = 13,0 ms | Theo dõi bước verify order sau checkout, nhất là khi dữ liệu order tăng. |
+
+Bộ threshold này có thể được ánh xạ vào continuous testing theo ba mức: smoke performance check cho mỗi commit, stepped-load test định kỳ, và spike/recovery test trước release. Các ngưỡng p95/p99 được giữ riêng cho baseline, stepped-load và spike peak vì chúng đo các rủi ro khác nhau, nhưng cách dùng trong pipeline là thống nhất: fail hoặc cảnh báo khi một guardrail vượt ngưỡng đã định.
+
+### 7.3 Đánh giá cuối
+
+SUT ổn định với các profile local đã được chấp nhận trong HW05: Load 50 users, Stress 50 -> 150 -> 300 -> 500 users và Spike 50 -> 500 users. Không scenario nào tạo lỗi, và cả ba đều hoàn thành cùng workflow có auth-heavy, read-heavy và transactional endpoint.
+
+Rủi ro chính là tail latency trong các đợt tải cao đột ngột. Peak của Spike làm p95/p99 tăng cao hơn nhiều so với Load và Stress, nhưng hệ thống phục hồi sau spike window. Bước kiểm chứng tiếp theo nên là Endurance/Soak Test gần mức tải ổn định mạnh nhất để xem hệ thống local có duy trì throughput cao trong thời gian dài mà không tăng memory, không phát sinh SQLite contention, và không làm xấu thêm latency của Checkout/My Orders hay không.
 
 ## 8. AI Misinterpretation Hunt
 

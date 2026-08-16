@@ -238,8 +238,27 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
 
 <!-- AUDIT_ENTRY:interaction-013-spike-analysis-rerun:END -->
 
+<!-- AUDIT_ENTRY:interaction-014-cross-scenario-thresholds:START -->
+### [14] Cross-Scenario Analysis va Final Thresholds
+
+- **Công cụ:** Codex (GPT-5)
+- **Thời gian:** 2026-08-17 00:29
+- **Prompt:**
+  > Hãy phân tích phần  7. Cross-Scenario Analysis and Final Thresholds
+- **Output:**
+  AI đã cập nhật mục 7 trong main report, tổng hợp Load/Stress/Spike từ JMeter HTML reports và raw/window analysis đã được human review. Bảng cross-scenario ghi Load 16.714 samples, 0,0% lỗi, p95 6,0 ms, p99 9,0 ms, throughput 35,061 req/s; Stress 107.203 samples, 0,0% lỗi, p95 8,0 ms, p99 13,0 ms, throughput 179,655 req/s; Spike 88.157 samples, 0,0% lỗi, p95 10,0 ms, p99 16,0 ms, throughput 184,866 req/s. AI đã bổ sung trend analysis, nhận định rủi ro chính là tail latency trong high-concurrency burst, đặc biệt Spike peak p95 57,0 ms và p99 200,0 ms từ window analysis. Final thresholds được đề xuất cho Load, Stress, Spike peak/recovery, error rate toàn cục, Checkout p95 và Checkout peak p99.
+  Cập nhật sau review:
+  AI đã Việt hóa mục 7 trong main report: đổi tên cột/tóm tắt bảng so sánh sang tiếng Việt, đổi 7.1 thành Phân tích xu hướng, 7.2 thành Ngưỡng cuối đề xuất, 7.3 thành Đánh giá cuối; giữ nguyên toàn bộ số liệu và threshold đã đề xuất.
+  Cập nhật sau review:
+  AI đã chỉnh mục 7.2 thành bộ guardrail dùng cho continuous performance testing: functional error gate, baseline latency/throughput gate, stepped-load latency/throughput gate, spike peak latency gate, spike recovery gate, transactional endpoint guardrail, spike transactional tail guardrail và read-after-write guardrail. Mỗi guardrail ghi threshold cuối, phạm vi áp dụng, cơ sở từ Load/Stress/Spike accepted runs và cách dùng trong pipeline.
+  Cập nhật sau review:
+  AI ghi nhận mục 7 đã được chấp nhận sau correction: phần Cross-Scenario Analysis đã Việt hóa, và mục Final Thresholds đã chuyển thành bộ guardrail dùng lại được cho Continuous Performance Testing Proposal thay vì chỉ phân biệt theo từng kịch bản.
+- **Kết quả sau review:** Approved with Corrections: Người dùng đã xác nhận mục 7 sau khi Việt hóa và chỉnh final thresholds thành guardrail cho continuous performance testing là ổn.
+
+<!-- AUDIT_ENTRY:interaction-014-cross-scenario-thresholds:END -->
+
 ## Tổng hợp công cụ sử dụng
 
 | Công cụ | Mục đích sử dụng | Số lượt tương tác |
 |---|---|---:|
-| Codex (GPT-5) | Thiết kế Load Test, Stress Test và Spike Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL, đề xuất threshold/optimization, viết/chỉnh sửa main report, phân loại evidence và cập nhật AI Audit Report | 13 |
+| Codex (GPT-5) | Thiết kế Load Test, Stress Test và Spike Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL, đề xuất threshold/optimization, viết/chỉnh sửa main report, phân loại evidence và cập nhật AI Audit Report | 14 |
