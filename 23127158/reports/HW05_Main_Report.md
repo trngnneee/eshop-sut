@@ -8,7 +8,7 @@ Báo cáo được thực hiện cho bài tập HW05 Performance Testing với t
 |---|---|
 | Họ tên | `Nguyễn Thanh Gia Bảo` |
 | Mã số sinh viên | `23127158` |
-| GitHub repository | `<Điền link GitHub repository của bài nộp>` |
+| GitHub repository | `https://github.com/trngnneee/eshop-sut/tree/HW5-Bao` |
 
 Báo cáo này trình bày quá trình thiết kế kiểm thử hiệu năng cho hệ thống EShop, một ứng dụng thương mại điện tử demo gồm backend API Node.js/Express, cơ sở dữ liệu SQLite và các frontend web/admin/mobile. Phạm vi HW05 tập trung vào backend REST API tại `http://localhost:3000`, với mục tiêu thiết kế và thực thi các kịch bản Load, Stress và Spike bằng JMeter.
 
@@ -754,3 +754,7 @@ Khi có thay đổi môi trường lớn như đổi máy, đổi Node.js/JMeter
 ### 11.7 Kết luận đề xuất
 
 Model phù hợp nhất cho EShop là pipeline nhiều tầng: **commit-level Load smoke**, **nightly Stress stepped-load**, **pre-release Spike**, và **weekly Soak**. Bộ guardrail ở mục 7 được dùng như contract hiệu năng ban đầu: error rate phải thấp, p95 không được vượt ngưỡng theo từng loại tải, throughput không được giảm mạnh, và các endpoint `Checkout`/`My Orders` được theo dõi riêng vì chúng liên quan trực tiếp đến các performance issues đã ghi nhận. Cách này đáp ứng yêu cầu Task 3 vì pipeline biết khi nào cần chạy test, biết cách phát hiện p95 regression và vẫn kiểm soát được chi phí/false alarm trong môi trường local.
+
+## 12. AI Critique
+
+AI Critique được tách thành file riêng tại `reports/AI_Critique.md`.

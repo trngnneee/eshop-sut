@@ -169,7 +169,7 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
 <!-- AUDIT_ENTRY:interaction-009-spike-analysis:END -->
 
 <!-- AUDIT_ENTRY:interaction-010-main-report-environment:START -->
-### [10] Main Report - Bo sung Test Environment
+### [10] Main Report - Bổ sung Test Environment
 
 - **Công cụ:** Codex (GPT-5)
 - **Thời gian:** 2026-08-16 22:07
@@ -186,7 +186,7 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
 <!-- AUDIT_ENTRY:interaction-010-main-report-environment:END -->
 
 <!-- AUDIT_ENTRY:interaction-011-load-analysis-rerun:START -->
-### [11] Load Test - Phan tich ket qua sau khi chay lai
+### [11] Load Test - Phân tích kết quả sau khi chạy lại
 
 - **Công cụ:** Codex (GPT-5)
 - **Thời gian:** 2026-08-16 23:34
@@ -205,7 +205,7 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
 <!-- AUDIT_ENTRY:interaction-011-load-analysis-rerun:END -->
 
 <!-- AUDIT_ENTRY:interaction-012-stress-analysis-rerun:START -->
-### [12] Stress Test - Phan tich ket qua sau khi chay lai
+### [12] Stress Test - Phân tích kết quả sau khi chạy lại
 
 - **Công cụ:** Codex (GPT-5)
 - **Thời gian:** 2026-08-17 00:01
@@ -224,7 +224,7 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
 <!-- AUDIT_ENTRY:interaction-012-stress-analysis-rerun:END -->
 
 <!-- AUDIT_ENTRY:interaction-013-spike-analysis-rerun:START -->
-### [13] Spike Test - Phan tich ket qua sau khi chay lai
+### [13] Spike Test - Phân tích kết quả sau khi chạy lại
 
 - **Công cụ:** Codex (GPT-5)
 - **Thời gian:** 2026-08-17 00:15
@@ -239,7 +239,7 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
 <!-- AUDIT_ENTRY:interaction-013-spike-analysis-rerun:END -->
 
 <!-- AUDIT_ENTRY:interaction-014-cross-scenario-thresholds:START -->
-### [14] Cross-Scenario Analysis va Final Thresholds
+### [14] Cross-Scenario Analysis và Final Thresholds
 
 - **Công cụ:** Codex (GPT-5)
 - **Thời gian:** 2026-08-17 00:29
@@ -258,7 +258,7 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
 <!-- AUDIT_ENTRY:interaction-014-cross-scenario-thresholds:END -->
 
 <!-- AUDIT_ENTRY:interaction-015-endurance-design:START -->
-### [15] Endurance Test - Thiet ke kich ban soak test
+### [15] Endurance Test - Thiết kế kịch bản soak test
 
 - **Công cụ:** Codex (GPT-5)
 - **Thời gian:** 2026-08-17 00:53
@@ -286,7 +286,7 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
 <!-- AUDIT_ENTRY:interaction-016-endurance-generation:END -->
 
 <!-- AUDIT_ENTRY:interaction-017-endurance-analysis:START -->
-### [17] Endurance Test - Phan tich ket qua soak test
+### [17] Endurance Test - Phân tích kết quả soak test
 
 - **Công cụ:** Codex (GPT-5)
 - **Thời gian:** 2026-08-17 01:33
@@ -317,7 +317,7 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
 <!-- AUDIT_ENTRY:interaction-018-optimization-recommendations:END -->
 
 <!-- AUDIT_ENTRY:interaction-019-performance-issues-bugs:START -->
-### [19] Main Report - Performance Issues va Bugs
+### [19] Main Report - Performance Issues và Bugs
 
 - **Công cụ:** Codex (GPT-5)
 - **Thời gian:** 2026-08-17 01:47
@@ -327,12 +327,12 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
   AI đã hoàn thành mục 10 Performance Issues / Bugs trong main report. Vì các run Load/Stress/Spike/Soak đều có error rate 0,0% và không có lỗi HTTP/assertion, AI không ghi nhận functional bug giả. Thay vào đó, AI đề xuất 3 performance issues có evidence: PERF-001 Spike peak 500 users tạo tail latency mạnh trên toàn workflow; PERF-002 Soak 300 users vượt latency guardrail dù không lỗi; PERF-003 My Orders tail latency tăng dưới tải cao và cần profiling khi dữ liệu order tăng. AI đã tạo 3 file bug report theo bug-report-template.md trong 23127158/performance-issues-bugs/ và cập nhật mục 10 với bảng tóm tắt, severity/priority, evidence và đường dẫn report.
   Cập nhật sau review:
   AI đã chỉnh PERF-001-spike-peak-tail-latency.md để bổ sung bảng số liệu có thể chụp từ JMeter HTML report: Total samples 88.157, error rate 0,0%, Total max 464,0 ms, Login p95/p99/max 34,0/153,990/457,0 ms, Checkout p95/p99/max 36,0/166,230/440,0 ms, My Orders p95/p99/max 32,0/148,0/419,0 ms. Các số peak-window từ raw JTL vẫn giữ nhưng được ghi rõ là additional raw JTL window analysis. Mục 10 trong main report cũng được chỉnh để evidence của PERF-001 có cả số HTML report và raw window analysis.
-- **Kết quả sau review:** Đã chỉnh sửa, hiện đang chờ review lại. Người dùng hỏi PERF-001 có số liệu trong HTML report để chụp ảnh evidence không.
+- **Kết quả sau review:** Đã chỉnh sửa và được chấp nhận. PERF-001 đã được bổ sung số liệu từ HTML report để người dùng có thể chụp ảnh evidence; các performance issue trong mục 10 được giữ làm bản cuối.
 
 <!-- AUDIT_ENTRY:interaction-019-performance-issues-bugs:END -->
 
 <!-- AUDIT_ENTRY:interaction-020-section3-level-window-reporting:START -->
-### [20] Main Report - Bo sung Stress levels va Spike windows vao muc 3
+### [20] Main Report - Bổ sung Stress levels và Spike windows vào mục 3
 
 - **Công cụ:** Codex (GPT-5)
 - **Thời gian:** 2026-08-17 01:56
@@ -365,8 +365,23 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
 
 <!-- AUDIT_ENTRY:interaction-021-continuous-performance-testing:END -->
 
+<!-- AUDIT_ENTRY:interaction-022-submission-readme-review:START -->
+### [22] Submission Review - Rà soát report và tạo README
+
+- **Công cụ:** Codex (GPT-5)
+- **Thời gian:** 2026-08-17 02:55
+- **Prompt:**
+  > Oke đọc lại 2 file main report và file audit report xem có lỗi chính tả, lỗi từ ngữ, lỗi encoding hay lỗi thiếu dấu. Sau đó nếu mọi thứ đều ổn theo yêu cầu trong file: HW05_Performance_Testing.md thì hãy tạo file readme như được yêu cầu, để chỗ đề tôi điền link cho 2 video clip.
+- **Output:**
+  AI đã rà soát HW05_Main_Report.md và AI_Audit_Report.md bằng UTF-8, xác nhận không có pattern mojibake thật; lỗi hiển thị chữ tiếng Việt sai chỉ đến từ console. AI đã chuẩn hóa các tiêu đề audit còn thiếu dấu, bổ sung mục tham chiếu AI Critique trong main report, tách AI Critique thành reports/AI_Critique.md với giọng tự nhiên xưng em và độ dài 273 từ, đồng thời tạo 23127158/README.md theo yêu cầu nộp bài. README gồm thông tin sinh viên, hai placeholder video clip, self-assessment table, test summary, endpoint groups covered, endurance threshold, performance issues và evidence checklist.
+  Cập nhật sau review:
+  README đã được chỉnh: Clip 2 đổi thành Agent Skill demonstration with Vietnamese narration; phần Evidence Checklist đã được bỏ để README gọn hơn.
+- **Kết quả sau review:** Đã chỉnh sửa theo yêu cầu. README đã đổi clip thứ 2 thành Agent Skill demo và bỏ phần Evidence Checklist; không ghi thêm interaction mới theo yêu cầu của người dùng.
+
+<!-- AUDIT_ENTRY:interaction-022-submission-readme-review:END -->
+
 ## Tổng hợp công cụ sử dụng
 
 | Công cụ | Mục đích sử dụng | Số lượt tương tác |
 |---|---|---:|
-| Codex (GPT-5) | Thiết kế Load Test, Stress Test, Spike Test và Endurance/Soak Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL/HTML report, đề xuất threshold/optimization, viết/chỉnh sửa main report, phân loại evidence, đề xuất performance issues/bugs và cập nhật AI Audit Report | 21 |
+| Codex (GPT-5) | Thiết kế Load Test, Stress Test, Spike Test và Endurance/Soak Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL/HTML report, đề xuất threshold/optimization, viết/chỉnh sửa main report, phân loại evidence, đề xuất performance issues/bugs và cập nhật AI Audit Report | 22 |
