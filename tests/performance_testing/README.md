@@ -22,6 +22,10 @@ tests/performance_testing/
 │   ├── gen_jmx.py                       (sinh 4 test plan)
 │   ├── monitor.sh                       (log tài nguyên)
 │   └── analyze_jtl.py                   (tính percentile ground-truth)
+├── skill/perf-jmeter/                   (Agent Skill — tái dùng workflow cho endpoint group khác)
+│   ├── SKILL.md                         (spec JSON -> gen -> run -> analyze)
+│   ├── scripts/ (gen_plan.py, analyze.py)
+│   └── examples/ (category_guided_buy.json, users.example.csv)
 ├── evidence/
 │   ├── hardware_report.md               (Apple M4, 10 core, 16GB)
 │   ├── lockout_probe.md                 (probe + reset lockout)

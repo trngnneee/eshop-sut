@@ -1,0 +1,4 @@
+email,password,category_hint,search,product_id,product_name,quantity,price,total_amount,shipping_address
+nguyen01@eshop.com,Test1234!,Điện thoại,iPhone,1,iPhone 15 Pro Max,2,30000000,60000000,"88 Hai Ba Trung, Q3, TPHCM"
+nguyen02@eshop.com,Test1234!,Điện thoại,Samsung,2,Samsung Galaxy S24 Ultra,1,28000000,28000000,"45 Le Loi, Q1, TPHCM"
+nguyen03@eshop.com,Test1234!,Laptop,MacBook,3,MacBook Pro M3,1,45000000,45000000,"12 Nguyen Hue, Q1, TPHCM"

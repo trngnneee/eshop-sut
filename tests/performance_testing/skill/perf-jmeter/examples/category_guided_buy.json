@@ -1,0 +1,65 @@
+{
+  "plan_prefix": "23127438",
+  "date": "20260815",
+  "base": { "host": "localhost", "port": 3000, "protocol": "http" },
+  "csv": {
+    "file": "nguyen_users.csv",
+    "variables": ["email","password","category_hint","search","product_id","product_name","quantity","price","total_amount","shipping_address"]
+  },
+  "steps": [
+    {
+      "name": "01 POST /api/login",
+      "method": "POST",
+      "path": "/api/login",
+      "body": "{\"email\":\"${email}\",\"password\":\"${password}\"}",
+      "extract": [{ "var": "token", "jsonpath": "$.token", "default": "TOKEN_MISSING" }],
+      "assert_code": 200,
+      "assert_jsonpath": ["$.token"],
+      "think_ms": [1000, 1000]
+    },
+    {
+      "name": "02 GET /api/categories",
+      "method": "GET",
+      "path": "/api/categories",
+      "assert_code": 200,
+      "assert_jsonpath": ["$[0].name"],
+      "think_ms": [1000, 1000]
+    },
+    {
+      "name": "03 GET /api/products?search",
+      "method": "GET",
+      "path": "/api/products",
+      "query": { "search": "${search}" },
+      "assert_code": 200,
+      "assert_jsonpath": ["$[0].id"],
+      "think_ms": [1000, 2000]
+    },
+    {
+      "name": "04 POST /api/cart",
+      "method": "POST",
+      "path": "/api/cart",
+      "body": "{\"product_id\":${product_id},\"quantity\":${quantity},\"name\":\"${product_name}\",\"price\":${price}}",
+      "auth": true,
+      "assert_code": 200,
+      "assert_contains": ["Added to cart"],
+      "think_ms": [1000, 0]
+    },
+    {
+      "name": "05 POST /api/checkout",
+      "method": "POST",
+      "path": "/api/checkout",
+      "body": "{\"total_amount\":${total_amount},\"shipping_address\":\"${shipping_address}\"}",
+      "auth": true,
+      "extract": [{ "var": "orderId", "jsonpath": "$.orderId", "default": "ORDER_MISSING" }],
+      "assert_code": 200,
+      "assert_jsonpath": ["$.orderId"],
+      "think_ms": [1000, 0]
+    }
+  ],
+  "scenarios": {
+    "load":   { "vu": 20, "ramp": 60, "duration": 300 },
+    "stress": { "peak": 200 },
+    "spike":  { "baseline": 10, "burst": 150, "at": 90, "for": 60, "total": 300 },
+    "soak":   { "vu": 30, "minutes": 12 }
+  }
+}
