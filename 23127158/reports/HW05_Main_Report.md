@@ -36,12 +36,12 @@ Student ID sử dụng trong tên test plan là `23127158`. Các test plan hiệ
 
 ## 2. Test Environment
 
-Phần cứng và hệ điều hành được ghi nhận từ ảnh chụp DirectX Diagnostic Tool (`dxdiag`) trên máy local dùng để chạy SUT và JMeter.
+Môi trường kiểm thử là máy local Windows, chạy backend EShop tại `http://localhost:3000` và dùng Apache JMeter để phát tải vào REST API. Thông tin phần cứng được ghi nhận từ ảnh chụp DirectX Diagnostic Tool (`dxdiag`) tại `screenshots/hardware-report.png`.
 
-| Mục | Thông tin |
+| Hardware / OS item | Value |
 |---|---|
-| Evidence source | ![(nh chụp DirectX Diagnostic Tool, tab System](../screenshots/hardware-report.png) |
-| Current date/time trong ảnh | Sunday, August 16, 2026, 10:03:54 PM |
+| Evidence source | ![DirectX Diagnostic Tool - System tab](../screenshots/hardware-report.png) |
+| Evidence timestamp | Sunday, August 16, 2026, 10:03:54 PM |
 | Computer name | `DESKTOP-8PSPNF6` |
 | Operating system | Windows 11 Pro 64-bit, version 10.0, build 26200 |
 | Language / regional setting | English / English |
@@ -55,17 +55,25 @@ Phần cứng và hệ điều hành được ghi nhận từ ảnh chụp Direc
 | Page file | 19547 MB used, 18537 MB available |
 | DirectX version | DirectX 12 |
 
-Môi trường kiểm thử là máy local Windows, chạy backend EShop tại `http://localhost:3000` và dùng Apache JMeter để phát tải vào REST API. Vì JMeter, Java runtime và resource-monitor version không hiển thị trong ảnh DxDiag, các thông tin đó sẽ được bổ sung sau khi chụp evidence chạy test hoặc xuất cấu hình công cụ.
-
-| Thành phần | Cấu hình dùng trong bài |
+| Software / SUT item | Value |
 |---|---|
 | SUT backend | Node.js + Express + SQLite |
 | Backend base URL | `http://localhost:3000` |
+| Backend start command | `npm start` in `backend/` |
+| Node.js runtime observed on test machine | `v22.17.1` |
+| Backend package engine declaration | Node `20.x` in `backend/package.json` |
+| Java runtime observed on test machine | OpenJDK Temurin `25.0.2` |
 | Performance test tool | Apache JMeter |
+| JMeter version | Apache JMeter `5.6.3` |
 | Test plan format | `.jmx` |
 | Raw result format | `.jtl` |
-| HTML report folders | `reports/html/load/`, `reports/html/stress/`, `reports/html/spike/` |
-| Resource monitor evidence | Sẽ bổ sung bằng screenshot JMeter cùng Task Manager/resource monitor khi chạy từng scenario |
+| Backend dependencies relevant to SUT | `express`, `sqlite3`, `jsonwebtoken`, `cors`, `body-parser` |
+
+| Scenario | Raw JTL | HTML report | Execution/resource evidence |
+|---|---|---|---|
+| Load | `results/load_result.jtl` | `reports/html-report/load-profile/index.html` | `screenshots/load-test-and-resource-usage.png` |
+| Stress | `results/stress_result.jtl` | `reports/html-report/stress-profile/index.html` | `screenshots/stress-test-and-resource-usage.png` |
+| Spike | `results/spike_result.jtl` | `reports/html-report/spike-profile/index.html` | `screenshots/spike-test-and-resource-usage.png` |
 
 ## 3. Test Design
 
@@ -194,7 +202,32 @@ Nguồn kết quả chính thức: JMeter HTML report `reports/html-report/stres
 
 ### 4.3 Spike
 
-_Tạm thời để trống._
+Nguồn kết quả chính thức: JMeter HTML report `reports/html-report/spike-profile/index.html`, dữ liệu trong `reports/html-report/spike-profile/statistics.json`.
+
+| Metric | Value |
+|---|---:|
+| Sample count | 88.157 |
+| Error count | 0 |
+| Error rate | 0,0% |
+| Mean response time | 9,989 ms |
+| Median response time | 3,0 ms |
+| Min response time | 0,0 ms |
+| Max response time | 464,0 ms |
+| 90th percentile | 8,0 ms |
+| 95th percentile | 10,0 ms |
+| 99th percentile | 16,0 ms |
+| Throughput | 184,866 req/s |
+| Received throughput | 112,184 KB/s |
+| Sent throughput | 56,633 KB/s |
+
+| Sampler / endpoint | Samples | Error % | Avg ms | p90 ms | p95 ms | p99 ms | Throughput req/s |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 01 Login | 14.900 | 0,0% | 11,716 | 20,0 | 34,0 | 153,990 | 31,405 |
+| 02 Browse Product List | 14.808 | 0,0% | 9,465 | 16,0 | 29,0 | 156,0 | 31,230 |
+| 03 View Product Detail | 14.734 | 0,0% | 9,089 | 16,0 | 29,0 | 149,650 | 31,120 |
+| 04 Add To Cart | 14.658 | 0,0% | 4,074 | 6,0 | 12,0 | 55,0 | 30,977 |
+| 05 Checkout | 14.576 | 0,0% | 13,588 | 20,0 | 36,0 | 166,230 | 30,820 |
+| 06 My Orders Verify New Order | 14.481 | 0,0% | 12,029 | 19,0 | 32,0 | 148,0 | 30,669 |
 
 ## 5. Endurance / Soak Test
 
@@ -344,7 +377,83 @@ Kết luận sau review: Stress Test 50 -> 150 -> 300 -> 500 users được xem 
 
 ### 6.3 Spike
 
-_Tạm thời để trống._
+#### Objective Metrics From Raw JTL
+
+| Metric | Value | Source |
+|---|---:|---|
+| Total samples | 88.157 | `results/spike_result.jtl`, computed by `analyze_jtl.py` |
+| Failures | 0 | `results/spike_result.jtl`, computed by `analyze_jtl.py` |
+| Error rate | 0,0% | `results/spike_result.jtl`, computed by `analyze_jtl.py` |
+| Duration | 476,863 s | `results/spike_result.jtl`, computed by `analyze_jtl.py` |
+| Throughput | 184,869 req/s | `results/spike_result.jtl`, computed by `analyze_jtl.py` |
+| Avg response time | 9,989 ms | `results/spike_result.jtl`, computed by `analyze_jtl.py` |
+| Median response time | 4,0 ms | `results/spike_result.jtl`, computed by `analyze_jtl.py` |
+| p90 response time | 17,0 ms | `results/spike_result.jtl`, computed by `analyze_jtl.py` |
+| p95 response time | 29,0 ms | `results/spike_result.jtl`, computed by `analyze_jtl.py` |
+| p99 response time | 141,0 ms | `results/spike_result.jtl`, computed by `analyze_jtl.py` |
+| Max response time | 464,0 ms | `results/spike_result.jtl`, computed by `analyze_jtl.py` |
+| Response codes | HTTP 200: 88.157 | `results/spike_result.jtl`, computed by `analyze_jtl.py` |
+
+#### Per-Sampler Metrics From Raw JTL
+
+| Sampler / endpoint | Samples | Error % | Avg ms | p95 ms | p99 ms | Throughput req/s |
+|---|---:|---:|---:|---:|---:|---:|
+| 01 Login | 14.900 | 0,0% | 11,716 | 34,0 | 153,010 | 31,405 |
+| 02 Browse Product List | 14.808 | 0,0% | 9,465 | 29,0 | 155,930 | 31,230 |
+| 03 View Product Detail | 14.734 | 0,0% | 9,089 | 29,0 | 149,0 | 31,120 |
+| 04 Add To Cart | 14.658 | 0,0% | 4,074 | 12,0 | 54,430 | 30,977 |
+| 05 Checkout | 14.576 | 0,0% | 13,588 | 36,0 | 166,0 | 30,820 |
+| 06 My Orders Verify New Order | 14.481 | 0,0% | 12,029 | 32,0 | 148,0 | 30,669 |
+
+#### Spike-Window Metrics From Raw JTL
+
+Các window dưới đây được tính từ timestamp đầu tiên trong `results/spike_result.jtl` và bám theo lịch Ultimate Thread Group: baseline 50 users, spike thêm 450 users sau 120 giây, peak 500 users trong 90 giây, ramp-down spike group trong 90 giây, sau đó recovery về baseline.
+
+| Spike window | Time window | Samples | Error % | Avg ms | p90 ms | p95 ms | p99 ms | Max ms | Throughput req/s |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Baseline before spike | 60-120s | 2.982 | 0,0% | 2,749 | 5,0 | 6,0 | 9,0 | 24,0 | 49,718 |
+| Spike ramp-up | 120-150s | 8.784 | 0,0% | 4,150 | 8,0 | 11,0 | 18,0 | 39,0 | 293,044 |
+| Peak 500 users hold | 150-240s | 44.359 | 0,0% | 15,635 | 28,0 | 57,0 | 200,0 | 464,0 | 492,889 |
+| Spike ramp-down | 240-330s | 23.859 | 0,0% | 4,640 | 9,0 | 13,0 | 23,0 | 56,0 | 265,153 |
+| Recovery baseline | 330-420s | 4.475 | 0,0% | 4,157 | 8,0 | 10,0 | 15,0 | 25,0 | 49,745 |
+
+| Spike window | Login p95 / p99 ms | Checkout p95 / p99 ms | My Orders p95 / p99 ms | Main observation |
+|---|---:|---:|---:|---|
+| Baseline before spike | 5,0 / 7,0 | 9,0 / 11,030 | 4,0 / 7,0 | Baseline trước spike ổn định, latency gần Load baseline. |
+| Spike ramp-up | 13,0 / 19,660 | 14,0 / 21,0 | 10,0 / 18,0 | Latency bắt đầu tăng khi users tăng nhanh từ 50 lên 500. |
+| Peak 500 users hold | 65,0 / 218,080 | 76,0 / 227,940 | 70,0 / 205,090 | Peak 500 users tạo tail latency rõ nhất nhưng vẫn 0 lỗi. |
+| Spike ramp-down | 14,0 / 27,0 | 14,0 / 26,320 | 14,0 / 24,0 | Latency giảm nhanh khi spike group ramp-down. |
+| Recovery baseline | 11,0 / 15,0 | 12,0 / 17,520 | 13,0 / 16,520 | Hệ thống phục hồi về gần baseline, không có lỗi tồn dư. |
+
+#### AI Interpretation
+
+Raw JTL cho thấy Spike Test chạy khoảng 476,863 giây với 88.157 request, 0 failures và toàn bộ response code HTTP 200. Overall throughput đạt 184,869 req/s. Về mặt functional correctness, SUT hấp thụ được spike 50 -> 500 users mà không tạo lỗi HTTP hoặc assertion failure.
+
+Latency tổng của raw analyzer cao hơn Load/Stress do giai đoạn peak spike: avg 9,989 ms, p95 29,0 ms, p99 141,0 ms và max 464,0 ms. `05 Checkout` có mean cao nhất 13,588 ms và p99 166,0 ms; `01 Login`, `02 Browse Product List`, `03 View Product Detail` và `06 My Orders` cũng có p99 cao trong khoảng 148-156 ms. Điều này cho thấy spike tạo tail latency trên nhiều endpoint, không chỉ riêng checkout.
+
+Phân tích theo window cho thấy nguyên nhân chính nằm ở peak 500 users hold: overall p95 tăng lên 57,0 ms, p99 200,0 ms và max 464,0 ms. Trong peak window, Checkout p99 đạt 227,940 ms, Login p99 218,080 ms và My Orders p99 205,090 ms. Sau khi spike group ramp-down, p99 giảm xuống 23,0 ms; ở recovery baseline, p95/p99 còn 10,0/15,0 ms và throughput quay về khoảng 49,745 req/s. Vì vậy, hệ thống có tail-latency spike rõ ràng ở peak nhưng phục hồi tốt sau spike, chưa có bằng chứng lỗi chức năng hoặc failure kéo dài.
+
+#### AI-Proposed Thresholds
+
+| Threshold | Proposed value | Rationale | Raw metric used |
+|---|---:|---|---|
+| Spike overall p95 threshold | <= 60 ms | Peak window raw p95 là 57,0 ms; ngưỡng 60 ms phản ánh yêu cầu hấp thụ spike mà không để p95 vượt xa mức peak hiện tại. | Peak 500 users p95 = 57,0 ms |
+| Spike overall p99 threshold | <= 250 ms | Peak p99 là 200,0 ms và max 464,0 ms; ngưỡng 250 ms cho phép spike tail latency nhưng vẫn bắt regression rõ. | Peak 500 users p99 = 200,0 ms |
+| Spike error-rate threshold | <= 1,0% | Run hiện tại 0 lỗi; spike có thể gây tail latency nhưng không nên gây lỗi chức năng ổn định. | Error rate = 0,0% |
+| Recovery p95 threshold | <= 20 ms | Recovery baseline p95 là 10,0 ms; ngưỡng 20 ms xác nhận hệ thống hồi phục sau spike. | Recovery p95 = 10,0 ms |
+| Checkout peak p99 threshold | <= 300 ms | Checkout peak p99 là 227,940 ms; ngưỡng 300 ms theo dõi transactional tail latency ở giai đoạn spike. | Checkout peak p99 = 227,940 ms |
+
+#### AI-Proposed Optimizations
+
+| Recommendation | Evidence category | Metric / observation used | Expected effect |
+|---|---|---|---|
+| Ưu tiên profiling giai đoạn peak spike 500 users thay vì chỉ nhìn toàn bài. | Supported by raw evidence | Peak window p99 200,0 ms, max 464,0 ms; recovery p99 giảm còn 15,0 ms. | Tập trung điều tra đúng thời điểm phát sinh tail latency. |
+| Theo dõi và tối ưu Checkout write path nếu peak p99 tiếp tục cao ở run lặp lại. | Supported by raw evidence | Checkout peak p99 227,940 ms, max 440,0 ms. | Giảm tail latency cho bước transactional trong spike. |
+| Kiểm tra auth/read path dưới spike vì tail latency không chỉ nằm ở checkout. | Supported by raw evidence | Login peak p99 218,080 ms; My Orders peak p99 205,090 ms; Browse/Product Detail cũng có p99 cao trong toàn bài. | Tránh tối ưu sai một endpoint khi spike ảnh hưởng nhiều nhóm request. |
+| Cân nhắc database/index/pagination cho My Orders nếu dữ liệu order hoặc endurance làm read-after-checkout chậm hơn. | Plausible but not proven | My Orders peak p99 205,090 ms nhưng recovery p99 16,520 ms và không có lỗi. | Giữ truy vấn lịch sử đơn hàng ổn định khi dữ liệu tăng. |
+| Chỉ tinh chỉnh SQLite WAL/busy timeout nếu log hoặc run sau có lock/write contention. | Plausible but not proven | Spike hiện 0 failures; JTL không chứng minh lock contention. | Giảm lỗi/độ trễ do lock nếu có bằng chứng contention thật. |
+
+Kết luận sau review: Spike Test baseline 50 users -> peak 500 users được xem là đạt mục tiêu trong môi trường local. HTML report xác nhận 88.157 samples, 0 lỗi, error rate 0,0%, throughput 184,866 req/s, overall p95 10,0 ms và p99 16,0 ms. Window analysis từ raw JTL cho thấy peak 500 users tạo tail latency rõ nhất, nhưng hệ thống phục hồi về gần baseline sau spike và không có lỗi chức năng kéo dài.
 
 ## 7. Cross-Scenario Analysis and Final Thresholds
 
@@ -407,6 +516,24 @@ Nguồn đối chiếu là JMeter HTML dashboard tại `reports/html-report/stre
 | Đề xuất theo dõi Checkout/Login tail latency ở các run nặng hơn. | HTML report cho Checkout p99 22,0 ms, Login p99 21,0 ms, max toàn bài 277,0 ms. | Có cơ sở nhưng chưa chứng minh | Có tail latency/outlier nhưng chưa có lỗi hoặc degradation kéo dài; cần Spike/Endurance hoặc profiling để kết luận bottleneck. |
 
 Kết luận review cho Stress Phase 4: số liệu samples, error rate, throughput, mean, max và per-sampler chính khớp giữa raw analyzer và HTML report. Sai khác quan trọng nhất nằm ở percentile tổng: HTML report ghi p95 = 8,0 ms và p99 = 13,0 ms, trong khi custom analyzer ghi p95 = 11,0 ms và p99 = 18,0 ms. Vì mục 4 là phần kết quả chính thức, báo cáo dùng percentile tổng từ HTML report ở mục 4.2; mục 6.2 giữ raw analyzer như bằng chứng AI analysis và đã nêu rõ nguồn.
+
+### 8.4 Task 2 - Spike HTML Report Cross-Check
+
+Nguồn đối chiếu là JMeter HTML dashboard tại `reports/html-report/spike-profile/index.html`, đọc qua file dữ liệu `reports/html-report/spike-profile/statistics.json`. Mục tiêu là kiểm tra lại phần AI analysis ở mục 6.3 so với số liệu chính thức của HTML report.
+
+| AI claim or recommendation | Raw evidence / correct value | Human decision | Reason |
+|---|---|---|---|
+| Total samples của Spike Test là 88.157. | HTML report `Total.sampleCount = 88157`. | Đúng | Khớp với `statistics.json` và kết quả `analyze_jtl.py`. |
+| Error rate là 0,0% và toàn bộ request không lỗi. | HTML report `Total.errorCount = 0`, `Total.errorPct = 0.0`. | Đúng | Không có sai khác giữa HTML report và raw JTL analysis. |
+| Overall throughput khoảng 184,869 req/s. | HTML report `Total.throughput = 184.86628403188297 req/s`; custom analyzer trả 184,869 req/s. | Đúng | Sai khác chỉ do làm tròn số thập phân. |
+| Overall mean response time là 9,989 ms và max là 464,0 ms. | HTML report `meanResTime = 9.989189741030193`, `maxResTime = 464.0`. | Đúng | Khớp với raw JTL analysis sau khi làm tròn. |
+| Raw analyzer ghi overall median/p90/p95/p99 lần lượt là 4,0 / 17,0 / 29,0 / 141,0 ms. | HTML report `medianResTime = 3.0`, `pct1ResTime = 8.0`, `pct2ResTime = 10.0`, `pct3ResTime = 16.0`. | Đã hiệu chỉnh | Mục 4.3 dùng số chính thức từ HTML report. Mục 6.3 vẫn giữ raw analyzer và window analysis để giải thích tail latency trong spike peak. |
+| `05 Checkout` là sampler chậm nhất với avg 13,588 ms, p95 36,0 ms, p99 khoảng 166 ms. | HTML report cho Checkout: `meanResTime = 13.588090010976982`, `pct2ResTime = 36.0`, `pct3ResTime = 166.22999999999956`. | Đúng | Checkout có mean cao nhất và các percentile chính khớp HTML report. |
+| `01 Login` p99 là 153,010 ms. | HTML report cho Login: `pct3ResTime = 153.98999999999978`; custom analyzer trả 153,010 ms. | Đã hiệu chỉnh | Sai khác nhỏ do cách tính/làm tròn percentile. Khi viết kết luận cuối, dùng Login p99 xấp xỉ 153,99 ms theo HTML report. |
+| Spike peak 500 users tạo tail latency rõ nhất nhưng recovery tốt. | Window analysis từ raw JTL: peak p99 200,0 ms, max 464,0 ms; recovery p95 10,0 ms, p99 15,0 ms, 0 lỗi. | Đúng | HTML report không tách theo window, nên raw JTL window analysis là bằng chứng phù hợp để đánh giá spike/recovery. |
+| Threshold Spike p95 <= 60 ms và p99 <= 250 ms dựa trên peak-window raw metrics. | HTML report toàn bài ghi p95 10,0 ms và p99 16,0 ms, nhưng peak-window raw JTL ghi p95 57,0 ms và p99 200,0 ms. | Có cơ sở nhưng chưa chứng minh | Với Spike, threshold nên bám vào peak/recovery window hơn là percentile tổng toàn bài; cần human review xác nhận cách đặt threshold này. |
+
+Kết luận review cho Spike Phase 4: samples, error rate, throughput, mean, max và per-sampler metrics khớp tốt giữa raw analyzer và HTML report. Sai khác lớn nhất nằm ở percentile tổng toàn bài: HTML report ghi p95 = 10,0 ms và p99 = 16,0 ms, trong khi custom analyzer ghi p95 = 29,0 ms và p99 = 141,0 ms. Vì Spike cần đánh giá theo thời điểm tải đột ngột, phần window analysis trong mục 6.3 là cần thiết để không bỏ qua peak tail latency; mục 4.3 vẫn dùng HTML report làm kết quả chính thức.
 
 ## 9. Optimization Recommendations
 

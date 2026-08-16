@@ -177,7 +177,12 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
   > Viết phần 2 cho main report dựa trên ảnh này
 - **Output:**
   AI đã bổ sung phần 2 Test Environment vào main report dựa trên ảnh DxDiag do người dùng cung cấp. Nội dung ghi nhận máy local Windows 11 Pro 64-bit build 26200, computer name DESKTOP-8PSPNF6, Lenovo model 83EG, BIOS PJCN15WW, CPU AMD Ryzen 7 7840H with Radeon 780M Graphics 16 logical CPUs khoảng 3.8GHz, RAM 16384MB, page file 19547MB used/18537MB available và DirectX 12. Phần này cũng nêu backend base URL http://localhost:3000, SUT backend Node.js + Express + SQLite, công cụ Apache JMeter, định dạng .jmx/.jtl và ghi chú các version công cụ chưa hiển thị trong ảnh sẽ bổ sung sau bằng evidence chạy test.
-- **Kết quả sau review:** Hoàn tất.
+  Cập nhật sau review:
+  AI đã viết lại mục 2 Test Environment theo hướng sạch hơn: giữ thông tin hardware/OS từ screenshot hardware-report.png, bổ sung software/SUT configuration gồm backend Node.js + Express + SQLite, base URL http://localhost:3000, backend start command npm start trong backend/, Node.js runtime observed v22.17.1, backend package engine Node 20.x, Java runtime OpenJDK Temurin 25.0.2, JMeter version chưa được capture trong evidence; đồng thời cập nhật bảng evidence cho Load/Stress/Spike với đúng raw JTL, HTML report folder và screenshot resource usage hiện có.
+  Cập nhật sau review:
+  AI đã cập nhật mục 2 Test Environment: JMeter version từ Not captured in submitted evidence thành Apache JMeter 5.6.3, dựa trên output lệnh jmeter --version do người dùng cung cấp.
+- **Kết quả sau review:** Completed: Đã bổ sung JMeter version Apache JMeter 5.6.3 vào phần Test Environment.
+
 <!-- AUDIT_ENTRY:interaction-010-main-report-environment:END -->
 
 <!-- AUDIT_ENTRY:interaction-011-load-analysis-rerun:START -->
@@ -218,8 +223,23 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
 
 <!-- AUDIT_ENTRY:interaction-012-stress-analysis-rerun:END -->
 
+<!-- AUDIT_ENTRY:interaction-013-spike-analysis-rerun:START -->
+### [13] Spike Test - Phan tich ket qua sau khi chay lai
+
+- **Công cụ:** Codex (GPT-5)
+- **Thời gian:** 2026-08-17 00:15
+- **Prompt:**
+  > Hiện tại tôi đã chạy lại test plan của kịch bản Spike test và có được file spike_result.jtl. Bây giờ bạn hãy thực hiện phase 4: analysis raw result cho kịch bản spike test này.
+- **Output:**
+  AI đã phân tích raw JTL mới tại 23127158/results/spike_result.jtl bằng analyze_jtl.py và cập nhật mục 4.3, 6.3, 8.4 trong main report. HTML report Spike có 88.157 samples, 0 failures, error rate 0,0%, throughput 184,866 req/s, mean 9,989 ms, median 3,0 ms, p90 8,0 ms, p95 10,0 ms, p99 16,0 ms và max 464,0 ms. Raw analyzer có cùng samples/error/mean/max nhưng percentile tổng cao hơn: median 4,0 ms, p90 17,0 ms, p95 29,0 ms, p99 141,0 ms. AI đã bổ sung window analysis cho baseline trước spike, spike ramp-up, peak 500 users hold, spike ramp-down và recovery baseline. Peak 500 users là giai đoạn tạo tail latency rõ nhất với p95 57,0 ms, p99 200,0 ms, max 464,0 ms; Checkout peak p99 227,940 ms, Login peak p99 218,080 ms, My Orders peak p99 205,090 ms. Recovery baseline giảm về p95 10,0 ms, p99 15,0 ms và 0 lỗi. Mục 8.4 ghi rõ đối chiếu HTML report với raw/window analysis và các correction percentile.
+  Cập nhật sau review:
+  AI đã thay dòng chờ human review trong mục 6.3 bằng kết luận sau review: Spike Test baseline 50 users -> peak 500 users đạt mục tiêu trong môi trường local; HTML report xác nhận 88.157 samples, 0 lỗi, error rate 0,0%, throughput 184,866 req/s, overall p95 10,0 ms và p99 16,0 ms; window analysis từ raw JTL cho thấy peak 500 users tạo tail latency rõ nhất nhưng hệ thống phục hồi về gần baseline sau spike và không có lỗi chức năng kéo dài.
+- **Kết quả sau review:** Approved with Corrections: Người dùng đã xác nhận bản phân tích Spike Phase 4 là ổn. Spike Phase 4 rerun được chấp nhận sau khi bổ sung HTML report cross-check và spike-window analysis.
+
+<!-- AUDIT_ENTRY:interaction-013-spike-analysis-rerun:END -->
+
 ## Tổng hợp công cụ sử dụng
 
 | Công cụ | Mục đích sử dụng | Số lượt tương tác |
 |---|---|---:|
-| Codex (GPT-5) | Thiết kế Load Test, Stress Test và Spike Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL, đề xuất threshold/optimization, viết/chỉnh sửa main report, phân loại evidence và cập nhật AI Audit Report | 12 |
+| Codex (GPT-5) | Thiết kế Load Test, Stress Test và Spike Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL, đề xuất threshold/optimization, viết/chỉnh sửa main report, phân loại evidence và cập nhật AI Audit Report | 13 |
