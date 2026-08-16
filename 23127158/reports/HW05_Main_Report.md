@@ -120,6 +120,8 @@ Stress Test dùng cùng workflow nhưng tăng tải theo bậc để quan sát d
 
 Stress giữ cùng request sequence, CSV product/checkout, JWT/orderId correlation và assertions với Load Test. Điểm khác biệt chính là workload profile tăng dần và listener Aggregate Report.
 
+Các level chính cần được tách riêng khi báo cáo Stress là 50 users steady, 150 users steady, 300 users steady và 500 users peak hold. Số liệu kết quả theo từng level được trình bày ở mục 4.2.
+
 ### 3.3 Spike
 
 Spike Test dùng cùng workflow để kiểm tra phản ứng khi tải tăng đột ngột rồi giảm về baseline. Profile cuối cùng dùng baseline 50 users, spike lên peak 500 users và có recovery window sau peak.
@@ -139,6 +141,8 @@ Spike Test dùng cùng workflow để kiểm tra phản ứng khi tải tăng đ
 | Test plan | `test-plans/23127158_Spike_20260816.jmx` |
 
 Spike giữ cùng request sequence, CSV product/checkout, JWT/orderId correlation và assertions với Load/Stress. Listener View Results Tree được dùng để đảm bảo ba scenario có ba report/listener view khác nhau.
+
+Các window chính cần được tách riêng khi báo cáo Spike là baseline before spike, spike ramp-up, peak 500 users hold, spike ramp-down và recovery baseline. Số liệu kết quả theo từng window được trình bày ở mục 4.3.
 
 ## 4. Test Execution and Results
 
@@ -200,6 +204,15 @@ Nguồn kết quả chính thức: JMeter HTML report `reports/html-report/stres
 | 05 Checkout | 17.746 | 0,0% | 7,192 | 11,0 | 13,0 | 22,0 | 29,989 |
 | 06 My Orders Verify New Order | 17.650 | 0,0% | 4,346 | 8,0 | 10,0 | 17,0 | 29,909 |
 
+Kết quả theo từng Stress level từ `results/stress_result.jtl`:
+
+| Stress level | Time window | Samples | Error % | p95 ms | p99 ms | Throughput req/s |
+|---|---|---:|---:|---:|---:|---:|
+| 50 users steady | 60-120s | 2.381 | 0,0% | 6,0 | 9,0 | 39,688 |
+| 150 users steady | 180-240s | 7.113 | 0,0% | 11,0 | 16,0 | 118,592 |
+| 300 users steady | 300-360s | 14.314 | 0,0% | 10,0 | 15,0 | 238,622 |
+| 500 users peak hold | 420-480s | 23.907 | 0,0% | 12,0 | 30,0 | 398,477 |
+
 ### 4.3 Spike
 
 Nguồn kết quả chính thức: JMeter HTML report `reports/html-report/spike-profile/index.html`, dữ liệu trong `reports/html-report/spike-profile/statistics.json`.
@@ -228,6 +241,16 @@ Nguồn kết quả chính thức: JMeter HTML report `reports/html-report/spike
 | 04 Add To Cart | 14.658 | 0,0% | 4,074 | 6,0 | 12,0 | 55,0 | 30,977 |
 | 05 Checkout | 14.576 | 0,0% | 13,588 | 20,0 | 36,0 | 166,230 | 30,820 |
 | 06 My Orders Verify New Order | 14.481 | 0,0% | 12,029 | 19,0 | 32,0 | 148,0 | 30,669 |
+
+Kết quả theo từng Spike window từ `results/spike_result.jtl`:
+
+| Spike window | Time window | Samples | Error % | p95 ms | p99 ms | Throughput req/s |
+|---|---|---:|---:|---:|---:|---:|
+| Baseline before spike | 60-120s | 2.982 | 0,0% | 6,0 | 9,0 | 49,718 |
+| Spike ramp-up | 120-150s | 8.784 | 0,0% | 11,0 | 18,0 | 293,044 |
+| Peak 500 users hold | 150-240s | 44.359 | 0,0% | 57,0 | 200,0 | 492,889 |
+| Spike ramp-down | 240-330s | 23.859 | 0,0% | 13,0 | 23,0 | 265,153 |
+| Recovery baseline | 330-420s | 4.475 | 0,0% | 10,0 | 15,0 | 49,745 |
 
 ## 5. Endurance / Soak Test
 
@@ -617,11 +640,31 @@ Kết luận review cho Spike Phase 4: samples, error rate, throughput, mean, ma
 
 ## 9. Optimization Recommendations
 
-_Tạm thời để trống._
+Các recommendation dưới đây được tổng hợp từ AI analysis ở mục 6, phần HTML cross-check ở mục 8 và kết quả Soak Test ở mục 5. Vì các run hiện tại đều có error rate 0,0%, mục tiêu tối ưu không phải sửa lỗi chức năng ngay lập tức, mà là giảm tail latency và chuẩn bị guardrail cho dữ liệu/tải lớn hơn.
+
+| Priority | Recommendation | Evidence category | Evidence used | Expected effect |
+|---:|---|---|---|---|
+| 1 | Profiling backend trong các cửa sổ high-concurrency thay vì chỉ nhìn aggregate toàn bài. | Supported by raw evidence | Stress 500-user plateau có p99 30,0 ms; Spike peak window có p95 57,0 ms, p99 200,0 ms, max 464,0 ms; Soak 300 users có HTML p95 40,0 ms và p99 71,0 ms. | Xác định tail latency đến từ event loop, database write/read, endpoint cụ thể hay giới hạn local scheduling trước khi sửa code. |
+| 2 | Theo dõi và tối ưu `Checkout` write path nếu tail latency lặp lại ở các run kế tiếp. | Supported by raw evidence | Checkout là sampler có mean cao nhất ở Load 5,730 ms, Stress 7,192 ms và Spike 13,588 ms; Spike peak Checkout p99 đạt 227,940 ms; Soak Checkout p95/p99 theo HTML là 19,0/45,0 ms. | Giảm latency của bước transactional quan trọng nhất, đặc biệt khi concurrency cao hoặc order data tăng. |
+| 3 | Tối ưu `My Orders` bằng pagination/LIMIT và ordering rõ ràng khi dữ liệu order của mỗi user tăng. | Plausible but not proven | Load My Orders p95 4,0 ms; Stress p95 10,0 ms; Spike peak My Orders p99 205,090 ms; Soak My Orders p95/p99 theo HTML là 23,0/51,0 ms. Chưa có lỗi, nhưng endpoint này sẽ nhạy với dữ liệu tích lũy sau nhiều checkout. | Giữ read-after-write verification ổn định khi lịch sử đơn hàng dài hơn, giảm response size và giảm p95/p99 cho order history. |
+| 4 | Cân nhắc composite index cho truy vấn order history theo `user_id` và thời gian tạo nếu profiling xác nhận bottleneck ở database read. | Plausible but not proven | AI analysis nhiều lần chỉ ra rủi ro ở `My Orders`, nhưng JTL/HTML hiện chỉ chứng minh tail latency chứ chưa chứng minh nguyên nhân là thiếu index. | Tăng tốc truy vấn lịch sử đơn hàng theo user, nhất là khi dữ liệu order tăng qua endurance hoặc regression runs. |
+| 5 | Kiểm tra thêm auth/read path dưới Spike vì tail latency không chỉ nằm ở Checkout. | Supported by raw evidence | Spike peak Login p99 218,080 ms, My Orders p99 205,090 ms; Browse/Product Detail cũng tăng p99 trong toàn bài. | Tránh tối ưu sai một endpoint duy nhất; giúp xác định vấn đề nằm ở toàn hệ thống, request scheduling, database contention hay endpoint riêng. |
+| 6 | Chỉ tinh chỉnh SQLite WAL/busy timeout khi có bằng chứng lock contention, write timeout hoặc lỗi ghi. | Plausible but not proven | Load/Stress/Spike/Soak đều có error rate 0,0% và không có evidence lock trong JTL/HTML. Tail latency có xuất hiện, nhưng chưa đủ để kết luận SQLite lock là nguyên nhân. | Nếu lock contention xuất hiện ở run sau, WAL/busy timeout có thể giảm lỗi ghi và giảm chờ lock; hiện tại chưa nên thay đổi chỉ dựa trên giả định. |
+| 7 | Giữ implementation hiện tại cho baseline Load và dùng guardrails ở mục 7 để phát hiện regression trước khi tối ưu lớn. | Supported by raw evidence | Load 50 users có 16.714 samples, 0 lỗi, HTML p95 6,0 ms, p99 9,0 ms, throughput 35,061 req/s; Stress/Spike/Soak cũng không có lỗi chức năng. | Tránh tối ưu sớm khi baseline ổn định; tập trung thay đổi khi metric vượt ngưỡng hoặc profiling chỉ ra bottleneck cụ thể. |
+
+Thứ tự hành động đề xuất là: trước hết profiling các giai đoạn tail latency cao, sau đó ưu tiên Checkout và My Orders nếu profiling xác nhận bottleneck. Các thay đổi database như index hoặc SQLite WAL/busy timeout không nên triển khai chỉ vì AI gợi ý; chúng cần bằng chứng bổ sung từ query profiling, log lock contention hoặc regression run có lỗi/latency lặp lại.
 
 ## 10. Performance Issues / Bugs
 
-_Tạm thời để trống._
+Các run Load, Stress, Spike và Soak hiện không phát hiện functional bug: error rate đều 0,0% và các response chính đều HTTP 200 theo JTL/HTML report. Tuy nhiên, có một số performance issues đáng ghi nhận vì tail latency tăng rõ ở tải cao hoặc vượt guardrail đã đề xuất.
+
+| ID | Type | Summary | Severity / Priority | Evidence | Bug report |
+|---|---|---|---|---|---|
+| PERF-001 | Performance issue | Spike peak 500 users tạo tail latency mạnh trên toàn workflow. | Major / P1 | HTML report: Total max 464,0 ms, Login p99 153,990 ms, Checkout p99 166,230 ms, My Orders p99 148,0 ms. Raw window analysis: peak p95 57,0 ms, p99 200,0 ms. | `performance-issues-bugs/PERF-001-spike-peak-tail-latency.md` |
+| PERF-002 | Performance issue | Soak 300 users vượt latency guardrail dù không có lỗi. | Major / P1 | Soak HTML report: 189.818 samples, error rate 0,0%, throughput 218,751 req/s, p95 40,0 ms, p99 71,0 ms; CPU peak 6,4%, RAM peak 73,0 MB. | `performance-issues-bugs/PERF-002-soak-latency-guardrail-exceeded.md` |
+| PERF-003 | Performance issue | `My Orders` tail latency tăng dưới tải cao và cần profiling khi dữ liệu order tăng. | Minor / P2 | Spike peak My Orders p99 205,090 ms; Soak My Orders p95/p99 23,0 ms / 51,0 ms; chưa có lỗi chức năng. | `performance-issues-bugs/PERF-003-my-orders-tail-latency.md` |
+
+Các issue trên chưa được xem là lỗi chức năng làm fail test, vì không có HTTP 4xx/5xx hoặc assertion failure trong evidence hiện tại. Chúng nên được đưa vào GitHub Issues như performance issues nếu cần theo đúng yêu cầu nộp bài, kèm các file report theo template trong thư mục `performance-issues-bugs/`.
 
 ## 11. Continuous Performance Testing Proposal
 

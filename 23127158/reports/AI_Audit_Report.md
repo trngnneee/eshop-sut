@@ -302,8 +302,54 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
 
 <!-- AUDIT_ENTRY:interaction-017-endurance-analysis:END -->
 
+<!-- AUDIT_ENTRY:interaction-018-optimization-recommendations:START -->
+### [18] Main Report - Optimization Recommendations
+
+- **Công cụ:** Codex (GPT-5)
+- **Thời gian:** 2026-08-17 01:39
+- **Prompt:**
+  > Tổng hợp từ các phân tích của AI và hoàn thành phần: 
+  > 9. Optimization Recommendations
+- **Output:**
+  AI đã hoàn thành mục 9 Optimization Recommendations trong main report bằng cách tổng hợp từ các phân tích Load, Stress, Spike, Soak và phần misinterpretation hunt. Mục 9 hiện gồm bảng ưu tiên recommendation với evidence category, evidence used và expected effect. Các đề xuất chính: profiling backend ở high-concurrency windows, theo dõi/tối ưu Checkout write path nếu tail latency lặp lại, tối ưu My Orders bằng pagination/LIMIT khi dữ liệu order tăng, cân nhắc composite index khi profiling chứng minh database read bottleneck, kiểm tra auth/read path dưới Spike, chỉ tinh chỉnh SQLite WAL/busy timeout nếu có bằng chứng lock contention, và giữ implementation hiện tại cho baseline Load thay vì tối ưu sớm. Các đề xuất chưa có bằng chứng trực tiếp được phân loại Plausible but not proven để tránh overclaim.
+- **Kết quả sau review:** Chấp nhận. Người dùng xác nhận mục 9 Optimization Recommendations là ổn.
+
+<!-- AUDIT_ENTRY:interaction-018-optimization-recommendations:END -->
+
+<!-- AUDIT_ENTRY:interaction-019-performance-issues-bugs:START -->
+### [19] Main Report - Performance Issues va Bugs
+
+- **Công cụ:** Codex (GPT-5)
+- **Thời gian:** 2026-08-17 01:47
+- **Prompt:**
+  > Oke tôi thấy ổn. Tiếp đến phần Performance Issue và Bugs bạn hãy đề xuất một số performance issues hoặc bugs đi và nếu có thì dùng bug-report-template.md
+- **Output:**
+  AI đã hoàn thành mục 10 Performance Issues / Bugs trong main report. Vì các run Load/Stress/Spike/Soak đều có error rate 0,0% và không có lỗi HTTP/assertion, AI không ghi nhận functional bug giả. Thay vào đó, AI đề xuất 3 performance issues có evidence: PERF-001 Spike peak 500 users tạo tail latency mạnh trên toàn workflow; PERF-002 Soak 300 users vượt latency guardrail dù không lỗi; PERF-003 My Orders tail latency tăng dưới tải cao và cần profiling khi dữ liệu order tăng. AI đã tạo 3 file bug report theo bug-report-template.md trong 23127158/performance-issues-bugs/ và cập nhật mục 10 với bảng tóm tắt, severity/priority, evidence và đường dẫn report.
+  Cập nhật sau review:
+  AI đã chỉnh PERF-001-spike-peak-tail-latency.md để bổ sung bảng số liệu có thể chụp từ JMeter HTML report: Total samples 88.157, error rate 0,0%, Total max 464,0 ms, Login p95/p99/max 34,0/153,990/457,0 ms, Checkout p95/p99/max 36,0/166,230/440,0 ms, My Orders p95/p99/max 32,0/148,0/419,0 ms. Các số peak-window từ raw JTL vẫn giữ nhưng được ghi rõ là additional raw JTL window analysis. Mục 10 trong main report cũng được chỉnh để evidence của PERF-001 có cả số HTML report và raw window analysis.
+- **Kết quả sau review:** Đã chỉnh sửa, hiện đang chờ review lại. Người dùng hỏi PERF-001 có số liệu trong HTML report để chụp ảnh evidence không.
+
+<!-- AUDIT_ENTRY:interaction-019-performance-issues-bugs:END -->
+
+<!-- AUDIT_ENTRY:interaction-020-section3-level-window-reporting:START -->
+### [20] Main Report - Bo sung Stress levels va Spike windows vao muc 3
+
+- **Công cụ:** Codex (GPT-5)
+- **Thời gian:** 2026-08-17 01:56
+- **Prompt:**
+  > trong phần 3 của stress và spike nên bổ sung phần report về các level stress hay Spike-Window
+- **Output:**
+  AI đã cập nhật mục 3 Test Design trong main report: phần 3.2 Stress bổ sung bảng các stress report level cần tách khi báo cáo gồm 50 users steady, 150 users steady, 300 users steady và 500 users peak hold, kèm time window và mục tiêu quan sát. Phần 3.3 Spike bổ sung bảng các spike report window gồm baseline before spike, spike ramp-up, peak 500 users hold, spike ramp-down và recovery baseline, kèm time window và mục tiêu quan sát. Nội dung được giữ ở mức thiết kế/report profile, không đưa phân tích dài như mục 6.
+  Cập nhật sau review:
+  AI đã cập nhật lại mục 3.2 và 3.3 để các bảng Stress report level và Spike report window có số liệu tóm tắt từ raw JTL: samples, error %, p95, p99 và throughput. Stress gồm 50 users steady, 150 users steady, 300 users steady và 500 users peak hold. Spike gồm baseline before spike, spike ramp-up, peak 500 users hold, spike ramp-down và recovery baseline. Các bảng vẫn giữ mục tiêu quan sát để liên kết giữa test design và kết quả phân tích.
+  Cập nhật sau review:
+  AI đã chỉnh lại HW05_Main_Report.md: mục 3.2 và 3.3 chỉ giữ mô tả các stress level/spike window cần báo cáo; các bảng số liệu từ raw JTL đã được chuyển xuống mục 4.2 Stress và 4.3 Spike. Mục 4.2 bổ sung bảng Stress level với samples, error %, p95, p99, throughput cho 50/150/300/500 users. Mục 4.3 bổ sung bảng Spike window với samples, error %, p95, p99, throughput cho baseline, ramp-up, peak hold, ramp-down và recovery.
+- **Kết quả sau review:** Đã chỉnh sửa, hiện đang chờ review lại. Người dùng yêu cầu chuyển các số liệu phân tích từ .jtl của Stress levels và Spike windows sang phần 4 thay vì để ở phần 3.
+
+<!-- AUDIT_ENTRY:interaction-020-section3-level-window-reporting:END -->
+
 ## Tổng hợp công cụ sử dụng
 
 | Công cụ | Mục đích sử dụng | Số lượt tương tác |
 |---|---|---:|
-| Codex (GPT-5) | Thiết kế Load Test, Stress Test, Spike Test và Endurance/Soak Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL/HTML report, đề xuất threshold/optimization, viết/chỉnh sửa main report, phân loại evidence và cập nhật AI Audit Report | 17 |
+| Codex (GPT-5) | Thiết kế Load Test, Stress Test, Spike Test và Endurance/Soak Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL/HTML report, đề xuất threshold/optimization, viết/chỉnh sửa main report, phân loại evidence, đề xuất performance issues/bugs và cập nhật AI Audit Report | 20 |
