@@ -668,4 +668,89 @@ Các issue trên chưa được xem là lỗi chức năng làm fail test, vì k
 
 ## 11. Continuous Performance Testing Proposal
 
-_Tạm thời để trống._
+Mô hình continuous performance testing được đề xuất cho EShop là mô hình **tiered performance gate**: không chạy toàn bộ Load/Stress/Spike/Soak cho mọi commit, mà chọn mức test dựa trên loại thay đổi, lịch chạy và mức rủi ro. Cách này phù hợp với bài HW05 vì các test hiện tại chạy trên máy local, có chi phí thời gian/tài nguyên khác nhau và đã có bộ guardrail ở mục 7 để dùng lại.
+
+### 11.1 Mục tiêu của mô hình
+
+| Mục tiêu | Cách thực hiện |
+|---|---|
+| Theo dõi thay đổi của SUT | CI/CD lắng nghe commit/PR vào các nhánh chính như `main`, `develop` hoặc release branch. |
+| Chỉ chạy performance test khi cần | Dựa trên file thay đổi, nhãn PR, lịch nightly/weekly và ngưỡng rủi ro. |
+| Phát hiện p95 regression sớm | So sánh p95/p99 của run mới với baseline đã được chấp nhận và guardrail ở mục 7. |
+| Giảm false alarm | Dùng warm-up, lặp lại run nghi ngờ, so sánh theo trend thay vì chỉ một datapoint. |
+| Giữ bằng chứng có thể audit | Lưu `.jtl`, HTML report, summary JSON, commit SHA, môi trường chạy và quyết định pass/fail. |
+
+### 11.2 Trigger và loại test cần chạy
+
+| Trigger | Điều kiện kích hoạt | Test được chạy | Lý do |
+|---|---|---|---|
+| Commit/PR smoke gate | Có thay đổi trong `backend/`, API route, database schema, auth/cart/checkout/order logic, test data hoặc JMeter plan | Load smoke rút gọn dựa trên workflow `Buy-then-history` | Bắt regression nhanh ở workflow chính với chi phí thấp. |
+| PR có nhãn `performance-risk` | Thay đổi lớn ở database query, checkout, order history, auth middleware hoặc dependency runtime | Load smoke + stepped-load Stress rút gọn | Các vùng này liên quan trực tiếp đến tail latency đã quan sát ở Stress/Spike/Soak. |
+| Nightly run | Chạy tự động mỗi đêm trên nhánh chính | Stress stepped-load đầy đủ | Kiểm tra degradation theo mức tải 50 -> 150 -> 300 -> 500 users. |
+| Pre-release run | Trước khi merge release hoặc tag version | Load + Stress + Spike đầy đủ | Đánh giá cả baseline, tải tăng dần và traffic burst trước release. |
+| Weekly endurance check | Một lần mỗi tuần hoặc trước mốc nộp/release lớn | Soak 10-15 phút | Theo dõi stable RPS, p95/p99 dài hơn và memory ceiling. |
+| Manual investigation | Khi issue PERF-001/PERF-002/PERF-003 tái diễn | Test tập trung theo endpoint/window liên quan | Xác minh nguyên nhân trước khi tối ưu backend/database. |
+
+### 11.3 Flow chart
+
+```mermaid
+flowchart TD
+    A[Commit hoặc Pull Request mới] --> B{Có thay đổi backend/API/database/perf test?}
+    B -- Không --> C[Skip performance test, chỉ chạy unit/API checks]
+    B -- Có --> D[Chạy Load smoke gate]
+    D --> E{Error rate hoặc p95 vượt guardrail?}
+    E -- Có --> F[Fail CI và lưu JTL/HTML report]
+    E -- Không --> G{PR có nhãn performance-risk hoặc thay đổi Checkout/My Orders/Auth?}
+    G -- Có --> H[Chạy Stress stepped-load rút gọn]
+    G -- Không --> I[Pass performance gate cho PR]
+    H --> J{p95/p99 hoặc throughput regression?}
+    J -- Có --> F
+    J -- Không --> I
+    K[Nightly schedule] --> L[Chạy Stress đầy đủ]
+    M[Pre-release] --> N[Chạy Load + Stress + Spike đầy đủ]
+    O[Weekly schedule] --> P[Chạy Soak 10-15 phút]
+    L --> Q[So sánh baseline và cập nhật trend]
+    N --> Q
+    P --> Q
+    Q --> R{Regression lặp lại hoặc vượt threshold?}
+    R -- Có --> S[Tạo performance issue / yêu cầu review]
+    R -- Không --> T[Lưu baseline mới nếu được human review chấp nhận]
+```
+
+### 11.4 Regression rule và guardrail
+
+Mỗi run cần sinh `.jtl`, HTML report và một file summary machine-readable. Pipeline đọc các metric chính: sample count, error rate, throughput, p95, p99, max response time và per-sampler p95/p99 cho `Login`, `Checkout`, `My Orders`.
+
+| Gate | Điều kiện pass đề xuất | Hành động khi fail |
+|---|---|---|
+| Functional gate | Error rate <= 1,0% và không có nhóm HTTP/assertion failure lặp lại | Fail pipeline ngay vì đây không còn là regression hiệu năng đơn thuần. |
+| Baseline p95 gate | Overall p95 <= 15 ms và không tăng quá 20% so với accepted baseline gần nhất | Đánh dấu p95 regression; rerun một lần để loại nhiễu môi trường. |
+| Baseline throughput gate | Throughput >= 30 req/s cho Load smoke | Cảnh báo capacity regression nếu latency tăng cùng lúc. |
+| Stepped-load gate | Overall p95 <= 25 ms, p99 <= 50 ms, throughput >= 150 req/s | Fail nightly hoặc yêu cầu review nếu regression lặp lại hai run liên tiếp. |
+| Spike peak gate | Peak-window p95 <= 60 ms và p99 <= 250 ms | Tạo cảnh báo high-concurrency tail latency, liên hệ PERF-001 nếu lặp lại. |
+| Spike recovery gate | Recovery-window p95 <= 20 ms và error rate = 0,0% | Fail pre-release nếu hệ thống không phục hồi sau spike. |
+| Soak endurance gate | 300 users giữ khoảng 238 stable RPS, error rate <= 1,0%, memory peak không vượt baseline quá 25% | Tạo issue nếu memory ceiling tăng hoặc p95/p99 tiếp tục vượt guardrail. |
+| Transactional gate | Checkout p95 <= 30 ms dưới non-spike load; Checkout peak-window p99 <= 300 ms | Yêu cầu profiling write path nếu fail. |
+| Read-after-write gate | My Orders p95 <= 30 ms dưới non-spike load; recovery p95 <= 20 ms sau spike | Yêu cầu kiểm tra pagination/index nếu fail lặp lại. |
+
+Một p95 regression nên được flag khi thỏa ít nhất một trong hai điều kiện: p95 vượt absolute guardrail ở mục 7, hoặc p95 tăng trên 20% so với accepted baseline gần nhất trong cùng loại test. Với môi trường local dễ nhiễu, kết quả fail nên được rerun một lần trước khi kết luận, trừ khi có lỗi HTTP/assertion rõ ràng.
+
+### 11.5 Baseline management
+
+Baseline không nên tự động cập nhật sau mọi run pass. Một baseline mới chỉ được chấp nhận khi commit đã ổn định, run có đủ evidence, error rate đạt yêu cầu và human review xác nhận thay đổi hiệu năng là hợp lý. Mỗi baseline cần lưu commit SHA, ngày chạy, test plan version, JMeter version, Node.js version, hardware/environment note, `.jtl`, HTML report và summary metric.
+
+Khi có thay đổi môi trường lớn như đổi máy, đổi Node.js/JMeter, đổi database seed lớn hoặc thay đổi test data, pipeline cần tạo baseline mới thay vì so sánh trực tiếp với baseline cũ. Nếu không, p95 regression có thể là nhiễu môi trường chứ không phải lỗi của SUT.
+
+### 11.6 Trade-offs
+
+| Trade-off | Lợi ích | Rủi ro / chi phí | Cách giảm rủi ro |
+|---|---|---|---|
+| Chạy Load smoke trên PR | Phát hiện regression sớm, feedback nhanh | Tăng thời gian CI cho mọi PR backend | Chỉ trigger khi file backend/API/perf thay đổi. |
+| Không chạy Stress/Spike cho mọi commit | Giảm chi phí máy và thời gian pipeline | Có thể bỏ sót regression chỉ xuất hiện ở tải cao | Chạy nightly và pre-release bắt buộc. |
+| Dùng absolute guardrail + so sánh baseline | Bắt cả lỗi vượt ngưỡng và lỗi suy giảm tương đối | Dễ false alarm nếu môi trường local nhiễu | Rerun fail case, dùng cùng máy/seed, lưu trend nhiều run. |
+| Flag p95/p99 thay vì chỉ average | Bắt tail latency đúng với PERF-001/PERF-002 | Percentile nhạy với outlier và cách tính của tool | Ưu tiên HTML report làm nguồn chính, raw JTL dùng để tách window. |
+| Weekly soak test | Theo dõi memory ceiling và stable RPS dài hơn | Tốn 10-15 phút và tài nguyên local | Chạy ngoài giờ làm việc, chỉ fail release khi regression lặp lại. |
+
+### 11.7 Kết luận đề xuất
+
+Model phù hợp nhất cho EShop là pipeline nhiều tầng: **commit-level Load smoke**, **nightly Stress stepped-load**, **pre-release Spike**, và **weekly Soak**. Bộ guardrail ở mục 7 được dùng như contract hiệu năng ban đầu: error rate phải thấp, p95 không được vượt ngưỡng theo từng loại tải, throughput không được giảm mạnh, và các endpoint `Checkout`/`My Orders` được theo dõi riêng vì chúng liên quan trực tiếp đến các performance issues đã ghi nhận. Cách này đáp ứng yêu cầu Task 3 vì pipeline biết khi nào cần chạy test, biết cách phát hiện p95 regression và vẫn kiểm soát được chi phí/false alarm trong môi trường local.

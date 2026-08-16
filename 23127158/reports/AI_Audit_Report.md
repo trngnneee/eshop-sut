@@ -344,12 +344,29 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
   AI đã cập nhật lại mục 3.2 và 3.3 để các bảng Stress report level và Spike report window có số liệu tóm tắt từ raw JTL: samples, error %, p95, p99 và throughput. Stress gồm 50 users steady, 150 users steady, 300 users steady và 500 users peak hold. Spike gồm baseline before spike, spike ramp-up, peak 500 users hold, spike ramp-down và recovery baseline. Các bảng vẫn giữ mục tiêu quan sát để liên kết giữa test design và kết quả phân tích.
   Cập nhật sau review:
   AI đã chỉnh lại HW05_Main_Report.md: mục 3.2 và 3.3 chỉ giữ mô tả các stress level/spike window cần báo cáo; các bảng số liệu từ raw JTL đã được chuyển xuống mục 4.2 Stress và 4.3 Spike. Mục 4.2 bổ sung bảng Stress level với samples, error %, p95, p99, throughput cho 50/150/300/500 users. Mục 4.3 bổ sung bảng Spike window với samples, error %, p95, p99, throughput cho baseline, ramp-up, peak hold, ramp-down và recovery.
-- **Kết quả sau review:** Đã chỉnh sửa, hiện đang chờ review lại. Người dùng yêu cầu chuyển các số liệu phân tích từ .jtl của Stress levels và Spike windows sang phần 4 thay vì để ở phần 3.
+  Cập nhật sau review:
+  Không chỉnh thêm nội dung report; ghi nhận mục 3 và mục 4 sau correction đã được human review chấp nhận.
+- **Kết quả sau review:** Đã chỉnh sửa và được chấp nhận. Người dùng xác nhận phần chuyển số liệu Stress level và Spike window sang mục 4 là ổn.
 
 <!-- AUDIT_ENTRY:interaction-020-section3-level-window-reporting:END -->
+
+<!-- AUDIT_ENTRY:interaction-021-continuous-performance-testing:START -->
+### [21] Task 3 - Continuous Performance Testing Proposal
+
+- **Công cụ:** Codex (GPT-5)
+- **Thời gian:** 2026-08-17 02:11
+- **Prompt:**
+  > Hãy đọc file HW05_Performance_Testing.md để hiểu yêu cầu và đề xuất 1 continuous performance-testing modell
+- **Output:**
+  AI đã đọc lại docs/HW05_Performance_Testing.md, xác nhận Task 3 yêu cầu đề xuất một continuous performance-testing model có khả năng theo dõi commit, quyết định khi nào chạy performance tests và flag p95 regression, kèm flow chart và trade-off. AI đã cập nhật mục 11 Continuous Performance Testing Proposal trong main report với mô hình tiered performance gate: commit-level Load smoke, PR performance-risk Stress rút gọn, nightly Stress đầy đủ, pre-release Load/Stress/Spike, weekly Soak và manual investigation. Mục 11 cũng bổ sung Mermaid flow chart, bảng trigger, regression rules dùng guardrail ở mục 7, baseline management và trade-off về chi phí/false alarm.
+  Cập nhật sau review:
+  Không chỉnh thêm nội dung report; ghi nhận mục 11 Continuous Performance Testing Proposal đã được human review chấp nhận.
+- **Kết quả sau review:** Chấp nhận. Người dùng xác nhận Continuous Performance Testing Proposal là ổn.
+
+<!-- AUDIT_ENTRY:interaction-021-continuous-performance-testing:END -->
 
 ## Tổng hợp công cụ sử dụng
 
 | Công cụ | Mục đích sử dụng | Số lượt tương tác |
 |---|---|---:|
-| Codex (GPT-5) | Thiết kế Load Test, Stress Test, Spike Test và Endurance/Soak Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL/HTML report, đề xuất threshold/optimization, viết/chỉnh sửa main report, phân loại evidence, đề xuất performance issues/bugs và cập nhật AI Audit Report | 20 |
+| Codex (GPT-5) | Thiết kế Load Test, Stress Test, Spike Test và Endurance/Soak Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL/HTML report, đề xuất threshold/optimization, viết/chỉnh sửa main report, phân loại evidence, đề xuất performance issues/bugs và cập nhật AI Audit Report | 21 |
