@@ -53,7 +53,7 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
   AI đã phân tích lại `results/load/result.jtl` bằng script `.codex/skills/hw05-performance-testing/scripts/analyze_jtl.py` sau khi Load Test được chạy lại. Kết quả mới có 1.709 samples, 0 failures, error rate 0,0%, toàn bộ response code là HTTP 200, duration 381,346 giây, request throughput 4,481 req/s và khoảng 282 complete workflows. Overall latency có avg 3,002 ms, p95 8 ms, p99 10 ms và max 164 ms. Checkout là bước chậm nhất trong workflow với avg 7,594 ms, p95 10 ms, p99 11 ms và max 164 ms; đây là tail-latency outlier chứ chưa phải suy giảm kéo dài vì p95/p99 vẫn thấp và không có lỗi. HTML report `reports/html/load/` đã tồn tại, nhưng workspace vẫn chưa có resource-monitor screenshot nên chưa thể kết luận về CPU/memory/disk hoặc hardware saturation. AI cũng cập nhật threshold theo số liệu mới và lọc lại optimization để chỉ giữ các đề xuất cải thiện hệ thống/backend: parameterize product-search SQL, cân nhắc pagination/LIMIT và composite index cho My Orders nếu test nặng hơn chứng minh latency tăng, cân nhắc SQLite WAL/busy timeout nếu có lock contention, và kiểm tra Checkout write path nếu outlier 164 ms lặp lại.
   Cập nhật sau review:
   Kết quả Load Phase 4 cũ chỉ được giữ như lịch sử tham khảo. Không dùng các threshold, conclusion hoặc recommendation từ run 10 VU làm kết luận cuối; cần chạy lại Load plan 30 VU và phân tích JTL mới.
-- **Kết quả sau review:** Rejected: Load Phase 4 cũ bị từ chối/supersede; không dùng kết quả run cũ làm kết luận cuối. Lần phân tích Load hợp lệ tiếp theo chỉ được thực hiện sau khi chạy lại test plan Load 50 VU đã được human review chấp nhận.
+- **Kết quả sau review:** Rejected: Load Phase 4 cũ bị từ chối/supersede; không dùng kết quả run cũ làm kết luận cuối. Lần phân tích Load hợp lệ tiếp theo được ghi thành interaction mới sau khi chạy lại test plan Load 50 VU đã được human review chấp nhận.
 
 <!-- AUDIT_ENTRY:interaction-003-load-analysis:END -->
 
@@ -180,8 +180,27 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
 - **Kết quả sau review:** Hoàn tất.
 <!-- AUDIT_ENTRY:interaction-010-main-report-environment:END -->
 
+<!-- AUDIT_ENTRY:interaction-011-load-analysis-rerun:START -->
+### [11] Load Test - Phan tich ket qua sau khi chay lai
+
+- **Công cụ:** Codex (GPT-5)
+- **Thời gian:** 2026-08-16 23:34
+- **Prompt:**
+  > Hiện tại tôi đã chạy lại test plan của kịch bản Load test và có được file load_result.jtl. Bây giờ bạn hãy thực hiện phase 4: analysis raw result cho kịch bản load test này.
+- **Output:**
+  AI đã phân tích raw JTL mới tại 23127158/results/load_result.jtl bằng analyze_jtl.py và cập nhật mục 4.1 cùng 6.1 trong main report. Kết quả Load mới có 16.714 samples, 0 failures, error rate 0,0%, toàn bộ HTTP 200, duration 476,709 giây, throughput 35,061 req/s, overall avg 2,671 ms, p95 6,0 ms, p99 9,0 ms và max 44,0 ms. Theo sampler, Checkout là bước chậm nhất với avg 5,730 ms, p95 9,0 ms, p99 11,0 ms. AI đã đề xuất thresholds cho Load gồm p95 <= 15 ms, p99 <= 25 ms, error rate <= 1,0%, throughput >= 30 req/s và Checkout p95 <= 20 ms. Sau yêu cầu review HTML report, AI đã đọc reports/html-report/load-profile/statistics.json và ghi mục 8.1 trong main report. Các metric tổng khớp HTML dashboard; các correction nhỏ gồm Login p99 khoảng 9,94 ms thay vì 9,0 ms, Browse Product List p99 khoảng 6,98 ms thay vì 6,0 ms, và View Product Detail p99 7,0 ms thay vì 6,120 ms do khác biệt cách tính/làm tròn percentile giữa JMeter HTML report và custom analyzer.
+  Cập nhật sau review:
+  AI đã cập nhật mục 4.1 Load trong main report để dùng số liệu chính thức từ reports/html-report/load-profile/statistics.json, dòng Total: sample count 16.714, error count 0, error rate 0,0%, mean 2,671 ms, median 2,0 ms, min 0,0 ms, max 44,0 ms, 90th percentile 5,0 ms, 95th percentile 6,0 ms, 99th percentile 9,0 ms, throughput 35,061 req/s, received throughput 39,599 KB/s và sent throughput 10,696 KB/s.
+  Cập nhật sau review:
+  AI đã chỉnh HW05_Main_Report.md: đổi mục 3 thành Test Design ngắn gọn, chỉ giữ workflow/workload/test profile cuối cùng cho Load, Stress, Spike; chỉnh mục 4.1 Load chỉ còn kết quả chính thức từ JMeter HTML report, gồm total metrics và per-sampler metrics từ statistics.json; thêm mục 8.1 Task 1 - AI Test Plan Review để ghi các correction/rejection của test plan; đổi phần đối chiếu Load HTML report thành mục 8.2 Task 2 - Load HTML Report Cross-Check.
+  Cập nhật sau review:
+  AI đã thay dòng chờ human review trong mục 6.1 bằng kết luận sau review: Load Test 50 VU ổn định trong môi trường local; HTML report xác nhận 16.714 samples, 0 lỗi, error rate 0,0%, throughput 35,061 req/s, overall p95 6,0 ms và p99 9,0 ms; các correction nhỏ ở p99 per-sampler đã được ghi ở mục 8.2 và không làm thay đổi kết luận chính.
+- **Kết quả sau review:** Approved with Corrections: Người dùng đã xác nhận bản chỉnh hiện tại ổn. Load Phase 4 rerun được chấp nhận sau các correction về cấu trúc report và đối chiếu HTML report.
+
+<!-- AUDIT_ENTRY:interaction-011-load-analysis-rerun:END -->
+
 ## Tổng hợp công cụ sử dụng
 
 | Công cụ | Mục đích sử dụng | Số lượt tương tác |
 |---|---|---:|
-| Codex (GPT-5) | Thiết kế Load Test, Stress Test và Spike Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL, đề xuất threshold/optimization, viết/chỉnh sửa main report, phân loại evidence và cập nhật AI Audit Report | 10 |
+| Codex (GPT-5) | Thiết kế Load Test, Stress Test và Spike Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL, đề xuất threshold/optimization, viết/chỉnh sửa main report, phân loại evidence và cập nhật AI Audit Report | 11 |
