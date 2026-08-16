@@ -199,8 +199,27 @@ Tôi sử dụng công cụ AI để hỗ trợ các công việc trong quá tr�
 
 <!-- AUDIT_ENTRY:interaction-011-load-analysis-rerun:END -->
 
+<!-- AUDIT_ENTRY:interaction-012-stress-analysis-rerun:START -->
+### [12] Stress Test - Phan tich ket qua sau khi chay lai
+
+- **Công cụ:** Codex (GPT-5)
+- **Thời gian:** 2026-08-17 00:01
+- **Prompt:**
+  > Hiện tại tôi đã chạy lại test plan của kịch bản Stress test và có được file stress_result.jtl. Bây giờ bạn hãy thực hiện phase 4: analysis raw result cho kịch bản stress test này.
+- **Output:**
+  AI đã phân tích raw JTL mới tại 23127158/results/stress_result.jtl bằng analyze_jtl.py và cập nhật mục 4.2, 6.2, 8.3 trong main report. Raw JTL có 107.203 samples, 0 failures, error rate 0,0%, toàn bộ HTTP 200, duration 596,713 giây, throughput 179,656 req/s, overall avg 4,206 ms, median 3,0 ms, p90 8,0 ms, p95 11,0 ms, p99 18,0 ms và max 277,0 ms. Theo sampler, Checkout là bước có mean cao nhất với avg 7,192 ms, p95 13,0 ms, p99 22,0 ms; Login cũng có tail latency đáng chú ý với p99 21,0 ms và max 262,0 ms. Mục 4.2 dùng số liệu chính thức từ JMeter HTML report: total p90 6,0 ms, p95 8,0 ms, p99 13,0 ms, throughput 179,655 req/s. Mục 8.3 ghi các sai khác giữa raw analyzer và HTML report, đặc biệt percentile tổng, và nêu rằng kết luận chính thức nên ưu tiên HTML report cho mục 4.
+  Cập nhật sau review:
+  AI đã rà lại reports/html-report/stress-profile/statistics.json và đối chiếu với mục 6.2. Mục 8.3 đã ghi rõ các điểm khớp: samples 107.203, 0 lỗi, throughput khoảng 179,656 req/s, mean 4,206 ms, max 277,0 ms, Checkout là sampler chậm nhất. Các correction đã ghi gồm percentile tổng trong HTML report là median 2,0 ms, p90 6,0 ms, p95 8,0 ms, p99 13,0 ms thay vì raw analyzer median 3,0 ms, p90 8,0 ms, p95 11,0 ms, p99 18,0 ms; Login p95 dùng 13,0 ms theo HTML report thay vì 12,450 ms từ raw analyzer; thresholds p95/p99 vẫn hợp lý nhưng rationale/kết luận final nên tham chiếu HTML p95 8,0 ms và p99 13,0 ms.
+  Cập nhật sau review:
+  AI đã bổ sung Stress-Level Metrics From Raw JTL vào mục 6.2, tính theo các plateau ổn định của Ultimate Thread Group: 50 users steady 60-120s, 150 users steady 180-240s, 300 users steady 300-360s, và 500 users peak hold 420-480s. Bảng mới ghi samples, error %, avg, p90, p95, p99, max và throughput theo từng level; đồng thời bổ sung bảng endpoint trọng tâm cho Login, Checkout, My Orders theo từng level. Kết quả cho thấy throughput tăng gần tuyến tính từ 39,688 req/s ở 50 users lên 398,477 req/s ở 500 users, error rate vẫn 0,0%, nhưng peak 500 users tạo tail latency rõ nhất với overall p99 30,0 ms, Checkout p99 40,280 ms, My Orders p99 37,140 ms. Mục 8.3 cũng được bổ sung một dòng ghi nhận thiếu sót này là đã hiệu chỉnh.
+  Cập nhật sau review:
+  AI đã thay dòng chờ human review trong mục 6.2 bằng kết luận sau review: Stress Test 50 -> 150 -> 300 -> 500 users ổn định trong môi trường local; HTML report xác nhận 107.203 samples, 0 lỗi, error rate 0,0%, throughput 179,655 req/s, overall p95 8,0 ms và p99 13,0 ms; phân tích theo từng level cho thấy throughput tăng gần tuyến tính và peak 500 users tạo tail latency rõ nhất nhưng chưa có bằng chứng lỗi chức năng hoặc saturation kéo dài.
+- **Kết quả sau review:** Approved with Corrections: Người dùng đã xác nhận bản phân tích Stress Phase 4 sau các correction là ổn. Stress Phase 4 rerun được chấp nhận sau khi bổ sung đối chiếu HTML report và phân tích theo từng workload level.
+
+<!-- AUDIT_ENTRY:interaction-012-stress-analysis-rerun:END -->
+
 ## Tổng hợp công cụ sử dụng
 
 | Công cụ | Mục đích sử dụng | Số lượt tương tác |
 |---|---|---:|
-| Codex (GPT-5) | Thiết kế Load Test, Stress Test và Spike Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL, đề xuất threshold/optimization, viết/chỉnh sửa main report, phân loại evidence và cập nhật AI Audit Report | 11 |
+| Codex (GPT-5) | Thiết kế Load Test, Stress Test và Spike Test, sinh JMeter test plan, chỉnh sửa Ultimate Thread Group theo human review, phân tích JTL, đề xuất threshold/optimization, viết/chỉnh sửa main report, phân loại evidence và cập nhật AI Audit Report | 12 |

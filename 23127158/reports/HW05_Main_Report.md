@@ -165,7 +165,32 @@ Nguồn kết quả chính thức: JMeter HTML report `reports/html-report/load-
 
 ### 4.2 Stress
 
-_Tạm thời để trống._
+Nguồn kết quả chính thức: JMeter HTML report `reports/html-report/stress-profile/index.html`, dữ liệu trong `reports/html-report/stress-profile/statistics.json`.
+
+| Metric | Value |
+|---|---:|
+| Sample count | 107.203 |
+| Error count | 0 |
+| Error rate | 0,0% |
+| Mean response time | 4,206 ms |
+| Median response time | 2,0 ms |
+| Min response time | 0,0 ms |
+| Max response time | 277,0 ms |
+| 90th percentile | 6,0 ms |
+| 95th percentile | 8,0 ms |
+| 99th percentile | 13,0 ms |
+| Throughput | 179,655 req/s |
+| Received throughput | 157,541 KB/s |
+| Sent throughput | 55,024 KB/s |
+
+| Sampler / endpoint | Samples | Error % | Avg ms | p90 ms | p95 ms | p99 ms | Throughput req/s |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 01 Login | 18.072 | 0,0% | 5,248 | 10,0 | 13,0 | 21,0 | 30,286 |
+| 02 Browse Product List | 17.982 | 0,0% | 3,351 | 7,0 | 9,0 | 17,0 | 30,259 |
+| 03 View Product Detail | 17.912 | 0,0% | 3,182 | 7,0 | 9,0 | 16,0 | 30,219 |
+| 04 Add To Cart | 17.841 | 0,0% | 1,929 | 3,0 | 4,0 | 6,0 | 30,114 |
+| 05 Checkout | 17.746 | 0,0% | 7,192 | 11,0 | 13,0 | 22,0 | 29,989 |
+| 06 My Orders Verify New Order | 17.650 | 0,0% | 4,346 | 8,0 | 10,0 | 17,0 | 29,909 |
 
 ### 4.3 Spike
 
@@ -239,7 +264,83 @@ Kết luận sau review: Load Test 50 VU được xem là ổn định trong mô
 
 ### 6.2 Stress
 
-_Tạm thời để trống._
+#### Objective Metrics From Raw JTL
+
+| Metric | Value | Source |
+|---|---:|---|
+| Total samples | 107.203 | `results/stress_result.jtl`, computed by `analyze_jtl.py` |
+| Failures | 0 | `results/stress_result.jtl`, computed by `analyze_jtl.py` |
+| Error rate | 0,0% | `results/stress_result.jtl`, computed by `analyze_jtl.py` |
+| Duration | 596,713 s | `results/stress_result.jtl`, computed by `analyze_jtl.py` |
+| Throughput | 179,656 req/s | `results/stress_result.jtl`, computed by `analyze_jtl.py` |
+| Avg response time | 4,206 ms | `results/stress_result.jtl`, computed by `analyze_jtl.py` |
+| Median response time | 3,0 ms | `results/stress_result.jtl`, computed by `analyze_jtl.py` |
+| p90 response time | 8,0 ms | `results/stress_result.jtl`, computed by `analyze_jtl.py` |
+| p95 response time | 11,0 ms | `results/stress_result.jtl`, computed by `analyze_jtl.py` |
+| p99 response time | 18,0 ms | `results/stress_result.jtl`, computed by `analyze_jtl.py` |
+| Max response time | 277,0 ms | `results/stress_result.jtl`, computed by `analyze_jtl.py` |
+| Response codes | HTTP 200: 107.203 | `results/stress_result.jtl`, computed by `analyze_jtl.py` |
+
+#### Per-Sampler Metrics From Raw JTL
+
+| Sampler / endpoint | Samples | Error % | Avg ms | p95 ms | p99 ms | Throughput req/s |
+|---|---:|---:|---:|---:|---:|---:|
+| 01 Login | 18.072 | 0,0% | 5,248 | 12,450 | 21,0 | 30,286 |
+| 02 Browse Product List | 17.982 | 0,0% | 3,351 | 9,0 | 17,0 | 30,259 |
+| 03 View Product Detail | 17.912 | 0,0% | 3,182 | 9,0 | 16,0 | 30,219 |
+| 04 Add To Cart | 17.841 | 0,0% | 1,929 | 4,0 | 6,0 | 30,114 |
+| 05 Checkout | 17.746 | 0,0% | 7,192 | 13,0 | 22,0 | 29,989 |
+| 06 My Orders Verify New Order | 17.650 | 0,0% | 4,346 | 10,0 | 17,0 | 29,909 |
+
+#### Stress-Level Metrics From Raw JTL
+
+Các mức dưới đây được tính từ các đoạn plateau ổn định của Ultimate Thread Group, bỏ qua ramp-up/ramp-down để không làm nhiễu số liệu từng level. Mốc thời gian được tính tương đối từ timestamp đầu tiên trong `results/stress_result.jtl`.
+
+| Stress level | Time window | Samples | Error % | Avg ms | p90 ms | p95 ms | p99 ms | Max ms | Throughput req/s |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 50 users steady | 60-120s | 2.381 | 0,0% | 2,580 | 5,0 | 6,0 | 9,0 | 31,0 | 39,688 |
+| 150 users steady | 180-240s | 7.113 | 0,0% | 4,947 | 9,0 | 11,0 | 16,0 | 28,0 | 118,592 |
+| 300 users steady | 300-360s | 14.314 | 0,0% | 3,573 | 7,0 | 10,0 | 15,0 | 75,0 | 238,622 |
+| 500 users peak hold | 420-480s | 23.907 | 0,0% | 5,335 | 9,0 | 12,0 | 30,0 | 277,0 | 398,477 |
+
+| Stress level | Login p95 / p99 ms | Checkout p95 / p99 ms | My Orders p95 / p99 ms | Main observation |
+|---|---:|---:|---:|---|
+| 50 users steady | 4,0 / 9,020 | 9,0 / 11,720 | 3,0 / 4,0 | Baseline stress level ổn định, latency thấp và không có lỗi. |
+| 150 users steady | 13,0 / 18,0 | 13,0 / 18,0 | 11,0 / 15,0 | Latency tăng so với 50 users nhưng vẫn ổn định, không có failure. |
+| 300 users steady | 11,0 / 17,0 | 12,0 / 18,0 | 9,0 / 14,0 | Throughput tăng mạnh; latency không tăng tuyến tính, có thể do cache/local scheduling. |
+| 500 users peak hold | 14,0 / 30,0 | 15,0 / 40,280 | 12,0 / 37,140 | Peak 500 users tạo tail latency rõ nhất; Checkout, Login và My Orders cần theo dõi ở Spike/Endurance. |
+
+#### AI Interpretation
+
+Raw JTL cho thấy Stress Test chạy khoảng 596,713 giây với 107.203 request và không có lỗi. Toàn bộ response code là HTTP 200, error rate 0,0%, throughput đạt 179,656 req/s. So với Load Test, throughput tăng mạnh trong khi hệ thống vẫn không ghi nhận failure, cho thấy profile Stress 50 -> 150 -> 300 -> 500 users chưa làm SUT mất ổn định về mặt functional correctness.
+
+Theo raw analyzer, overall latency tăng so với Load nhưng vẫn thấp: avg 4,206 ms, p95 11,0 ms, p99 18,0 ms và max 277,0 ms. Các giá trị max ở Login, Product Detail, My Orders và Checkout cao hơn p95/p99 khá nhiều, nên đây là outlier/tail latency cần theo dõi, chưa phải bằng chứng degradation kéo dài vì percentile chính vẫn thấp và error rate bằng 0.
+
+`05 Checkout` là sampler có mean cao nhất với avg 7,192 ms, p95 13,0 ms, p99 22,0 ms và max 227,0 ms. Điều này phù hợp với bản chất transactional của checkout. `01 Login` cũng có tail latency đáng chú ý với p99 21,0 ms và max 262,0 ms. Các bước read-heavy vẫn ổn định ở p95 9,0 ms hoặc thấp hơn trong raw analyzer.
+
+Theo từng stress level, throughput tăng gần tuyến tính khi tăng tải: khoảng 39,688 req/s ở 50 users, 118,592 req/s ở 150 users, 238,622 req/s ở 300 users và 398,477 req/s ở peak 500 users. Error rate vẫn giữ 0,0% ở tất cả các plateau ổn định. Latency không tăng tuyến tính ở mọi level: 150 users có avg/p95 cao hơn 300 users, có thể do nhiễu local scheduling hoặc trạng thái cache/runtime trong quá trình test. Tuy nhiên, peak 500 users là mức tạo tail latency rõ nhất, với overall p99 30,0 ms và max 277,0 ms; ở level này Checkout p99 lên 40,280 ms, My Orders p99 37,140 ms và Login p99 30,0 ms. Vì vậy, nếu cần tìm điểm bắt đầu degradation, 500 users là level đáng theo dõi tiếp trong Spike/Endurance hoặc profiling backend.
+
+#### AI-Proposed Thresholds
+
+| Threshold | Proposed value | Rationale | Raw metric used |
+|---|---:|---|---|
+| Stress p95 response-time threshold | <= 25 ms | Cao hơn khoảng 2,3 lần raw p95 hiện tại để có biên dao động nhưng vẫn bắt được regression rõ ràng dưới stress. | Overall p95 = 11,0 ms |
+| Stress p99 response-time threshold | <= 50 ms | Raw p99 hiện là 18,0 ms, nhưng max outlier đã lên 277,0 ms; ngưỡng 50 ms giúp phát hiện tail latency tăng kéo dài thay vì phản ứng với vài outlier đơn lẻ. | Overall p99 = 18,0 ms; max = 277,0 ms |
+| Stress error-rate threshold | <= 1,0% | Run hiện tại 0 lỗi; với workflow có login/cart/checkout, bất kỳ lỗi ổn định nào dưới stress đều cần được xem là cảnh báo. | Error rate = 0,0% |
+| Stress request-throughput target | >= 150 req/s | Run hiện tại đạt 179,656 req/s; ngưỡng 150 req/s cho phép nhiễu local nhưng vẫn bảo vệ mức throughput của profile Stress. | Throughput = 179,656 req/s |
+| Checkout p95 threshold | <= 30 ms | Checkout là sampler chậm nhất và transactional; ngưỡng này cao hơn raw Checkout p95 hiện tại nhưng đủ nhạy để bắt write-path regression. | Checkout p95 = 13,0 ms |
+
+#### AI-Proposed Optimizations
+
+| Recommendation | Evidence category | Metric / observation used | Expected effect |
+|---|---|---|---|
+| Chưa cần tối ưu nóng cho Stress profile hiện tại nếu chỉ dựa trên run này. | Supported by raw evidence | 107.203 samples, 0 failures, error rate 0,0%, throughput 179,656 req/s. | Tránh thay đổi hệ thống khi chưa có bottleneck rõ ràng trong Stress run. |
+| Theo dõi riêng Checkout write path trong Spike/Endurance hoặc khi dữ liệu order lớn hơn. | Supported by raw evidence | Checkout có avg cao nhất 7,192 ms, p95 13,0 ms, p99 22,0 ms. | Nếu Checkout tiếp tục là điểm chậm nhất, có thể ưu tiên tối ưu transaction/order creation đúng vị trí. |
+| Cân nhắc profiling Login nếu p99 hoặc max latency lặp lại ở các run sau. | Plausible but not proven | Login p99 21,0 ms, max 262,0 ms trong raw JTL. | Giảm tail latency cho auth path nếu outlier Login tái diễn dưới Spike/Endurance. |
+| Cân nhắc pagination/LIMIT và composite index cho My Orders khi dữ liệu order tăng lớn. | Plausible but not proven | My Orders p95 10,0 ms, p99 17,0 ms; hiện chưa lỗi nhưng dữ liệu order có thể tăng theo test dài hơn. | Giữ read-after-checkout ổn định khi lịch sử đơn hàng/user lớn hơn. |
+| Chỉ tinh chỉnh SQLite WAL/busy timeout nếu có bằng chứng lock contention, write timeout hoặc error ở test nặng hơn. | Plausible but not proven | Stress hiện 0 lỗi; raw JTL không chứa bằng chứng lock contention. | Giảm lỗi ghi/độ trễ do lock nếu Spike hoặc Endurance chứng minh contention thật sự. |
+
+Kết luận sau review: Stress Test 50 -> 150 -> 300 -> 500 users được xem là ổn định trong môi trường local. HTML report xác nhận 107.203 samples, 0 lỗi, error rate 0,0%, throughput 179,655 req/s, overall p95 8,0 ms và p99 13,0 ms. Phân tích theo từng level cho thấy throughput tăng gần tuyến tính và peak 500 users tạo tail latency rõ nhất, nhưng chưa có bằng chứng lỗi chức năng hoặc saturation kéo dài.
 
 ### 6.3 Spike
 
@@ -285,6 +386,27 @@ Nguồn đối chiếu là JMeter HTML dashboard tại `reports/html-report/load
 | Đề xuất pagination/index/WAL chỉ nên cân nhắc khi Stress/Spike/Endurance có bằng chứng thêm. | HTML report Load không cho thấy lỗi, lock contention hoặc My Orders bottleneck; My Orders p95 = 4,0 ms, p99 = 7,0 ms. | Có cơ sở nhưng chưa chứng minh | Đây là nhận định phòng ngừa, không phải kết luận bottleneck từ Load run. Cần scenario tải cao hoặc dữ liệu lớn hơn để chứng minh. |
 
 Kết luận review cho Load Phase 4: phần AI analysis ở mục 6.1 không có sai lệch lớn về tổng quan. Các số liệu tổng như samples, error rate, throughput, overall p95/p99 và Checkout metrics khớp HTML report. Sai khác cần ghi nhận nằm ở một số p99 per-sampler (`Login`, `Browse Product List`, `View Product Detail`) vì JMeter HTML dashboard và script custom dùng cách tính percentile/làm tròn khác nhau. Các sai khác này không làm thay đổi kết luận rằng Load 50 VU đang ổn định, nhưng khi viết kết luận cuối nên ưu tiên số percentile từ HTML report cho các sampler bị lệch.
+
+### 8.3 Task 2 - Stress HTML Report Cross-Check
+
+Nguồn đối chiếu là JMeter HTML dashboard tại `reports/html-report/stress-profile/index.html`, đọc qua file dữ liệu `reports/html-report/stress-profile/statistics.json`. Mục tiêu là kiểm tra lại phần AI analysis ở mục 6.2 so với số liệu chính thức của HTML report.
+
+| AI claim or recommendation | Raw evidence / correct value | Human decision | Reason |
+|---|---|---|---|
+| Total samples của Stress Test là 107.203. | HTML report `Total.sampleCount = 107203`. | Đúng | Khớp với `statistics.json` và kết quả `analyze_jtl.py`. |
+| Error rate là 0,0% và toàn bộ request không lỗi. | HTML report `Total.errorCount = 0`, `Total.errorPct = 0.0`. | Đúng | Không có sai khác giữa HTML report và raw JTL analysis. |
+| Overall throughput khoảng 179,656 req/s. | HTML report `Total.throughput = 179.65527932094886 req/s`; custom analyzer trả 179,656 req/s. | Đúng | Sai khác chỉ do làm tròn số thập phân. |
+| Overall mean response time là 4,206 ms và max là 277,0 ms. | HTML report `meanResTime = 4.205759167187527`, `maxResTime = 277.0`. | Đúng | Khớp với raw JTL analysis sau khi làm tròn. |
+| Raw analyzer ghi overall median/p90/p95/p99 lần lượt là 3,0 / 8,0 / 11,0 / 18,0 ms. | HTML report `medianResTime = 2.0`, `pct1ResTime = 6.0`, `pct2ResTime = 8.0`, `pct3ResTime = 13.0`. | Đã hiệu chỉnh | Mục 4.2 phải dùng số chính thức từ HTML report. Mục 6.2 vẫn giữ raw analyzer để phục vụ AI analysis, nhưng khi viết kết luận final nên ưu tiên percentile tổng từ HTML report. |
+| `05 Checkout` là sampler chậm nhất với avg 7,192 ms, p95 13,0 ms, p99 22,0 ms. | HTML report cho Checkout: `meanResTime = 7.19198692663138`, `pct2ResTime = 13.0`, `pct3ResTime = 22.0`. | Đúng | Checkout có mean cao nhất và các percentile chính khớp HTML report. |
+| `01 Login` p95 là 12,450 ms. | HTML report cho Login: `pct2ResTime = 13.0`; custom analyzer trả 12,450 ms. | Đã hiệu chỉnh | Sai khác nhỏ do cách tính/làm tròn percentile. Khi viết kết luận cuối, dùng Login p95 = 13,0 ms theo HTML report. |
+| Stress Test chưa có bằng chứng lỗi chức năng hoặc saturation rõ ràng. | HTML report xác nhận 107.203 samples, 0 lỗi, p95 tổng 8,0 ms, p99 tổng 13,0 ms. | Đúng | HTML report củng cố kết luận Stress run ổn định về error rate và latency percentile tổng. |
+| Threshold Stress p95 <= 25 ms đang dùng raw p95 = 11,0 ms làm metric gốc. | HTML report ghi p95 tổng chính thức = 8,0 ms. | Đã hiệu chỉnh | Threshold đề xuất vẫn hợp lý, nhưng rationale/kết luận final nên tham chiếu HTML p95 = 8,0 ms thay vì raw analyzer p95 = 11,0 ms. |
+| Threshold Stress p99 <= 50 ms đang dùng raw p99 = 18,0 ms làm metric gốc. | HTML report ghi p99 tổng chính thức = 13,0 ms. | Đã hiệu chỉnh | Threshold đề xuất vẫn không đổi, nhưng khi báo cáo kết quả chính thức nên dùng HTML p99 = 13,0 ms. |
+| AI analysis ban đầu chưa phân tích Stress theo từng workload level. | Đã bổ sung bảng level từ raw JTL cho các plateau 50, 150, 300 và 500 users. Peak 500 users có p99 tổng 30,0 ms, Checkout p99 40,280 ms, My Orders p99 37,140 ms. | Đã hiệu chỉnh | Stress Test cần quan sát degradation theo từng mức tải, không chỉ nhìn tổng toàn bài. |
+| Đề xuất theo dõi Checkout/Login tail latency ở các run nặng hơn. | HTML report cho Checkout p99 22,0 ms, Login p99 21,0 ms, max toàn bài 277,0 ms. | Có cơ sở nhưng chưa chứng minh | Có tail latency/outlier nhưng chưa có lỗi hoặc degradation kéo dài; cần Spike/Endurance hoặc profiling để kết luận bottleneck. |
+
+Kết luận review cho Stress Phase 4: số liệu samples, error rate, throughput, mean, max và per-sampler chính khớp giữa raw analyzer và HTML report. Sai khác quan trọng nhất nằm ở percentile tổng: HTML report ghi p95 = 8,0 ms và p99 = 13,0 ms, trong khi custom analyzer ghi p95 = 11,0 ms và p99 = 18,0 ms. Vì mục 4 là phần kết quả chính thức, báo cáo dùng percentile tổng từ HTML report ở mục 4.2; mục 6.2 giữ raw analyzer như bằng chứng AI analysis và đã nêu rõ nguồn.
 
 ## 9. Optimization Recommendations
 
