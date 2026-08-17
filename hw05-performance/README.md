@@ -3,8 +3,11 @@
 **Student:** Võ Ngọc Bích Trâm · `23127271`  
 **Branch:** `HW5-Tram`  
 **Workflow:** Search-to-buy (login → search → detail → cart → checkout)  
-**Tool:** Apache JMeter  
+**Tool (required):** Apache JMeter 5.6.3  
+**Tool (bonus):** k6 v2.1.0  
 **SUT:** EShop backend `http://localhost:3000`
+
+**Public GitHub folder:** https://github.com/trngnneee/eshop-sut/tree/HW5-Tram/hw05-performance/
 
 ---
 
@@ -12,26 +15,28 @@
 
 | Path | Contents |
 |------|----------|
-| `docs/` | Design docs (endpoint map, scope) |
-| `test-plans/` | `{23127271}_{Load\|Stress\|Spike}_{YYYYMMDD}.jmx` + CSV |
-| `logs/` | Raw `.jtl` + HTML report folders (after real runs) |
+| `docs/` | Prompt plan, P00–P13, k6 K04–K09 |
+| `test-plans/` | `{23127271}_{Load\|Stress\|Spike\|Soak}_20260814.jmx` + `.js` + CSV |
+| `logs/` | Raw `.jtl`, HTML report folders, k6 JSON (Load/Spike/Soak) |
+| `evidence/` | dxdiag + HTML dashboard/statistics screenshots |
+| `audit/` | AI Audit Report |
 | `submission/` | `git-commit-log.txt` (exported before zip) |
+
+k6 Stress JSON (`23127271_Stress_20260814.json`, ~279 MB) is **not** in this repo (GitHub 100 MB file limit). Keep it in the Moodle zip / local workspace. Recomputed metrics: `docs/_k6_recompute_out.txt`.
 
 ---
 
 ## Test summary
 
-*(Fill after execution)*
-
-- **Scenarios run:** Load, Stress, Spike
+- **Scenarios run:** Load (20 VU), Stress (100 VU), Spike (5→80→5), Soak (15 VU)
 - **Endpoint groups covered:**
   - Auth-heavy: `POST /api/login`
   - Read-heavy: `GET /api/products?search=` → `GET /api/products/{id}`
   - Transactional: `POST /api/cart` → `POST /api/checkout`
-- **Endurance / soak threshold:** TBD
-- **Bugs / performance issues logged:** TBD
-- **Demo video:** TBD
-- **Agent Skill demo:** TBD
+- **Endurance / soak threshold:** ~7.27 rps, checkout p95 23 ms, 0% error (JMeter). Memory: UNKNOWN.
+- **Bugs / performance issues logged:** 0 functional GitHub issues (0% HTTP error on graded runs; Stress knee is latency).
+- **Demo video (Task 1, JMeter ≥6 min):** https://youtu.be/Nyvm0bxZxgA
+- **Agent Skill demo:** TBD (second video, P16)
 
 ---
 
