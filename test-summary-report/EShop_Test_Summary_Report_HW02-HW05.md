@@ -161,6 +161,18 @@ Mục này liệt kê **trung thực** những gì nằm trong phạm vi nhưng 
 | Kịch bản hiệu năng HW05 | **8** (4 + 4) |
 | Tổng mẫu HTTP trong kiểm thử hiệu năng | **165,291** (61,261 + 104,030) |
 
+**Biểu đồ 4.1 — Phân bổ khối lượng thực thi theo bài tập (2,194 lượt)**
+
+*Không tính HW05 vì đơn vị đo khác hẳn (165,291 mẫu HTTP sẽ lấn át toàn bộ các cột còn lại).*
+
+```mermaid
+pie title Khối lượng lượt thực thi theo bài tập
+    "HW04 Automation (1,320 lượt chạy browser)" : 1320
+    "HW03 Cross-platform (430 lượt)" : 430
+    "HW02 Test case thủ công (320 lượt)" : 320
+    "HW03 GUI checklist (124 item)" : 124
+```
+
 ### 4.2 Kết quả Pass / Fail / Blocked / Not executed
 
 #### 4.2.1 HW02 — Kiểm thử miền & giá trị biên
@@ -190,6 +202,34 @@ Tỉ lệ pass trên số đã thực thi: **49.4%** (84/170).
 Tỉ lệ pass: **78.7%** (118/150). Chi tiết Domain/BVA theo feature: FR-04 `32/20/12`, FR-10 `23/21/2`,
 FR-18 `27/21/6`, FR-20 `18/17/1` (Designed/Passed/Failed). Phân bổ kỹ thuật trong 100 TC Domain/BVA:
 **69 EP + 31 BVA**.
+
+**Biểu đồ 4.2.1a — Kết quả HW02 cấp nhóm (409 test case thiết kế)**
+
+```mermaid
+pie title Trạng thái 409 test case thủ công HW02
+    "Passed (202)" : 202
+    "Failed (118)" : 118
+    "Chưa thực thi (89)" : 89
+```
+
+*Passed = 84 (Khoa) + 118 (Nguyên) · Failed = 86 + 32 · Chưa thực thi = 89 (Khoa) + 0 (Nguyên) · Blocked = 0.*
+
+**Biểu đồ 4.2.1b — Đối chiếu tỉ lệ pass giữa hai thành viên (trên số đã thực thi)**
+
+```mermaid
+pie title Khoa - 170 test case đã thực thi
+    "Passed (84)" : 84
+    "Failed (86)" : 86
+```
+
+```mermaid
+pie title Nguyên - 150 test case đã thực thi
+    "Passed (118)" : 118
+    "Failed (32)" : 32
+```
+
+*Chênh lệch tỉ lệ pass (49.4% vs 78.7%) đến từ khác biệt feature và kỹ thuật kiểm thử, không phải khác biệt
+chất lượng bộ test — FR-07 Giỏ hàng của Khoa là module tập trung nhiều lỗi nhất toàn hệ thống (55/90 fail).*
 
 #### 4.2.2 HW03 — GUI, Usability, Cross-platform
 
@@ -222,6 +262,41 @@ Kết quả cross-platform: **179 ảnh viewport** cho mọi item Fail trên m�
 Khác biệt giữa các platform: **1** item đổi hẳn Pass/Fail (XP-01), **28** item cùng kết quả nhưng giá trị
 hiển thị khác nhau, **4** item cho kết luận khác với chấm tay ở Task 1.
 
+**Biểu đồ 4.2.2a — Kết quả GUI checklist cấp nhóm (124 item)**
+
+```mermaid
+pie title Trạng thái 124 GUI checklist item
+    "Failed (77)" : 77
+    "Passed (46)" : 46
+    "Blocked (1)" : 1
+```
+
+*Passed = 37 (Khoa) + 9 (Nguyên) · Failed = 20 + 57 · Blocked = 1 (Khoa).*
+
+**Biểu đồ 4.2.2b — 66 item của Nguyên theo Interface Aspect**
+
+```mermaid
+pie title Phân bổ 66 checklist item theo Interface Aspect
+    "IA-04 Feedback and State (19)" : 19
+    "IA-01 General UI (17)" : 17
+    "IA-02 Forms (15)" : 15
+    "IA-03 Navigation (15)" : 15
+```
+
+*Tỉ lệ fail cao nhất rơi vào **IA-04 Feedback & State** (18/19 fail) — hệ thống gần như không có
+loading state, empty state, error state và dialog xác nhận.*
+
+**Biểu đồ 4.2.2c — Nguồn gốc kết quả khác biệt giữa Task 1 và Task 3 (Nguyên)**
+
+```mermaid
+graph LR
+    T1["Task 1 - chấm tay<br>66 item<br>9 Pass / 57 Fail"] -->|"Harness tự động chạy lại<br>cùng 66 item"| T3["Task 3 - P1 Chromium<br>7 Pass / 59 Fail"]
+    T1 -.->|"3 item chấm Pass<br>thực ra Fail"| F1["Chỉ lộ ra khi stub dữ liệu lỗi<br>hoặc đo bằng script"]
+    T1 -.->|"1 item chấm Fail<br>nhưng Pass"| F2["Thông báo required<br>phụ thuộc trình duyệt"]
+    F1 --> T3
+    F2 --> T3
+```
+
 #### 4.2.3 HW04 — Automation
 
 **Khoa (23127207)** — Playwright + TypeScript, mỗi feature chạy trên 3 browser và cho **kết quả pass/fail
@@ -253,6 +328,28 @@ server/ứng dụng chứ không phải test flaky.
 |---|---|---:|---:|---:|---:|
 | Database Testing | Jest 29 + Supertest 7 + faker (seed `23127207`) | 11 | 7 | 4 | 63.64% |
 | GUI Automation — Product List | Playwright 1.61.1 (Chromium) | 20 | 13 | 7 | 65% |
+
+**Biểu đồ 4.2.3a — Kết quả HW04 cấp nhóm (1,320 lượt chạy browser)**
+
+```mermaid
+pie title Trạng thái 1,320 lượt chạy automation
+    "Passed (747)" : 747
+    "Failed (573)" : 573
+```
+
+*Quy về cùng đơn vị "lượt chạy": Khoa 222 × 3 = 666 pass và 178 × 3 = 534 fail (1,200 lượt);
+Nguyên 81 pass và 39 fail (120 lượt). Tổng 747 + 573 = 1,320.*
+
+**Biểu đồ 4.2.3b — Phân bổ 59 bug HW04 theo nguồn phát hiện**
+
+```mermaid
+pie title Nguồn gốc 59 bug phát hiện trong HW04
+    "Bug đã biết từ HW02 được tái hiện (31)" : 31
+    "Bug mới của Khoa (19)" : 19
+    "Bug mới của Nguyên (9)" : 9
+```
+
+*Trong 19 bug mới của Khoa có **1 CRITICAL** (privilege escalation) và **5 HIGH** về bảo mật.*
 
 #### 4.2.4 HW05 — Kiểm thử hiệu năng
 
@@ -297,7 +394,66 @@ Endpoint nặng nhất luôn là `POST /api/checkout` (~4–5 ms, do `INSERT INT
 > kịp. Cả hai cùng chỉ đúng một nguyên nhân gốc: giỏ hàng lưu in-memory (`userCarts`). Kết luận an toàn:
 > **leak là có thật và phụ thuộc kích thước payload giỏ hàng cùng số user đồng thời.**
 
+**Biểu đồ 4.2.4a — Phân bổ 165,291 mẫu HTTP theo kịch bản**
+
+```mermaid
+pie title Phân bổ mẫu HTTP theo 8 kịch bản tải
+    "Nguyên - Stress (63,398)" : 63398
+    "Khoa - Stress (26,939)" : 26939
+    "Nguyên - Spike (22,080)" : 22080
+    "Nguyên - Soak (14,719)" : 14719
+    "Khoa - Endurance (13,355)" : 13355
+    "Khoa - Spike (11,794)" : 11794
+    "Khoa - Load (9,173)" : 9173
+    "Nguyên - Load (3,833)" : 3833
+```
+
+*Toàn bộ 165,291 mẫu đều đạt **error rate 0.00%** — không có mẫu nào thất bại trên cả 8 kịch bản.*
+
+**Biểu đồ 4.2.4b — So sánh p95 giữa 4 kịch bản của Khoa (workflow Browse-to-buy)**
+
+```mermaid
+graph LR
+    L["Load<br>50 VU<br>p95 = 25 ms"] --> S["Stress<br>25 → 200 VU<br>p95 = 586 ms"]
+    S --> SP["Spike<br>10 → 300 VU<br>p95 = 1,016 ms<br>đỉnh 1,302 ms"]
+    SP --> E["Endurance<br>30 VU / 12 phút<br>p95 = 382 ms<br>thoái hóa 47 → 2,112 ms"]
+    S -.->|"Knee point"| K["100 → 200 VU<br>p95 nhảy 26 ms → 761 ms"]
+    E -.->|"Nguyên nhân"| M["userCarts không giải phóng<br>server.js 14, 293"]
+```
+
+*Chỉ so sánh trong cùng một workflow và cùng một máy. Bốn kịch bản của Nguyên đều cho p95 = 6–7 ms nên
+không có độ chênh đáng vẽ — điểm đáng chú ý ở bộ số đó là **chưa chạm điểm gãy ở 200 VU / 151 req/s**.*
+
+**Biểu đồ 4.2.4c — Dự báo thời điểm cạn bộ nhớ (Time to OOM) ở tốc độ rò rỉ 6.45 MB/phút**
+
+```mermaid
+graph LR
+    Leak["Rò rỉ đo được<br>6.45 MB/phút<br>≈ 387 MB/giờ"] --> C512["Container 512 MB<br>sập sau 70 phút<br>≈ 1.17 giờ"]
+    Leak --> C1024["Cloud instance 1024 MB<br>sập sau 149 phút<br>≈ 2.49 giờ"]
+    Leak --> C2048["Node.js heap 2048 MB<br>sập sau 308 phút<br>≈ 5.14 giờ"]
+```
+
+*Hệ quả trực tiếp: trên container 512 MB, hệ thống **không chạy nổi qua một ca làm việc** — đây là một
+trong các căn cứ của quyết định No-Go ở mục 11.*
+
 ### 4.3 Tổng số defect theo trạng thái và mức độ nghiêm trọng
+
+**Biểu đồ 4.3a — Phân bổ 191 defect theo sổ đăng ký gốc**
+
+```mermaid
+pie title Phân bổ defect theo sổ đăng ký của từng bài tập
+    "Khoa - HW04 (50)" : 50
+    "Khoa - HW02 (48)" : 48
+    "Nguyên - HW03 Task 1 (48)" : 48
+    "Nguyên - HW02 (20)" : 20
+    "Nguyên - HW04 (9)" : 9
+    "Nguyên - HW03 Task 3 XP (7)" : 7
+    "Nguyên - HW05 (6)" : 6
+    "Khoa - HW05 (3)" : 3
+```
+
+*Đây là **tổng các sổ đăng ký gốc, chưa trừ trùng lặp** (mục 4.3.3) và chưa gồm phần HW03 của Khoa —
+phần đó cố ý không có một con số tổng duy nhất. Ước tính defect duy nhất cấp nhóm: **170–180**.*
 
 #### 4.3.1 Khoa (23127207)
 
@@ -320,6 +476,25 @@ HW04 gồm **31 bug đã biết từ HW02 được tái hiện lại** + **19 bu
 > (issue #55, #37, #118) · 4 **usability issue** · 9 **nhóm systemic finding** cross-platform. Một lỗi tái
 > hiện trên môi trường khác **không** được tính là bug mới. Báo cáo này giữ nguyên cách đếm đó.
 
+**Biểu đồ 4.3.1a — 48 bug HW02 của Khoa (thang High / Medium / Low)**
+
+```mermaid
+pie title Khoa HW02 - 48 bug theo thang High Medium Low
+    "High (29)" : 29
+    "Medium (13)" : 13
+    "Low (6)" : 6
+```
+
+**Biểu đồ 4.3.1b — 48 bug HW02 của Khoa theo feature**
+
+```mermaid
+pie title Khoa HW02 - 48 bug theo feature
+    "FR-02 Đăng nhập và Khóa TK (19)" : 19
+    "FR-07 Giỏ hàng (18)" : 18
+    "FR-21 Mobile Cart và Checkout (6)" : 6
+    "FR-13 Dashboard (5)" : 5
+```
+
 #### 4.3.2 Nguyên (23127438)
 
 | Bài tập | Sổ đăng ký defect | Số lượng | Phân bổ mức độ | GitHub Issue |
@@ -340,6 +515,28 @@ Chi tiết 6 bug HW05 của Nguyên:
 | #405 | Trường `price` khác kiểu dữ liệu giữa id chẵn và id lẻ | Minor |
 | #406 | Giỏ hàng in-memory: mất khi restart, trộn giỏ giữa user, rò rỉ RAM | Major |
 | #407 | `database.js` DROP + reseed toàn bộ DB mỗi lần khởi động | Major |
+
+**Biểu đồ 4.3.2a — 48 bug HW03 của Nguyên (thang Blocker / Major / Minor)**
+
+```mermaid
+pie title Nguyên HW03 - 48 bug theo thang Blocker Major Minor
+    "Minor (26)" : 26
+    "Major (20)" : 20
+    "Blocker (2)" : 2
+```
+
+> **⚠️ Hai biểu đồ 4.3.1a và 4.3.2a dùng hai thang mức độ khác nhau và không quy đổi được cho nhau.**
+> Khoa HW02 dùng High / Medium / Low; Nguyên HW03 dùng Blocker / Major / Minor. Đặt cạnh nhau chỉ để
+> thấy hình dạng phân bổ, **tuyệt đối không cộng gộp hai biểu đồ**. Xem mục 4.5.
+
+**Biểu đồ 4.3.2b — 20 bug HW02 của Nguyên (thang High / Medium / Low)**
+
+```mermaid
+pie title Nguyên HW02 - 20 bug theo mức độ
+    "High (17)" : 17
+    "Medium (2)" : 2
+    "Low (1)" : 1
+```
 
 #### 4.3.3 Defect được cả hai thành viên phát hiện độc lập
 
@@ -378,6 +575,37 @@ của thành viên/bài tập đó.
 
 *Các số có dấu `~` ở cột Nguyên HW03 là phân bổ theo màn hình bị ảnh hưởng; một bug gộp theo nguyên nhân
 gốc có thể chạm nhiều màn hình nên tổng cột được lấy từ sổ đăng ký (48), không phải từ phép cộng hàng.*
+
+**Biểu đồ 4.4a — Phân bổ 181 defect theo module**
+
+```mermaid
+pie title Phân bổ defect theo module nghiệp vụ
+    "Giỏ hàng, Thanh toán, Coupon - FR-07/09/21 (73)" : 73
+    "Xác thực và Khóa tài khoản - FR-01/02/03/12 (58)" : 58
+    "Vòng đời và quản lý đơn hàng - FR-10/18 (16)" : 16
+    "Dashboard và Danh mục admin - FR-13/14 (13)" : 13
+    "Danh sách và tìm kiếm sản phẩm - FR-20 (12)" : 12
+    "Hồ sơ người dùng - FR-04 (7)" : 7
+    "Backend, Hạ tầng, Hiệu năng (2)" : 2
+```
+
+*Tổng 181 = tổng 6 cột của bảng trên (48 + 50 + 20 + 48 + 9 + 6). Không gồm 3 defect HW05 của Khoa và
+7 phát hiện XP của Nguyên vì hai nhóm này không nằm trong bảng.*
+
+**Biểu đồ 4.4b — Ánh xạ 4 lỗi chặn phát hành (P0) sang module**
+
+```mermaid
+graph TD
+    P0["4 lỗi mức P0 - chặn go-live"] --> A["Xác thực và Phân quyền"]
+    P0 --> B["Giỏ hàng và Thanh toán"]
+    P0 --> C["Danh sách và Tìm kiếm sản phẩm"]
+    A --> A1["Privilege escalation<br>PUT /api/users/me tự đặt role admin<br>Khoa - HW04 - CRITICAL"]
+    B --> B1["Tổng tiền là input client sửa được<br>gửi thẳng lên API checkout<br>Nguyên - HW03 - BLOCKER"]
+    C --> C1["SQL Injection<br>GET /api/products?search<br>Nguyên - HW05 - CRITICAL"]
+    C --> C2["XSS qua dangerouslySetInnerHTML<br>từ khoá tìm kiếm và tên người dùng<br>Nguyên - HW03 - BLOCKER"]
+```
+
+*Cả 4 lỗi P0 đều tập trung ở đúng ba module có mật độ defect cao nhất trong biểu đồ 4.4a.*
 
 **Nhận xét:** hai module tập trung nhiều defect nhất trên toàn bộ chương trình kiểm thử là
 **Xác thực & Khóa tài khoản** và **Giỏ hàng / Thanh toán / Coupon** — đúng hai module chứa toàn bộ lỗi
