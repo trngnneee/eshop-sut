@@ -1,0 +1,18 @@
+﻿* 7ccfa26 (HEAD -> HW5-Tram) report: HW05 README self-assessment
+* c196a08 docs: k6 analysis + JMeter comparison
+* c42f8e8 logs: k6 json
+* a011de5 test-plans: k6 Soak js
+* f762f9f test-plans: k6 Spike js
+* d922271 test-plans: k6 Stress js
+* dd1eb37 test-plans: k6 Load js
+* 5591d5a docs: continuous performance-testing proposal
+* c82422b docs: judge AI optimization recommendations
+* 8e5af99 docs: AI log analysis + misinterpretation hunt
+* 4f7c2df logs: Soak jtl + HTML and execution evidence
+* a098402 logs: Load/Stress/Spike jtl + HTML
+* a9f2ac8 test-plans: Soak jmx
+* 83c3c60 test-plans: Spike jmx
+* 0b2c713 test-plans: Stress jmx
+* bce27e8 test-plans: CSV + Load jmx
+* 5abf8a1 docs: HW05 prompt plan (Search-to-buy)
+* a12a156 (origin/HW5-Tram) docs: HW05 performance scaffold (23127271 Search-to-buy)
