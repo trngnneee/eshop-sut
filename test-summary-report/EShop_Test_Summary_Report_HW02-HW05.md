@@ -476,11 +476,22 @@ Ba mâu thuẫn dưới đây tồn tại trong tài liệu gốc. Báo cáo nà
 
 ## 7. BÀI HỌC KINH NGHIỆM (Lessons Learned)
 
-### 7.1 AI hỗ trợ tốt việc sinh khối lượng, nhưng sai một cách tự tin ở phần suy luận
+### 7.1 Bảng bài học tổng hợp
 
-Đây là bài học lặp lại nhất quán trên cả 4 bài tập và ở cả hai thành viên.
+| ID | Bài học | Sự việc / bằng chứng cụ thể | Nguyên nhân gốc | Cách xử lý & áp dụng cho lần sau | Thuộc về |
+|---|---|---|---|---|---|
+| **LL-01** | AI sinh khối lượng tốt nhưng **sai một cách tự tin** ở phần suy luận | 10 lỗi diễn giải kết quả hiệu năng (5 của mỗi thành viên — chi tiết ở 7.2 và 7.3); 3/7 đề xuất tối ưu của AI là hallucination | AI suy luận theo mẫu quen thuộc (RDBMS, index, CPU bão hòa) mà không đọc dữ liệu thô hay mã nguồn thực tế | Đối chiếu **mọi** kết luận suy luận của AI với log thô hoặc mã nguồn trước khi đưa vào báo cáo; tính lại ground-truth bằng script riêng (`analyze_jtl.py`) | Cả hai — HW05 |
+| **LL-02** | AI bỏ sót đúng những phân vùng chỉ lộ ra khi thao tác tay | AI bỏ sót phân vùng độ nhạy chữ hoa/thường của email, tab navigation accessibility, và race condition do truy vấn CSDL bất đồng bộ | AI không có trải nghiệm giao diện trực quan và không quan sát được độ trễ ghi CSDL thực tế | Luôn bổ sung một lượt kiểm thử tay có chủ đích (đa tab, tab order, thao tác đồng thời) sau khi AI sinh test case | Khoa — HW02 |
+| **LL-03** | Cô lập trạng thái test quan trọng ngang với chính test đó | `TC-LOGIN-001` fail không tái lập vì tài khoản dùng chung `test@eshop.com` còn bị khóa trong cửa sổ 180 s từ lần chạy trước | Dùng chung tài khoản seed giữa các lần chạy / các browser trên cùng backend SQLite | Khoa: thêm `test.beforeAll` mở khóa tài khoản. Nguyên (phòng ngừa): đăng ký user mới qua API cho từng test, snapshot + dọn dữ liệu trong `afterEach`, `workers: 1`, reseed DB trước mỗi platform | Cả hai — HW04 |
+| **LL-04** | Điều tra một test flaky có thể lộ ra khoảng trống tài liệu thật | Khi truy vết `TC-LOGIN-001`, phát hiện `BUG-FR02-A-13` đã được `TC-JWT-001` tái hiện suốt nhưng **chưa bao giờ** được ghi vào bảng bug | Bug được test tự động phát hiện nhưng không có bước đối soát ngược từ kết quả fail sang sổ đăng ký bug | Khi số test fail không khớp số bug đã ghi, phải audit từng case thay vì bỏ qua chênh lệch | Khoa — HW04 |
+| **LL-05** | Tự chấm bằng mắt trên chính checklist mình viết là **không đáng tin** | Harness tự động chạy lại đúng 66 item và **lật ngược 4 kết luận** của Task 1 chấm tay (3 item chấm Pass thực ra Fail, 1 item chấm Fail nhưng Pass trên Chromium) | Chấm bằng mắt trên checklist do chính mình viết → xu hướng nhìn thấy điều mình mong đợi; nhánh lỗi không bao giờ bị chạm nếu chỉ dùng dữ liệu seed hợp lệ | Đọc trạng thái thật của app (DOM, computed style, `validationMessage`, hình học phần tử) bằng script; cấm hard-code kết quả lượt chấm trước vào harness | Nguyên — HW03 |
+| **LL-06** | Đọc mã nguồn backend là con đường tìm ra các lỗi nghiêm trọng nhất | Hai lỗi nặng nhất toàn chương trình đều đến từ việc chủ động đọc source tìm code path chưa test case nào chạm: **privilege escalation** (`PUT /api/users/me` cho tự đặt `role = "admin"`) và **SQL Injection** (`GET /api/products?search`) | Mở rộng test case theo đặc tả chỉ phủ được những gì đặc tả đã mô tả; lỗ hổng nằm ở hành vi đặc tả không nhắc tới | Dành riêng một lượt kiểm thử đi từ mã nguồn (code-driven) song song với lượt đi từ đặc tả (spec-driven) | Khoa — HW04 · Nguyên — HW05 |
+| **LL-07** | Nhãn platform phải được khai báo trung thực | Playwright cung cấp bản build **WebKit**, không phải `Safari.app` — cùng engine `AppleWebKit/605.1.15` nhưng vỏ ứng dụng khác; ảnh chứng cứ hiện menu bar "Playwright" | Ánh xạ vai trò "Chrome/Firefox/Safari" theo đề bài sang bundle thực tế đã chạy không phải quan hệ 1-1 | Khai báo rõ engine, version, host và giới hạn của từng platform ngay trong ma trận; overlay thông tin đó lên ảnh chứng cứ | Cả hai — HW03 |
+| **LL-08** | Cùng một lỗi gốc có thể cho kết luận đo khác nhau tùy workload | Khoa đo được rò rỉ 6.45 MB/phút ở 30 VU; Nguyên **không** thấy leak cũng ở 30 VU | Khác kích thước payload giỏ hàng và số sản phẩm (505 vs 5) → GC của V8 thu hồi kịp ở workload nhẹ | Khi hai phép đo mâu thuẫn, so điều kiện đo trước khi so kết luận; ghi rõ workload kèm mọi kết luận về bộ nhớ | Cả hai — HW05 |
 
-**Khoa — HW05 (5 lỗi diễn giải của AI, đối chiếu với ground-truth tính lại từ log thô):**
+### 7.2 Chi tiết LL-01 — 5 lỗi diễn giải của AI (Khoa, HW05)
+
+Đối chiếu với ground-truth tính lại từ log `.jtl` thô.
 
 | # | AI khẳng định | Thực tế |
 |---|---|---|
@@ -490,7 +501,7 @@ Ba mâu thuẫn dưới đây tồn tại trong tài liệu gốc. Báo cáo nà
 | 4 | Hệ thống sập do cạn kiệt CPU | CPU chỉ đạt đỉnh 5.33%; độ trễ tăng do hàng đợi sự kiện Node.js và GC pause |
 | 5 | Dùng công thức percentile nội suy | JMeter dùng nearest-rank theo ISO 80000-2 → sai lệch con số p95 |
 
-**Nguyên — HW05 (5 lỗi diễn giải + phán xét 7 đề xuất tối ưu):**
+### 7.3 Chi tiết LL-01 — 5 lỗi diễn giải của AI (Nguyên, HW05)
 
 | # | AI khẳng định | Thực tế |
 |---|---|---|
@@ -500,52 +511,13 @@ Ba mâu thuẫn dưới đây tồn tại trong tài liệu gốc. Báo cáo nà
 | 4 | Bottleneck là endpoint `search` | Thực tế là `POST /api/checkout` (ghi đĩa + fsync) |
 | 5 | Baseline có think-time = công suất tối đa | Think-time làm giảm throughput có chủ đích, không phải giới hạn hệ thống |
 
-Trong 7 đề xuất tối ưu mà AI đưa ra: **3 là hallucination** (index cho `LIKE '%q%'` vô hiệu, connection pool
-cho SQLite nhúng, tăng timeout), 2 khả thi (index `users.email`, bật WAL), 2 có điều kiện (Redis, cluster).
+### 7.4 Chi tiết LL-01 — phán xét 7 đề xuất tối ưu của AI (Nguyên, HW05)
 
-**Khoa — HW02:** AI bỏ sót việc phân vùng kiểm thử độ nhạy chữ hoa/thường của email, bỏ sót tab navigation
-accessibility, và không phát hiện được race condition do truy vấn CSDL bất đồng bộ — những lỗi chỉ lộ ra
-khi con người thao tác thủ công trên nhiều tab đồng thời.
-
-> **Kết luận:** AI hữu ích để sinh khối lượng test case và bản nháp checklist, nhưng **mọi kết luận suy
-> luận của AI đều phải được đối chiếu với dữ liệu thô hoặc mã nguồn trước khi đưa vào báo cáo.**
-
-### 7.2 Cô lập trạng thái test quan trọng ngang với chính test đó
-
-Trong HW04, `TC-LOGIN-001` của Khoa fail một cách không tái lập. Truy vết cho thấy nguyên nhân không phải
-lỗi sản phẩm: tài khoản seed dùng chung `test@eshop.com` vẫn đang bị khóa từ lần chạy trước trong cửa sổ
-180 giây thật của SUT. Sửa bằng một `test.beforeAll` mở khóa tài khoản trước khi chạy khối describe.
-Điều tra sự cố này còn phát hiện thêm một khoảng trống tài liệu thật: `BUG-FR02-A-13` đã được
-`TC-JWT-001` tái hiện suốt nhưng chưa bao giờ được ghi vào bảng bug.
-
-Nguyên xử lý cùng vấn đề theo hướng phòng ngừa: đăng ký user mới qua API cho từng test lockout/coupon,
-snapshot bảng danh mục trước mỗi test và dọn sạch trong `afterEach`, đặt `workers: 1`, và reseed DB trước
-mỗi platform trong Task 3.
-
-### 7.3 Tự chấm bằng mắt trên chính checklist mình viết là không đáng tin
-
-Task 3 của Nguyên chạy lại **cùng bộ 66 item** bằng harness tự động và **lật ngược 4 kết luận** của Task 1
-chấm tay. Ba trong số đó là item được chấm Pass nhưng thực ra Fail — chỉ lộ ra khi stub API trả dữ liệu
-lỗi (`price: "ba mươi triệu"` → màn hình hiện `NaN ₫`) hoặc khi đo bằng script thay vì ước lượng bằng mắt
-(grid 3 cột tại đúng breakpoint 768 px). Hợp đồng của harness cấm hard-code kết quả Task 1, và chính 4 item
-lệch này là bằng chứng điều cấm đó có hiệu lực.
-
-### 7.4 Đọc mã nguồn backend là con đường tìm ra các lỗi nghiêm trọng nhất
-
-Hai lỗi nặng nhất trong toàn bộ chương trình kiểm thử đều được tìm ra bằng cách chủ động đọc mã nguồn
-backend để tìm code path chưa có test case nào chạm tới, chứ không phải bằng cách mở rộng test case theo
-đặc tả:
-
-- **Privilege escalation** (`PUT /api/users/me` cho phép tự đặt `role = "admin"`) — Khoa, HW04.
-- **SQL Injection** tại `GET /api/products?search` — Nguyên, HW05.
-
-### 7.5 Nhãn platform phải được khai báo trung thực
-
-Cả hai thành viên đều gặp cùng một giới hạn: Playwright cung cấp bản build **WebKit**, không phải
-`Safari.app`. Cùng engine `AppleWebKit/605.1.15` nên cùng lớp render/JS/CSS/validation, nhưng vỏ ứng dụng
-khác — trong ảnh chứng cứ, menu bar macOS hiện tên "Playwright" chứ không phải "Safari". Việc khai báo rõ
-điều này (thay vì để nhãn "Safari" trôi qua) là lý do bộ chứng cứ vẫn dùng được: người đọc biết chính xác
-mình đang nhìn cái gì.
+| Nhóm | Số lượng | Đề xuất | Lý do phân loại |
+|---|---:|---|---|
+| **Hallucination** | 3 | Index cho `LIKE '%q%'`; connection pool cho SQLite nhúng; tăng timeout | Index không dùng được với wildcard đầu chuỗi; SQLite không có pool; timeout không phải nguyên nhân vì error rate = 0.00% |
+| **Khả thi** | 2 | Index `users.email`; bật WAL | Truy vấn login lọc theo email; WAL tăng khả năng ghi đồng thời |
+| **Có điều kiện** | 2 | Redis; cluster mode | Chỉ đáng làm khi tải vượt xa dải đã kiểm thử; hiện SUT chưa phải nút cổ chai |
 
 ---
 
