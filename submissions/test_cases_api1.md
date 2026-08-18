@@ -20,23 +20,23 @@
 
 ## Phân loại test cases
 
-### A. Domain Partition Tests
+### A. Domain Partition & Boundary Value Tests (EP & BVA)
 
-| TC ID | Mô tả | Input | Expected Output | Phân vùng | Audit | Ghi chú |
-|:---|:---|:---|:---|:---|:---|:---|
-| TC-A-DP-01 | | | | | VALID/INVALID/INCOMPLETE | |
-| TC-A-DP-02 | | | | | | |
-| TC-A-DP-03 | | | | | | |
-| TC-A-DP-04 | | | | | | |
-| TC-A-DP-05 | | | | | | |
+| TC ID | Mô tả | Tham số kiểm tra | Phân vùng / Điểm biên | Input Payload (Params/Body) | Expected HTTP Status & Output | Audit | Ghi chú |
+|:---|:---|:---|:---|:---|:---|:---|:---|
+| TC-A-DP-01 | | | | | | *(cần review)* | |
+| TC-A-DP-02 | | | | | | *(cần review)* | |
+| TC-A-DP-03 | | | | | | *(cần review)* | |
+| TC-A-DP-04 | | | | | | *(cần review)* | |
+| TC-A-DP-05 | | | | | | *(cần review)* | |
 
-### B. State Transition Tests
+### B. State Transition & Lifecycle Tests
 
-| TC ID | Mô tả | Trạng thái hiện tại | Sự kiện | Trạng thái kỳ vọng | Audit | Ghi chú |
-|:---|:---|:---|:---|:---|:---|:---|
-| TC-A-ST-01 | | | | | | |
-| TC-A-ST-02 | | | | | | |
-| TC-A-ST-03 | | | | | | |
+| TC ID | Mô tả kịch bản | Trạng thái ban đầu (Pre-state) | Hành động / Payload | Trạng thái kỳ vọng (Post-state) | Expected HTTP Status & Error Code | Audit | Ghi chú |
+|:---|:---|:---|:---|:---|:---|:---|:---|
+| TC-A-ST-01 | | | | | | *(cần review)* | |
+| TC-A-ST-02 | | | | | | *(cần review)* | |
+| TC-A-ST-03 | | | | | | *(cần review)* | |
 
 ### C. Security Tests (SEC-01 – SEC-07)
 

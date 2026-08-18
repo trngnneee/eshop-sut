@@ -20,25 +20,25 @@
 
 ## Phân loại test cases
 
-### A. Domain Partition Tests
+### A. Domain Partition & Boundary Value Tests (EP & BVA)
 
-| TC ID | Mô tả | Input | Expected Output | Phân vùng | Audit | Ghi chú |
-|:---|:---|:---|:---|:---|:---|:---|
-| TC-B-DP-01 | | | | | VALID/INVALID/INCOMPLETE | |
-| TC-B-DP-02 | | | | | | |
-| TC-B-DP-03 | | | | | | |
-| TC-B-DP-04 | | | | | | |
-| TC-B-DP-05 | | | | | | |
+| TC ID | Mô tả | Tham số kiểm tra | Phân vùng / Điểm biên | Input Payload (Params/Body) | Expected HTTP Status & Output | Audit | Ghi chú |
+|:---|:---|:---|:---|:---|:---|:---|:---|
+| TC-B-DP-01 | | | | | | *(cần review)* | |
+| TC-B-DP-02 | | | | | | *(cần review)* | |
+| TC-B-DP-03 | | | | | | *(cần review)* | |
+| TC-B-DP-04 | | | | | | *(cần review)* | |
+| TC-B-DP-05 | | | | | | *(cần review)* | |
 
-### B. State Transition Tests
+### B. State Transition & Lifecycle Tests
 
-| TC ID | Mô tả | Trạng thái hiện tại | Sự kiện | Trạng thái kỳ vọng | Audit | Ghi chú |
-|:---|:---|:---|:---|:---|:---|:---|
-| TC-B-ST-01 | | pending | confirm | confirmed | | |
-| TC-B-ST-02 | | confirmed | ship | shipping | | |
-| TC-B-ST-03 | | shipping | deliver | delivered | | |
-| TC-B-ST-04 | | pending | cancel | cancelled | | |
-| TC-B-ST-05 | | delivered | cancel | *(không hợp lệ)* | | |
+| TC ID | Mô tả kịch bản | Trạng thái ban đầu (Pre-state) | Hành động / Payload | Trạng thái kỳ vọng (Post-state) | Expected HTTP Status & Error Code | Audit | Ghi chú |
+|:---|:---|:---|:---|:---|:---|:---|:---|
+| TC-B-ST-01 | Chuyển trạng thái sang Confirmed | pending | PUT /status (confirmed) | confirmed | 200 OK | *(cần review)* | |
+| TC-B-ST-02 | Chuyển trạng thái sang Shipping | confirmed | PUT /status (shipping) | shipping | 200 OK | *(cần review)* | |
+| TC-B-ST-03 | Chuyển trạng thái sang Delivered | shipping | PUT /status (delivered) | delivered | 200 OK | *(cần review)* | |
+| TC-B-ST-04 | Hủy đơn hàng khi đang pending | pending | PUT /cancel | cancelled | 200 OK | *(cần review)* | |
+| TC-B-ST-05 | Hủy đơn khi đã delivered (Invalid) | delivered | PUT /cancel | delivered (unchanged) | 400 Bad Request | *(cần review)* | |
 
 ### C. Security Tests (SEC-01 – SEC-07)
 

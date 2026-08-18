@@ -46,17 +46,33 @@
 
 ### 2.1. Bước 1: Sinh test cases bằng AI (Generate)
 
-*(Mô tả cách prompt AI từng bước – không dùng một prompt tổng quát)*
+*(Mô tả cách prompt AI từng bước qua 4 kỹ thuật – không dùng một prompt tổng quát)*
 
-**Prompt 1:**
+**Prompt 1 – Domain Testing (EP & BVA):**
 ```
 (dán prompt ở đây)
 ```
+*Output AI 1 (tóm tắt):*
 
-**Output AI (tóm tắt):**
-*(tóm tắt output, chi tiết trong AI_Audit.md)*
+**Prompt 2 – State Transition & Lifecycle:**
+```
+(dán prompt ở đây)
+```
+*Output AI 2 (tóm tắt):*
 
-**Số test cases AI sinh ra:** *(≥ 35)*
+**Prompt 3 – Security Tests (SEC-01 – SEC-07):**
+```
+(dán prompt ở đây)
+```
+*Output AI 3 (tóm tắt):*
+
+**Prompt 4 – Schema Validation:**
+```
+(dán prompt ở đây)
+```
+*Output AI 4 (tóm tắt):*
+
+**Số test cases AI sinh ra:** *(≥ 35) (DP/BVA: X | ST: Y | SEC: Z | SV: W)*
 
 ### 2.2. Bước 2: Kiểm tra (Audit)
 
@@ -107,7 +123,33 @@
 
 ### 3.1. Bước 1: Sinh test cases bằng AI (Generate)
 
-*(Mô tả cách prompt AI từng bước)*
+*(Mô tả cách prompt AI từng bước qua 4 kỹ thuật)*
+
+**Prompt 1 – Domain Testing (EP & BVA):**
+```
+(dán prompt ở đây)
+```
+*Output AI 1 (tóm tắt):*
+
+**Prompt 2 – State Transition & Lifecycle:**
+```
+(dán prompt ở đây)
+```
+*Output AI 2 (tóm tắt):*
+
+**Prompt 3 – Security Tests (SEC-01 – SEC-07):**
+```
+(dán prompt ở đây)
+```
+*Output AI 3 (tóm tắt):*
+
+**Prompt 4 – Schema Validation:**
+```
+(dán prompt ở đây)
+```
+*Output AI 4 (tóm tắt):*
+
+**Số test cases AI sinh ra:** *(≥ 35) (DP/BVA: X | ST: Y | SEC: Z | SV: W)*
 
 ### 3.2. Bước 2: Kiểm tra (Audit)
 
@@ -150,7 +192,33 @@
 
 ### 4.1. Bước 1: Sinh test cases bằng AI (Generate)
 
-*(Mô tả cách prompt AI từng bước)*
+*(Mô tả cách prompt AI từng bước qua 4 kỹ thuật)*
+
+**Prompt 1 – Domain Testing (EP & BVA):**
+```
+(dán prompt ở đây)
+```
+*Output AI 1 (tóm tắt):*
+
+**Prompt 2 – State Transition & Lifecycle:**
+```
+(dán prompt ở đây)
+```
+*Output AI 2 (tóm tắt):*
+
+**Prompt 3 – Security Tests (SEC-01 – SEC-07):**
+```
+(dán prompt ở đây)
+```
+*Output AI 3 (tóm tắt):*
+
+**Prompt 4 – Schema Validation:**
+```
+(dán prompt ở đây)
+```
+*Output AI 4 (tóm tắt):*
+
+**Số test cases AI sinh ra:** *(≥ 35) (DP/BVA: X | ST: Y | SEC: Z | SV: W)*
 
 ### 4.2. Bước 2: Kiểm tra (Audit)
 
