@@ -1,0 +1,18 @@
+{
+  "name": "eshop-hw06-api-testing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Postman/Newman API test artifacts for HCMUS HW06",
+  "scripts": {
+    "test:api": "newman run postman/EShop-HW06-23127207.postman_collection.json -e postman/EShop-HW06-local.postman_environment.json --env-var spec_strict=full -r cli,htmlextra,json --reporter-htmlextra-export newman/reports/00-full-suite.html --reporter-json-export newman/reports/00-full-suite.json",
+    "test:api:off": "newman run postman/EShop-HW06-23127207.postman_collection.json -e postman/EShop-HW06-local.postman_environment.json --env-var spec_strict=off -r cli",
+    "test:api:canary": "newman run postman/EShop-HW06-23127207.postman_collection.json -e postman/EShop-HW06-local.postman_environment.json --env-var spec_strict=canary -r cli"
+  },
+  "devDependencies": {
+    "newman": "^6.2.1",
+    "newman-reporter-htmlextra": "^1.23.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,49 +1,36 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: ""
-labels: ""
+name: Bug Report
+about: Mẫu báo cáo lỗi phát hiện khi thực thi test case
+title: "[BUG][Module] Tóm tắt lỗi ngắn gọn"
+labels: "type: bug, module: api, found-by: test-case"
 assignees: ""
 ---
 
----
-
-name: Bug Report
-about: Mẫu báo cáo lỗi khi thực hiện test case thất bại
-title: '[BUG][Module] Tóm tắt lỗi ngắn gọn'
-labels: ['type: bug', 'status: new', 'found-by: test-case']
-assignees: ''
-
----
-
 ## Found by Test Case
 
-<!-- Điền mã ID của Test Case phát hiện ra lỗi (ví dụ: TC-LOGIN-003) -->
+<!-- Bắt buộc: ghi một mã ổn định, ví dụ TC-API-LOGIN-013. -->
 
 ## Requirement liên quan
 
-<!-- Điền mã ID của Requirement liên quan (ví dụ: FR-02) -->
+<!-- Ví dụ: FR-02, SEC-02. -->
 
 ## Severity / Priority
 
-<!--
-- Severity (Mức độ nghiêm trọng): Critical / Major / Minor / Trivial
-- Priority (Độ ưu tiên): P0 / P1 / P2
-Ví dụ: Major / P1
--->
+<!-- Severity: Critical/Major/Minor/Trivial; Priority: P0/P1/P2. -->
 
 ## Environment
 
-<!-- Điền thông tin môi trường kiểm thử (HĐH, Trình duyệt, URL, Phiên bản/Commit hash) -->
-
 - **OS**:
-- **Browser**:
-- **URL**:
-- **Build/Commit**:
+- **Client / Runner**:
+- **SUT URL**:
+- **Build / Commit**:
+- **X-Student-Id**: `23127207`
+
+## Preconditions
+
+<!-- Tài khoản, dữ liệu, trạng thái hệ thống trước khi tái hiện. -->
 
 ## Steps to reproduce
-
-<!-- Các bước chi tiết để tái hiện lại lỗi -->
 
 1.
 2.
@@ -51,67 +38,19 @@ Ví dụ: Major / P1
 
 ## Expected result
 
-<!-- Kết quả mong đợi đúng theo tài liệu đặc tả yêu cầu (Requirement) -->
+<!-- Kết quả đúng theo Requirement/API Specification. -->
 
 ## Actual result
 
-<!-- Kết quả thực tế gặp phải khi kiểm thử -->
+<!-- Kết quả quan sát được từ lần chạy thật. -->
 
 ## Evidence
 
-<!-- Đính kèm hình ảnh chụp màn hình (Screenshot), video quay màn hình hoặc console log làm bằng chứng lỗi -->
+<!-- Đính kèm screenshot và liên kết Newman/GitHub Actions artifact. -->
 
----
+## Retest checklist
 
-name: Bug Report
-about: Mẫu báo cáo lỗi khi thực hiện test case thất bại
-title: '[BUG][Module] Tóm tắt lỗi ngắn gọn'
-labels: ['type: bug', 'status: new', 'found-by: test-case']
-assignees: ''
-
----
-
-## Found by Test Case
-
-<!-- Điền mã ID của Test Case phát hiện ra lỗi (ví dụ: TC-LOGIN-003) -->
-
-## Requirement liên quan
-
-<!-- Điền mã ID của Requirement liên quan (ví dụ: FR-02) -->
-
-## Severity / Priority
-
-<!--
-- Severity (Mức độ nghiêm trọng): Critical / Major / Minor / Trivial
-- Priority (Độ ưu tiên): P0 / P1 / P2
-Ví dụ: Major / P1
--->
-
-## Environment
-
-<!-- Điền thông tin môi trường kiểm thử (HĐH, Trình duyệt, URL, Phiên bản/Commit hash) -->
-
-- **OS**:
-- **Browser**:
-- **URL**:
-- **Build/Commit**:
-
-## Steps to reproduce
-
-<!-- Các bước chi tiết để tái hiện lại lỗi -->
-
-1.
-2.
-3.
-
-## Expected result
-
-<!-- Kết quả mong đợi đúng theo tài liệu đặc tả yêu cầu (Requirement) -->
-
-## Actual result
-
-<!-- Kết quả thực tế gặp phải khi kiểm thử -->
-
-## Evidence
-
-<!-- Đính kèm hình ảnh chụp màn hình (Screenshot), video quay màn hình hoặc console log làm bằng chứng lỗi -->
+- [ ] PR sửa lỗi đã merge (`Fixes #...` hoặc `Related to #...`)
+- [ ] Test case nguồn đã retest pass
+- [ ] Đã ghi comment kết quả retest
+- [ ] Regression suite không phát sinh lỗi nghiêm trọng
