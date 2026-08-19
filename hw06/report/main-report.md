@@ -45,7 +45,7 @@ OpenAPI audit: file [`openapi/eshop.openapi.yaml`](../openapi/eshop.openapi.yaml
 
 15 defect IDs trong defect catalog đã được lập trong [`bug-report.md`](bug-report.md), mỗi dòng có Found by Test Case, expected/actual và nguồn evidence. Newman JSON ghi nhận 8 fail ở full probe cùng 23/17/7 fail ở ba DDT suite; request/test-script infrastructure đều không fail. Đã tạo đủ 15 GitHub Issues scrubbed (#413–#427) và lưu 15 ảnh trang issue tại `evidence/screenshots/github-issues/`. CI external đã chạy thật: mode `off` xanh ở commit `4bf4e5f8…`; mode `canary` đỏ ở commit `03f36993…` với đúng một failed assertion `TC-API-LOGIN-018`. SHA và Actions URL đầy đủ nằm trong [`cicd-report.md`](cicd-report.md).
 
-`ai-critique.md` là bản nháp dữ liệu 200–300 từ để người học viết lại bằng nhận xét của chính mình; `diagram.mmd` là bản mô tả kỹ thuật, không thay thế `diagram.png` tự vẽ.
+`ai-critique.md` là bản nháp dữ liệu 200–300 từ để người học viết lại bằng nhận xét của chính mình. `test-generator/diagram.png` là HUMAN-only và hiện chưa có; `DRAWING-BRIEF.md` chỉ là checklist hỗ trợ. Mermaid do AI sinh đã được cách ly tại `_reference/diagram-notes.mmd`, ghi rõ không phải sơ đồ nộp bài.
 
 ## 6. Artifact index
 

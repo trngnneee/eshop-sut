@@ -41,4 +41,6 @@ Generator không thể tự biết dữ liệu seed, timing lockout, ownership h
 
 ## Sơ đồ
 
-`diagram.mmd` là bản Mermaid kỹ thuật để tham khảo. `diagram.png` phải do sinh viên tự vẽ theo R-16; Codex không tạo ảnh thay thế.
+`diagram.png` là artifact **HUMAN-ONLY** theo R-16 và hiện **chưa có**. Người học tự ra quyết định bố cục, tự vẽ và tự lưu ảnh; Codex không tạo, render hoặc chỉnh sửa ảnh này.
+
+[`DRAWING-BRIEF.md`](DRAWING-BRIEF.md) chỉ liệt kê các khối/quan hệ tối thiểu để người học tự vẽ. File [`_reference/diagram-notes.mmd`](_reference/diagram-notes.mmd) là ghi chú do AI sinh được lưu riêng nhằm minh bạch provenance; nó **không phải sơ đồ nộp bài** và không được export thành `diagram.png`.
