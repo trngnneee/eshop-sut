@@ -86,3 +86,80 @@
   > Audit từng dòng trong 36 case vừa sinh bằng bốn oracle: FR-02/SEC, API spec, mã nguồn login và defect catalog. Với từng case gắn đúng một nhãn VALID/INVALID/INCOMPLETE, giải thích cụ thể, và viết bản sửa cho mọi INVALID/INCOMPLETE. Không đổi expected theo hành vi lỗi hiện tại. Chừa checkpoint để sinh viên tự review và ký.
 
 - **Output:** Audit đủ `36/36`: `28 VALID`, `3 INVALID`, `5 INCOMPLETE`. Tám bản sửa cụ thể dành cho cases 007, 008, 009, 015, 025, 033, 035, 036. Toàn bộ bảng và worksheet ký xác nhận nằm ở `api-01-login/02-audit.md`.
+
+### API-1 / Human review checkpoint — Xác nhận của người học
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:28:46+07:00`
+- **Prompt của người học:** `Đã duyệt API-1`
+- **Output:** Ghi nhận worksheet đã được người học tự tick đủ ba checkpoint, điền tên `Đặng Đăng Khoa`, MSSV `23127207`, thời gian review `10:25 19-08-2026` và xác nhận “Đã duyệt”. Quy trình được phép chuyển sang bước Extend.
+
+### API-1 / Extend — Bổ sung case AI bỏ sót
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:31:00+07:00`
+- **Prompt:**
+
+  > Sau khi Human Audit hoàn tất, hãy thiết kế tối thiểu 5 test case mới mà output AI ban đầu bỏ sót, ưu tiên security và state transition. Mỗi case phải chỉ rõ precondition, dữ liệu, expected theo đặc tả, bug mục tiêu và một nguyên nhân cụ thể thuộc chất lượng prompt, giới hạn model hoặc đặc thù API.
+
+- **Output:** Bổ sung 6 case `TC-API-LOGIN-037..042`: khóa sớm sau hai lần sai, timeout thực 35 giây, negative sensitive-field schema, JWT expiration, residual state sau hết khóa và JWT forgery từ hard-coded secret. Kết quả đầy đủ ở `api-01-login/03-extended.md` và được hợp nhất vào bảng chốt 42 case ở `api-01-login/test-cases.md`.
+
+### API-2 / P1 — Phân tích input, state và luồng checkout
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:36:04+07:00`
+- **Prompt:**
+
+  > Đối chiếu `POST /api/checkout` với FR-08, FR-10, API specification và mã nguồn SUT. Chưa sinh test case. Liệt kê mọi input/header, kiểu dữ liệu, tính bắt buộc, các partition có ý nghĩa; sau đó mô hình hóa state của Authorization, giỏ hàng và đơn hàng. Phân biệt rõ invariant “tổng tiền tính từ giỏ”, “giỏ bị xóa sau checkout”, “đơn mới pending” với assumption chưa được API spec định nghĩa.
+
+- **Output:** Nhận diện `Authorization`, `total_amount`, `shipping_address`, giỏ hàng, đơn hàng và các trạng thái có/không có item; bảng input/state được ghi ở `api-02-checkout/01-ai-generated.md`.
+
+### API-2 / P2 — Domain partition và boundary value
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:36:18+07:00`
+- **Prompt:**
+
+  > Dựa trên bảng input P1, áp dụng Equivalence Partitioning và Boundary Value Analysis cho từng tham số của `POST /api/checkout`. Sinh case độc lập cho total bằng 0, âm, chuỗi, null, thiếu, số thực, rất lớn, ký hiệu khoa học; shipping address rỗng, thiếu, Unicode, rất dài, XSS và SQLi. Expected phải bám FR/API spec; nếu spec chưa quy định status thì đánh dấu assumption để Human Audit sửa.
+
+- **Output:** Sinh 18 case `TC-API-CHECKOUT-001..018`, phủ partition/type/BVA của total và shipping address. Các assumption về giới hạn địa chỉ, field thừa và status auth được giữ nguyên để audit.
+
+### API-2 / P3 — State-transition và hậu điều kiện
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:36:32+07:00`
+- **Prompt:**
+
+  > Chỉ sinh state/flow cases cho checkout dựa trên FR-08/FR-10: no-token → rejected, cart có item → checkout → order pending, cart phải rỗng sau success, cart rỗng phải bị từ chối, identity lấy từ token, và luồng checkout → my-orders. Ghi rõ mọi endpoint kề bên được gọi để kiểm tra post-condition; không dùng orderId/userId hard-code.
+
+- **Output:** Sinh 8 case `TC-API-CHECKOUT-019..026`, gồm pending, cart cleanup, empty cart, chained my-orders, user identity và double-submit. Case idempotency được đánh dấu assumption vì API spec chưa cam kết.
+
+### API-2 / P4 — Security coverage
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:36:46+07:00`
+- **Prompt:**
+
+  > Với `POST /api/checkout`, sinh security cases cho SEC-02/SEC-04: thiếu JWT, JWT sai chữ ký/hết hạn, token user khác, không thể giả mạo user_id, IDOR khi đọc `GET /api/orders/:id`, SQLi/XSS trong shipping_address và không phản chiếu payload. Expected phải là hành vi an toàn theo đặc tả, không mô tả tấn công thành công.
+
+- **Output:** Sinh 6 case `TC-API-CHECKOUT-027..032`. Các case đọc order qua endpoint liền kề được giữ để Human Audit đánh giá phạm vi, vì đây là nguồn D-CHK-07 bị AI dễ bỏ sót.
+
+### API-2 / P5 — Schema validation
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:37:00+07:00`
+- **Prompt:**
+
+  > Sinh schema cases cho cả nhánh success và reject của checkout: Content-Type JSON, `message` là string, `orderId` là số nguyên dương, status đơn là pending, không lộ field nhạy cảm và không dùng exact-schema assertion cho field mà API spec chưa công bố. Gắn mỗi case với expected status/body.
+
+- **Output:** Sinh 4 case `TC-API-CHECKOUT-033..036`, trong đó output thô cố tình giữ một expected sai `orderId:string` để Audit phát hiện và sửa thành integer.
+
+### API-2 / Audit — Gắn nhãn và sửa output
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:37:18+07:00`
+- **Prompt:**
+
+  > Audit từng dòng trong 36 case checkout bằng FR-08/FR-10, API specification, mã nguồn `server.js` và defect catalog §2. Gắn đúng một nhãn VALID/INVALID/INCOMPLETE, giải thích cụ thể và viết expected sửa cho mọi case INVALID/INCOMPLETE. Không đổi expected theo hành vi lỗi của SUT; chừa checkpoint HUMAN trước khi sang API-3.
+
+- **Output:** Audit đủ 36 case với `28 VALID`, `3 INVALID`, `5 INCOMPLETE`. Các sửa chính gồm: total phải tính từ giỏ, token invalid trả 403 theo middleware, empty/negative total là lỗi theo nghiệp vụ, orderId là integer và các assumption về shipping/idempotency được hạ thành robustness check. Bảng đầy đủ ở `api-02-checkout/02-audit.md`.
