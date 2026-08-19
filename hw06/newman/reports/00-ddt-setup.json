@@ -5,11 +5,11 @@
     },
     "item": [
       {
-        "id": "b842d66a-322a-43ec-a2a8-e79b021eb0a4",
+        "id": "3c2e3a78-ba9b-4bde-a4e5-28faebd0f8a5",
         "name": "00 - Setup",
         "item": [
           {
-            "id": "f1db5ea5-f4a3-4ea5-aaab-4e7069dba8ad",
+            "id": "bb341266-a7be-4bce-954d-0334611f130b",
             "name": "[SETUP] Health check",
             "request": {
               "url": {
@@ -30,7 +30,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "c0419262-27e1-4df8-9bff-54d67dfb6116",
+                  "id": "a53a5913-2431-460d-beb3-09c4473516e7",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -39,13 +39,13 @@
                     "pm.test('[SETUP] health 200',()=>pm.response.to.have.status(200));",
                     "pm.test('[SETUP] five products',()=>pm.expect(jsonBody()).to.be.an('array').with.length(5));"
                   ],
-                  "_lastExecutionId": "6e67b25e-ec85-44ba-9e39-530a5e2d567d"
+                  "_lastExecutionId": "d5bf6ec7-d832-469f-9151-beeddbd32c0d"
                 }
               }
             ]
           },
           {
-            "id": "baf80a32-4b35-4bfb-b7c3-ec3044d31ee4",
+            "id": "ed3bb2f0-6b94-4f9e-ba48-09c1e6ac37cf",
             "name": "[SETUP] Register disposable lock user",
             "request": {
               "url": {
@@ -81,18 +81,18 @@
               {
                 "listen": "prerequest",
                 "script": {
-                  "id": "d3908386-0c91-49d6-a940-46e1717808e7",
+                  "id": "5202a3c5-ff00-4cd6-91bf-74f8ff10cec5",
                   "type": "text/javascript",
                   "exec": [
                     "pm.environment.set('lockUser','hw06_lock_'+Date.now()+'@test.local');"
                   ],
-                  "_lastExecutionId": "622c0010-871a-4419-9259-690bdd664ef6"
+                  "_lastExecutionId": "229345fb-c1a6-4e16-afc2-10f072992405"
                 }
               },
               {
                 "listen": "test",
                 "script": {
-                  "id": "e9dba932-bca2-467c-9587-444c52441b8d",
+                  "id": "0d179d60-dd40-441c-b163-b69884affeac",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -101,13 +101,13 @@
                     "pm.test('[SETUP] register 200',()=>pm.response.to.have.status(200));",
                     "pm.environment.set('lockUserId',String(jsonBody().id||''));"
                   ],
-                  "_lastExecutionId": "c9adf10e-4e44-4e94-9a6e-8dc72e62f4d2"
+                  "_lastExecutionId": "359c5b77-4470-4f19-a226-7e86d9f93895"
                 }
               }
             ]
           },
           {
-            "id": "21a2aa9e-5cdb-48cb-a51a-04ae2d97dbfa",
+            "id": "bc896f66-7060-48ce-89fb-c288d3b310a7",
             "name": "[SETUP] Login user",
             "request": {
               "url": {
@@ -143,7 +143,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "7f3cdf15-6e11-4a95-b438-3f79abaeb05e",
+                  "id": "42be6822-8cb7-4051-8076-5253fd1f5271",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -152,13 +152,13 @@
                     "pm.test('[SETUP] user login 200',()=>pm.response.to.have.status(200));",
                     "const d=jsonBody();pm.expect(d.token).to.be.a('string').and.not.empty;pm.environment.set('userToken',d.token);pm.environment.set('userId',String(d.user&&d.user.id||''));"
                   ],
-                  "_lastExecutionId": "38a1f2f2-f431-4bd7-9a2d-601d1d1bd969"
+                  "_lastExecutionId": "1d51273f-95c5-4bcc-a345-b1eb5988aa0a"
                 }
               }
             ]
           },
           {
-            "id": "096142e7-477a-4de2-9c15-d156ca63df89",
+            "id": "34f0e1a1-af63-47df-a804-f4f84985a100",
             "name": "[SETUP] Login admin",
             "request": {
               "url": {
@@ -194,7 +194,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "c2b4b20b-68b8-4e96-8287-890cec131132",
+                  "id": "983ae6f8-4935-460f-8422-b3e73dc9f414",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -203,13 +203,13 @@
                     "pm.test('[SETUP] admin login 200',()=>pm.response.to.have.status(200));",
                     "pm.environment.set('adminToken',jsonBody().token||'');"
                   ],
-                  "_lastExecutionId": "4bbd5e14-1cb8-4dda-bae1-0e019a9cc7df"
+                  "_lastExecutionId": "0c567940-e553-4640-8536-2cd3d985523b"
                 }
               }
             ]
           },
           {
-            "id": "6d6ed3c5-58e4-4ad3-9b1f-9f5bb4187d8b",
+            "id": "e3bad3c6-cb66-424e-937b-21e8100a24f4",
             "name": "[SETUP] Add product to cart",
             "request": {
               "url": {
@@ -249,7 +249,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "39f7e9c2-e5c2-48ea-b0b3-0afeaa286570",
+                  "id": "a1ea3eb4-1a00-488e-95f1-25be519d3c96",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -257,7 +257,7 @@
                     "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
                     "pm.test('[SETUP] add cart 200',()=>pm.response.to.have.status(200));"
                   ],
-                  "_lastExecutionId": "a3020db6-7c9f-4cf5-b98f-739e189b32f4"
+                  "_lastExecutionId": "75186282-8d21-492f-b34a-e12fd0f2ede6"
                 }
               }
             ]
@@ -266,11 +266,11 @@
         "event": []
       },
       {
-        "id": "eafa1a9e-8323-4cb1-aa1d-3d9d7255a3d9",
+        "id": "0e8bd833-6b58-48f5-86b2-1c2bac367d39",
         "name": "API-1 - POST /api/login",
         "item": [
           {
-            "id": "5f4a0507-44c8-4edc-96f7-9cb80b5f6f37",
+            "id": "11dfcaef-8044-4183-85af-566d56d3b715",
             "name": "TC-API-LOGIN-001 - valid credential",
             "request": {
               "url": {
@@ -306,7 +306,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "423a8252-5748-42d1-8861-79228e8fdbcc",
+                  "id": "0cef5753-ccd7-4fa1-a0f6-27717ab10980",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -320,7 +320,7 @@
             ]
           },
           {
-            "id": "4a26a7e9-78da-4666-89e2-7aff0bc62c8f",
+            "id": "e753d110-e661-4b23-88cf-cb6f2239c641",
             "name": "TC-API-LOGIN-004 - missing email",
             "request": {
               "url": {
@@ -356,7 +356,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "a9c573c3-3d8f-4442-b6e1-251d9507be13",
+                  "id": "a43624fc-b8b0-446a-813d-04dd747d6423",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -370,7 +370,7 @@
             ]
           },
           {
-            "id": "8b9de3c2-f2d0-49ee-a889-f126085c4fc0",
+            "id": "7dca962d-39b3-4841-9767-e524e9b40e54",
             "name": "TC-API-LOGIN-025 - SQL injection",
             "request": {
               "url": {
@@ -406,7 +406,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "a27bfaf9-42a8-4ffe-9de0-faf94b444fad",
+                  "id": "e2b8db25-dcff-4de3-a7f1-e289a279f194",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -420,7 +420,7 @@
             ]
           },
           {
-            "id": "23be0805-b113-42cb-88ef-fecbe98e4a79",
+            "id": "5f4705a2-584c-4cc2-92f4-e1030dc72b0b",
             "name": "TC-API-LOGIN-028 - no password leakage",
             "request": {
               "url": {
@@ -456,7 +456,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "9c65150f-c658-48ad-a702-294b476bd486",
+                  "id": "32243236-9a80-44a1-abc7-636c8d8d40a7",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -470,7 +470,7 @@
             ]
           },
           {
-            "id": "ef115cd8-607e-47e5-b4ff-33569670928e",
+            "id": "1b1fcda0-4107-46e7-9a90-74e085e224fe",
             "name": "TC-API-LOGIN-018 - two failures then correct",
             "request": {
               "url": {
@@ -506,7 +506,7 @@
               {
                 "listen": "prerequest",
                 "script": {
-                  "id": "d0da6efd-8ac9-435c-9659-bfe6da3afbe3",
+                  "id": "89582e6c-492d-4ad3-9a18-a39095ae46a3",
                   "type": "text/javascript",
                   "exec": [
                     "const h={'Content-Type':'application/json','X-Student-Id':pm.environment.get('student_id')};pm.sendRequest({url:pm.environment.get('base_url')+'/api/login',method:'POST',header:h,body:{mode:'raw',raw:JSON.stringify({email:pm.environment.get('lockUser'),password:'<redacted-wrong-password>'})}},function(){pm.sendRequest({url:pm.environment.get('base_url')+'/api/login',method:'POST',header:h,body:{mode:'raw',raw:JSON.stringify({email:pm.environment.get('lockUser'),password:'<redacted-wrong-password>'})}},function(){});});"
@@ -516,7 +516,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "686e5900-9d04-41e7-b3ff-dcfc34a9ee82",
+                  "id": "02849d42-8a2c-439a-bb5f-379d1f90036c",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -533,11 +533,11 @@
         "event": []
       },
       {
-        "id": "9529c873-6979-476d-9012-190add1b1760",
+        "id": "6cb5bf37-89b2-41f6-8d10-367d4042c68d",
         "name": "API-2 - POST /api/checkout",
         "item": [
           {
-            "id": "c702c561-7d29-44c2-bb3c-19fa132bfbf0",
+            "id": "5550d9ca-210e-4423-b5e6-a2b6d56d7b2f",
             "name": "TC-API-CHECKOUT-037 - client total probe",
             "request": {
               "url": {
@@ -577,7 +577,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "edf0b4ac-74da-480e-a214-322f0fa2deaf",
+                  "id": "af94ea49-4979-42ec-b483-0e8f8396673a",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -591,7 +591,7 @@
             ]
           },
           {
-            "id": "5bfdac9d-6584-4fcb-b03d-aa5f8ebcb192",
+            "id": "ba229a6f-91cf-4f9b-8609-8e7e41ffb2c2",
             "name": "TC-API-CHECKOUT-031 - IDOR probe",
             "request": {
               "url": {
@@ -613,7 +613,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "9e962753-0f7e-4db2-bccc-3430700d683e",
+                  "id": "5b302c81-da30-4338-9823-ae9f15a1f0be",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -627,7 +627,7 @@
             ]
           },
           {
-            "id": "391f2544-4daa-4337-83a9-72cfa89c1efe",
+            "id": "88324278-1c1e-4e6b-9856-74e6ced6ff14",
             "name": "TC-API-CHECKOUT-020 - cart post-condition",
             "request": {
               "url": {
@@ -654,7 +654,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "4641fca3-6f8b-4690-b7ff-65f03f7fb4ca",
+                  "id": "5d6ac384-ea8c-4f7b-8f9a-880951865142",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -668,7 +668,7 @@
             ]
           },
           {
-            "id": "07637b19-36c5-4773-8ae7-7d0417934c7a",
+            "id": "a5c4ef17-1db6-4881-9a69-0f74e94f74f2",
             "name": "TC-API-CHECKOUT-005 - zero total",
             "request": {
               "url": {
@@ -708,7 +708,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "8f5aa83d-a461-40f0-b8e3-fa4a54e7a0c0",
+                  "id": "41e81926-07f0-4ef7-9d2d-2e61353c494b",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -725,11 +725,11 @@
         "event": []
       },
       {
-        "id": "6e6033a1-dd7e-4b34-a9b1-113d667933d1",
+        "id": "2a8f7942-e47a-4cbd-8a4b-ae731f7cdcf7",
         "name": "API-3 - PUT /api/admin/orders/:id/status",
         "item": [
           {
-            "id": "cbda711b-60e8-4902-a5cb-d5107d746d99",
+            "id": "39958205-8888-4260-895c-ae4d22434d33",
             "name": "TC-API-ORDER-STATUS-002 - pending to confirmed",
             "request": {
               "url": {
@@ -772,7 +772,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "5cfc7e36-abf0-4329-ade3-2c51e8f973d5",
+                  "id": "83a45ce4-5dda-41aa-9db8-c005f1674ad3",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -785,7 +785,7 @@
             ]
           },
           {
-            "id": "298248ce-2954-4824-bdff-9e59107cd2ca",
+            "id": "863963c6-b14d-44ae-8ae1-b1b1a5acc8ab",
             "name": "TC-API-ORDER-STATUS-033 - role escalation",
             "request": {
               "url": {
@@ -828,7 +828,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "fe427838-239c-4853-b2c8-55045e7d5a18",
+                  "id": "91d512eb-9beb-4d09-a835-3ad4ae73409c",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -842,7 +842,7 @@
             ]
           },
           {
-            "id": "d47a742c-b2ef-44ad-ab30-05ec3155c453",
+            "id": "ffb700cb-e6f2-4094-b9f1-d77c8f4b5e72",
             "name": "TC-API-ORDER-STATUS-024 - canceled terminal",
             "request": {
               "url": {
@@ -885,7 +885,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "76e77dcb-15ce-4d64-93de-b3935b235bda",
+                  "id": "0fd7482b-6458-43bd-81f8-fd2d14c61d52",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -902,11 +902,11 @@
         "event": []
       },
       {
-        "id": "ab3d687d-9fef-4305-988c-72a77cd41046",
+        "id": "eec00a94-aaf8-4e00-bdc5-df749e08de0a",
         "name": "1.1 Domain partitions [DDT]",
         "item": [
           {
-            "id": "f45abc08-d161-42f8-a805-f57b736bae65",
+            "id": "b14f11e8-d809-4a52-b733-4da000eb691d",
             "name": "[DDT] login partitions",
             "request": {
               "url": {
@@ -942,7 +942,7 @@
               {
                 "listen": "prerequest",
                 "script": {
-                  "id": "2329a743-39d9-498f-bf4d-bfc515019ead",
+                  "id": "dc8adc85-92c2-4ec9-b7d5-c79715182521",
                   "type": "text/javascript",
                   "exec": [
                     "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
@@ -952,7 +952,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "165e3d92-a3df-4e45-aab9-bc78cfba94b7",
+                  "id": "10b82610-11dd-44da-94bd-29175961e593",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -969,11 +969,11 @@
         "event": []
       },
       {
-        "id": "cccf6b17-4490-4861-bbd6-9d9251f43890",
+        "id": "db54762f-2d53-4af8-a334-0c2d8b3f9427",
         "name": "2.1 Domain partitions [DDT]",
         "item": [
           {
-            "id": "ea15c2af-69c7-4ce5-881f-872bf21cfb23",
+            "id": "59573026-50aa-4d35-8005-bca5a9745f82",
             "name": "[DDT] checkout partitions",
             "request": {
               "url": {
@@ -1013,7 +1013,7 @@
               {
                 "listen": "prerequest",
                 "script": {
-                  "id": "14ad7350-795a-4008-936b-864e130ec407",
+                  "id": "e0a712d3-8a5b-4e00-b1ce-21e3bf4ba714",
                   "type": "text/javascript",
                   "exec": [
                     "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
@@ -1023,7 +1023,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "c872ba75-3b1f-4d61-a01c-adb45aeec76b",
+                  "id": "538bea5f-42b8-4119-b272-9726d79b8052",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -1040,11 +1040,11 @@
         "event": []
       },
       {
-        "id": "8fad8929-4ba4-4764-894f-acaf6040e980",
+        "id": "485c25b9-7cad-4fc8-80f4-c0d76e9f8a60",
         "name": "3.1 Transition matrix [DDT]",
         "item": [
           {
-            "id": "e3ce63b9-6be5-4ba9-8342-7e9c7b4508bc",
+            "id": "7974a066-d5a7-4e0d-86e6-33a502769c5f",
             "name": "[DDT] transition matrix",
             "request": {
               "url": {
@@ -1087,7 +1087,7 @@
               {
                 "listen": "prerequest",
                 "script": {
-                  "id": "c7ce1abe-aaec-4f0e-8d08-1e9c2ee0bbb3",
+                  "id": "a977df7a-6ef9-4ffd-aa1b-38c520c1cd58",
                   "type": "text/javascript",
                   "exec": [
                     "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
@@ -1097,7 +1097,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "290183e3-de0c-4734-9f46-7c41fb8e22fa",
+                  "id": "bbc37e8d-6aaf-41f7-94f2-00e46443eac9",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -1118,14 +1118,14 @@
       {
         "listen": "prerequest",
         "script": {
-          "id": "ae4f3e82-49a3-4019-9b9e-2ab8e2b1f477",
+          "id": "b8aa8e35-0954-4d19-aa68-a8ca74ba65a7",
           "type": "text/javascript",
           "exec": [
             "const sid=pm.environment.get('student_id')||'23127207';",
             "pm.request.headers.upsert({key:'X-Student-Id',value:sid});",
             "console.log('[HW06] '+pm.info.requestName+' | X-Student-Id: '+sid+' | '+pm.request.method+' '+pm.request.url.toString());"
           ],
-          "_lastExecutionId": "f710c49f-7792-46b2-9eea-8f19cdfd24ea"
+          "_lastExecutionId": "14c595ae-a4e6-4b22-992d-cb93e64ff86c"
         }
       }
     ],
@@ -1199,7 +1199,7 @@
       },
       {
         "type": "any",
-        "value": "hw06_lock_1787112318598@test.local",
+        "value": "hw06_lock_1787113019035@test.local",
         "key": "lockUser"
       },
       {
@@ -1215,7 +1215,7 @@
     ]
   },
   "globals": {
-    "id": "45e9859b-e359-40f7-a243-0b881cb1f162",
+    "id": "e5fbea4d-8c5c-4ba6-80ed-b0b04ee61f69",
     "values": []
   },
   "run": {
@@ -1267,10 +1267,10 @@
       }
     },
     "timings": {
-      "responseAverage": 26.4,
+      "responseAverage": 22.8,
       "responseMin": 7,
-      "responseMax": 52,
-      "responseSd": 19.622436138257655,
+      "responseMax": 44,
+      "responseSd": 15.380507143784303,
       "dnsAverage": 0,
       "dnsMin": 0,
       "dnsMax": 0,
@@ -1279,8 +1279,8 @@
       "firstByteMin": 0,
       "firstByteMax": 0,
       "firstByteSd": 0,
-      "started": 1787112318447,
-      "completed": 1787112318987
+      "started": 1787113018886,
+      "completed": 1787113019429
     },
     "executions": [
       {
@@ -1293,11 +1293,11 @@
           "eof": false,
           "bof": true,
           "cr": false,
-          "ref": "776e4ae5-ab74-42f7-9dc4-96d8ede6c811",
-          "httpRequestId": "1bfdc09c-9300-4ae5-91e4-b7e7149c824e"
+          "ref": "f7ecc2bd-501f-4f38-98d8-140542863a50",
+          "httpRequestId": "583a95d5-f333-476b-b5c8-9ba3e1010aa8"
         },
         "item": {
-          "id": "f1db5ea5-f4a3-4ea5-aaab-4e7069dba8ad",
+          "id": "bb341266-a7be-4bce-954d-0334611f130b",
           "name": "[SETUP] Health check",
           "request": {
             "url": {
@@ -1318,7 +1318,7 @@
             {
               "listen": "test",
               "script": {
-                "id": "c0419262-27e1-4df8-9bff-54d67dfb6116",
+                "id": "a53a5913-2431-460d-beb3-09c4473516e7",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -1327,7 +1327,7 @@
                   "pm.test('[SETUP] health 200',()=>pm.response.to.have.status(200));",
                   "pm.test('[SETUP] five products',()=>pm.expect(jsonBody()).to.be.an('array').with.length(5));"
                 ],
-                "_lastExecutionId": "6e67b25e-ec85-44ba-9e39-530a5e2d567d"
+                "_lastExecutionId": "d5bf6ec7-d832-469f-9151-beeddbd32c0d"
               }
             }
           ]
@@ -1371,7 +1371,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "72a49b3f-c4a7-4da7-94ec-3904203b6191",
+              "value": "1fec53a7-0ad3-42f5-b6ce-067589a54788",
               "system": true
             },
             {
@@ -1393,7 +1393,7 @@
           "method": "GET"
         },
         "response": {
-          "id": "0a76a0cc-095f-4fc8-8124-1c485fee9f6b",
+          "id": "e671791e-309e-447d-ad67-53ed62d26c7c",
           "status": "OK",
           "code": 200,
           "header": [
@@ -1419,7 +1419,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:18 GMT"
+              "value": "Wed, 19 Aug 2026 04:16:58 GMT"
             },
             {
               "key": "Connection",
@@ -2405,10 +2405,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 48,
+          "responseTime": 38,
           "responseSize": 969
         },
-        "id": "f1db5ea5-f4a3-4ea5-aaab-4e7069dba8ad",
+        "id": "bb341266-a7be-4bce-954d-0334611f130b",
         "assertions": [
           {
             "assertion": "[SETUP] health 200",
@@ -2422,15 +2422,15 @@
       },
       {
         "cursor": {
-          "ref": "8a126172-ab57-4d8b-b4a0-ed7a69f7c10e",
+          "ref": "fe915604-31eb-4e56-a3c7-17de16a5abb0",
           "length": 5,
           "cycles": 1,
           "position": 1,
           "iteration": 0,
-          "httpRequestId": "13339fb6-079e-4ea4-8e82-da4148a7ec21"
+          "httpRequestId": "30d02491-69a1-4f63-b2aa-0bc6f38c785b"
         },
         "item": {
-          "id": "baf80a32-4b35-4bfb-b7c3-ec3044d31ee4",
+          "id": "ed3bb2f0-6b94-4f9e-ba48-09c1e6ac37cf",
           "name": "[SETUP] Register disposable lock user",
           "request": {
             "url": {
@@ -2466,18 +2466,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "d3908386-0c91-49d6-a940-46e1717808e7",
+                "id": "5202a3c5-ff00-4cd6-91bf-74f8ff10cec5",
                 "type": "text/javascript",
                 "exec": [
                   "pm.environment.set('lockUser','hw06_lock_'+Date.now()+'@test.local');"
                 ],
-                "_lastExecutionId": "622c0010-871a-4419-9259-690bdd664ef6"
+                "_lastExecutionId": "229345fb-c1a6-4e16-afc2-10f072992405"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "e9dba932-bca2-467c-9587-444c52441b8d",
+                "id": "0d179d60-dd40-441c-b163-b69884affeac",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -2486,7 +2486,7 @@
                   "pm.test('[SETUP] register 200',()=>pm.response.to.have.status(200));",
                   "pm.environment.set('lockUserId',String(jsonBody().id||''));"
                 ],
-                "_lastExecutionId": "c9adf10e-4e44-4e94-9a6e-8dc72e62f4d2"
+                "_lastExecutionId": "359c5b77-4470-4f19-a226-7e86d9f93895"
               }
             }
           ]
@@ -2534,7 +2534,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "5b744243-2dee-4636-ac67-8a0fe227f083",
+              "value": "3b7cb980-b62f-459e-bb02-4cd1f54bb77e",
               "system": true
             },
             {
@@ -2561,7 +2561,7 @@
           "method": "POST",
           "body": {
             "mode": "raw",
-            "raw": "{\"name\": \"HW06 Lock User\", \"email\": \"hw06_lock_1787112318598@test.local\", \"password\": \"<redacted-lock-password>\"}",
+            "raw": "{\"name\": \"HW06 Lock User\", \"email\": \"hw06_lock_1787113019035@test.local\", \"password\": \"<redacted-lock-password>\"}",
             "options": {
               "raw": {
                 "language": "json"
@@ -2570,7 +2570,7 @@
           }
         },
         "response": {
-          "id": "27c35778-5e89-4e38-b62a-38983852f101",
+          "id": "2e87ca66-7056-403b-879d-960b3078d1eb",
           "status": "OK",
           "code": 200,
           "header": [
@@ -2596,7 +2596,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:18 GMT"
+              "value": "Wed, 19 Aug 2026 04:16:59 GMT"
             },
             {
               "key": "Connection",
@@ -2662,10 +2662,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 52,
+          "responseTime": 44,
           "responseSize": 49
         },
-        "id": "baf80a32-4b35-4bfb-b7c3-ec3044d31ee4",
+        "id": "ed3bb2f0-6b94-4f9e-ba48-09c1e6ac37cf",
         "assertions": [
           {
             "assertion": "[SETUP] register 200",
@@ -2675,15 +2675,15 @@
       },
       {
         "cursor": {
-          "ref": "4d8806e1-d27d-47da-b45a-a72937c7b39a",
+          "ref": "3ed648b9-7cff-48e7-997c-df1e6aeabd29",
           "length": 5,
           "cycles": 1,
           "position": 2,
           "iteration": 0,
-          "httpRequestId": "97d0b165-e669-431d-896b-fc4070908830"
+          "httpRequestId": "35cb7a8b-e992-497f-8257-339bc14ab59d"
         },
         "item": {
-          "id": "21a2aa9e-5cdb-48cb-a51a-04ae2d97dbfa",
+          "id": "bc896f66-7060-48ce-89fb-c288d3b310a7",
           "name": "[SETUP] Login user",
           "request": {
             "url": {
@@ -2719,7 +2719,7 @@
             {
               "listen": "test",
               "script": {
-                "id": "7f3cdf15-6e11-4a95-b438-3f79abaeb05e",
+                "id": "42be6822-8cb7-4051-8076-5253fd1f5271",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -2728,7 +2728,7 @@
                   "pm.test('[SETUP] user login 200',()=>pm.response.to.have.status(200));",
                   "const d=jsonBody();pm.expect(d.token).to.be.a('string').and.not.empty;pm.environment.set('userToken',d.token);pm.environment.set('userId',String(d.user&&d.user.id||''));"
                 ],
-                "_lastExecutionId": "38a1f2f2-f431-4bd7-9a2d-601d1d1bd969"
+                "_lastExecutionId": "1d51273f-95c5-4bcc-a345-b1eb5988aa0a"
               }
             }
           ]
@@ -2776,7 +2776,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "a246e460-d019-41a9-a449-2db4208e68c3",
+              "value": "84570067-41ec-4aeb-9ab5-14a45c525988",
               "system": true
             },
             {
@@ -2812,7 +2812,7 @@
           }
         },
         "response": {
-          "id": "bda0a8ef-6c72-4535-b0a5-b1059e788639",
+          "id": "1b4d2386-ab8d-4b42-909b-7e95d18834eb",
           "status": "OK",
           "code": 200,
           "header": [
@@ -2834,11 +2834,11 @@
             },
             {
               "key": "ETag",
-              "value": "W/\"16e-J5c9/YSj/JOwrpDg0LeKdzMmLcg\""
+              "value": "W/\"16e-jSCNpHc2g8JhA+RzeCjdCt30JJc\""
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:18 GMT"
+              "value": "Wed, 19 Aug 2026 04:16:59 GMT"
             },
             {
               "key": "Connection",
@@ -2974,56 +2974,56 @@
               120,
               77,
               84,
-              73,
-              122,
+              77,
+              119,
               77,
               84,
-              104,
+              108,
               57,
               46,
-              118,
-              104,
               113,
-              66,
-              70,
-              68,
-              120,
-              56,
-              97,
-              85,
-              88,
-              83,
-              67,
-              88,
-              101,
-              111,
-              101,
-              105,
-              98,
-              110,
-              73,
               90,
-              97,
-              116,
-              112,
-              78,
-              83,
-              115,
-              75,
-              81,
-              56,
-              116,
-              72,
-              87,
-              82,
-              95,
-              51,
-              98,
-              113,
-              80,
+              117,
+              109,
+              86,
+              100,
               114,
-              54,
+              86,
+              70,
+              45,
+              113,
+              89,
+              79,
+              116,
+              88,
+              101,
+              106,
+              107,
+              75,
+              112,
+              76,
+              48,
+              55,
+              72,
+              88,
+              70,
+              80,
+              45,
               111,
+              56,
+              103,
+              89,
+              82,
+              70,
+              107,
+              65,
+              50,
+              87,
+              97,
+              83,
+              78,
+              105,
+              73,
               34,
               44,
               34,
@@ -3224,7 +3224,7 @@
           "responseTime": 17,
           "responseSize": 366
         },
-        "id": "21a2aa9e-5cdb-48cb-a51a-04ae2d97dbfa",
+        "id": "bc896f66-7060-48ce-89fb-c288d3b310a7",
         "assertions": [
           {
             "assertion": "[SETUP] user login 200",
@@ -3234,15 +3234,15 @@
       },
       {
         "cursor": {
-          "ref": "b0110a6b-0eac-44ca-81d8-fb4928468809",
+          "ref": "5ce422c8-9156-41ec-b1d5-6c222501a0dd",
           "length": 5,
           "cycles": 1,
           "position": 3,
           "iteration": 0,
-          "httpRequestId": "7e5a8960-2c21-46c4-b126-a8ca10d689c0"
+          "httpRequestId": "77bfbf10-7931-4c11-9d43-db7557675b8e"
         },
         "item": {
-          "id": "096142e7-477a-4de2-9c15-d156ca63df89",
+          "id": "34f0e1a1-af63-47df-a804-f4f84985a100",
           "name": "[SETUP] Login admin",
           "request": {
             "url": {
@@ -3278,7 +3278,7 @@
             {
               "listen": "test",
               "script": {
-                "id": "c2b4b20b-68b8-4e96-8287-890cec131132",
+                "id": "983ae6f8-4935-460f-8422-b3e73dc9f414",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -3287,7 +3287,7 @@
                   "pm.test('[SETUP] admin login 200',()=>pm.response.to.have.status(200));",
                   "pm.environment.set('adminToken',jsonBody().token||'');"
                 ],
-                "_lastExecutionId": "4bbd5e14-1cb8-4dda-bae1-0e019a9cc7df"
+                "_lastExecutionId": "0c567940-e553-4640-8536-2cd3d985523b"
               }
             }
           ]
@@ -3335,7 +3335,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "c4231fc0-e837-4f00-983b-9aff0585c29b",
+              "value": "d4e4a098-7b3d-4f82-b016-808ac4a59002",
               "system": true
             },
             {
@@ -3371,7 +3371,7 @@
           }
         },
         "response": {
-          "id": "24c6f4ca-9376-471a-be18-084261124fdc",
+          "id": "8aab691a-1b78-45e2-a563-8cdd43b279d6",
           "status": "OK",
           "code": 200,
           "header": [
@@ -3393,11 +3393,11 @@
             },
             {
               "key": "ETag",
-              "value": "W/\"173-5X0DymcE9EIzMZrYlsSH53+Ssj4\""
+              "value": "W/\"173-CBLi69VVzHkNw1/YcJQnvMZwII0\""
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:18 GMT"
+              "value": "Wed, 19 Aug 2026 04:16:59 GMT"
             },
             {
               "key": "Connection",
@@ -3534,57 +3534,57 @@
               77,
               84,
               69,
-              121,
-              77,
               122,
+              77,
+              68,
               69,
-              52,
+              53,
               102,
               81,
               46,
-              66,
-              121,
-              121,
-              90,
-              45,
-              45,
-              95,
-              114,
-              87,
-              45,
-              80,
-              70,
-              72,
-              69,
-              115,
-              101,
-              84,
-              111,
-              101,
-              95,
-              75,
-              84,
-              112,
-              70,
-              72,
-              55,
-              109,
-              88,
               99,
-              48,
-              112,
-              88,
+              99,
+              100,
+              72,
+              86,
+              95,
+              73,
+              76,
+              67,
+              109,
+              80,
+              119,
+              111,
+              57,
+              50,
+              57,
+              95,
+              110,
               70,
+              77,
+              54,
+              100,
               53,
-              69,
-              101,
-              105,
-              117,
-              106,
-              106,
-              45,
-              56,
+              121,
               107,
+              118,
+              71,
+              103,
+              115,
+              71,
+              52,
+              82,
+              49,
+              117,
+              122,
+              87,
+              101,
+              52,
+              101,
+              110,
+              67,
+              102,
+              48,
               34,
               44,
               34,
@@ -3788,7 +3788,7 @@
           "responseTime": 7,
           "responseSize": 371
         },
-        "id": "096142e7-477a-4de2-9c15-d156ca63df89",
+        "id": "34f0e1a1-af63-47df-a804-f4f84985a100",
         "assertions": [
           {
             "assertion": "[SETUP] admin login 200",
@@ -3798,15 +3798,15 @@
       },
       {
         "cursor": {
-          "ref": "3a3856c0-31ea-4f02-80b2-80af6f67ea16",
+          "ref": "68bada80-48ec-4aed-baac-c8964471fc04",
           "length": 5,
           "cycles": 1,
           "position": 4,
           "iteration": 0,
-          "httpRequestId": "e1c0098c-008c-40de-8e67-c194d6857191"
+          "httpRequestId": "f346c90d-110f-458b-8cb7-fea20c6db7f0"
         },
         "item": {
-          "id": "6d6ed3c5-58e4-4ad3-9b1f-9f5bb4187d8b",
+          "id": "e3bad3c6-cb66-424e-937b-21e8100a24f4",
           "name": "[SETUP] Add product to cart",
           "request": {
             "url": {
@@ -3846,7 +3846,7 @@
             {
               "listen": "test",
               "script": {
-                "id": "39f7e9c2-e5c2-48ea-b0b3-0afeaa286570",
+                "id": "a1ea3eb4-1a00-488e-95f1-25be519d3c96",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -3854,7 +3854,7 @@
                   "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
                   "pm.test('[SETUP] add cart 200',()=>pm.response.to.have.status(200));"
                 ],
-                "_lastExecutionId": "a3020db6-7c9f-4cf5-b98f-739e189b32f4"
+                "_lastExecutionId": "75186282-8d21-492f-b34a-e12fd0f2ede6"
               }
             }
           ]
@@ -3906,7 +3906,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "d7f5cc3a-091f-4b1d-be27-9b33f7a808ee",
+              "value": "55301d71-9a72-469a-9282-329d4a15f27d",
               "system": true
             },
             {
@@ -3942,7 +3942,7 @@
           }
         },
         "response": {
-          "id": "a87a34a2-ecd0-4ccf-b90d-898b91763aef",
+          "id": "57feea78-043e-48c4-9c61-cafeaa41bc39",
           "status": "OK",
           "code": 200,
           "header": [
@@ -3968,7 +3968,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:18 GMT"
+              "value": "Wed, 19 Aug 2026 04:16:59 GMT"
             },
             {
               "key": "Connection",
@@ -4015,7 +4015,7 @@
           "responseTime": 8,
           "responseSize": 27
         },
-        "id": "6d6ed3c5-58e4-4ad3-9b1f-9f5bb4187d8b",
+        "id": "e3bad3c6-cb66-424e-937b-21e8100a24f4",
         "assertions": [
           {
             "assertion": "[SETUP] add cart 200",

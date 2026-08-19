@@ -5,11 +5,11 @@
     },
     "item": [
       {
-        "id": "d59f64a6-99c8-44e4-a104-977a3613f204",
+        "id": "473b455a-9d80-46f8-a3aa-7215adf6b80a",
         "name": "00 - Setup",
         "item": [
           {
-            "id": "b2505703-7517-4cda-ac2f-5e632e734edd",
+            "id": "211d8ff6-c242-4b8b-9b92-d701df299071",
             "name": "[SETUP] Health check",
             "request": {
               "url": {
@@ -30,7 +30,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "7acef247-dcec-4ed2-833a-b704aa0bad28",
+                  "id": "33f70ea6-640e-4c52-8f4c-cb4cee29ad82",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -44,7 +44,7 @@
             ]
           },
           {
-            "id": "8fc36887-b805-4a3c-b101-3231df265b7c",
+            "id": "6e7a6c35-c85c-4337-a778-790f06e96315",
             "name": "[SETUP] Register disposable lock user",
             "request": {
               "url": {
@@ -80,7 +80,7 @@
               {
                 "listen": "prerequest",
                 "script": {
-                  "id": "54b3c6ee-ab99-4565-b253-22a178830aea",
+                  "id": "ae53cc4e-a570-433c-a31e-cf7ccb6e2d59",
                   "type": "text/javascript",
                   "exec": [
                     "pm.environment.set('lockUser','hw06_lock_'+Date.now()+'@test.local');"
@@ -90,7 +90,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "e1ca2a79-8d4f-4535-9d20-37a3c684b84c",
+                  "id": "2637c979-61a9-40fc-bdff-4b126feb4b36",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -104,7 +104,7 @@
             ]
           },
           {
-            "id": "03bf1c1b-2fb3-4498-abe9-5bc59296779c",
+            "id": "6afb5599-d1bb-4a84-be6a-7a3131f2fe74",
             "name": "[SETUP] Login user",
             "request": {
               "url": {
@@ -140,7 +140,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "c32c2720-6fc0-4069-b74e-0fa900796d25",
+                  "id": "aa71c2b4-e04f-413f-bf52-043d88cd7037",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -154,7 +154,7 @@
             ]
           },
           {
-            "id": "63795688-6649-4f15-9541-ec7ed7df1a14",
+            "id": "2ed4fa87-4d27-476c-b36f-6ffbccf040b1",
             "name": "[SETUP] Login admin",
             "request": {
               "url": {
@@ -190,7 +190,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "b9b27793-e209-45d6-96d7-932e21901cca",
+                  "id": "da58570f-246c-409b-a55a-4f001c3ee794",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -204,7 +204,7 @@
             ]
           },
           {
-            "id": "22054810-7c48-4b73-a1a9-91878a4beeba",
+            "id": "70725b3e-e1ac-4ae7-ba1e-afda9948f080",
             "name": "[SETUP] Add product to cart",
             "request": {
               "url": {
@@ -244,7 +244,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "71351e03-eced-46f2-9f6c-dbfa9132ab72",
+                  "id": "9ee47e04-9225-40f1-9bbc-779f4c6c3e6e",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -260,11 +260,11 @@
         "event": []
       },
       {
-        "id": "74aa2b72-dd22-4ab9-9588-9eea5a4ec87c",
+        "id": "ea5a9c37-693c-45f3-8211-3e265b7ef95b",
         "name": "API-1 - POST /api/login",
         "item": [
           {
-            "id": "2aaa74d7-0f21-4b4e-b095-9ec54b99aa1c",
+            "id": "32e59c65-6d7c-4024-b114-0438a4c1b244",
             "name": "TC-API-LOGIN-001 - valid credential",
             "request": {
               "url": {
@@ -300,7 +300,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "ef71499a-12b8-4398-82fb-36d01355be1a",
+                  "id": "93b1a450-96d0-41dd-90e3-5b3bc089da7c",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -314,7 +314,7 @@
             ]
           },
           {
-            "id": "5f26d211-71a8-4996-948a-672e2d9f5b04",
+            "id": "c724b1e3-ecbf-49e0-81f8-0c0755ca2365",
             "name": "TC-API-LOGIN-004 - missing email",
             "request": {
               "url": {
@@ -350,7 +350,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "dd220816-0bff-471c-886d-ae7afc5619c9",
+                  "id": "4a28998a-e957-4a23-85b3-cf575dd1a342",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -364,7 +364,7 @@
             ]
           },
           {
-            "id": "96437df7-41c9-4add-817a-ca20263681d0",
+            "id": "1aa78b84-baa1-4883-b517-61f9a3af15cf",
             "name": "TC-API-LOGIN-025 - SQL injection",
             "request": {
               "url": {
@@ -400,7 +400,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "7298e8a3-225f-406a-b8ba-a8dde3871580",
+                  "id": "8c8eba48-4100-4ac4-96b8-272737a91b63",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -414,7 +414,7 @@
             ]
           },
           {
-            "id": "0680e54e-3e90-4428-9546-1fb0eba96f1b",
+            "id": "fb05d301-4749-460d-8085-7656cad49798",
             "name": "TC-API-LOGIN-028 - no password leakage",
             "request": {
               "url": {
@@ -450,7 +450,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "6f48005a-5682-48cb-a03f-8ffa8c752937",
+                  "id": "04db6453-af11-42dd-a1ee-5bc8f43f99d4",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -464,7 +464,7 @@
             ]
           },
           {
-            "id": "0f9dc8f4-dbc9-4e0b-9675-ccd2c0224fad",
+            "id": "0d2c752e-732f-4656-8e23-dab16912872d",
             "name": "TC-API-LOGIN-018 - two failures then correct",
             "request": {
               "url": {
@@ -500,7 +500,7 @@
               {
                 "listen": "prerequest",
                 "script": {
-                  "id": "7e253d5b-b3a6-4aea-9197-bb8cd66d9812",
+                  "id": "29126478-6f96-446a-9b57-29e33fe61990",
                   "type": "text/javascript",
                   "exec": [
                     "const h={'Content-Type':'application/json','X-Student-Id':pm.environment.get('student_id')};pm.sendRequest({url:pm.environment.get('base_url')+'/api/login',method:'POST',header:h,body:{mode:'raw',raw:JSON.stringify({email:pm.environment.get('lockUser'),password:'<redacted-wrong-password>'})}},function(){pm.sendRequest({url:pm.environment.get('base_url')+'/api/login',method:'POST',header:h,body:{mode:'raw',raw:JSON.stringify({email:pm.environment.get('lockUser'),password:'<redacted-wrong-password>'})}},function(){});});"
@@ -510,7 +510,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "ac9202b4-4d31-4b32-b5e9-c5310b09f44a",
+                  "id": "702c1a0e-c4fa-4d7b-91ac-9e6b332b71c3",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -527,11 +527,11 @@
         "event": []
       },
       {
-        "id": "b1263645-682f-4553-8753-1b9d16e7e51f",
+        "id": "63dec905-311c-425c-8235-bde9f99dc597",
         "name": "API-2 - POST /api/checkout",
         "item": [
           {
-            "id": "c7188f2e-bd91-4291-b28e-102dd6e62000",
+            "id": "4245757a-4c4f-4325-bd0c-9e3b9355adaf",
             "name": "TC-API-CHECKOUT-037 - client total probe",
             "request": {
               "url": {
@@ -571,7 +571,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "3526a97c-0c58-4587-917d-b327f7b2b8b2",
+                  "id": "7b7d2bd0-3a95-4bc2-9248-6ce3d1231322",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -585,7 +585,7 @@
             ]
           },
           {
-            "id": "11345a6c-251b-4ac0-b424-713778ffceb7",
+            "id": "26ed5e64-628b-459b-8c61-244a759ab22e",
             "name": "TC-API-CHECKOUT-031 - IDOR probe",
             "request": {
               "url": {
@@ -607,7 +607,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "4e6e19de-1ad1-4aff-923d-27ae968ea485",
+                  "id": "8a16229c-319b-4e80-bccb-4ab3d44e9c44",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -621,7 +621,7 @@
             ]
           },
           {
-            "id": "e1ccd758-b351-4106-9fe2-e38ba185ed44",
+            "id": "df04f8aa-ca90-40f9-8e59-84ec1430723f",
             "name": "TC-API-CHECKOUT-020 - cart post-condition",
             "request": {
               "url": {
@@ -648,7 +648,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "5a50bf05-b52c-4953-878f-543db701adf6",
+                  "id": "5b532961-6110-4a1d-866e-6f66fc7f18f5",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -662,7 +662,7 @@
             ]
           },
           {
-            "id": "7790ecf5-142a-4013-b40e-e26eeb985a0e",
+            "id": "e6dfeed8-ef8b-491d-88af-bdd644209e16",
             "name": "TC-API-CHECKOUT-005 - zero total",
             "request": {
               "url": {
@@ -702,7 +702,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "f38972f1-bb8e-46e2-b646-c3133853b36e",
+                  "id": "4b6bb1b0-ab71-4510-9078-e731e64c114a",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -719,11 +719,11 @@
         "event": []
       },
       {
-        "id": "4e3ca343-38ea-4bc0-969c-a8acd6c424e8",
+        "id": "52a4ccf7-221c-4712-8af9-e4b0f7c2dbe0",
         "name": "API-3 - PUT /api/admin/orders/:id/status",
         "item": [
           {
-            "id": "ac3df57d-8b36-42cb-b3c9-f5ffc8dc95f9",
+            "id": "4110771b-0b21-4678-87ef-02b6b9587595",
             "name": "TC-API-ORDER-STATUS-002 - pending to confirmed",
             "request": {
               "url": {
@@ -766,7 +766,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "5d338788-7f3e-4f29-bf7e-615684b83116",
+                  "id": "5a039168-3f09-43c8-b07b-31c042c8cb74",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -779,7 +779,7 @@
             ]
           },
           {
-            "id": "c3cc6268-5563-4add-b3b2-95a7d0de1058",
+            "id": "a6427dda-d823-4bac-a989-0a9fd587706a",
             "name": "TC-API-ORDER-STATUS-033 - role escalation",
             "request": {
               "url": {
@@ -822,7 +822,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "a99e5c04-1873-45a1-8ced-06eff8faba62",
+                  "id": "49873618-ac1f-4cef-8a6e-567a5eb17d38",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -836,7 +836,7 @@
             ]
           },
           {
-            "id": "b2cac41d-dca7-4179-a138-80638bb69490",
+            "id": "f0457291-b87a-462a-96a8-a144c9f14997",
             "name": "TC-API-ORDER-STATUS-024 - canceled terminal",
             "request": {
               "url": {
@@ -879,7 +879,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "3c496c6c-c000-4752-ad83-1fb7580f5aa2",
+                  "id": "64d10bef-70d1-4f4a-a56e-dc350062abc0",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -896,11 +896,11 @@
         "event": []
       },
       {
-        "id": "463b0668-0bac-42d3-b9fd-572ec78ae9c4",
+        "id": "fe7797cf-0a22-4753-b05a-708d8aed8de9",
         "name": "1.1 Domain partitions [DDT]",
         "item": [
           {
-            "id": "16dae823-148d-4bb8-9a69-4ca0c079127d",
+            "id": "176c0f2b-97eb-436a-b6ea-3870bb099c04",
             "name": "[DDT] login partitions",
             "request": {
               "url": {
@@ -936,7 +936,7 @@
               {
                 "listen": "prerequest",
                 "script": {
-                  "id": "28f4e21f-5404-4ff4-9fa2-094ea1d7b4f8",
+                  "id": "8c765c80-af22-46a4-a10f-86cd7d64328c",
                   "type": "text/javascript",
                   "exec": [
                     "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
@@ -946,7 +946,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "5ee11894-63ff-4f97-b2e2-456c6f18e819",
+                  "id": "0198844c-7844-45ae-b9f9-9cc24451ad19",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -963,11 +963,11 @@
         "event": []
       },
       {
-        "id": "41a55168-6289-4f9d-93cc-dbf29c1409ac",
+        "id": "7a6feb01-83f4-4aff-9809-512fbc64d805",
         "name": "2.1 Domain partitions [DDT]",
         "item": [
           {
-            "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+            "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
             "name": "[DDT] checkout partitions",
             "request": {
               "url": {
@@ -1007,18 +1007,18 @@
               {
                 "listen": "prerequest",
                 "script": {
-                  "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                  "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                   "type": "text/javascript",
                   "exec": [
                     "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                   ],
-                  "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                  "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
                 }
               },
               {
                 "listen": "test",
                 "script": {
-                  "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                  "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -1027,7 +1027,7 @@
                     "if(!pm.iterationData.get('tc_id'))return;",
                     "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                   ],
-                  "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                  "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
                 }
               }
             ]
@@ -1036,11 +1036,11 @@
         "event": []
       },
       {
-        "id": "2a592ee2-99e2-4ebe-92bf-1ae78ca627c6",
+        "id": "c1fa356c-b705-4e09-9d58-eb734f3edd12",
         "name": "3.1 Transition matrix [DDT]",
         "item": [
           {
-            "id": "70268c90-b426-4b1e-8aff-b1be06233777",
+            "id": "dc10b123-ea2c-4950-9ace-58e53e37ecf9",
             "name": "[DDT] transition matrix",
             "request": {
               "url": {
@@ -1083,7 +1083,7 @@
               {
                 "listen": "prerequest",
                 "script": {
-                  "id": "3209964b-4b8a-465e-b594-0ab5ea7d470f",
+                  "id": "489ffb1c-3a7f-4c51-b0a3-62bbef164348",
                   "type": "text/javascript",
                   "exec": [
                     "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
@@ -1093,7 +1093,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "382185ef-0e7c-4b29-9d00-434cc2c69dc5",
+                  "id": "666ee65e-c64f-40bf-bd3b-d78f7d974cb8",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -1114,14 +1114,14 @@
       {
         "listen": "prerequest",
         "script": {
-          "id": "f0b31a5d-78b2-4668-9303-67e928e9f0af",
+          "id": "07109245-2633-4a79-a37a-4e51453955a8",
           "type": "text/javascript",
           "exec": [
             "const sid=pm.environment.get('student_id')||'23127207';",
             "pm.request.headers.upsert({key:'X-Student-Id',value:sid});",
             "console.log('[HW06] '+pm.info.requestName+' | X-Student-Id: '+sid+' | '+pm.request.method+' '+pm.request.url.toString());"
           ],
-          "_lastExecutionId": "e40345bd-14e7-4b79-803a-65ac7c61e97b"
+          "_lastExecutionId": "42470d16-ca9c-4354-9e65-72a1b9003a41"
         }
       }
     ],
@@ -1139,7 +1139,7 @@
   "environment": {
     "_": {
       "postman_variable_scope": "environment",
-      "postman_exported_at": "2026-08-19T04:05:19.084Z",
+      "postman_exported_at": "2026-08-19T04:16:59.536Z",
       "postman_exported_using": "Newman/6.2.2"
     },
     "id": "7c6c8c83-2312-4077-local-hw06",
@@ -1197,7 +1197,7 @@
       },
       {
         "type": "any",
-        "value": "hw06_lock_1787112318598@test.local",
+        "value": "hw06_lock_1787113019035@test.local",
         "key": "lockUser"
       },
       {
@@ -1213,7 +1213,7 @@
     ]
   },
   "globals": {
-    "id": "975d648c-f901-4e3d-8f59-48eefaac217b",
+    "id": "3f71c542-4547-41b9-a69a-27f2cd5e64a9",
     "values": []
   },
   "run": {
@@ -1265,10 +1265,10 @@
       }
     },
     "timings": {
-      "responseAverage": 21.27777777777778,
-      "responseMin": 16,
-      "responseMax": 50,
-      "responseSd": 7.324278922077932,
+      "responseAverage": 21.22222222222222,
+      "responseMin": 13,
+      "responseMax": 105,
+      "responseSd": 20.427529234278037,
       "dnsAverage": 0,
       "dnsMin": 0,
       "dnsMax": 0,
@@ -1277,8 +1277,8 @@
       "firstByteMin": 0,
       "firstByteMax": 0,
       "firstByteSd": 0,
-      "started": 1787112322907,
-      "completed": 1787112324873
+      "started": 1787113023217,
+      "completed": 1787113025124
     },
     "executions": [
       {
@@ -1291,11 +1291,11 @@
           "eof": false,
           "bof": true,
           "cr": false,
-          "ref": "465040f8-0a0b-4e6c-b03b-f379f832bc69",
-          "httpRequestId": "6aa98944-618e-472d-9a8f-4cfb3e686348"
+          "ref": "fa7a1f06-ee80-4471-b566-4e0fa25fd598",
+          "httpRequestId": "05189df5-429f-4e83-92e5-9a3e290dcf5f"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -1335,18 +1335,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -1355,7 +1355,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -1407,7 +1407,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "f2139282-241d-46fd-8b06-d63ad8c9a8ea",
+              "value": "3b810a47-5c28-4e72-85fe-e84131da5af2",
               "system": true
             },
             {
@@ -1443,7 +1443,7 @@
           }
         },
         "response": {
-          "id": "4360dbbc-a6ee-4f2a-ae71-de543e1b4bc4",
+          "id": "e28a0745-7ab8-42e9-8582-caf2ee4a58b4",
           "status": "OK",
           "code": 200,
           "header": [
@@ -1469,7 +1469,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:03 GMT"
             },
             {
               "key": "Connection",
@@ -1531,10 +1531,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 50,
+          "responseTime": 105,
           "responseSize": 45
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-001 status",
@@ -1544,16 +1544,16 @@
       },
       {
         "cursor": {
-          "ref": "d45a20c5-b655-4a97-903d-b856e1438e5c",
+          "ref": "ce9d4b5f-287c-40ec-b4f6-6325067772dc",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 1,
           "cr": true,
-          "httpRequestId": "f40c0131-33cd-45eb-b6dd-8d4b8790e585"
+          "httpRequestId": "3a1173c1-c1cd-460b-a504-3ad9887cd707"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -1593,18 +1593,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -1613,7 +1613,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -1665,7 +1665,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "5d00422e-4933-4f4e-8871-5b20973c639e",
+              "value": "2181ac48-b2f8-419d-b474-20cb10468137",
               "system": true
             },
             {
@@ -1701,7 +1701,7 @@
           }
         },
         "response": {
-          "id": "7e28f02c-f6c5-44a5-89ad-721c2ecfe3d8",
+          "id": "0da17e3f-9474-4004-8181-2db672ea8cb4",
           "status": "OK",
           "code": 200,
           "header": [
@@ -1727,7 +1727,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:03 GMT"
             },
             {
               "key": "Connection",
@@ -1789,10 +1789,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 17,
+          "responseTime": 19,
           "responseSize": 45
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-002 status",
@@ -1802,16 +1802,16 @@
       },
       {
         "cursor": {
-          "ref": "70156853-8650-4aa3-bb7f-2c9206275bff",
+          "ref": "a99626e9-a613-4098-a4cb-05611750a833",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 2,
           "cr": true,
-          "httpRequestId": "f993554a-b3da-49db-aa09-642a6fe171ca"
+          "httpRequestId": "2340cfbd-575e-47a6-90d7-dcd8463799cc"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -1851,18 +1851,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -1871,7 +1871,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -1923,7 +1923,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "77fc094b-67a0-4214-9391-ae3fac876e34",
+              "value": "3259f94c-59f9-4788-a827-d7c53c4f1db1",
               "system": true
             },
             {
@@ -1959,7 +1959,7 @@
           }
         },
         "response": {
-          "id": "cda38521-f56c-4dbe-8cc5-6bc490839335",
+          "id": "e016e071-5a95-48f8-99d5-cb83f83e6432",
           "status": "OK",
           "code": 200,
           "header": [
@@ -1985,7 +1985,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:03 GMT"
             },
             {
               "key": "Connection",
@@ -2047,10 +2047,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 19,
+          "responseTime": 15,
           "responseSize": 45
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-003 status",
@@ -2060,16 +2060,16 @@
       },
       {
         "cursor": {
-          "ref": "b41c68a8-3909-4d77-9e40-737055d7d7db",
+          "ref": "be2b8537-8d77-4bee-a74d-e26fccb9120b",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 3,
           "cr": true,
-          "httpRequestId": "0b93c2ab-f5f0-476f-84ee-fb56362ac83e"
+          "httpRequestId": "6cc0685d-7356-440c-a377-1bfc0007c913"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -2109,18 +2109,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -2129,7 +2129,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -2181,7 +2181,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "bb323beb-c34a-45fe-a324-fe67d6e7496b",
+              "value": "8cc94208-2d5c-4409-9b5a-dee84a73b0b5",
               "system": true
             },
             {
@@ -2217,7 +2217,7 @@
           }
         },
         "response": {
-          "id": "d581d723-dbf0-4b3b-bf75-122fad9b21a5",
+          "id": "f999cf74-14ff-498a-986b-81939e877c0b",
           "status": "OK",
           "code": 200,
           "header": [
@@ -2243,7 +2243,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:03 GMT"
             },
             {
               "key": "Connection",
@@ -2305,10 +2305,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 22,
+          "responseTime": 14,
           "responseSize": 45
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-004 status",
@@ -2318,16 +2318,16 @@
       },
       {
         "cursor": {
-          "ref": "c26f960f-bc65-450f-9557-0ae227c337c6",
+          "ref": "a98a8b0a-abc5-455f-98a5-f74a607a9355",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 4,
           "cr": true,
-          "httpRequestId": "46e6273e-2422-4d53-9f88-37e650ec3e8c"
+          "httpRequestId": "75e74316-8389-4f90-9cac-ef9805da13b8"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -2367,18 +2367,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -2387,7 +2387,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -2439,7 +2439,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "061d5225-6628-4bde-b45f-9284e0a952bb",
+              "value": "ab63b59a-2db7-4651-95a8-48393ca8515f",
               "system": true
             },
             {
@@ -2475,7 +2475,7 @@
           }
         },
         "response": {
-          "id": "6f721671-7235-4925-b4c0-824aa3f3d1c3",
+          "id": "b516bd0e-a119-4d42-8c3b-b8ea0e08caa3",
           "status": "OK",
           "code": 200,
           "header": [
@@ -2501,7 +2501,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:03 GMT"
             },
             {
               "key": "Connection",
@@ -2563,10 +2563,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 20,
+          "responseTime": 16,
           "responseSize": 45
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-005 status",
@@ -2576,16 +2576,16 @@
       },
       {
         "cursor": {
-          "ref": "07b75592-d643-4cc4-9834-1fd12288bc6b",
+          "ref": "56ce724a-5137-47bd-845d-4578028267ad",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 5,
           "cr": true,
-          "httpRequestId": "415c9064-8b84-43c9-89a7-cad5ca2b14fd"
+          "httpRequestId": "224075bb-783c-4d38-91a2-676754a00ff3"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -2625,18 +2625,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -2645,7 +2645,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -2697,7 +2697,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "1d7a2f88-44ec-499a-b708-79fa9e09b2ca",
+              "value": "7eabc1aa-922a-40b3-b7cf-6bde474f8a70",
               "system": true
             },
             {
@@ -2733,7 +2733,7 @@
           }
         },
         "response": {
-          "id": "10d2220f-1dd7-4e55-9b77-67d0cfbac445",
+          "id": "509ab9fa-7c0e-4912-a0f6-4bdbe7f6c2f2",
           "status": "OK",
           "code": 200,
           "header": [
@@ -2759,7 +2759,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:03 GMT"
             },
             {
               "key": "Connection",
@@ -2821,10 +2821,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 22,
+          "responseTime": 18,
           "responseSize": 45
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-006 status",
@@ -2834,16 +2834,16 @@
       },
       {
         "cursor": {
-          "ref": "c84f15a7-2fb8-4957-8d78-0aeb32430ea7",
+          "ref": "c1336357-a128-48c3-ac49-72efd07bac6a",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 6,
           "cr": true,
-          "httpRequestId": "ed651f33-0943-4f35-bcae-fc5d695d148d"
+          "httpRequestId": "0d8977c8-d7c5-42f2-9246-916db7ed58a6"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -2883,18 +2883,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -2903,7 +2903,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -2955,7 +2955,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "da400b80-71ad-43b8-9113-f50615e30006",
+              "value": "208142f2-c174-4328-84f0-14de34f18a13",
               "system": true
             },
             {
@@ -2991,7 +2991,7 @@
           }
         },
         "response": {
-          "id": "529f9543-beef-4438-a618-7bba40e4c6c0",
+          "id": "a5b1b6f0-d79b-4782-a9dc-ace15ee29718",
           "status": "OK",
           "code": 200,
           "header": [
@@ -3017,7 +3017,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:03 GMT"
             },
             {
               "key": "Connection",
@@ -3079,10 +3079,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 20,
+          "responseTime": 15,
           "responseSize": 45
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-007 status",
@@ -3092,16 +3092,16 @@
       },
       {
         "cursor": {
-          "ref": "46dd631e-b77e-4117-b173-eefc6ad69325",
+          "ref": "a71e4341-1da6-4b0f-a3c2-47fb13c0c613",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 7,
           "cr": true,
-          "httpRequestId": "c92e6678-ee53-4446-a680-d18a6592fb24"
+          "httpRequestId": "5e443b48-f8ce-45f9-aea8-f842a81058ac"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -3141,18 +3141,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -3161,7 +3161,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -3213,7 +3213,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "f29498db-51ff-4f68-bbd9-f94867380371",
+              "value": "932e8fc2-4287-4e1d-bb7b-c8b2e6e4d201",
               "system": true
             },
             {
@@ -3249,7 +3249,7 @@
           }
         },
         "response": {
-          "id": "0bb814b1-fcae-47a8-9d10-805f331735eb",
+          "id": "a5e6ffd1-72aa-49e1-8cc7-5f811d7f4679",
           "status": "OK",
           "code": 200,
           "header": [
@@ -3275,7 +3275,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:04 GMT"
             },
             {
               "key": "Connection",
@@ -3337,10 +3337,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 22,
+          "responseTime": 17,
           "responseSize": 45
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-008 status",
@@ -3350,16 +3350,16 @@
       },
       {
         "cursor": {
-          "ref": "b044b33e-7283-4b2d-87da-eebe63ae1e95",
+          "ref": "532628ec-8055-4b03-8041-523b773bb081",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 8,
           "cr": true,
-          "httpRequestId": "5349e2db-c174-4afc-9d7c-f283af45dd9c"
+          "httpRequestId": "842536bd-03b3-4c02-b506-235a92c3c423"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -3399,18 +3399,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -3419,7 +3419,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -3471,7 +3471,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "246f1f43-059f-4873-bd18-2ac3a26325d0",
+              "value": "41d11c32-24cb-4b16-8f26-19e5d47591c0",
               "system": true
             },
             {
@@ -3507,7 +3507,7 @@
           }
         },
         "response": {
-          "id": "051ea4f6-389a-498f-ace9-b4fb557cabbc",
+          "id": "8806a7bf-1572-4a0a-a517-91cbf1835511",
           "status": "OK",
           "code": 200,
           "header": [
@@ -3533,7 +3533,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:04 GMT"
             },
             {
               "key": "Connection",
@@ -3595,10 +3595,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 22,
+          "responseTime": 17,
           "responseSize": 45
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-009 status",
@@ -3608,16 +3608,16 @@
       },
       {
         "cursor": {
-          "ref": "9eb13535-1d9b-480c-8358-bd620bdb9a4b",
+          "ref": "59b45e80-dac5-436f-beca-bc6a309d0ea5",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 9,
           "cr": true,
-          "httpRequestId": "42ad534e-2b8f-4aff-99b3-b39b465803c3"
+          "httpRequestId": "933f626c-7796-42bc-af72-3fe21fe20e48"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -3657,18 +3657,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -3677,7 +3677,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -3729,7 +3729,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "4ffeb954-6b47-40f6-a4d3-6f4406144ebf",
+              "value": "3d956d9e-ec48-457e-966e-1ac6026638eb",
               "system": true
             },
             {
@@ -3765,7 +3765,7 @@
           }
         },
         "response": {
-          "id": "c4a2deab-310e-487f-b36b-73e2ef8feff5",
+          "id": "9b204ed1-2cf8-438f-89d5-af7ad7e9046a",
           "status": "OK",
           "code": 200,
           "header": [
@@ -3791,7 +3791,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:04 GMT"
             },
             {
               "key": "Connection",
@@ -3854,10 +3854,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 23,
+          "responseTime": 16,
           "responseSize": 46
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-010 status",
@@ -3867,16 +3867,16 @@
       },
       {
         "cursor": {
-          "ref": "08a91ae2-569d-42fa-8d22-b382bac904b6",
+          "ref": "1a4fc5d9-af5c-4020-81d0-f36680bf19ed",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 10,
           "cr": true,
-          "httpRequestId": "36c43851-7161-46b9-8280-6223533b6bcb"
+          "httpRequestId": "f6d74dd2-7548-4c28-b483-c7fbad46b718"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -3916,18 +3916,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -3936,7 +3936,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -3988,7 +3988,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "f10da1f6-a68d-4e47-8275-8c63c693ba1a",
+              "value": "3fd029a1-887e-4853-85f2-476777a2690a",
               "system": true
             },
             {
@@ -4024,7 +4024,7 @@
           }
         },
         "response": {
-          "id": "69210b7e-5bfe-41d7-9cd1-43a4a4af16fd",
+          "id": "5c115407-474a-4c30-9fae-adf611ad74a0",
           "status": "OK",
           "code": 200,
           "header": [
@@ -4050,7 +4050,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:24 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:04 GMT"
             },
             {
               "key": "Connection",
@@ -4113,10 +4113,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 19,
+          "responseTime": 20,
           "responseSize": 46
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-011 status",
@@ -4126,16 +4126,16 @@
       },
       {
         "cursor": {
-          "ref": "a2c1c4bc-710e-4241-a425-fab9871336ca",
+          "ref": "e29c27f1-cafb-4d8c-9e82-5a1108d3aebb",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 11,
           "cr": true,
-          "httpRequestId": "5e870c5d-a3d4-4124-b83b-eaf06917b3fc"
+          "httpRequestId": "026806c4-3b11-4ff4-8d53-79ddc8d78281"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -4175,18 +4175,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -4195,7 +4195,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -4247,7 +4247,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "0c231b03-bacf-4703-86b7-54a99e55797e",
+              "value": "a91784b1-8ff6-4799-a0cf-e1f544d54c54",
               "system": true
             },
             {
@@ -4283,7 +4283,7 @@
           }
         },
         "response": {
-          "id": "d283aeb5-8664-4884-b035-fe3222ccaca8",
+          "id": "f105ebac-f39d-4256-a410-a02e83c2ce69",
           "status": "OK",
           "code": 200,
           "header": [
@@ -4309,7 +4309,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:24 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:04 GMT"
             },
             {
               "key": "Connection",
@@ -4372,10 +4372,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 16,
+          "responseTime": 20,
           "responseSize": 46
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-012 status",
@@ -4385,16 +4385,16 @@
       },
       {
         "cursor": {
-          "ref": "674d0819-0be2-4f3f-a622-9d6350db3762",
+          "ref": "0252a9df-33e0-4744-a435-f4d77c03bea2",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 12,
           "cr": true,
-          "httpRequestId": "b7b8428c-dcee-4e3b-a255-e5aa50712f17"
+          "httpRequestId": "b191d90c-9363-4f31-8e73-343400f69a26"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -4434,18 +4434,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -4454,7 +4454,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -4506,7 +4506,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "1cb166b2-099f-4f06-8fd1-98af375d779e",
+              "value": "bd7e653c-7bb9-4654-8d33-b9c880dfebd9",
               "system": true
             },
             {
@@ -4542,7 +4542,7 @@
           }
         },
         "response": {
-          "id": "61666b1d-1209-481b-b7da-bc665e1b27c7",
+          "id": "5c7a5fc9-805f-4fd9-920d-09924bb595a5",
           "status": "OK",
           "code": 200,
           "header": [
@@ -4568,7 +4568,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:24 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:04 GMT"
             },
             {
               "key": "Connection",
@@ -4631,10 +4631,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 16,
+          "responseTime": 15,
           "responseSize": 46
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-013 status",
@@ -4644,16 +4644,16 @@
       },
       {
         "cursor": {
-          "ref": "7ea33bd2-6dd5-4f1b-a8ec-5ec60469eb8e",
+          "ref": "3644e595-c5b5-4b33-bbca-853031e45894",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 13,
           "cr": true,
-          "httpRequestId": "4df8089b-e960-4101-bba4-2ae291779eff"
+          "httpRequestId": "833a2987-6735-48c2-afc6-d7dd64bd4e87"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -4693,18 +4693,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -4713,7 +4713,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -4765,7 +4765,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "d397f3ca-c6fe-425a-969b-7099a512fc5a",
+              "value": "80e072db-e12d-4397-9eb5-67d23c66f56e",
               "system": true
             },
             {
@@ -4801,7 +4801,7 @@
           }
         },
         "response": {
-          "id": "3c9c53b8-cf39-49c9-8fc9-e124ae8a3b05",
+          "id": "9ddd7562-ab28-4820-8cd7-95dca805cd57",
           "status": "OK",
           "code": 200,
           "header": [
@@ -4827,7 +4827,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:24 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:04 GMT"
             },
             {
               "key": "Connection",
@@ -4893,7 +4893,7 @@
           "responseTime": 17,
           "responseSize": 46
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-014 status",
@@ -4903,16 +4903,16 @@
       },
       {
         "cursor": {
-          "ref": "58b819d8-a077-4b46-b037-2fc408bfe7ea",
+          "ref": "300de8e8-6969-47dd-b32c-5bfa0ba5b454",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 14,
           "cr": true,
-          "httpRequestId": "9fbb4a14-663c-48cc-a40e-202d196788c7"
+          "httpRequestId": "5f454acc-9aba-4105-b3fa-52d6d66113ec"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -4952,18 +4952,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -4972,7 +4972,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -5024,7 +5024,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "4ddd01c2-9566-4ffd-89a2-3f4a0c590c7c",
+              "value": "3af7c4de-1c09-4e37-971c-3f12667cd9c3",
               "system": true
             },
             {
@@ -5060,7 +5060,7 @@
           }
         },
         "response": {
-          "id": "9e3f6aea-c2dc-44ef-a3a3-9f1e10b69810",
+          "id": "69e2c451-d162-45c4-ade7-4ab25b0bddc8",
           "status": "OK",
           "code": 200,
           "header": [
@@ -5086,7 +5086,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:24 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:04 GMT"
             },
             {
               "key": "Connection",
@@ -5149,10 +5149,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 18,
+          "responseTime": 13,
           "responseSize": 46
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-015 status",
@@ -5162,16 +5162,16 @@
       },
       {
         "cursor": {
-          "ref": "16b735a0-1331-4f86-9f1b-5cae93b0c615",
+          "ref": "e8fa6d7e-55c5-482d-a345-d78a95caa323",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 15,
           "cr": true,
-          "httpRequestId": "74050279-289d-48e7-9731-baf3ff6e3929"
+          "httpRequestId": "d23a96a9-11e0-4b17-a987-642c0ac5b97f"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -5211,18 +5211,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -5231,7 +5231,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -5283,7 +5283,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "21e4445f-d5b6-47e8-9258-3477200e2cd9",
+              "value": "e24104e5-8c51-429d-bcc2-cc2a16c58f7a",
               "system": true
             },
             {
@@ -5319,7 +5319,7 @@
           }
         },
         "response": {
-          "id": "0c0b0588-e765-434c-96dc-1d886a70828c",
+          "id": "8f80806f-fc1b-4251-a981-0ae32cf28024",
           "status": "OK",
           "code": 200,
           "header": [
@@ -5345,7 +5345,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:24 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:04 GMT"
             },
             {
               "key": "Connection",
@@ -5408,10 +5408,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 19,
+          "responseTime": 14,
           "responseSize": 46
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-016 status",
@@ -5421,16 +5421,16 @@
       },
       {
         "cursor": {
-          "ref": "46f89a56-9bcb-436b-bdd5-fe82b3a6cae4",
+          "ref": "6885088d-68a9-4ad6-9e76-da459cb003e1",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 16,
           "cr": true,
-          "httpRequestId": "9d6f5363-8e58-4cb6-a82a-480ffc0b03c2"
+          "httpRequestId": "dd736ec5-0bb1-4d32-ad25-5e61787be25f"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -5470,18 +5470,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -5490,7 +5490,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -5542,7 +5542,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "2a3526a7-e761-4145-a080-01e3ccd5342c",
+              "value": "082db050-1054-4802-9bf4-66a451eab7db",
               "system": true
             },
             {
@@ -5578,7 +5578,7 @@
           }
         },
         "response": {
-          "id": "55b0ecd3-9cb2-48eb-9ff8-9909b4542352",
+          "id": "effb1620-6a3e-416a-9953-d4945486173a",
           "status": "OK",
           "code": 200,
           "header": [
@@ -5604,7 +5604,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:24 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:05 GMT"
             },
             {
               "key": "Connection",
@@ -5667,10 +5667,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 23,
+          "responseTime": 13,
           "responseSize": 46
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-017 status",
@@ -5680,16 +5680,16 @@
       },
       {
         "cursor": {
-          "ref": "032f7ae4-4c42-411e-9cbc-13bb7209b3ec",
+          "ref": "808bf6fb-b6a2-4a82-8056-a847c300e997",
           "length": 1,
           "cycles": 18,
           "position": 0,
           "iteration": 17,
           "cr": true,
-          "httpRequestId": "42cc1c15-b07b-4af9-843d-82be1ccda0d2"
+          "httpRequestId": "fbd1151b-2083-4728-86bf-5ffc44ebab39"
         },
         "item": {
-          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
           "name": "[DDT] checkout partitions",
           "request": {
             "url": {
@@ -5729,18 +5729,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "id": "7256ec2f-96df-4ab1-971c-793332f95503",
                 "type": "text/javascript",
                 "exec": [
                   "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
                 ],
-                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                "_lastExecutionId": "531dcd9c-7425-4f01-9d5d-86f3ad95a6b1"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "id": "cf497d43-bd5f-4081-a542-4484c8c5a3dd",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -5749,7 +5749,7 @@
                   "if(!pm.iterationData.get('tc_id'))return;",
                   "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
                 ],
-                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                "_lastExecutionId": "f84b1130-fd2b-4fd2-aa45-caf333bdaadf"
               }
             }
           ]
@@ -5801,7 +5801,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "cbf4cfd3-dd0a-4739-8e28-bd31c0433fc1",
+              "value": "6895084f-8adf-4626-941c-43f4fb0dfc46",
               "system": true
             },
             {
@@ -5837,7 +5837,7 @@
           }
         },
         "response": {
-          "id": "b570cc98-e0f6-4c08-9635-f7d408777091",
+          "id": "604d8e85-8c32-4f92-8bd3-c85a3ed86918",
           "status": "OK",
           "code": 200,
           "header": [
@@ -5863,7 +5863,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:05:24 GMT"
+              "value": "Wed, 19 Aug 2026 04:17:05 GMT"
             },
             {
               "key": "Connection",
@@ -5929,7 +5929,7 @@
           "responseTime": 18,
           "responseSize": 46
         },
-        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "id": "318b6be8-eb57-4b0d-953a-d54b6cf055ba",
         "assertions": [
           {
             "assertion": "TC-API-CHECKOUT-018 status",

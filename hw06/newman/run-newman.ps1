@@ -41,7 +41,15 @@ if ($DataDriven) {
         # Recreate a clean cart/order for the transition matrix.  The setup
         # folder alone cannot provide orderId; API-2 must run first.
         $statusPrepEnv = Join-Path $out ('.ddt-status-prep-' + $PID + '.json')
-        Invoke-NewmanRun '00-ddt-status-prep' @('--folder','00 - Setup','--folder','API-2 - POST /api/checkout','--export-environment',$statusPrepEnv)
+        # Preparation is infrastructure, not a strict assertion run.  Keep
+        # the contract probes for the actual DDT folder below.
+        $requestedMode = $Mode
+        try {
+            $Mode = 'off'
+            Invoke-NewmanRun '00-ddt-status-prep' @('--folder','00 - Setup','--folder','API-2 - POST /api/checkout','--export-environment',$statusPrepEnv)
+        } finally {
+            $Mode = $requestedMode
+        }
         Invoke-NewmanRun '03-ddt-order-status' @('--folder','3.1 Transition matrix [DDT]','-d',(Join-Path $dataDir 'order-status-matrix.data.json')) $statusPrepEnv
     } finally {
         foreach ($tempPath in @($prepEnv, (Join-Path $out ('.ddt-status-prep-' + $PID + '.json')))) {
