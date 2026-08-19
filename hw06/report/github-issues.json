@@ -4,63 +4,117 @@
     "issue_number": 413,
     "url": "https://github.com/trngnneee/eshop-sut/issues/413",
     "test_case": "TC-API-LOGIN-018",
-    "labels": "existing"
+    "labels": [
+      "type: bug",
+      "module: api",
+      "severity: critical",
+      "priority: P0",
+      "found-by: test-case"
+    ]
   },
   {
     "bug_id": "D-LOGIN-02",
     "issue_number": 414,
     "url": "https://github.com/trngnneee/eshop-sut/issues/414",
     "test_case": "TC-API-LOGIN-022",
-    "labels": "existing"
+    "labels": [
+      "type: bug",
+      "module: api",
+      "severity: major",
+      "priority: P1",
+      "found-by: test-case"
+    ]
   },
   {
     "bug_id": "D-LOGIN-03",
     "issue_number": 415,
     "url": "https://github.com/trngnneee/eshop-sut/issues/415",
     "test_case": "TC-API-LOGIN-028",
-    "labels": "existing"
+    "labels": [
+      "type: bug",
+      "module: api",
+      "severity: critical",
+      "priority: P0",
+      "found-by: test-case"
+    ]
   },
   {
     "bug_id": "D-LOGIN-05",
     "issue_number": 416,
     "url": "https://github.com/trngnneee/eshop-sut/issues/416",
     "test_case": "TC-API-LOGIN-030",
-    "labels": "existing"
+    "labels": [
+      "type: bug",
+      "module: api",
+      "severity: major",
+      "priority: P1",
+      "found-by: test-case"
+    ]
   },
   {
     "bug_id": "D-LOGIN-06",
     "issue_number": 417,
     "url": "https://github.com/trngnneee/eshop-sut/issues/417",
     "test_case": "TC-API-LOGIN-024",
-    "labels": "existing"
+    "labels": [
+      "type: bug",
+      "module: api",
+      "severity: major",
+      "priority: P1",
+      "found-by: test-case"
+    ]
   },
   {
     "bug_id": "D-CHK-01",
     "issue_number": 418,
     "url": "https://github.com/trngnneee/eshop-sut/issues/418",
     "test_case": "TC-API-CHECKOUT-037",
-    "labels": "existing"
+    "labels": [
+      "type: bug",
+      "module: checkout",
+      "severity: critical",
+      "priority: P0",
+      "found-by: test-case"
+    ]
   },
   {
     "bug_id": "D-CHK-02",
     "issue_number": 419,
     "url": "https://github.com/trngnneee/eshop-sut/issues/419",
     "test_case": "TC-API-CHECKOUT-005",
-    "labels": "existing"
+    "labels": [
+      "type: bug",
+      "module: checkout",
+      "severity: major",
+      "priority: P1",
+      "found-by: test-case"
+    ]
   },
   {
     "bug_id": "D-CHK-03",
     "issue_number": 420,
     "url": "https://github.com/trngnneee/eshop-sut/issues/420",
     "test_case": "TC-API-CHECKOUT-020",
-    "labels": "existing"
+    "labels": [
+      "type: bug",
+      "module: checkout",
+      "severity: major",
+      "priority: P1",
+      "found-by: test-case"
+    ]
   },
   {
     "bug_id": "D-CHK-04",
     "issue_number": 421,
     "url": "https://github.com/trngnneee/eshop-sut/issues/421",
     "test_case": "TC-API-CHECKOUT-022",
-    "labels": "existing"
+    "labels": [
+      "type: bug",
+      "module: checkout",
+      "severity: major",
+      "priority: P2",
+      "found-by: test-case"
+    ]
   },
   {
     "bug_id": "D-CHK-07",

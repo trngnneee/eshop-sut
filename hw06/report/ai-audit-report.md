@@ -280,3 +280,13 @@
   > Di chuyển Mermaid do AI sinh ra khỏi vị trí sơ đồ nộp bài, ghi rõ provenance và không dùng nó để tạo ảnh. Chỉ chuẩn bị drawing brief về các khối/quan hệ bắt buộc để người học tự quyết định và tự vẽ `diagram.png` theo R-16; không tạo, chỉnh sửa hoặc mô phỏng diagram HUMAN-only.
 
 - **Output:** Chuyển nội dung cũ sang `test-generator/_reference/diagram-notes.mmd` với cảnh báo “Đây là ghi chú tham khảo do AI sinh, KHÔNG phải sơ đồ nộp bài.”; xoá `test-generator/diagram.mmd`; thêm `DRAWING-BRIEF.md` mô tả bảy nhóm khối, quan hệ, vòng audit và gợi ý công cụ. `design.md`, README và main report đều ghi `diagram.png` là HUMAN-only, hiện chưa có.
+
+### T-13 / Chuẩn hoá module label của GitHub Issues
+
+- **Tool:** OpenAI Codex (GPT-5 Codex) và GitHub CLI
+- **Date & time:** `2026-08-19T15:14:00+07:00`
+- **Prompt:**
+
+  > Đọc label thật của issues #413–#427, bảo đảm mỗi issue có đúng một label `module:` theo Rule H.7; thay `module:checkout` sai định dạng và bỏ `module: api` dư ở issue checkout. Không sửa screenshot và đồng bộ manifest từ trạng thái GitHub sau khi sửa.
+
+- **Output:** Kiểm kê cho thấy #418–#421 có đồng thời `module:checkout` và `module: api`. Tạo label canonical `module: checkout`, thay hai label cũ trên đúng bốn issue này. Xác minh lại cả 15 issue: #413–#417 có đúng `module: api`, #418–#421 có đúng `module: checkout`, #422–#427 có đúng `module: orders`; mọi issue có đúng một module label. `report/github-issues.json` được cập nhật thành mảng label cụ thể thay cho marker `existing`; không tạo hoặc sửa screenshot.
