@@ -18,8 +18,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_TARGETS = (
-    ROOT / "hw06" / "postman" / "EShop-HW06-23127207.postman_collection.json",
-    ROOT / "hw06" / "postman" / "EShop-HW06-local.postman_environment.json",
+    ROOT / "hw06" / "postman",
     ROOT / "hw06" / "newman" / "reports",
 )
 TEXT_SUFFIXES = {".json", ".html", ".md", ".log"}
@@ -105,8 +104,7 @@ def main() -> int:
     elif args.tree:
         tree = args.tree.resolve()
         targets = [
-            tree / "hw06" / "postman" / "EShop-HW06-23127207.postman_collection.json",
-            tree / "hw06" / "postman" / "EShop-HW06-local.postman_environment.json",
+            tree / "hw06" / "postman",
             tree / "hw06" / "newman" / "reports",
         ]
     else:
@@ -133,9 +131,9 @@ def main() -> int:
         if count:
             write_text(path, redacted, encoding)
             replacements += count
-    for target in targets:
-        if target.name.endswith("postman_environment.json") and target.is_file():
-            replacements += clear_environment_passwords(target)
+    for path in files:
+        if path.name.endswith("postman_environment.json"):
+            replacements += clear_environment_passwords(path)
     print(f"Redacted {replacements} credential values across {len(files)} files.")
     return 0
 
