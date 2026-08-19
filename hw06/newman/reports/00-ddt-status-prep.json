@@ -1,0 +1,5952 @@
+{
+  "collection": {
+    "_": {
+      "postman_id": "b1d9d8da-2312-4077-9062-hw06-23127207"
+    },
+    "item": [
+      {
+        "id": "49a9ea32-091b-40cf-96fb-0cedde3dde41",
+        "name": "00 - Setup",
+        "item": [
+          {
+            "id": "3f180a42-8a99-4e81-925d-8761a9d47534",
+            "name": "[SETUP] Health check",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "products"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "c3a9e840-7953-4949-ae4a-540bc7798357",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('[SETUP] health 200',()=>pm.response.to.have.status(200));",
+                    "pm.test('[SETUP] five products',()=>pm.expect(jsonBody()).to.be.an('array').with.length(5));"
+                  ],
+                  "_lastExecutionId": "b582bda5-d086-4fea-b2b0-e2b71a85a51d"
+                }
+              }
+            ]
+          },
+          {
+            "id": "e149abb5-e591-4334-a645-fdd92ed516c5",
+            "name": "[SETUP] Register disposable lock user",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "register"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"name\": \"HW06 Lock User\", \"email\": \"{{lockUser}}\", \"password\": \"<redacted-lock-password>\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "e0b9e9b3-7dbd-43e6-ada5-953d56b3c2b5",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.environment.set('lockUser','hw06_lock_'+Date.now()+'@test.local');"
+                  ],
+                  "_lastExecutionId": "41583012-c9c5-4524-b5fe-1e5944225096"
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "2652c148-b442-4dd2-88d4-60449c4e818c",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('[SETUP] register 200',()=>pm.response.to.have.status(200));",
+                    "pm.environment.set('lockUserId',String(jsonBody().id||''));"
+                  ],
+                  "_lastExecutionId": "f62cedad-e438-4d74-b52e-0fef18a9d6e6"
+                }
+              }
+            ]
+          },
+          {
+            "id": "10c7a99a-4891-4417-9bc1-aa450961bba8",
+            "name": "[SETUP] Login user",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{user_email}}\", \"password\": \"{{user_password}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "95e9c707-dff3-41df-983c-9dd356f497bb",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('[SETUP] user login 200',()=>pm.response.to.have.status(200));",
+                    "const d=jsonBody();pm.expect(d.token).to.be.a('string').and.not.empty;pm.environment.set('userToken',d.token);pm.environment.set('userId',String(d.user&&d.user.id||''));"
+                  ],
+                  "_lastExecutionId": "14fac102-c556-4e34-a266-c3c7e02333ac"
+                }
+              }
+            ]
+          },
+          {
+            "id": "0a9e0e1b-011f-498e-8ad5-169b0ba310dd",
+            "name": "[SETUP] Login admin",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{admin_email}}\", \"password\": \"{{admin_password}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "1b4497e8-bc56-481f-910b-74939a6fb29d",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('[SETUP] admin login 200',()=>pm.response.to.have.status(200));",
+                    "pm.environment.set('adminToken',jsonBody().token||'');"
+                  ],
+                  "_lastExecutionId": "cf98950b-f3f7-4667-bc99-d76ccaad91b9"
+                }
+              }
+            ]
+          },
+          {
+            "id": "528a4102-7aa9-48d6-b63c-a2cd802627b3",
+            "name": "[SETUP] Add product to cart",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "cart"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"id\": 1, \"name\": \"Laptop\", \"price\": 100000, \"quantity\": 1}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "c93248fc-f6bd-4cf7-8ca5-b5ba2dadb803",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('[SETUP] add cart 200',()=>pm.response.to.have.status(200));"
+                  ],
+                  "_lastExecutionId": "de479e92-88f8-4fd7-8249-c05c1286cd59"
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "2925f7f7-b78a-4dbe-97c7-0297524af0bd",
+        "name": "API-1 - POST /api/login",
+        "item": [
+          {
+            "id": "18499cc8-9e32-429a-9006-3a4b21859c15",
+            "name": "TC-API-LOGIN-001 - valid credential",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{user_email}}\", \"password\": \"{{user_password}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "cf07547e-8d15-43ba-b94f-fc72537e51b3",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-LOGIN-001 status',()=>pm.response.to.have.status(200));",
+                    "pm.expect(jsonBody().token).to.be.a('string').and.not.empty;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "7d7f137f-0f25-4a84-8ad9-ed65020888e1",
+            "name": "TC-API-LOGIN-004 - missing email",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"password\": \"<redacted-user-password>\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "23c3dea8-45af-49dd-b83c-4086ec9f90ed",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-LOGIN-004 observed',()=>pm.expect([400,401]).to.include(pm.response.code));",
+                    "specTest('TC-API-LOGIN-004','missing email validates',()=>pm.response.to.have.status(400));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "0a82f50c-1fa9-44bf-b039-df55053e852f",
+            "name": "TC-API-LOGIN-025 - SQL injection",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"' OR 1=1 --\", \"password\": \"anything\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "469cfbac-e887-476f-ad13-0a210efeb1d7",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-LOGIN-025 rejected',()=>pm.response.to.have.status(401));",
+                    "pm.expect(jsonBody().token).to.be.undefined;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "a2d91b06-b92a-4628-adb2-4db64c96fbd0",
+            "name": "TC-API-LOGIN-028 - no password leakage",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{user_email}}\", \"password\": \"{{user_password}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "434bc32b-65cf-4954-b002-48fcfb4f4623",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-LOGIN-028 login 200',()=>pm.response.to.have.status(200));",
+                    "specTest('TC-API-LOGIN-028','no password in response',()=>pm.expect(jsonBody().user.password).to.be.undefined);"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "da28a172-68b4-46c0-ad64-589b0aa9186d",
+            "name": "TC-API-LOGIN-018 - two failures then correct",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{lockUser}}\", \"password\": \"<redacted-lock-password>\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "18b66c18-7013-4a12-98b6-0aadede82cd4",
+                  "type": "text/javascript",
+                  "exec": [
+                    "const h={'Content-Type':'application/json','X-Student-Id':pm.environment.get('student_id')};pm.sendRequest({url:pm.environment.get('base_url')+'/api/login',method:'POST',header:h,body:{mode:'raw',raw:JSON.stringify({email:pm.environment.get('lockUser'),password:'<redacted-wrong-password>'})}},function(){pm.sendRequest({url:pm.environment.get('base_url')+'/api/login',method:'POST',header:h,body:{mode:'raw',raw:JSON.stringify({email:pm.environment.get('lockUser'),password:'<redacted-wrong-password>'})}},function(){});});"
+                  ]
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "ad71e954-20b0-41af-973e-d318e53ebec4",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-LOGIN-018 observed',()=>pm.expect([200,401,403]).to.include(pm.response.code));",
+                    "specTest('TC-API-LOGIN-018','correct login after two failures',()=>pm.response.to.have.status(200));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "1e48e9c9-46dd-4a19-8ce2-c3e4c2a01c0a",
+        "name": "API-2 - POST /api/checkout",
+        "item": [
+          {
+            "id": "c480781c-d1c0-4c7b-b010-c4d20ee96da7",
+            "name": "TC-API-CHECKOUT-037 - client total probe",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "checkout"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"total_amount\": 1, \"shipping_address\": \"123 Le Loi\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "a74820ef-49a5-4757-9964-03524d46dd47",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-CHECKOUT-037 checkout 200',()=>pm.response.to.have.status(200));",
+                    "pm.environment.set('orderId',String(jsonBody().orderId||''));"
+                  ],
+                  "_lastExecutionId": "f077e854-da8a-44ec-94f4-f86d5daf3750"
+                }
+              }
+            ]
+          },
+          {
+            "id": "29ec9011-eba5-42c9-8d60-988572987d80",
+            "name": "TC-API-CHECKOUT-031 - IDOR probe",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "orders",
+                  "{{orderId}}"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "29635dc2-c372-4fb0-897a-9b05d3cc2d95",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-CHECKOUT-031 observed',()=>pm.expect([200,401,403]).to.include(pm.response.code));",
+                    "specTest('TC-API-CHECKOUT-031','order detail needs auth',()=>pm.expect([401,403]).to.include(pm.response.code));"
+                  ],
+                  "_lastExecutionId": "ca82077e-a617-475d-9807-31de6d7a8d88"
+                }
+              }
+            ]
+          },
+          {
+            "id": "f2bfeb59-28ff-4ba9-92c6-a55695dd5306",
+            "name": "TC-API-CHECKOUT-020 - cart post-condition",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "cart"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "918972a6-54bd-46e1-bb9c-fc188942af3d",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-CHECKOUT-020 cart response',()=>pm.response.to.have.status(200));",
+                    "specTest('TC-API-CHECKOUT-020','cart empty after checkout',()=>pm.expect(jsonBody()).to.be.an('array').that.is.empty);"
+                  ],
+                  "_lastExecutionId": "a782b207-5632-49f9-a0e6-e1cd70f1ce8a"
+                }
+              }
+            ]
+          },
+          {
+            "id": "016601f0-f74a-48f4-bd42-3f85fd25300a",
+            "name": "TC-API-CHECKOUT-005 - zero total",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "checkout"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"total_amount\": 0, \"shipping_address\": \"A\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "39a2fcd8-9167-4732-ae69-a93442ba9036",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-CHECKOUT-005 observed',()=>pm.expect([200,400]).to.include(pm.response.code));",
+                    "specTest('TC-API-CHECKOUT-005','zero total rejected',()=>pm.response.to.have.status(400));"
+                  ],
+                  "_lastExecutionId": "3fb4c5fb-bfb8-45e1-8b30-6bc4bdab3e60"
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "5f7e8029-4bce-471c-90f2-348dec3629b2",
+        "name": "API-3 - PUT /api/admin/orders/:id/status",
+        "item": [
+          {
+            "id": "ffbcfdfb-7189-43b5-9eac-5ec80da11b06",
+            "name": "TC-API-ORDER-STATUS-002 - pending to confirmed",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{orderId}}",
+                  "status"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"confirmed\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "79aebdde-e197-4b6e-b801-bae42cace924",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-ORDER-STATUS-002 admin update',()=>pm.response.to.have.status(200));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "fd4079c8-c819-4c58-88ff-6f8b66e6f851",
+            "name": "TC-API-ORDER-STATUS-033 - role escalation",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{orderId}}",
+                  "status"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"shipping\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "23075c9d-3914-4715-9bb2-f3a8cc608b03",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-ORDER-STATUS-033 observed',()=>pm.expect([200,403]).to.include(pm.response.code));",
+                    "specTest('TC-API-ORDER-STATUS-033','user role rejected',()=>pm.response.to.have.status(403));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "5de9fcf2-852b-4737-af74-167f339de394",
+            "name": "TC-API-ORDER-STATUS-024 - canceled terminal",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{orderId}}",
+                  "status"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"delivered\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "e2c13a8c-f3d1-4c66-94c2-baad8919154a",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-ORDER-STATUS-024 observed',()=>pm.expect([200,400]).to.include(pm.response.code));",
+                    "specTest('TC-API-ORDER-STATUS-024','canceled cannot become delivered',()=>pm.response.to.have.status(400));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "13a1a82b-e003-4cfa-b3b3-7cd1cfed7033",
+        "name": "1.1 Domain partitions [DDT]",
+        "item": [
+          {
+            "id": "fd2e706d-2966-4151-9f79-e11e9fc1b295",
+            "name": "[DDT] login partitions",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{email}}\", \"password\": \"{{password}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "030c01bf-6c0b-4f85-a2fc-34b46cda89ce",
+                  "type": "text/javascript",
+                  "exec": [
+                    "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                  ]
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "198cb617-2bb5-480b-a37e-613d976ceb17",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "if(!pm.iterationData.get('tc_id'))return;",
+                    "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "4650a65f-eb94-46ae-9095-83c985a6f6e1",
+        "name": "2.1 Domain partitions [DDT]",
+        "item": [
+          {
+            "id": "55131700-7aa7-4958-8db1-1dacc821e763",
+            "name": "[DDT] checkout partitions",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "checkout"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "10da0ccf-0c91-4414-963f-e81ea6fa65f9",
+                  "type": "text/javascript",
+                  "exec": [
+                    "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                  ]
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "2452497f-8da3-45c9-821c-79509481f41e",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "if(!pm.iterationData.get('tc_id'))return;",
+                    "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "185e50ed-b545-4c54-8da5-1c4b8de4e392",
+        "name": "3.1 Transition matrix [DDT]",
+        "item": [
+          {
+            "id": "da825a40-deac-423f-89c8-fcbde07ba50e",
+            "name": "[DDT] transition matrix",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{orderId}}",
+                  "status"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"{{to_status}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "8b25ffa5-8ace-44d7-9fd7-87b6a130c0a5",
+                  "type": "text/javascript",
+                  "exec": [
+                    "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                  ]
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "ed7ae835-50fd-4f54-b23b-329481f08db8",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "if(!pm.iterationData.get('tc_id'))return;",
+                    "pm.test(pm.iterationData.get('tc_id')+' matrix status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      }
+    ],
+    "event": [
+      {
+        "listen": "prerequest",
+        "script": {
+          "id": "5ebb157e-a9e4-4938-a856-54a4e6776427",
+          "type": "text/javascript",
+          "exec": [
+            "const sid=pm.environment.get('student_id')||'23127207';",
+            "pm.request.headers.upsert({key:'X-Student-Id',value:sid});",
+            "console.log('[HW06] '+pm.info.requestName+' | X-Student-Id: '+sid+' | '+pm.request.method+' '+pm.request.url.toString());"
+          ],
+          "_lastExecutionId": "98e3dabc-8671-46c8-b209-ab7b29060b2c"
+        }
+      }
+    ],
+    "variable": [],
+    "info": {
+      "_postman_id": "b1d9d8da-2312-4077-9062-hw06-23127207",
+      "name": "EShop HW06 - API Testing - 23127207",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "description": {
+        "content": "AI-first API testing. Collection pre-request adds X-Student-Id to every request.",
+        "type": "text/plain"
+      }
+    }
+  },
+  "environment": {
+    "_": {
+      "postman_variable_scope": "environment"
+    },
+    "id": "7c6c8c83-2312-4077-local-hw06",
+    "name": "EShop-HW06-local",
+    "values": [
+      {
+        "type": "any",
+        "value": "http://127.0.0.1:3001",
+        "key": "base_url"
+      },
+      {
+        "type": "any",
+        "value": "23127207",
+        "key": "student_id"
+      },
+      {
+        "type": "any",
+        "value": "admin@eshop.com",
+        "key": "admin_email"
+      },
+      {
+        "type": "any",
+        "value": "<redacted-admin-password>",
+        "key": "admin_password"
+      },
+      {
+        "type": "any",
+        "value": "test@eshop.com",
+        "key": "user_email"
+      },
+      {
+        "type": "any",
+        "value": "<redacted-user-password>",
+        "key": "user_password"
+      },
+      {
+        "type": "any",
+        "value": "<redacted-jwt>",
+        "key": "userToken"
+      },
+      {
+        "type": "any",
+        "value": "<redacted-jwt>",
+        "key": "adminToken"
+      },
+      {
+        "type": "any",
+        "value": "2",
+        "key": "userId"
+      },
+      {
+        "type": "any",
+        "value": "19",
+        "key": "orderId"
+      },
+      {
+        "type": "any",
+        "value": "hw06_lock_1787112326304@test.local",
+        "key": "lockUser"
+      },
+      {
+        "type": "any",
+        "value": "4",
+        "key": "lockUserId"
+      },
+      {
+        "type": "any",
+        "value": "full",
+        "key": "spec_strict"
+      }
+    ]
+  },
+  "globals": {
+    "id": "1ca0a8e5-6989-4986-ad3d-091a98accc1c",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 9,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 19,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 9,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 9,
+        "pending": 0,
+        "failed": 0
+      },
+      "tests": {
+        "total": 9,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 13,
+        "pending": 0,
+        "failed": 3
+      },
+      "testScripts": {
+        "total": 9,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 10,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 15.444444444444445,
+      "responseMin": 3,
+      "responseMax": 37,
+      "responseSd": 11.926731051727748,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1787112326150,
+      "completed": 1787112327099
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 9,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "46b09837-2df9-42f7-9f15-ba435b005f27",
+          "httpRequestId": "fffd61d5-e1ff-4f5a-b033-f63c9c5cbb5e"
+        },
+        "item": {
+          "id": "3f180a42-8a99-4e81-925d-8761a9d47534",
+          "name": "[SETUP] Health check",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "products"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "c3a9e840-7953-4949-ae4a-540bc7798357",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('[SETUP] health 200',()=>pm.response.to.have.status(200));",
+                  "pm.test('[SETUP] five products',()=>pm.expect(jsonBody()).to.be.an('array').with.length(5));"
+                ],
+                "_lastExecutionId": "b582bda5-d086-4fea-b2b0-e2b71a85a51d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "products"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "f020bfcc-542a-4459-9d4c-690df5241337",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "3aacc5d5-a128-4683-a559-c26954ccaeb7",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "969"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"3c9-xZtUG8WzM2DPdamB2+opTehuwVI\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:26 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              91,
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              49,
+              44,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              34,
+              105,
+              80,
+              104,
+              111,
+              110,
+              101,
+              32,
+              49,
+              53,
+              32,
+              80,
+              114,
+              111,
+              32,
+              77,
+              97,
+              120,
+              34,
+              44,
+              34,
+              112,
+              114,
+              105,
+              99,
+              101,
+              34,
+              58,
+              51,
+              48,
+              48,
+              48,
+              48,
+              48,
+              48,
+              48,
+              44,
+              34,
+              100,
+              101,
+              115,
+              99,
+              114,
+              105,
+              112,
+              116,
+              105,
+              111,
+              110,
+              34,
+              58,
+              34,
+              196,
+              144,
+              105,
+              225,
+              187,
+              135,
+              110,
+              32,
+              116,
+              104,
+              111,
+              225,
+              186,
+              161,
+              105,
+              32,
+              99,
+              97,
+              111,
+              32,
+              99,
+              225,
+              186,
+              165,
+              112,
+              32,
+              99,
+              225,
+              187,
+              167,
+              97,
+              32,
+              65,
+              112,
+              112,
+              108,
+              101,
+              34,
+              44,
+              34,
+              105,
+              109,
+              97,
+              103,
+              101,
+              85,
+              114,
+              108,
+              34,
+              58,
+              34,
+              104,
+              116,
+              116,
+              112,
+              115,
+              58,
+              47,
+              47,
+              112,
+              108,
+              97,
+              99,
+              101,
+              104,
+              111,
+              108,
+              100,
+              46,
+              99,
+              111,
+              47,
+              51,
+              48,
+              48,
+              120,
+              51,
+              48,
+              48,
+              47,
+              112,
+              110,
+              103,
+              63,
+              116,
+              101,
+              120,
+              116,
+              61,
+              105,
+              80,
+              104,
+              111,
+              110,
+              101,
+              43,
+              49,
+              53,
+              34,
+              44,
+              34,
+              99,
+              97,
+              116,
+              101,
+              103,
+              111,
+              114,
+              121,
+              95,
+              105,
+              100,
+              34,
+              58,
+              49,
+              125,
+              44,
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              50,
+              44,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              34,
+              83,
+              97,
+              109,
+              115,
+              117,
+              110,
+              103,
+              32,
+              71,
+              97,
+              108,
+              97,
+              120,
+              121,
+              32,
+              83,
+              50,
+              52,
+              32,
+              85,
+              108,
+              116,
+              114,
+              97,
+              34,
+              44,
+              34,
+              112,
+              114,
+              105,
+              99,
+              101,
+              34,
+              58,
+              50,
+              56,
+              48,
+              48,
+              48,
+              48,
+              48,
+              48,
+              44,
+              34,
+              100,
+              101,
+              115,
+              99,
+              114,
+              105,
+              112,
+              116,
+              105,
+              111,
+              110,
+              34,
+              58,
+              34,
+              77,
+              195,
+              160,
+              110,
+              32,
+              104,
+              195,
+              172,
+              110,
+              104,
+              32,
+              104,
+              105,
+              225,
+              187,
+              131,
+              110,
+              32,
+              116,
+              104,
+              225,
+              187,
+              139,
+              32,
+              120,
+              117,
+              225,
+              186,
+              165,
+              116,
+              32,
+              115,
+              225,
+              186,
+              175,
+              99,
+              44,
+              32,
+              99,
+              97,
+              109,
+              101,
+              114,
+              97,
+              32,
+              115,
+              105,
+              195,
+              170,
+              117,
+              32,
+              122,
+              111,
+              111,
+              109,
+              34,
+              44,
+              34,
+              105,
+              109,
+              97,
+              103,
+              101,
+              85,
+              114,
+              108,
+              34,
+              58,
+              34,
+              104,
+              116,
+              116,
+              112,
+              115,
+              58,
+              47,
+              47,
+              112,
+              108,
+              97,
+              99,
+              101,
+              104,
+              111,
+              108,
+              100,
+              46,
+              99,
+              111,
+              47,
+              51,
+              48,
+              48,
+              120,
+              51,
+              48,
+              48,
+              47,
+              112,
+              110,
+              103,
+              63,
+              116,
+              101,
+              120,
+              116,
+              61,
+              83,
+              97,
+              109,
+              115,
+              117,
+              110,
+              103,
+              43,
+              83,
+              50,
+              52,
+              34,
+              44,
+              34,
+              99,
+              97,
+              116,
+              101,
+              103,
+              111,
+              114,
+              121,
+              95,
+              105,
+              100,
+              34,
+              58,
+              49,
+              125,
+              44,
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              51,
+              44,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              34,
+              77,
+              97,
+              99,
+              66,
+              111,
+              111,
+              107,
+              32,
+              80,
+              114,
+              111,
+              32,
+              77,
+              51,
+              34,
+              44,
+              34,
+              112,
+              114,
+              105,
+              99,
+              101,
+              34,
+              58,
+              52,
+              53,
+              48,
+              48,
+              48,
+              48,
+              48,
+              48,
+              44,
+              34,
+              100,
+              101,
+              115,
+              99,
+              114,
+              105,
+              112,
+              116,
+              105,
+              111,
+              110,
+              34,
+              58,
+              34,
+              76,
+              97,
+              112,
+              116,
+              111,
+              112,
+              32,
+              99,
+              104,
+              117,
+              121,
+              195,
+              170,
+              110,
+              32,
+              110,
+              103,
+              104,
+              105,
+              225,
+              187,
+              135,
+              112,
+              32,
+              109,
+              225,
+              186,
+              161,
+              110,
+              104,
+              32,
+              109,
+              225,
+              186,
+              189,
+              34,
+              44,
+              34,
+              105,
+              109,
+              97,
+              103,
+              101,
+              85,
+              114,
+              108,
+              34,
+              58,
+              34,
+              104,
+              116,
+              116,
+              112,
+              115,
+              58,
+              47,
+              47,
+              112,
+              108,
+              97,
+              99,
+              101,
+              104,
+              111,
+              108,
+              100,
+              46,
+              99,
+              111,
+              47,
+              51,
+              48,
+              48,
+              120,
+              51,
+              48,
+              48,
+              47,
+              112,
+              110,
+              103,
+              63,
+              116,
+              101,
+              120,
+              116,
+              61,
+              77,
+              97,
+              99,
+              98,
+              111,
+              111,
+              107,
+              43,
+              80,
+              114,
+              111,
+              34,
+              44,
+              34,
+              99,
+              97,
+              116,
+              101,
+              103,
+              111,
+              114,
+              121,
+              95,
+              105,
+              100,
+              34,
+              58,
+              50,
+              125,
+              44,
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              52,
+              44,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              34,
+              84,
+              97,
+              105,
+              32,
+              110,
+              103,
+              104,
+              101,
+              32,
+              65,
+              105,
+              114,
+              80,
+              111,
+              100,
+              115,
+              32,
+              80,
+              114,
+              111,
+              32,
+              50,
+              34,
+              44,
+              34,
+              112,
+              114,
+              105,
+              99,
+              101,
+              34,
+              58,
+              54,
+              48,
+              48,
+              48,
+              48,
+              48,
+              48,
+              44,
+              34,
+              100,
+              101,
+              115,
+              99,
+              114,
+              105,
+              112,
+              116,
+              105,
+              111,
+              110,
+              34,
+              58,
+              34,
+              67,
+              104,
+              225,
+              187,
+              145,
+              110,
+              103,
+              32,
+              225,
+              187,
+              147,
+              110,
+              32,
+              99,
+              104,
+              225,
+              187,
+              167,
+              32,
+              196,
+              145,
+              225,
+              187,
+              153,
+              110,
+              103,
+              32,
+              120,
+              117,
+              225,
+              186,
+              165,
+              116,
+              32,
+              115,
+              225,
+              186,
+              175,
+              99,
+              34,
+              44,
+              34,
+              105,
+              109,
+              97,
+              103,
+              101,
+              85,
+              114,
+              108,
+              34,
+              58,
+              34,
+              104,
+              116,
+              116,
+              112,
+              115,
+              58,
+              47,
+              47,
+              112,
+              108,
+              97,
+              99,
+              101,
+              104,
+              111,
+              108,
+              100,
+              46,
+              99,
+              111,
+              47,
+              51,
+              48,
+              48,
+              120,
+              51,
+              48,
+              48,
+              47,
+              112,
+              110,
+              103,
+              63,
+              116,
+              101,
+              120,
+              116,
+              61,
+              65,
+              105,
+              114,
+              80,
+              111,
+              100,
+              115,
+              43,
+              80,
+              114,
+              111,
+              34,
+              44,
+              34,
+              99,
+              97,
+              116,
+              101,
+              103,
+              111,
+              114,
+              121,
+              95,
+              105,
+              100,
+              34,
+              58,
+              51,
+              125,
+              44,
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              53,
+              44,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              34,
+              66,
+              195,
+              160,
+              110,
+              32,
+              112,
+              104,
+              195,
+              173,
+              109,
+              32,
+              99,
+              198,
+              161,
+              32,
+              75,
+              101,
+              121,
+              99,
+              104,
+              114,
+              111,
+              110,
+              32,
+              81,
+              49,
+              34,
+              44,
+              34,
+              112,
+              114,
+              105,
+              99,
+              101,
+              34,
+              58,
+              52,
+              48,
+              48,
+              48,
+              48,
+              48,
+              48,
+              44,
+              34,
+              100,
+              101,
+              115,
+              99,
+              114,
+              105,
+              112,
+              116,
+              105,
+              111,
+              110,
+              34,
+              58,
+              34,
+              71,
+              195,
+              181,
+              32,
+              99,
+              225,
+              187,
+              177,
+              99,
+              32,
+              115,
+              198,
+              176,
+              225,
+              187,
+              155,
+              110,
+              103,
+              44,
+              32,
+              116,
+              104,
+              105,
+              225,
+              186,
+              191,
+              116,
+              32,
+              107,
+              225,
+              186,
+              191,
+              32,
+              107,
+              105,
+              109,
+              32,
+              108,
+              111,
+              225,
+              186,
+              161,
+              105,
+              34,
+              44,
+              34,
+              105,
+              109,
+              97,
+              103,
+              101,
+              85,
+              114,
+              108,
+              34,
+              58,
+              34,
+              104,
+              116,
+              116,
+              112,
+              115,
+              58,
+              47,
+              47,
+              112,
+              108,
+              97,
+              99,
+              101,
+              104,
+              111,
+              108,
+              100,
+              46,
+              99,
+              111,
+              47,
+              51,
+              48,
+              48,
+              120,
+              51,
+              48,
+              48,
+              47,
+              112,
+              110,
+              103,
+              63,
+              116,
+              101,
+              120,
+              116,
+              61,
+              75,
+              101,
+              121,
+              99,
+              104,
+              114,
+              111,
+              110,
+              43,
+              81,
+              49,
+              34,
+              44,
+              34,
+              99,
+              97,
+              116,
+              101,
+              103,
+              111,
+              114,
+              121,
+              95,
+              105,
+              100,
+              34,
+              58,
+              51,
+              125,
+              93
+            ]
+          },
+          "cookie": [],
+          "responseTime": 37,
+          "responseSize": 969
+        },
+        "id": "3f180a42-8a99-4e81-925d-8761a9d47534",
+        "assertions": [
+          {
+            "assertion": "[SETUP] health 200",
+            "skipped": false
+          },
+          {
+            "assertion": "[SETUP] five products",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "d173eefc-9c10-42a3-bc56-97fb15dd95a9",
+          "length": 9,
+          "cycles": 1,
+          "position": 1,
+          "iteration": 0,
+          "httpRequestId": "66671167-7f70-4436-b846-9a56f90091d6"
+        },
+        "item": {
+          "id": "e149abb5-e591-4334-a645-fdd92ed516c5",
+          "name": "[SETUP] Register disposable lock user",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "register"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"HW06 Lock User\", \"email\": \"{{lockUser}}\", \"password\": \"<redacted-lock-password>\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "e0b9e9b3-7dbd-43e6-ada5-953d56b3c2b5",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.environment.set('lockUser','hw06_lock_'+Date.now()+'@test.local');"
+                ],
+                "_lastExecutionId": "41583012-c9c5-4524-b5fe-1e5944225096"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "2652c148-b442-4dd2-88d4-60449c4e818c",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('[SETUP] register 200',()=>pm.response.to.have.status(200));",
+                  "pm.environment.set('lockUserId',String(jsonBody().id||''));"
+                ],
+                "_lastExecutionId": "f62cedad-e438-4d74-b52e-0fef18a9d6e6"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "register"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "c7c2f714-d477-4a8b-9ee1-ecf3c2cffbad",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "98",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"name\": \"HW06 Lock User\", \"email\": \"hw06_lock_1787112326304@test.local\", \"password\": \"<redacted-lock-password>\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "5e0361f5-1e12-40d8-841d-d96ba2f89e36",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "49"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"31-9gblabB93EjeSU+W40VtccBK30o\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:26 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              85,
+              115,
+              101,
+              114,
+              32,
+              114,
+              101,
+              103,
+              105,
+              115,
+              116,
+              101,
+              114,
+              101,
+              100,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              108,
+              121,
+              34,
+              44,
+              34,
+              105,
+              100,
+              34,
+              58,
+              52,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 23,
+          "responseSize": 49
+        },
+        "id": "e149abb5-e591-4334-a645-fdd92ed516c5",
+        "assertions": [
+          {
+            "assertion": "[SETUP] register 200",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "919b776c-b864-4813-b596-edc02bafce2c",
+          "length": 9,
+          "cycles": 1,
+          "position": 2,
+          "iteration": 0,
+          "httpRequestId": "86a73445-3685-4432-8522-724bb516eddc"
+        },
+        "item": {
+          "id": "10c7a99a-4891-4417-9bc1-aa450961bba8",
+          "name": "[SETUP] Login user",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "login"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{user_email}}\", \"password\": \"{{user_password}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "95e9c707-dff3-41df-983c-9dd356f497bb",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('[SETUP] user login 200',()=>pm.response.to.have.status(200));",
+                  "const d=jsonBody();pm.expect(d.token).to.be.a('string').and.not.empty;pm.environment.set('userToken',d.token);pm.environment.set('userId',String(d.user&&d.user.id||''));"
+                ],
+                "_lastExecutionId": "14fac102-c556-4e34-a266-c3c7e02333ac"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "login"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "711c3ac3-34b2-4616-a437-9bb82af0d7bf",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "52",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"email\": \"test@eshop.com\", \"password\": \"<redacted-user-password>\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "59fef9cc-4621-4d27-9cb6-f8e5575db364",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "366"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"16e-iE6vInjHWUOWUskmKGnjw6KkHGs\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:26 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              76,
+              111,
+              103,
+              105,
+              110,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              116,
+              111,
+              107,
+              101,
+              110,
+              34,
+              58,
+              34,
+              101,
+              121,
+              74,
+              104,
+              98,
+              71,
+              99,
+              105,
+              79,
+              105,
+              74,
+              73,
+              85,
+              122,
+              73,
+              49,
+              78,
+              105,
+              73,
+              115,
+              73,
+              110,
+              82,
+              53,
+              99,
+              67,
+              73,
+              54,
+              73,
+              107,
+              112,
+              88,
+              86,
+              67,
+              74,
+              57,
+              46,
+              101,
+              121,
+              74,
+              112,
+              90,
+              67,
+              73,
+              54,
+              77,
+              105,
+              119,
+              105,
+              99,
+              109,
+              57,
+              115,
+              90,
+              83,
+              73,
+              54,
+              73,
+              110,
+              86,
+              122,
+              90,
+              88,
+              73,
+              105,
+              76,
+              67,
+              74,
+              112,
+              89,
+              88,
+              81,
+              105,
+              79,
+              106,
+              69,
+              51,
+              79,
+              68,
+              99,
+              120,
+              77,
+              84,
+              73,
+              122,
+              77,
+              106,
+              90,
+              57,
+              46,
+              88,
+              111,
+              68,
+              88,
+              45,
+              118,
+              107,
+              116,
+              55,
+              55,
+              81,
+              70,
+              99,
+              115,
+              51,
+              70,
+              107,
+              78,
+              72,
+              108,
+              111,
+              113,
+              95,
+              78,
+              85,
+              120,
+              50,
+              52,
+              109,
+              95,
+              105,
+              117,
+              73,
+              49,
+              70,
+              87,
+              79,
+              89,
+              75,
+              108,
+              68,
+              76,
+              65,
+              34,
+              44,
+              34,
+              117,
+              115,
+              101,
+              114,
+              34,
+              58,
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              50,
+              44,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              34,
+              84,
+              101,
+              115,
+              116,
+              32,
+              85,
+              115,
+              101,
+              114,
+              34,
+              44,
+              34,
+              101,
+              109,
+              97,
+              105,
+              108,
+              34,
+              58,
+              34,
+              116,
+              101,
+              115,
+              116,
+              64,
+              101,
+              115,
+              104,
+              111,
+              112,
+              46,
+              99,
+              111,
+              109,
+              34,
+              44,
+              34,
+              112,
+              97,
+              115,
+              115,
+              119,
+              111,
+              114,
+              100,
+              34,
+              58,
+              34,
+              84,
+              101,
+              115,
+              116,
+              49,
+              50,
+              51,
+              52,
+              33,
+              34,
+              44,
+              34,
+              114,
+              111,
+              108,
+              101,
+              34,
+              58,
+              34,
+              117,
+              115,
+              101,
+              114,
+              34,
+              44,
+              34,
+              108,
+              111,
+              103,
+              105,
+              110,
+              95,
+              97,
+              116,
+              116,
+              101,
+              109,
+              112,
+              116,
+              115,
+              34,
+              58,
+              48,
+              44,
+              34,
+              108,
+              111,
+              99,
+              107,
+              101,
+              100,
+              95,
+              117,
+              110,
+              116,
+              105,
+              108,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              114,
+              101,
+              115,
+              101,
+              116,
+              95,
+              116,
+              111,
+              107,
+              101,
+              110,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              115,
+              104,
+              105,
+              112,
+              112,
+              105,
+              110,
+              103,
+              95,
+              97,
+              100,
+              100,
+              114,
+              101,
+              115,
+              115,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              112,
+              104,
+              111,
+              110,
+              101,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              125,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 7,
+          "responseSize": 366
+        },
+        "id": "10c7a99a-4891-4417-9bc1-aa450961bba8",
+        "assertions": [
+          {
+            "assertion": "[SETUP] user login 200",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "19b056a5-69fa-4205-a24c-d59b43ec908c",
+          "length": 9,
+          "cycles": 1,
+          "position": 3,
+          "iteration": 0,
+          "httpRequestId": "2ec8ce11-1158-42bc-8e30-99a7121037d4"
+        },
+        "item": {
+          "id": "0a9e0e1b-011f-498e-8ad5-169b0ba310dd",
+          "name": "[SETUP] Login admin",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "login"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{admin_email}}\", \"password\": \"{{admin_password}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "1b4497e8-bc56-481f-910b-74939a6fb29d",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('[SETUP] admin login 200',()=>pm.response.to.have.status(200));",
+                  "pm.environment.set('adminToken',jsonBody().token||'');"
+                ],
+                "_lastExecutionId": "cf98950b-f3f7-4667-bc99-d76ccaad91b9"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "login"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "d69484b2-ce16-4e88-9cda-bddf0d829a7b",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "53",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"email\": \"admin@eshop.com\", \"password\": \"<redacted-admin-password>\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "ef7045bb-1a43-4565-9cb8-f221f33af7fb",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "371"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"173-NgBpn3Aey/tpGIU5HgLTB7QaSbU\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:26 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              76,
+              111,
+              103,
+              105,
+              110,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              116,
+              111,
+              107,
+              101,
+              110,
+              34,
+              58,
+              34,
+              101,
+              121,
+              74,
+              104,
+              98,
+              71,
+              99,
+              105,
+              79,
+              105,
+              74,
+              73,
+              85,
+              122,
+              73,
+              49,
+              78,
+              105,
+              73,
+              115,
+              73,
+              110,
+              82,
+              53,
+              99,
+              67,
+              73,
+              54,
+              73,
+              107,
+              112,
+              88,
+              86,
+              67,
+              74,
+              57,
+              46,
+              101,
+              121,
+              74,
+              112,
+              90,
+              67,
+              73,
+              54,
+              77,
+              83,
+              119,
+              105,
+              99,
+              109,
+              57,
+              115,
+              90,
+              83,
+              73,
+              54,
+              73,
+              109,
+              70,
+              107,
+              98,
+              87,
+              108,
+              117,
+              73,
+              105,
+              119,
+              105,
+              97,
+              87,
+              70,
+              48,
+              73,
+              106,
+              111,
+              120,
+              78,
+              122,
+              103,
+              51,
+              77,
+              84,
+              69,
+              121,
+              77,
+              122,
+              73,
+              50,
+              102,
+              81,
+              46,
+              97,
+              116,
+              119,
+              78,
+              90,
+              101,
+              73,
+              115,
+              109,
+              50,
+              106,
+              99,
+              68,
+              102,
+              88,
+              45,
+              104,
+              49,
+              117,
+              103,
+              72,
+              122,
+              114,
+              90,
+              115,
+              98,
+              51,
+              118,
+              66,
+              121,
+              89,
+              50,
+              87,
+              79,
+              69,
+              73,
+              119,
+              71,
+              73,
+              56,
+              67,
+              110,
+              85,
+              34,
+              44,
+              34,
+              117,
+              115,
+              101,
+              114,
+              34,
+              58,
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              49,
+              44,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              34,
+              65,
+              100,
+              109,
+              105,
+              110,
+              32,
+              85,
+              115,
+              101,
+              114,
+              34,
+              44,
+              34,
+              101,
+              109,
+              97,
+              105,
+              108,
+              34,
+              58,
+              34,
+              97,
+              100,
+              109,
+              105,
+              110,
+              64,
+              101,
+              115,
+              104,
+              111,
+              112,
+              46,
+              99,
+              111,
+              109,
+              34,
+              44,
+              34,
+              112,
+              97,
+              115,
+              115,
+              119,
+              111,
+              114,
+              100,
+              34,
+              58,
+              34,
+              65,
+              100,
+              109,
+              105,
+              110,
+              49,
+              50,
+              51,
+              33,
+              34,
+              44,
+              34,
+              114,
+              111,
+              108,
+              101,
+              34,
+              58,
+              34,
+              97,
+              100,
+              109,
+              105,
+              110,
+              34,
+              44,
+              34,
+              108,
+              111,
+              103,
+              105,
+              110,
+              95,
+              97,
+              116,
+              116,
+              101,
+              109,
+              112,
+              116,
+              115,
+              34,
+              58,
+              48,
+              44,
+              34,
+              108,
+              111,
+              99,
+              107,
+              101,
+              100,
+              95,
+              117,
+              110,
+              116,
+              105,
+              108,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              114,
+              101,
+              115,
+              101,
+              116,
+              95,
+              116,
+              111,
+              107,
+              101,
+              110,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              115,
+              104,
+              105,
+              112,
+              112,
+              105,
+              110,
+              103,
+              95,
+              97,
+              100,
+              100,
+              114,
+              101,
+              115,
+              115,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              44,
+              34,
+              112,
+              104,
+              111,
+              110,
+              101,
+              34,
+              58,
+              110,
+              117,
+              108,
+              108,
+              125,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 7,
+          "responseSize": 371
+        },
+        "id": "0a9e0e1b-011f-498e-8ad5-169b0ba310dd",
+        "assertions": [
+          {
+            "assertion": "[SETUP] admin login 200",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "13752587-27e3-4c37-9a26-11564d450a5a",
+          "length": 9,
+          "cycles": 1,
+          "position": 4,
+          "iteration": 0,
+          "httpRequestId": "3023da78-35c9-4ef1-aa6f-8271fd142b09"
+        },
+        "item": {
+          "id": "528a4102-7aa9-48d6-b63c-a2cd802627b3",
+          "name": "[SETUP] Add product to cart",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "cart"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\": 1, \"name\": \"Laptop\", \"price\": 100000, \"quantity\": 1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "c93248fc-f6bd-4cf7-8ca5-b5ba2dadb803",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('[SETUP] add cart 200',()=>pm.response.to.have.status(200));"
+                ],
+                "_lastExecutionId": "de479e92-88f8-4fd7-8249-c05c1286cd59"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "cart"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "15771ea6-db7e-43e0-97de-2e34574cf142",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "59",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"id\": 1, \"name\": \"Laptop\", \"price\": 100000, \"quantity\": 1}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "57c8e964-8cc3-4904-814a-594e8f826fd5",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "27"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"1b-TJwOU+vjK3qJFSNCd2YreHR6oao\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:26 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              65,
+              100,
+              100,
+              101,
+              100,
+              32,
+              116,
+              111,
+              32,
+              99,
+              97,
+              114,
+              116,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 3,
+          "responseSize": 27
+        },
+        "id": "528a4102-7aa9-48d6-b63c-a2cd802627b3",
+        "assertions": [
+          {
+            "assertion": "[SETUP] add cart 200",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "be0b40b8-257c-4d4a-bbc0-d091ab1c27f6",
+          "length": 9,
+          "cycles": 1,
+          "position": 5,
+          "iteration": 0,
+          "httpRequestId": "5cf391f8-03aa-474b-b711-555430269a23"
+        },
+        "item": {
+          "id": "c480781c-d1c0-4c7b-b010-c4d20ee96da7",
+          "name": "TC-API-CHECKOUT-037 - client total probe",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 1, \"shipping_address\": \"123 Le Loi\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "a74820ef-49a5-4757-9964-03524d46dd47",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('TC-API-CHECKOUT-037 checkout 200',()=>pm.response.to.have.status(200));",
+                  "pm.environment.set('orderId',String(jsonBody().orderId||''));"
+                ],
+                "_lastExecutionId": "f077e854-da8a-44ec-94f4-f86d5daf3750"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "8c963eb0-7087-47f8-9e3c-087d1c9db988",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "53",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": 1, \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "bc4a3ba3-3563-4f94-a0d9-ece99dd3e5f3",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "46"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2e-XibQv/GTN34Sz7uQT1cha05Fy0Y\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:26 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              49,
+              57,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 20,
+          "responseSize": 46
+        },
+        "id": "c480781c-d1c0-4c7b-b010-c4d20ee96da7",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-037 checkout 200",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "f0e2ca3b-b4eb-4876-a877-6e7e1cfc2c60",
+          "length": 9,
+          "cycles": 1,
+          "position": 6,
+          "iteration": 0,
+          "httpRequestId": "d9a69756-9db2-4534-a580-9d177484ee1e"
+        },
+        "item": {
+          "id": "29ec9011-eba5-42c9-8d60-988572987d80",
+          "name": "TC-API-CHECKOUT-031 - IDOR probe",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "29635dc2-c372-4fb0-897a-9b05d3cc2d95",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('TC-API-CHECKOUT-031 observed',()=>pm.expect([200,401,403]).to.include(pm.response.code));",
+                  "specTest('TC-API-CHECKOUT-031','order detail needs auth',()=>pm.expect([401,403]).to.include(pm.response.code));"
+                ],
+                "_lastExecutionId": "ca82077e-a617-475d-9807-31de6d7a8d88"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "orders",
+              "19"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "afe7012f-ae67-4a13-a593-dc82357fe69c",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "4154f9db-6850-4b78-b1f0-aad94f28a4a2",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "124"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"7c-Z8CIV+qftQNRQlQbO8x4Xldi8Wg\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:26 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              49,
+              57,
+              44,
+              34,
+              117,
+              115,
+              101,
+              114,
+              95,
+              105,
+              100,
+              34,
+              58,
+              50,
+              44,
+              34,
+              116,
+              111,
+              116,
+              97,
+              108,
+              95,
+              97,
+              109,
+              111,
+              117,
+              110,
+              116,
+              34,
+              58,
+              49,
+              44,
+              34,
+              115,
+              116,
+              97,
+              116,
+              117,
+              115,
+              34,
+              58,
+              34,
+              112,
+              101,
+              110,
+              100,
+              105,
+              110,
+              103,
+              34,
+              44,
+              34,
+              115,
+              104,
+              105,
+              112,
+              112,
+              105,
+              110,
+              103,
+              95,
+              97,
+              100,
+              100,
+              114,
+              101,
+              115,
+              115,
+              34,
+              58,
+              34,
+              49,
+              50,
+              51,
+              32,
+              76,
+              101,
+              32,
+              76,
+              111,
+              105,
+              34,
+              44,
+              34,
+              99,
+              114,
+              101,
+              97,
+              116,
+              101,
+              100,
+              95,
+              97,
+              116,
+              34,
+              58,
+              34,
+              50,
+              48,
+              50,
+              54,
+              45,
+              48,
+              56,
+              45,
+              49,
+              57,
+              32,
+              48,
+              52,
+              58,
+              48,
+              53,
+              58,
+              50,
+              54,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 6,
+          "responseSize": 124
+        },
+        "id": "29ec9011-eba5-42c9-8d60-988572987d80",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-031 observed",
+            "skipped": false
+          },
+          {
+            "assertion": "[SPEC] TC-API-CHECKOUT-031 - order detail needs auth",
+            "skipped": false,
+            "error": {
+              "name": "AssertionError",
+              "index": 1,
+              "test": "[SPEC] TC-API-CHECKOUT-031 - order detail needs auth",
+              "message": "expected [ 401, 403 ] to include 200",
+              "stack": "AssertionError: expected [ 401, 403 ] to include 200\n   at Object.eval sandbox-script.js:2:7)"
+            }
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "cda5eea2-7619-4aac-8a5b-5e394a71f6f5",
+          "length": 9,
+          "cycles": 1,
+          "position": 7,
+          "iteration": 0,
+          "httpRequestId": "eb5cdf9e-ca90-439d-9857-ded1c74e36dd"
+        },
+        "item": {
+          "id": "f2bfeb59-28ff-4ba9-92c6-a55695dd5306",
+          "name": "TC-API-CHECKOUT-020 - cart post-condition",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "cart"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "918972a6-54bd-46e1-bb9c-fc188942af3d",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('TC-API-CHECKOUT-020 cart response',()=>pm.response.to.have.status(200));",
+                  "specTest('TC-API-CHECKOUT-020','cart empty after checkout',()=>pm.expect(jsonBody()).to.be.an('array').that.is.empty);"
+                ],
+                "_lastExecutionId": "a782b207-5632-49f9-a0e6-e1cd70f1ce8a"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "cart"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "dce7409c-1a8e-4780-aca0-46a342544ef6",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "b71eeb89-a2d6-4de9-b2ce-869f14dfa038",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "107"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"6b-VqPeHbgElReTj3SDBi3FUuptVik\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:26 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              91,
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              49,
+              44,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              34,
+              76,
+              97,
+              112,
+              116,
+              111,
+              112,
+              34,
+              44,
+              34,
+              112,
+              114,
+              105,
+              99,
+              101,
+              34,
+              58,
+              49,
+              48,
+              48,
+              48,
+              48,
+              48,
+              44,
+              34,
+              113,
+              117,
+              97,
+              110,
+              116,
+              105,
+              116,
+              121,
+              34,
+              58,
+              49,
+              125,
+              44,
+              123,
+              34,
+              105,
+              100,
+              34,
+              58,
+              49,
+              44,
+              34,
+              110,
+              97,
+              109,
+              101,
+              34,
+              58,
+              34,
+              76,
+              97,
+              112,
+              116,
+              111,
+              112,
+              34,
+              44,
+              34,
+              112,
+              114,
+              105,
+              99,
+              101,
+              34,
+              58,
+              49,
+              48,
+              48,
+              48,
+              48,
+              48,
+              44,
+              34,
+              113,
+              117,
+              97,
+              110,
+              116,
+              105,
+              116,
+              121,
+              34,
+              58,
+              49,
+              125,
+              93
+            ]
+          },
+          "cookie": [],
+          "responseTime": 5,
+          "responseSize": 107
+        },
+        "id": "f2bfeb59-28ff-4ba9-92c6-a55695dd5306",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-020 cart response",
+            "skipped": false
+          },
+          {
+            "assertion": "[SPEC] TC-API-CHECKOUT-020 - cart empty after checkout",
+            "skipped": false,
+            "error": {
+              "name": "AssertionError",
+              "index": 1,
+              "test": "[SPEC] TC-API-CHECKOUT-020 - cart empty after checkout",
+              "message": "expected [ …(2) ] to be empty",
+              "stack": "AssertionError: expected [ …(2) ] to be empty\n   at Object.eval sandbox-script.js:2:8)"
+            }
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "ffff6cb4-f013-49bd-a9b7-29151f3b3c81",
+          "length": 9,
+          "cycles": 1,
+          "position": 8,
+          "iteration": 0,
+          "httpRequestId": "01a3f0de-cd0c-4f76-80aa-0fdb8ff56241"
+        },
+        "item": {
+          "id": "016601f0-f74a-48f4-bd42-3f85fd25300a",
+          "name": "TC-API-CHECKOUT-005 - zero total",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 0, \"shipping_address\": \"A\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "39a2fcd8-9167-4732-ae69-a93442ba9036",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('TC-API-CHECKOUT-005 observed',()=>pm.expect([200,400]).to.include(pm.response.code));",
+                  "specTest('TC-API-CHECKOUT-005','zero total rejected',()=>pm.response.to.have.status(400));"
+                ],
+                "_lastExecutionId": "3fb4c5fb-bfb8-45e1-8b30-6bc4bdab3e60"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "d075e059-068f-469a-ae47-27cf5feba268",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "44",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": 0, \"shipping_address\": \"A\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "65586245-27a5-436a-955f-2972bd225394",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "46"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2e-bKNrhtHiDb1RbC/mHeDBKW4EIgw\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:27 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              50,
+              48,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 31,
+          "responseSize": 46
+        },
+        "id": "016601f0-f74a-48f4-bd42-3f85fd25300a",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-005 observed",
+            "skipped": false
+          },
+          {
+            "assertion": "[SPEC] TC-API-CHECKOUT-005 - zero total rejected",
+            "skipped": false,
+            "error": {
+              "name": "AssertionError",
+              "index": 1,
+              "test": "[SPEC] TC-API-CHECKOUT-005 - zero total rejected",
+              "message": "expected response to have status code 400 but got 200",
+              "stack": "AssertionError: expected response to have status code 400 but got 200\n   at Object.eval sandbox-script.js:2:9)"
+            }
+          }
+        ]
+      }
+    ],
+    "transfers": {
+      "responseTotal": 2105
+    },
+    "failures": [
+      {
+        "error": {
+          "name": "AssertionError",
+          "index": 1,
+          "test": "[SPEC] TC-API-CHECKOUT-031 - order detail needs auth",
+          "message": "expected [ 401, 403 ] to include 200",
+          "stack": "AssertionError: expected [ 401, 403 ] to include 200\n   at Object.eval sandbox-script.js:2:7)",
+          "checksum": "8c74cea90694146559073e212214e572",
+          "id": "5bd48984-ba96-461e-987a-9bffe660fdab",
+          "timestamp": 1787112326855,
+          "stacktrace": [
+            {
+              "fileName": "sandbox-script.js",
+              "lineNumber": 2,
+              "functionName": "Object.eval",
+              "typeName": "Object",
+              "methodName": "eval",
+              "columnNumber": 7,
+              "native": false
+            }
+          ]
+        },
+        "at": "assertion:1 in test-script",
+        "source": {
+          "id": "29ec9011-eba5-42c9-8d60-988572987d80",
+          "name": "TC-API-CHECKOUT-031 - IDOR probe",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "29635dc2-c372-4fb0-897a-9b05d3cc2d95",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('TC-API-CHECKOUT-031 observed',()=>pm.expect([200,401,403]).to.include(pm.response.code));",
+                  "specTest('TC-API-CHECKOUT-031','order detail needs auth',()=>pm.expect([401,403]).to.include(pm.response.code));"
+                ],
+                "_lastExecutionId": "ca82077e-a617-475d-9807-31de6d7a8d88"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "id": "1e48e9c9-46dd-4a19-8ce2-c3e4c2a01c0a",
+          "name": "API-2 - POST /api/checkout",
+          "item": [
+            {
+              "id": "c480781c-d1c0-4c7b-b010-c4d20ee96da7",
+              "name": "TC-API-CHECKOUT-037 - client total probe",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "checkout"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{userToken}}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"total_amount\": 1, \"shipping_address\": \"123 Le Loi\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "a74820ef-49a5-4757-9964-03524d46dd47",
+                    "type": "text/javascript",
+                    "exec": [
+                      "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                      "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                      "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                      "pm.test('TC-API-CHECKOUT-037 checkout 200',()=>pm.response.to.have.status(200));",
+                      "pm.environment.set('orderId',String(jsonBody().orderId||''));"
+                    ],
+                    "_lastExecutionId": "f077e854-da8a-44ec-94f4-f86d5daf3750"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "29ec9011-eba5-42c9-8d60-988572987d80",
+              "name": "TC-API-CHECKOUT-031 - IDOR probe",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "orders",
+                    "{{orderId}}"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET"
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "29635dc2-c372-4fb0-897a-9b05d3cc2d95",
+                    "type": "text/javascript",
+                    "exec": [
+                      "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                      "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                      "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                      "pm.test('TC-API-CHECKOUT-031 observed',()=>pm.expect([200,401,403]).to.include(pm.response.code));",
+                      "specTest('TC-API-CHECKOUT-031','order detail needs auth',()=>pm.expect([401,403]).to.include(pm.response.code));"
+                    ],
+                    "_lastExecutionId": "ca82077e-a617-475d-9807-31de6d7a8d88"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "f2bfeb59-28ff-4ba9-92c6-a55695dd5306",
+              "name": "TC-API-CHECKOUT-020 - cart post-condition",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cart"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{userToken}}"
+                  }
+                ],
+                "method": "GET"
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "918972a6-54bd-46e1-bb9c-fc188942af3d",
+                    "type": "text/javascript",
+                    "exec": [
+                      "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                      "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                      "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                      "pm.test('TC-API-CHECKOUT-020 cart response',()=>pm.response.to.have.status(200));",
+                      "specTest('TC-API-CHECKOUT-020','cart empty after checkout',()=>pm.expect(jsonBody()).to.be.an('array').that.is.empty);"
+                    ],
+                    "_lastExecutionId": "a782b207-5632-49f9-a0e6-e1cd70f1ce8a"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "016601f0-f74a-48f4-bd42-3f85fd25300a",
+              "name": "TC-API-CHECKOUT-005 - zero total",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "checkout"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{userToken}}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"total_amount\": 0, \"shipping_address\": \"A\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "39a2fcd8-9167-4732-ae69-a93442ba9036",
+                    "type": "text/javascript",
+                    "exec": [
+                      "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                      "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                      "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                      "pm.test('TC-API-CHECKOUT-005 observed',()=>pm.expect([200,400]).to.include(pm.response.code));",
+                      "specTest('TC-API-CHECKOUT-005','zero total rejected',()=>pm.response.to.have.status(400));"
+                    ],
+                    "_lastExecutionId": "3fb4c5fb-bfb8-45e1-8b30-6bc4bdab3e60"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": []
+        },
+        "cursor": {
+          "ref": "f0e2ca3b-b4eb-4876-a877-6e7e1cfc2c60",
+          "length": 9,
+          "cycles": 1,
+          "position": 6,
+          "iteration": 0,
+          "httpRequestId": "d9a69756-9db2-4534-a580-9d177484ee1e",
+          "scriptId": "29635dc2-c372-4fb0-897a-9b05d3cc2d95",
+          "execution": "ca82077e-a617-475d-9807-31de6d7a8d88"
+        }
+      },
+      {
+        "error": {
+          "name": "AssertionError",
+          "index": 1,
+          "test": "[SPEC] TC-API-CHECKOUT-020 - cart empty after checkout",
+          "message": "expected [ …(2) ] to be empty",
+          "stack": "AssertionError: expected [ …(2) ] to be empty\n   at Object.eval sandbox-script.js:2:8)",
+          "checksum": "29ef4f7ea6002c772a5be4ba88f9c479",
+          "id": "cd1e5091-f396-4fc3-80ca-4e765a3c71eb",
+          "timestamp": 1787112326953,
+          "stacktrace": [
+            {
+              "fileName": "sandbox-script.js",
+              "lineNumber": 2,
+              "functionName": "Object.eval",
+              "typeName": "Object",
+              "methodName": "eval",
+              "columnNumber": 8,
+              "native": false
+            }
+          ]
+        },
+        "at": "assertion:1 in test-script",
+        "source": {
+          "id": "f2bfeb59-28ff-4ba9-92c6-a55695dd5306",
+          "name": "TC-API-CHECKOUT-020 - cart post-condition",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "cart"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "918972a6-54bd-46e1-bb9c-fc188942af3d",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('TC-API-CHECKOUT-020 cart response',()=>pm.response.to.have.status(200));",
+                  "specTest('TC-API-CHECKOUT-020','cart empty after checkout',()=>pm.expect(jsonBody()).to.be.an('array').that.is.empty);"
+                ],
+                "_lastExecutionId": "a782b207-5632-49f9-a0e6-e1cd70f1ce8a"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "id": "1e48e9c9-46dd-4a19-8ce2-c3e4c2a01c0a",
+          "name": "API-2 - POST /api/checkout",
+          "item": [
+            {
+              "id": "c480781c-d1c0-4c7b-b010-c4d20ee96da7",
+              "name": "TC-API-CHECKOUT-037 - client total probe",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "checkout"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{userToken}}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"total_amount\": 1, \"shipping_address\": \"123 Le Loi\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "a74820ef-49a5-4757-9964-03524d46dd47",
+                    "type": "text/javascript",
+                    "exec": [
+                      "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                      "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                      "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                      "pm.test('TC-API-CHECKOUT-037 checkout 200',()=>pm.response.to.have.status(200));",
+                      "pm.environment.set('orderId',String(jsonBody().orderId||''));"
+                    ],
+                    "_lastExecutionId": "f077e854-da8a-44ec-94f4-f86d5daf3750"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "29ec9011-eba5-42c9-8d60-988572987d80",
+              "name": "TC-API-CHECKOUT-031 - IDOR probe",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "orders",
+                    "{{orderId}}"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET"
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "29635dc2-c372-4fb0-897a-9b05d3cc2d95",
+                    "type": "text/javascript",
+                    "exec": [
+                      "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                      "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                      "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                      "pm.test('TC-API-CHECKOUT-031 observed',()=>pm.expect([200,401,403]).to.include(pm.response.code));",
+                      "specTest('TC-API-CHECKOUT-031','order detail needs auth',()=>pm.expect([401,403]).to.include(pm.response.code));"
+                    ],
+                    "_lastExecutionId": "ca82077e-a617-475d-9807-31de6d7a8d88"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "f2bfeb59-28ff-4ba9-92c6-a55695dd5306",
+              "name": "TC-API-CHECKOUT-020 - cart post-condition",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cart"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{userToken}}"
+                  }
+                ],
+                "method": "GET"
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "918972a6-54bd-46e1-bb9c-fc188942af3d",
+                    "type": "text/javascript",
+                    "exec": [
+                      "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                      "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                      "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                      "pm.test('TC-API-CHECKOUT-020 cart response',()=>pm.response.to.have.status(200));",
+                      "specTest('TC-API-CHECKOUT-020','cart empty after checkout',()=>pm.expect(jsonBody()).to.be.an('array').that.is.empty);"
+                    ],
+                    "_lastExecutionId": "a782b207-5632-49f9-a0e6-e1cd70f1ce8a"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "016601f0-f74a-48f4-bd42-3f85fd25300a",
+              "name": "TC-API-CHECKOUT-005 - zero total",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "checkout"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{userToken}}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"total_amount\": 0, \"shipping_address\": \"A\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "39a2fcd8-9167-4732-ae69-a93442ba9036",
+                    "type": "text/javascript",
+                    "exec": [
+                      "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                      "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                      "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                      "pm.test('TC-API-CHECKOUT-005 observed',()=>pm.expect([200,400]).to.include(pm.response.code));",
+                      "specTest('TC-API-CHECKOUT-005','zero total rejected',()=>pm.response.to.have.status(400));"
+                    ],
+                    "_lastExecutionId": "3fb4c5fb-bfb8-45e1-8b30-6bc4bdab3e60"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": []
+        },
+        "cursor": {
+          "ref": "cda5eea2-7619-4aac-8a5b-5e394a71f6f5",
+          "length": 9,
+          "cycles": 1,
+          "position": 7,
+          "iteration": 0,
+          "httpRequestId": "eb5cdf9e-ca90-439d-9857-ded1c74e36dd",
+          "scriptId": "918972a6-54bd-46e1-bb9c-fc188942af3d",
+          "execution": "a782b207-5632-49f9-a0e6-e1cd70f1ce8a"
+        }
+      },
+      {
+        "error": {
+          "name": "AssertionError",
+          "index": 1,
+          "test": "[SPEC] TC-API-CHECKOUT-005 - zero total rejected",
+          "message": "expected response to have status code 400 but got 200",
+          "stack": "AssertionError: expected response to have status code 400 but got 200\n   at Object.eval sandbox-script.js:2:9)",
+          "checksum": "e1538c764765712c3fd36460a8a98c38",
+          "id": "ebd3ca41-90a1-4212-90c2-aa3e6e6fa46f",
+          "timestamp": 1787112327075,
+          "stacktrace": [
+            {
+              "fileName": "sandbox-script.js",
+              "lineNumber": 2,
+              "functionName": "Object.eval",
+              "typeName": "Object",
+              "methodName": "eval",
+              "columnNumber": 9,
+              "native": false
+            }
+          ]
+        },
+        "at": "assertion:1 in test-script",
+        "source": {
+          "id": "016601f0-f74a-48f4-bd42-3f85fd25300a",
+          "name": "TC-API-CHECKOUT-005 - zero total",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 0, \"shipping_address\": \"A\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "39a2fcd8-9167-4732-ae69-a93442ba9036",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('TC-API-CHECKOUT-005 observed',()=>pm.expect([200,400]).to.include(pm.response.code));",
+                  "specTest('TC-API-CHECKOUT-005','zero total rejected',()=>pm.response.to.have.status(400));"
+                ],
+                "_lastExecutionId": "3fb4c5fb-bfb8-45e1-8b30-6bc4bdab3e60"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "id": "1e48e9c9-46dd-4a19-8ce2-c3e4c2a01c0a",
+          "name": "API-2 - POST /api/checkout",
+          "item": [
+            {
+              "id": "c480781c-d1c0-4c7b-b010-c4d20ee96da7",
+              "name": "TC-API-CHECKOUT-037 - client total probe",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "checkout"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{userToken}}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"total_amount\": 1, \"shipping_address\": \"123 Le Loi\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "a74820ef-49a5-4757-9964-03524d46dd47",
+                    "type": "text/javascript",
+                    "exec": [
+                      "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                      "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                      "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                      "pm.test('TC-API-CHECKOUT-037 checkout 200',()=>pm.response.to.have.status(200));",
+                      "pm.environment.set('orderId',String(jsonBody().orderId||''));"
+                    ],
+                    "_lastExecutionId": "f077e854-da8a-44ec-94f4-f86d5daf3750"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "29ec9011-eba5-42c9-8d60-988572987d80",
+              "name": "TC-API-CHECKOUT-031 - IDOR probe",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "orders",
+                    "{{orderId}}"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET"
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "29635dc2-c372-4fb0-897a-9b05d3cc2d95",
+                    "type": "text/javascript",
+                    "exec": [
+                      "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                      "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                      "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                      "pm.test('TC-API-CHECKOUT-031 observed',()=>pm.expect([200,401,403]).to.include(pm.response.code));",
+                      "specTest('TC-API-CHECKOUT-031','order detail needs auth',()=>pm.expect([401,403]).to.include(pm.response.code));"
+                    ],
+                    "_lastExecutionId": "ca82077e-a617-475d-9807-31de6d7a8d88"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "f2bfeb59-28ff-4ba9-92c6-a55695dd5306",
+              "name": "TC-API-CHECKOUT-020 - cart post-condition",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cart"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{userToken}}"
+                  }
+                ],
+                "method": "GET"
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "918972a6-54bd-46e1-bb9c-fc188942af3d",
+                    "type": "text/javascript",
+                    "exec": [
+                      "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                      "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                      "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                      "pm.test('TC-API-CHECKOUT-020 cart response',()=>pm.response.to.have.status(200));",
+                      "specTest('TC-API-CHECKOUT-020','cart empty after checkout',()=>pm.expect(jsonBody()).to.be.an('array').that.is.empty);"
+                    ],
+                    "_lastExecutionId": "a782b207-5632-49f9-a0e6-e1cd70f1ce8a"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "016601f0-f74a-48f4-bd42-3f85fd25300a",
+              "name": "TC-API-CHECKOUT-005 - zero total",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "checkout"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{userToken}}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"total_amount\": 0, \"shipping_address\": \"A\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "39a2fcd8-9167-4732-ae69-a93442ba9036",
+                    "type": "text/javascript",
+                    "exec": [
+                      "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                      "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                      "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                      "pm.test('TC-API-CHECKOUT-005 observed',()=>pm.expect([200,400]).to.include(pm.response.code));",
+                      "specTest('TC-API-CHECKOUT-005','zero total rejected',()=>pm.response.to.have.status(400));"
+                    ],
+                    "_lastExecutionId": "3fb4c5fb-bfb8-45e1-8b30-6bc4bdab3e60"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": []
+        },
+        "cursor": {
+          "ref": "ffff6cb4-f013-49bd-a9b7-29151f3b3c81",
+          "length": 9,
+          "cycles": 1,
+          "position": 8,
+          "iteration": 0,
+          "httpRequestId": "01a3f0de-cd0c-4f76-80aa-0fdb8ff56241",
+          "scriptId": "39a2fcd8-9167-4732-ae69-a93442ba9036",
+          "execution": "3fb4c5fb-bfb8-45e1-8b30-6bc4bdab3e60"
+        }
+      }
+    ],
+    "error": null
+  }
+}

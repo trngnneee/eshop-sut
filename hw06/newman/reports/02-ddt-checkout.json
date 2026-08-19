@@ -1,0 +1,5947 @@
+{
+  "collection": {
+    "_": {
+      "postman_id": "b1d9d8da-2312-4077-9062-hw06-23127207"
+    },
+    "item": [
+      {
+        "id": "d59f64a6-99c8-44e4-a104-977a3613f204",
+        "name": "00 - Setup",
+        "item": [
+          {
+            "id": "b2505703-7517-4cda-ac2f-5e632e734edd",
+            "name": "[SETUP] Health check",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "products"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "7acef247-dcec-4ed2-833a-b704aa0bad28",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('[SETUP] health 200',()=>pm.response.to.have.status(200));",
+                    "pm.test('[SETUP] five products',()=>pm.expect(jsonBody()).to.be.an('array').with.length(5));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "8fc36887-b805-4a3c-b101-3231df265b7c",
+            "name": "[SETUP] Register disposable lock user",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "register"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"name\": \"HW06 Lock User\", \"email\": \"{{lockUser}}\", \"password\": \"<redacted-lock-password>\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "54b3c6ee-ab99-4565-b253-22a178830aea",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.environment.set('lockUser','hw06_lock_'+Date.now()+'@test.local');"
+                  ]
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "e1ca2a79-8d4f-4535-9d20-37a3c684b84c",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('[SETUP] register 200',()=>pm.response.to.have.status(200));",
+                    "pm.environment.set('lockUserId',String(jsonBody().id||''));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "03bf1c1b-2fb3-4498-abe9-5bc59296779c",
+            "name": "[SETUP] Login user",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{user_email}}\", \"password\": \"{{user_password}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "c32c2720-6fc0-4069-b74e-0fa900796d25",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('[SETUP] user login 200',()=>pm.response.to.have.status(200));",
+                    "const d=jsonBody();pm.expect(d.token).to.be.a('string').and.not.empty;pm.environment.set('userToken',d.token);pm.environment.set('userId',String(d.user&&d.user.id||''));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "63795688-6649-4f15-9541-ec7ed7df1a14",
+            "name": "[SETUP] Login admin",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{admin_email}}\", \"password\": \"{{admin_password}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "b9b27793-e209-45d6-96d7-932e21901cca",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('[SETUP] admin login 200',()=>pm.response.to.have.status(200));",
+                    "pm.environment.set('adminToken',jsonBody().token||'');"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "22054810-7c48-4b73-a1a9-91878a4beeba",
+            "name": "[SETUP] Add product to cart",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "cart"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"id\": 1, \"name\": \"Laptop\", \"price\": 100000, \"quantity\": 1}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "71351e03-eced-46f2-9f6c-dbfa9132ab72",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('[SETUP] add cart 200',()=>pm.response.to.have.status(200));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "74aa2b72-dd22-4ab9-9588-9eea5a4ec87c",
+        "name": "API-1 - POST /api/login",
+        "item": [
+          {
+            "id": "2aaa74d7-0f21-4b4e-b095-9ec54b99aa1c",
+            "name": "TC-API-LOGIN-001 - valid credential",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{user_email}}\", \"password\": \"{{user_password}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "ef71499a-12b8-4398-82fb-36d01355be1a",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-LOGIN-001 status',()=>pm.response.to.have.status(200));",
+                    "pm.expect(jsonBody().token).to.be.a('string').and.not.empty;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "5f26d211-71a8-4996-948a-672e2d9f5b04",
+            "name": "TC-API-LOGIN-004 - missing email",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"password\": \"<redacted-user-password>\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "dd220816-0bff-471c-886d-ae7afc5619c9",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-LOGIN-004 observed',()=>pm.expect([400,401]).to.include(pm.response.code));",
+                    "specTest('TC-API-LOGIN-004','missing email validates',()=>pm.response.to.have.status(400));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "96437df7-41c9-4add-817a-ca20263681d0",
+            "name": "TC-API-LOGIN-025 - SQL injection",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"' OR 1=1 --\", \"password\": \"anything\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "7298e8a3-225f-406a-b8ba-a8dde3871580",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-LOGIN-025 rejected',()=>pm.response.to.have.status(401));",
+                    "pm.expect(jsonBody().token).to.be.undefined;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "0680e54e-3e90-4428-9546-1fb0eba96f1b",
+            "name": "TC-API-LOGIN-028 - no password leakage",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{user_email}}\", \"password\": \"{{user_password}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "6f48005a-5682-48cb-a03f-8ffa8c752937",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-LOGIN-028 login 200',()=>pm.response.to.have.status(200));",
+                    "specTest('TC-API-LOGIN-028','no password in response',()=>pm.expect(jsonBody().user.password).to.be.undefined);"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "0f9dc8f4-dbc9-4e0b-9675-ccd2c0224fad",
+            "name": "TC-API-LOGIN-018 - two failures then correct",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{lockUser}}\", \"password\": \"<redacted-lock-password>\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "7e253d5b-b3a6-4aea-9197-bb8cd66d9812",
+                  "type": "text/javascript",
+                  "exec": [
+                    "const h={'Content-Type':'application/json','X-Student-Id':pm.environment.get('student_id')};pm.sendRequest({url:pm.environment.get('base_url')+'/api/login',method:'POST',header:h,body:{mode:'raw',raw:JSON.stringify({email:pm.environment.get('lockUser'),password:'<redacted-wrong-password>'})}},function(){pm.sendRequest({url:pm.environment.get('base_url')+'/api/login',method:'POST',header:h,body:{mode:'raw',raw:JSON.stringify({email:pm.environment.get('lockUser'),password:'<redacted-wrong-password>'})}},function(){});});"
+                  ]
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "ac9202b4-4d31-4b32-b5e9-c5310b09f44a",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-LOGIN-018 observed',()=>pm.expect([200,401,403]).to.include(pm.response.code));",
+                    "specTest('TC-API-LOGIN-018','correct login after two failures',()=>pm.response.to.have.status(200));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "b1263645-682f-4553-8753-1b9d16e7e51f",
+        "name": "API-2 - POST /api/checkout",
+        "item": [
+          {
+            "id": "c7188f2e-bd91-4291-b28e-102dd6e62000",
+            "name": "TC-API-CHECKOUT-037 - client total probe",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "checkout"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"total_amount\": 1, \"shipping_address\": \"123 Le Loi\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "3526a97c-0c58-4587-917d-b327f7b2b8b2",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-CHECKOUT-037 checkout 200',()=>pm.response.to.have.status(200));",
+                    "pm.environment.set('orderId',String(jsonBody().orderId||''));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "11345a6c-251b-4ac0-b424-713778ffceb7",
+            "name": "TC-API-CHECKOUT-031 - IDOR probe",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "orders",
+                  "{{orderId}}"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "4e6e19de-1ad1-4aff-923d-27ae968ea485",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-CHECKOUT-031 observed',()=>pm.expect([200,401,403]).to.include(pm.response.code));",
+                    "specTest('TC-API-CHECKOUT-031','order detail needs auth',()=>pm.expect([401,403]).to.include(pm.response.code));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "e1ccd758-b351-4106-9fe2-e38ba185ed44",
+            "name": "TC-API-CHECKOUT-020 - cart post-condition",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "cart"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "5a50bf05-b52c-4953-878f-543db701adf6",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-CHECKOUT-020 cart response',()=>pm.response.to.have.status(200));",
+                    "specTest('TC-API-CHECKOUT-020','cart empty after checkout',()=>pm.expect(jsonBody()).to.be.an('array').that.is.empty);"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "7790ecf5-142a-4013-b40e-e26eeb985a0e",
+            "name": "TC-API-CHECKOUT-005 - zero total",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "checkout"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"total_amount\": 0, \"shipping_address\": \"A\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "f38972f1-bb8e-46e2-b646-c3133853b36e",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-CHECKOUT-005 observed',()=>pm.expect([200,400]).to.include(pm.response.code));",
+                    "specTest('TC-API-CHECKOUT-005','zero total rejected',()=>pm.response.to.have.status(400));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "4e3ca343-38ea-4bc0-969c-a8acd6c424e8",
+        "name": "API-3 - PUT /api/admin/orders/:id/status",
+        "item": [
+          {
+            "id": "ac3df57d-8b36-42cb-b3c9-f5ffc8dc95f9",
+            "name": "TC-API-ORDER-STATUS-002 - pending to confirmed",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{orderId}}",
+                  "status"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"confirmed\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "5d338788-7f3e-4f29-bf7e-615684b83116",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-ORDER-STATUS-002 admin update',()=>pm.response.to.have.status(200));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "c3cc6268-5563-4add-b3b2-95a7d0de1058",
+            "name": "TC-API-ORDER-STATUS-033 - role escalation",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{orderId}}",
+                  "status"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"shipping\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "a99e5c04-1873-45a1-8ced-06eff8faba62",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-ORDER-STATUS-033 observed',()=>pm.expect([200,403]).to.include(pm.response.code));",
+                    "specTest('TC-API-ORDER-STATUS-033','user role rejected',()=>pm.response.to.have.status(403));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "b2cac41d-dca7-4179-a138-80638bb69490",
+            "name": "TC-API-ORDER-STATUS-024 - canceled terminal",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{orderId}}",
+                  "status"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"delivered\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "3c496c6c-c000-4752-ad83-1fb7580f5aa2",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-ORDER-STATUS-024 observed',()=>pm.expect([200,400]).to.include(pm.response.code));",
+                    "specTest('TC-API-ORDER-STATUS-024','canceled cannot become delivered',()=>pm.response.to.have.status(400));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "463b0668-0bac-42d3-b9fd-572ec78ae9c4",
+        "name": "1.1 Domain partitions [DDT]",
+        "item": [
+          {
+            "id": "16dae823-148d-4bb8-9a69-4ca0c079127d",
+            "name": "[DDT] login partitions",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{email}}\", \"password\": \"{{password}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "28f4e21f-5404-4ff4-9fa2-094ea1d7b4f8",
+                  "type": "text/javascript",
+                  "exec": [
+                    "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                  ]
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "5ee11894-63ff-4f97-b2e2-456c6f18e819",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "if(!pm.iterationData.get('tc_id'))return;",
+                    "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "41a55168-6289-4f9d-93cc-dbf29c1409ac",
+        "name": "2.1 Domain partitions [DDT]",
+        "item": [
+          {
+            "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+            "name": "[DDT] checkout partitions",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "checkout"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                  "type": "text/javascript",
+                  "exec": [
+                    "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                  ],
+                  "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "if(!pm.iterationData.get('tc_id'))return;",
+                    "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                  ],
+                  "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "2a592ee2-99e2-4ebe-92bf-1ae78ca627c6",
+        "name": "3.1 Transition matrix [DDT]",
+        "item": [
+          {
+            "id": "70268c90-b426-4b1e-8aff-b1be06233777",
+            "name": "[DDT] transition matrix",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{orderId}}",
+                  "status"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"{{to_status}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "3209964b-4b8a-465e-b594-0ab5ea7d470f",
+                  "type": "text/javascript",
+                  "exec": [
+                    "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                  ]
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "382185ef-0e7c-4b29-9d00-434cc2c69dc5",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "if(!pm.iterationData.get('tc_id'))return;",
+                    "pm.test(pm.iterationData.get('tc_id')+' matrix status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      }
+    ],
+    "event": [
+      {
+        "listen": "prerequest",
+        "script": {
+          "id": "f0b31a5d-78b2-4668-9303-67e928e9f0af",
+          "type": "text/javascript",
+          "exec": [
+            "const sid=pm.environment.get('student_id')||'23127207';",
+            "pm.request.headers.upsert({key:'X-Student-Id',value:sid});",
+            "console.log('[HW06] '+pm.info.requestName+' | X-Student-Id: '+sid+' | '+pm.request.method+' '+pm.request.url.toString());"
+          ],
+          "_lastExecutionId": "e40345bd-14e7-4b79-803a-65ac7c61e97b"
+        }
+      }
+    ],
+    "variable": [],
+    "info": {
+      "_postman_id": "b1d9d8da-2312-4077-9062-hw06-23127207",
+      "name": "EShop HW06 - API Testing - 23127207",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "description": {
+        "content": "AI-first API testing. Collection pre-request adds X-Student-Id to every request.",
+        "type": "text/plain"
+      }
+    }
+  },
+  "environment": {
+    "_": {
+      "postman_variable_scope": "environment",
+      "postman_exported_at": "2026-08-19T04:05:19.084Z",
+      "postman_exported_using": "Newman/6.2.2"
+    },
+    "id": "7c6c8c83-2312-4077-local-hw06",
+    "name": "EShop-HW06-local",
+    "values": [
+      {
+        "type": "any",
+        "value": "http://127.0.0.1:3001",
+        "key": "base_url"
+      },
+      {
+        "type": "any",
+        "value": "23127207",
+        "key": "student_id"
+      },
+      {
+        "type": "any",
+        "value": "admin@eshop.com",
+        "key": "admin_email"
+      },
+      {
+        "type": "any",
+        "value": "<redacted-admin-password>",
+        "key": "admin_password"
+      },
+      {
+        "type": "any",
+        "value": "test@eshop.com",
+        "key": "user_email"
+      },
+      {
+        "type": "any",
+        "value": "<redacted-user-password>",
+        "key": "user_password"
+      },
+      {
+        "type": "any",
+        "value": "<redacted-jwt>",
+        "key": "userToken"
+      },
+      {
+        "type": "any",
+        "value": "<redacted-jwt>",
+        "key": "adminToken"
+      },
+      {
+        "type": "any",
+        "value": "2",
+        "key": "userId"
+      },
+      {
+        "type": "any",
+        "value": "",
+        "key": "orderId"
+      },
+      {
+        "type": "any",
+        "value": "hw06_lock_1787112318598@test.local",
+        "key": "lockUser"
+      },
+      {
+        "type": "any",
+        "value": "3",
+        "key": "lockUserId"
+      },
+      {
+        "type": "any",
+        "value": "full",
+        "key": "spec_strict"
+      }
+    ]
+  },
+  "globals": {
+    "id": "975d648c-f901-4e3d-8f59-48eefaac217b",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 18,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 18,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 54,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 18,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 18,
+        "pending": 0,
+        "failed": 0
+      },
+      "tests": {
+        "total": 18,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 18,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 18,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 36,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 21.27777777777778,
+      "responseMin": 16,
+      "responseMax": 50,
+      "responseSd": 7.324278922077932,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1787112322907,
+      "completed": 1787112324873
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 1,
+          "cycles": 18,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "465040f8-0a0b-4e6c-b03b-f379f832bc69",
+          "httpRequestId": "6aa98944-618e-472d-9a8f-4cfb3e686348"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "f2139282-241d-46fd-8b06-d63ad8c9a8ea",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "60",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "4360dbbc-a6ee-4f2a-ae71-de543e1b4bc4",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "45"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2d-Zy4U9oAklfO2psNH2K5YlJmZMug\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              49,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 50,
+          "responseSize": 45
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-001 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "d45a20c5-b655-4a97-903d-b856e1438e5c",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 1,
+          "cr": true,
+          "httpRequestId": "f40c0131-33cd-45eb-b6dd-8d4b8790e585"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "5d00422e-4933-4f4e-8871-5b20973c639e",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "55",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"0\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "7e28f02c-f6c5-44a5-89ad-721c2ecfe3d8",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "45"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2d-64YCqMTwxmLC7Alf0CXqYqA0N8k\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              50,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 17,
+          "responseSize": 45
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-002 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "70156853-8650-4aa3-bb7f-2c9206275bff",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 2,
+          "cr": true,
+          "httpRequestId": "f993554a-b3da-49db-aa09-642a6fe171ca"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "77fc094b-67a0-4214-9391-ae3fac876e34",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "61",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"-500000\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "cda38521-f56c-4dbe-8cc5-6bc490839335",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "45"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2d-sMxPebEzftpjbyOHc9KDb0ezLhE\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              51,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 19,
+          "responseSize": 45
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-003 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "b41c68a8-3909-4d77-9e40-737055d7d7db",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 3,
+          "cr": true,
+          "httpRequestId": "0b93c2ab-f5f0-476f-84ee-fb56362ac83e"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "bb323beb-c34a-45fe-a324-fe67d6e7496b",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "60",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "d581d723-dbf0-4b3b-bf75-122fad9b21a5",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "45"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2d-Yfh865NYZTUz3Z3YTXhXcd1mJvQ\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              52,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 22,
+          "responseSize": 45
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-004 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "c26f960f-bc65-450f-9557-0ae227c337c6",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 4,
+          "cr": true,
+          "httpRequestId": "46e6273e-2422-4d53-9f88-37e650ec3e8c"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "061d5225-6628-4bde-b45f-9284e0a952bb",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "60",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "6f721671-7235-4925-b4c0-824aa3f3d1c3",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "45"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2d-1O6wh05XZWd/zORYAVGkHc+yPWY\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              53,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 20,
+          "responseSize": 45
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-005 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "07b75592-d643-4cc4-9834-1fd12288bc6b",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 5,
+          "cr": true,
+          "httpRequestId": "415c9064-8b84-43c9-89a7-cad5ca2b14fd"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "1d7a2f88-44ec-499a-b708-79fa9e09b2ca",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "60",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "10d2220f-1dd7-4e55-9b77-67d0cfbac445",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "45"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2d-Yhg+d3nxi3TLUIIlGdrCMwSa4Nk\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              54,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 22,
+          "responseSize": 45
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-006 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "c84f15a7-2fb8-4957-8d78-0aeb32430ea7",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 6,
+          "cr": true,
+          "httpRequestId": "ed651f33-0943-4f35-bcae-fc5d695d148d"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "da400b80-71ad-43b8-9113-f50615e30006",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "60",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "529f9543-beef-4438-a618-7bba40e4c6c0",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "45"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2d-3MAwED32X0up45/dIOFbFJ/HuPE\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              55,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 20,
+          "responseSize": 45
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-007 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "46dd631e-b77e-4117-b173-eefc6ad69325",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 7,
+          "cr": true,
+          "httpRequestId": "c92e6678-ee53-4446-a680-d18a6592fb24"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "f29498db-51ff-4f68-bbd9-f94867380371",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "60",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "0bb814b1-fcae-47a8-9d10-805f331735eb",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "45"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2d-ncBS9IHgQwA92ZN1i8noJgkfxEE\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              56,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 22,
+          "responseSize": 45
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-008 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "b044b33e-7283-4b2d-87da-eebe63ae1e95",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 8,
+          "cr": true,
+          "httpRequestId": "5349e2db-c174-4afc-9d7c-f283af45dd9c"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "246f1f43-059f-4873-bd18-2ac3a26325d0",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "60",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "051ea4f6-389a-498f-ace9-b4fb557cabbc",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "45"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2d-eHBIz2ydCD53BmwjGqAVhEDTQ0Q\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              57,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 22,
+          "responseSize": 45
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-009 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "9eb13535-1d9b-480c-8358-bd620bdb9a4b",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 9,
+          "cr": true,
+          "httpRequestId": "42ad534e-2b8f-4aff-99b3-b39b465803c3"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "4ffeb954-6b47-40f6-a4d3-6f4406144ebf",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "60",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "c4a2deab-310e-487f-b36b-73e2ef8feff5",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "46"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2e-hUbDnUkgdoRprmXDIFkGl6DCfn0\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:23 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              49,
+              48,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 23,
+          "responseSize": 46
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-010 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "08a91ae2-569d-42fa-8d22-b382bac904b6",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 10,
+          "cr": true,
+          "httpRequestId": "36c43851-7161-46b9-8280-6223533b6bcb"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "f10da1f6-a68d-4e47-8275-8c63c693ba1a",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "60",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "69210b7e-5bfe-41d7-9cd1-43a4a4af16fd",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "46"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2e-cnRCw+4co2SNS1g6zJ+xgvK/WFY\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:24 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              49,
+              49,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 19,
+          "responseSize": 46
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-011 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "a2c1c4bc-710e-4241-a425-fab9871336ca",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 11,
+          "cr": true,
+          "httpRequestId": "5e870c5d-a3d4-4124-b83b-eaf06917b3fc"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "0c231b03-bacf-4703-86b7-54a99e55797e",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "78",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"<img src=x onerror=alert(1)>\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "d283aeb5-8664-4884-b035-fe3222ccaca8",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "46"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2e-Kk4VLdeVMmCd4x4zlCwM6j3R/A4\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:24 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              49,
+              50,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 16,
+          "responseSize": 46
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-012 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "674d0819-0be2-4f3f-a622-9d6350db3762",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 12,
+          "cr": true,
+          "httpRequestId": "b7b8428c-dcee-4e3b-a255-e5aa50712f17"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "1cb166b2-099f-4f06-8fd1-98af375d779e",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "60",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "61666b1d-1209-481b-b7da-bc665e1b27c7",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "46"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2e-cneQEtflHk74sTW+dNDLSJs1Kp4\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:24 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              49,
+              51,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 16,
+          "responseSize": 46
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-013 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "7ea33bd2-6dd5-4f1b-a8ec-5ec60469eb8e",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 13,
+          "cr": true,
+          "httpRequestId": "4df8089b-e960-4101-bba4-2ae291779eff"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "d397f3ca-c6fe-425a-969b-7099a512fc5a",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "60",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "3c9c53b8-cf39-49c9-8fc9-e124ae8a3b05",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "46"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2e-OgVpYDH+6xRqykyEJP0ni9bKGGs\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:24 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              49,
+              52,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 17,
+          "responseSize": 46
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-014 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "58b819d8-a077-4b46-b037-2fc408bfe7ea",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 14,
+          "cr": true,
+          "httpRequestId": "9fbb4a14-663c-48cc-a40e-202d196788c7"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "4ddd01c2-9566-4ffd-89a2-3f4a0c590c7c",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "60",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "9e3f6aea-c2dc-44ef-a3a3-9f1e10b69810",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "46"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2e-O+YA2+FgdX+AvPME5z+XxIEM++o\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:24 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              49,
+              53,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 18,
+          "responseSize": 46
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-015 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "16b735a0-1331-4f86-9f1b-5cae93b0c615",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 15,
+          "cr": true,
+          "httpRequestId": "74050279-289d-48e7-9731-baf3ff6e3929"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "21e4445f-d5b6-47e8-9258-3477200e2cd9",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "60",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "0c0b0588-e765-434c-96dc-1d886a70828c",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "46"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2e-IGx5yAojqqI8tAU709VaT5xFOu4\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:24 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              49,
+              54,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 19,
+          "responseSize": 46
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-016 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "46f89a56-9bcb-436b-bdd5-fe82b3a6cae4",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 16,
+          "cr": true,
+          "httpRequestId": "9d6f5363-8e58-4cb6-a82a-480ffc0b03c2"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "2a3526a7-e761-4145-a080-01e3ccd5342c",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "60",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "55b0ecd3-9cb2-48eb-9ff8-9909b4542352",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "46"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2e-CZJaE0SQlF21dofawjoBwiSrVu4\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:24 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              49,
+              55,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 23,
+          "responseSize": 46
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-017 status",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "032f7ae4-4c42-411e-9cbc-13bb7209b3ec",
+          "length": 1,
+          "cycles": 18,
+          "position": 0,
+          "iteration": 17,
+          "cr": true,
+          "httpRequestId": "42cc1c15-b07b-4af9-843d-82be1ccda0d2"
+        },
+        "item": {
+          "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+          "name": "[DDT] checkout partitions",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "083c63c2-65df-40a4-b4ae-6dbc9367fcf8",
+                "type": "text/javascript",
+                "exec": [
+                  "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                ],
+                "_lastExecutionId": "0c04a325-b76d-4c9b-ac2a-c611e07f8487"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "c0240cba-b13c-4854-b309-8fd66f10a2ef",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "if(!pm.iterationData.get('tc_id'))return;",
+                  "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                ],
+                "_lastExecutionId": "614c90d2-ab52-4aa7-b35b-bea882262c5d"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3001",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "cbf4cfd3-dd0a-4739-8e28-bd31c0433fc1",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:3001",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "60",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": \"200000\", \"shipping_address\": \"123 Le Loi\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "b570cc98-e0f6-4c08-9635-f7d408777091",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "46"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2e-rI1MrW6de02vNfxKnGES5H6N5IU\""
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Aug 2026 04:05:24 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              109,
+              101,
+              115,
+              115,
+              97,
+              103,
+              101,
+              34,
+              58,
+              34,
+              67,
+              104,
+              101,
+              99,
+              107,
+              111,
+              117,
+              116,
+              32,
+              115,
+              117,
+              99,
+              99,
+              101,
+              115,
+              115,
+              102,
+              117,
+              108,
+              34,
+              44,
+              34,
+              111,
+              114,
+              100,
+              101,
+              114,
+              73,
+              100,
+              34,
+              58,
+              49,
+              56,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 18,
+          "responseSize": 46
+        },
+        "id": "39e36b64-3b1c-46ac-ad1d-8952936c150f",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-018 status",
+            "skipped": false
+          }
+        ]
+      }
+    ],
+    "transfers": {
+      "responseTotal": 819
+    },
+    "failures": [],
+    "error": null
+  }
+}
