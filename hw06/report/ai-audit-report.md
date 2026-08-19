@@ -163,3 +163,20 @@
   > Audit từng dòng trong 36 case checkout bằng FR-08/FR-10, API specification, mã nguồn `server.js` và defect catalog §2. Gắn đúng một nhãn VALID/INVALID/INCOMPLETE, giải thích cụ thể và viết expected sửa cho mọi case INVALID/INCOMPLETE. Không đổi expected theo hành vi lỗi của SUT; chừa checkpoint HUMAN trước khi sang API-3.
 
 - **Output:** Audit đủ 36 case với `28 VALID`, `3 INVALID`, `5 INCOMPLETE`. Các sửa chính gồm: total phải tính từ giỏ, token invalid trả 403 theo middleware, empty/negative total là lỗi theo nghiệp vụ, orderId là integer và các assumption về shipping/idempotency được hạ thành robustness check. Bảng đầy đủ ở `api-02-checkout/02-audit.md`.
+
+### API-2 / Human review checkpoint — Xác nhận của người học
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:41:44+07:00`
+- **Prompt của người học:** `Đã duyệt API-2`
+- **Output:** Ghi nhận người học đã tick đủ checkpoint, điền `Đặng Đăng Khoa`, MSSV `23127207`, thời gian review `10:40 19-08-2026` và xác nhận `Đã duyệt` trong `api-02-checkout/02-audit.md`. Có thể chuyển sang Extend và API-3.
+
+### API-2 / Extend — Bổ sung case AI bỏ sót
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:42:00+07:00`
+- **Prompt:**
+
+  > Sau khi Human Audit API-2 được duyệt, thiết kế tối thiểu 5 case mà AI bỏ sót, ưu tiên bất biến xuyên endpoint, hậu điều kiện giỏ hàng, empty-cart, IDOR endpoint kề bên và XSS persistence. Mỗi case phải có precondition, dữ liệu, expected theo đặc tả, bug mục tiêu và nguyên nhân cụ thể thuộc chất lượng prompt, giới hạn model hoặc đặc thù API.
+
+- **Output:** Bổ sung 6 case `TC-API-CHECKOUT-037..042`, nhắm D-CHK-01/02/03/04/05/07. Bảng và lý do cụ thể nằm ở `api-02-checkout/03-extended.md`, sau đó hợp nhất vào bảng 42 case ở `api-02-checkout/test-cases.md`.
