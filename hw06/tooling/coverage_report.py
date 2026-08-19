@@ -16,6 +16,8 @@ from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 
+from sanitize_public_artifacts import redact_text
+
 
 ROOT = Path(__file__).resolve().parents[2]
 HW06 = ROOT / "hw06"
@@ -89,8 +91,10 @@ def error_text(value: object) -> str:
     if not value:
         return ""
     if isinstance(value, dict):
-        return str(value.get("message") or value.get("name") or "assertion failed")
-    return str(value)
+        text = str(value.get("message") or value.get("name") or "assertion failed")
+    else:
+        text = str(value)
+    return redact_text(text)[0]
 
 
 def read_newman_evidence() -> tuple[dict[str, list[AssertionEvidence]], list[str]]:

@@ -3,6 +3,8 @@ param(
     [string]$Mode = 'full',
     [string]$BaseUrl = 'http://127.0.0.1:3001',
     [string]$ReportName = '00-full-suite',
+    [string]$UserPassword = $env:HW06_USER_PASSWORD,
+    [string]$AdminPassword = $env:HW06_ADMIN_PASSWORD,
     [switch]$DataDriven
 )
 
@@ -17,15 +19,22 @@ New-Item -ItemType Directory -Force -Path $out | Out-Null
 
 $newman = Join-Path $root 'node_modules\newman\bin\newman.js'
 if (-not (Test-Path -LiteralPath $newman)) { throw "Newman not installed at $newman. Run npm install in hw06." }
+if ([string]::IsNullOrWhiteSpace($UserPassword) -or [string]::IsNullOrWhiteSpace($AdminPassword)) {
+    throw 'Set HW06_USER_PASSWORD and HW06_ADMIN_PASSWORD (or pass -UserPassword/-AdminPassword). Values are intentionally not committed.'
+}
+$sanitizer = Join-Path $root 'tooling\sanitize_public_artifacts.py'
 $script:runExitCodes = @()
 
 function Invoke-NewmanRun([string]$Name, [string[]]$ExtraArgs, [string]$EnvironmentPath = $environment) {
     $html = Join-Path $out ($Name + '.html')
     $json = Join-Path $out ($Name + '.json')
     Write-Host "Running $Name against $BaseUrl (spec_strict=$Mode)"
-    & node $newman run $collection -e $EnvironmentPath --env-var "base_url=$BaseUrl" --env-var "spec_strict=$Mode" -r cli,htmlextra,json --reporter-htmlextra-export $html --reporter-json-export $json @ExtraArgs
-    $script:runExitCodes += [int]$LASTEXITCODE
-    if ($LASTEXITCODE -ne 0) { Write-Warning "$Name exited with $LASTEXITCODE; report was preserved." }
+    & node $newman run $collection -e $EnvironmentPath --env-var "base_url=$BaseUrl" --env-var "spec_strict=$Mode" --env-var "user_password=$UserPassword" --env-var "admin_password=$AdminPassword" -r cli,htmlextra,json --reporter-htmlextra-export $html --reporter-json-export $json @ExtraArgs
+    $newmanExit = [int]$LASTEXITCODE
+    & python -B $sanitizer $html $json
+    if ($LASTEXITCODE -ne 0) { throw "Failed to sanitize Newman report $Name" }
+    $script:runExitCodes += $newmanExit
+    if ($newmanExit -ne 0) { Write-Warning "$Name exited with $newmanExit; redacted report was preserved." }
 }
 
 if ($DataDriven) {

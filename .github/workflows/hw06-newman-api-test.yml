@@ -41,9 +41,14 @@ jobs:
             -e hw06/postman/EShop-HW06-local.postman_environment.json \
             --env-var "base_url=http://localhost:3000" \
             --env-var "spec_strict=${SPEC_STRICT}" \
+            --env-var "user_password=${{ secrets.HW06_USER_PASSWORD }}" \
+            --env-var "admin_password=${{ secrets.HW06_ADMIN_PASSWORD }}" \
             -r cli,htmlextra,json \
             --reporter-htmlextra-export newman-ci-report.html \
             --reporter-json-export newman-ci-report.json
+      - name: Redact fixture credentials from CI reports
+        if: always()
+        run: python hw06/tooling/sanitize_public_artifacts.py newman-ci-report.html newman-ci-report.json
       - name: Upload Newman reports
         if: always()
         uses: actions/upload-artifact@v4

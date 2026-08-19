@@ -43,6 +43,9 @@ node backend/server.js
 # terminal 2
 cd hw06
 npm ci
+# Lấy hai fixture password từ môi trường riêng; không commit giá trị vào repo.
+$env:HW06_USER_PASSWORD = '<local fixture value>'
+$env:HW06_ADMIN_PASSWORD = '<local fixture value>'
 .\newman\run-newman.ps1 -Mode off -BaseUrl http://127.0.0.1:3001 -ReportName 00-off-suite
 .\newman\run-newman.ps1 -Mode canary -BaseUrl http://127.0.0.1:3001 -ReportName 00-canary-suite
 .\newman\run-newman.ps1 -Mode full -BaseUrl http://127.0.0.1:3001 -ReportName 00-full-suite
@@ -50,6 +53,8 @@ npm ci
 ```
 
 `run-newman.ps1 -DataDriven` tự chạy setup và export environment trước checkout/status. Mỗi DDT iteration tự tạo user/cart/order và dựng state cần thiết; ba report cuối có `requests.failed=0` và `testScripts/prerequestScripts.failed=0`, nên 47 failed assertions là chênh lệch oracle/SUT chứ không phải lỗi hạ tầng test.
+
+Runner tự gọi `tooling/sanitize_public_artifacts.py` sau mỗi lần chạy. Chỉ giá trị password/JWT bị thay bằng marker `<redacted-…>`; tên assertion, status, pass/fail và cấu trúc report được giữ nguyên. CI nhận fixture qua GitHub Actions secrets `HW06_USER_PASSWORD`/`HW06_ADMIN_PASSWORD` và cũng redaction artifact trước khi upload.
 
 ## Human evidence checklist
 

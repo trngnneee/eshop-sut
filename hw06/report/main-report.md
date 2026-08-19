@@ -33,7 +33,7 @@ Báo cáo đối soát [`execution-coverage.md`](../newman/reports/execution-cov
 | `02-ddt-checkout` | 41 | 178 | 41 | 17 | coverage DDT checkout |
 | `03-ddt-order-status` | 43 | 127 | 43 | 7 | matrix + coverage DDT status |
 
-HTML/JSON evidence: [`newman/reports`](../newman/reports/). DDT runner tự chuẩn bị environment/auth/order trước khi chạy folder, tránh kết quả giả do 401 hoặc orderId rỗng.
+HTML/JSON evidence: [`newman/reports`](../newman/reports/). DDT runner tự chuẩn bị environment/auth/order trước khi chạy folder, tránh kết quả giả do 401 hoặc orderId rỗng. Trước khi lưu/publish, sanitizer tự động chỉ redaction giá trị password/JWT; TC ID, assertion result, HTTP status và `run.stats` vẫn giữ nguyên để đối soát.
 
 ## 4. Postman, CI và generator
 
