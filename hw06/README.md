@@ -60,7 +60,8 @@ Runner tự gọi `tooling/sanitize_public_artifacts.py` sau mỗi lần chạy.
 
 - [ ] Xác minh metadata/signature API-3 `02-audit.md`.
 - [ ] `evidence/screenshots/01-x-student-id-console.png`, `02-newman-cli-run.png`.
-- [ ] Hai ảnh CI xanh/đỏ và hai URL/SHA thật trong `report/cicd-report.md`.
+- [x] Hai URL/SHA CI thật trong `report/cicd-report.md`: run `off` xanh và `canary` đỏ đúng một assertion `TC-API-LOGIN-018`.
+- [ ] Hai ảnh HUMAN-only `evidence/screenshots/04-ci-pass.png` và `05-ci-fail.png`.
 - [x] 15 GitHub Issue public và 15 screenshot local trong `evidence/screenshots/github-issues/` (manifest: `report/github-issues.json`).
 - [ ] `test-generator/diagram.png` do người học tự vẽ.
 - [ ] `report/ai-critique.md` được viết lại (bản hiện tại ghi rõ là draft).

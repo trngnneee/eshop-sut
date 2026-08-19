@@ -260,3 +260,13 @@
   > Đọc execution plan/checklist, đối chiếu 128 test case với TC ID xuất hiện trong mọi Newman JSON, mở rộng Postman DDT để thực thi tối thiểu 90%, giữ expected theo oracle, phân loại rõ Automated/Manual/Blocked và chỉ cập nhật số liệu báo cáo từ JSON chạy thật. Không tạo hoặc sửa screenshot HUMAN-only.
 
 - **Output:** Viết `tooling/coverage_report.py` làm coverage gate; mở rộng DDT thành 39 login, 41 checkout và 43 order-status assertions. Sau khi cô lập user/state và chạy lại trên backend sạch, Newman JSON chứng minh `123/128 = 96.1%` case đã thực thi, gồm 76 PASS và 47 FAIL theo oracle; cả ba DDT report có 0 request/script failure. Năm case không tự động hóa được được ghi rõ 1 Manual và 4 Blocked cùng lý do trong ba bảng `test-cases.md`.
+
+### T-11 / Chạy CI thật và kiểm chứng off xanh — canary đỏ
+
+- **Tool:** OpenAI Codex (GPT-5 Codex), GitHub CLI và GitHub Actions
+- **Date & time:** `2026-08-19T15:07:39+07:00`
+- **Prompt:**
+
+  > Push branch `HW6-Khoa`, chạy workflow thật ở `SPEC_STRICT=off` đến khi xanh sạch; sau đó đổi đúng một dòng sang `canary`, yêu cầu run đỏ chỉ vì `TC-API-LOGIN-018`. Lấy SHA/URL bằng `gh run list`/`gh run view`; không dùng lỗi dependency, timeout hoặc port làm bằng chứng đỏ theo thiết kế; không tạo screenshot HUMAN-only.
+
+- **Output:** Hai run đầu `#32230292930` và `#32230485958` bị loại vì Newman chưa chạy do lockfile backend. Sau khi tái sinh lockfile bằng npm 10 và xác nhận `npm ci`, run `off` [#32230928127](https://github.com/trngnneee/eshop-sut/actions/runs/32230928127) tại SHA `4bf4e5f812b02ca4adf2a0cb811b3a4edbad5bb0` xanh với 19 requests, 18 assertions, 0 fail. Đổi duy nhất `SPEC_STRICT` sang `canary` tạo run [#32231020920](https://github.com/trngnneee/eshop-sut/actions/runs/32231020920) tại SHA `03f36993b7766d79d605ee3e334201762bfc5f80`: 19 requests, 19 assertions, đúng 1 fail là `[SPEC] TC-API-LOGIN-018` (expected 200, actual 403). Mọi bước hạ tầng còn lại thành công; hai screenshot CI vẫn được ghi rõ HUMAN-only, chưa có.
