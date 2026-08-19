@@ -6,6 +6,8 @@
 
 SUT là EShop backend trong `backend/`, chạy Node.js/Express + SQLite. Bộ kiểm thử chọn ba luồng có rủi ro cao: đăng nhập, checkout và chuyển trạng thái order của admin. Newman chạy local với `http://127.0.0.1:3001` vì port 3000 đang được tiến trình khác sử dụng; workflow CI dùng `http://localhost:3000` theo đề bài.
 
+Repository công khai: [https://github.com/trngnneee/eshop-sut](https://github.com/trngnneee/eshop-sut), branch `HW6-Khoa`.
+
 Header `X-Student-Id: 23127207` được chèn ở collection-level pre-request và được log ở console cho mọi request.
 
 ## 2. Pipeline sinh — audit — mở rộng

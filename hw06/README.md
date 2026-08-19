@@ -4,6 +4,8 @@
 
 Bộ artifact đã có đủ pipeline kỹ thuật: phân tích → AI generation → audit → mở rộng → Postman/Newman → CI workflow → bug/traceability → generator → report. Số liệu dưới đây được đọc trực tiếp từ bảng test, tên assertion và `run.stats` trong Newman JSON; không phải số liệu ước lượng. Đối soát từng TC ID nằm ở [execution-coverage.md](newman/reports/execution-coverage.md).
 
+Repository công khai: [trngnneee/eshop-sut](https://github.com/trngnneee/eshop-sut), branch `HW6-Khoa`.
+
 | Chỉ số | Giá trị |
 | :--- | ---: |
 | Số API | 3 |
@@ -56,6 +58,17 @@ $env:HW06_ADMIN_PASSWORD = '<local fixture value>'
 
 Runner tự gọi `tooling/sanitize_public_artifacts.py` sau mỗi lần chạy. Chỉ giá trị password/JWT bị thay bằng marker `<redacted-…>`; tên assertion, status, pass/fail và cấu trúc report được giữ nguyên. CI nhận fixture qua GitHub Actions secrets `HW06_USER_PASSWORD`/`HW06_ADMIN_PASSWORD` và cũng redaction artifact trước khi upload.
 
+## Đóng gói
+
+Script `tooling/package_submission.py` kiểm tra đủ artifact mục 1 của deliverables checklist, xuất ba PDF bằng Pandoc hoặc HTML + Chrome/Edge, làm mới Git commit log trong staging và tạo file `23127207_HW06_AI_API_<grade>.zip`. Grade bắt buộc có ba chữ số:
+
+```powershell
+python hw06/tooling/package_submission.py --grade 080 --check-only
+python hw06/tooling/package_submission.py --grade 080
+```
+
+Nếu không có PDF engine, script lưu HTML in-ready rồi dừng; sau khi người học tự Print to PDF, chạy lại với `--pdf-dir <thu-muc-pdf>`. Script luôn dừng trước khi xuất/zip nếu thiếu `diagram.png`, ảnh console, hai ảnh CI hoặc critique vẫn là bản nháp HUMAN-only. Nó không tạo hoặc thay thế bất kỳ bằng chứng HUMAN-only nào.
+
 ## Human evidence checklist
 
 - [ ] Xác minh metadata/signature API-3 `02-audit.md`.
@@ -65,4 +78,5 @@ Runner tự gọi `tooling/sanitize_public_artifacts.py` sau mỗi lần chạy.
 - [x] 15 GitHub Issue public và 15 screenshot local trong `evidence/screenshots/github-issues/` (manifest: `report/github-issues.json`).
 - [ ] `test-generator/diagram.png` HUMAN-only do người học tự vẽ — hiện chưa có; dùng `test-generator/DRAWING-BRIEF.md` làm checklist, không render file trong `_reference/`.
 - [ ] `report/ai-critique.md` được viết lại (bản hiện tại ghi rõ là draft).
-- [ ] Xuất `main-report.pdf`, `ai-audit-report.pdf`, `ai-critique.pdf`, repo public và zip `23127207_HW06_AI_API_<grade>.zip`.
+- [x] Repository public và script `tooling/package_submission.py` đã có fail-closed gate cho artifact HUMAN-only.
+- [ ] Sau khi hoàn tất các human gate, xuất `main-report.pdf`, `ai-audit-report.pdf`, `ai-critique.pdf` và zip `23127207_HW06_AI_API_<grade>.zip`.

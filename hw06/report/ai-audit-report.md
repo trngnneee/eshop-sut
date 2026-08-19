@@ -290,3 +290,13 @@
   > Đọc label thật của issues #413–#427, bảo đảm mỗi issue có đúng một label `module:` theo Rule H.7; thay `module:checkout` sai định dạng và bỏ `module: api` dư ở issue checkout. Không sửa screenshot và đồng bộ manifest từ trạng thái GitHub sau khi sửa.
 
 - **Output:** Kiểm kê cho thấy #418–#421 có đồng thời `module:checkout` và `module: api`. Tạo label canonical `module: checkout`, thay hai label cũ trên đúng bốn issue này. Xác minh lại cả 15 issue: #413–#417 có đúng `module: api`, #418–#421 có đúng `module: checkout`, #422–#427 có đúng `module: orders`; mọi issue có đúng một module label. `report/github-issues.json` được cập nhật thành mảng label cụ thể thay cho marker `existing`; không tạo hoặc sửa screenshot.
+
+### T-14 / Thêm bộ đóng gói có HUMAN-only gates
+
+- **Tool:** OpenAI Codex (GPT-5 Codex), Python standard library, Pandoc/Chrome/Edge khi có
+- **Date & time:** `2026-08-19T15:23:00+07:00`
+- **Prompt:**
+
+  > Viết script xuất PDF cho ba report và đóng zip đúng tên/danh sách mục 1. Phải dừng rõ ràng nếu thiếu `diagram.png`, ảnh X-Student-Id hoặc hai ảnh CI HUMAN-only; thử Pandoc, fallback HTML để in; tuyệt đối không tự tạo file bằng chứng còn thiếu và không đóng zip thiếu.
+
+- **Output:** Thêm `tooling/package_submission.py` với grade gate `000..100`, kiểm kê artifact/checksum, cập nhật commit log thật trong staging, PDF chain Pandoc → print-ready HTML → headless Chrome/Edge, và `--pdf-dir` cho PDF người học tự in. Script kiểm tra bốn HUMAN-only file trước mọi output, yêu cầu đủ 15 ảnh bug, ngăn đóng gói khi critique còn mang marker draft, loại Mermaid AI `_reference/` khỏi zip và từ chối ghi đè archive. Lần kiểm thử hiện tại phải dừng vì các HUMAN-only file chưa có; không tạo PDF/HTML/ZIP giả.
