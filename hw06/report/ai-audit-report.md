@@ -180,3 +180,63 @@
   > Sau khi Human Audit API-2 được duyệt, thiết kế tối thiểu 5 case mà AI bỏ sót, ưu tiên bất biến xuyên endpoint, hậu điều kiện giỏ hàng, empty-cart, IDOR endpoint kề bên và XSS persistence. Mỗi case phải có precondition, dữ liệu, expected theo đặc tả, bug mục tiêu và nguyên nhân cụ thể thuộc chất lượng prompt, giới hạn model hoặc đặc thù API.
 
 - **Output:** Bổ sung 6 case `TC-API-CHECKOUT-037..042`, nhắm D-CHK-01/02/03/04/05/07. Bảng và lý do cụ thể nằm ở `api-02-checkout/03-extended.md`, sau đó hợp nhất vào bảng 42 case ở `api-02-checkout/test-cases.md`.
+
+### API-3 / P1 — Phân tích input và state machine đơn hàng
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:44:29+07:00`
+- **Prompt:**
+
+  > Đối chiếu `PUT /api/admin/orders/:id/status` với FR-10, FR-12, FR-18, API specification và mã nguồn SUT. Chưa sinh test case. Liệt kê mọi input/header/path parameter, role requirement và dựng state machine đầy đủ với 5 trạng thái pending, confirmed, shipping, delivered, canceled. Bắt buộc ghi 25 ô chuyển đổi 5×5, kể cả self-transition và transition terminal.
+
+- **Output:** Nhận diện `Authorization`, `:id`, `status`, yêu cầu role admin và tạo ma trận 25 ô theo thứ tự 5 trạng thái. Mô hình được ghi ở `api-03-admin-order-status/01-ai-generated.md`.
+
+### API-3 / P2 — Domain partition và boundary value
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:44:43+07:00`
+- **Prompt:**
+
+  > Từ input model P1, sinh domain/BVA cases riêng cho `:id` không tồn tại, âm, chuỗi không số, body thiếu status, status sai kiểu và status sai casing. Expected phải theo contract; nếu API spec chưa quy định 400/404 cụ thể thì đánh dấu incomplete thay vì tự bịa.
+
+- **Output:** Sinh `TC-API-ORDER-STATUS-026..030`; giữ boundary `id` và type-confusion của status thành các case độc lập để không che lấp lỗi state transition.
+
+### API-3 / P3 — Ma trận state transition 5×5
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:44:57+07:00`
+- **Prompt:**
+
+  > Sinh đúng 25 test case, mỗi ô một case, cho ma trận từ mọi trạng thái [pending, confirmed, shipping, delivered, canceled] đến mọi trạng thái đích. Expected lấy từ FR-10: pending→confirmed/canceled, confirmed→shipping/canceled, shipping→delivered/canceled; delivered và canceled là terminal; mọi ô còn lại trả lỗi. Không được bỏ qua self-transition hoặc terminal transition.
+
+- **Output:** Sinh `TC-API-ORDER-STATUS-001..025`. Hai ô được giữ nguyên chênh lệch hiện thực để audit phát hiện: shipping→canceled bị SUT từ chối (D-ADM-03), canceled→delivered được SUT cho phép (D-ADM-02).
+
+### API-3 / P4 — Security coverage
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:45:11+07:00`
+- **Prompt:**
+
+  > Với endpoint admin, sinh security cases cho SEC-02/SEC-03: thiếu JWT, JWT sai chữ ký, user token gọi admin endpoint, user A sửa order của user B và không thể role escalation. Expected phải yêu cầu JWT hợp lệ + role=admin, không mô tả hành vi SUT hiện tại như oracle đúng.
+
+- **Output:** Sinh `TC-API-ORDER-STATUS-031..034`. Case user token được giữ expected AI sai “200” để Human Audit gắn INVALID và nhắm D-ADM-01.
+
+### API-3 / P5 — Schema validation
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:45:25+07:00`
+- **Prompt:**
+
+  > Sinh schema cases cho success/error của status endpoint: Content-Type JSON, message/error là dữ liệu an toàn, status code đúng nhánh và không lộ secret. Không ép exact response fields khi API spec chưa công bố; phải phân biệt phần contract chắc chắn với negative security assertion.
+
+- **Output:** Sinh `TC-API-ORDER-STATUS-035..038`; các assumption exact-response được gắn INCOMPLETE, còn Content-Type được giữ thành VALID.
+
+### API-3 / Audit — Gắn nhãn và sửa output
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:45:42+07:00`
+- **Prompt:**
+
+  > Audit 38 case API-3 bằng FR-10/FR-12/FR-18, API specification, mã nguồn `server.js` và defect catalog §3. Kiểm tra đủ 25 ô matrix, gắn VALID/INVALID/INCOMPLETE cho từng dòng, sửa mọi expected sai/thiếu và không điều chỉnh expected theo bug SUT. Chừa checkpoint HUMAN trước Postman.
+
+- **Output:** Audit đủ `38/38`: `28 VALID`, `5 INVALID`, `5 INCOMPLETE`. Hai bug matrix là D-ADM-03 (shipping→canceled) và D-ADM-02 (canceled→delivered); D-ADM-01 được phát hiện ở security case user token. Bảng audit nằm ở `api-03-admin-order-status/02-audit.md`.
