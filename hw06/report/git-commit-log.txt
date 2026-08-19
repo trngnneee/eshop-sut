@@ -1,0 +1,30 @@
+5a9896e2 2026-08-19 11:15:23 +0700 khoadangwneee feat(skill): xây Agent Skill và generator test API
+68bd0072 2026-08-19 11:15:14 +0700 khoadangwneee ci(hw06): thêm GitHub Actions chạy Newman
+0ddd18b5 2026-08-19 11:15:05 +0700 khoadangwneee test(newman): chạy suite và lưu HTML JSON reports
+bc6874fc 2026-08-19 11:14:52 +0700 khoadangwneee feat(postman): thêm data files và tài liệu tính năng
+71d2a441 2026-08-19 11:14:44 +0700 khoadangwneee feat(postman): xây collection và environment cho 3 API
+ff299db5 2026-08-19 10:51:00 +0700 khoadangwneee test(api-03): bổ sung 6 test case order status và chốt bảng 44 case
+f80a45bd 2026-08-19 10:46:16 +0700 khoadangwneee docs(api-01): chốt bảng 42 test case login
+5673bc07 2026-08-19 10:46:00 +0700 khoadangwneee test(api-01): bổ sung 6 test case AI bỏ sót cho login
+fccda7f6 2026-08-19 10:45:35 +0700 khoadangwneee test(api-03): audit test case AI sinh cho admin order status
+c43e9f84 2026-08-19 10:45:18 +0700 khoadangwneee test(api-03): sinh 38 test case order status với ma trận state 5x5
+7c028a62 2026-08-19 10:42:18 +0700 khoadangwneee test(api-02): bổ sung 6 test case checkout và chốt bảng 42 case
+6d89f433 2026-08-19 10:37:13 +0700 khoadangwneee test(api-02): audit test case AI sinh cho checkout và sửa lại
+8f1c48c6 2026-08-19 10:36:56 +0700 khoadangwneee test(api-02): sinh 36 test case checkout bằng chuỗi prompt 5 bước
+f43e1567 2026-08-19 10:31:51 +0700 khoadangwneee docs(api-01): ghi nhận human review và sửa mapping canary
+376d7be1 2026-08-19 10:21:33 +0700 khoadangwneee test(api-01): audit test case AI sinh cho login và sửa lại
+5899433a 2026-08-19 10:21:14 +0700 khoadangwneee test(api-01): sinh 36 test case login bằng chuỗi prompt 5 bước
+61210fe0 2026-08-19 10:20:48 +0700 khoadangwneee chore(hw06): khởi tạo cấu trúc và môi trường API Testing
+d5eaf839 2026-06-23 16:34:22 +0700 khoadangwneee update skill and FR2
+dc410669 2026-06-23 13:54:44 +0700 khoadangwneee setup skill for agent(antigravity)
+ddfb42fc 2026-06-08 16:47:44 +0700 khoadangwneee Test case login
+ad020a02 2026-06-08 16:45:12 +0700 khoadangwneee Test case login
+d897a212 2026-06-08 16:42:32 +0700 Đặng Trường Nguyên Update issue templates
+957052d0 2026-06-07 23:52:40 +0700 trngnneee Fix url frontend-admin
+b4a0df54 2026-06-07 23:33:10 +0700 trngnneee Update Backend URL call cho FE
+16732551 2026-06-07 23:24:17 +0700 trngnneee Fix
+4c3230c0 2026-06-07 23:19:08 +0700 trngnneee Remove
+4065ae33 2026-06-07 23:16:38 +0700 trngnneee Update sqlite3 version
+3650c560 2026-06-07 23:08:16 +0700 trngnneee Push
+85af3ba8 2026-05-15 08:30:35 +0700 ttbhanh-hcmus first upload
+2f9bf2ba 2026-05-15 08:27:44 +0700 Hanh Tran Initial commit
