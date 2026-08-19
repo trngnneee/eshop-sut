@@ -1,0 +1,21 @@
+{
+  "id_prefix": "TC-API-LOGIN",
+  "method": "POST",
+  "path": "/api/login",
+  "parameters": [
+    {"name": "email", "examples": ["test@eshop.com", "", null], "expected": "200 for valid; controlled 4xx for invalid", "requirement": "FR-02"},
+    {"name": "password", "examples": ["Test1234!", "wrong", null], "expected": "200 for valid; 401/controlled 4xx for invalid", "requirement": "FR-02"}
+  ],
+  "states": [
+    {"title": "active user with valid credentials", "from": "active", "expected": "200 + token/user", "requirement": "FR-02"},
+    {"title": "locked user rejects login", "from": "locked", "expected": "403 without token", "requirement": "FR-02"}
+  ],
+  "security": [
+    {"title": "SQL injection is rejected", "technique": "SQLi", "expected": "401/no token", "requirement": "SEC-05"},
+    {"title": "password is absent from response", "technique": "data leakage", "expected": "no password field", "requirement": "SEC-01"}
+  ],
+  "response_schema": [
+    {"name": "token", "type": "string", "expected": "non-empty string", "requirement": "FR-02"},
+    {"name": "user", "type": "object", "expected": "object without password", "requirement": "SEC-01"}
+  ]
+}

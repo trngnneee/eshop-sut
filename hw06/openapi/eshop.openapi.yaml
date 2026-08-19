@@ -1,0 +1,81 @@
+openapi: 3.0.3
+info:
+  title: EShop HW06 tested API surface
+  version: 1.0.0
+  description: >-
+    Minimal audited representation of the three endpoints exercised by HW06.
+    Expected defect behavior is documented in docs/hw06/02-sut-defect-catalog.md.
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/login:
+    post:
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Authenticated user and token
+        '401':
+          description: Invalid credentials
+  /api/checkout:
+    post:
+      operationId: checkout
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequest'
+      responses:
+        '200': { description: Order created }
+        '400': { description: Invalid checkout state }
+        '403': { description: Invalid token }
+  /api/admin/orders/{id}/status:
+    put:
+      operationId: updateAdminOrderStatus
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer, format: int64 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status:
+                  type: string
+                  enum: [pending, confirmed, shipping, delivered, canceled]
+      responses:
+        '200': { description: Status updated }
+        '400': { description: Invalid transition }
+        '403': { description: Invalid token or non-admin role }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string, format: password }
+    CheckoutRequest:
+      type: object
+      required: [total_amount, shipping_address]
+      properties:
+        total_amount: { type: number, minimum: 0 }
+        shipping_address: { type: string }

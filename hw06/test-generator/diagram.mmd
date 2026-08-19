@@ -1,0 +1,14 @@
+flowchart LR
+    A[API Spec + FR/SEC] --> B[Parser]
+    B --> C[Parameter & State Model]
+    C --> D1[Partition / BVA]
+    C --> D2[State transitions]
+    C --> D3[Security]
+    C --> D4[Schema]
+    D1 --> E[Test Case IR]
+    D2 --> E
+    D3 --> E
+    D4 --> E
+    E --> F[Audit hook]
+    F --> G1[Markdown]
+    F --> G2[Postman JSON]
