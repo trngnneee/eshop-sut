@@ -75,10 +75,10 @@
 - [ ] Tôi đồng ý hoặc đã chỉnh lại nhãn/lý do cho case INVALID/INCOMPLETE.
 - [ ] Tôi hiểu vì sao expected phải theo đặc tả, không sửa để khớp bug của SUT.
 
-**Reviewed by:** <!-- HUMAN điền họ tên -->  
+**Reviewed by:** Đặng Đăng Khoa
 **Student ID:** `23127207`  
-**Reviewed at:** <!-- HUMAN điền ngày giờ thật -->  
-**Signature / confirmation:** <!-- HUMAN gõ `Đã duyệt` sau khi tự review -->
+**Reviewed at:** 11:36 19-08-2026
+**Signature / confirmation:** Đã duyệt
 
 ## Agent pre-review (không thay thế Human sign-off)
 

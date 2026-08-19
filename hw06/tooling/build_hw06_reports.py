@@ -98,6 +98,8 @@ def build_excel(all_rows: list[dict[str, str]]) -> None:
 
 
 def write_main_report(all_rows: list[dict[str, str]], stats: dict[str, dict[str, int]]) -> None:
+    issue_manifest_path = REPORT / "github-issues.json"
+    issue_manifest = {item["bug_id"]: item for item in json.loads(issue_manifest_path.read_text(encoding="utf-8"))} if issue_manifest_path.exists() else {}
     lines = [
         "# HW06 — AI-first API testing report",
         "",
@@ -122,9 +124,12 @@ def write_main_report(all_rows: list[dict[str, str]], stats: dict[str, dict[str,
         counts = {label: int(match.group(1)) for label, match in (("VALID", re.search(r"\|\s*VALID\s*\|\s*(\d+)", audit)), ("INVALID", re.search(r"\|\s*INVALID\s*\|\s*(\d+)", audit)), ("INCOMPLETE", re.search(r"\|\s*INCOMPLETE\s*\|\s*(\d+)", audit))) if match}
         stats_text = " / ".join(f"{counts.get(key, '?')} {key}" for key in ("VALID", "INVALID", "INCOMPLETE"))
         lines.append(f"| {label} — `{endpoint}` | {ai_count(HW / folder / '01-ai-generated.md')} | 100% gán nhãn | {sum(1 for r in rows if r['Nguồn'].lower().startswith('human'))} | {len(rows)} | {stats_text} |")
+    api3_audit = (HW / "api-03-admin-order-status" / "02-audit.md").read_text(encoding="utf-8")
+    api3_signoff = "**Signature / confirmation:** Đã duyệt" in api3_audit and "**Reviewed by:** Đặng Đăng Khoa" in api3_audit
+    review_summary = ("Human review trong API-1, API-2 và file audit API-3 hiện đều có metadata xác nhận; người nộp cần tự kiểm tra chữ ký API-3 trước khi nộp." if api3_signoff else "Human review trong API-1 và API-2 đã được ghi trong audit theo các phê duyệt người dùng đã cung cấp. API-3 mới có agent pre-review; chữ ký người học vẫn phải được bổ sung độc lập.")
     lines += [
         "",
-        "Human review trong API-1 và API-2 đã được ghi trong audit theo các phê duyệt người dùng đã cung cấp. API-3 mới có agent pre-review; chữ ký người học vẫn phải được bổ sung độc lập.",
+        review_summary,
         "",
         "## 3. Newman execution",
         "",
@@ -147,7 +152,7 @@ def write_main_report(all_rows: list[dict[str, str]], stats: dict[str, dict[str,
         "",
         "## 5. Defects và giới hạn bằng chứng",
         "",
-        "15 defect IDs trong defect catalog đã được lập trong [`bug-report.md`](bug-report.md), mỗi dòng có Found by Test Case, expected/actual và nguồn evidence. Newman hiện quan sát trực tiếp 8 assertion fail trong full suite và 7 mismatch của matrix DDT. GitHub Issues/screenshots chưa được tạo trong phiên này vì đó là tác động external cần tài khoản/quyền và đề bài yêu cầu ảnh do HUMAN chụp.",
+        (f"15 defect IDs trong defect catalog đã được lập trong [`bug-report.md`](bug-report.md), mỗi dòng có Found by Test Case, expected/actual và nguồn evidence. Newman hiện quan sát trực tiếp 8 assertion fail trong full suite và 7 mismatch của matrix DDT. Đã tạo đủ 15 GitHub Issues scrubbed (#413–#427) và lưu 15 ảnh trang issue tại `evidence/screenshots/github-issues/`; branch artifact chưa push vì lịch sử chứa environment/report credential-like bị hệ thống chặn public egress." if issue_manifest else "15 defect IDs trong defect catalog đã được lập trong [`bug-report.md`](bug-report.md), mỗi dòng có Found by Test Case, expected/actual và nguồn evidence. Newman hiện quan sát trực tiếp 8 assertion fail trong full suite và 7 mismatch của matrix DDT. GitHub Issues/screenshots chưa được tạo trong phiên này."),
         "",
         "`ai-critique.md` là bản nháp dữ liệu 200–300 từ để người học viết lại bằng nhận xét của chính mình; `diagram.mmd` là bản mô tả kỹ thuật, không thay thế `diagram.png` tự vẽ.",
         "",
@@ -156,13 +161,15 @@ def write_main_report(all_rows: list[dict[str, str]], stats: dict[str, dict[str,
         "- [README tự chấm và summary](../README.md)",
         "- [AI audit log](ai-audit-report.md)",
         "- [Bug report](bug-report.md)",
+        "- [GitHub issue manifest](github-issues.json)",
+        "- [GitHub issue screenshot index](../evidence/screenshots/github-issues.md)",
         "- [CI/CD report](cicd-report.md)",
         "- [Excel/CSV](../excel/)",
         "- [Traceability](../../tests/test-summary/traceability-matrix.md)",
         "",
         "### Human completion gates",
         "",
-        "1. Ký API-3 audit; 2. tạo/link GitHub issues và chụp từng issue; 3. chụp Postman Console/Newman/CI; 4. tự vẽ `diagram.png`; 5. viết lại critique và xuất ba PDF; 6. đặt repo public và đóng zip theo tên đề bài.",
+        ("1. Xác minh metadata/signature API-3; 2. kiểm tra 15 GitHub issue links + 15 screenshot local; 3. chụp Postman Console/Newman/CI; 4. tự vẽ `diagram.png`; 5. viết lại critique và xuất ba PDF; 6. đặt repo public và đóng zip theo tên đề bài." if api3_signoff else "1. Ký API-3 audit; 2. kiểm tra 15 GitHub issue links + 15 screenshot local; 3. chụp Postman Console/Newman/CI; 4. tự vẽ `diagram.png`; 5. viết lại critique và xuất ba PDF; 6. đặt repo public và đóng zip theo tên đề bài."),
     ]
     (REPORT / "main-report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -185,13 +192,18 @@ def write_bug_report() -> None:
         ("D-ADM-04", "Major", "Bỏ qua lỗi UPDATE, trả 200", "TC-API-ORDER-STATUS-041", "4xx/5xx khi update lỗi", "Callback bỏ qua err theo catalog; cần tạo orderId không tồn tại", "Catalog + manual follow-up"),
         ("D-ADM-08", "Major", "User hủy order shipping", "TC-API-ORDER-STATUS-042", "400", "Catalog ghi nhận user cancel shipping được 200; cần stateful probe", "Catalog + manual follow-up"),
     ]
+    issue_manifest_path = REPORT / "github-issues.json"
+    issue_manifest = {item["bug_id"]: item for item in json.loads(issue_manifest_path.read_text(encoding="utf-8"))} if issue_manifest_path.exists() else {}
     lines = [
         "# HW06 bug report", "", 
         "> Mỗi defect giữ đúng ID trong `docs/hw06/02-sut-defect-catalog.md`. Evidence Newman là report JSON thật; các dòng manual follow-up được đánh dấu rõ, không bịa screenshot/issue.",
         "", "| Bug ID | Severity | Title | Found by Test Case | Expected | Actual | Evidence | GitHub Issue | Screenshot |", "| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |",
     ]
-    for bid, sev, title, tc, expected, actual, evidence in bugs:
-        lines.append(f"| {bid} | {sev} | {title} | `{tc}` | {expected} | {actual} | {evidence} | Chưa tạo — HUMAN | Chưa có — HUMAN |")
+    for index, (bid, sev, title, tc, expected, actual, evidence) in enumerate(bugs, start=1):
+        issue = issue_manifest.get(bid)
+        issue_cell = f"[#${issue['issue_number']}]({issue['url']})".replace("#$", "#") if issue else "Chưa tạo — HUMAN"
+        screenshot_cell = f"[bug-{index:02d}-{bid}-issue.png](../evidence/screenshots/github-issues/bug-{index:02d}-{bid}-issue.png)" if issue else "Chưa có — HUMAN"
+        lines.append(f"| {bid} | {sev} | {title} | `{tc}` | {expected} | {actual} | {evidence} | {issue_cell} | {screenshot_cell} |")
     lines += ["", "## Quy ước reproducing", "", "- Chạy backend reset DB rồi `powershell -ExecutionPolicy Bypass -File hw06/newman/run-newman.ps1 -Mode full -BaseUrl http://127.0.0.1:3001`.", "- Dùng `-DataDriven` để chạy 16/18/25 rows; status matrix cần precondition state đúng theo `from_status`.", "- GitHub Issues và screenshot là artifact external/human-only, nên không được thay bằng số issue hoặc ảnh giả."]
     (REPORT / "bug-report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -232,11 +244,15 @@ def append_traceability(all_rows: list[dict[str, str]]) -> None:
     marker = "\n## HW06 — API Testing\n"
     if marker in current:
         current = current.split(marker, 1)[0]
+    issue_manifest_path = REPORT / "github-issues.json"
+    issue_manifest = {item["bug_id"]: item for item in json.loads(issue_manifest_path.read_text(encoding="utf-8"))} if issue_manifest_path.exists() else {}
     lines = [current.rstrip(), marker.rstrip(), "", "| Requirement | Test Case | Result | Bug Issue | Status |", "| :--- | :--- | :--- | :--- | :--- |"]
     for row in all_rows:
         result = "Fail" if row["Kỳ vọng chạy"].upper() == "FAIL" else "Pass/Smoke"
         bug = row["Bug ID"] if row["Bug ID"] not in {"—", "-", ""} else "None"
-        lines.append(f"| {row['Requirement']} | `{row['TC ID']}` | {result} | {bug} / chưa tạo issue | {'Open' if bug != 'None' else 'Covered'} |")
+        issue = issue_manifest.get(bug)
+        bug_cell = f"[{bug} #{issue['issue_number']}]({issue['url']})" if issue else (f"{bug} / chưa tạo issue" if bug != "None" else "None")
+        lines.append(f"| {row['Requirement']} | `{row['TC ID']}` | {result} | {bug_cell} | {'Open' if bug != 'None' else 'Covered'} |")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 

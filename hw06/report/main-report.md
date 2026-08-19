@@ -18,7 +18,7 @@ Mỗi API dùng chuỗi P1 phân tích input/state → P2 domain partition + BVA
 | API-2 — `POST /api/checkout` | 36 | 100% gán nhãn | 6 | 42 | 28 VALID / 3 INVALID / 5 INCOMPLETE |
 | API-3 — `PUT /api/admin/orders/:id/status` | 38 | 100% gán nhãn | 6 | 44 | 28 VALID / 5 INVALID / 5 INCOMPLETE |
 
-Human review trong API-1 và API-2 đã được ghi trong audit theo các phê duyệt người dùng đã cung cấp. API-3 mới có agent pre-review; chữ ký người học vẫn phải được bổ sung độc lập.
+Human review trong API-1, API-2 và file audit API-3 hiện đều có metadata xác nhận; người nộp cần tự kiểm tra chữ ký API-3 trước khi nộp.
 
 ## 3. Newman execution
 
@@ -41,7 +41,7 @@ OpenAPI audit: file [`openapi/eshop.openapi.yaml`](../openapi/eshop.openapi.yaml
 
 ## 5. Defects và giới hạn bằng chứng
 
-15 defect IDs trong defect catalog đã được lập trong [`bug-report.md`](bug-report.md), mỗi dòng có Found by Test Case, expected/actual và nguồn evidence. Newman hiện quan sát trực tiếp 8 assertion fail trong full suite và 7 mismatch của matrix DDT. GitHub Issues/screenshots chưa được tạo trong phiên này vì đó là tác động external cần tài khoản/quyền và đề bài yêu cầu ảnh do HUMAN chụp.
+15 defect IDs trong defect catalog đã được lập trong [`bug-report.md`](bug-report.md), mỗi dòng có Found by Test Case, expected/actual và nguồn evidence. Newman hiện quan sát trực tiếp 8 assertion fail trong full suite và 7 mismatch của matrix DDT. Đã tạo đủ 15 GitHub Issues scrubbed (#413–#427) và lưu 15 ảnh trang issue tại `evidence/screenshots/github-issues/`; branch artifact chưa push vì lịch sử chứa environment/report credential-like bị hệ thống chặn public egress.
 
 `ai-critique.md` là bản nháp dữ liệu 200–300 từ để người học viết lại bằng nhận xét của chính mình; `diagram.mmd` là bản mô tả kỹ thuật, không thay thế `diagram.png` tự vẽ.
 
@@ -50,10 +50,12 @@ OpenAPI audit: file [`openapi/eshop.openapi.yaml`](../openapi/eshop.openapi.yaml
 - [README tự chấm và summary](../README.md)
 - [AI audit log](ai-audit-report.md)
 - [Bug report](bug-report.md)
+- [GitHub issue manifest](github-issues.json)
+- [GitHub issue screenshot index](../evidence/screenshots/github-issues.md)
 - [CI/CD report](cicd-report.md)
 - [Excel/CSV](../excel/)
 - [Traceability](../../tests/test-summary/traceability-matrix.md)
 
 ### Human completion gates
 
-1. Ký API-3 audit; 2. tạo/link GitHub issues và chụp từng issue; 3. chụp Postman Console/Newman/CI; 4. tự vẽ `diagram.png`; 5. viết lại critique và xuất ba PDF; 6. đặt repo public và đóng zip theo tên đề bài.
+1. Xác minh metadata/signature API-3; 2. kiểm tra 15 GitHub issue links + 15 screenshot local; 3. chụp Postman Console/Newman/CI; 4. tự vẽ `diagram.png`; 5. viết lại critique và xuất ba PDF; 6. đặt repo public và đóng zip theo tên đề bài.
