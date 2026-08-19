@@ -1,0 +1,55 @@
+name: HW06 - Newman API Tests
+
+on:
+  push:
+    branches: ["HW6-Khoa"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+    inputs:
+      spec_strict:
+        description: "Contract assertion mode"
+        required: false
+        default: "off"
+        type: choice
+        options: [off, canary, full]
+
+env:
+  SPEC_STRICT: ${{ inputs.spec_strict || 'off' }}
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: hw06/package-lock.json
+      - name: Install backend dependencies and start SUT
+        shell: bash
+        run: |
+          npm ci --prefix backend
+          (cd backend && node server.js) > backend-ci.log 2>&1 &
+          for i in $(seq 1 30); do curl --fail --silent http://localhost:3000/api/products && break || sleep 1; done
+      - name: Install Newman dependencies
+        run: npm ci --prefix hw06
+      - name: Run Newman API suite
+        run: |
+          node hw06/node_modules/newman/bin/newman.js run hw06/postman/EShop-HW06-23127207.postman_collection.json \
+            -e hw06/postman/EShop-HW06-local.postman_environment.json \
+            --env-var "base_url=http://localhost:3000" \
+            --env-var "spec_strict=${SPEC_STRICT}" \
+            -r cli,htmlextra,json \
+            --reporter-htmlextra-export newman-ci-report.html \
+            --reporter-json-export newman-ci-report.json
+      - name: Upload Newman reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-report-${{ github.sha }}
+          path: |
+            newman-ci-report.html
+            newman-ci-report.json
+            backend-ci.log
