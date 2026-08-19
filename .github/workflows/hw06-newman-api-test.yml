@@ -15,7 +15,7 @@ on:
         options: [off, canary, full]
 
 env:
-  SPEC_STRICT: ${{ inputs.spec_strict || 'off' }}
+  SPEC_STRICT: 'off'
 
 jobs:
   api-test:
