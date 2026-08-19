@@ -1,3 +1,4 @@
+b0bf0eac 2026-08-19 11:48:43 +0700 khoadangwneee docs(hw06): link GitHub issues and capture defect screenshots
 54af835c 2026-08-19 11:18:43 +0700 khoadangwneee docs(hw06): cập nhật git commit log đầy đủ
 c8653bb0 2026-08-19 11:17:34 +0700 khoadangwneee fix(newman): tách preparation khỏi strict DDT assertions
 0a32c995 2026-08-19 11:15:36 +0700 khoadangwneee docs(hw06): hoàn thiện báo cáo, Excel và traceability
