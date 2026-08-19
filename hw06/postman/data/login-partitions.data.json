@@ -1,0 +1,114 @@
+[
+  {
+    "tc_id": "TC-API-LOGIN-001",
+    "email": "test@eshop.com",
+    "password": "<redacted-user-password>",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-LOGIN-002",
+    "email": "test@eshop.com",
+    "password": "<redacted-wrong-password>",
+    "expected_status": 401,
+    "note": "wrong credential"
+  },
+  {
+    "tc_id": "TC-API-LOGIN-003",
+    "email": "missing@eshop.com",
+    "password": "<redacted-user-password>",
+    "expected_status": 401,
+    "note": "unknown email"
+  },
+  {
+    "tc_id": "TC-API-LOGIN-004",
+    "email": "test@eshop.com",
+    "password": "<redacted-user-password>",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-LOGIN-005",
+    "email": "test@eshop.com",
+    "password": "<redacted-user-password>",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-LOGIN-006",
+    "email": "test@eshop.com",
+    "password": "<redacted-user-password>",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-LOGIN-007",
+    "email": "test@eshop.com",
+    "password": "<redacted-user-password>",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-LOGIN-008",
+    "email": "test@eshop.com",
+    "password": "<redacted-user-password>",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-LOGIN-009",
+    "email": "test@eshop.com",
+    "password": "<redacted-user-password>",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-LOGIN-010",
+    "email": "test@eshop.com",
+    "password": "<redacted-user-password>",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-LOGIN-011",
+    "email": "test@eshop.com",
+    "password": "<redacted-user-password>",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-LOGIN-012",
+    "email": "test@eshop.com",
+    "password": "<redacted-user-password>",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-LOGIN-013",
+    "email": "test@eshop.com",
+    "password": "<redacted-user-password>",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-LOGIN-014",
+    "email": "test@eshop.com",
+    "password": "<redacted-user-password>",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-LOGIN-015",
+    "email": "test@eshop.com",
+    "password": "<redacted-user-password>",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-LOGIN-016",
+    "email": "test@eshop.com",
+    "password": "<redacted-user-password>",
+    "expected_status": 200,
+    "note": "partition"
+  }
+]

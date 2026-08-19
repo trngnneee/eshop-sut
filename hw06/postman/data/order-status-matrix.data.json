@@ -1,0 +1,202 @@
+[
+  {
+    "tc_id": "TC-API-ORDER-STATUS-001",
+    "from_status": "pending",
+    "to_status": "pending",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-002",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_allowed": true,
+    "expected_status": 200,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-003",
+    "from_status": "pending",
+    "to_status": "shipping",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-004",
+    "from_status": "pending",
+    "to_status": "delivered",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-005",
+    "from_status": "pending",
+    "to_status": "canceled",
+    "expected_allowed": true,
+    "expected_status": 200,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-006",
+    "from_status": "confirmed",
+    "to_status": "pending",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-007",
+    "from_status": "confirmed",
+    "to_status": "confirmed",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-008",
+    "from_status": "confirmed",
+    "to_status": "shipping",
+    "expected_allowed": true,
+    "expected_status": 200,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-009",
+    "from_status": "confirmed",
+    "to_status": "delivered",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-010",
+    "from_status": "confirmed",
+    "to_status": "canceled",
+    "expected_allowed": true,
+    "expected_status": 200,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-011",
+    "from_status": "shipping",
+    "to_status": "pending",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-012",
+    "from_status": "shipping",
+    "to_status": "confirmed",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-013",
+    "from_status": "shipping",
+    "to_status": "shipping",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-014",
+    "from_status": "shipping",
+    "to_status": "delivered",
+    "expected_allowed": true,
+    "expected_status": 200,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-015",
+    "from_status": "shipping",
+    "to_status": "canceled",
+    "expected_allowed": true,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-016",
+    "from_status": "delivered",
+    "to_status": "pending",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-017",
+    "from_status": "delivered",
+    "to_status": "confirmed",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-018",
+    "from_status": "delivered",
+    "to_status": "shipping",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-019",
+    "from_status": "delivered",
+    "to_status": "delivered",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-020",
+    "from_status": "delivered",
+    "to_status": "canceled",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-021",
+    "from_status": "canceled",
+    "to_status": "pending",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-022",
+    "from_status": "canceled",
+    "to_status": "confirmed",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-023",
+    "from_status": "canceled",
+    "to_status": "shipping",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-024",
+    "from_status": "canceled",
+    "to_status": "delivered",
+    "expected_allowed": false,
+    "expected_status": 200,
+    "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-025",
+    "from_status": "canceled",
+    "to_status": "canceled",
+    "expected_allowed": false,
+    "expected_status": 400,
+    "note": "matrix; state setup required"
+  }
+]

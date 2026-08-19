@@ -1,0 +1,128 @@
+[
+  {
+    "tc_id": "TC-API-CHECKOUT-001",
+    "total_amount": 200000,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-002",
+    "total_amount": 0,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "D-CHK-02 observed"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-003",
+    "total_amount": -500000,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "D-CHK-02 observed"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-004",
+    "total_amount": 200000,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-005",
+    "total_amount": 200000,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-006",
+    "total_amount": 200000,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-007",
+    "total_amount": 200000,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-008",
+    "total_amount": 200000,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-009",
+    "total_amount": 200000,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-010",
+    "total_amount": 200000,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-011",
+    "total_amount": 200000,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-012",
+    "total_amount": 200000,
+    "shipping_address": "<img src=x onerror=alert(1)>",
+    "expected_status": 200,
+    "note": "D-CHK-05 observed"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-013",
+    "total_amount": 200000,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-014",
+    "total_amount": 200000,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-015",
+    "total_amount": 200000,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-016",
+    "total_amount": 200000,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-017",
+    "total_amount": 200000,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "partition"
+  },
+  {
+    "tc_id": "TC-API-CHECKOUT-018",
+    "total_amount": 200000,
+    "shipping_address": "123 Le Loi",
+    "expected_status": 200,
+    "note": "partition"
+  }
+]
