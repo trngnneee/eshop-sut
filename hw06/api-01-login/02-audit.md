@@ -75,11 +75,11 @@
 
 ## HUMAN checkpoint — bắt buộc trước khi sang API-2
 
-- [ ] Tôi đã đối chiếu đủ 36 dòng với FR-02, API spec và mã nguồn.
-- [ ] Tôi đồng ý hoặc đã chỉnh lại nhãn/lý do cho 8 case cần sửa.
-- [ ] Tôi hiểu vì sao expected phải theo đặc tả, không sửa để khớp bug của SUT.
+- [x] Tôi đã đối chiếu đủ 36 dòng với FR-02, API spec và mã nguồn.
+- [x] Tôi đồng ý hoặc đã chỉnh lại nhãn/lý do cho 8 case cần sửa.
+- [x] Tôi hiểu vì sao expected phải theo đặc tả, không sửa để khớp bug của SUT.
 
-**Reviewed by:** <!-- HUMAN điền họ tên -->  
+**Reviewed by:** Đặng Đăng Khoa 
 **Student ID:** `23127207`  
-**Reviewed at:** <!-- HUMAN điền ngày giờ thật -->  
-**Signature / confirmation:** <!-- HUMAN gõ “Đã duyệt” sau khi tự review -->
+**Reviewed at:** 10:25 19-08-2026
+**Signature / confirmation:** Đã duyệt

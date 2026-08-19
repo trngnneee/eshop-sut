@@ -82,7 +82,7 @@
 
 | # | Bug ID | Tiêu đề | Test case phát hiện | ☐ `bug-report.md` | ☐ GitHub Issue # | ☐ Screenshot |
 | :-: | :--- | :--- | :--- | :-: | :-: | :-: |
-| 1 | D-LOGIN-01 | Bộ đếm đăng nhập sai tăng 2 đơn vị | `TC-API-LOGIN-013` | ☐ | ☐ #___ | ☐ |
+| 1 | D-LOGIN-01 | Bộ đếm đăng nhập sai tăng 2 đơn vị | `TC-API-LOGIN-018` | ☐ | ☐ #___ | ☐ |
 | 2 | D-LOGIN-02 | Khoá 180 s thay vì 30 s | `TC-API-LOGIN-0__` | ☐ | ☐ #___ | ☐ |
 | 3 | D-LOGIN-03 | Response trả mật khẩu plaintext | `TC-API-LOGIN-0__` | ☐ | ☐ #___ | ☐ |
 | 4 | D-LOGIN-05 | JWT không hết hạn, secret hard-code | `TC-API-LOGIN-0__` | ☐ | ☐ #___ | ☐ |

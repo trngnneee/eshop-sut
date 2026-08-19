@@ -296,7 +296,7 @@ console.log("[HW06] " + pm.info.requestName
 // Helper dùng chung cho mọi test script
 pm.collectionVariables.set("helpers", `
   const MODE = (pm.environment.get("spec_strict") || "off").toLowerCase();
-  const CANARY = ["TC-API-LOGIN-013"];
+  const CANARY = ["TC-API-LOGIN-018"];
   // specTest: chỉ chạy assertion phản ánh ĐÚNG ĐẶC TẢ (sẽ fail vì SUT có bug)
   function specTest(id, name, fn) {
     if (MODE === "full" || (MODE === "canary" && CANARY.indexOf(id) !== -1)) {
@@ -432,7 +432,7 @@ run "03-ddt-order-status" --folder "3.1 Transition matrix" -d "$DATA/order-statu
 | Chế độ | `spec_strict` | Assertion nào chạy | Dùng cho |
 | :--- | :--- | :--- | :--- |
 | `off` | `off` | Chỉ assertion mô tả hành vi **đã kiểm chứng là đúng** | **Commit CI xanh** (R-07 "all passing") |
-| `canary` | `canary` | Như `off` **+ đúng 1** assertion `TC-API-LOGIN-013` (bug D-LOGIN-01) | **Commit CI đỏ** (R-07 "one test case failing") |
+| `canary` | `canary` | Như `off` **+ đúng 1** assertion `TC-API-LOGIN-018` (bug D-LOGIN-01) | **Commit CI đỏ** (R-07 "one test case failing") |
 | `full` | `full` | Toàn bộ, gồm mọi assertion theo đặc tả | **Báo cáo bằng chứng bug** nộp bài (R-04, R-05) |
 
 > Cách làm này **trung thực**: không có test nào bị chế ra để fail. Lần chạy đỏ fail vì một **bug thật** (bộ đếm tăng +2), và chính lần chạy đó là bằng chứng gắn vào issue GitHub của D-LOGIN-01.
@@ -518,7 +518,7 @@ jobs:
 | Bước | Việc | Kết quả mong đợi |
 | :-: | :--- | :--- |
 | 1 | Push commit với `SPEC_STRICT: 'off'` | ✅ Pipeline **xanh** — toàn bộ test pass → **commit mẫu #1** |
-| 2 | Sửa **đúng 1 dòng** `SPEC_STRICT: 'off'` → `'canary'`, commit riêng | ❌ Pipeline **đỏ** — đúng **1 test case fail** (`TC-API-LOGIN-013`) → **commit mẫu #2** |
+| 2 | Sửa **đúng 1 dòng** `SPEC_STRICT: 'off'` → `'canary'`, commit riêng | ❌ Pipeline **đỏ** — đúng **1 test case fail** (`TC-API-LOGIN-018`) → **commit mẫu #2** |
 | 3 | 🧑 Chụp màn hình 2 lần chạy ở tab Actions | `evidence/screenshots/04-ci-pass.png`, `05-ci-fail.png` |
 | 4 | 🤖 Ghi 2 commit SHA + 2 link run vào `cicd-report.md` | — |
 
