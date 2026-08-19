@@ -240,3 +240,13 @@
   > Audit 38 case API-3 bằng FR-10/FR-12/FR-18, API specification, mã nguồn `server.js` và defect catalog §3. Kiểm tra đủ 25 ô matrix, gắn VALID/INVALID/INCOMPLETE cho từng dòng, sửa mọi expected sai/thiếu và không điều chỉnh expected theo bug SUT. Chừa checkpoint HUMAN trước Postman.
 
 - **Output:** Audit đủ `38/38`: `28 VALID`, `5 INVALID`, `5 INCOMPLETE`. Hai bug matrix là D-ADM-03 (shipping→canceled) và D-ADM-02 (canceled→delivered); D-ADM-01 được phát hiện ở security case user token. Bảng audit nằm ở `api-03-admin-order-status/02-audit.md`.
+
+### API-3 / Agent pre-review — Kiểm tra nhất quán trước automation
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T10:46:00+07:00`
+- **Prompt:**
+
+  > Tự rà soát bảng audit API-3 sau khi chưa có Human sign-off: đếm đủ 25 ô matrix và 38 case, kiểm tra mỗi case có đúng một nhãn, mọi INVALID/INCOMPLETE có action sửa, và không chuyển expected sang hành vi lỗi của SUT. Không ký thay Human.
+
+- **Output:** Pre-review đạt các kiểm tra số lượng/nhãn/coverage; giữ nguyên khu vực Human sign-off chưa điền trong `api-03-admin-order-status/02-audit.md`.

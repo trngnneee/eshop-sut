@@ -79,3 +79,13 @@
 **Student ID:** `23127207`  
 **Reviewed at:** <!-- HUMAN điền ngày giờ thật -->  
 **Signature / confirmation:** <!-- HUMAN gõ `Đã duyệt` sau khi tự review -->
+
+## Agent pre-review (không thay thế Human sign-off)
+
+- [x] Đã kiểm tra đủ 25/25 ô của ma trận state transition.
+- [x] Đã đối chiếu hai ô có chênh lệch SUT/đặc tả: `shipping → canceled` và `canceled → delivered`.
+- [x] Đã kiểm tra 38/38 case đều có đúng một nhãn và mọi INVALID/INCOMPLETE đều có hành động sửa.
+- [x] Đã kiểm tra thống kê: 28 VALID, 5 INVALID, 5 INCOMPLETE.
+
+**Agent review time:** `2026-08-19T10:46:00+07:00`  
+**Human sign-off:** Còn thiếu — không tự giả mạo chữ ký người học.
