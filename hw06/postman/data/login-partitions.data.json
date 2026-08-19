@@ -1,114 +1,353 @@
-[
-  {
-    "tc_id": "TC-API-LOGIN-001",
-    "email": "test@eshop.com",
-    "password": "<redacted-user-password>",
-    "expected_status": 200,
-    "note": "partition"
-  },
-  {
-    "tc_id": "TC-API-LOGIN-002",
-    "email": "test@eshop.com",
-    "password": "<redacted-wrong-password>",
-    "expected_status": 401,
-    "note": "wrong credential"
-  },
-  {
-    "tc_id": "TC-API-LOGIN-003",
-    "email": "missing@eshop.com",
-    "password": "<redacted-user-password>",
-    "expected_status": 401,
-    "note": "unknown email"
-  },
-  {
-    "tc_id": "TC-API-LOGIN-004",
-    "email": "test@eshop.com",
-    "password": "<redacted-user-password>",
-    "expected_status": 200,
-    "note": "partition"
-  },
-  {
-    "tc_id": "TC-API-LOGIN-005",
-    "email": "test@eshop.com",
-    "password": "<redacted-user-password>",
-    "expected_status": 200,
-    "note": "partition"
-  },
-  {
-    "tc_id": "TC-API-LOGIN-006",
-    "email": "test@eshop.com",
-    "password": "<redacted-user-password>",
-    "expected_status": 200,
-    "note": "partition"
-  },
-  {
-    "tc_id": "TC-API-LOGIN-007",
-    "email": "test@eshop.com",
-    "password": "<redacted-user-password>",
-    "expected_status": 200,
-    "note": "partition"
-  },
-  {
-    "tc_id": "TC-API-LOGIN-008",
-    "email": "test@eshop.com",
-    "password": "<redacted-user-password>",
-    "expected_status": 200,
-    "note": "partition"
-  },
-  {
-    "tc_id": "TC-API-LOGIN-009",
-    "email": "test@eshop.com",
-    "password": "<redacted-user-password>",
-    "expected_status": 200,
-    "note": "partition"
-  },
-  {
-    "tc_id": "TC-API-LOGIN-010",
-    "email": "test@eshop.com",
-    "password": "<redacted-user-password>",
-    "expected_status": 200,
-    "note": "partition"
-  },
-  {
-    "tc_id": "TC-API-LOGIN-011",
-    "email": "test@eshop.com",
-    "password": "<redacted-user-password>",
-    "expected_status": 200,
-    "note": "partition"
-  },
-  {
-    "tc_id": "TC-API-LOGIN-012",
-    "email": "test@eshop.com",
-    "password": "<redacted-user-password>",
-    "expected_status": 200,
-    "note": "partition"
-  },
-  {
-    "tc_id": "TC-API-LOGIN-013",
-    "email": "test@eshop.com",
-    "password": "<redacted-user-password>",
-    "expected_status": 200,
-    "note": "partition"
-  },
-  {
-    "tc_id": "TC-API-LOGIN-014",
-    "email": "test@eshop.com",
-    "password": "<redacted-user-password>",
-    "expected_status": 200,
-    "note": "partition"
-  },
-  {
-    "tc_id": "TC-API-LOGIN-015",
-    "email": "test@eshop.com",
-    "password": "<redacted-user-password>",
-    "expected_status": 200,
-    "note": "partition"
-  },
-  {
-    "tc_id": "TC-API-LOGIN-016",
-    "email": "test@eshop.com",
-    "password": "<redacted-user-password>",
-    "expected_status": 200,
-    "note": "partition"
-  }
-]
+[
+  {
+    "tc_id": "TC-API-LOGIN-001",
+    "scenario": "valid credentials",
+    "expected_status": "200",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-002",
+    "scenario": "wrong password",
+    "expected_status": "401",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-003",
+    "scenario": "unknown email",
+    "expected_status": "401",
+    "register_user": false,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-004",
+    "scenario": "missing email",
+    "expected_status": "400",
+    "register_user": false,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-005",
+    "scenario": "missing password",
+    "expected_status": "400",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-006",
+    "scenario": "empty email",
+    "expected_status": "400",
+    "register_user": false,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-007",
+    "scenario": "short wrong password",
+    "expected_status": "401",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-008",
+    "scenario": "invalid email format",
+    "expected_status": "4xx",
+    "register_user": false,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-009",
+    "scenario": "email whitespace",
+    "expected_status": "401",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-010",
+    "scenario": "null email",
+    "expected_status": "400",
+    "register_user": false,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-011",
+    "scenario": "null password",
+    "expected_status": "400",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-012",
+    "scenario": "numeric email",
+    "expected_status": "400",
+    "register_user": false,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-013",
+    "scenario": "object password",
+    "expected_status": "400",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-014",
+    "scenario": "array body",
+    "expected_status": "400",
+    "register_user": false,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-015",
+    "scenario": "missing content type",
+    "expected_status": "400|415",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-016",
+    "scenario": "ignored rememberMe",
+    "expected_status": "200",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-017",
+    "scenario": "first failure counter",
+    "expected_status": "401",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-018",
+    "scenario": "two failures then correct",
+    "expected_status": "200",
+    "register_user": true,
+    "pre_failures": 2,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-019",
+    "scenario": "third failure boundary",
+    "expected_status": "401",
+    "register_user": true,
+    "pre_failures": 2,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-020",
+    "scenario": "correct credential while locked",
+    "expected_status": "403",
+    "register_user": true,
+    "pre_failures": 2,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-021",
+    "scenario": "locked at 29 seconds",
+    "expected_status": "4xx",
+    "register_user": true,
+    "pre_failures": 2,
+    "delay_ms": 29000,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-022",
+    "scenario": "unlock at 31 seconds",
+    "expected_status": "200",
+    "register_user": true,
+    "pre_failures": 2,
+    "delay_ms": 31000,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-023",
+    "scenario": "reset after success",
+    "expected_status": "200",
+    "register_user": true,
+    "pre_failures": 2,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-025",
+    "scenario": "SQLi email",
+    "expected_status": "401",
+    "register_user": false,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-026",
+    "scenario": "SQLi password",
+    "expected_status": "401",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-027",
+    "scenario": "XSS non-reflection",
+    "expected_status": "4xx",
+    "register_user": false,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-028",
+    "scenario": "password leakage",
+    "expected_status": "200",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-029",
+    "scenario": "internal auth fields",
+    "expected_status": "200",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-030",
+    "scenario": "role mass assignment",
+    "expected_status": "200",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-031",
+    "scenario": "token usability",
+    "expected_status": "200",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-032",
+    "scenario": "locked account enumeration",
+    "expected_status": "403",
+    "register_user": true,
+    "pre_failures": 2,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-033",
+    "scenario": "success schema",
+    "expected_status": "200",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-034",
+    "scenario": "JSON content type",
+    "expected_status": "200",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-035",
+    "scenario": "error schema",
+    "expected_status": "401",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-036",
+    "scenario": "negative schema",
+    "expected_status": "200",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-037",
+    "scenario": "two failures sequence",
+    "expected_status": "200",
+    "register_user": true,
+    "pre_failures": 2,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-038",
+    "scenario": "unlock at 35 seconds",
+    "expected_status": "200",
+    "register_user": true,
+    "pre_failures": 2,
+    "delay_ms": 35000,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-039",
+    "scenario": "sensitive root fields",
+    "expected_status": "200",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  },
+  {
+    "tc_id": "TC-API-LOGIN-040",
+    "scenario": "JWT exp claim",
+    "expected_status": "200",
+    "register_user": true,
+    "pre_failures": 0,
+    "delay_ms": 0,
+    "note": "Expected is the specification oracle; assertion runs in full mode."
+  }
+]

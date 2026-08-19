@@ -198,5 +198,149 @@
     "expected_allowed": false,
     "expected_status": 400,
     "note": "matrix; state setup required"
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-026",
+    "scenario": "nonexistent order",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_status": "404",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-027",
+    "scenario": "negative order id",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_status": "4xx",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-028",
+    "scenario": "string order id",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_status": "4xx",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-029",
+    "scenario": "missing status",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_status": "400",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-030",
+    "scenario": "uppercase status",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_status": "400",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-031",
+    "scenario": "missing authorization",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_status": "401",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-032",
+    "scenario": "invalid JWT",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_status": "403",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-033",
+    "scenario": "user role escalation",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_status": "403",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-034",
+    "scenario": "user order mutation",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_status": "403",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-035",
+    "scenario": "success message schema",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_status": "200",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-036",
+    "scenario": "error schema",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_status": "400",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-037",
+    "scenario": "JSON content type",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_status": "200",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-038",
+    "scenario": "no secret fields",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_status": "200",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-039",
+    "scenario": "role escalation extension",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_status": "403",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-040",
+    "scenario": "cross-user mutation",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_status": "403",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-042",
+    "scenario": "admin cancels shipping",
+    "from_status": "shipping",
+    "to_status": "confirmed",
+    "expected_status": "200",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-043",
+    "scenario": "user cancels shipping",
+    "from_status": "shipping",
+    "to_status": "confirmed",
+    "expected_status": "400",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
+  },
+  {
+    "tc_id": "TC-API-ORDER-STATUS-044",
+    "scenario": "status type confusion",
+    "from_status": "pending",
+    "to_status": "confirmed",
+    "expected_status": "400",
+    "note": "Fresh order per iteration; expected remains the specification oracle."
   }
 ]

@@ -48,7 +48,11 @@ def ai_count(path: Path) -> int:
 def read_stats(name: str) -> dict[str, int]:
     data = json.loads((HW / "newman" / "reports" / f"{name}.json").read_text(encoding="utf-8"))
     stats = data["run"]["stats"]
-    return {key: int(stats[key]["total"]) for key in ("iterations", "requests", "assertions")}
+    result = {key: int(stats[key]["total"]) for key in ("iterations", "requests", "assertions")}
+    result["failed"] = int(stats["assertions"]["failed"])
+    result["request_failed"] = int(stats["requests"]["failed"])
+    result["script_failed"] = int(stats["testScripts"]["failed"]) + int(stats["prerequestScripts"]["failed"])
+    return result
 
 
 def write_csv(path: Path, rows: list[dict[str, str]], fields: list[str]) -> None:
@@ -82,7 +86,7 @@ def write_xlsx(path: Path, title: str, rows: list[dict[str, str]], fields: list[
 
 
 def build_excel(all_rows: list[dict[str, str]]) -> None:
-    fields = ["API", "TC ID", "Requirement", "Nhóm", "Kỹ thuật", "Preconditions", "Method + Endpoint / Test data", "Expected result", "Nguồn", "Kỳ vọng chạy", "Bug ID"]
+    fields = ["API", "TC ID", "Requirement", "Nhóm", "Kỹ thuật", "Preconditions", "Method + Endpoint / Test data", "Expected result", "Nguồn", "Kỳ vọng chạy", "Bug ID", "Execution", "Lý do"]
     write_csv(EXCEL / "test-cases.csv", all_rows, fields)
     write_xlsx(EXCEL / "test-cases.xlsx", "HW06 test cases", all_rows, fields)
 
@@ -91,8 +95,8 @@ def build_excel(all_rows: list[dict[str, str]]) -> None:
         rows = [r for r in all_rows if r["API"] == label]
         ai = ai_count(HW / folder / "01-ai-generated.md")
         extended = sum(1 for r in rows if r["Nguồn"].lower().startswith("human"))
-        summary_rows.append({"API": label, "Endpoint": endpoint, "Requirements": req, "AI generated": str(ai), "Human extended": str(extended), "Final cases": str(len(rows)), "Expected FAIL": str(sum(1 for r in rows if r["Kỳ vọng chạy"].upper() == "FAIL"))})
-    fields2 = ["API", "Endpoint", "Requirements", "AI generated", "Human extended", "Final cases", "Expected FAIL"]
+        summary_rows.append({"API": label, "Endpoint": endpoint, "Requirements": req, "AI generated": str(ai), "Human extended": str(extended), "Final cases": str(len(rows)), "Automated": str(sum(1 for r in rows if r.get("Execution") == "Automated")), "Manual": str(sum(1 for r in rows if r.get("Execution") == "Manual")), "Blocked": str(sum(1 for r in rows if r.get("Execution") == "Blocked")), "Expected FAIL": str(sum(1 for r in rows if r["Kỳ vọng chạy"].upper().startswith("FAIL")))})
+    fields2 = ["API", "Endpoint", "Requirements", "AI generated", "Human extended", "Final cases", "Automated", "Manual", "Blocked", "Expected FAIL"]
     write_csv(EXCEL / "test-summary.csv", summary_rows, fields2)
     write_xlsx(EXCEL / "test-summary.xlsx", "HW06 summary", summary_rows, fields2)
 
@@ -100,6 +104,10 @@ def build_excel(all_rows: list[dict[str, str]]) -> None:
 def write_main_report(all_rows: list[dict[str, str]], stats: dict[str, dict[str, int]]) -> None:
     issue_manifest_path = REPORT / "github-issues.json"
     issue_manifest = {item["bug_id"]: item for item in json.loads(issue_manifest_path.read_text(encoding="utf-8"))} if issue_manifest_path.exists() else {}
+    automated = sum(1 for row in all_rows if row.get("Execution") == "Automated")
+    manual = sum(1 for row in all_rows if row.get("Execution") == "Manual")
+    blocked = sum(1 for row in all_rows if row.get("Execution") == "Blocked")
+    execution_percent = automated * 100 / len(all_rows)
     lines = [
         "# HW06 — AI-first API testing report",
         "",
@@ -133,14 +141,16 @@ def write_main_report(all_rows: list[dict[str, str]], stats: dict[str, dict[str,
         "",
         "## 3. Newman execution",
         "",
+        f"Báo cáo đối soát [`execution-coverage.md`](../newman/reports/execution-coverage.md) trích TC ID trực tiếp từ tên assertion trong mọi Newman JSON: **{automated}/{len(all_rows)} = {execution_percent:.1f}%** case đã thực thi; {manual} Manual và {blocked} Blocked đều có lý do trong bảng test case.",
+        "",
         "| Run | Iterations | Requests | Assertions | Failed assertions | Ý nghĩa |",
         "| :--- | ---: | ---: | ---: | ---: | :--- |",
-        f"| `00-off-suite` | {stats['00-off-suite']['iterations']} | {stats['00-off-suite']['requests']} | {stats['00-off-suite']['assertions']} | 0 | smoke/oracle quan sát hành vi SUT |",
-        f"| `00-canary-suite` | {stats['00-canary-suite']['iterations']} | {stats['00-canary-suite']['requests']} | {stats['00-canary-suite']['assertions']} | 1 | strict canary: TC-API-LOGIN-018 |",
-        f"| `00-full-suite` | {stats['00-full-suite']['iterations']} | {stats['00-full-suite']['requests']} | {stats['00-full-suite']['assertions']} | 8 | strict toàn bộ probe |",
-        f"| `01-ddt-login` | {stats['01-ddt-login']['iterations']} | {stats['01-ddt-login']['requests']} | {stats['01-ddt-login']['assertions']} | 0 | 16 domain partitions |",
-        f"| `02-ddt-checkout` | {stats['02-ddt-checkout']['iterations']} | {stats['02-ddt-checkout']['requests']} | {stats['02-ddt-checkout']['assertions']} | 0 | 18 partition rows |",
-        f"| `03-ddt-order-status` | {stats['03-ddt-order-status']['iterations']} | {stats['03-ddt-order-status']['requests']} | {stats['03-ddt-order-status']['assertions']} | 7 | 25 matrix rows; failures là mismatch oracle/bug |",
+        f"| `00-off-suite` | {stats['00-off-suite']['iterations']} | {stats['00-off-suite']['requests']} | {stats['00-off-suite']['assertions']} | {stats['00-off-suite']['failed']} | baseline CI xanh |",
+        f"| `00-canary-suite` | {stats['00-canary-suite']['iterations']} | {stats['00-canary-suite']['requests']} | {stats['00-canary-suite']['assertions']} | {stats['00-canary-suite']['failed']} | strict canary: TC-API-LOGIN-018 |",
+        f"| `00-full-suite` | {stats['00-full-suite']['iterations']} | {stats['00-full-suite']['requests']} | {stats['00-full-suite']['assertions']} | {stats['00-full-suite']['failed']} | strict toàn bộ probe chính |",
+        f"| `01-ddt-login` | {stats['01-ddt-login']['iterations']} | {stats['01-ddt-login']['requests']} | {stats['01-ddt-login']['assertions']} | {stats['01-ddt-login']['failed']} | coverage DDT login |",
+        f"| `02-ddt-checkout` | {stats['02-ddt-checkout']['iterations']} | {stats['02-ddt-checkout']['requests']} | {stats['02-ddt-checkout']['assertions']} | {stats['02-ddt-checkout']['failed']} | coverage DDT checkout |",
+        f"| `03-ddt-order-status` | {stats['03-ddt-order-status']['iterations']} | {stats['03-ddt-order-status']['requests']} | {stats['03-ddt-order-status']['assertions']} | {stats['03-ddt-order-status']['failed']} | matrix + coverage DDT status |",
         "",
         "HTML/JSON evidence: [`newman/reports`](../newman/reports/). DDT runner tự chuẩn bị environment/auth/order trước khi chạy folder, tránh kết quả giả do 401 hoặc orderId rỗng.",
         "",
@@ -152,7 +162,7 @@ def write_main_report(all_rows: list[dict[str, str]], stats: dict[str, dict[str,
         "",
         "## 5. Defects và giới hạn bằng chứng",
         "",
-        (f"15 defect IDs trong defect catalog đã được lập trong [`bug-report.md`](bug-report.md), mỗi dòng có Found by Test Case, expected/actual và nguồn evidence. Newman hiện quan sát trực tiếp 8 assertion fail trong full suite và 7 mismatch của matrix DDT. Đã tạo đủ 15 GitHub Issues scrubbed (#413–#427) và lưu 15 ảnh trang issue tại `evidence/screenshots/github-issues/`; branch artifact chưa push vì lịch sử chứa environment/report credential-like bị hệ thống chặn public egress." if issue_manifest else "15 defect IDs trong defect catalog đã được lập trong [`bug-report.md`](bug-report.md), mỗi dòng có Found by Test Case, expected/actual và nguồn evidence. Newman hiện quan sát trực tiếp 8 assertion fail trong full suite và 7 mismatch của matrix DDT. GitHub Issues/screenshots chưa được tạo trong phiên này."),
+        (f"15 defect IDs trong defect catalog đã được lập trong [`bug-report.md`](bug-report.md), mỗi dòng có Found by Test Case, expected/actual và nguồn evidence. Newman JSON ghi nhận {stats['00-full-suite']['failed']} fail ở full probe cùng {stats['01-ddt-login']['failed']}/{stats['02-ddt-checkout']['failed']}/{stats['03-ddt-order-status']['failed']} fail ở ba DDT suite; request/test-script infrastructure đều không fail. Đã tạo đủ 15 GitHub Issues scrubbed (#413–#427) và lưu 15 ảnh trang issue tại `evidence/screenshots/github-issues/`; trạng thái CI external được ghi riêng trong `cicd-report.md`." if issue_manifest else "15 defect IDs trong defect catalog đã được lập trong [`bug-report.md`](bug-report.md); chưa có manifest issue external."),
         "",
         "`ai-critique.md` là bản nháp dữ liệu 200–300 từ để người học viết lại bằng nhận xét của chính mình; `diagram.mmd` là bản mô tả kỹ thuật, không thay thế `diagram.png` tự vẽ.",
         "",
@@ -177,20 +187,20 @@ def write_main_report(all_rows: list[dict[str, str]], stats: dict[str, dict[str,
 def write_bug_report() -> None:
     bugs = [
         ("D-LOGIN-01", "Critical", "Sai password làm tăng counter hai lần; lock quá sớm", "TC-API-LOGIN-018", "200 sau hai lần sai (theo đặc tả)", "403 sau hai lần sai trong canary/full; xem `00-canary-suite.json`", "Newman"),
-        ("D-LOGIN-02", "Major", "Thời gian khóa 180s thay vì 30s", "TC-API-LOGIN-019", "Khóa 30s", "SUT defect catalog ghi nhận 180s; smoke collection chưa chờ đủ 180s", "Catalog + manual follow-up"),
-        ("D-LOGIN-03", "Critical", "Response trả password plaintext", "TC-API-LOGIN-028", "Không có password", "Full strict assertion bắt được password `Test1234!`", "`00-full-suite.json`"),
-        ("D-LOGIN-05", "Major", "JWT hard-code/không hết hạn", "TC-API-LOGIN-030", "JWT có exp và secret quản lý an toàn", "Endpoint phát token không có exp; cần decode token xác nhận đầy đủ", "Catalog + manual follow-up"),
+        ("D-LOGIN-02", "Major", "Thời gian khóa 180s thay vì 30s", "TC-API-LOGIN-022", "Hết khóa sau 30s", "Login đúng sau 31s và 35s vẫn trả 403", "`01-ddt-login.json`"),
+        ("D-LOGIN-03", "Critical", "Response trả password plaintext", "TC-API-LOGIN-028", "Không có password", "Negative-schema assertion phát hiện field nhạy cảm trong response", "`00-full-suite.json`, `01-ddt-login.json`"),
+        ("D-LOGIN-05", "Major", "JWT hard-code/không hết hạn", "TC-API-LOGIN-040", "JWT có exp và secret quản lý an toàn", "JWT claim assertion không tìm thấy `exp`; hard-coded secret được xác nhận bằng source review", "`01-ddt-login.json` + source review"),
         ("D-LOGIN-06", "Major", "Counter không reset sau khi hết khóa", "TC-API-LOGIN-020", "Counter reset khi hết thời gian khóa", "Catalog ghi nhận counter giữ nguyên; cần probe chờ timer", "Catalog + manual follow-up"),
         ("D-CHK-01", "Critical", "Tin total_amount từ client", "TC-API-CHECKOUT-037", "Tính lại total từ cart", "Checkout nhận client total `1` và tạo order thành công", "`00-full-suite.json` / test table"),
         ("D-CHK-02", "Major", "Chấp nhận total âm/0", "TC-API-CHECKOUT-005", "400 validation", "Zero total trả 200 trong full strict", "`00-full-suite.json`"),
         ("D-CHK-03", "Major", "Không xóa cart sau checkout", "TC-API-CHECKOUT-020", "Cart rỗng", "Post-condition strict fail; cart vẫn còn item", "`00-full-suite.json`"),
-        ("D-CHK-04", "Major", "Checkout với cart rỗng", "TC-API-CHECKOUT-021", "400", "Catalog ghi nhận checkout rỗng vẫn tạo order; cần probe độc lập", "Catalog + manual follow-up"),
+        ("D-CHK-04", "Major", "Checkout với cart rỗng", "TC-API-CHECKOUT-022", "400", "Fresh user không có cart vẫn checkout 200 và tạo order", "`02-ddt-checkout.json`"),
         ("D-CHK-07", "Critical", "IDOR GET /api/orders/:id", "TC-API-CHECKOUT-031", "401/403 nếu không có auth", "Anonymous/order detail probe trả 200", "`00-full-suite.json`"),
         ("D-ADM-01", "Critical", "User thường đổi trạng thái qua API admin", "TC-API-ORDER-STATUS-033", "403", "User token trả 200 trong full strict", "`00-full-suite.json`"),
         ("D-ADM-02", "Critical", "canceled → delivered được phép", "TC-API-ORDER-STATUS-024", "400", "Trả 200 trong full strict và matrix DDT", "`00-full-suite.json`, `03-ddt-order-status.json`"),
-        ("D-ADM-03", "Major", "Admin không hủy được shipping", "TC-API-ORDER-STATUS-015", "200", "Catalog ghi nhận 400; cần stateful probe độc lập", "Catalog + manual follow-up"),
+        ("D-ADM-03", "Major", "Admin không hủy được shipping", "TC-API-ORDER-STATUS-015", "200", "Stateful DDT dựng order shipping rồi nhận 400 khi admin hủy", "`03-ddt-order-status.json`"),
         ("D-ADM-04", "Major", "Bỏ qua lỗi UPDATE, trả 200", "TC-API-ORDER-STATUS-041", "4xx/5xx khi update lỗi", "Callback bỏ qua err theo catalog; cần tạo orderId không tồn tại", "Catalog + manual follow-up"),
-        ("D-ADM-08", "Major", "User hủy order shipping", "TC-API-ORDER-STATUS-042", "400", "Catalog ghi nhận user cancel shipping được 200; cần stateful probe", "Catalog + manual follow-up"),
+        ("D-ADM-08", "Major", "User hủy order shipping", "TC-API-ORDER-STATUS-043", "400", "Stateful DDT dựng order shipping rồi user cancel nhận 200", "`03-ddt-order-status.json`"),
     ]
     issue_manifest_path = REPORT / "github-issues.json"
     issue_manifest = {item["bug_id"]: item for item in json.loads(issue_manifest_path.read_text(encoding="utf-8"))} if issue_manifest_path.exists() else {}
@@ -204,12 +214,12 @@ def write_bug_report() -> None:
         issue_cell = f"[#${issue['issue_number']}]({issue['url']})".replace("#$", "#") if issue else "Chưa tạo — HUMAN"
         screenshot_cell = f"[bug-{index:02d}-{bid}-issue.png](../evidence/screenshots/github-issues/bug-{index:02d}-{bid}-issue.png)" if issue else "Chưa có — HUMAN"
         lines.append(f"| {bid} | {sev} | {title} | `{tc}` | {expected} | {actual} | {evidence} | {issue_cell} | {screenshot_cell} |")
-    lines += ["", "## Quy ước reproducing", "", "- Chạy backend reset DB rồi `powershell -ExecutionPolicy Bypass -File hw06/newman/run-newman.ps1 -Mode full -BaseUrl http://127.0.0.1:3001`.", "- Dùng `-DataDriven` để chạy 16/18/25 rows; status matrix cần precondition state đúng theo `from_status`.", "- GitHub Issues và screenshot là artifact external/human-only, nên không được thay bằng số issue hoặc ảnh giả."]
+    lines += ["", "## Quy ước reproducing", "", "- Chạy backend reset DB rồi `powershell -ExecutionPolicy Bypass -File hw06/newman/run-newman.ps1 -Mode full -BaseUrl http://127.0.0.1:3001`.", "- Dùng `-DataDriven` để chạy 39/41/43 rows; mỗi iteration tự dựng user/cart/order và state cần thiết.", "- GitHub Issues và screenshot là artifact external/human-only, nên không được thay bằng số issue hoặc ảnh giả."]
     (REPORT / "bug-report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def write_cicd(stats: dict[str, dict[str, int]]) -> None:
-    lines = ["# HW06 CI/CD report", "", "## Pipeline", "", "```mermaid", "flowchart LR", "A[checkout] --> B[setup Node 20] --> C[npm ci backend] --> D[start localhost:3000] --> E[npm ci hw06] --> F[Newman off/canary/full] --> G[upload HTML+JSON]", "```", "", "Workflow: [`.github/workflows/hw06-newman-api-test.yml`](../../.github/workflows/hw06-newman-api-test.yml). It installs backend dependencies, waits for `/api/products`, starts the SUT, installs Newman and uploads reports even on failure.", "", "## Strict modes", "", "- `off`: only observed/oracle-safe assertions; used as green smoke run.", "- `canary`: strict one-case gate `TC-API-LOGIN-018`; expected red while D-LOGIN-01 exists.", "- `full`: all strict probes; exposes all currently known defects.", "", "## Local evidence (the same collection and runner used by CI)", "", "| Mode/report | Requests | Assertions | Failed | External Actions link | Screenshot |", "| :--- | ---: | ---: | ---: | :--- | :--- |", f"| off — `00-off-suite` | {stats['00-off-suite']['requests']} | {stats['00-off-suite']['assertions']} | 0 | Chưa có — HUMAN | Chưa có — HUMAN |", f"| canary — `00-canary-suite` | {stats['00-canary-suite']['requests']} | {stats['00-canary-suite']['assertions']} | 1 | Chưa có — HUMAN | Chưa có — HUMAN |", "", "Không ghi SHA/link GitHub Actions khi chưa có run external thật. Sau khi push, người học điền hai URL/SHA và chụp `04-ci-pass.png`, `05-ci-fail.png`."]
+    lines = ["# HW06 CI/CD report", "", "## Pipeline", "", "```mermaid", "flowchart LR", "A[checkout] --> B[setup Node 20] --> C[npm ci backend] --> D[start localhost:3000] --> E[npm ci hw06] --> F[Newman off/canary/full] --> G[upload HTML+JSON]", "```", "", "Workflow: [`.github/workflows/hw06-newman-api-test.yml`](../../.github/workflows/hw06-newman-api-test.yml). It installs backend dependencies, waits for `/api/products`, starts the SUT, installs Newman and uploads reports even on failure.", "", "## Strict modes", "", "- `off`: only observed/oracle-safe assertions; used as green smoke run.", "- `canary`: strict one-case gate `TC-API-LOGIN-018`; expected red while D-LOGIN-01 exists.", "- `full`: all strict probes; exposes all currently known defects.", "", "## Local evidence (the same collection and runner used by CI)", "", "| Mode/report | Requests | Assertions | Failed | External Actions link | Screenshot |", "| :--- | ---: | ---: | ---: | :--- | :--- |", f"| off — `00-off-suite` | {stats['00-off-suite']['requests']} | {stats['00-off-suite']['assertions']} | {stats['00-off-suite']['failed']} | Chưa có — HUMAN | Chưa có — HUMAN |", f"| canary — `00-canary-suite` | {stats['00-canary-suite']['requests']} | {stats['00-canary-suite']['assertions']} | {stats['00-canary-suite']['failed']} | Chưa có — HUMAN | Chưa có — HUMAN |", "", "Không ghi SHA/link GitHub Actions khi chưa có run external thật. Sau khi push, người học điền hai URL/SHA và chụp `04-ci-pass.png`, `05-ci-fail.png`."]
     (REPORT / "cicd-report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -231,9 +241,9 @@ def write_test_run(stats: dict[str, dict[str, int]]) -> None:
     lines = ["# HW06 API test run", "", "| Suite | Iterations | Requests | Assertions | Failed | Result |", "| :--- | ---: | ---: | ---: | ---: | :--- |"]
     for name in ["00-off-suite", "00-canary-suite", "00-full-suite", "01-ddt-login", "02-ddt-checkout", "03-ddt-order-status"]:
         s = stats[name]
-        failed = {"00-off-suite": 0, "00-canary-suite": 1, "00-full-suite": 8, "01-ddt-login": 0, "02-ddt-checkout": 0, "03-ddt-order-status": 7}[name]
+        failed = s["failed"]
         lines.append(f"| `{name}` | {s['iterations']} | {s['requests']} | {s['assertions']} | {failed} | {'PASS' if failed == 0 else 'FAIL (expected defect/oracle mismatch)'} |")
-    lines += ["", "## Failure mapping", "", "- Canary: `TC-API-LOGIN-018` → D-LOGIN-01.", "- Full: D-LOGIN-08, D-LOGIN-03, D-CHK-07, D-CHK-03, D-CHK-02, D-ADM-01, D-ADM-02 (see `report/bug-report.md`).", "- Status DDT: 7 matrix cells expose implementation/oracle divergence; each row has `tc_id` and expected status in `postman/data/order-status-matrix.data.json`.", "", "All request logs use `X-Student-Id: 23127207`; reports are in `hw06/newman/reports/`."]
+    lines += ["", "## Failure mapping", "", "- Canary: `TC-API-LOGIN-018` → D-LOGIN-01; Newman JSON có đúng 1 failed assertion.", "- Full probe: xem từng assertion TC ID trong `00-full-suite.json` và `report/bug-report.md`.", "- DDT: expected giữ theo đặc tả; các failed assertion là chênh lệch oracle/SUT, không phải lỗi request hoặc test script.", "- Đối soát 128 TC ID: `hw06/newman/reports/execution-coverage.md`.", "", "All request logs use `X-Student-Id: 23127207`; reports are in `hw06/newman/reports/`."]
     RUNS.mkdir(parents=True, exist_ok=True)
     (RUNS / "hw06-api-test-run.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

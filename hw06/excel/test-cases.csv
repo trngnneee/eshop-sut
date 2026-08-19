@@ -1,129 +1,129 @@
-﻿API,TC ID,Requirement,Nhóm,Kỹ thuật,Preconditions,Method + Endpoint / Test data,Expected result,Nguồn,Kỳ vọng chạy,Bug ID
-API-1,TC-API-LOGIN-001,FR-02,Partition,EP,Seed user active,`POST /api/login`; credentials đúng,`200`; có `token:string` và `user:object`,AI,PASS,—
-API-1,TC-API-LOGIN-002,FR-02,Partition,EP,Seed user attempts=0,Sai password,"`401`; lỗi chung, không token",AI,PASS,—
-API-1,TC-API-LOGIN-003,FR-02,Partition,EP,Email không tồn tại,Email lạ + password bất kỳ,`401`; cùng lỗi như sai password,AI,PASS,—
-API-1,TC-API-LOGIN-004,FR-02,Partition,EP,DB sạch,Thiếu `email`,Controlled `400` JSON validation error,AI,FAIL,D-LOGIN-08
-API-1,TC-API-LOGIN-005,FR-02,Partition,EP,DB sạch,Thiếu `password`,Controlled `400` JSON validation error,AI,FAIL,D-LOGIN-08
-API-1,TC-API-LOGIN-006,FR-02,Partition,EP/BVA,DB sạch,"`email=""""`",`400`; không truy vấn account,AI,FAIL,D-LOGIN-08
-API-1,TC-API-LOGIN-007,FR-02,Partition,EP,Seed user active,Password `abc`,"`401` generic; đây là wrong credential, không phải password-policy test",AI-audited,PASS,—
-API-1,TC-API-LOGIN-008,FR-02,Partition,Robustness,DB sạch,"`email=""not-an-email""`",Controlled 4xx; JSON; không 5xx/reflect input,AI-audited,PASS,—
-API-1,TC-API-LOGIN-009,FR-02,Partition,EP,Seed user active,Email có whitespace,`401` generic; không tự trim khi spec không yêu cầu,AI-audited,PASS,—
-API-1,TC-API-LOGIN-010,FR-02,Partition,Type partition,DB sạch,`email=null`,`400` validation error,AI,FAIL,D-LOGIN-08
-API-1,TC-API-LOGIN-011,FR-02,Partition,Type partition,DB sạch,`password=null`,`400` validation error,AI,FAIL,D-LOGIN-08
-API-1,TC-API-LOGIN-012,FR-02,Partition,Type partition,DB sạch,`email=123`,`400` validation error,AI,FAIL,D-LOGIN-08
-API-1,TC-API-LOGIN-013,FR-02,Partition,Type partition,DB sạch,`password={}`,`400` validation error,AI,FAIL,D-LOGIN-08
-API-1,TC-API-LOGIN-014,FR-02,Partition,Type partition,DB sạch,Body `[]`,`400` validation error,AI,FAIL,D-LOGIN-08
-API-1,TC-API-LOGIN-015,FR-02,Partition,Protocol robustness,DB sạch,Raw JSON thiếu Content-Type,Controlled `400` hoặc `415`; không 500,AI-audited,PASS,—
-API-1,TC-API-LOGIN-016,FR-02,Partition,EP,Seed user active,Credentials đúng + `rememberMe`,`200`; field vô hại bị bỏ qua,AI,PASS,—
-API-1,TC-API-LOGIN-017,FR-02,State,State transition,Disposable user attempts=0,Sai lần 1,"`401`; attempts tăng đúng 1, chưa khóa",AI,FAIL,D-LOGIN-01
-API-1,TC-API-LOGIN-018,FR-02,State,State/BVA,Disposable user attempts=1,Sai lần 2 rồi login đúng,"Sai lần 2 `401`; login đúng vẫn `200`, chưa khóa",AI,FAIL · CI canary,D-LOGIN-01
-API-1,TC-API-LOGIN-019,FR-02,State,State/BVA,Disposable user attempts=2,Sai lần 3,`401`; khóa đúng 30 giây,AI,FAIL,D-LOGIN-01
-API-1,TC-API-LOGIN-020,FR-02,State,State transition,User đang khóa,Login đúng trong lock,Không token; lỗi chung không tiết lộ trạng thái,AI,FAIL,D-LOGIN-07
-API-1,TC-API-LOGIN-021,FR-02,State,Temporal BVA,User vừa khóa,"Chờ 29 giây, login đúng",Vẫn bị từ chối; không token,AI,PASS,—
-API-1,TC-API-LOGIN-022,FR-02,State,Temporal BVA,User vừa khóa,"Chờ 31 giây, login đúng",`200`; reset attempts/lock,AI,FAIL,D-LOGIN-02
-API-1,TC-API-LOGIN-023,FR-02,State,State transition,Disposable user,Sai 2 lần rồi login đúng,`200`; reset chuỗi sai,AI,FAIL,D-LOGIN-01
-API-1,TC-API-LOGIN-024,FR-02,State,State transition,Case 023 thành công,Sai một lần sau reset,`401`; chưa khóa,AI,BLOCKED nếu 023 fail,D-LOGIN-01
-API-1,TC-API-LOGIN-025,SEC-05,Security,SQLi,DB sạch,SQLi ở email,`401`; không bypass/không đổi DB,AI-audited,PASS,—
-API-1,TC-API-LOGIN-026,SEC-05,Security,SQLi,DB sạch,SQLi ở password,`401`; không bypass,AI,PASS,—
-API-1,TC-API-LOGIN-027,SEC-04,Security,XSS/non-reflection,DB sạch,XSS ở email,4xx; không reflect payload,AI,PASS,—
-API-1,TC-API-LOGIN-028,SEC-01,Security,Sensitive-data exposure,Seed user active,Login đúng,`user` không có `password`,AI,FAIL,D-LOGIN-03
-API-1,TC-API-LOGIN-029,SEC-01,Security,Negative schema,Seed user active,Login đúng,Không có auth fields nội bộ,AI,FAIL,D-LOGIN-03
-API-1,TC-API-LOGIN-030,SEC-03,Security,Mass assignment,Seed role=user,"Body thêm `role=""admin""`",Token/user vẫn role=user,AI,PASS,—
-API-1,TC-API-LOGIN-031,SEC-02,Security,Token usability,Seed user active,Login rồi `GET /api/users/me`,"Cả hai `200`, đúng user",AI,PASS,—
-API-1,TC-API-LOGIN-032,FR-02,Security,Enumeration,User đang khóa,Login đúng,"Cùng public error contract, không lộ “locked”",AI,FAIL,D-LOGIN-07
-API-1,TC-API-LOGIN-033,FR-02,Schema,JSON Schema,Seed user active,Login đúng,`token` non-empty; `user.id/email/role` đúng kiểu,AI-audited,PASS,—
-API-1,TC-API-LOGIN-034,FR-02,Schema,Header assertion,Seed user active,Login đúng,Content-Type là JSON,AI,PASS,—
-API-1,TC-API-LOGIN-035,FR-02,Schema,JSON Schema,Seed user active,Wrong password,"`401`; `error:string`, không tiết lộ account",AI-audited,PASS,—
-API-1,TC-API-LOGIN-036,SEC-01,Schema,Negative schema,Seed user active,Login đúng,Có token/user; cho metadata vô hại; cấm field nhạy cảm,AI-audited,FAIL,D-LOGIN-03
-API-1,TC-API-LOGIN-037,FR-02,State,Sequence/state,Disposable user,Sai 2 lần rồi đúng,"`401,401,200`; không khóa sớm",Human,FAIL,D-LOGIN-01
-API-1,TC-API-LOGIN-038,FR-02,State,Temporal BVA,User vừa khóa,Chờ 35 giây rồi đúng,`200`; lock hết hạn,Human,FAIL,D-LOGIN-02
-API-1,TC-API-LOGIN-039,SEC-01,Security,Negative schema,Seed user active,Login đúng,Không field nhạy cảm ở root/user,Human,FAIL,D-LOGIN-03
-API-1,TC-API-LOGIN-040,SEC-02,Security,JWT claims,Seed user active,Decode token,Có `iat/exp`; TTL ≤24h,Human,FAIL,D-LOGIN-05
-API-1,TC-API-LOGIN-041,FR-02,State,Residual-state,Lock đã hết hạn,Sai 1 lần rồi đúng,"`401,200`; không khóa lại",Human,FAIL,D-LOGIN-06
-API-1,TC-API-LOGIN-042,SEC-02,Security,JWT forgery,Biết source secret,Token tự ký gọi admin API,`401/403`,Human,FAIL,D-LOGIN-05
-API-2,TC-API-CHECKOUT-001,FR-08/FR-10,Partition,EP,User có JWT; giỏ có một sản phẩm,`POST /api/checkout`; total_amount=200000; shipping_address='123 Le Loi',200; orderId là số nguyên; đơn có total theo giỏ; status=pending,AI/audit,FAIL,D-CHK-01
-API-2,TC-API-CHECKOUT-002,FR-08/FR-10,Partition,EP,Giỏ không quan trọng,`POST /api/checkout`; Không gửi Authorization,401; không tạo đơn,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-003,FR-08/FR-10,Partition,EP,Không gửi request trước,`POST /api/checkout`; Authorization='abc',403; không tạo đơn,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-004,FR-08/FR-10,Partition,EP,Có token giả,`POST /api/checkout`; Authorization='Bearer invalid.signature.token',403; không tạo đơn,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-005,FR-08/FR-10,Partition,BVA,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; total_amount=0; shipping_address='A',400; không tạo đơn,AI/audit,FAIL,D-CHK-02
-API-2,TC-API-CHECKOUT-006,FR-08/FR-10,Partition,BVA,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; total_amount=-500000; shipping_address='A',400; không tạo đơn,AI/audit,FAIL,D-CHK-02
-API-2,TC-API-CHECKOUT-007,FR-08/FR-10,Partition,EP/type,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; total_amount='200000',400; không tạo đơn,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-008,FR-08/FR-10,Partition,EP/type,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; total_amount=null,400; không tạo đơn,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-009,FR-08/FR-10,Partition,EP,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Chỉ gửi total_amount=200000,Controlled client error nếu contract yêu cầu; không 5xx,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-010,FR-08/FR-10,Partition,EP/BVA,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; shipping_address='',Controlled client error hoặc contract được chốt; không 5xx,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-011,FR-08/FR-10,Partition,BVA,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Chuỗi 1001 ký tự,Không 5xx; status cụ thể cần contract,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-012,FR-08/FR-10,Partition,Security,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; <img src=x onerror=alert(1)>,Request bị từ chối hoặc dữ liệu được escape khi đọc lại,AI/audit,FAIL,D-CHK-05
-API-2,TC-API-CHECKOUT-013,FR-08/FR-10,Partition,Security,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; ' OR 1=1 --,Không bypass; không 5xx; không phản chiếu payload,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-014,FR-08/FR-10,Partition,EP,User có JWT; giỏ có sản phẩm,"`POST /api/checkout`; 12 Lê Lợi, Quận 1, TP.HCM",Controlled result; nếu tạo đơn thì status=pending và địa chỉ không hỏng mã hóa,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-015,FR-08/FR-10,Partition,BVA/type,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; total_amount=200000.5,400; không tạo đơn,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-016,FR-08/FR-10,Partition,BVA,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; total_amount=9000000000000000000,400 hoặc controlled client error; không 5xx,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-017,FR-08/FR-10,Partition,Schema,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; extra role='admin' cùng body hợp lệ,"Nếu tạo đơn, user_id lấy từ JWT; field thừa không nâng quyền",AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-018,FR-08/FR-10,Partition,EP,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; total_amount=2e5,Không 5xx; nếu tạo đơn thì tổng phải theo giỏ,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-019,FR-08/FR-10,State,State-transition,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Body hợp lệ; gọi POST /api/checkout,200; orderId số nguyên; status=pending khi đọc lại đơn,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-020,FR-08/FR-10,State,State/post-condition,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Checkout rồi GET /api/cart,Giỏ rỗng sau checkout thành công,AI/audit,FAIL,D-CHK-03
-API-2,TC-API-CHECKOUT-021,FR-08/FR-10,State,State,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Gửi cùng body hai lần,Không đặt strict oracle; ghi số đơn thực tế để audit,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-022,FR-08/FR-10,State,State-transition,User có JWT; không thêm sản phẩm,`POST /api/checkout`; Body total_amount=1,400; không tạo đơn,AI/audit,FAIL,D-CHK-04
-API-2,TC-API-CHECKOUT-023,FR-08/FR-10,State,State/flow,User có JWT,`POST /api/checkout`; POST cart rồi POST checkout rồi GET my-orders,Order của đúng user xuất hiện với status=pending,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-024,FR-08/FR-10,State,Schema/state,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Checkout thành công,orderId là integer dương,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-025,FR-08/FR-10,State,Security/state,User A có JWT; body cố gửi user_id của B,`POST /api/checkout`; user_id=999 trong body,"Đơn thuộc user trong JWT, không thể giả mạo chủ đơn",AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-026,FR-08/FR-10,State,State-transition,User đăng nhập; giỏ có sản phẩm,`POST /api/checkout`; Login → add cart → checkout,200; pending; order thuộc user vừa login,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-027,FR-08/FR-10,Security,Security,Giỏ có thể có hoặc không,`POST /api/checkout`; POST checkout không Authorization,401; không tạo đơn,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-028,FR-08/FR-10,Security,Security,Có token giả,`POST /api/checkout`; Bearer token bị sửa payload,403; không tạo đơn,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-029,FR-08/FR-10,Security,Security,Có JWT exp trong quá khứ,`POST /api/checkout`; Bearer expired JWT,403; không tạo đơn,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-030,FR-08/FR-10,Security,Security/IDOR,User A có cart; User B có JWT,`POST /api/checkout`; B checkout với body cố trỏ tới cart/order của A,Đơn chỉ thuộc user B; không đọc/ghi cart của A,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-031,FR-08/FR-10,Security,Security/IDOR,Có orderId của user khác,`POST /api/checkout`; GET /api/orders/{id} không Authorization,401/403; không lộ order,AI/audit,FAIL,D-CHK-07
-API-2,TC-API-CHECKOUT-032,FR-08/FR-10,Security,Security,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; shipping_address='<script>alert(1)</script>',Payload bị từ chối hoặc được escape khi đọc lại,AI/audit,FAIL,D-CHK-05
-API-2,TC-API-CHECKOUT-033,FR-08/FR-10,Schema,Schema,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Body hợp lệ,200; message:string; orderId:integer,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-034,FR-08/FR-10,Schema,Schema,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Checkout hợp lệ,Content-Type application/json,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-035,FR-08/FR-10,Schema,Schema,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Checkout thành công,orderId là integer dương,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-036,FR-08/FR-10,Schema,Schema/security,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Checkout thành công rồi đọc order,Không có password/reset_token/login_attempts/locked_until,AI/audit,PASS,—
-API-2,TC-API-CHECKOUT-037,FR-08/FR-10/SEC-02/SEC-04,Extension,Flow/security,Có giỏ chứa sản phẩm 30 triệu; gửi total_amount=1,`POST /api/checkout` + chained endpoint; Dùng tổng giả trong body,"Đơn phải có tổng tính từ giỏ, không phải 1",Human,FAIL,D-CHK-01
-API-2,TC-API-CHECKOUT-038,FR-08/FR-10/SEC-02/SEC-04,Extension,Flow/security,Có JWT và giỏ có sản phẩm; gửi total_amount=-500000,`POST /api/checkout` + chained endpoint; Biên total_amount âm,400; không tạo đơn,Human,FAIL,D-CHK-02
-API-2,TC-API-CHECKOUT-039,FR-08/FR-10/SEC-02/SEC-04,Extension,Flow/security,Checkout thành công rồi GET /api/cart,`POST /api/checkout` + chained endpoint; Hậu điều kiện xóa giỏ,Response là []; không còn item cũ,Human,FAIL,D-CHK-03
-API-2,TC-API-CHECKOUT-040,FR-08/FR-10/SEC-02/SEC-04,Extension,Flow/security,Không thêm item; gọi checkout,`POST /api/checkout` + chained endpoint; Giỏ rỗng không thể thanh toán,400; không tạo order,Human,FAIL,D-CHK-04
-API-2,TC-API-CHECKOUT-041,FR-08/FR-10/SEC-02/SEC-04,Extension,Flow/security,User A tạo order; request không token hoặc user B GET /api/orders/:id,`POST /api/checkout` + chained endpoint; IDOR khi đọc order,401/403; không lộ order A,Human,FAIL,D-CHK-07
-API-2,TC-API-CHECKOUT-042,FR-08/FR-10/SEC-02/SEC-04,Extension,Flow/security,Địa chỉ là <img src=x onerror=alert(1)>; đọc lại order,`POST /api/checkout` + chained endpoint; XSS trong shipping_address,"Payload bị reject hoặc escape, không lưu raw",Human,FAIL,D-CHK-05
-API-3,TC-API-ORDER-STATUS-001,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `pending`,`PUT /api/admin/orders/:id; status='pending'`,400; từ chối transition pending → pending,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-002,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `pending`,`PUT /api/admin/orders/:id; status='confirmed'`,200; transition pending → confirmed được chấp nhận,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-003,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `pending`,`PUT /api/admin/orders/:id; status='shipping'`,400; từ chối transition pending → shipping,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-004,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `pending`,`PUT /api/admin/orders/:id; status='delivered'`,400; từ chối transition pending → delivered,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-005,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `pending`,`PUT /api/admin/orders/:id; status='canceled'`,200; transition pending → canceled được chấp nhận,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-006,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `confirmed`,`PUT /api/admin/orders/:id; status='pending'`,400; từ chối transition confirmed → pending,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-007,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `confirmed`,`PUT /api/admin/orders/:id; status='confirmed'`,400; từ chối transition confirmed → confirmed,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-008,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `confirmed`,`PUT /api/admin/orders/:id; status='shipping'`,200; transition confirmed → shipping được chấp nhận,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-009,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `confirmed`,`PUT /api/admin/orders/:id; status='delivered'`,400; từ chối transition confirmed → delivered,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-010,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `confirmed`,`PUT /api/admin/orders/:id; status='canceled'`,200; transition confirmed → canceled được chấp nhận,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-011,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `shipping`,`PUT /api/admin/orders/:id; status='pending'`,400; từ chối transition shipping → pending,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-012,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `shipping`,`PUT /api/admin/orders/:id; status='confirmed'`,400; từ chối transition shipping → confirmed,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-013,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `shipping`,`PUT /api/admin/orders/:id; status='shipping'`,400; từ chối transition shipping → shipping,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-014,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `shipping`,`PUT /api/admin/orders/:id; status='delivered'`,200; transition shipping → delivered được chấp nhận,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-015,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `shipping`,`PUT /api/admin/orders/:id; status='canceled'`,200; transition shipping → canceled được chấp nhận,AI/audit,FAIL,D-ADM-03
-API-3,TC-API-ORDER-STATUS-016,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `delivered`,`PUT /api/admin/orders/:id; status='pending'`,400; từ chối transition delivered → pending,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-017,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `delivered`,`PUT /api/admin/orders/:id; status='confirmed'`,400; từ chối transition delivered → confirmed,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-018,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `delivered`,`PUT /api/admin/orders/:id; status='shipping'`,400; từ chối transition delivered → shipping,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-019,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `delivered`,`PUT /api/admin/orders/:id; status='delivered'`,400; từ chối transition delivered → delivered,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-020,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `delivered`,`PUT /api/admin/orders/:id; status='canceled'`,400; từ chối transition delivered → canceled,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-021,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `canceled`,`PUT /api/admin/orders/:id; status='pending'`,400; từ chối transition canceled → pending,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-022,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `canceled`,`PUT /api/admin/orders/:id; status='confirmed'`,400; từ chối transition canceled → confirmed,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-023,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `canceled`,`PUT /api/admin/orders/:id; status='shipping'`,400; từ chối transition canceled → shipping,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-024,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `canceled`,`PUT /api/admin/orders/:id; status='delivered'`,400; từ chối transition canceled → delivered,AI/audit,FAIL,D-ADM-02
-API-3,TC-API-ORDER-STATUS-025,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `canceled`,`PUT /api/admin/orders/:id; status='canceled'`,400; từ chối transition canceled → canceled,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-026,FR-10/FR-12/FR-18,Partition,EP,Admin JWT,`id=999999; status='confirmed'`,404; {error:'Order not found'},AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-027,FR-10/FR-12/FR-18,Partition,BVA,Admin JWT,`id=-1; status='confirmed'`,Controlled 4xx; không 5xx,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-028,FR-10/FR-12/FR-18,Partition,EP/type,Admin JWT,`id='abc'; status='confirmed'`,Controlled 4xx; không cập nhật order,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-029,FR-10/FR-12/FR-18,Partition,EP,Admin JWT,`Body={}`,400; lỗi transition/validation,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-030,FR-10/FR-12/FR-18,Partition,EP/type,Admin JWT,`status='DELIVERED'`,400; invalid state transition,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-031,FR-10/FR-12/FR-18,Security,Security,Order tồn tại,`Không gửi Authorization`,401; không cập nhật,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-032,FR-10/FR-12/FR-18,Security,Security,Order tồn tại,`Bearer invalid.token`,403; không cập nhật,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-033,FR-10/FR-12/FR-18,Security,Security/role,User JWT; order tồn tại,`Bearer userToken; status='confirmed'`,403; không cập nhật,AI/audit,FAIL,D-ADM-01
-API-3,TC-API-ORDER-STATUS-034,FR-10/FR-12/FR-18,Security,Security/IDOR,User JWT; order B tồn tại,`Bearer userToken; id=orderB`,403 với user token,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-035,FR-10/FR-12/FR-18,Schema,Schema,Admin JWT; transition hợp lệ,`status='confirmed'`,200; message:string,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-036,FR-10/FR-12/FR-18,Schema,Schema,Admin JWT; transition invalid,`status='delivered' từ pending`,400; controlled JSON error,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-037,FR-10/FR-12/FR-18,Schema,Schema,Admin JWT; transition hợp lệ,`status='confirmed'`,Content-Type application/json,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-038,FR-10/FR-12/FR-18,Schema,Schema/security,Admin JWT; transition hợp lệ,`status='confirmed'`,Không có password/token/secret nội bộ,AI/audit,PASS,—
-API-3,TC-API-ORDER-STATUS-039,FR-10/FR-12/FR-18,Extension,State/security,User thường có JWT; order tồn tại; PUT status=confirmed,`Role escalation bằng user token`,403; không cập nhật order,Human,FAIL,D-ADM-01
-API-3,TC-API-ORDER-STATUS-040,FR-10/FR-12/FR-18,Extension,State/security,User A dùng token sửa order của user B,`Cross-user order mutation`,403; user không có quyền admin,Human,FAIL,D-ADM-01
-API-3,TC-API-ORDER-STATUS-041,FR-10/FR-12/FR-18,Extension,State/security,Admin thử canceled→delivered rồi kiểm tra dữ liệu delivered/dashboard,`Canceled không hồi sinh và dashboard không tăng doanh thu`,400; không tăng delivered revenue,Human,FAIL,D-ADM-02
-API-3,TC-API-ORDER-STATUS-042,FR-10/FR-12/FR-18,Extension,State/security,Admin JWT; order shipping; status=canceled,`Admin hủy đơn shipping`,200; order chuyển canceled,Human,FAIL,D-ADM-03
-API-3,TC-API-ORDER-STATUS-043,FR-10/FR-12/FR-18,Extension,State/security,User JWT; order shipping; PUT /api/orders/:id/cancel,`User không hủy order shipping qua endpoint user`,400; user không được hủy shipping,Human,FAIL,D-ADM-08
-API-3,TC-API-ORDER-STATUS-044,FR-10/FR-12/FR-18,Extension,State/security,Admin JWT; status=['delivered'] hoặc {value:'delivered'},`Status sai kiểu dữ liệu`,400; phân biệt type invalid với transition invalid,Human,FAIL,D-ADM-06
+﻿API,TC ID,Requirement,Nhóm,Kỹ thuật,Preconditions,Method + Endpoint / Test data,Expected result,Nguồn,Kỳ vọng chạy,Bug ID,Execution,Lý do
+API-1,TC-API-LOGIN-001,FR-02,Partition,EP,Seed user active,`POST /api/login`; credentials đúng,`200`; có `token:string` và `user:object`,AI,PASS,—,Automated,—
+API-1,TC-API-LOGIN-002,FR-02,Partition,EP,Seed user attempts=0,Sai password,"`401`; lỗi chung, không token",AI,PASS,—,Automated,—
+API-1,TC-API-LOGIN-003,FR-02,Partition,EP,Email không tồn tại,Email lạ + password bất kỳ,`401`; cùng lỗi như sai password,AI,PASS,—,Automated,—
+API-1,TC-API-LOGIN-004,FR-02,Partition,EP,DB sạch,Thiếu `email`,Controlled `400` JSON validation error,AI,FAIL,D-LOGIN-08,Automated,—
+API-1,TC-API-LOGIN-005,FR-02,Partition,EP,DB sạch,Thiếu `password`,Controlled `400` JSON validation error,AI,FAIL,D-LOGIN-08,Automated,—
+API-1,TC-API-LOGIN-006,FR-02,Partition,EP/BVA,DB sạch,"`email=""""`",`400`; không truy vấn account,AI,FAIL,D-LOGIN-08,Automated,—
+API-1,TC-API-LOGIN-007,FR-02,Partition,EP,Seed user active,Password `abc`,"`401` generic; đây là wrong credential, không phải password-policy test",AI-audited,PASS,—,Automated,—
+API-1,TC-API-LOGIN-008,FR-02,Partition,Robustness,DB sạch,"`email=""not-an-email""`",Controlled 4xx; JSON; không 5xx/reflect input,AI-audited,PASS,—,Automated,—
+API-1,TC-API-LOGIN-009,FR-02,Partition,EP,Seed user active,Email có whitespace,`401` generic; không tự trim khi spec không yêu cầu,AI-audited,PASS,—,Automated,—
+API-1,TC-API-LOGIN-010,FR-02,Partition,Type partition,DB sạch,`email=null`,`400` validation error,AI,FAIL,D-LOGIN-08,Automated,—
+API-1,TC-API-LOGIN-011,FR-02,Partition,Type partition,DB sạch,`password=null`,`400` validation error,AI,FAIL,D-LOGIN-08,Automated,—
+API-1,TC-API-LOGIN-012,FR-02,Partition,Type partition,DB sạch,`email=123`,`400` validation error,AI,FAIL,D-LOGIN-08,Automated,—
+API-1,TC-API-LOGIN-013,FR-02,Partition,Type partition,DB sạch,`password={}`,`400` validation error,AI,FAIL,D-LOGIN-08,Automated,—
+API-1,TC-API-LOGIN-014,FR-02,Partition,Type partition,DB sạch,Body `[]`,`400` validation error,AI,FAIL,D-LOGIN-08,Automated,—
+API-1,TC-API-LOGIN-015,FR-02,Partition,Protocol robustness,DB sạch,Raw JSON thiếu Content-Type,Controlled `400` hoặc `415`; không 500,AI-audited,PASS,—,Automated,—
+API-1,TC-API-LOGIN-016,FR-02,Partition,EP,Seed user active,Credentials đúng + `rememberMe`,`200`; field vô hại bị bỏ qua,AI,PASS,—,Automated,—
+API-1,TC-API-LOGIN-017,FR-02,State,State transition,Disposable user attempts=0,Sai lần 1,"`401`; attempts tăng đúng 1, chưa khóa",AI,FAIL,D-LOGIN-01,Automated,—
+API-1,TC-API-LOGIN-018,FR-02,State,State/BVA,Disposable user attempts=1,Sai lần 2 rồi login đúng,"Sai lần 2 `401`; login đúng vẫn `200`, chưa khóa",AI,FAIL · CI canary,D-LOGIN-01,Automated,—
+API-1,TC-API-LOGIN-019,FR-02,State,State/BVA,Disposable user attempts=2,Sai lần 3,`401`; khóa đúng 30 giây,AI,FAIL,D-LOGIN-01,Automated,—
+API-1,TC-API-LOGIN-020,FR-02,State,State transition,User đang khóa,Login đúng trong lock,Không token; lỗi chung không tiết lộ trạng thái,AI,FAIL,D-LOGIN-07,Automated,—
+API-1,TC-API-LOGIN-021,FR-02,State,Temporal BVA,User vừa khóa,"Chờ 29 giây, login đúng",Vẫn bị từ chối; không token,AI,PASS,—,Automated,—
+API-1,TC-API-LOGIN-022,FR-02,State,Temporal BVA,User vừa khóa,"Chờ 31 giây, login đúng",`200`; reset attempts/lock,AI,FAIL,D-LOGIN-02,Automated,—
+API-1,TC-API-LOGIN-023,FR-02,State,State transition,Disposable user,Sai 2 lần rồi login đúng,`200`; reset chuỗi sai,AI,FAIL,D-LOGIN-01,Automated,—
+API-1,TC-API-LOGIN-024,FR-02,State,State transition,Case 023 thành công,Sai một lần sau reset,`401`; chưa khóa,AI,BLOCKED nếu 023 fail,D-LOGIN-01,Blocked,"Tiền điều kiện yêu cầu TC-023 đăng nhập thành công sau hai lần sai, nhưng D-LOGIN-01 khóa tài khoản sớm nên không thể đi tới trạng thái reset cần kiểm thử."
+API-1,TC-API-LOGIN-025,SEC-05,Security,SQLi,DB sạch,SQLi ở email,`401`; không bypass/không đổi DB,AI-audited,PASS,—,Automated,—
+API-1,TC-API-LOGIN-026,SEC-05,Security,SQLi,DB sạch,SQLi ở password,`401`; không bypass,AI,PASS,—,Automated,—
+API-1,TC-API-LOGIN-027,SEC-04,Security,XSS/non-reflection,DB sạch,XSS ở email,4xx; không reflect payload,AI,PASS,—,Automated,—
+API-1,TC-API-LOGIN-028,SEC-01,Security,Sensitive-data exposure,Seed user active,Login đúng,`user` không có `password`,AI,FAIL,D-LOGIN-03,Automated,—
+API-1,TC-API-LOGIN-029,SEC-01,Security,Negative schema,Seed user active,Login đúng,Không có auth fields nội bộ,AI,FAIL,D-LOGIN-03,Automated,—
+API-1,TC-API-LOGIN-030,SEC-03,Security,Mass assignment,Seed role=user,"Body thêm `role=""admin""`",Token/user vẫn role=user,AI,PASS,—,Automated,—
+API-1,TC-API-LOGIN-031,SEC-02,Security,Token usability,Seed user active,Login rồi `GET /api/users/me`,"Cả hai `200`, đúng user",AI,PASS,—,Automated,—
+API-1,TC-API-LOGIN-032,FR-02,Security,Enumeration,User đang khóa,Login đúng,"Cùng public error contract, không lộ “locked”",AI,FAIL,D-LOGIN-07,Automated,—
+API-1,TC-API-LOGIN-033,FR-02,Schema,JSON Schema,Seed user active,Login đúng,`token` non-empty; `user.id/email/role` đúng kiểu,AI-audited,PASS,—,Automated,—
+API-1,TC-API-LOGIN-034,FR-02,Schema,Header assertion,Seed user active,Login đúng,Content-Type là JSON,AI,PASS,—,Automated,—
+API-1,TC-API-LOGIN-035,FR-02,Schema,JSON Schema,Seed user active,Wrong password,"`401`; `error:string`, không tiết lộ account",AI-audited,PASS,—,Automated,—
+API-1,TC-API-LOGIN-036,SEC-01,Schema,Negative schema,Seed user active,Login đúng,Có token/user; cho metadata vô hại; cấm field nhạy cảm,AI-audited,FAIL,D-LOGIN-03,Automated,—
+API-1,TC-API-LOGIN-037,FR-02,State,Sequence/state,Disposable user,Sai 2 lần rồi đúng,"`401,401,200`; không khóa sớm",Human,FAIL,D-LOGIN-01,Automated,—
+API-1,TC-API-LOGIN-038,FR-02,State,Temporal BVA,User vừa khóa,Chờ 35 giây rồi đúng,`200`; lock hết hạn,Human,FAIL,D-LOGIN-02,Automated,—
+API-1,TC-API-LOGIN-039,SEC-01,Security,Negative schema,Seed user active,Login đúng,Không field nhạy cảm ở root/user,Human,FAIL,D-LOGIN-03,Automated,—
+API-1,TC-API-LOGIN-040,SEC-02,Security,JWT claims,Seed user active,Decode token,Có `iat/exp`; TTL ≤24h,Human,FAIL,D-LOGIN-05,Automated,—
+API-1,TC-API-LOGIN-041,FR-02,State,Residual-state,Lock đã hết hạn,Sai 1 lần rồi đúng,"`401,200`; không khóa lại",Human,FAIL,D-LOGIN-06,Manual,Phải chờ lock thực tế 180 giây rồi kiểm tra residual state; tách khỏi regression tự động để tránh một iteration kéo dài và dễ nhiễu thời gian.
+API-1,TC-API-LOGIN-042,SEC-02,Security,JWT forgery,Biết source secret,Token tự ký gọi admin API,`401/403`,Human,FAIL,D-LOGIN-05,Blocked,Cần ký JWT bằng secret của SUT; không nhúng signing secret hoặc forged token vào collection/report công khai.
+API-2,TC-API-CHECKOUT-001,FR-08/FR-10,Partition,EP,User có JWT; giỏ có một sản phẩm,`POST /api/checkout`; total_amount=200000; shipping_address='123 Le Loi',200; orderId là số nguyên; đơn có total theo giỏ; status=pending,AI/audit,FAIL,D-CHK-01,Automated,—
+API-2,TC-API-CHECKOUT-002,FR-08/FR-10,Partition,EP,Giỏ không quan trọng,`POST /api/checkout`; Không gửi Authorization,401; không tạo đơn,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-003,FR-08/FR-10,Partition,EP,Không gửi request trước,`POST /api/checkout`; Authorization='abc',403; không tạo đơn,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-004,FR-08/FR-10,Partition,EP,Có token giả,`POST /api/checkout`; Authorization='Bearer invalid.signature.token',403; không tạo đơn,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-005,FR-08/FR-10,Partition,BVA,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; total_amount=0; shipping_address='A',400; không tạo đơn,AI/audit,FAIL,D-CHK-02,Automated,—
+API-2,TC-API-CHECKOUT-006,FR-08/FR-10,Partition,BVA,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; total_amount=-500000; shipping_address='A',400; không tạo đơn,AI/audit,FAIL,D-CHK-02,Automated,—
+API-2,TC-API-CHECKOUT-007,FR-08/FR-10,Partition,EP/type,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; total_amount='200000',400; không tạo đơn,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-008,FR-08/FR-10,Partition,EP/type,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; total_amount=null,400; không tạo đơn,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-009,FR-08/FR-10,Partition,EP,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Chỉ gửi total_amount=200000,Controlled client error nếu contract yêu cầu; không 5xx,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-010,FR-08/FR-10,Partition,EP/BVA,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; shipping_address='',Controlled client error hoặc contract được chốt; không 5xx,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-011,FR-08/FR-10,Partition,BVA,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Chuỗi 1001 ký tự,Không 5xx; status cụ thể cần contract,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-012,FR-08/FR-10,Partition,Security,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; <img src=x onerror=alert(1)>,Request bị từ chối hoặc dữ liệu được escape khi đọc lại,AI/audit,FAIL,D-CHK-05,Automated,—
+API-2,TC-API-CHECKOUT-013,FR-08/FR-10,Partition,Security,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; ' OR 1=1 --,Không bypass; không 5xx; không phản chiếu payload,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-014,FR-08/FR-10,Partition,EP,User có JWT; giỏ có sản phẩm,"`POST /api/checkout`; 12 Lê Lợi, Quận 1, TP.HCM",Controlled result; nếu tạo đơn thì status=pending và địa chỉ không hỏng mã hóa,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-015,FR-08/FR-10,Partition,BVA/type,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; total_amount=200000.5,400; không tạo đơn,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-016,FR-08/FR-10,Partition,BVA,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; total_amount=9000000000000000000,400 hoặc controlled client error; không 5xx,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-017,FR-08/FR-10,Partition,Schema,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; extra role='admin' cùng body hợp lệ,"Nếu tạo đơn, user_id lấy từ JWT; field thừa không nâng quyền",AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-018,FR-08/FR-10,Partition,EP,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; total_amount=2e5,Không 5xx; nếu tạo đơn thì tổng phải theo giỏ,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-019,FR-08/FR-10,State,State-transition,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Body hợp lệ; gọi POST /api/checkout,200; orderId số nguyên; status=pending khi đọc lại đơn,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-020,FR-08/FR-10,State,State/post-condition,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Checkout rồi GET /api/cart,Giỏ rỗng sau checkout thành công,AI/audit,FAIL,D-CHK-03,Automated,—
+API-2,TC-API-CHECKOUT-021,FR-08/FR-10,State,State,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Gửi cùng body hai lần,Không đặt strict oracle; ghi số đơn thực tế để audit,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-022,FR-08/FR-10,State,State-transition,User có JWT; không thêm sản phẩm,`POST /api/checkout`; Body total_amount=1,400; không tạo đơn,AI/audit,FAIL,D-CHK-04,Automated,—
+API-2,TC-API-CHECKOUT-023,FR-08/FR-10,State,State/flow,User có JWT,`POST /api/checkout`; POST cart rồi POST checkout rồi GET my-orders,Order của đúng user xuất hiện với status=pending,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-024,FR-08/FR-10,State,Schema/state,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Checkout thành công,orderId là integer dương,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-025,FR-08/FR-10,State,Security/state,User A có JWT; body cố gửi user_id của B,`POST /api/checkout`; user_id=999 trong body,"Đơn thuộc user trong JWT, không thể giả mạo chủ đơn",AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-026,FR-08/FR-10,State,State-transition,User đăng nhập; giỏ có sản phẩm,`POST /api/checkout`; Login → add cart → checkout,200; pending; order thuộc user vừa login,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-027,FR-08/FR-10,Security,Security,Giỏ có thể có hoặc không,`POST /api/checkout`; POST checkout không Authorization,401; không tạo đơn,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-028,FR-08/FR-10,Security,Security,Có token giả,`POST /api/checkout`; Bearer token bị sửa payload,403; không tạo đơn,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-029,FR-08/FR-10,Security,Security,Có JWT exp trong quá khứ,`POST /api/checkout`; Bearer expired JWT,403; không tạo đơn,AI/audit,PASS,—,Blocked,"SUT phát JWT không có exp và không cung cấp signing fixture an toàn, nên không thể tạo token hợp lệ nhưng đã hết hạn mà không sao chép secret vào artifact."
+API-2,TC-API-CHECKOUT-030,FR-08/FR-10,Security,Security/IDOR,User A có cart; User B có JWT,`POST /api/checkout`; B checkout với body cố trỏ tới cart/order của A,Đơn chỉ thuộc user B; không đọc/ghi cart của A,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-031,FR-08/FR-10,Security,Security/IDOR,Có orderId của user khác,`POST /api/checkout`; GET /api/orders/{id} không Authorization,401/403; không lộ order,AI/audit,FAIL,D-CHK-07,Automated,—
+API-2,TC-API-CHECKOUT-032,FR-08/FR-10,Security,Security,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; shipping_address='<script>alert(1)</script>',Payload bị từ chối hoặc được escape khi đọc lại,AI/audit,FAIL,D-CHK-05,Automated,—
+API-2,TC-API-CHECKOUT-033,FR-08/FR-10,Schema,Schema,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Body hợp lệ,200; message:string; orderId:integer,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-034,FR-08/FR-10,Schema,Schema,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Checkout hợp lệ,Content-Type application/json,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-035,FR-08/FR-10,Schema,Schema,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Checkout thành công,orderId là integer dương,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-036,FR-08/FR-10,Schema,Schema/security,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; Checkout thành công rồi đọc order,Không có password/reset_token/login_attempts/locked_until,AI/audit,PASS,—,Automated,—
+API-2,TC-API-CHECKOUT-037,FR-08/FR-10/SEC-02/SEC-04,Extension,Flow/security,Có giỏ chứa sản phẩm 30 triệu; gửi total_amount=1,`POST /api/checkout` + chained endpoint; Dùng tổng giả trong body,"Đơn phải có tổng tính từ giỏ, không phải 1",Human,FAIL,D-CHK-01,Automated,—
+API-2,TC-API-CHECKOUT-038,FR-08/FR-10/SEC-02/SEC-04,Extension,Flow/security,Có JWT và giỏ có sản phẩm; gửi total_amount=-500000,`POST /api/checkout` + chained endpoint; Biên total_amount âm,400; không tạo đơn,Human,FAIL,D-CHK-02,Automated,—
+API-2,TC-API-CHECKOUT-039,FR-08/FR-10/SEC-02/SEC-04,Extension,Flow/security,Checkout thành công rồi GET /api/cart,`POST /api/checkout` + chained endpoint; Hậu điều kiện xóa giỏ,Response là []; không còn item cũ,Human,FAIL,D-CHK-03,Automated,—
+API-2,TC-API-CHECKOUT-040,FR-08/FR-10/SEC-02/SEC-04,Extension,Flow/security,Không thêm item; gọi checkout,`POST /api/checkout` + chained endpoint; Giỏ rỗng không thể thanh toán,400; không tạo order,Human,FAIL,D-CHK-04,Automated,—
+API-2,TC-API-CHECKOUT-041,FR-08/FR-10/SEC-02/SEC-04,Extension,Flow/security,User A tạo order; request không token hoặc user B GET /api/orders/:id,`POST /api/checkout` + chained endpoint; IDOR khi đọc order,401/403; không lộ order A,Human,FAIL,D-CHK-07,Automated,—
+API-2,TC-API-CHECKOUT-042,FR-08/FR-10/SEC-02/SEC-04,Extension,Flow/security,Địa chỉ là <img src=x onerror=alert(1)>; đọc lại order,`POST /api/checkout` + chained endpoint; XSS trong shipping_address,"Payload bị reject hoặc escape, không lưu raw",Human,FAIL,D-CHK-05,Automated,—
+API-3,TC-API-ORDER-STATUS-001,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `pending`,`PUT /api/admin/orders/:id; status='pending'`,400; từ chối transition pending → pending,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-002,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `pending`,`PUT /api/admin/orders/:id; status='confirmed'`,200; transition pending → confirmed được chấp nhận,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-003,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `pending`,`PUT /api/admin/orders/:id; status='shipping'`,400; từ chối transition pending → shipping,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-004,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `pending`,`PUT /api/admin/orders/:id; status='delivered'`,400; từ chối transition pending → delivered,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-005,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `pending`,`PUT /api/admin/orders/:id; status='canceled'`,200; transition pending → canceled được chấp nhận,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-006,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `confirmed`,`PUT /api/admin/orders/:id; status='pending'`,400; từ chối transition confirmed → pending,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-007,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `confirmed`,`PUT /api/admin/orders/:id; status='confirmed'`,400; từ chối transition confirmed → confirmed,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-008,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `confirmed`,`PUT /api/admin/orders/:id; status='shipping'`,200; transition confirmed → shipping được chấp nhận,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-009,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `confirmed`,`PUT /api/admin/orders/:id; status='delivered'`,400; từ chối transition confirmed → delivered,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-010,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `confirmed`,`PUT /api/admin/orders/:id; status='canceled'`,200; transition confirmed → canceled được chấp nhận,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-011,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `shipping`,`PUT /api/admin/orders/:id; status='pending'`,400; từ chối transition shipping → pending,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-012,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `shipping`,`PUT /api/admin/orders/:id; status='confirmed'`,400; từ chối transition shipping → confirmed,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-013,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `shipping`,`PUT /api/admin/orders/:id; status='shipping'`,400; từ chối transition shipping → shipping,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-014,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `shipping`,`PUT /api/admin/orders/:id; status='delivered'`,200; transition shipping → delivered được chấp nhận,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-015,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `shipping`,`PUT /api/admin/orders/:id; status='canceled'`,200; transition shipping → canceled được chấp nhận,AI/audit,FAIL,D-ADM-03,Automated,—
+API-3,TC-API-ORDER-STATUS-016,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `delivered`,`PUT /api/admin/orders/:id; status='pending'`,400; từ chối transition delivered → pending,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-017,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `delivered`,`PUT /api/admin/orders/:id; status='confirmed'`,400; từ chối transition delivered → confirmed,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-018,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `delivered`,`PUT /api/admin/orders/:id; status='shipping'`,400; từ chối transition delivered → shipping,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-019,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `delivered`,`PUT /api/admin/orders/:id; status='delivered'`,400; từ chối transition delivered → delivered,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-020,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `delivered`,`PUT /api/admin/orders/:id; status='canceled'`,400; từ chối transition delivered → canceled,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-021,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `canceled`,`PUT /api/admin/orders/:id; status='pending'`,400; từ chối transition canceled → pending,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-022,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `canceled`,`PUT /api/admin/orders/:id; status='confirmed'`,400; từ chối transition canceled → confirmed,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-023,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `canceled`,`PUT /api/admin/orders/:id; status='shipping'`,400; từ chối transition canceled → shipping,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-024,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `canceled`,`PUT /api/admin/orders/:id; status='delivered'`,400; từ chối transition canceled → delivered,AI/audit,FAIL,D-ADM-02,Automated,—
+API-3,TC-API-ORDER-STATUS-025,FR-10/FR-12/FR-18,State,State-transition,Admin JWT; order hiện ở trạng thái `canceled`,`PUT /api/admin/orders/:id; status='canceled'`,400; từ chối transition canceled → canceled,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-026,FR-10/FR-12/FR-18,Partition,EP,Admin JWT,`id=999999; status='confirmed'`,404; {error:'Order not found'},AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-027,FR-10/FR-12/FR-18,Partition,BVA,Admin JWT,`id=-1; status='confirmed'`,Controlled 4xx; không 5xx,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-028,FR-10/FR-12/FR-18,Partition,EP/type,Admin JWT,`id='abc'; status='confirmed'`,Controlled 4xx; không cập nhật order,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-029,FR-10/FR-12/FR-18,Partition,EP,Admin JWT,`Body={}`,400; lỗi transition/validation,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-030,FR-10/FR-12/FR-18,Partition,EP/type,Admin JWT,`status='DELIVERED'`,400; invalid state transition,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-031,FR-10/FR-12/FR-18,Security,Security,Order tồn tại,`Không gửi Authorization`,401; không cập nhật,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-032,FR-10/FR-12/FR-18,Security,Security,Order tồn tại,`Bearer invalid.token`,403; không cập nhật,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-033,FR-10/FR-12/FR-18,Security,Security/role,User JWT; order tồn tại,`Bearer userToken; status='confirmed'`,403; không cập nhật,AI/audit,FAIL,D-ADM-01,Automated,—
+API-3,TC-API-ORDER-STATUS-034,FR-10/FR-12/FR-18,Security,Security/IDOR,User JWT; order B tồn tại,`Bearer userToken; id=orderB`,403 với user token,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-035,FR-10/FR-12/FR-18,Schema,Schema,Admin JWT; transition hợp lệ,`status='confirmed'`,200; message:string,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-036,FR-10/FR-12/FR-18,Schema,Schema,Admin JWT; transition invalid,`status='delivered' từ pending`,400; controlled JSON error,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-037,FR-10/FR-12/FR-18,Schema,Schema,Admin JWT; transition hợp lệ,`status='confirmed'`,Content-Type application/json,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-038,FR-10/FR-12/FR-18,Schema,Schema/security,Admin JWT; transition hợp lệ,`status='confirmed'`,Không có password/token/secret nội bộ,AI/audit,PASS,—,Automated,—
+API-3,TC-API-ORDER-STATUS-039,FR-10/FR-12/FR-18,Extension,State/security,User thường có JWT; order tồn tại; PUT status=confirmed,`Role escalation bằng user token`,403; không cập nhật order,Human,FAIL,D-ADM-01,Automated,—
+API-3,TC-API-ORDER-STATUS-040,FR-10/FR-12/FR-18,Extension,State/security,User A dùng token sửa order của user B,`Cross-user order mutation`,403; user không có quyền admin,Human,FAIL,D-ADM-01,Automated,—
+API-3,TC-API-ORDER-STATUS-041,FR-10/FR-12/FR-18,Extension,State/security,Admin thử canceled→delivered rồi kiểm tra dữ liệu delivered/dashboard,`Canceled không hồi sinh và dashboard không tăng doanh thu`,400; không tăng delivered revenue,Human,FAIL,D-ADM-02,Blocked,SUT không có Dashboard/revenue API để quan sát hậu điều kiện doanh thu; transition canceled→delivered được phủ riêng bởi TC-024.
+API-3,TC-API-ORDER-STATUS-042,FR-10/FR-12/FR-18,Extension,State/security,Admin JWT; order shipping; status=canceled,`Admin hủy đơn shipping`,200; order chuyển canceled,Human,FAIL,D-ADM-03,Automated,—
+API-3,TC-API-ORDER-STATUS-043,FR-10/FR-12/FR-18,Extension,State/security,User JWT; order shipping; PUT /api/orders/:id/cancel,`User không hủy order shipping qua endpoint user`,400; user không được hủy shipping,Human,FAIL,D-ADM-08,Automated,—
+API-3,TC-API-ORDER-STATUS-044,FR-10/FR-12/FR-18,Extension,State/security,Admin JWT; status=['delivered'] hoặc {value:'delivered'},`Status sai kiểu dữ liệu`,400; phân biệt type invalid với transition invalid,Human,FAIL,D-ADM-06,Automated,—

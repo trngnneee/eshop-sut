@@ -2,7 +2,7 @@
 
 ## Trạng thái kỹ thuật
 
-Bộ artifact đã có đủ pipeline kỹ thuật: phân tích → AI generation → audit → mở rộng → Postman/Newman → CI workflow → bug/traceability → generator → report. Số liệu dưới đây được đọc từ bảng test và Newman JSON trong repo; không phải số liệu ước lượng.
+Bộ artifact đã có đủ pipeline kỹ thuật: phân tích → AI generation → audit → mở rộng → Postman/Newman → CI workflow → bug/traceability → generator → report. Số liệu dưới đây được đọc trực tiếp từ bảng test, tên assertion và `run.stats` trong Newman JSON; không phải số liệu ước lượng. Đối soát từng TC ID nằm ở [execution-coverage.md](newman/reports/execution-coverage.md).
 
 | Chỉ số | Giá trị |
 | :--- | ---: |
@@ -10,10 +10,13 @@ Bộ artifact đã có đủ pipeline kỹ thuật: phân tích → AI generatio
 | AI-generated cases | 110 (36 + 36 + 38) |
 | Human extension cases | 18 (6/API) |
 | Final test cases | 128 (42 + 42 + 44) |
+| Test cases có assertion Newman thật | 123/128 (96.1%) |
+| Execution classification | 123 Automated · 1 Manual · 4 Blocked |
 | Newman off assertions | 18, failed 0 |
 | Newman canary assertions | 19, failed 1 |
 | Newman full assertions | 26, failed 8 |
-| Data-driven rows | 59 (16 + 18 + 25) |
+| Data-driven rows/assertions | 123 (39 + 41 + 43) |
+| DDT assertion results | 76 passed · 47 failed (23 + 17 + 7) |
 | Defect IDs reported | 15 |
 
 Xem [báo cáo chính](report/main-report.md), [AI audit](report/ai-audit-report.md), [bug report](report/bug-report.md), [CI/CD report](report/cicd-report.md), [Newman reports](newman/reports/) và [Excel](excel/).
@@ -46,7 +49,7 @@ npm ci
 .\newman\run-newman.ps1 -DataDriven -BaseUrl http://127.0.0.1:3001
 ```
 
-`run-newman.ps1 -DataDriven` tự chạy setup và export environment trước checkout/status, nên không tạo 401 giả vì thiếu token/orderId.
+`run-newman.ps1 -DataDriven` tự chạy setup và export environment trước checkout/status. Mỗi DDT iteration tự tạo user/cart/order và dựng state cần thiết; ba report cuối có `requests.failed=0` và `testScripts/prerequestScripts.failed=0`, nên 47 failed assertions là chênh lệch oracle/SUT chứ không phải lỗi hạ tầng test.
 
 ## Human evidence checklist
 

@@ -250,3 +250,13 @@
   > Tự rà soát bảng audit API-3 sau khi chưa có Human sign-off: đếm đủ 25 ô matrix và 38 case, kiểm tra mỗi case có đúng một nhãn, mọi INVALID/INCOMPLETE có action sửa, và không chuyển expected sang hành vi lỗi của SUT. Không ký thay Human.
 
 - **Output:** Pre-review đạt các kiểm tra số lượng/nhãn/coverage; giữ nguyên khu vực Human sign-off chưa điền trong `api-03-admin-order-status/02-audit.md`.
+
+### T-10 / Mở rộng độ phủ thực thi và đối soát Newman
+
+- **Tool:** OpenAI Codex (GPT-5 Codex)
+- **Date & time:** `2026-08-19T14:41:48+07:00`
+- **Prompt:**
+
+  > Đọc execution plan/checklist, đối chiếu 128 test case với TC ID xuất hiện trong mọi Newman JSON, mở rộng Postman DDT để thực thi tối thiểu 90%, giữ expected theo oracle, phân loại rõ Automated/Manual/Blocked và chỉ cập nhật số liệu báo cáo từ JSON chạy thật. Không tạo hoặc sửa screenshot HUMAN-only.
+
+- **Output:** Viết `tooling/coverage_report.py` làm coverage gate; mở rộng DDT thành 39 login, 41 checkout và 43 order-status assertions. Sau khi cô lập user/state và chạy lại trên backend sạch, Newman JSON chứng minh `123/128 = 96.1%` case đã thực thi, gồm 76 PASS và 47 FAIL theo oracle; cả ba DDT report có 0 request/script failure. Năm case không tự động hóa được được ghi rõ 1 Manual và 4 Blocked cùng lý do trong ba bảng `test-cases.md`.

@@ -5,11 +5,11 @@
     },
     "item": [
       {
-        "id": "3c2e3a78-ba9b-4bde-a4e5-28faebd0f8a5",
+        "id": "081f1d45-f0f7-4d44-ac5f-20e896620007",
         "name": "00 - Setup",
         "item": [
           {
-            "id": "bb341266-a7be-4bce-954d-0334611f130b",
+            "id": "60ea77da-95ef-4739-8dc9-2f41da48cd70",
             "name": "[SETUP] Health check",
             "request": {
               "url": {
@@ -30,7 +30,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "a53a5913-2431-460d-beb3-09c4473516e7",
+                  "id": "29074a08-60ff-41a8-aaa8-57f966ca3f9b",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -39,13 +39,13 @@
                     "pm.test('[SETUP] health 200',()=>pm.response.to.have.status(200));",
                     "pm.test('[SETUP] five products',()=>pm.expect(jsonBody()).to.be.an('array').with.length(5));"
                   ],
-                  "_lastExecutionId": "d5bf6ec7-d832-469f-9151-beeddbd32c0d"
+                  "_lastExecutionId": "085610f8-a3db-4773-adc5-40d0eca0dcb8"
                 }
               }
             ]
           },
           {
-            "id": "ed3bb2f0-6b94-4f9e-ba48-09c1e6ac37cf",
+            "id": "6a1ed2ee-2729-482a-af78-ed9841ac06b6",
             "name": "[SETUP] Register disposable lock user",
             "request": {
               "url": {
@@ -81,18 +81,18 @@
               {
                 "listen": "prerequest",
                 "script": {
-                  "id": "5202a3c5-ff00-4cd6-91bf-74f8ff10cec5",
+                  "id": "069a941f-6ba8-402a-9500-8649280b65d1",
                   "type": "text/javascript",
                   "exec": [
                     "pm.environment.set('lockUser','hw06_lock_'+Date.now()+'@test.local');"
                   ],
-                  "_lastExecutionId": "229345fb-c1a6-4e16-afc2-10f072992405"
+                  "_lastExecutionId": "4ddc2a3e-d282-483f-bc18-3916e9aa4fb9"
                 }
               },
               {
                 "listen": "test",
                 "script": {
-                  "id": "0d179d60-dd40-441c-b163-b69884affeac",
+                  "id": "c3e886c2-30b8-4f06-afb3-05fc62bbd4e4",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -101,13 +101,13 @@
                     "pm.test('[SETUP] register 200',()=>pm.response.to.have.status(200));",
                     "pm.environment.set('lockUserId',String(jsonBody().id||''));"
                   ],
-                  "_lastExecutionId": "359c5b77-4470-4f19-a226-7e86d9f93895"
+                  "_lastExecutionId": "f61a32b9-cd18-4d7f-b69c-0c0adc14b67a"
                 }
               }
             ]
           },
           {
-            "id": "bc896f66-7060-48ce-89fb-c288d3b310a7",
+            "id": "b77590e1-b424-420d-919d-25c04ab3f406",
             "name": "[SETUP] Login user",
             "request": {
               "url": {
@@ -143,7 +143,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "42be6822-8cb7-4051-8076-5253fd1f5271",
+                  "id": "7123f525-703e-4803-a39c-92d5789e6977",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -152,13 +152,13 @@
                     "pm.test('[SETUP] user login 200',()=>pm.response.to.have.status(200));",
                     "const d=jsonBody();pm.expect(d.token).to.be.a('string').and.not.empty;pm.environment.set('userToken',d.token);pm.environment.set('userId',String(d.user&&d.user.id||''));"
                   ],
-                  "_lastExecutionId": "1d51273f-95c5-4bcc-a345-b1eb5988aa0a"
+                  "_lastExecutionId": "d1fade15-f628-4033-b893-308289a5dbab"
                 }
               }
             ]
           },
           {
-            "id": "34f0e1a1-af63-47df-a804-f4f84985a100",
+            "id": "43ae5507-628b-4e1d-ad96-748faa507a07",
             "name": "[SETUP] Login admin",
             "request": {
               "url": {
@@ -194,7 +194,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "983ae6f8-4935-460f-8422-b3e73dc9f414",
+                  "id": "e1fed413-43c6-4ca7-9fd7-cd3da161aa36",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -203,13 +203,13 @@
                     "pm.test('[SETUP] admin login 200',()=>pm.response.to.have.status(200));",
                     "pm.environment.set('adminToken',jsonBody().token||'');"
                   ],
-                  "_lastExecutionId": "0c567940-e553-4640-8536-2cd3d985523b"
+                  "_lastExecutionId": "83dbc486-0393-4923-94b7-812f41f45a6e"
                 }
               }
             ]
           },
           {
-            "id": "e3bad3c6-cb66-424e-937b-21e8100a24f4",
+            "id": "b4123042-9031-4b56-a03e-813106c37e87",
             "name": "[SETUP] Add product to cart",
             "request": {
               "url": {
@@ -249,7 +249,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "a1ea3eb4-1a00-488e-95f1-25be519d3c96",
+                  "id": "b88763e6-f360-4db1-ac5f-2a884374fd37",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -257,7 +257,7 @@
                     "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
                     "pm.test('[SETUP] add cart 200',()=>pm.response.to.have.status(200));"
                   ],
-                  "_lastExecutionId": "75186282-8d21-492f-b34a-e12fd0f2ede6"
+                  "_lastExecutionId": "2a7ff6de-00c7-4370-ab04-f7eae6e76d09"
                 }
               }
             ]
@@ -266,11 +266,11 @@
         "event": []
       },
       {
-        "id": "0e8bd833-6b58-48f5-86b2-1c2bac367d39",
+        "id": "a5dc28fd-562e-46f5-96a4-85099e942da9",
         "name": "API-1 - POST /api/login",
         "item": [
           {
-            "id": "11dfcaef-8044-4183-85af-566d56d3b715",
+            "id": "3fdc2bbf-d579-421f-88c3-73ac9e8c6b00",
             "name": "TC-API-LOGIN-001 - valid credential",
             "request": {
               "url": {
@@ -306,7 +306,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "0cef5753-ccd7-4fa1-a0f6-27717ab10980",
+                  "id": "b783d6dc-9022-4ba6-b124-d12216df36dc",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -320,7 +320,7 @@
             ]
           },
           {
-            "id": "e753d110-e661-4b23-88cf-cb6f2239c641",
+            "id": "2fafe905-9f67-47c1-b6bb-4e34c820e88b",
             "name": "TC-API-LOGIN-004 - missing email",
             "request": {
               "url": {
@@ -356,7 +356,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "a43624fc-b8b0-446a-813d-04dd747d6423",
+                  "id": "de1508cb-49ac-4ce5-916d-ac0834763a7c",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -370,7 +370,7 @@
             ]
           },
           {
-            "id": "7dca962d-39b3-4841-9767-e524e9b40e54",
+            "id": "be0f8bac-8dc5-4476-82a7-4852642e1c54",
             "name": "TC-API-LOGIN-025 - SQL injection",
             "request": {
               "url": {
@@ -406,7 +406,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "e2b8db25-dcff-4de3-a7f1-e289a279f194",
+                  "id": "cbb54151-862a-41ee-8adb-c7a2c317a4b9",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -420,7 +420,7 @@
             ]
           },
           {
-            "id": "5f4705a2-584c-4cc2-92f4-e1030dc72b0b",
+            "id": "0309f33e-e35d-422e-a12e-247721f37556",
             "name": "TC-API-LOGIN-028 - no password leakage",
             "request": {
               "url": {
@@ -456,7 +456,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "32243236-9a80-44a1-abc7-636c8d8d40a7",
+                  "id": "4048947f-9fe9-49a2-81fb-9c229e3738ab",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -470,7 +470,7 @@
             ]
           },
           {
-            "id": "1b1fcda0-4107-46e7-9a90-74e085e224fe",
+            "id": "5d2046ab-54f3-40a5-ad62-d94a18c75c61",
             "name": "TC-API-LOGIN-018 - two failures then correct",
             "request": {
               "url": {
@@ -506,7 +506,7 @@
               {
                 "listen": "prerequest",
                 "script": {
-                  "id": "89582e6c-492d-4ad3-9a18-a39095ae46a3",
+                  "id": "23b1ef9b-6e3b-43ad-80ae-27609060dcda",
                   "type": "text/javascript",
                   "exec": [
                     "const h={'Content-Type':'application/json','X-Student-Id':pm.environment.get('student_id')};pm.sendRequest({url:pm.environment.get('base_url')+'/api/login',method:'POST',header:h,body:{mode:'raw',raw:JSON.stringify({email:pm.environment.get('lockUser'),password:'<redacted-wrong-password>'})}},function(){pm.sendRequest({url:pm.environment.get('base_url')+'/api/login',method:'POST',header:h,body:{mode:'raw',raw:JSON.stringify({email:pm.environment.get('lockUser'),password:'<redacted-wrong-password>'})}},function(){});});"
@@ -516,7 +516,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "02849d42-8a2c-439a-bb5f-379d1f90036c",
+                  "id": "38b7a825-af54-4f82-b2f0-9ea2735463a0",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -533,11 +533,11 @@
         "event": []
       },
       {
-        "id": "6cb5bf37-89b2-41f6-8d10-367d4042c68d",
+        "id": "36865e11-aa01-41de-a60f-aeb6fc8e4735",
         "name": "API-2 - POST /api/checkout",
         "item": [
           {
-            "id": "5550d9ca-210e-4423-b5e6-a2b6d56d7b2f",
+            "id": "b8921b18-2bbf-4722-8990-ef721d5818c8",
             "name": "TC-API-CHECKOUT-037 - client total probe",
             "request": {
               "url": {
@@ -577,7 +577,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "af94ea49-4979-42ec-b483-0e8f8396673a",
+                  "id": "dd492eb5-d32f-4518-a3ea-347c25aa28f8",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -591,7 +591,7 @@
             ]
           },
           {
-            "id": "ba229a6f-91cf-4f9b-8609-8e7e41ffb2c2",
+            "id": "eea18b19-fd18-4636-ae59-52cef4375d4a",
             "name": "TC-API-CHECKOUT-031 - IDOR probe",
             "request": {
               "url": {
@@ -613,7 +613,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "5b302c81-da30-4338-9823-ae9f15a1f0be",
+                  "id": "2dd1b170-977b-4caa-966f-c6be987a8b33",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -627,7 +627,7 @@
             ]
           },
           {
-            "id": "88324278-1c1e-4e6b-9856-74e6ced6ff14",
+            "id": "e007b5a6-3a10-40c5-a626-95ba00b4575f",
             "name": "TC-API-CHECKOUT-020 - cart post-condition",
             "request": {
               "url": {
@@ -654,7 +654,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "5d6ac384-ea8c-4f7b-8f9a-880951865142",
+                  "id": "39660386-808c-4b26-b6f8-e2998739b799",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -668,7 +668,7 @@
             ]
           },
           {
-            "id": "a5c4ef17-1db6-4881-9a69-0f74e94f74f2",
+            "id": "dca0bcae-a1bd-4aa2-bffa-0260a2ef1b65",
             "name": "TC-API-CHECKOUT-005 - zero total",
             "request": {
               "url": {
@@ -708,7 +708,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "41e81926-07f0-4ef7-9d2d-2e61353c494b",
+                  "id": "bbd85540-3306-4491-83d2-606ab4e543e1",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -725,11 +725,11 @@
         "event": []
       },
       {
-        "id": "2a8f7942-e47a-4cbd-8a4b-ae731f7cdcf7",
+        "id": "c118b894-4e20-4135-922d-aa44b7db6182",
         "name": "API-3 - PUT /api/admin/orders/:id/status",
         "item": [
           {
-            "id": "39958205-8888-4260-895c-ae4d22434d33",
+            "id": "1a5d3a14-83ee-485b-a401-2613ee6613e2",
             "name": "TC-API-ORDER-STATUS-002 - pending to confirmed",
             "request": {
               "url": {
@@ -772,7 +772,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "83a45ce4-5dda-41aa-9db8-c005f1674ad3",
+                  "id": "496bbf43-14c1-41d7-9100-21e07994acd7",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -785,7 +785,7 @@
             ]
           },
           {
-            "id": "863963c6-b14d-44ae-8ae1-b1b1a5acc8ab",
+            "id": "a1aeb14d-9a37-4147-b2f7-1e5d0030a125",
             "name": "TC-API-ORDER-STATUS-033 - role escalation",
             "request": {
               "url": {
@@ -828,7 +828,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "91d512eb-9beb-4d09-a835-3ad4ae73409c",
+                  "id": "08f74c1a-3067-469c-86ed-272b1c7ace5a",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -842,7 +842,7 @@
             ]
           },
           {
-            "id": "ffb700cb-e6f2-4094-b9f1-d77c8f4b5e72",
+            "id": "ee271fa0-db77-45fe-a274-722ed7688894",
             "name": "TC-API-ORDER-STATUS-024 - canceled terminal",
             "request": {
               "url": {
@@ -885,7 +885,7 @@
               {
                 "listen": "test",
                 "script": {
-                  "id": "0fd7482b-6458-43bd-81f8-fd2d14c61d52",
+                  "id": "c4603dca-4905-4abf-a837-ef12fd63f6de",
                   "type": "text/javascript",
                   "exec": [
                     "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -902,11 +902,11 @@
         "event": []
       },
       {
-        "id": "eec00a94-aaf8-4e00-bdc5-df749e08de0a",
+        "id": "6edb35d5-2403-48de-990c-3fde100d74dc",
         "name": "1.1 Domain partitions [DDT]",
         "item": [
           {
-            "id": "b14f11e8-d809-4a52-b733-4da000eb691d",
+            "id": "534caec8-19e8-433a-9f58-b3412a044774",
             "name": "[DDT] login partitions",
             "request": {
               "url": {
@@ -929,7 +929,7 @@
               "method": "POST",
               "body": {
                 "mode": "raw",
-                "raw": "{\"email\": \"{{email}}\", \"password\": \"{{password}}\"}",
+                "raw": "{{case_body}}",
                 "options": {
                   "raw": {
                     "language": "json"
@@ -942,24 +942,224 @@
               {
                 "listen": "prerequest",
                 "script": {
-                  "id": "dc8adc85-92c2-4ec9-b7d5-c79715182521",
+                  "id": "c560835c-4e29-45e3-aea0-7bb96ea28cc4",
                   "type": "text/javascript",
                   "exec": [
-                    "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                    "const tcId = String(pm.iterationData.get('tc_id') || '');",
+                    "if (!tcId) { pm.execution.skipRequest(); return; }",
+                    "",
+                    "const number = Number(tcId.slice(-3));",
+                    "const base = pm.environment.get('base_url');",
+                    "const sid = pm.environment.get('student_id') || '23127207';",
+                    "const seedEmail = pm.environment.get('user_email');",
+                    "const seedPassword = pm.environment.get('user_password');",
+                    "const casePassword = 'Hw06-' + pm.variables.replaceIn('{{$guid}}');",
+                    "const caseEmail = 'hw06-login-' + number + '-' + pm.info.iteration + '-' + Date.now() + '@test.local';",
+                    "",
+                    "pm.variables.set('setup_error', '');",
+                    "pm.variables.set('case_email', caseEmail);",
+                    "pm.variables.set('case_password', casePassword);",
+                    "",
+                    "function headers(token) {",
+                    "  const result = [{key: 'X-Student-Id', value: sid}, {key: 'Content-Type', value: 'application/json'}];",
+                    "  if (token) result.push({key: 'Authorization', value: 'Bearer ' + token});",
+                    "  return result;",
+                    "}",
+                    "function send(method, path, body, token, callback) {",
+                    "  pm.sendRequest({",
+                    "    url: base + path,",
+                    "    method,",
+                    "    header: headers(token),",
+                    "    body: body === undefined ? undefined : {mode: 'raw', raw: JSON.stringify(body)}",
+                    "  }, callback);",
+                    "}",
+                    "function recordSetupError(label, err, response) {",
+                    "  if (err) pm.variables.set('setup_error', label + ': ' + err.message);",
+                    "  else if (!response || response.code >= 400) pm.variables.set('setup_error', label + ': HTTP ' + (response && response.code));",
+                    "}",
+                    "function bodyForCase() {",
+                    "  const email = pm.iterationData.get('register_user') ? caseEmail : seedEmail;",
+                    "  const password = pm.iterationData.get('register_user') ? casePassword : seedPassword;",
+                    "  switch (number) {",
+                    "    case 2: return {email, password: 'wrong-' + casePassword};",
+                    "    case 3: return {email: 'missing-' + Date.now() + '@test.local', password: 'unknown'};",
+                    "    case 4: return {password: seedPassword};",
+                    "    case 5: return {email};",
+                    "    case 6: return {email: '', password: seedPassword};",
+                    "    case 7: return {email, password: 'abc'};",
+                    "    case 8: return {email: 'not-an-email', password: 'unknown'};",
+                    "    case 9: return {email: ' ' + email + ' ', password};",
+                    "    case 10: return {email: null, password: seedPassword};",
+                    "    case 11: return {email, password: null};",
+                    "    case 12: return {email: 123, password: seedPassword};",
+                    "    case 13: return {email, password: {value: password}};",
+                    "    case 14: return [];",
+                    "    case 16: return {email, password, rememberMe: true};",
+                    "    case 17: return {email, password: 'wrong-' + casePassword};",
+                    "    case 19: return {email, password: 'wrong-third-' + casePassword};",
+                    "    case 25: return {email: \"' OR 1=1 --\", password: 'irrelevant'};",
+                    "    case 26: return {email, password: \"' OR 1=1 --\"};",
+                    "    case 27: return {email: '<script>alert(1)</script>', password: 'irrelevant'};",
+                    "    case 30: return {email, password, role: 'admin'};",
+                    "    case 35: return {email, password: 'wrong-' + casePassword};",
+                    "    default: return {email, password};",
+                    "  }",
+                    "}",
+                    "",
+                    "pm.variables.set('case_body', JSON.stringify(bodyForCase()));",
+                    "if (number === 15) pm.request.headers.remove('Content-Type');",
+                    "else pm.request.headers.upsert({key: 'Content-Type', value: 'application/json'});",
+                    "",
+                    "function delayThenFinish() {",
+                    "  const delay = Number(pm.iterationData.get('delay_ms') || 0);",
+                    "  if (delay > 0) setTimeout(function () {}, delay);",
+                    "}",
+                    "function injectFailures(remaining) {",
+                    "  if (remaining <= 0) { delayThenFinish(); return; }",
+                    "  send('POST', '/api/login', {email: caseEmail, password: 'wrong-' + remaining + '-' + casePassword}, null,",
+                    "    function (err, response) {",
+                    "      if (err || !response || (response.code !== 401 && response.code !== 403)) {",
+                    "        recordSetupError('pre-failure', err, response);",
+                    "        return;",
+                    "      }",
+                    "      injectFailures(remaining - 1);",
+                    "    });",
+                    "}",
+                    "",
+                    "if (pm.iterationData.get('register_user')) {",
+                    "  send('POST', '/api/register', {name: 'HW06 Coverage ' + number, email: caseEmail, password: casePassword}, null,",
+                    "    function (err, response) {",
+                    "      recordSetupError('register', err, response);",
+                    "      if (!err && response && response.code < 400) injectFailures(Number(pm.iterationData.get('pre_failures') || 0));",
+                    "    });",
+                    "} else {",
+                    "  delayThenFinish();",
+                    "}"
                   ]
                 }
               },
               {
                 "listen": "test",
                 "script": {
-                  "id": "10b82610-11dd-44da-94bd-29175961e593",
+                  "id": "d15c3e07-085b-4931-a3d6-9dae6ce0d311",
                   "type": "text/javascript",
                   "exec": [
-                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
-                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
-                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
-                    "if(!pm.iterationData.get('tc_id'))return;",
-                    "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                    "const tcId = String(pm.iterationData.get('tc_id') || '');",
+                    "if (!tcId) return;",
+                    "const number = Number(tcId.slice(-3));",
+                    "const mode = String(pm.environment.get('spec_strict') || 'off').toLowerCase();",
+                    "",
+                    "function shouldRun() { return mode === 'full' || (mode === 'canary' && tcId === 'TC-API-LOGIN-018'); }",
+                    "function specTest(name, fn) { if (shouldRun()) pm.test(tcId + ' - ' + name, fn); }",
+                    "function jsonOf(response) { try { return response.json(); } catch (_) { return {}; } }",
+                    "function expectedStatus(code) {",
+                    "  const expected = String(pm.iterationData.get('expected_status'));",
+                    "  if (expected === '4xx') return code >= 400 && code < 500;",
+                    "  return expected.split('|').map(Number).indexOf(code) !== -1;",
+                    "}",
+                    "function noSecrets(value) {",
+                    "  const text = JSON.stringify(value || {}).toLowerCase();",
+                    "  return ['password', 'reset_token', 'login_attempts', 'locked_until'].every(key => text.indexOf(key) === -1);",
+                    "}",
+                    "function setupOk() { pm.expect(pm.variables.get('setup_error') || '').to.eql(''); }",
+                    "function request(method, path, token, callback) {",
+                    "  const headers = [{key: 'X-Student-Id', value: pm.environment.get('student_id') || '23127207'}];",
+                    "  if (token) headers.push({key: 'Authorization', value: 'Bearer ' + token});",
+                    "  pm.sendRequest({url: pm.environment.get('base_url') + path, method, header: headers}, callback);",
+                    "}",
+                    "",
+                    "const payload = jsonOf(pm.response);",
+                    "if (number === 17) {",
+                    "  request('GET', '/api/admin/users', pm.environment.get('adminToken'), function (err, response) {",
+                    "    specTest('first failure increments the counter exactly once', function () {",
+                    "      setupOk();",
+                    "      pm.expect(pm.response.code).to.eql(401);",
+                    "      pm.expect(err).to.eql(null);",
+                    "      pm.expect(response.code).to.eql(200);",
+                    "      const user = jsonOf(response).find(item => item.email === pm.variables.get('case_email'));",
+                    "      pm.expect(user, 'registered user is observable').to.be.an('object');",
+                    "      pm.expect(user.login_attempts).to.eql(1);",
+                    "    });",
+                    "  });",
+                    "} else if (number === 31) {",
+                    "  request('GET', '/api/users/me', payload.token, function (err, response) {",
+                    "    specTest('issued token resolves to the same user', function () {",
+                    "      setupOk();",
+                    "      pm.expect(pm.response.code).to.eql(200);",
+                    "      pm.expect(err).to.eql(null);",
+                    "      pm.expect(response.code).to.eql(200);",
+                    "      pm.expect(jsonOf(response).id).to.eql(payload.user.id);",
+                    "    });",
+                    "  });",
+                    "} else if (number === 20 || number === 32) {",
+                    "  specTest('locked response keeps the generic public contract', function () {",
+                    "    setupOk();",
+                    "    pm.expect(expectedStatus(pm.response.code)).to.eql(true);",
+                    "    pm.expect(payload).to.not.have.property('token');",
+                    "    pm.expect(payload.error).to.eql('Invalid email or password');",
+                    "  });",
+                    "} else if ([28, 29, 36, 39].indexOf(number) !== -1) {",
+                    "  specTest('successful response excludes sensitive fields', function () {",
+                    "    setupOk();",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    pm.expect(noSecrets(payload)).to.eql(true);",
+                    "  });",
+                    "} else if (number === 30) {",
+                    "  specTest('body role cannot elevate the authenticated user', function () {",
+                    "    setupOk();",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    pm.expect(payload.user.role).to.eql('user');",
+                    "  });",
+                    "} else if (number === 33) {",
+                    "  specTest('success schema is typed', function () {",
+                    "    setupOk();",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    pm.expect(payload.token).to.be.a('string').and.not.empty;",
+                    "    pm.expect(payload.user.id).to.be.a('number');",
+                    "    pm.expect(payload.user.email).to.be.a('string');",
+                    "    pm.expect(payload.user.role).to.be.a('string');",
+                    "  });",
+                    "} else if (number === 34) {",
+                    "  specTest('response content type is JSON', function () {",
+                    "    setupOk();",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    pm.expect(pm.response.headers.get('Content-Type') || '').to.match(/application\\/json/i);",
+                    "  });",
+                    "} else if (number === 35) {",
+                    "  specTest('wrong-password error uses the generic JSON schema', function () {",
+                    "    setupOk();",
+                    "    pm.expect(pm.response.code).to.eql(401);",
+                    "    pm.expect(payload.error).to.be.a('string');",
+                    "    pm.expect(payload).to.not.have.property('token');",
+                    "  });",
+                    "} else if (number === 27) {",
+                    "  specTest('XSS input is not reflected', function () {",
+                    "    setupOk();",
+                    "    pm.expect(expectedStatus(pm.response.code)).to.eql(true);",
+                    "    pm.expect(JSON.stringify(payload)).to.not.include('<script>alert(1)</script>');",
+                    "  });",
+                    "} else if (number === 40) {",
+                    "  specTest('JWT has iat and exp with a maximum 24-hour TTL', function () {",
+                    "    setupOk();",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    const segment = String(payload.token || '').split('.')[1] || '';",
+                    "    const normalized = segment.replace(/-/g, '+').replace(/_/g, '/');",
+                    "    const decoded = JSON.parse(atob(normalized.padEnd(Math.ceil(normalized.length / 4) * 4, '=')));",
+                    "    pm.expect(decoded.iat).to.be.a('number');",
+                    "    pm.expect(decoded.exp).to.be.a('number');",
+                    "    pm.expect(decoded.exp - decoded.iat).to.be.at.most(86400);",
+                    "  });",
+                    "} else {",
+                    "  specTest(String(pm.iterationData.get('scenario')), function () {",
+                    "    setupOk();",
+                    "    pm.expect(expectedStatus(pm.response.code), 'HTTP status follows specification').to.eql(true);",
+                    "    if ([1, 16].indexOf(number) !== -1) {",
+                    "      pm.expect(payload.token).to.be.a('string').and.not.empty;",
+                    "      pm.expect(payload.user).to.be.an('object');",
+                    "    }",
+                    "    if (number === 21) pm.expect(payload).to.not.have.property('token');",
+                    "  });",
+                    "}"
                   ]
                 }
               }
@@ -969,11 +1169,11 @@
         "event": []
       },
       {
-        "id": "db54762f-2d53-4af8-a334-0c2d8b3f9427",
+        "id": "04be0bd3-9a69-48df-b5ad-3774f916164b",
         "name": "2.1 Domain partitions [DDT]",
         "item": [
           {
-            "id": "59573026-50aa-4d35-8005-bca5a9745f82",
+            "id": "d91b55d0-efe2-4a52-b066-71778d4665bf",
             "name": "[DDT] checkout partitions",
             "request": {
               "url": {
@@ -994,13 +1194,13 @@
                 },
                 {
                   "key": "Authorization",
-                  "value": "Bearer {{userToken}}"
+                  "value": "{{case_authorization}}"
                 }
               ],
               "method": "POST",
               "body": {
                 "mode": "raw",
-                "raw": "{\"total_amount\": \"{{total_amount}}\", \"shipping_address\": \"{{shipping_address}}\"}",
+                "raw": "{{case_body}}",
                 "options": {
                   "raw": {
                     "language": "json"
@@ -1013,24 +1213,237 @@
               {
                 "listen": "prerequest",
                 "script": {
-                  "id": "e0a712d3-8a5b-4e00-b1ce-21e3bf4ba714",
+                  "id": "1993b051-f94c-4b91-8c48-b952cd24a478",
                   "type": "text/javascript",
                   "exec": [
-                    "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                    "const tcId = String(pm.iterationData.get('tc_id') || '');",
+                    "if (!tcId) { pm.execution.skipRequest(); return; }",
+                    "",
+                    "const number = Number(tcId.slice(-3));",
+                    "const base = pm.environment.get('base_url');",
+                    "const sid = pm.environment.get('student_id') || '23127207';",
+                    "const caseEmail = 'hw06-checkout-' + number + '-' + pm.info.iteration + '-' + Date.now() + '@test.local';",
+                    "const casePassword = 'Hw06-' + pm.variables.replaceIn('{{$guid}}');",
+                    "const cartTotal = Number(pm.iterationData.get('cart_total') || 200000);",
+                    "",
+                    "pm.variables.set('setup_error', '');",
+                    "pm.variables.set('case_email', caseEmail);",
+                    "pm.variables.set('case_password', casePassword);",
+                    "pm.variables.set('case_cart_total', cartTotal);",
+                    "",
+                    "function headers(token) {",
+                    "  const result = [{key: 'X-Student-Id', value: sid}, {key: 'Content-Type', value: 'application/json'}];",
+                    "  if (token) result.push({key: 'Authorization', value: 'Bearer ' + token});",
+                    "  return result;",
+                    "}",
+                    "function send(method, path, body, token, callback) {",
+                    "  pm.sendRequest({",
+                    "    url: base + path,",
+                    "    method,",
+                    "    header: headers(token),",
+                    "    body: body === undefined ? undefined : {mode: 'raw', raw: JSON.stringify(body)}",
+                    "  }, callback);",
+                    "}",
+                    "function fail(label, err, response) {",
+                    "  if (err) pm.variables.set('setup_error', label + ': ' + err.message);",
+                    "  else if (!response || response.code >= 400) pm.variables.set('setup_error', label + ': HTTP ' + (response && response.code));",
+                    "}",
+                    "function bodyForCase() {",
+                    "  const body = {total_amount: 200000, shipping_address: '123 Le Loi'};",
+                    "  switch (number) {",
+                    "    case 5: body.total_amount = 0; break;",
+                    "    case 6: case 38: body.total_amount = -500000; break;",
+                    "    case 7: body.total_amount = '200000'; break;",
+                    "    case 8: body.total_amount = null; break;",
+                    "    case 9: delete body.shipping_address; break;",
+                    "    case 10: body.shipping_address = ''; break;",
+                    "    case 11: body.shipping_address = 'A'.repeat(1001); break;",
+                    "    case 12: case 42: body.shipping_address = '<img src=x onerror=alert(1)>'; break;",
+                    "    case 13: body.shipping_address = \"' OR 1=1 --\"; break;",
+                    "    case 14: body.shipping_address = '12 Lê Lợi, Quận 1, TP.HCM'; break;",
+                    "    case 15: body.total_amount = 200000.5; break;",
+                    "    case 16: body.total_amount = 9000000000000000000; break;",
+                    "    case 17: body.role = 'admin'; break;",
+                    "    case 22: case 40: body.total_amount = 1; break;",
+                    "    case 25: case 30: body.user_id = 999; break;",
+                    "    case 32: body.shipping_address = '<script>alert(1)</script>'; break;",
+                    "    case 37: body.total_amount = 1; break;",
+                    "  }",
+                    "  return body;",
+                    "}",
+                    "",
+                    "const caseBody = bodyForCase();",
+                    "pm.variables.set('case_body_object', JSON.stringify(caseBody));",
+                    "pm.variables.set('case_body', number === 18",
+                    "  ? '{\"total_amount\":2e5,\"shipping_address\":\"123 Le Loi\"}'",
+                    "  : JSON.stringify(caseBody));",
+                    "",
+                    "function configureAuthorization(token) {",
+                    "  pm.variables.set('case_token', token || '');",
+                    "  const kind = String(pm.iterationData.get('auth_kind') || 'user');",
+                    "  if (kind === 'none') {",
+                    "    pm.request.headers.remove('Authorization');",
+                    "    pm.variables.set('case_authorization', '');",
+                    "  } else if (kind === 'malformed') {",
+                    "    pm.request.headers.upsert({key: 'Authorization', value: 'abc'});",
+                    "    pm.variables.set('case_authorization', 'abc');",
+                    "  } else if (kind === 'invalid') {",
+                    "    pm.request.headers.upsert({key: 'Authorization', value: 'Bearer invalid.signature.token'});",
+                    "    pm.variables.set('case_authorization', 'Bearer invalid.signature.token');",
+                    "  } else {",
+                    "    pm.request.headers.upsert({key: 'Authorization', value: 'Bearer ' + token});",
+                    "    pm.variables.set('case_authorization', 'Bearer ' + token);",
+                    "  }",
+                    "}",
+                    "function addCartThenFinish(token) {",
+                    "  configureAuthorization(token);",
+                    "  if (!pm.iterationData.get('cart_setup')) return;",
+                    "  send('POST', '/api/cart', {product_id: 1, quantity: 1, price: cartTotal, name: 'HW06 coverage item'}, token,",
+                    "    function (err, response) { fail('add cart', err, response); });",
+                    "}",
+                    "",
+                    "send('POST', '/api/register', {name: 'HW06 Checkout ' + number, email: caseEmail, password: casePassword}, null,",
+                    "  function (registerErr, registerResponse) {",
+                    "    fail('register', registerErr, registerResponse);",
+                    "    if (registerErr || !registerResponse || registerResponse.code >= 400) return;",
+                    "    const registered = registerResponse.json();",
+                    "    pm.variables.set('case_user_id', registered.id);",
+                    "    send('POST', '/api/login', {email: caseEmail, password: casePassword}, null,",
+                    "      function (loginErr, loginResponse) {",
+                    "        fail('login', loginErr, loginResponse);",
+                    "        if (loginErr || !loginResponse || loginResponse.code >= 400) return;",
+                    "        addCartThenFinish(loginResponse.json().token);",
+                    "      });",
+                    "  });"
                   ]
                 }
               },
               {
                 "listen": "test",
                 "script": {
-                  "id": "538bea5f-42b8-4119-b272-9726d79b8052",
+                  "id": "36a996dd-7b68-4126-a10e-c065d2e04ad8",
                   "type": "text/javascript",
                   "exec": [
-                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
-                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
-                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
-                    "if(!pm.iterationData.get('tc_id'))return;",
-                    "pm.test(pm.iterationData.get('tc_id')+' status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                    "const tcId = String(pm.iterationData.get('tc_id') || '');",
+                    "if (!tcId) return;",
+                    "const number = Number(tcId.slice(-3));",
+                    "const mode = String(pm.environment.get('spec_strict') || 'off').toLowerCase();",
+                    "",
+                    "function specTest(name, fn) { if (mode === 'full') pm.test(tcId + ' - ' + name, fn); }",
+                    "function jsonOf(response) { try { return response.json(); } catch (_) { return {}; } }",
+                    "function setupOk() { pm.expect(pm.variables.get('setup_error') || '').to.eql(''); }",
+                    "function statusMatches(code, expected) {",
+                    "  expected = String(expected);",
+                    "  if (expected === 'not-5xx') return code < 500;",
+                    "  if (expected === '4xx') return code >= 400 && code < 500;",
+                    "  if (expected === 'reject-or-sanitize') return code >= 200 && code < 500;",
+                    "  return expected.split('|').map(Number).indexOf(code) !== -1;",
+                    "}",
+                    "function request(method, path, body, token, callback) {",
+                    "  const headers = [",
+                    "    {key: 'X-Student-Id', value: pm.environment.get('student_id') || '23127207'},",
+                    "    {key: 'Content-Type', value: 'application/json'}",
+                    "  ];",
+                    "  if (token) headers.push({key: 'Authorization', value: 'Bearer ' + token});",
+                    "  pm.sendRequest({",
+                    "    url: pm.environment.get('base_url') + path,",
+                    "    method,",
+                    "    header: headers,",
+                    "    body: body === undefined ? undefined : {mode: 'raw', raw: JSON.stringify(body)}",
+                    "  }, callback);",
+                    "}",
+                    "function noSecrets(value) {",
+                    "  const text = JSON.stringify(value || {}).toLowerCase();",
+                    "  return ['password', 'reset_token', 'login_attempts', 'locked_until'].every(key => text.indexOf(key) === -1);",
+                    "}",
+                    "function assertMain() {",
+                    "  setupOk();",
+                    "  pm.expect(statusMatches(pm.response.code, pm.iterationData.get('expected_status')), 'HTTP status follows specification').to.eql(true);",
+                    "}",
+                    "",
+                    "const payload = jsonOf(pm.response);",
+                    "const token = pm.variables.get('case_token');",
+                    "const body = JSON.parse(pm.variables.get('case_body_object'));",
+                    "const orderId = payload.orderId;",
+                    "",
+                    "if ([1, 17, 18, 19, 24, 25, 26, 30, 33, 35, 36, 37].indexOf(number) !== -1) {",
+                    "  request('GET', '/api/orders/' + orderId, undefined, token, function (err, response) {",
+                    "    specTest(String(pm.iterationData.get('scenario')), function () {",
+                    "      assertMain();",
+                    "      pm.expect(err).to.eql(null);",
+                    "      pm.expect(response.code).to.eql(200);",
+                    "      const order = jsonOf(response);",
+                    "      if ([1, 18, 37].indexOf(number) !== -1) pm.expect(order.total_amount).to.eql(Number(pm.variables.get('case_cart_total')));",
+                    "      if ([19, 26].indexOf(number) !== -1) pm.expect(order.status).to.eql('pending');",
+                    "      if ([17, 25, 30].indexOf(number) !== -1) pm.expect(order.user_id).to.eql(Number(pm.variables.get('case_user_id')));",
+                    "      if ([24, 35].indexOf(number) !== -1) pm.expect(orderId).to.be.a('number').and.above(0);",
+                    "      if (number === 33) {",
+                    "        pm.expect(payload.message).to.be.a('string');",
+                    "        pm.expect(orderId).to.be.a('number');",
+                    "      }",
+                    "      if (number === 36) pm.expect(noSecrets(order)).to.eql(true);",
+                    "    });",
+                    "  });",
+                    "} else if ([20, 39].indexOf(number) !== -1) {",
+                    "  request('GET', '/api/cart', undefined, token, function (err, response) {",
+                    "    specTest('successful checkout clears the cart', function () {",
+                    "      assertMain();",
+                    "      pm.expect(err).to.eql(null);",
+                    "      pm.expect(response.code).to.eql(200);",
+                    "      pm.expect(jsonOf(response)).to.be.an('array').that.is.empty;",
+                    "    });",
+                    "  });",
+                    "} else if (number === 21) {",
+                    "  request('POST', '/api/checkout', body, token, function (err, response) {",
+                    "    specTest('duplicate checkout remains a controlled observable result', function () {",
+                    "      assertMain();",
+                    "      pm.expect(err).to.eql(null);",
+                    "      pm.expect(response.code).to.be.below(500);",
+                    "      const second = jsonOf(response);",
+                    "      if (pm.response.code === 200 && response.code === 200) pm.expect(second.orderId).to.not.eql(orderId);",
+                    "    });",
+                    "  });",
+                    "} else if (number === 23) {",
+                    "  request('GET', '/api/orders/my-orders', undefined, token, function (err, response) {",
+                    "    specTest('created order appears in the authenticated user history', function () {",
+                    "      assertMain();",
+                    "      pm.expect(err).to.eql(null);",
+                    "      pm.expect(response.code).to.eql(200);",
+                    "      const orders = jsonOf(response);",
+                    "      pm.expect(orders.some(order => order.id === orderId && order.status === 'pending')).to.eql(true);",
+                    "    });",
+                    "  });",
+                    "} else if ([31, 41].indexOf(number) !== -1) {",
+                    "  request('GET', '/api/orders/' + orderId, undefined, null, function (err, response) {",
+                    "    specTest('order detail rejects an anonymous IDOR read', function () {",
+                    "      setupOk();",
+                    "      pm.expect(pm.response.code).to.eql(200);",
+                    "      pm.expect(err).to.eql(null);",
+                    "      pm.expect([401, 403]).to.include(response.code);",
+                    "    });",
+                    "  });",
+                    "} else if ([12, 32, 42].indexOf(number) !== -1) {",
+                    "  if (pm.response.code >= 400 && pm.response.code < 500) {",
+                    "    specTest('XSS address is rejected or safely persisted', function () { setupOk(); });",
+                    "  } else {",
+                    "    request('GET', '/api/orders/' + orderId, undefined, token, function (err, response) {",
+                    "      specTest('XSS address is rejected or safely persisted', function () {",
+                    "        setupOk();",
+                    "        pm.expect(pm.response.code).to.eql(200);",
+                    "        pm.expect(err).to.eql(null);",
+                    "        pm.expect(response.code).to.eql(200);",
+                    "        pm.expect(jsonOf(response).shipping_address).to.not.eql(body.shipping_address);",
+                    "      });",
+                    "    });",
+                    "  }",
+                    "} else if (number === 34) {",
+                    "  specTest('response content type is JSON', function () {",
+                    "    assertMain();",
+                    "    pm.expect(pm.response.headers.get('Content-Type') || '').to.match(/application\\/json/i);",
+                    "  });",
+                    "} else {",
+                    "  specTest(String(pm.iterationData.get('scenario')), function () { assertMain(); });",
+                    "}"
                   ]
                 }
               }
@@ -1040,23 +1453,16 @@
         "event": []
       },
       {
-        "id": "485c25b9-7cad-4fc8-80f4-c0d76e9f8a60",
+        "id": "4815390f-b738-4b5a-ac2e-58ad5cb1f588",
         "name": "3.1 Transition matrix [DDT]",
         "item": [
           {
-            "id": "7974a066-d5a7-4e0d-86e6-33a502769c5f",
+            "id": "ae9ff231-22f9-47a2-baa7-d01e7c9b8584",
             "name": "[DDT] transition matrix",
             "request": {
               "url": {
-                "path": [
-                  "api",
-                  "admin",
-                  "orders",
-                  "{{orderId}}",
-                  "status"
-                ],
                 "host": [
-                  "{{base_url}}"
+                  "{{base_url}}{{case_status_path}}"
                 ],
                 "query": [],
                 "variable": []
@@ -1068,13 +1474,13 @@
                 },
                 {
                   "key": "Authorization",
-                  "value": "Bearer {{adminToken}}"
+                  "value": "{{case_authorization}}"
                 }
               ],
               "method": "PUT",
               "body": {
                 "mode": "raw",
-                "raw": "{\"status\": \"{{to_status}}\"}",
+                "raw": "{{case_status_body}}",
                 "options": {
                   "raw": {
                     "language": "json"
@@ -1087,24 +1493,143 @@
               {
                 "listen": "prerequest",
                 "script": {
-                  "id": "a977df7a-6ef9-4ffd-aa1b-38c520c1cd58",
+                  "id": "b4f2c766-560a-4887-99b0-ba813268fb85",
                   "type": "text/javascript",
                   "exec": [
-                    "if(!pm.iterationData.get('tc_id'))pm.execution.skipRequest();"
+                    "const tcId = String(pm.iterationData.get('tc_id') || '');",
+                    "if (!tcId) { pm.execution.skipRequest(); return; }",
+                    "",
+                    "const number = Number(tcId.slice(-3));",
+                    "const base = pm.environment.get('base_url');",
+                    "const sid = pm.environment.get('student_id') || '23127207';",
+                    "const userToken = pm.environment.get('userToken');",
+                    "const adminToken = pm.environment.get('adminToken');",
+                    "pm.variables.set('setup_error', '');",
+                    "",
+                    "function headers(token) {",
+                    "  const result = [{key: 'X-Student-Id', value: sid}, {key: 'Content-Type', value: 'application/json'}];",
+                    "  if (token) result.push({key: 'Authorization', value: 'Bearer ' + token});",
+                    "  return result;",
+                    "}",
+                    "function send(method, path, body, token, callback) {",
+                    "  pm.sendRequest({",
+                    "    url: base + path,",
+                    "    method,",
+                    "    header: headers(token),",
+                    "    body: body === undefined ? undefined : {mode: 'raw', raw: JSON.stringify(body)}",
+                    "  }, callback);",
+                    "}",
+                    "function fail(label, err, response) {",
+                    "  if (err) pm.variables.set('setup_error', label + ': ' + err.message);",
+                    "  else if (!response || response.code >= 400) pm.variables.set('setup_error', label + ': HTTP ' + (response && response.code));",
+                    "}",
+                    "function transitionsFor(status) {",
+                    "  if (status === 'confirmed') return ['confirmed'];",
+                    "  if (status === 'shipping') return ['confirmed', 'shipping'];",
+                    "  if (status === 'delivered') return ['confirmed', 'shipping', 'delivered'];",
+                    "  if (status === 'canceled') return ['canceled'];",
+                    "  return [];",
+                    "}",
+                    "function setState(orderId, transitions, index, done) {",
+                    "  if (index >= transitions.length) { done(); return; }",
+                    "  send('PUT', '/api/admin/orders/' + orderId + '/status', {status: transitions[index]}, adminToken,",
+                    "    function (err, response) {",
+                    "      fail('set state ' + transitions[index], err, response);",
+                    "      if (!err && response && response.code < 400) setState(orderId, transitions, index + 1, done);",
+                    "    });",
+                    "}",
+                    "function configure(orderId, attackerToken) {",
+                    "  let path = '/api/admin/orders/' + orderId + '/status';",
+                    "  let body = {status: pm.iterationData.get('to_status') || 'confirmed'};",
+                    "  let auth = 'Bearer ' + adminToken;",
+                    "  switch (number) {",
+                    "    case 26: path = '/api/admin/orders/999999/status'; break;",
+                    "    case 27: path = '/api/admin/orders/-1/status'; break;",
+                    "    case 28: path = '/api/admin/orders/abc/status'; break;",
+                    "    case 29: body = {}; break;",
+                    "    case 30: body = {status: 'DELIVERED'}; break;",
+                    "    case 31: auth = ''; break;",
+                    "    case 32: auth = 'Bearer invalid.signature.token'; break;",
+                    "    case 33: case 34: case 39: auth = 'Bearer ' + userToken; break;",
+                    "    case 40: auth = 'Bearer ' + attackerToken; break;",
+                    "    case 35: case 37: case 38: body = {status: 'confirmed'}; break;",
+                    "    case 36: body = {status: 'delivered'}; break;",
+                    "    case 42: body = {status: 'canceled'}; break;",
+                    "    case 43:",
+                    "      path = '/api/orders/' + orderId + '/cancel';",
+                    "      body = {};",
+                    "      auth = 'Bearer ' + userToken;",
+                    "      break;",
+                    "    case 44: body = {status: ['delivered']}; break;",
+                    "  }",
+                    "  pm.variables.set('case_status_path', path);",
+                    "  pm.variables.set('case_status_body', JSON.stringify(body));",
+                    "  pm.variables.set('case_authorization', auth);",
+                    "  if (auth) pm.request.headers.upsert({key: 'Authorization', value: auth});",
+                    "  else pm.request.headers.remove('Authorization');",
+                    "}",
+                    "function createAttackerThenConfigure(orderId) {",
+                    "  if (number !== 40) { configure(orderId, ''); return; }",
+                    "  const email = 'hw06-status-attacker-' + Date.now() + '@test.local';",
+                    "  const password = 'Hw06-' + pm.variables.replaceIn('{{$guid}}');",
+                    "  send('POST', '/api/register', {name: 'HW06 Status Attacker', email, password}, null,",
+                    "    function (registerErr, registerResponse) {",
+                    "      fail('register attacker', registerErr, registerResponse);",
+                    "      if (registerErr || !registerResponse || registerResponse.code >= 400) return;",
+                    "      send('POST', '/api/login', {email, password}, null, function (loginErr, loginResponse) {",
+                    "        fail('login attacker', loginErr, loginResponse);",
+                    "        if (!loginErr && loginResponse && loginResponse.code < 400) configure(orderId, loginResponse.json().token);",
+                    "      });",
+                    "    });",
+                    "}",
+                    "",
+                    "send('POST', '/api/checkout', {total_amount: 200000, shipping_address: 'HW06 status coverage'}, userToken,",
+                    "  function (checkoutErr, checkoutResponse) {",
+                    "    fail('create order', checkoutErr, checkoutResponse);",
+                    "    if (checkoutErr || !checkoutResponse || checkoutResponse.code >= 400) return;",
+                    "    const orderId = checkoutResponse.json().orderId;",
+                    "    pm.variables.set('case_order_id', orderId);",
+                    "    const desired = String(pm.iterationData.get('from_status') || 'pending');",
+                    "    setState(orderId, transitionsFor(desired), 0, function () { createAttackerThenConfigure(orderId); });",
+                    "  });"
                   ]
                 }
               },
               {
                 "listen": "test",
                 "script": {
-                  "id": "bbc37e8d-6aaf-41f7-94f2-00e46443eac9",
+                  "id": "e47ca28a-0b46-4186-8260-db32121fef01",
                   "type": "text/javascript",
                   "exec": [
-                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
-                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
-                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
-                    "if(!pm.iterationData.get('tc_id'))return;",
-                    "pm.test(pm.iterationData.get('tc_id')+' matrix status',()=>pm.expect(pm.response.code).to.eql(Number(pm.iterationData.get('expected_status'))));"
+                    "const tcId = String(pm.iterationData.get('tc_id') || '');",
+                    "if (!tcId) return;",
+                    "const number = Number(tcId.slice(-3));",
+                    "const mode = String(pm.environment.get('spec_strict') || 'off').toLowerCase();",
+                    "",
+                    "function specTest(name, fn) { if (mode === 'full') pm.test(tcId + ' - ' + name, fn); }",
+                    "function jsonBody() { try { return pm.response.json(); } catch (_) { return {}; } }",
+                    "function setupOk() { pm.expect(pm.variables.get('setup_error') || '').to.eql(''); }",
+                    "function statusMatches(code) {",
+                    "  const expected = String(pm.iterationData.get('expected_status'));",
+                    "  if (expected === '4xx') return code >= 400 && code < 500;",
+                    "  return expected.split('|').map(Number).indexOf(code) !== -1;",
+                    "}",
+                    "function noSecrets(value) {",
+                    "  const text = JSON.stringify(value || {}).toLowerCase();",
+                    "  return ['password', 'token', 'secret', 'reset_token', 'login_attempts', 'locked_until'].every(key => text.indexOf(key) === -1);",
+                    "}",
+                    "",
+                    "const payload = jsonBody();",
+                    "specTest(String(pm.iterationData.get('scenario') || (pm.iterationData.get('from_status') + ' to ' + pm.iterationData.get('to_status'))), function () {",
+                    "  setupOk();",
+                    "  pm.expect(statusMatches(pm.response.code), 'HTTP status follows specification').to.eql(true);",
+                    "  if (number === 26) pm.expect(payload.error).to.eql('Order not found');",
+                    "  if (number === 35) pm.expect(payload.message).to.be.a('string');",
+                    "  if (number === 36) pm.expect(payload.error).to.be.a('string');",
+                    "  if (number === 37) pm.expect(pm.response.headers.get('Content-Type') || '').to.match(/application\\/json/i);",
+                    "  if (number === 38) pm.expect(noSecrets(payload)).to.eql(true);",
+                    "  if (number === 44) pm.expect(String(payload.error || '').toLowerCase()).to.not.include('state transition');",
+                    "});"
                   ]
                 }
               }
@@ -1118,14 +1643,14 @@
       {
         "listen": "prerequest",
         "script": {
-          "id": "b8aa8e35-0954-4d19-aa68-a8ca74ba65a7",
+          "id": "0bb5bfad-e53f-451a-9d9b-10384d48a2ed",
           "type": "text/javascript",
           "exec": [
             "const sid=pm.environment.get('student_id')||'23127207';",
             "pm.request.headers.upsert({key:'X-Student-Id',value:sid});",
             "console.log('[HW06] '+pm.info.requestName+' | X-Student-Id: '+sid+' | '+pm.request.method+' '+pm.request.url.toString());"
           ],
-          "_lastExecutionId": "14c595ae-a4e6-4b22-992d-cb93e64ff86c"
+          "_lastExecutionId": "3379a215-c002-482f-967d-b373b01888e4"
         }
       }
     ],
@@ -1199,7 +1724,7 @@
       },
       {
         "type": "any",
-        "value": "hw06_lock_1787113019035@test.local",
+        "value": "hw06_lock_1787124983639@test.local",
         "key": "lockUser"
       },
       {
@@ -1215,7 +1740,7 @@
     ]
   },
   "globals": {
-    "id": "e5fbea4d-8c5c-4ba6-80ed-b0b04ee61f69",
+    "id": "e56482e3-14d5-48b3-b0a5-5076f740791c",
     "values": []
   },
   "run": {
@@ -1267,10 +1792,10 @@
       }
     },
     "timings": {
-      "responseAverage": 22.8,
-      "responseMin": 7,
-      "responseMax": 44,
-      "responseSd": 15.380507143784303,
+      "responseAverage": 13.6,
+      "responseMin": 4,
+      "responseMax": 28,
+      "responseSd": 9.891410415102591,
       "dnsAverage": 0,
       "dnsMin": 0,
       "dnsMax": 0,
@@ -1279,8 +1804,8 @@
       "firstByteMin": 0,
       "firstByteMax": 0,
       "firstByteSd": 0,
-      "started": 1787113018886,
-      "completed": 1787113019429
+      "started": 1787124983504,
+      "completed": 1787124984005
     },
     "executions": [
       {
@@ -1293,11 +1818,11 @@
           "eof": false,
           "bof": true,
           "cr": false,
-          "ref": "f7ecc2bd-501f-4f38-98d8-140542863a50",
-          "httpRequestId": "583a95d5-f333-476b-b5c8-9ba3e1010aa8"
+          "ref": "7ebf3292-bbae-4e7f-9884-0243a01ea582",
+          "httpRequestId": "c47a331a-fb10-4635-b29f-19ecd9ae3c58"
         },
         "item": {
-          "id": "bb341266-a7be-4bce-954d-0334611f130b",
+          "id": "60ea77da-95ef-4739-8dc9-2f41da48cd70",
           "name": "[SETUP] Health check",
           "request": {
             "url": {
@@ -1318,7 +1843,7 @@
             {
               "listen": "test",
               "script": {
-                "id": "a53a5913-2431-460d-beb3-09c4473516e7",
+                "id": "29074a08-60ff-41a8-aaa8-57f966ca3f9b",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -1327,7 +1852,7 @@
                   "pm.test('[SETUP] health 200',()=>pm.response.to.have.status(200));",
                   "pm.test('[SETUP] five products',()=>pm.expect(jsonBody()).to.be.an('array').with.length(5));"
                 ],
-                "_lastExecutionId": "d5bf6ec7-d832-469f-9151-beeddbd32c0d"
+                "_lastExecutionId": "085610f8-a3db-4773-adc5-40d0eca0dcb8"
               }
             }
           ]
@@ -1371,7 +1896,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "1fec53a7-0ad3-42f5-b6ce-067589a54788",
+              "value": "70b1c92b-0204-4a74-aeb0-8ff5119672a7",
               "system": true
             },
             {
@@ -1393,7 +1918,7 @@
           "method": "GET"
         },
         "response": {
-          "id": "e671791e-309e-447d-ad67-53ed62d26c7c",
+          "id": "6321d177-4824-4b05-9a67-0d95c92dc9ea",
           "status": "OK",
           "code": 200,
           "header": [
@@ -1419,7 +1944,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:16:58 GMT"
+              "value": "Wed, 19 Aug 2026 07:36:23 GMT"
             },
             {
               "key": "Connection",
@@ -2405,10 +2930,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 38,
+          "responseTime": 28,
           "responseSize": 969
         },
-        "id": "bb341266-a7be-4bce-954d-0334611f130b",
+        "id": "60ea77da-95ef-4739-8dc9-2f41da48cd70",
         "assertions": [
           {
             "assertion": "[SETUP] health 200",
@@ -2422,15 +2947,15 @@
       },
       {
         "cursor": {
-          "ref": "fe915604-31eb-4e56-a3c7-17de16a5abb0",
+          "ref": "788e85a7-75c4-40de-a71c-835afca225a8",
           "length": 5,
           "cycles": 1,
           "position": 1,
           "iteration": 0,
-          "httpRequestId": "30d02491-69a1-4f63-b2aa-0bc6f38c785b"
+          "httpRequestId": "0ef51c34-399e-49e4-8ed9-39e65033d0bf"
         },
         "item": {
-          "id": "ed3bb2f0-6b94-4f9e-ba48-09c1e6ac37cf",
+          "id": "6a1ed2ee-2729-482a-af78-ed9841ac06b6",
           "name": "[SETUP] Register disposable lock user",
           "request": {
             "url": {
@@ -2466,18 +2991,18 @@
             {
               "listen": "prerequest",
               "script": {
-                "id": "5202a3c5-ff00-4cd6-91bf-74f8ff10cec5",
+                "id": "069a941f-6ba8-402a-9500-8649280b65d1",
                 "type": "text/javascript",
                 "exec": [
                   "pm.environment.set('lockUser','hw06_lock_'+Date.now()+'@test.local');"
                 ],
-                "_lastExecutionId": "229345fb-c1a6-4e16-afc2-10f072992405"
+                "_lastExecutionId": "4ddc2a3e-d282-483f-bc18-3916e9aa4fb9"
               }
             },
             {
               "listen": "test",
               "script": {
-                "id": "0d179d60-dd40-441c-b163-b69884affeac",
+                "id": "c3e886c2-30b8-4f06-afb3-05fc62bbd4e4",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -2486,7 +3011,7 @@
                   "pm.test('[SETUP] register 200',()=>pm.response.to.have.status(200));",
                   "pm.environment.set('lockUserId',String(jsonBody().id||''));"
                 ],
-                "_lastExecutionId": "359c5b77-4470-4f19-a226-7e86d9f93895"
+                "_lastExecutionId": "f61a32b9-cd18-4d7f-b69c-0c0adc14b67a"
               }
             }
           ]
@@ -2534,7 +3059,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "3b7cb980-b62f-459e-bb02-4cd1f54bb77e",
+              "value": "102f815a-c8f5-4744-940a-bda9b124159a",
               "system": true
             },
             {
@@ -2561,7 +3086,7 @@
           "method": "POST",
           "body": {
             "mode": "raw",
-            "raw": "{\"name\": \"HW06 Lock User\", \"email\": \"hw06_lock_1787113019035@test.local\", \"password\": \"<redacted-lock-password>\"}",
+            "raw": "{\"name\": \"HW06 Lock User\", \"email\": \"hw06_lock_1787124983639@test.local\", \"password\": \"<redacted-lock-password>\"}",
             "options": {
               "raw": {
                 "language": "json"
@@ -2570,7 +3095,7 @@
           }
         },
         "response": {
-          "id": "2e87ca66-7056-403b-879d-960b3078d1eb",
+          "id": "ba91ac84-1b63-4721-9581-f29d2cb6b623",
           "status": "OK",
           "code": 200,
           "header": [
@@ -2596,7 +3121,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:16:59 GMT"
+              "value": "Wed, 19 Aug 2026 07:36:23 GMT"
             },
             {
               "key": "Connection",
@@ -2662,10 +3187,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 44,
+          "responseTime": 23,
           "responseSize": 49
         },
-        "id": "ed3bb2f0-6b94-4f9e-ba48-09c1e6ac37cf",
+        "id": "6a1ed2ee-2729-482a-af78-ed9841ac06b6",
         "assertions": [
           {
             "assertion": "[SETUP] register 200",
@@ -2675,15 +3200,15 @@
       },
       {
         "cursor": {
-          "ref": "3ed648b9-7cff-48e7-997c-df1e6aeabd29",
+          "ref": "17236ce4-f3d2-4a2c-86c7-b990254279eb",
           "length": 5,
           "cycles": 1,
           "position": 2,
           "iteration": 0,
-          "httpRequestId": "35cb7a8b-e992-497f-8257-339bc14ab59d"
+          "httpRequestId": "21abb4f6-bf3d-49ab-9d2b-8b296c1776b7"
         },
         "item": {
-          "id": "bc896f66-7060-48ce-89fb-c288d3b310a7",
+          "id": "b77590e1-b424-420d-919d-25c04ab3f406",
           "name": "[SETUP] Login user",
           "request": {
             "url": {
@@ -2719,7 +3244,7 @@
             {
               "listen": "test",
               "script": {
-                "id": "42be6822-8cb7-4051-8076-5253fd1f5271",
+                "id": "7123f525-703e-4803-a39c-92d5789e6977",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -2728,7 +3253,7 @@
                   "pm.test('[SETUP] user login 200',()=>pm.response.to.have.status(200));",
                   "const d=jsonBody();pm.expect(d.token).to.be.a('string').and.not.empty;pm.environment.set('userToken',d.token);pm.environment.set('userId',String(d.user&&d.user.id||''));"
                 ],
-                "_lastExecutionId": "1d51273f-95c5-4bcc-a345-b1eb5988aa0a"
+                "_lastExecutionId": "d1fade15-f628-4033-b893-308289a5dbab"
               }
             }
           ]
@@ -2776,7 +3301,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "84570067-41ec-4aeb-9ab5-14a45c525988",
+              "value": "d27490de-38f2-4fb7-ab1e-5cd524c36b97",
               "system": true
             },
             {
@@ -2812,7 +3337,7 @@
           }
         },
         "response": {
-          "id": "1b4d2386-ab8d-4b42-909b-7e95d18834eb",
+          "id": "b3806348-00ff-49d3-894c-7240f73e1bc0",
           "status": "OK",
           "code": 200,
           "header": [
@@ -2834,11 +3359,11 @@
             },
             {
               "key": "ETag",
-              "value": "W/\"16e-jSCNpHc2g8JhA+RzeCjdCt30JJc\""
+              "value": "W/\"16e-pbbW/F3U2qIZM7JFBbCktoNekWw\""
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:16:59 GMT"
+              "value": "Wed, 19 Aug 2026 07:36:23 GMT"
             },
             {
               "key": "Connection",
@@ -2973,57 +3498,57 @@
               99,
               120,
               77,
-              84,
-              77,
-              119,
-              77,
-              84,
-              108,
+              106,
+              81,
+              53,
+              79,
+              68,
+              78,
               57,
               46,
-              113,
-              90,
-              117,
-              109,
-              86,
-              100,
-              114,
-              86,
-              70,
-              45,
-              113,
-              89,
-              79,
-              116,
-              88,
-              101,
-              106,
-              107,
-              75,
-              112,
+              121,
+              71,
               76,
-              48,
-              55,
-              72,
-              88,
+              54,
               70,
-              80,
-              45,
-              111,
-              56,
-              103,
-              89,
+              49,
+              57,
+              116,
+              71,
               82,
-              70,
-              107,
-              65,
-              50,
               87,
-              97,
-              83,
+              87,
+              77,
+              110,
+              45,
               78,
-              105,
+              49,
+              77,
               73,
+              49,
+              115,
+              52,
+              113,
+              54,
+              67,
+              49,
+              111,
+              120,
+              57,
+              54,
+              54,
+              68,
+              51,
+              121,
+              107,
+              118,
+              66,
+              75,
+              55,
+              115,
+              82,
+              54,
+              103,
               34,
               44,
               34,
@@ -3221,10 +3746,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 17,
+          "responseTime": 6,
           "responseSize": 366
         },
-        "id": "bc896f66-7060-48ce-89fb-c288d3b310a7",
+        "id": "b77590e1-b424-420d-919d-25c04ab3f406",
         "assertions": [
           {
             "assertion": "[SETUP] user login 200",
@@ -3234,15 +3759,15 @@
       },
       {
         "cursor": {
-          "ref": "5ce422c8-9156-41ec-b1d5-6c222501a0dd",
+          "ref": "cb9a863e-bb42-4f71-aefa-bdd3cc249e3f",
           "length": 5,
           "cycles": 1,
           "position": 3,
           "iteration": 0,
-          "httpRequestId": "77bfbf10-7931-4c11-9d43-db7557675b8e"
+          "httpRequestId": "d15c2c5e-14c8-4619-b571-9a2c121dce0b"
         },
         "item": {
-          "id": "34f0e1a1-af63-47df-a804-f4f84985a100",
+          "id": "43ae5507-628b-4e1d-ad96-748faa507a07",
           "name": "[SETUP] Login admin",
           "request": {
             "url": {
@@ -3278,7 +3803,7 @@
             {
               "listen": "test",
               "script": {
-                "id": "983ae6f8-4935-460f-8422-b3e73dc9f414",
+                "id": "e1fed413-43c6-4ca7-9fd7-cd3da161aa36",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -3287,7 +3812,7 @@
                   "pm.test('[SETUP] admin login 200',()=>pm.response.to.have.status(200));",
                   "pm.environment.set('adminToken',jsonBody().token||'');"
                 ],
-                "_lastExecutionId": "0c567940-e553-4640-8536-2cd3d985523b"
+                "_lastExecutionId": "83dbc486-0393-4923-94b7-812f41f45a6e"
               }
             }
           ]
@@ -3335,7 +3860,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "d4e4a098-7b3d-4f82-b016-808ac4a59002",
+              "value": "e42dea7a-1971-4f18-a9c6-ab8e5c8c3a21",
               "system": true
             },
             {
@@ -3371,7 +3896,7 @@
           }
         },
         "response": {
-          "id": "8aab691a-1b78-45e2-a563-8cdd43b279d6",
+          "id": "a0c1aef6-6260-4dd5-9b5c-35e7eb3feb57",
           "status": "OK",
           "code": 200,
           "header": [
@@ -3393,11 +3918,11 @@
             },
             {
               "key": "ETag",
-              "value": "W/\"173-CBLi69VVzHkNw1/YcJQnvMZwII0\""
+              "value": "W/\"173-A9HJXNl/jfcbV66f2C3svc9wrKU\""
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:16:59 GMT"
+              "value": "Wed, 19 Aug 2026 07:36:23 GMT"
             },
             {
               "key": "Connection",
@@ -3533,58 +4058,58 @@
               51,
               77,
               84,
-              69,
+              73,
+              48,
+              79,
+              84,
+              103,
               122,
-              77,
-              68,
-              69,
-              53,
               102,
               81,
               46,
-              99,
-              99,
-              100,
-              72,
-              86,
-              95,
-              73,
+              89,
+              88,
               76,
-              67,
-              109,
-              80,
+              108,
+              51,
+              120,
               119,
+              66,
               111,
-              57,
-              50,
-              57,
-              95,
-              110,
-              70,
-              77,
-              54,
-              100,
-              53,
-              121,
-              107,
-              118,
-              71,
-              103,
-              115,
-              71,
-              52,
-              82,
-              49,
-              117,
+              86,
+              120,
+              75,
+              108,
               122,
-              87,
-              101,
-              52,
-              101,
+              56,
+              113,
+              73,
+              120,
+              82,
+              75,
+              106,
+              104,
+              100,
+              50,
+              66,
+              51,
+              54,
+              57,
+              118,
+              99,
+              50,
+              75,
+              45,
+              117,
+              70,
+              81,
+              112,
+              114,
               110,
-              67,
-              102,
-              48,
+              105,
+              72,
+              110,
+              81,
               34,
               44,
               34,
@@ -3785,10 +4310,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 7,
+          "responseTime": 4,
           "responseSize": 371
         },
-        "id": "34f0e1a1-af63-47df-a804-f4f84985a100",
+        "id": "43ae5507-628b-4e1d-ad96-748faa507a07",
         "assertions": [
           {
             "assertion": "[SETUP] admin login 200",
@@ -3798,15 +4323,15 @@
       },
       {
         "cursor": {
-          "ref": "68bada80-48ec-4aed-baac-c8964471fc04",
+          "ref": "8b91d248-6fd3-4843-8d44-8974c1397b4e",
           "length": 5,
           "cycles": 1,
           "position": 4,
           "iteration": 0,
-          "httpRequestId": "f346c90d-110f-458b-8cb7-fea20c6db7f0"
+          "httpRequestId": "ca5b3b68-777b-4088-9015-72e207c82a31"
         },
         "item": {
-          "id": "e3bad3c6-cb66-424e-937b-21e8100a24f4",
+          "id": "b4123042-9031-4b56-a03e-813106c37e87",
           "name": "[SETUP] Add product to cart",
           "request": {
             "url": {
@@ -3846,7 +4371,7 @@
             {
               "listen": "test",
               "script": {
-                "id": "a1ea3eb4-1a00-488e-95f1-25be519d3c96",
+                "id": "b88763e6-f360-4db1-ac5f-2a884374fd37",
                 "type": "text/javascript",
                 "exec": [
                   "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
@@ -3854,7 +4379,7 @@
                   "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
                   "pm.test('[SETUP] add cart 200',()=>pm.response.to.have.status(200));"
                 ],
-                "_lastExecutionId": "75186282-8d21-492f-b34a-e12fd0f2ede6"
+                "_lastExecutionId": "2a7ff6de-00c7-4370-ab04-f7eae6e76d09"
               }
             }
           ]
@@ -3906,7 +4431,7 @@
             },
             {
               "key": "Postman-Token",
-              "value": "55301d71-9a72-469a-9282-329d4a15f27d",
+              "value": "f758356a-b7d8-4731-a326-56453f39d76d",
               "system": true
             },
             {
@@ -3942,7 +4467,7 @@
           }
         },
         "response": {
-          "id": "57feea78-043e-48c4-9c61-cafeaa41bc39",
+          "id": "d74bea7e-7405-41be-a61f-50675a2d24a2",
           "status": "OK",
           "code": 200,
           "header": [
@@ -3968,7 +4493,7 @@
             },
             {
               "key": "Date",
-              "value": "Wed, 19 Aug 2026 04:16:59 GMT"
+              "value": "Wed, 19 Aug 2026 07:36:23 GMT"
             },
             {
               "key": "Connection",
@@ -4012,10 +4537,10 @@
             ]
           },
           "cookie": [],
-          "responseTime": 8,
+          "responseTime": 7,
           "responseSize": 27
         },
-        "id": "e3bad3c6-cb66-424e-937b-21e8100a24f4",
+        "id": "b4123042-9031-4b56-a03e-813106c37e87",
         "assertions": [
           {
             "assertion": "[SETUP] add cart 200",

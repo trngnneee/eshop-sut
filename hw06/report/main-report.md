@@ -22,14 +22,16 @@ Human review trong API-1, API-2 và file audit API-3 hiện đều có metadata 
 
 ## 3. Newman execution
 
+Báo cáo đối soát [`execution-coverage.md`](../newman/reports/execution-coverage.md) trích TC ID trực tiếp từ tên assertion trong mọi Newman JSON: **123/128 = 96.1%** case đã thực thi; 1 Manual và 4 Blocked đều có lý do trong bảng test case.
+
 | Run | Iterations | Requests | Assertions | Failed assertions | Ý nghĩa |
 | :--- | ---: | ---: | ---: | ---: | :--- |
-| `00-off-suite` | 1 | 19 | 18 | 0 | smoke/oracle quan sát hành vi SUT |
+| `00-off-suite` | 1 | 19 | 18 | 0 | baseline CI xanh |
 | `00-canary-suite` | 1 | 19 | 19 | 1 | strict canary: TC-API-LOGIN-018 |
-| `00-full-suite` | 1 | 19 | 26 | 8 | strict toàn bộ probe |
-| `01-ddt-login` | 16 | 16 | 16 | 0 | 16 domain partitions |
-| `02-ddt-checkout` | 18 | 18 | 18 | 0 | 18 partition rows |
-| `03-ddt-order-status` | 25 | 25 | 25 | 7 | 25 matrix rows; failures là mismatch oracle/bug |
+| `00-full-suite` | 1 | 19 | 26 | 8 | strict toàn bộ probe chính |
+| `01-ddt-login` | 39 | 89 | 39 | 23 | coverage DDT login |
+| `02-ddt-checkout` | 41 | 178 | 41 | 17 | coverage DDT checkout |
+| `03-ddt-order-status` | 43 | 127 | 43 | 7 | matrix + coverage DDT status |
 
 HTML/JSON evidence: [`newman/reports`](../newman/reports/). DDT runner tự chuẩn bị environment/auth/order trước khi chạy folder, tránh kết quả giả do 401 hoặc orderId rỗng.
 
@@ -41,7 +43,7 @@ OpenAPI audit: file [`openapi/eshop.openapi.yaml`](../openapi/eshop.openapi.yaml
 
 ## 5. Defects và giới hạn bằng chứng
 
-15 defect IDs trong defect catalog đã được lập trong [`bug-report.md`](bug-report.md), mỗi dòng có Found by Test Case, expected/actual và nguồn evidence. Newman hiện quan sát trực tiếp 8 assertion fail trong full suite và 7 mismatch của matrix DDT. Đã tạo đủ 15 GitHub Issues scrubbed (#413–#427) và lưu 15 ảnh trang issue tại `evidence/screenshots/github-issues/`; branch artifact chưa push vì lịch sử chứa environment/report credential-like bị hệ thống chặn public egress.
+15 defect IDs trong defect catalog đã được lập trong [`bug-report.md`](bug-report.md), mỗi dòng có Found by Test Case, expected/actual và nguồn evidence. Newman JSON ghi nhận 8 fail ở full probe cùng 23/17/7 fail ở ba DDT suite; request/test-script infrastructure đều không fail. Đã tạo đủ 15 GitHub Issues scrubbed (#413–#427) và lưu 15 ảnh trang issue tại `evidence/screenshots/github-issues/`; trạng thái CI external được ghi riêng trong `cicd-report.md`.
 
 `ai-critique.md` là bản nháp dữ liệu 200–300 từ để người học viết lại bằng nhận xét của chính mình; `diagram.mmd` là bản mô tả kỹ thuật, không thay thế `diagram.png` tự vẽ.
 

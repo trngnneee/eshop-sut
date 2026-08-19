@@ -1,3 +1,4 @@
+5f685a21 2026-08-19 11:55:52 +0700 khoadangwneee docs(hw06): refresh GitHub issue screenshots
 b0bf0eac 2026-08-19 11:48:43 +0700 khoadangwneee docs(hw06): link GitHub issues and capture defect screenshots
 54af835c 2026-08-19 11:18:43 +0700 khoadangwneee docs(hw06): cập nhật git commit log đầy đủ
 c8653bb0 2026-08-19 11:17:34 +0700 khoadangwneee fix(newman): tách preparation khỏi strict DDT assertions
