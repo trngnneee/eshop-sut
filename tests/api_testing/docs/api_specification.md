@@ -8,10 +8,13 @@
 > | API-3 | FR-15 | `POST /api/products` + `PUT /api/products/:id` | `eshop-sut/backend/server.js:168-197` |
 >
 > **Base URL:** `http://localhost:3000`
+
 > **Content-Type:** `application/json`
+
 > **Header bắt buộc cho bài nộp:** mọi request kèm `X-Student-Id: <MSSV>` (yêu cầu HW06, không phải yêu cầu của SUT).
 >
 > **Quan trọng — tài liệu này ghi HAI cột hành vi:**
+>
 > - **Spec (FR)** = hành vi *đúng theo* `README.md` của SUT (dùng làm **Expected** khi viết test case).
 > - **Thực tế (SUT)** = hành vi *quan sát được* khi chạy live (`node server.js`), dùng làm **Actual**.
 > - Chỗ hai cột **lệch nhau** = **BUG** đã được kiểm chứng bằng cURL (xem bảng cuối mỗi mục).
@@ -26,6 +29,7 @@
 | User | `test@eshop.com` | `Test1234!` |
 
 Lấy token:
+
 ```bash
 curl -s -X POST localhost:3000/api/login \
   -H "Content-Type: application/json" \
@@ -34,26 +38,31 @@ curl -s -X POST localhost:3000/api/login \
 ```
 
 Bảng `products` seed sẵn 5 sản phẩm (id 1–5). Schema (từ `database.js`):
-```
+
+```sql
 products( id INTEGER PK, name TEXT, price INTEGER,
           description TEXT, imageUrl TEXT, category_id INTEGER )
 ```
-> Lưu ý: **không** có ràng buộc `NOT NULL`, không `CHECK`, không FK trên `category_id` ⇒ DB chấp nhận rỗng/âm/không tồn tại.
+
+> Lưu ý: __không__ có ràng buộc `NOT NULL`, không `CHECK`, không FK trên `category_id` ⇒ DB chấp nhận rỗng/âm/không tồn tại.
 
 ---
 
 ## API-1 — `GET /api/products/:id` (FR-05 / FR-06 · Xem chi tiết sản phẩm)
 
 ### Mô tả
+
 Trả về chi tiết một sản phẩm theo `id`. **Không yêu cầu** xác thực.
 
 ### Request
+
 - **Method / Path:** `GET /api/products/:id`
 - **Path param:** `id` — định danh sản phẩm.
 - **Auth:** không.
 - **Body:** không.
 
 ### Response — hành vi THỰC TẾ của SUT
+
 | Trường hợp | HTTP thực tế | Body thực tế |
 |---|---|---|
 | `id` tồn tại, **id lẻ** | `200` | Object đầy đủ, `price` kiểu **number**: `{"id":1,"name":"iPhone 15 Pro Max","price":30000000,...}` |
@@ -64,6 +73,7 @@ Trả về chi tiết một sản phẩm theo `id`. **Không yêu cầu** xác t
 | `id` = `1.0` | `200` | Trả về sản phẩm id 1 (SQLite ép `1.0`→`1`) |
 
 Ví dụ response id lẻ (id=1):
+
 ```json
 {
   "id": 1,
@@ -76,6 +86,7 @@ Ví dụ response id lẻ (id=1):
 ```
 
 ### Bug đã kiểm chứng (Expected theo FR vs Actual)
+
 | Bug | Điều kiện | Expected (FR-06) | Actual (SUT) | Ghi chú |
 |-----|-----------|------------------|--------------|---------|
 | **BUG-01** | `GET /api/products/2` (id chẵn) | `price` là **number** (nhất quán với id lẻ và schema `INTEGER`) | `price` là **string** `"28000000"` | `server.js:163` `if (row.id % 2 === 0) row.price = row.price.toString()` — lỗi kiểu dữ liệu, phá vỡ contract. |
@@ -89,15 +100,18 @@ Ví dụ response id lẻ (id=1):
 ## API-2 — `PUT /api/orders/:id/cancel` (FR-10 · Hủy đơn hàng)
 
 ### Mô tả
+
 User tự hủy đơn hàng **của chính mình**. Theo FR-10, chỉ được hủy khi đơn ở trạng thái `pending` hoặc `confirmed`.
 
 ### Request
+
 - **Method / Path:** `PUT /api/orders/:id/cancel`
 - **Auth:** **bắt buộc** — `Authorization: Bearer <token>`.
 - **Body:** không.
 
 ### State machine (FR-10)
-```
+
+```ini
 pending    ──(User/Admin hủy)──► canceled     ✔ cho phép
 confirmed  ──(User/Admin hủy)──► canceled     ✔ cho phép
 shipping   ──(chỉ ADMIN)───────► canceled     ✘ USER KHÔNG được hủy
@@ -106,6 +120,7 @@ canceled   = trạng thái kết thúc               ✘ không được hủy
 ```
 
 ### Response — hành vi THỰC TẾ (đã kiểm chứng live)
+
 | Trạng thái đơn trước khi gọi | HTTP thực tế | Body thực tế |
 |---|---|---|
 | `pending` | `200` | `{"message":"Order canceled successfully"}` |
@@ -118,6 +133,7 @@ canceled   = trạng thái kết thúc               ✘ không được hủy
 | Token sai / hết hạn | `403` | `{"error":"Forbidden"}` |
 
 ### Bug đã kiểm chứng
+
 | Bug | Điều kiện | Expected (FR-10) | Actual (SUT) | Ghi chú |
 |-----|-----------|------------------|--------------|---------|
 | **BUG-05** (bug cắm sẵn) | Đơn ở `shipping`, user gọi cancel | `400` — user không được hủy khi đang giao | `200 "Order canceled successfully"` | `server.js:327-331`: guard chỉ chặn `delivered`/`canceled`; còn comment thừa nhận `// Lẽ ra phải là: if (status !== 'pending' && status !== 'confirmed')`. **Critical/P0.** |
@@ -131,39 +147,47 @@ canceled   = trạng thái kết thúc               ✘ không được hủy
 Gồm 2 endpoint trong scope: **tạo** và **sửa theo id**.
 
 ### Ràng buộc đầu vào theo FR-15 (dùng làm Expected)
+
 - `name`: **bắt buộc**, tối đa **255** ký tự.
 - `price`: **bắt buộc**, phải là số **dương (> 0)**.
-- `category_id`: **bắt buộc**, phải tồn tại trong bảng `categories`.
+- `category_id`: __bắt buộc__, phải tồn tại trong bảng `categories`.
 - Khi **sửa**: chỉ sản phẩm đó thay đổi; các sản phẩm khác giữ nguyên; **không** được null hóa field không gửi.
 
 ### A. `POST /api/products` — Tạo sản phẩm
+
 - **Auth:** ⚠️ **KHÔNG** yêu cầu (route không gắn `authenticateToken`).
+
 - **Body:**
-  ```json
-  { "name": "Tên SP", "price": 100000, "description": "Mô tả", "imageUrl": "http://...", "category_id": 1 }
-  ```
+
+```json
+{ "name": "Tên SP", "price": 100000, "description": "Mô tả", "imageUrl": "http://...", "category_id": 1 }
+```
+
 - **Response thực tế:** luôn `200` `{"message":"Product created","id":<lastID>}` — **không validate gì**.
 
 ### B. `PUT /api/products/:id` — Sửa sản phẩm
+
 - **Auth:** ⚠️ **KHÔNG** yêu cầu.
-- **Body:** kỳ vọng đủ 5 field (`name, price, description, imageUrl, category_id`).
+- __Body:__ kỳ vọng đủ 5 field (`name, price, description, imageUrl, category_id`).
 - **Response thực tế:** luôn `200` `{"message":"Product updated"}` — kể cả khi `id` không tồn tại (no-op im lặng).
 - **Cơ chế:** câu lệnh là `UPDATE products SET name=?, price=?, ... WHERE id=?` với **tất cả** field ⇒ field nào không gửi sẽ bị set **NULL** (destructive full-replace).
 
 ### Bug đã kiểm chứng
+
 | Bug | Request | Expected (FR-15) | Actual (SUT) | Ghi chú |
 |-----|---------|------------------|--------------|---------|
-| **BUG-08** | `POST` `{"name":"","price":-500,"category_id":9999}` | `400` — name bắt buộc, price>0, category phải tồn tại | `200` Product created | Không validate. `server.js:168-179`. **Critical/P0.** |
-| **BUG-09** | `POST` `{}` (body rỗng) | `400` | `200` created (record toàn `null`) | Major/P1. |
-| **BUG-10** | `POST` với `name` dài 300 ký tự | `400` — tối đa 255 | `200` created | Major/P1. |
-| **BUG-11** | `PUT /api/products/1 -d '{"name":"x"}'` rồi `GET /api/products/1` | Chỉ đổi `name`; các field khác giữ nguyên | `price/description/imageUrl/category_id` bị set **null** → **mất dữ liệu** | `server.js:186-193`. **Critical/P0.** |
-| **BUG-12** | `PUT /api/products/99999` (không tồn tại) | `404` | `200 "Product updated"` (no-op) | Major/P1. |
-| **SEC/AUTH** | `POST`/`PUT`/`DELETE` **không kèm token** | `401`/`403` (chỉ admin — FR-15) | `200` thành công | Thiếu auth & phân quyền hoàn toàn. |
+| __BUG-08__ | `POST` `{"name":"","price":-500,"category_id":9999}` | `400` — name bắt buộc, price>0, category phải tồn tại | `200` Product created | Không validate. `server.js:168-179`. __Critical/P0.__ |
+| __BUG-09__ | `POST` `{}` (body rỗng) | `400` | `200` created (record toàn `null`) | Major/P1. |
+| __BUG-10__ | `POST` với `name` dài 300 ký tự | `400` — tối đa 255 | `200` created | Major/P1. |
+| __BUG-11__ | `PUT /api/products/1 -d '{"name":"x"}'` rồi `GET /api/products/1` | Chỉ đổi `name`; các field khác giữ nguyên | `price/description/imageUrl/category_id` bị set __null__ → __mất dữ liệu__ | `server.js:186-193`. __Critical/P0.__ |
+| __BUG-12__ | `PUT /api/products/99999` (không tồn tại) | `404` | `200 "Product updated"` (no-op) | Major/P1. |
+| __SEC/AUTH__ | `POST`/`PUT`/`DELETE` __không kèm token__ | `401`/`403` (chỉ admin — FR-15) | `200` thành công | Thiếu auth & phân quyền hoàn toàn. |
 
 ### Ghi chú route âm bản
+
 - `POST /api/products/:id` **không tồn tại** ⇒ trả `404` HTML mặc định của Express (`Cannot POST /api/products/1`), **không phải** JSON. Có thể đưa 1 test case negative để chứng minh.
 
-> **Test hint:** kết hợp phân hoạch/biên trên `name` (rỗng, 255, 256, 300), `price` (âm, 0, dương, phi số), `category_id` (tồn tại, không tồn tại). Với BUG-11 dùng **side-effect isolation**: snapshot `GET /api/products` trước/sau `PUT` để chứng minh dữ liệu bị null hóa và/hoặc sản phẩm khác có bị ảnh hưởng không.
+> __Test hint:__ kết hợp phân hoạch/biên trên `name` (rỗng, 255, 256, 300), `price` (âm, 0, dương, phi số), `category_id` (tồn tại, không tồn tại). Với BUG-11 dùng __side-effect isolation__: snapshot `GET /api/products` trước/sau `PUT` để chứng minh dữ liệu bị null hóa và/hoặc sản phẩm khác có bị ảnh hưởng không.
 
 ---
 

@@ -1,0 +1,798 @@
+openapi: 3.0.3
+
+info:
+  title: EShop API — HW06 Scope (FR-05/06, FR-10, FR-15)
+  version: 1.0.0-hw06
+  description: |
+    Đặc tả OpenAPI cho **3 API trong scope** của HW06, chuyển đổi từ
+    `tests/api_testing/api_specification.md`.
+
+    ## Quy ước quan trọng
+
+    Tài liệu này mô tả **CONTRACT ĐÚNG theo đặc tả (FR trong `README.md` của SUT)** —
+    tức là phần dùng làm **Expected Result** khi viết test case.
+
+    Hành vi **thực tế (sai)** của SUT được ghi kèm bằng vendor extension
+    `x-sut-actual` ngay tại response/field tương ứng, kèm `x-bug-id`.
+    Nơi nào có `x-sut-actual` ⇒ test case tương ứng **được kỳ vọng FAIL** và
+    ánh xạ tới một bug report.
+
+    > Không được sửa `responses` trong file này cho khớp hành vi thực tế của SUT.
+    > Contract = spec, không phải implementation.
+
+    ## Phạm vi
+
+    | # | FR | Endpoint | operationId |
+    |---|----|----------|-------------|
+    | API-1 | FR-05 / FR-06 | `GET /api/products/{id}` | getProductById |
+    | API-2 | FR-10 | `PUT /api/orders/{id}/cancel` | cancelOrder |
+    | API-3 | FR-15 | `POST /api/products` | createProduct |
+    | API-3 | FR-15 | `PUT /api/products/{id}` | updateProduct |
+
+    Các endpoint gắn tag `Fixtures` **không nằm trong scope chấm điểm** nhưng bắt buộc
+    phải có để dựng tiền đề (lấy token, tạo đơn, đẩy trạng thái đơn).
+  contact:
+    name: HW06 — API Testing
+  x-sut-source: eshop-sut/backend/server.js
+  x-sut-note: |
+    `backend/database.js` DROP + reseed toàn bộ DB mỗi lần `node server.js`.
+    ⇒ Mỗi lần khởi động server là môi trường sạch: 3 categories (id 1..3),
+    5 products (id 1..5), bảng `orders` RỖNG.
+    ⇒ Test KHÔNG được hard-code product id sau khi đã có case tạo product.
+
+servers:
+  - url: http://localhost:3000
+    description: SUT chạy local (bắt buộc theo ràng buộc anti-cheat của đề)
+  - url: http://127.0.0.1:3000
+    description: Alias được đề bài chấp nhận
+
+tags:
+  - name: API-1 Products Read
+    description: FR-05 / FR-06 — Xem chi tiết sản phẩm
+  - name: API-2 Order Cancel
+    description: FR-10 — Hủy đơn hàng (state machine)
+  - name: API-3 Product Manage
+    description: FR-15 — Product CRUD (admin)
+  - name: Fixtures
+    description: Ngoài scope — chỉ dùng để dựng tiền đề cho test
+
+security: []
+
+paths:
+
+  # ==========================================================
+  # API-1 — FR-05 / FR-06
+  # ==========================================================
+  /api/products/{id}:
+    parameters:
+      - $ref: '#/components/parameters/StudentIdHeader'
+
+    get:
+      tags: [API-1 Products Read]
+      operationId: getProductById
+      summary: Xem chi tiết một sản phẩm
+      description: |
+        Trả về chi tiết sản phẩm theo `id`. **Không yêu cầu** xác thực.
+      x-hw06-api: API-1
+      x-hw06-fr: [FR-05, FR-06]
+      x-sut-code-ref: backend/server.js:159-166
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/ProductIdPath'
+      responses:
+        '200':
+          description: Tìm thấy sản phẩm.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              examples:
+                oddId:
+                  summary: id lẻ (id=1) — price là number, ĐÚNG contract
+                  value:
+                    id: 1
+                    name: iPhone 15 Pro Max
+                    price: 30000000
+                    description: Điện thoại cao cấp của Apple
+                    imageUrl: https://placehold.co/300x300/png?text=iPhone+15
+                    category_id: 1
+                evenId:
+                  summary: id chẵn (id=2) — theo contract price VẪN phải là number
+                  value:
+                    id: 2
+                    name: Samsung Galaxy S24 Ultra
+                    price: 28000000
+                    description: Màn hình hiển thị xuất sắc, camera siêu zoom
+                    imageUrl: https://placehold.co/300x300/png?text=Samsung+S24
+                    category_id: 1
+          x-sut-actual:
+            bugId: BUG-01
+            severity: Major/P1
+            observed: |
+              Với product có `id` CHẴN, SUT ép `price` sang kiểu string:
+              `{"id":2, ..., "price":"28000000", ...}`.
+              Nguồn: `server.js:162` — `if (row.id % 2 === 0) row.price = row.price.toString()`.
+            expected: '`price` luôn là number (cột DB khai báo `price INTEGER`).'
+            testHint: |
+              Assert KIỂU của price, không chỉ giá trị. Chạy data-driven trên
+              matrix id = 1,2,3,4,5 để lộ sự bất nhất giữa id lẻ và id chẵn.
+
+        '400':
+          description: |
+            `id` không hợp lệ (phi số, âm, 0). Contract yêu cầu từ chối input sai kiểu.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Invalid product id
+          x-sut-actual:
+            bugId: BUG-03
+            severity: Minor/P2
+            observed: '`GET /api/products/abc` → `200` với body `{}`. Không validate kiểu param.'
+            expected: '`400 Bad Request`.'
+
+        '404':
+          description: Không tồn tại sản phẩm với `id` đã cho.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Product not found
+          x-sut-actual:
+            bugId: BUG-02
+            severity: Major/P1
+            observed: |
+              `GET /api/products/99999` → `200` với body `{}` (object rỗng).
+              Nguồn: `server.js:161` — `if (!row) return res.status(200).json({})`.
+            expected: '`404 Not Found` + body `{error}`.'
+            testHint: 'Assert `pm.response.code === 404`, KHÔNG assert `{}`.'
+
+      x-test-partitions:
+        # LƯU Ý: cột `expect` là CONTRACT (kỳ vọng theo FR), KHÔNG phải hành vi thực tế của SUT.
+        # SUT-actual cho phần lớn input sai vẫn trả 200 — xem `x-sut-actual` ở từng response.
+        id:
+          valid:
+            - { value: 1, note: 'tồn tại, id lẻ — biên dưới của tập seed' }
+            - { value: 2, note: 'tồn tại, id chẵn — kích hoạt BUG-01' }
+            - { value: 5, note: 'tồn tại, biên trên của tập seed' }
+          invalid:
+            - { value: 99999, expect: 404, note: 'không tồn tại' }
+            - { value: 0,     expect: 400, note: 'biên: zero' }
+            - { value: -1,    expect: 400, note: 'biên: âm' }
+            - { value: 'abc', expect: 400, note: 'phi số' }
+            - { value: '1.5', expect: 400, note: 'số thực' }
+            - { value: '1.0', expect: 200, note: 'SQLite ép 1.0 → 1, trả về product 1' }
+            - { value: '9999999999999999999', expect: 400, note: 'tràn số' }
+            - { value: "1' OR '1'='1", expect: 400, note: 'SQLi — endpoint này DÙNG parameterized query nên phải an toàn' }
+            - { value: '<script>alert(1)</script>', expect: 400, note: 'XSS reflected' }
+            - { value: '',    expect: 200, note: 'rỗng → khớp route GET /api/products (list), không phải detail' }
+
+    put:
+      tags: [API-3 Product Manage]
+      operationId: updateProduct
+      summary: Sửa sản phẩm theo id (Admin)
+      description: |
+        Cập nhật một sản phẩm. Theo **FR-12 / SEC-02 / SEC-03**, endpoint này
+        **bắt buộc** JWT hợp lệ và `role = 'admin'`.
+
+        Theo **FR-15**: *"Khi Sửa một sản phẩm, chỉ sản phẩm đó bị thay đổi —
+        các sản phẩm khác giữ nguyên"*, và không được null hóa field không gửi.
+      x-hw06-api: API-3
+      x-hw06-fr: [FR-15, FR-12]
+      x-hw06-sec: [SEC-02, SEC-03]
+      x-sut-code-ref: backend/server.js:179-189
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ProductIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInput'
+      responses:
+        '200':
+          description: Cập nhật thành công.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+              example:
+                message: Product updated
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Không tồn tại sản phẩm với `id` đã cho.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Product not found
+          x-sut-actual:
+            bugId: BUG-12
+            severity: Major/P1
+            observed: '`PUT /api/products/99999` → `200 {"message":"Product updated"}` (no-op im lặng).'
+            expected: '`404` — `this.changes === 0` phải được kiểm tra.'
+      x-sut-actual-summary:
+        - bugId: BUG-07
+          severity: Critical/P0
+          observed: 'Route KHÔNG gắn `authenticateToken` ⇒ gọi không token vẫn `200`.'
+          expected: '`401` khi thiếu token, `403` khi role != admin.'
+        - bugId: BUG-11
+          severity: Critical/P0
+          observed: |
+            SQL là `UPDATE products SET name=?,price=?,description=?,imageUrl=?,category_id=? WHERE id=?`
+            với TẤT CẢ field ⇒ gửi body thiếu field sẽ set các field đó thành NULL.
+            Repro: `PUT /api/products/1 {"name":"x"}` → price/description/imageUrl/category_id = null.
+          expected: 'Chỉ đổi field được gửi, hoặc trả `400` nếu thiếu field bắt buộc. Không mất dữ liệu.'
+          testHint: |
+            Side-effect isolation: snapshot `GET /api/products` TRƯỚC và SAU khi PUT,
+            assert (a) product bị sửa chỉ đổi đúng field đã gửi, (b) các product khác không đổi.
+
+  # ==========================================================
+  # API-3A — FR-15
+  # ==========================================================
+  /api/products:
+    parameters:
+      - $ref: '#/components/parameters/StudentIdHeader'
+
+    post:
+      tags: [API-3 Product Manage]
+      operationId: createProduct
+      summary: Tạo sản phẩm mới (Admin)
+      description: |
+        Tạo sản phẩm. Theo **FR-12 / SEC-02 / SEC-03** bắt buộc JWT + `role = 'admin'`.
+
+        Ràng buộc đầu vào theo **FR-15**:
+        - `name` bắt buộc, tối đa 255 ký tự
+        - `price` bắt buộc, số dương (> 0)
+        - `category_id` bắt buộc, phải tồn tại trong bảng `categories`
+      x-hw06-api: API-3
+      x-hw06-fr: [FR-15, FR-12]
+      x-hw06-sec: [SEC-02, SEC-03, SEC-04]
+      x-sut-code-ref: backend/server.js:167-177
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInput'
+            examples:
+              valid:
+                summary: Hợp lệ
+                value:
+                  name: Tai nghe Sony WH-1000XM5
+                  price: 8500000
+                  description: Chống ồn hàng đầu
+                  imageUrl: https://placehold.co/300x300/png?text=Sony
+                  category_id: 3
+      responses:
+        '200':
+          description: |
+            Tạo thành công. Trả về `id` của bản ghi vừa tạo.
+
+            > Ghi chú: đặc tả gốc dùng `200` cho thao tác tạo (xem `POST /api/register`).
+            > REST convention là `201 Created`, nhưng **spec không yêu cầu** ⇒
+            > KHÔNG tính là bug, chỉ ghi làm observation trong report.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedResponse'
+              example:
+                message: Product created
+                id: 6
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      x-sut-actual-summary:
+        - bugId: BUG-07
+          severity: Critical/P0
+          observed: 'Không có `authenticateToken` ⇒ ẩn danh tạo được sản phẩm.'
+          expected: '`401` / `403`.'
+        - bugId: BUG-08
+          severity: Critical/P0
+          observed: '`{"name":"","price":-500,"category_id":9999}` → `200` created.'
+          expected: '`400` — name rỗng, price âm, category không tồn tại.'
+        - bugId: BUG-09
+          severity: Major/P1
+          observed: 'Body rỗng `{}` → `200` created, record toàn `null`.'
+          expected: '`400`.'
+        - bugId: BUG-10
+          severity: Major/P1
+          observed: '`name` dài 300 ký tự → `200` created.'
+          expected: '`400` — vượt giới hạn 255.'
+      x-negative-route-note: |
+        `POST /api/products/{id}` KHÔNG tồn tại trong SUT ⇒ Express trả 404 dạng
+        HTML (`Cannot POST /api/products/1`), không phải JSON. Đưa 1 test case
+        negative để chứng minh contract (Content-Type không phải application/json).
+
+  # ==========================================================
+  # API-2 — FR-10
+  # ==========================================================
+  /api/orders/{id}/cancel:
+    parameters:
+      - $ref: '#/components/parameters/StudentIdHeader'
+
+    put:
+      tags: [API-2 Order Cancel]
+      operationId: cancelOrder
+      summary: User tự hủy đơn hàng của chính mình
+      description: |
+        Hủy đơn hàng. **Bắt buộc** `Authorization: Bearer <token>`.
+        User chỉ hủy được đơn **của chính mình**.
+
+        ### State machine (FR-10)
+
+        ```
+        pending    ──(User/Admin hủy)──► canceled      ✔ cho phép
+        confirmed  ──(User/Admin hủy)──► canceled      ✔ cho phép
+        shipping   ──(CHỈ Admin)───────► canceled      ✘ USER KHÔNG được hủy
+        delivered  = final state                       ✘ không được hủy
+        canceled   = final state                       ✘ không được hủy
+        ```
+      x-hw06-api: API-2
+      x-hw06-fr: [FR-10]
+      x-hw06-sec: [SEC-02]
+      x-sut-code-ref: backend/server.js:321-342
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/OrderIdPath'
+      responses:
+        '200':
+          description: |
+            Hủy thành công. **Chỉ hợp lệ khi** trạng thái hiện tại là
+            `pending` hoặc `confirmed`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+              example:
+                message: Order canceled successfully
+        '400':
+          description: |
+            Chuyển trạng thái không hợp lệ — đơn đang ở `shipping` (user không
+            được hủy), hoặc đã ở final state (`delivered` / `canceled`).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Cannot cancel this order.
+          x-sut-actual:
+            bugId: BUG-05
+            severity: Critical/P0
+            appliesTo: 'from_state = shipping'
+            observed: |
+              Đơn ở `shipping`, user gọi cancel → `200 {"message":"Order canceled successfully"}`.
+              Nguồn: `server.js:328-331` — guard chỉ chặn `delivered`/`canceled`.
+              Trong code còn comment thừa nhận:
+              `// Lẽ ra phải là: if (order.status !== 'pending' && order.status !== 'confirmed')`
+            expected: '`400` — FR-10 quy định user không được hủy khi đơn đang giao.'
+            testHint: |
+              ĐẶT EXPECTED = 400 cho case này. Đừng để AI tự đặt 200 theo hành vi
+              quan sát được — đây chính là bug cần bắt.
+            note: 'Với `delivered` và `canceled`, SUT trả 400 ĐÚNG spec ⇒ 2 case đó PASS.'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: |
+            Đơn không tồn tại, **hoặc** đơn không thuộc về user đang gọi.
+            SUT truy vấn `WHERE id = ? AND user_id = ?` nên trả 404 thay vì 403
+            — đây là hành vi chống liệt kê (anti-enumeration) chấp nhận được;
+            ghi làm observation, không phải bug.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Order not found
+
+      x-test-state-matrix:
+        description: |
+          Mỗi hàng là 1 test case state-transition. Dựng tiền đề bằng chuỗi:
+          createOrder → adminSetOrderStatus (đẩy tới from_state) → cancelOrder.
+        rows:
+          - { from: pending,   expectedStatus: 200, sutStatus: 200, verdict: PASS, setup: 'createOrder' }
+          - { from: confirmed, expectedStatus: 200, sutStatus: 200, verdict: PASS, setup: 'createOrder → status=confirmed' }
+          - { from: shipping,  expectedStatus: 400, sutStatus: 200, verdict: 'FAIL → BUG-05', setup: 'createOrder → confirmed → shipping' }
+          - { from: delivered, expectedStatus: 400, sutStatus: 400, verdict: PASS, setup: 'createOrder → confirmed → shipping → delivered' }
+          - { from: canceled,  expectedStatus: 400, sutStatus: 400, verdict: PASS, setup: 'createOrder → cancelOrder' }
+
+      x-test-security-matrix:
+        # LƯU Ý: `token == null` (server.js:102) chỉ đúng khi token là undefined ⇒ 401.
+        # Header CÓ MẶT nhưng RỖNG (token = "") không thỏa `== null` ⇒ rơi vào jwt.verify("") ⇒ 403.
+        - { case: 'thiếu hẳn header Authorization',        expectedStatus: 401, sec: SEC-02 }
+        - { case: 'token thiếu prefix Bearer (raw token)', expectedStatus: 401, sec: SEC-02, note: 'split(" ")[1] = undefined ⇒ 401' }
+        - { case: 'Authorization có mặt nhưng giá trị rỗng', expectedStatus: 403, sec: SEC-02, note: 'token = "" ⇒ "" == null là false ⇒ jwt.verify("") ⇒ Forbidden' }
+        - { case: '"Bearer " + token rỗng thật',           expectedStatus: 403, sec: SEC-02, note: 'giống trên; nếu client trim mất khoảng trắng cuối thì thành 401' }
+        - { case: 'token rác',                             expectedStatus: 403, sec: SEC-02 }
+        - { case: 'token ký bằng secret khác',             expectedStatus: 403, sec: SEC-02 }
+        - { case: 'token có exp trong quá khứ',            expectedStatus: 403, sec: SEC-02, note: 'SUT không set exp khi sign ⇒ phải tự forge token để test' }
+        - { case: 'IDOR — token user A hủy đơn user B',    expectedStatus: 404, sec: SEC-02 }
+        - case: 'forged token {id,role:admin} ký bằng secret lộ ở server.js:9'
+          expectedStatus: 403
+          sec: SEC-03
+          note: 'Contract kỳ vọng bị từ chối (secret phải nằm ngoài source). Đây là case expected-FAIL.'
+          x-sut-actual:
+            bugId: BUG-SEC-FORGE
+            severity: Critical/P0
+            observed: |
+              Token forge có chữ ký hợp lệ (secret hardcode) ⇒ jwt.verify PASS ⇒ SUT trả `200`
+              và hủy đơn thành công. `cancelOrder` không kiểm tra `role`, chỉ so `id` với `user_id`.
+              Verified: forge `{id:2}` hủy được đơn của chính user id 2.
+            expected: '`401`/`403` — privilege escalation / IDOR qua secret lộ.'
+            testHint: |
+              Assert theo contract (mong đợi 401/403) và ĐÁNH DẤU case này expected-FAIL.
+              SUT trả `200` chính là bằng chứng bug — đừng đặt expectedStatus = 200.
+
+  # ==========================================================
+  # FIXTURES — ngoài scope, dùng dựng tiền đề
+  # ==========================================================
+  /api/login:
+    parameters:
+      - $ref: '#/components/parameters/StudentIdHeader'
+    post:
+      tags: [Fixtures]
+      operationId: login
+      summary: Đăng nhập lấy JWT (fixture)
+      x-hw06-scope: fixture
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:    { type: string, format: email, example: test@eshop.com }
+                password: { type: string, example: Test1234! }
+            examples:
+              user:  { value: { email: test@eshop.com,  password: Test1234! } }
+              admin: { value: { email: admin@eshop.com, password: Admin123! } }
+      responses:
+        '200':
+          description: Đăng nhập thành công.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [message, token, user]
+                properties:
+                  message: { type: string, example: Login successful }
+                  token:   { type: string, description: 'JWT payload = {id, role}, KHÔNG có exp' }
+                  user:    { type: object }
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Tài khoản bị khóa.
+
+  /api/checkout:
+    parameters:
+      - $ref: '#/components/parameters/StudentIdHeader'
+    post:
+      tags: [Fixtures]
+      operationId: createOrder
+      summary: Tạo đơn hàng ở trạng thái pending (fixture cho API-2)
+      x-hw06-scope: fixture
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [total_amount, shipping_address]
+              properties:
+                total_amount:     { type: integer, example: 200000 }
+                shipping_address: { type: string,  example: '123 Le Loi, TP.HCM' }
+      responses:
+        '200':
+          description: Đặt hàng thành công, đơn ở trạng thái `pending`.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [message, orderId]
+                properties:
+                  message: { type: string,  example: Checkout successful }
+                  orderId: { type: integer, example: 1 }
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/admin/orders/{id}/status:
+    parameters:
+      - $ref: '#/components/parameters/StudentIdHeader'
+    put:
+      tags: [Fixtures]
+      operationId: adminSetOrderStatus
+      summary: Admin đẩy trạng thái đơn (fixture dựng state cho API-2)
+      description: |
+        Dùng để đưa đơn tới `confirmed` / `shipping` / `delivered` trước khi
+        gọi `cancelOrder`. Cần token **admin**.
+      x-hw06-scope: fixture
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/OrderIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status:
+                  $ref: '#/components/schemas/OrderStatus'
+      responses:
+        '200':
+          description: Đổi trạng thái thành công.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+              example:
+                message: Order status updated
+        '400':
+          description: Chuyển trạng thái không hợp lệ.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Đơn không tồn tại.
+      x-sut-actual:
+        bugId: 'OUT-OF-SCOPE'
+        observed: '`server.js:550` cho phép `canceled → delivered`, vi phạm final-state của FR-10.'
+        expected: '`canceled` là final state, mọi chuyển đổi phải bị chặn.'
+        note: 'Ngoài scope 3 API — chỉ nêu 1 dòng trong report, không tính vào test suite chính.'
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        `Authorization: Bearer <token>`. Token do `POST /api/login` cấp,
+        payload `{id, role}`.
+
+        ⚠️ SEC-03: secret được hardcode tại `backend/server.js:9`
+        (`super_secret_key_that_should_not_be_here`) ⇒ có thể tự ký token
+        `role=admin`. Đây là lỗ hổng, không phải tính năng.
+
+  parameters:
+    StudentIdHeader:
+      name: X-Student-Id
+      in: header
+      required: true
+      description: |
+        MSSV. **Yêu cầu của HW06**, không phải yêu cầu của SUT — SUT bỏ qua header này.
+        Phải được inject bằng pre-request script ở cấp collection.
+      schema:
+        type: string
+        example: '25127001'
+
+    ProductIdPath:
+      name: id
+      in: path
+      required: true
+      description: Định danh sản phẩm.
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+      example: 1
+
+    OrderIdPath:
+      name: id
+      in: path
+      required: true
+      description: Định danh đơn hàng.
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+      example: 1
+
+  responses:
+    Unauthorized:
+      description: Thiếu token hoặc token rỗng (SEC-02).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: Unauthorized
+
+    Forbidden:
+      description: |
+        Token không hợp lệ / hết hạn, hoặc `role` không đủ quyền (SEC-03).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: Forbidden
+
+    ValidationError:
+      description: Dữ liệu đầu vào vi phạm ràng buộc FR-15.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            emptyName:
+              value: { error: 'name is required' }
+            negativePrice:
+              value: { error: 'price must be greater than 0' }
+            badCategory:
+              value: { error: 'category_id does not exist' }
+
+  schemas:
+
+    Product:
+      type: object
+      description: |
+        Bản ghi sản phẩm. Response của `getProductById` phải khớp **chính xác**
+        shape này — không thiếu field, không thừa field.
+      required: [id, name, price, description, imageUrl, category_id]
+      additionalProperties: false
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 1
+          example: 1
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: iPhone 15 Pro Max
+        price:
+          type: integer
+          minimum: 1
+          description: |
+            Đơn giá (VND). **PHẢI là number** — cột DB khai báo `price INTEGER`.
+            Xem BUG-01: SUT trả string với id chẵn.
+          example: 30000000
+          x-bug-id: BUG-01
+        description:
+          type: string
+          nullable: true
+          example: Điện thoại cao cấp của Apple
+        imageUrl:
+          type: string
+          nullable: true
+          example: https://placehold.co/300x300/png?text=iPhone+15
+        category_id:
+          type: integer
+          minimum: 1
+          description: 'Phải tồn tại trong bảng `categories` (seed: 1, 2, 3).'
+          example: 1
+
+    ProductInput:
+      type: object
+      description: |
+        Payload tạo/sửa sản phẩm. Ràng buộc lấy từ **FR-15**
+        (SUT hiện KHÔNG enforce bất kỳ ràng buộc nào — xem BUG-08/09/10).
+      required: [name, price, category_id]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: 'Bắt buộc, tối đa 255 ký tự.'
+          example: Tai nghe Sony WH-1000XM5
+        price:
+          type: integer
+          minimum: 1
+          description: 'Bắt buộc, số dương (> 0) — integer nên minimum 1 tương đương > 0.'
+          example: 8500000
+        description:
+          type: string
+          nullable: true
+          example: Chống ồn hàng đầu
+        imageUrl:
+          type: string
+          nullable: true
+          example: https://placehold.co/300x300/png?text=Sony
+        category_id:
+          type: integer
+          minimum: 1
+          description: 'Bắt buộc, phải tồn tại trong bảng `categories`.'
+          example: 3
+      x-test-partitions:
+        # LƯU Ý: cột `expect` là CONTRACT (kỳ vọng theo FR-15), KHÔNG phải hành vi thực tế.
+        # SUT hiện KHÔNG enforce ràng buộc nào — input sai vẫn trả 200 (BUG-08/09/10). Xem `x-sut-actual-summary`.
+        name:
+          valid:   ['a (1 ký tự — biên dưới)', 'chuỗi 255 ký tự (biên trên)', 'unicode tiếng Việt']
+          invalid:
+            - { value: '',    expect: 400, note: 'rỗng' }
+            - { value: null,  expect: 400, note: 'null' }
+            - { value: '<missing>', expect: 400, note: 'thiếu field' }
+            - { value: '   ', expect: 400, note: 'chỉ khoảng trắng' }
+            - { value: 'chuỗi 256 ký tự', expect: 400, note: 'biên trên + 1' }
+            - { value: 'chuỗi 300 ký tự', expect: 400, note: 'BUG-10' }
+            - { value: '<script>alert(1)</script>', expect: 400, note: 'XSS stored — SEC-04' }
+            - { value: "'; DROP TABLE products;--", expect: 400, note: 'SQLi — SEC-05' }
+        price:
+          valid:   [1, 100000, 30000000]
+          invalid:
+            - { value: 0,        expect: 400, note: 'biên: không dương' }
+            - { value: -1,       expect: 400, note: 'biên: âm' }
+            - { value: -500,     expect: 400, note: 'BUG-08' }
+            - { value: 1.5,      expect: 400, note: 'số thực' }
+            - { value: '100000', expect: 400, note: 'string thay vì number' }
+            - { value: null,     expect: 400, note: 'null' }
+            - { value: '<missing>', expect: 400, note: 'thiếu field' }
+            - { value: '1e5',    expect: 400, note: 'ký hiệu khoa học' }
+        category_id:
+          valid:   [1, 2, 3]
+          invalid:
+            - { value: 0,     expect: 400, note: 'biên' }
+            - { value: -1,    expect: 400, note: 'âm' }
+            - { value: 9999,  expect: 400, note: 'không tồn tại — DB không có FK constraint' }
+            - { value: 'abc', expect: 400, note: 'phi số' }
+            - { value: '<missing>', expect: 400, note: 'thiếu field' }
+        _massAssignment:
+          - { field: id,       expect: 'bị bỏ qua', note: 'client không được set id' }
+          - { field: role,     expect: 'bị bỏ qua', note: 'SEC-06 tương tự' }
+          - { field: is_admin, expect: 'bị bỏ qua', note: 'field lạ' }
+
+    OrderStatus:
+      type: string
+      description: 5 trạng thái đơn hàng theo FR-10.
+      enum: [pending, confirmed, shipping, delivered, canceled]
+      example: confirmed
+
+    MessageResponse:
+      type: object
+      required: [message]
+      additionalProperties: false
+      properties:
+        message:
+          type: string
+          example: Order canceled successfully
+
+    CreatedResponse:
+      type: object
+      required: [message, id]
+      additionalProperties: false
+      properties:
+        message:
+          type: string
+          example: Product created
+        id:
+          type: integer
+          format: int64
+          minimum: 1
+          example: 6
+
+    Error:
+      type: object
+      required: [error]
+      additionalProperties: false
+      properties:
+        error:
+          type: string
+          example: Order not found
