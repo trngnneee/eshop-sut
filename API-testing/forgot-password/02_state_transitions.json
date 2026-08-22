@@ -1,0 +1,134 @@
+[
+  {
+    "temp_id": "ST-01",
+    "category": "StateTransition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03, SEC-07",
+    "title": "Email đã đăng ký từ trạng thái chưa có OTP chuyển sang có OTP hợp lệ",
+    "preconditions": "Tồn tại user test@eshop.com và reset_token hiện tại là NULL hoặc chưa có OTP đang hoạt động",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com" }
+    },
+    "expected_status": 200,
+    "expected_result": "Hệ thống sinh OTP mới cho email test@eshop.com; OTP đó có thể được dùng ở bước reset-password cho cùng email",
+    "priority": "High",
+    "from_state": "No active OTP for registered email",
+    "to_state": "Active OTP issued for same email",
+    "action": "Request forgot-password OTP",
+    "expected_allowed": true,
+    "notes": "State ẩn nằm trong reset_token/reset OTP lifecycle"
+  },
+  {
+    "temp_id": "ST-02",
+    "category": "StateTransition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03, SEC-07",
+    "title": "Yêu cầu OTP lần hai cho cùng email thay thế OTP cũ",
+    "preconditions": "Tồn tại user test@eshop.com đã có OTP A từ lần gọi forgot-password trước",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com" }
+    },
+    "expected_status": 200,
+    "expected_result": "Hệ thống sinh OTP B mới; OTP A không còn dùng được cho reset-password, chỉ OTP B hợp lệ",
+    "priority": "High",
+    "from_state": "Active OTP A for registered email",
+    "to_state": "Active OTP B replaces OTP A",
+    "action": "Request forgot-password OTP again",
+    "expected_allowed": true,
+    "notes": "Giúp phát hiện bug cho phép nhiều OTP cũ cùng tồn tại"
+  },
+  {
+    "temp_id": "ST-03",
+    "category": "StateTransition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Email chưa đăng ký không được chuyển sang trạng thái có OTP",
+    "preconditions": "Không tồn tại user nobody@example.com trong hệ thống",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "nobody@example.com" }
+    },
+    "expected_status": "200 thông báo chung hoặc 404 theo api_spec hiện tại",
+    "expected_result": "Không có OTP nào được tạo hoặc lưu cho email chưa đăng ký; hệ thống không tạo tài khoản ngầm",
+    "priority": "High",
+    "from_state": "Unregistered email",
+    "to_state": "No OTP issued",
+    "action": "Request forgot-password OTP for unknown email",
+    "expected_allowed": false,
+    "notes": "Nếu trả 404 User not found thì có rủi ro user enumeration"
+  },
+  {
+    "temp_id": "ST-04",
+    "category": "StateTransition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03, SEC-07",
+    "title": "Request OTP không được làm mất quyền đăng nhập hiện tại của user",
+    "preconditions": "Tồn tại user test@eshop.com có mật khẩu cũ hợp lệ Test1234!",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com" }
+    },
+    "expected_status": 200,
+    "expected_result": "Chỉ trạng thái OTP thay đổi; mật khẩu hiện tại vẫn dùng đăng nhập được cho tới khi reset-password thành công",
+    "priority": "Medium",
+    "from_state": "Registered user with current password",
+    "to_state": "Registered user with current password and active OTP",
+    "action": "Request forgot-password OTP",
+    "expected_allowed": true,
+    "notes": "Kiểm tra side-effect ngoài ý muốn của bước 1"
+  },
+  {
+    "temp_id": "ST-05",
+    "category": "StateTransition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03, SEC-07",
+    "title": "Request OTP sau khi đã reset thành công tạo một OTP mới độc lập",
+    "preconditions": "User test@eshop.com đã reset mật khẩu thành công trước đó, reset_token đã bị vô hiệu hóa",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com" }
+    },
+    "expected_status": 200,
+    "expected_result": "Hệ thống cho phép bắt đầu chu kỳ quên mật khẩu mới và sinh OTP mới; OTP đã dùng trước đó không hợp lệ",
+    "priority": "Medium",
+    "from_state": "OTP consumed after successful reset",
+    "to_state": "New active OTP issued",
+    "action": "Request forgot-password OTP after prior reset",
+    "expected_allowed": true,
+    "notes": "Cần phối hợp với POST /api/reset-password để dựng precondition"
+  },
+  {
+    "temp_id": "ST-06",
+    "category": "StateTransition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03, SEC-07",
+    "title": "Request OTP quá nhiều lần trong thời gian ngắn bị giới hạn",
+    "preconditions": "Tồn tại user test@eshop.com; chưa vượt giới hạn request OTP trước khi bắt đầu test",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com" }
+    },
+    "expected_status": 429,
+    "expected_result": "Sau N lần yêu cầu OTP liên tiếp trong cửa sổ thời gian ngắn, hệ thống chuyển sang trạng thái rate-limited và từ chối tạo thêm OTP tạm thời",
+    "priority": "High",
+    "from_state": "Normal OTP request allowance",
+    "to_state": "OTP request rate-limited",
+    "action": "Repeat forgot-password OTP request rapidly",
+    "expected_allowed": false,
+    "notes": "README không nêu ngưỡng N cụ thể; case này bắt nguồn từ SEC-07/brute-force risk"
+  }
+]

@@ -1,0 +1,282 @@
+[
+  {
+    "temp_id": "DP-01",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Email đã đăng ký với định dạng hợp lệ nhận được OTP",
+    "preconditions": "Tồn tại user test@eshop.com đã đăng ký trong hệ thống",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com" }
+    },
+    "expected_status": 200,
+    "expected_result": "API tạo OTP cho đúng email và trả message thành công cùng resetToken dùng ở bước đặt lại mật khẩu",
+    "priority": "High",
+    "parameter": "email",
+    "partition_type": "valid-typical",
+    "notes": "Theo api_specification.md, response demo trả resetToken trực tiếp"
+  },
+  {
+    "temp_id": "DP-02",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Email hợp lệ có chữ hoa/thường vẫn được nhận diện đúng user",
+    "preconditions": "Tồn tại user test@eshop.com đã đăng ký trong hệ thống",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "TEST@ESHOP.COM" }
+    },
+    "expected_status": 200,
+    "expected_result": "API xử lý email không phân biệt hoa thường hoặc chuẩn hóa email trước khi tìm user; nếu hệ thống quy định phân biệt hoa thường thì phải được ghi rõ",
+    "priority": "Medium",
+    "parameter": "email",
+    "partition_type": "valid-boundary",
+    "notes": "Email thường được xử lý case-insensitive trong luồng đăng nhập/quên mật khẩu"
+  },
+  {
+    "temp_id": "DP-03",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Email hợp lệ nhưng chưa đăng ký",
+    "preconditions": "Không tồn tại user nobody@example.com trong hệ thống",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "nobody@example.com" }
+    },
+    "expected_status": "200 hoặc 404 theo chính sách bảo mật được thống nhất",
+    "expected_result": "Nếu ưu tiên chống user enumeration, API nên trả thông báo chung không xác nhận email tồn tại; nếu theo api_spec hiện tại có thể trả lỗi nhưng cần đánh giá là rủi ro",
+    "priority": "High",
+    "parameter": "email",
+    "partition_type": "valid-typical",
+    "notes": "Implementation hiện tại trả 404 User not found; đây là case quan trọng để audit bảo mật"
+  },
+  {
+    "temp_id": "DP-04",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Thiếu field email trong body",
+    "preconditions": "Không có",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": {}
+    },
+    "expected_status": 400,
+    "expected_result": "API từ chối request thiếu email bằng lỗi validation rõ ràng, không tạo OTP và không trả lỗi 500",
+    "priority": "High",
+    "parameter": "email",
+    "partition_type": "missing-required",
+    "notes": ""
+  },
+  {
+    "temp_id": "DP-05",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Email là chuỗi rỗng",
+    "preconditions": "Không có",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "" }
+    },
+    "expected_status": 400,
+    "expected_result": "API từ chối email rỗng bằng lỗi validation, không truy vấn như email hợp lệ",
+    "priority": "High",
+    "parameter": "email",
+    "partition_type": "empty-null-whitespace",
+    "notes": ""
+  },
+  {
+    "temp_id": "DP-06",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Email chỉ chứa khoảng trắng",
+    "preconditions": "Không có",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "   " }
+    },
+    "expected_status": 400,
+    "expected_result": "API trim và từ chối email chỉ có whitespace, không tạo OTP",
+    "priority": "High",
+    "parameter": "email",
+    "partition_type": "empty-null-whitespace",
+    "notes": ""
+  },
+  {
+    "temp_id": "DP-07",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Email null",
+    "preconditions": "Không có",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": null }
+    },
+    "expected_status": 400,
+    "expected_result": "API từ chối email null bằng lỗi validation, không ném exception",
+    "priority": "High",
+    "parameter": "email",
+    "partition_type": "empty-null-whitespace",
+    "notes": ""
+  },
+  {
+    "temp_id": "DP-08",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Email sai định dạng thiếu domain",
+    "preconditions": "Không có",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@" }
+    },
+    "expected_status": 400,
+    "expected_result": "API từ chối email sai format, không tạo OTP",
+    "priority": "High",
+    "parameter": "email",
+    "partition_type": "invalid-format",
+    "notes": ""
+  },
+  {
+    "temp_id": "DP-09",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Email sai định dạng không có ký tự @",
+    "preconditions": "Không có",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test.eshop.com" }
+    },
+    "expected_status": 400,
+    "expected_result": "API từ chối email sai format, không tạo OTP",
+    "priority": "High",
+    "parameter": "email",
+    "partition_type": "invalid-format",
+    "notes": ""
+  },
+  {
+    "temp_id": "DP-10",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Email có khoảng trắng đầu/cuối",
+    "preconditions": "Tồn tại user test@eshop.com đã đăng ký trong hệ thống",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "  test@eshop.com  " }
+    },
+    "expected_status": 200,
+    "expected_result": "API trim email trước khi xử lý và tạo OTP cho user tương ứng",
+    "priority": "Medium",
+    "parameter": "email",
+    "partition_type": "valid-boundary",
+    "notes": "Nếu backend không trim thì có thể trả sai lỗi user không tồn tại"
+  },
+  {
+    "temp_id": "DP-11",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Email có kiểu number",
+    "preconditions": "Không có",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": 12345 }
+    },
+    "expected_status": 400,
+    "expected_result": "API từ chối sai kiểu dữ liệu cho email, không crash và không tạo OTP",
+    "priority": "High",
+    "parameter": "email",
+    "partition_type": "wrong-type",
+    "notes": ""
+  },
+  {
+    "temp_id": "DP-12",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Email có kiểu object",
+    "preconditions": "Không có",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": { "value": "test@eshop.com" } }
+    },
+    "expected_status": 400,
+    "expected_result": "API từ chối email sai kiểu object, không tạo OTP và không trả lỗi nội bộ",
+    "priority": "High",
+    "parameter": "email",
+    "partition_type": "wrong-type",
+    "notes": ""
+  },
+  {
+    "temp_id": "DP-13",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Body có field thừa role",
+    "preconditions": "Tồn tại user test@eshop.com đã đăng ký trong hệ thống",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com", "role": "admin" }
+    },
+    "expected_status": 200,
+    "expected_result": "API bỏ qua field thừa role, chỉ dùng email để tạo OTP và không thay đổi dữ liệu user",
+    "priority": "Medium",
+    "parameter": "role",
+    "partition_type": "unexpected-extra",
+    "notes": "Field role không thuộc spec của endpoint này"
+  },
+  {
+    "temp_id": "DP-14",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Content-Type không phải JSON",
+    "preconditions": "Không có",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "text/plain" },
+      "body": "email=test@eshop.com"
+    },
+    "expected_status": 400,
+    "expected_result": "API từ chối hoặc báo body không hợp lệ, không tạo OTP ngoài ý muốn",
+    "priority": "Medium",
+    "parameter": "Content-Type",
+    "partition_type": "invalid-format",
+    "notes": "Body schema yêu cầu JSON object"
+  }
+]

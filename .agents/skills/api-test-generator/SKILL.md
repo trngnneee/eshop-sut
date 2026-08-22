@@ -1,187 +1,171 @@
 ---
 name: api-test-generator
-description: Drive an AI-first, multi-step pipeline that turns an API specification (e.g. EShop's api_specification.md) into a reviewed, exported set of API test cases covering domain partitions, state transitions, security (SEC-01–SEC-07), and schema validation. Use this skill whenever the user is doing API testing homework/coursework that requires generating test cases from a spec "step by step, not with a single generic prompt", auditing AI-generated test cases as VALID/INVALID/INCOMPLETE, extending them with human-found gaps, or exporting to a Postman collection / Excel test-case sheet. Trigger this for requests like "generate test cases for this API", "build an API test generator", "audit these AI test cases", or "export test cases to Postman/Excel", even if the user doesn't say "skill" explicitly.
+description: AI-driven API test case generator cho SUT EShop trong HW06 – API Testing (level G9.5 – Create). Dùng skill này khi người dùng muốn "generate test case", "sinh test case từ API spec", "tạo bộ test cho API", nhắc tới api_specification.md, EShop, domain partition, state transition, security testing SEC-01–SEC-07, hoặc schema validation cho HW06. Skill điều khiển việc sinh test case qua 4 giai đoạn tách biệt (domain partitions → state transitions → security → schema validation) thay vì 1 prompt chung chung, rồi gộp lại thành bộ test case có ID, có thể mở bằng Excel, sẵn sàng cho bước audit/extend/export mà người dùng tự làm sau đó. Luôn dùng skill này thay vì tự generate test case một lần cho toàn bộ API.
 ---
 
-# API Test Generator (AI-driven, human-audited)
+# API Test Generator (HW06 – G9.5)
 
-This skill turns an API specification into a reviewed set of test cases through
-four **separate, targeted stages** instead of one generic prompt. Each stage
-has its own checklist so coverage is deliberate, not accidental. The skill
-also produces the audit trail, extension, and export artifacts required by
-API-testing coursework that grades the *process*, not just the output.
+## Skill này dùng để làm gì
 
-## When to use this
+Đây là phần triển khai (implementation / pseudocode sống) của **"AI-driven API test generator"** mà đề bài HW06 yêu cầu ở mục 7 (Agent Skill, level G9.5 – Create):
 
-- The user gives you (or points you to) an API specification and asks for
-  test cases, a "test generator", or help auditing/extending AI-made test
-  cases.
-- The user asks to export test cases to Postman (`.json` collection) or
-  Excel (`.xlsx`).
-- The user asks you to log an AI Audit Report entry for a generation session.
+> Given the API specification, it produces test cases automatically.
 
-## Pipeline overview
+Skill **chỉ phụ trách bước sinh test case tự động**. Các bước sau — audit (VALID/INVALID/INCOMPLETE), extend (≥5 test case AI bỏ sót), execute (Postman/Newman), report bug, export Excel/CI-CD — **do người dùng tự làm**, skill không tự động thực hiện các bước đó trừ khi được yêu cầu rõ ràng.
+
+Yêu cầu về diagram tự vẽ tay (self-drawn) là trách nhiệm của người dùng, **không phải việc của skill này** — skill chỉ là phần code/pseudocode hiện thực hoá thiết kế đó.
+
+## Nguyên tắc cốt lõi: 4 giai đoạn tách biệt, KHÔNG generate hết trong 1 lần
+
+Đề bài cấm kiểu prompt chung chung "generate all the API test cases from the spec and run them". Vì vậy pipeline bên dưới bắt buộc chạy **tuần tự qua 4 giai đoạn độc lập**, mỗi giai đoạn có mục tiêu riêng, input riêng, và ghi ra 1 file riêng trước khi sang giai đoạn kế tiếp:
+
+1. **Stage 1 — Domain Partitions** (phân vùng miền giá trị từng tham số)
+2. **Stage 2 — State Transitions** (chuyển trạng thái, đặc biệt FR-10)
+3. **Stage 3 — Security** (SEC-01 → SEC-07 + các lỗ hổng API phổ biến)
+4. **Stage 4 — Schema Validation** (đối chiếu response với spec)
+
+Sau đó là **Stage 5 — Consolidate**: gộp 4 file lại, đánh số ID thống nhất, kiểm tra đủ ngưỡng ≥ 35 test case/API.
+
+**Không được gộp 4 giai đoạn vào 1 lượt suy nghĩ/1 lần viết duy nhất.** Với mỗi API đang xử lý, hãy hoàn thành xong Stage 1 (viết file `01_domain_partitions.json` ra đĩa) rồi mới đọc lại spec và bắt đầu Stage 2, v.v. Điều này vừa đúng tinh thần "guide the AI through every step", vừa tạo ra dấu vết log tự nhiên (mỗi file = 1 lần "hỏi AI 1 việc cụ thể").
+
+## AI Audit Log — BẮT BUỘC, ghi ngay sau mỗi stage sinh test case
+
+Đề bài (mục 9 — AI Audit Report, mandatory appendix) yêu cầu ghi log **từng lượt tương tác AI dùng để tạo ra kết quả**, đủ 4 field:
+
+> Name of the AI tool / Date and time / Your prompt / The AI output
+
+**Phạm vi log: chỉ Stage 1 → 4** (4 lượt AI thật sự sinh nội dung test case). Các thao tác thuần kỹ thuật/hệ thống — Stage 0 (tạo thư mục, copy spec), Stage 5 (chạy `consolidate.py` để gộp file) — **không phải là 1 lượt "hỏi AI"**, nên **không** đưa vào `ai_audit_log.md`. Đừng log kiểu "AI tool: N/A" cho các bước này, sẽ làm file audit bị loãng và có entry giả không đúng tinh thần mục 9. Những bước đó chỉ cần phản ánh ở `README.md` (tóm tắt tiến độ) là đủ.
+
+Quy tắc bắt buộc cho 4 entry Stage 1–4:
+
+1. Log ghi vào `./API-testing/<api-slug>/ai_audit_log.md`, khởi tạo ở Stage 0 với dòng mở đầu đúng format đề bài yêu cầu: `"I use AI tools for the following tasks:"` (chỉ tạo file + viết dòng mở đầu, chưa có entry nào — entry đầu tiên xuất hiện khi Stage 1 xong).
+2. **Ngay sau khi ghi xong file JSON của 1 stage** (không gộp lại chờ đến cuối), append 1 entry mới vào `ai_audit_log.md` theo đúng template ở `assets/ai_audit_log_entry_template.md`, gồm đủ 4 field:
+   - **AI tool**: tên + phiên bản model đang chạy skill này (lấy từ system prompt/ngữ cảnh hiện tại nếu biết, ví dụ "Claude Sonnet 5"; nếu không xác định được version chính xác, ghi "Claude (phiên bản không xác định được từ ngữ cảnh)"). Không tự ý ghi tên tool khác nếu không đúng thực tế đang chạy.
+   - **Date and time**: lấy thời gian **thật** bằng lệnh `date "+%Y-%m-%d %H:%M:%S %Z"` qua bash tool ngay tại thời điểm chạy stage đó — **không được bịa/ước lượng giờ**.
+   - **Your prompt**: chép lại **nguyên văn, đầy đủ** chỉ dẫn cụ thể đã dùng để sinh stage đó — tức là bản tóm tắt cụ thể hoá từ mục "Stage N" tương ứng trong SKILL.md này, áp dụng cho đúng endpoint/tham số/SEC-id đang xử lý (không chỉ ghi "xem SKILL.md" — phải viết ra prompt thực sự đã dùng, đủ để người khác đọc lại và tái tạo được kết quả).
+   - **The AI output**: nội dung JSON đã sinh ra ở stage đó (dán nguyên khối JSON trong code block, hoặc nếu quá dài thì dán đầy đủ danh sách `temp_id` + `title` của từng test case kèm ghi chú "full JSON tại `0N_....json`" — nhưng ưu tiên dán đầy đủ nếu dung lượng còn hợp lý).
+3. Không log dồn 4 stage vào 1 entry chung chung — đúng tinh thần "step by step" nghĩa là audit log cũng phải tách theo từng bước, không phải 1 prompt tổng.
+4. Đúng 4 entry cho mỗi API (1 entry/stage sinh test case). Không thêm, không bớt.
+
+File `ai_audit_log.md` này **thay thế** file `generation_log.md` ở bản thiết kế trước — không cần tạo thêm file log riêng nữa.
+
+## Cấu trúc thư mục output
+
+Tất cả output nằm trong `./API-testing` ở thư mục làm việc hiện tại của người dùng (KHÔNG nằm trong thư mục skill):
 
 ```
-spec file ─▶ [1 Parse] ─▶ endpoint model (JSON)
-                              │
-                              ▼
-        ┌─────────────────────────────────────────────┐
-        │   Stage A: Domain Partition & Boundary       │
-        │   Stage B: State Transition                  │
-        │   Stage C: Security (SEC-01..SEC-07)         │
-        │   Stage D: Schema Validation                  │
-        └─────────────────────────────────────────────┘
-                              │  (each stage run as its own prompt/pass)
-                              ▼
-                     draft test cases (JSON)
-                              │
-                              ▼
-                [2 Audit] Claude + human label each case
-                 VALID / INVALID / INCOMPLETE + reasoning
-                              │
-                              ▼
-              [3 Extend] ≥5 human-found gap cases added
-                              │
-                              ▼
-        [4 Export] scripts/export_excel.py, export_postman.py
+API-testing/
+├── README.md                          # index tổng: các API đã xử lý + tổng số test case
+├── specs/
+│   └── api_specification.md           # copy của spec đã dùng để sinh test (để đối chiếu sau này)
+└── <api-slug>/                        # 1 thư mục cho mỗi API được chọn, vd: login, cart, product-admin
+    ├── 01_domain_partitions.json
+    ├── 02_state_transitions.json
+    ├── 03_security.json
+    ├── 04_schema_validation.json
+    ├── test_cases_master.csv          # bản gộp cuối cùng, mở được bằng Excel
+    └── ai_audit_log.md                # AI Audit Log bắt buộc: 1 entry/stage, đủ 4 field theo mục 9 đề bài
 ```
 
-Run the stages **one at a time in the conversation** (this is what "guide
-the AI step by step" means in the assignment) — don't collapse Stage A–D
-into one mega-prompt. Show the user the output of each stage before moving
-to the next so they can redirect early if a stage goes off track.
+`<api-slug>` đặt theo endpoint/feature chính, chữ thường, nối gạch ngang, ví dụ: `login`, `shopping-cart`, `product-admin`, `order-admin`.
 
-## Step 1 — Parse the spec
+## Quy trình chi tiết
 
-Run the parser to turn the markdown/OpenAPI spec into a structured endpoint
-model. This is deterministic (not AI-guessed) so downstream stages have a
-reliable contract to work from.
+### Bước 0 — Chuẩn bị
 
-```bash
-python3 scripts/parse_spec.py <path-to-api_specification.md> --endpoint "METHOD /path" --out endpoint_model.json
-```
+1. Tìm `api_specification.md` của EShop (người dùng cung cấp, hoặc nếu repo `https://github.com/ttbhanh/eshop-sut` đã được clone/tải, đọc từ đó).
+2. Nếu chưa rõ **API nào** đang cần sinh test case, hỏi người dùng 1 câu duy nhất (dùng `ask_user_input_v0` nếu đang ở giao diện có hỗ trợ) để xác nhận API/endpoint + method, ví dụ: "Login (POST /api/auth/login)", "Shopping Cart (POST/GET/DELETE /api/cart)", "Product Admin CRUD (POST/PUT/DELETE /api/admin/products)". Đừng đoán bừa nếu spec có nhiều endpoint khớp mô tả.
+3. Tạo `./API-testing/specs/api_specification.md` (copy toàn bộ hoặc phần liên quan) và `./API-testing/<api-slug>/`.
+4. Đọc kỹ trong spec: các tham số, header bắt buộc, response schema, mã lỗi, và nếu API liên quan checkout/order thì đọc rõ state machine FR-10 (xem `references/state_machine.md` trong skill này để đối chiếu nhanh).
+5. Khởi tạo `./API-testing/<api-slug>/ai_audit_log.md` với dòng đầu `"I use AI tools for the following tasks:"` (đúng câu đề bài yêu cầu ở mục 9) và 1 dòng mô tả API đang xử lý (endpoint, method, related FR). Lấy timestamp khởi tạo bằng `date "+%Y-%m-%d %H:%M:%S %Z"` qua bash tool.
 
-- If `--endpoint` is omitted, it lists all endpoints found so the user can
-  pick one.
-- The parser looks for common markdown spec conventions (`### METHOD /path`
-  headings, parameter tables, JSON response fences, an auth/role line, and
-  a `SEC-0x` or state-machine mention). If the actual spec uses a different
-  layout, open the file yourself, read the relevant section, and hand-build
-  `endpoint_model.json` in the schema described in `references/test_case_schema.md`
-  rather than fighting the regex parser — the parser is a convenience, not
-  a hard requirement.
-- Read `references/test_case_schema.md` for the exact fields expected.
+### Stage 1 — Domain Partitions
 
-## Step 2 — Generate, one stage at a time
+Mục tiêu: với **từng tham số** của endpoint (path param, query param, body field, header), liệt kê các phân vùng: valid điển hình, valid biên (boundary), invalid định dạng, invalid biên, thiếu field bắt buộc, field thừa/không mong đợi, kiểu dữ liệu sai (string thay vì number, v.v.), giá trị rỗng/null/whitespace.
 
-For **each** stage below, read the matching reference file, then generate
-test cases yourself (you are the "AI" in "AI-driven generator" — do the
-reasoning, don't just template-fill). Append every case to a running
-`test_cases.json` array using the schema in `references/test_case_schema.md`,
-tagging each with `"stage"` and a short `"source_prompt_summary"` (for the
-AI Audit Report later).
+Quy tắc:
+- Duyệt **từng tham số một cách có hệ thống**, không bỏ sót tham số nào trong spec.
+- Với field có ràng buộc rõ (email format, độ dài mật khẩu, `price > 0`, enum trạng thái...), sinh cả 2 phía: đúng ngay biên và sai ngay biên (ví dụ `price = 0`, `price = 0.01`, `price = -1`).
+- Không trộn logic bảo mật (SQLi, IDOR...) vào đây — để dành cho Stage 3.
+- Ghi kết quả ra `01_domain_partitions.json`, mỗi phần tử theo schema ở `references/test_case_schema.md`, field `category = "DomainPartition"`.
+- Mục tiêu định lượng: khoảng 12–18 test case (tuỳ số tham số của endpoint), đừng ép số nếu API có ít tham số — thà ít mà đúng còn hơn thêm case trùng lặp vô nghĩa.
+- **Ngay sau khi ghi xong file trên**: append 1 entry vào `ai_audit_log.md` (xem mục "AI Audit Log" ở trên) — lấy giờ thật, chép lại prompt cụ thể hoá cho đúng endpoint/tham số vừa xử lý, dán JSON vừa sinh làm "AI output".
 
-1. **Domain Partition & Boundary** — read `references/domain_partition_guide.md`.
-   For every request parameter (path, query, body field, header), derive
-   equivalence classes (valid, invalid-format, boundary, missing, wrong-type)
-   per the guide. Aim for enough cases that combined with the other three
-   stages you clear the assignment's **≥35 cases/API** target.
-2. **State Transition** — read `references/state_transition_guide.md`. Only
-   applies to stateful resources (e.g. FR-10 order lifecycle:
-   `pending → confirmed → shipping → delivered`, plus cancellation rules).
-   Generate both legal-path and illegal-transition cases.
-3. **Security (SEC-01–SEC-07)** — read `references/security_checklist.md`.
-   Walk every checklist item against the endpoint: does it apply? If yes,
-   write a case (SQL/NoSQL injection, IDOR, broken auth, role escalation,
-   mass assignment, rate limiting/lockout, sensitive-data exposure). If an
-   item doesn't apply to this endpoint, say so explicitly in your output
-   rather than skipping silently — that record is useful for the AI Critique
-   section of the report.
-4. **Schema Validation** — read `references/schema_validation_guide.md`.
-   Generate cases asserting the success and error response shapes exactly
-   match the spec (types, required fields, no extra/leaking fields, status
-   codes).
+### Stage 2 — State Transitions
 
-After all four stages, print a short tally (cases per stage, running total)
-so the user can see coverage before auditing.
+Mục tiêu: test các đường chuyển trạng thái hợp lệ và không hợp lệ.
 
-## Step 3 — Audit (human review, AI-assisted)
+- Nếu API liên quan **order** (FR-10): dùng máy trạng thái `pending → confirmed → shipping → delivered` cộng quy tắc huỷ (cancel), tham khảo `references/state_machine.md`. Sinh test cho: mọi cạnh hợp lệ, mọi cạnh **không** hợp lệ (vd nhảy cóc `pending → delivered`, hoặc thao tác lên state đã `delivered`/`cancelled`), huỷ đúng lúc được phép và huỷ sai lúc (đã shipping/delivered).
+- Nếu API là auth/login (FR-02: account lockout): coi "số lần đăng nhập sai" và "trạng thái khoá tài khoản" như 1 state machine nhỏ (active → locked, unlock sau timeout/reset) và test tương tự.
+- Nếu API không có khái niệm trạng thái rõ ràng (vd product listing), vẫn có thể có state ẩn (giỏ hàng rỗng/có hàng, sản phẩm active/inactive, coupon còn hạn/hết hạn) — hãy tìm state ẩn đó trong spec trước khi kết luận "không áp dụng".
+- Mỗi test case ghi rõ `from_state`, `to_state` (hoặc `action`), `expected_allowed` (true/false).
+- Ghi ra `02_state_transitions.json`, `category = "StateTransition"`.
+- Mục tiêu định lượng: 6–10 test case nếu có state machine rõ ràng; nếu thực sự không có, ghi rõ lý do trong entry log của stage này thay vì bịa case.
+- **Ngay sau khi ghi xong file trên**: append 1 entry vào `ai_audit_log.md` — cùng quy tắc như Stage 1 (giờ thật, prompt cụ thể đã dùng, output JSON vừa sinh).
 
-Go through `test_cases.json` and propose a label for each case:
-`VALID`, `INVALID`, or `INCOMPLETE`, with one-line reasoning, per
-`references/test_case_schema.md`'s `audit` block. Present this as a table
-for the user to confirm or override — **the user's judgment wins**; you are
-drafting the audit, not finalizing it. For anything you mark
-INVALID/INCOMPLETE, propose the corrected case inline rather than just
-flagging the problem.
+### Stage 3 — Security
 
-## Step 4 — Extend (find what the AI missed)
+Mục tiêu: map trực tiếp vào **SEC-01 → SEC-07** (xem đầy đủ ở `references/security_requirements.md`), cộng thêm các lớp tấn công API phổ biến khác nếu phù hợp với endpoint.
 
-Before exporting, explicitly prompt yourself (and the user) with: *"What
-would a security tester or a QA lead with domain context add that a
-spec-only read would miss?"* Common blind spots to check — business-logic
-abuse (e.g., coupon stacking, negative-quantity carts, race conditions on
-stock), cross-resource IDOR that only shows up when two roles are combined,
-and multi-step state races (two requests both trying to transition the same
-order at once). Target **≥5** such cases, each tagged
-`"stage": "human_extension"` with a `"why_ai_missed"` field explaining the
-likely reason (prompt scope, spec silence, or model limitation) — this
-feeds straight into the assignment's required "Extend" write-up.
+Bắt buộc rà qua từng SEC liên quan đến API đang test (không phải SEC nào cũng áp dụng cho mọi API — chỉ chọn cái liên quan, nhưng phải liên quan tới FR-02, FR-03, FR-04, FR-12, FR-18, FR-19 thì gần như luôn cần SEC-02/SEC-03):
 
-## Step 5 — Export
+- **SEC-01** (không lưu plaintext password): test gián tiếp qua API — ví dụ endpoint đổi mật khẩu/đăng ký không được trả password về trong response; hoặc test không thể áp dụng trực tiếp qua black-box API thì ghi rõ trong `notes` là "cần kiểm tra qua DB/code review, không kiểm được thuần qua API" — vẫn liệt kê case nhưng đánh dấu rõ.
+- **SEC-02** (JWT bắt buộc cho API bảo mật): test gọi API không kèm token, token rỗng, token sai định dạng, token hết hạn, token hợp lệ nhưng của resource khác.
+- **SEC-03** (Admin API phải check role='admin' trong token, không chỉ check có token): test dùng token hợp lệ của **user thường** gọi API admin (role escalation / privilege escalation) — đây là case hay bị AI generic bỏ sót, bắt buộc phải có.
+- **SEC-04** (escape output, không dùng innerHTML trực tiếp): với API có field hiển thị lại ra UI (tên sản phẩm, review, tên user...), test nhập XSS payload (`<script>alert(1)</script>`) vào field đó, kỳ vọng bị lưu dưới dạng escape hoặc bị từ chối — không thực thi được.
+- **SEC-05** (parameterized query, chống SQL injection): test SQLi payload (`' OR '1'='1`, `'; DROP TABLE users; --`) vào các field text, đặc biệt field dùng để tìm kiếm/lọc/login.
+- **SEC-06** (API update profile không cho đổi `role` từ client): test gửi thêm field `role` (hoặc `is_admin`) trong body update profile của user thường, kỳ vọng bị bỏ qua/từ chối, không được nâng quyền.
+- **SEC-07** (OTP reset password đủ entropy ≥6 số, có hạn dùng, vô hiệu sau khi dùng): test OTP sai, OTP hết hạn, dùng lại OTP đã dùng 1 lần, brute-force OTP ngắn.
+- Ngoài 7 mục trên, cân nhắc thêm nếu phù hợp: rate limiting/lockout (FR-02), IDOR (đọc/sửa resource của user khác bằng cách đổi ID trong URL/body), mass assignment các field nhạy cảm khác ngoài `role`.
 
-```bash
-python3 scripts/export_excel.py test_cases.json --out test_cases.xlsx
-python3 scripts/export_postman.py test_cases.json --out collection.json \
-    --base-url "{{baseUrl}}" --student-id-header "{{studentId}}"
-```
+Mỗi test case ghi rõ field `sec_id` (một hoặc nhiều trong SEC-01..SEC-07, hoặc `"OWASP-Other"` nếu không thuộc 7 mục trên).
 
-- `export_postman.py` builds a Postman v2.1 collection with a
-  **pre-request script on the collection root** that sets
-  `X-Student-Id: {{studentId}}` on every request (per the assignment's
-  anti-cheat requirement) and a `{{baseUrl}}` collection variable so it
-  works against any environment (local/staging).
-- `export_excel.py` writes one row per test case (id, stage, endpoint,
-  input, expected, audit label, reasoning) — this is the "Excel test cases
-  and test summary" submission artifact.
-- Remind the user to run the collection with Newman and capture the HTML
-  report; this skill does not execute tests, only generates and exports
-  them (execution needs a live SUT).
+- Ghi ra `03_security.json`, `category = "Security"`.
+- Mục tiêu định lượng: 7–12 test case, ưu tiên bao phủ hết các SEC-xx liên quan hơn là số lượng.
+- **Ngay sau khi ghi xong file trên**: append 1 entry vào `ai_audit_log.md` — trong phần "Your prompt" nhớ liệt kê rõ các SEC-id đã được yêu cầu rà (vì đây là phần TA hay soi kỹ nhất).
 
-## Optional — AI Audit Report entries
+### Stage 4 — Schema Validation
 
-If asked to log the audit trail, append one entry per generation stage to
-`ai_audit_log.md` using `references/audit_entry_template.md`: tool name,
-timestamp, the exact prompt/instruction you followed for that stage, and a
-trimmed summary of what you produced. Keep entries factual and specific
-enough that a TA could reproduce the stage from the log alone.
+Mục tiêu: đối chiếu **hình dạng response** với spec, không phải logic nghiệp vụ.
 
-## The self-drawn diagram requirement
+- Response thành công (2xx): đúng field bắt buộc, đúng kiểu dữ liệu từng field, không thiếu/không thừa field so với spec, đúng format field đặc biệt (date, email, currency...).
+- Response lỗi (4xx/5xx): có đúng cấu trúc lỗi chuẩn của spec (vd `{ "error": { "code": ..., "message": ... } }`), đúng status code cho từng loại lỗi (400 vs 401 vs 403 vs 404 vs 422).
+- Kiểm tra các trường nhạy cảm **không** bị lộ ra response (password hash, token nội bộ...).
+- Ghi ra `04_schema_validation.json`, `category = "SchemaValidation"`.
+- Mục tiêu định lượng: 5–8 test case.
+- **Ngay sau khi ghi xong file trên**: append 1 entry vào `ai_audit_log.md` — cùng quy tắc như các stage trước.
 
-The assignment explicitly requires the Section 7 diagram to be **self-drawn,
-not AI-generated** — it's an anti-cheat check item. Do not hand the user a
-finished diagram image to submit as-is. Instead:
+### Stage 5 — Consolidate
 
-1. Point them to `references/diagram_reference.md`, which has a plain-text
-   description of this pipeline's boxes/arrows (the same structure as the
-   ASCII diagram above) for them to redraw by hand in any tool (draw.io,
-   paper + photo, PowerPoint shapes, etc.).
-2. If they ask you to "make the diagram", clarify that you can describe the
-   structure and even hand back a rough scaffold, but they need to be the
-   one who lays it out/draws it for grading purposes — say this plainly
-   rather than silently producing a finished image for them to submit.
+1. Chạy script gộp:
+   ```bash
+   python3 /mnt/skills/.../api-test-generator/scripts/consolidate.py \
+     --api-dir ./API-testing/<api-slug>
+   ```
+   (đường dẫn script thực tế = nơi skill này được cài đặt; nếu không chắc, dùng `find` để định vị `consolidate.py` trong thư mục skill trước khi gọi).
+2. Script sẽ:
+   - Gộp 4 file JSON thành `test_cases_master.csv`.
+   - Đánh lại ID theo format `TC-<API-SLUG>-<CAT>-<NNN>` (CAT = DP/ST/SEC/SV).
+   - In ra tổng số test case theo từng category + tổng cộng.
+   - Cảnh báo nếu tổng < 35 (ngưỡng đề bài yêu cầu ≥35/API) — nếu thiếu, quay lại đúng stage đang thiếu (không phải sinh bừa thêm ở stage bất kỳ) để bổ sung cho đủ và hợp lý.
+3. Consolidate là thao tác kỹ thuật (chạy script), **không** tạo entry trong `ai_audit_log.md` — xem giải thích ở mục "AI Audit Log" phía trên.
+4. Cập nhật `./API-testing/README.md`: bảng tổng hợp tất cả API đã xử lý, số test case mỗi category, tổng số, ngày giờ chạy gần nhất, và ghi chú ngắn "đã chạy consolidate lúc ..." (không cần format 4-field).
 
-## Files in this skill
+## Khi xử lý nhiều API (Pool A / B / C)
 
-- `scripts/parse_spec.py` — deterministic markdown/OpenAPI spec parser
-- `scripts/export_excel.py` — test_cases.json → .xlsx
-- `scripts/export_postman.py` — test_cases.json → Postman v2.1 collection.json
-- `references/test_case_schema.md` — the JSON schema every test case must follow
-- `references/domain_partition_guide.md` — equivalence partitioning / boundary rules
-- `references/state_transition_guide.md` — state-machine test design guidance
-- `references/security_checklist.md` — SEC-01–SEC-07 test templates
-- `references/schema_validation_guide.md` — response-shape assertion guidance
-- `references/diagram_reference.md` — plain-text structure for the required self-drawn diagram
-- `references/audit_entry_template.md` — AI Audit Report entry format
-- `references/pseudocode.md` — standalone pseudocode of the whole generator (for the Section 7 submission)
+Lặp lại toàn bộ Stage 0 → 5 **cho từng API riêng biệt**, không trộn 2 API vào cùng 1 file. Mỗi API có thư mục `<api-slug>` riêng dưới `API-testing/`.
+
+## Sau khi hoàn tất
+
+Dừng lại ở việc sinh test case. **Không tự động** làm audit (gắn nhãn VALID/INVALID/INCOMPLETE), không tự thêm 5 test case "AI bỏ sót" (vì bản thân AI vừa sinh ra không thể tự đánh giá cái mình bỏ sót một cách đáng tin — đây đúng là phần người dùng phải tự làm), không tự chạy Postman/Newman, không tự đẩy lên GitHub. Nếu người dùng muốn các bước đó, họ sẽ yêu cầu riêng.
+
+Kết thúc bằng việc báo lại ngắn gọn: đã sinh bao nhiêu test case, phân bổ theo 4 category, đường dẫn file `test_cases_master.csv` để người dùng mở bằng Excel và tự audit/extend.
+
+## Tài liệu tham khảo trong skill
+
+- `references/security_requirements.md` — bảng đầy đủ SEC-01 → SEC-07 kèm gợi ý cách test qua API cho từng mục.
+- `references/state_machine.md` — sơ đồ trạng thái đơn hàng FR-10 (pending → confirmed → shipping → delivered + cancel) dùng cho Stage 2.
+- `references/test_case_schema.md` — định nghĩa đầy đủ các field của 1 test case (dùng thống nhất ở cả 4 stage).
+- `scripts/consolidate.py` — gộp 4 file JSON stage thành 1 CSV master, đánh ID, đếm và cảnh báo ngưỡng ≥35.
+- `assets/test_case_template.csv` — header mẫu, dùng nếu cần tạo file CSV tay thay vì qua script.
+- `assets/ai_audit_log_entry_template.md` — template 1 entry log đúng 4 field bắt buộc (AI tool / Date-time / Prompt / Output), dùng cho mỗi stage.

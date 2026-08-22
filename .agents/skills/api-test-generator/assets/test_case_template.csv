@@ -1,0 +1,1 @@
+id,category,endpoint,related_requirement,title,preconditions,request_method,request_path,request_headers,request_params,request_body,expected_status,expected_result,priority,parameter,partition_type,from_state,to_state,action,expected_allowed,sec_id,attack_vector,schema_ref,fields_checked,notes

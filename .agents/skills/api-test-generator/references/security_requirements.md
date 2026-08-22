@@ -1,0 +1,19 @@
+# Security Requirements (SEC-01 → SEC-07) — dùng cho Stage 3
+
+Bảng gốc từ đề bài HW06, kèm gợi ý cách test **qua API (black-box)** cho từng mục. Dùng bảng này làm checklist bắt buộc rà qua ở Stage 3 — không được bỏ qua mục nào chỉ vì "khó test qua API"; nếu thực sự không kiểm được thuần qua API thì vẫn phải tạo 1 test case, đánh dấu rõ trong `notes`.
+
+| ID | Yêu cầu | Cách test qua API (gợi ý) |
+|---|---|---|
+| SEC-01 | Mật khẩu **không** được lưu dưới dạng plaintext. | Không kiểm trực tiếp được qua API (đây là chuyện lưu trữ ở DB). Vẫn tạo test case gián tiếp: gọi API trả thông tin user (profile, admin user list...) và assert response **không** chứa field `password`/`passwordHash` dạng đọc được. Ghi rõ trong `notes`: "Kiểm tra gián tiếp qua response; xác nhận đầy đủ cần review DB/code." |
+| SEC-02 | Các API có tính bảo mật phải yêu cầu JWT Token hợp lệ. | Với mỗi API cần auth: gọi (a) không có header `Authorization`, (b) header rỗng, (c) token sai định dạng (không phải JWT), (d) token hết hạn, (e) token hợp lệ nhưng bị sửa 1 ký tự (chữ ký sai) → kỳ vọng 401. |
+| SEC-03 | API Admin phải kiểm tra `role = 'admin'` trong Token, không chỉ kiểm tra sự tồn tại của Token. | Login bằng tài khoản **user thường**, lấy token hợp lệ, dùng token đó gọi thẳng API admin (vd `/api/admin/products`, `/api/admin/orders`, `/api/admin/users`) → kỳ vọng 403, không phải 200. Đây là case hay bị bỏ sót nếu chỉ prompt AI generic. |
+| SEC-04 | Mọi dữ liệu từ user nhập vào khi hiển thị trên UI phải được escape đúng cách, không dùng `innerHTML` trực tiếp. | Với field text sẽ hiển thị lại (tên sản phẩm, review, tên category, tên user, ghi chú đơn hàng...): gửi payload `<script>alert(1)</script>` hoặc `<img src=x onerror=alert(1)>`. Qua API, assert response trả về **nguyên văn** (không tự ý strip) nhưng field đó khi render phía client phải escape — với test API-level, ít nhất assert API **lưu và trả lại đúng dữ liệu** (không thực thi phía server) và ghi chú cần kiểm thêm ở FE. |
+| SEC-05 | Truy vấn CSDL phải dùng Parameterized Query, không nối chuỗi trực tiếp. | Gửi payload SQLi cổ điển (`' OR '1'='1`, `admin'--`, `'; DROP TABLE users; --`) vào các field text dùng để tìm kiếm/lọc/login (search, email, username). Kỳ vọng: không bypass được auth, không trả lỗi 500 kèm SQL trace, không trả dữ liệu vượt quyền. |
+| SEC-06 | API cập nhật hồ sơ không được cho phép thay đổi trường `role` từ client. | Gọi API update profile của user thường, body có thêm field `"role": "admin"` (hoặc `"isAdmin": true`) không có trong spec chính thức. Kỳ vọng: field bị bỏ qua, gọi lại API xem thông tin user để xác nhận role **không đổi**. |
+| SEC-07 | OTP đặt lại mật khẩu phải đủ entropy (tối thiểu 6 chữ số), có thời hạn và vô hiệu hóa sau khi dùng. | (a) Nhập OTP sai nhiều lần liên tiếp — kỳ vọng bị khoá/rate-limit sau N lần. (b) Chờ OTP hết hạn rồi mới dùng — kỳ vọng bị từ chối. (c) Dùng đúng OTP để reset thành công, sau đó dùng lại chính OTP đó lần 2 — kỳ vọng bị từ chối (đã vô hiệu hoá). (d) Kiểm tra OTP sinh ra có đúng ≥6 chữ số (quan sát qua email/response test env nếu SUT expose ở môi trường test). |
+
+## Lưu ý khi sinh test case Security
+
+- Không phải API nào cũng liên quan hết 7 mục — chỉ chọn mục liên quan tới đúng endpoint đang test, nhưng đừng bỏ sót mục rõ ràng liên quan (vd endpoint admin luôn cần SEC-03; endpoint reset password luôn cần SEC-07).
+- Mỗi test case Security phải có field `sec_id` trỏ về đúng mã ở bảng trên (hoặc `OWASP-Other` nếu là lỗ hổng khác như IDOR, rate limiting không thuộc 7 mục).
+- Không trộn test Security vào Stage 1/Stage 4 — giữ tách biệt để đúng tinh thần "4 giai đoạn độc lập".

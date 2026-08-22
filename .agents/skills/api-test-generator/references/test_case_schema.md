@@ -1,61 +1,73 @@
-# Test Case Schema
+# Test Case Schema — dùng chung cho cả 4 stage
 
-Every generated test case is one JSON object appended to `test_cases.json`
-(a top-level array). Keep field names exactly as below so the export
-scripts work without modification.
+Mỗi test case sinh ra ở Stage 1–4 là **1 object JSON** theo schema dưới đây. 4 file `01_domain_partitions.json`, `02_state_transitions.json`, `03_security.json`, `04_schema_validation.json` mỗi file là **1 mảng JSON** các object này.
+
+## Field bắt buộc (mọi category)
+
+| Field | Kiểu | Mô tả |
+|---|---|---|
+| `temp_id` | string | ID tạm trong stage, vd `"DP-01"`, `"ST-01"`, `"SEC-01"`, `"SV-01"`. Sẽ được `consolidate.py` đánh lại thành ID cuối cùng. |
+| `category` | string | Một trong: `"DomainPartition"`, `"StateTransition"`, `"Security"`, `"SchemaValidation"`. |
+| `endpoint` | string | Vd `"POST /api/auth/login"`. |
+| `related_requirement` | string | FR-xx và/hoặc SEC-xx liên quan, vd `"FR-02"` hoặc `"FR-10, SEC-03"`. |
+| `title` | string | Mô tả ngắn gọn 1 dòng, đủ hiểu không cần đọc thêm. |
+| `preconditions` | string | Điều kiện tiên quyết trước khi chạy (vd "đã có tài khoản user thường đã login"). |
+| `request` | object | `{ "method": "...", "path": "...", "headers": {...}, "params": {...}, "body": {...} }`. Field nào không dùng thì bỏ qua, không cần null. |
+| `expected_status` | number/string | HTTP status code kỳ vọng, hoặc mô tả nếu không phải HTTP thuần (hiếm). |
+| `expected_result` | string | Mô tả kỳ vọng đầy đủ hơn `expected_status` — hành vi, nội dung response, side-effect. |
+| `priority` | string | `"High"`, `"Medium"`, hoặc `"Low"`. |
+| `notes` | string | Ghi chú thêm — payload cụ thể, giá trị biên, giới hạn của cách test (vd "chỉ test được gián tiếp qua API"). Có thể để rỗng `""`. |
+
+## Field riêng theo category
+
+### DomainPartition
+- `parameter` (string): tên tham số đang test.
+- `partition_type` (string): 1 trong `"valid-typical"`, `"valid-boundary"`, `"invalid-format"`, `"invalid-boundary"`, `"missing-required"`, `"unexpected-extra"`, `"wrong-type"`, `"empty-null-whitespace"`.
+
+### StateTransition
+- `from_state` (string)
+- `to_state` (string) — trạng thái đích **được yêu cầu** trong request, không nhất thiết là kết quả thực tế.
+- `action` (string) — hành động/API call gây chuyển trạng thái.
+- `expected_allowed` (boolean) — true nếu cạnh này hợp lệ theo state machine.
+
+### Security
+- `sec_id` (string) — một hoặc nhiều trong `SEC-01`…`SEC-07`, hoặc `"OWASP-Other"`.
+- `attack_vector` (string) — vd `"SQL Injection"`, `"Broken Auth"`, `"Role Escalation"`, `"IDOR"`, `"Mass Assignment"`, `"XSS"`, `"OTP Brute Force"`.
+
+### SchemaValidation
+- `schema_ref` (string) — phần trong spec đang đối chiếu, vd `"Product object schema"`, `"Error response schema"`.
+- `fields_checked` (array of string) — danh sách field được kiểm tra kiểu/format/bắt buộc.
+
+## Ví dụ 1 object hoàn chỉnh (Security)
 
 ```json
 {
-  "id": "TC-A-001",
-  "stage": "domain_partition | state_transition | security | schema_validation | human_extension",
-  "endpoint": "POST /api/auth/register",
-  "title": "Register with email missing '@'",
-  "category": "invalid-format",
-  "priority": "high | medium | low",
-  "preconditions": "No existing account with this email",
+  "temp_id": "SEC-03",
+  "category": "Security",
+  "endpoint": "DELETE /api/admin/products/{id}",
+  "related_requirement": "FR-15, SEC-03",
+  "title": "User thường dùng token hợp lệ gọi thẳng API xoá sản phẩm (admin only)",
+  "preconditions": "Đã có tài khoản role=user đăng nhập thành công, có JWT hợp lệ; đã có sản phẩm id=123 tồn tại",
   "request": {
-    "method": "POST",
-    "path": "/api/auth/register",
-    "headers": { "Content-Type": "application/json" },
-    "query": {},
-    "body": { "email": "userexample.com", "password": "Abcd1234!" }
+    "method": "DELETE",
+    "path": "/api/admin/products/123",
+    "headers": { "Authorization": "Bearer {user_token}", "X-Student-Id": "{StudentID}" }
   },
-  "expected": {
-    "status": 400,
-    "body_contains": { "error": "string" },
-    "schema_ref": "ErrorResponse"
-  },
-  "sec_ref": null,
-  "fr_ref": "FR-01",
-  "why_ai_missed": null,
-  "source_prompt_summary": "Stage A domain-partition pass over 'email' field",
-  "audit": {
-    "label": "VALID | INVALID | INCOMPLETE | null",
-    "reasoning": null,
-    "corrected_from": null
-  }
+  "expected_status": 403,
+  "expected_result": "API từ chối, sản phẩm id=123 vẫn còn tồn tại (không bị xoá)",
+  "priority": "High",
+  "sec_id": "SEC-03",
+  "attack_vector": "Role Escalation",
+  "notes": "Bug nếu API chỉ check có token mà không check role trong token"
 }
 ```
 
-## Field notes
+## Output cuối cùng: `test_cases_master.csv`
 
-- **id**: prefix by stage — `TC-A-*` domain partition, `TC-S-*` state
-  transition, `TC-SEC-*` security, `TC-SCH-*` schema validation,
-  `TC-EXT-*` human extension. Zero-padded 3 digits.
-- **category**: free text but be consistent within a stage, e.g. for domain
-  partition use `valid | boundary-low | boundary-high | invalid-format |
-  missing | wrong-type | empty`.
-- **sec_ref**: one of `SEC-01`..`SEC-07` when `stage == security`, else `null`.
-- **fr_ref**: the functional requirement ID from the assignment (FR-01..FR-19)
-  this case traces back to, for traceability in the report.
-- **why_ai_missed**: required (non-null) only for `human_extension` cases —
-  one sentence: prompt-scope gap, spec silence, or model limitation.
-- **audit.label**: filled during Step 3 (Audit). Leave `null` until then.
-- **expected.body_contains**: a *shape*, not literal values — keys mapped to
-  their expected JSON type (`"string"`, `"number"`, `"boolean"`, `"array"`,
-  `"object"`), used both as documentation and as input to schema checks.
+`consolidate.py` sẽ dịch toàn bộ field trên (kể cả field riêng theo category) thành các cột CSV phẳng, cột nào không áp dụng để trống. Cột `id` cuối cùng theo format:
 
-Keep `test_cases.json` as a single flat array across all stages and all
-three chosen APIs (or split per-API file, `test_cases_api1.json` etc., if
-the user prefers) — either is fine as long as it's consistent going into
-the export scripts.
+```
+TC-<API-SLUG>-<CAT>-<NNN>
+```
+
+Với `CAT` = `DP` (DomainPartition), `ST` (StateTransition), `SEC` (Security), `SV` (SchemaValidation). Vd: `TC-LOGIN-SEC-003`.

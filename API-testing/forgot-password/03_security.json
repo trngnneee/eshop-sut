@@ -1,0 +1,222 @@
+[
+  {
+    "temp_id": "SEC-01",
+    "category": "Security",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03, SEC-07",
+    "title": "OTP sinh ra phải có đúng 6 chữ số",
+    "preconditions": "Tồn tại user test@eshop.com đã đăng ký trong hệ thống",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com" }
+    },
+    "expected_status": 200,
+    "expected_result": "Response demo có resetToken là chuỗi chỉ gồm chữ số và độ dài đúng 6; token ngắn hơn 6 chữ số là vi phạm SEC-07",
+    "priority": "High",
+    "sec_id": "SEC-07",
+    "attack_vector": "Weak OTP Entropy",
+    "notes": "Implementation hiện tại trong backend/server.js sinh 4 chữ số bằng Math.floor(1000 + Math.random() * 9000)"
+  },
+  {
+    "temp_id": "SEC-02",
+    "category": "Security",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03, SEC-07",
+    "title": "Nhiều lần request OTP liên tiếp bị rate limit",
+    "preconditions": "Tồn tại user test@eshop.com; có thể gửi request lặp nhanh trong cùng một cửa sổ thời gian",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com" }
+    },
+    "expected_status": 429,
+    "expected_result": "Sau khi vượt ngưỡng cho phép, API từ chối tạo thêm OTP tạm thời để chống spam và brute-force",
+    "priority": "High",
+    "sec_id": "SEC-07",
+    "attack_vector": "OTP Request Flooding",
+    "notes": "README không nêu ngưỡng cụ thể; khi execute cần định nghĩa N hợp lý cho demo"
+  },
+  {
+    "temp_id": "SEC-03",
+    "category": "Security",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03, SEC-05",
+    "title": "SQL injection payload trong field email không gây bypass hoặc SQL error",
+    "preconditions": "Không có",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "' OR '1'='1" }
+    },
+    "expected_status": 400,
+    "expected_result": "API từ chối input sai định dạng hoặc xử lý an toàn; không trả OTP cho user bất kỳ, không lộ SQL trace, không trả 500",
+    "priority": "High",
+    "sec_id": "SEC-05",
+    "attack_vector": "SQL Injection",
+    "notes": ""
+  },
+  {
+    "temp_id": "SEC-04",
+    "category": "Security",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03, SEC-05",
+    "title": "SQL injection phá hoại trong field email không thực thi",
+    "preconditions": "Không có",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com'; DROP TABLE users; --" }
+    },
+    "expected_status": 400,
+    "expected_result": "API từ chối input sai format hoặc xử lý bằng parameterized query; bảng users không bị ảnh hưởng, không trả lỗi SQL chi tiết",
+    "priority": "High",
+    "sec_id": "SEC-05",
+    "attack_vector": "SQL Injection",
+    "notes": ""
+  },
+  {
+    "temp_id": "SEC-05",
+    "category": "Security",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Email chưa đăng ký không làm lộ trạng thái tồn tại tài khoản",
+    "preconditions": "Không tồn tại user secret-probe@example.com trong hệ thống",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "secret-probe@example.com" }
+    },
+    "expected_status": 200,
+    "expected_result": "API trả thông báo chung như email đã đăng ký, không xác nhận tài khoản có tồn tại hay không",
+    "priority": "High",
+    "sec_id": "OWASP-Other",
+    "attack_vector": "User Enumeration",
+    "notes": "Implementation hiện tại trả 404 User not found, dễ bị dùng để dò email"
+  },
+  {
+    "temp_id": "SEC-06",
+    "category": "Security",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03, SEC-04",
+    "title": "XSS payload trong email không được phản chiếu như HTML thực thi",
+    "preconditions": "Không có",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "<script>alert(1)</script>@example.com" }
+    },
+    "expected_status": 400,
+    "expected_result": "API trả lỗi validation an toàn; nếu có phản hồi lại input thì phải escape, không render HTML/script ở client",
+    "priority": "Medium",
+    "sec_id": "SEC-04",
+    "attack_vector": "Reflected XSS",
+    "notes": "API-level chỉ kiểm tra response; cần kiểm thêm frontend render lỗi"
+  },
+  {
+    "temp_id": "SEC-07",
+    "category": "Security",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03, SEC-02",
+    "title": "Endpoint forgot-password không yêu cầu JWT",
+    "preconditions": "Không có Authorization header",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com" }
+    },
+    "expected_status": 200,
+    "expected_result": "API cho phép user chưa đăng nhập yêu cầu OTP; đây là ngoại lệ hợp lý của SEC-02 vì quên mật khẩu là public recovery endpoint",
+    "priority": "Medium",
+    "sec_id": "SEC-02",
+    "attack_vector": "Authentication Requirement Review",
+    "notes": "Không phải bug nếu endpoint public, nhưng vẫn cần kiểm rằng các API reset/account khác được bảo vệ đúng"
+  },
+  {
+    "temp_id": "SEC-08",
+    "category": "Security",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03, SEC-03",
+    "title": "Admin role check không áp dụng cho endpoint public forgot-password",
+    "preconditions": "Không có",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com" }
+    },
+    "expected_status": 200,
+    "expected_result": "Endpoint không phải /api/admin/* và không được cấp quyền admin hay thay đổi role; SEC-03 không áp dụng trực tiếp",
+    "priority": "Low",
+    "sec_id": "SEC-03",
+    "attack_vector": "Authorization Scope Review",
+    "notes": "Ghi nhận rà soát SEC-03 theo checklist; không cần token admin cho forgot-password"
+  },
+  {
+    "temp_id": "SEC-09",
+    "category": "Security",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03, SEC-06",
+    "title": "Mass assignment field role trong body bị bỏ qua",
+    "preconditions": "Tồn tại user test@eshop.com đã đăng ký trong hệ thống",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com", "role": "admin", "isAdmin": true }
+    },
+    "expected_status": 200,
+    "expected_result": "API chỉ tạo OTP; không cập nhật role/isAdmin hoặc bất kỳ field nhạy cảm nào của user",
+    "priority": "Medium",
+    "sec_id": "SEC-06",
+    "attack_vector": "Mass Assignment",
+    "notes": "SEC-06 chính thức áp dụng cho update profile, nhưng case này kiểm tra field thừa nhạy cảm ở forgot-password"
+  },
+  {
+    "temp_id": "SEC-10",
+    "category": "Security",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03, SEC-01",
+    "title": "Forgot-password response không được trả password hoặc password hash",
+    "preconditions": "Tồn tại user test@eshop.com đã đăng ký trong hệ thống",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com" }
+    },
+    "expected_status": 200,
+    "expected_result": "Response chỉ chứa message và resetToken demo; tuyệt đối không chứa password, password_hash, hash nội bộ hoặc toàn bộ user object",
+    "priority": "High",
+    "sec_id": "SEC-01",
+    "attack_vector": "Sensitive Data Exposure",
+    "notes": "Kiểm tra gián tiếp qua API; xác nhận đầy đủ việc không lưu plaintext password cần review DB/code"
+  },
+  {
+    "temp_id": "SEC-11",
+    "category": "Security",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03, SEC-07",
+    "title": "OTP mới không được trùng OTP liền trước cho cùng email",
+    "preconditions": "Tồn tại user test@eshop.com; có thể gọi forgot-password hai lần liên tiếp và ghi lại resetToken trả về",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com" }
+    },
+    "expected_status": 200,
+    "expected_result": "OTP ở lần gọi sau khác OTP ở lần gọi trước với xác suất thực tế rất cao; nếu trùng lặp thường xuyên cần đánh giá entropy/randomness",
+    "priority": "Medium",
+    "sec_id": "SEC-07",
+    "attack_vector": "Weak Randomness",
+    "notes": "Không nên dùng một lần trùng ngẫu nhiên làm fail tuyệt đối; nên kiểm thống kê nhiều lần"
+  }
+]

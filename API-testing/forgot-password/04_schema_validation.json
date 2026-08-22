@@ -1,0 +1,142 @@
+[
+  {
+    "temp_id": "SV-01",
+    "category": "SchemaValidation",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Response thành công có đúng message và resetToken",
+    "preconditions": "Tồn tại user test@eshop.com đã đăng ký trong hệ thống",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com" }
+    },
+    "expected_status": 200,
+    "expected_result": "Response là JSON object có field message kiểu string và resetToken kiểu string; không thiếu field bắt buộc",
+    "priority": "High",
+    "schema_ref": "api_specification.md section 1.3 success response",
+    "fields_checked": ["message", "resetToken"],
+    "notes": ""
+  },
+  {
+    "temp_id": "SV-02",
+    "category": "SchemaValidation",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03, SEC-07",
+    "title": "resetToken trong response thành công đúng format OTP 6 chữ số",
+    "preconditions": "Tồn tại user test@eshop.com đã đăng ký trong hệ thống",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com" }
+    },
+    "expected_status": 200,
+    "expected_result": "Field resetToken match regex ^[0-9]{6}$ theo FR-03/SEC-07; không phải number để tránh mất leading zero",
+    "priority": "High",
+    "schema_ref": "FR-03 OTP format and api_specification.md resetToken",
+    "fields_checked": ["resetToken"],
+    "notes": "Implementation hiện tại có khả năng fail vì sinh 4 chữ số"
+  },
+  {
+    "temp_id": "SV-03",
+    "category": "SchemaValidation",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Response thành công không có field ngoài schema",
+    "preconditions": "Tồn tại user test@eshop.com đã đăng ký trong hệ thống",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com" }
+    },
+    "expected_status": 200,
+    "expected_result": "Response không chứa user object, email, id, role, password, password_hash, reset_token DB raw hoặc field nội bộ khác",
+    "priority": "High",
+    "schema_ref": "api_specification.md section 1.3 success response",
+    "fields_checked": ["message", "resetToken", "password", "password_hash", "role", "reset_token"],
+    "notes": ""
+  },
+  {
+    "temp_id": "SV-04",
+    "category": "SchemaValidation",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Response lỗi validation email sai format có cấu trúc lỗi chuẩn",
+    "preconditions": "Không có",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "not-an-email" }
+    },
+    "expected_status": 400,
+    "expected_result": "Response lỗi là JSON object có field error/message kiểu string, không trả HTML, stack trace hoặc SQL detail",
+    "priority": "High",
+    "schema_ref": "Error response schema for invalid input",
+    "fields_checked": ["error", "message"],
+    "notes": "Spec chưa chuẩn hóa error envelope; khi audit cần thống nhất error hoặc message"
+  },
+  {
+    "temp_id": "SV-05",
+    "category": "SchemaValidation",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Response khi thiếu email có status và JSON error đúng",
+    "preconditions": "Không có",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": {}
+    },
+    "expected_status": 400,
+    "expected_result": "Response lỗi thiếu email là JSON, có thông báo lỗi rõ ràng, không trả 404 gây hiểu nhầm là user không tồn tại",
+    "priority": "High",
+    "schema_ref": "Error response schema for missing required field",
+    "fields_checked": ["error", "message"],
+    "notes": ""
+  },
+  {
+    "temp_id": "SV-06",
+    "category": "SchemaValidation",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Response email chưa đăng ký không lộ schema khác biệt quá mức",
+    "preconditions": "Không tồn tại user nobody@example.com trong hệ thống",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "nobody@example.com" }
+    },
+    "expected_status": 200,
+    "expected_result": "Response có cùng cấu trúc thông báo chung như email tồn tại nhưng không có resetToken thật; nếu theo api_spec trả lỗi thì error schema vẫn phải là JSON ổn định",
+    "priority": "Medium",
+    "schema_ref": "Forgot-password unknown email response",
+    "fields_checked": ["message", "error", "resetToken"],
+    "notes": "Case này giao giữa schema và security user enumeration"
+  },
+  {
+    "temp_id": "SV-07",
+    "category": "SchemaValidation",
+    "endpoint": "POST /api/forgot-password",
+    "related_requirement": "FR-03",
+    "title": "Response lỗi server không lộ chi tiết nội bộ",
+    "preconditions": "Có thể mô phỏng lỗi DB hoặc chạy trong môi trường test có fault injection",
+    "request": {
+      "method": "POST",
+      "path": "/api/forgot-password",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "email": "test@eshop.com" }
+    },
+    "expected_status": 500,
+    "expected_result": "Nếu xảy ra lỗi nội bộ, response vẫn là JSON error tổng quát, không lộ stack trace, SQL query, đường dẫn file hoặc chi tiết DB",
+    "priority": "Low",
+    "schema_ref": "Internal error response schema",
+    "fields_checked": ["error", "message"],
+    "notes": "Chỉ chạy khi có khả năng mô phỏng lỗi DB an toàn"
+  }
+]
