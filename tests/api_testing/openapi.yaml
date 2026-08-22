@@ -24,7 +24,8 @@ info:
 
     | # | FR | Endpoint | operationId |
     |---|----|----------|-------------|
-    | API-1 | FR-05 / FR-06 | `GET /api/products/{id}` | getProductById |
+    | API-1 | FR-06 | `GET /api/products/{id}` | getProductById |
+    | API-1 | FR-05 | `GET /api/products` (list + `?search=`) | listProducts |
     | API-2 | FR-10 | `PUT /api/orders/{id}/cancel` | cancelOrder |
     | API-3 | FR-15 | `POST /api/products` | createProduct |
     | API-3 | FR-15 | `PUT /api/products/{id}` | updateProduct |
@@ -149,25 +150,72 @@ paths:
             expected: '`404 Not Found` + body `{error}`.'
             testHint: 'Assert `pm.response.code === 404`, KHÔNG assert `{}`.'
 
+      x-sut-actual-summary:
+        - bugId: BUG-14
+          severity: Minor/P2
+          appliesTo: 'id = 1.0 | " 1" | "1 " | "+1" | "01"'
+          observed: |
+            SUT nhận mọi dạng chuỗi số không canonical và vẫn trả về product id=1
+            với HTTP 200. Nguyên nhân: route không validate param, và SQLite áp
+            **numeric affinity** khi so chuỗi với cột `id INTEGER` — tự strip
+            khoảng trắng, tự bỏ dấu `+`, tự bỏ zero đứng đầu, tự ép `1.0` → `1`.
+          expected: '`400` theo DEC-01 (strict).'
+          testHint: |
+            Đây là lớp lỗi "input validation bị bỏ qua, DB tự cứu". Rất dễ bị bỏ sót
+            vì response trông hoàn toàn hợp lệ — phải chủ động dò các dạng không canonical.
+
+      x-contract-decision:
+        id: DEC-01
+        title: 'Chuỗi `:id` không canonical — chọn STRICT'
+        decidedOn: '22/08/2026'
+        question: |
+          `:id` là path param dạng chuỗi. Các giá trị `1.0`, `" 1"`, `"1 "`, `"+1"`, `"01"`
+          đều KHÔNG phải dạng canonical của một integer, nhưng SQLite (numeric affinity)
+          vẫn ép được về `1` và trả đúng product id=1. Contract phải nhận hay từ chối?
+        options:
+          strict: 'schema `type: integer, minimum: 1` chỉ nhận dạng canonical ⇒ tất cả → 400'
+          lenient: 'chấp nhận ép kiểu ⇒ tất cả → 200 + product 1'
+        decision: STRICT
+        rationale: |
+          1. Nhất quán: nếu chấp nhận `1.0` thì buộc phải chấp nhận cả `" 1"`, `"+1"`, `"01"`
+             — cùng một bản chất "chuỗi số không canonical". Không thể nhận cái này, từ chối cái kia.
+          2. Ép kiểu ngầm là hành vi rò rỉ từ tầng DB (SQLite affinity) lên tầng API,
+             không phải quyết định thiết kế của API. Contract không nên hợp thức hoá nó.
+          3. `type: integer` + `minimum: 1` trong OpenAPI đọc chặt ⇒ validator chuẩn
+             (Postman jsonSchema, express-openapi-validator) sẽ reject các dạng này.
+        consequence: |
+          5 test case TC-P1-012, 015, 016, 017, 018 có Expected = 400 và sẽ FAIL trên SUT
+          ⇒ ánh xạ BUG-14. Nếu sau này đổi sang lenient thì phải đổi ĐỒNG THỜI cả 5 case
+          và xoá BUG-14, không được sửa lẻ.
+
       x-test-partitions:
         # LƯU Ý: cột `expect` là CONTRACT (kỳ vọng theo FR), KHÔNG phải hành vi thực tế của SUT.
         # SUT-actual cho phần lớn input sai vẫn trả 200 — xem `x-sut-actual` ở từng response.
         id:
           valid:
-            - { value: 1, note: 'tồn tại, id lẻ — biên dưới của tập seed' }
-            - { value: 2, note: 'tồn tại, id chẵn — kích hoạt BUG-01' }
-            - { value: 5, note: 'tồn tại, biên trên của tập seed' }
+            - { classId: V1, value: 1, expect: 200, note: 'tồn tại, id LẺ — đồng thời là biên dưới B1 của miền hợp lệ' }
+            - { classId: V1, value: 3, expect: 200, note: 'tồn tại, id LẺ' }
+            - { classId: V1, value: 5, expect: 200, note: 'tồn tại, id LẺ — đồng thời là biên trên B2 của tập seed' }
+            - { classId: V2, value: 2, expect: 200, note: 'tồn tại, id CHẴN — kích hoạt BUG-01 (price thành string)' }
+            - { classId: V2, value: 4, expect: 200, note: 'tồn tại, id CHẴN — kích hoạt BUG-01' }
           invalid:
-            - { value: 99999, expect: 404, note: 'không tồn tại' }
-            - { value: 0,     expect: 400, note: 'biên: zero' }
-            - { value: -1,    expect: 400, note: 'biên: âm' }
-            - { value: 'abc', expect: 400, note: 'phi số' }
-            - { value: '1.5', expect: 400, note: 'số thực' }
-            - { value: '1.0', expect: 200, note: 'SQLite ép 1.0 → 1, trả về product 1' }
-            - { value: '9999999999999999999', expect: 400, note: 'tràn số' }
-            - { value: "1' OR '1'='1", expect: 400, note: 'SQLi — endpoint này DÙNG parameterized query nên phải an toàn' }
-            - { value: '<script>alert(1)</script>', expect: 400, note: 'XSS reflected' }
-            - { value: '',    expect: 200, note: 'rỗng → khớp route GET /api/products (list), không phải detail' }
+            - { classId: B3,  value: 6,     expect: 404, note: 'biên trên + 1 — ngay ngoài tập tồn tại, nhạy hơn 99999' }
+            - { classId: I1,  value: 99999, expect: 404, note: 'đúng kiểu nhưng không tồn tại' }
+            - { classId: B4,  value: 0,     expect: 400, note: 'biên dưới − 1 (zero), vi phạm minimum: 1' }
+            - { classId: I2,  value: -1,    expect: 400, note: 'số âm' }
+            - { classId: I3,  value: '9999999999999999999', expect: 400, note: 'tràn số, vượt format int64' }
+            - { classId: I4,  value: '1.5', expect: 400, note: 'số thực không nguyên — vi phạm type: integer' }
+            - { classId: I5,  value: '1.0', expect: 400, note: 'số thực phần thập phân = 0 — KHÔNG canonical. Theo DEC-01 (strict) ⇒ 400. SUT thực tế trả 200 + product 1 ⇒ BUG-14' }
+            - { classId: I6,  value: 'abc', expect: 400, note: 'chuỗi phi số' }
+            - { classId: I7,  value: '',    expect: 200, note: 'rỗng (trailing slash) → Express khớp về route list ⇒ trả ARRAY, không phải object. Không thuộc DEC-01' }
+            - { classId: I8,  value: ' 1',  expect: 400, note: 'khoảng trắng ĐẦU (URL-encode %201). DEC-01 strict ⇒ 400. SUT trả 200 + product 1 ⇒ BUG-14' }
+            - { classId: I9,  value: '1 ',  expect: 400, note: 'khoảng trắng CUỐI (1%20). DEC-01 strict ⇒ 400 ⇒ BUG-14' }
+            - { classId: I10, value: '+1',  expect: 400, note: 'dấu cộng tường minh (%2B1). DEC-01 strict ⇒ 400 ⇒ BUG-14' }
+            - { classId: I11, value: '01',  expect: 400, note: 'zero đứng đầu. DEC-01 strict ⇒ 400 ⇒ BUG-14' }
+            - { classId: I12, value: '<1000 ký tự a>', expect: 400, note: 'chuỗi cực dài — giới hạn độ dài / DoS nhẹ; response time < 2000ms' }
+          securityDeferred:
+            - { value: "1' OR '1'='1", sec: SEC-05, note: 'SQLi — endpoint này DÙNG parameterized query nên phải an toàn. Sinh ở nhóm Security' }
+            - { value: '<script>alert(1)</script>', sec: SEC-04, note: 'XSS reflected — nhóm Security' }
 
     put:
       tags: [API-3 Product Manage]
@@ -238,11 +286,160 @@ paths:
             assert (a) product bị sửa chỉ đổi đúng field đã gửi, (b) các product khác không đổi.
 
   # ==========================================================
-  # API-3A — FR-15
+  # API-1 (list / search) — FR-05   +   API-3A (create) — FR-15
   # ==========================================================
   /api/products:
     parameters:
       - $ref: '#/components/parameters/StudentIdHeader'
+
+    get:
+      tags: [API-1 Products Read]
+      operationId: listProducts
+      summary: Lấy danh sách sản phẩm / tìm kiếm theo tên
+      description: |
+        Trả về **mảng** sản phẩm. **Không yêu cầu** xác thực.
+
+        - Không truyền `search`, hoặc truyền chuỗi **rỗng** ⇒ trả về **toàn bộ** sản phẩm.
+        - Truyền `search=<keyword>` ⇒ lọc theo **substring trên `name`** (không phân biệt hoa/thường).
+
+        Theo **FR-05**, từ khóa người dùng nhập phải được xử lý như **văn bản thuần
+        (literal)**: `%` và `_` là ký tự thường, **không** phải wildcard của SQL `LIKE`.
+        Việc tìm kiếm không phân biệt hoa/thường phải **nhất quán** giữa ASCII và
+        Unicode — `BÀN PHÍM`, `Bàn phím`, `bàn phím` phải cho cùng kết quả.
+
+        > **Lưu ý contract quan trọng:** endpoint này **KHÔNG** có lỗi ép kiểu `price`
+        > như `getProductById` (xem BUG-01). Ở đây `price` luôn là number với mọi `id`,
+        > kể cả id chẵn. Sự lệch giữa hai endpoint trên **cùng một** product chính là
+        > bằng chứng lỗi nằm ở handler detail, không phải ở DB — xem `x-cross-endpoint-check`.
+      x-hw06-api: API-1
+      x-hw06-fr: [FR-05]
+      x-hw06-sec: [SEC-05]
+      x-sut-code-ref: backend/server.js:141-157
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/SearchQuery'
+      responses:
+        '200':
+          description: |
+            Danh sách sản phẩm khớp điều kiện. Không khớp gì ⇒ **mảng rỗng** `[]`
+            (empty state theo FR-05), **không** phải `404`, **không** phải `null`.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+              examples:
+                all:
+                  summary: Không truyền search — toàn bộ 5 sản phẩm seed
+                  value:
+                    - { id: 1, name: iPhone 15 Pro Max,        price: 30000000, description: Điện thoại cao cấp của Apple,            imageUrl: 'https://placehold.co/300x300/png?text=iPhone+15',  category_id: 1 }
+                    - { id: 2, name: Samsung Galaxy S24 Ultra, price: 28000000, description: 'Màn hình hiển thị xuất sắc, camera siêu zoom', imageUrl: 'https://placehold.co/300x300/png?text=Samsung+S24', category_id: 1 }
+                    - { id: 3, name: MacBook Pro M3,           price: 45000000, description: Laptop chuyên nghiệp mạnh mẽ,            imageUrl: 'https://placehold.co/300x300/png?text=Macbook+Pro', category_id: 2 }
+                    - { id: 4, name: Tai nghe AirPods Pro 2,   price: 6000000,  description: Chống ồn chủ động xuất sắc,              imageUrl: 'https://placehold.co/300x300/png?text=AirPods+Pro', category_id: 3 }
+                    - { id: 5, name: Bàn phím cơ Keychron Q1,  price: 4000000,  description: 'Gõ cực sướng, thiết kế kim loại',       imageUrl: 'https://placehold.co/300x300/png?text=Keychron+Q1', category_id: 3 }
+                oneMatch:
+                  summary: search=iPhone — khớp 1
+                  value:
+                    - { id: 1, name: iPhone 15 Pro Max, price: 30000000, description: Điện thoại cao cấp của Apple, imageUrl: 'https://placehold.co/300x300/png?text=iPhone+15', category_id: 1 }
+                noMatch:
+                  summary: search=zzzzz — không khớp, empty state
+                  value: []
+        '400':
+          description: |
+            `search` không hợp lệ về kiểu — ví dụ truyền **lặp** param
+            (`?search=Pro&search=Mac`) khiến giá trị thành mảng thay vì chuỗi.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Invalid search parameter
+          x-sut-actual:
+            bugId: BUG-18
+            severity: Minor/P2
+            observed: |
+              `?search=Pro&search=Mac` → Express parse `req.query.search` thành
+              `['Pro','Mac']`; template literal nối thành `LIKE '%Pro,Mac%'`
+              ⇒ `200` + mảng **rỗng**, thất bại trong im lặng.
+            expected: '`400`, hoặc dùng giá trị đầu tiên và trả 3 kết quả của `Pro`.'
+        '500':
+          description: |
+            Lỗi phía server. Body **phải là JSON** `{error}` và **không** được lộ
+            thông điệp lỗi nội bộ của DB.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Internal server error
+          x-sut-actual:
+            bugId: BUG-04
+            severity: Major/P1
+            observed: |
+              `server.js:146-149` trả `res.status(500).send('<h1>Database Error</h1><p>' + err.message + '</p>')`
+              ⇒ `Content-Type: text/html` + lộ nguyên văn thông điệp lỗi SQLite.
+              Kích hoạt được bằng payload SQLi làm sai cú pháp (xem nhóm Security).
+            expected: 'JSON `{error}` với thông điệp chung chung, không leak internal error.'
+
+      x-sut-actual-summary:
+        - bugId: BUG-17
+          severity: Major/P1
+          observed: |
+            `?search=%` hoặc `?search=_` trả về **TOÀN BỘ** 5 sản phẩm — bypass
+            hoàn toàn bộ lọc. Nguồn: `server.js:144` nối chuỗi
+            `LIKE '%${searchQuery}%'` mà không escape wildcard của LIKE.
+          expected: 'Coi `%` / `_` là ký tự literal ⇒ mảng rỗng. Dùng parameterized query + escape wildcard (SEC-05).'
+          testHint: 'Assert `body.length === 0`, KHÔNG assert `200` là đủ — status vẫn 200 nên chỉ check status sẽ không bắt được bug.'
+        - bugId: BUG-16
+          severity: Major/P1
+          observed: |
+            Tìm kiếm không phân biệt hoa/thường CHỈ đúng với ASCII:
+            `iphone` / `IPHONE` / `iPhone` → đều ra 1 kết quả (đúng);
+            nhưng `bàn phím` → 1 kết quả, còn **`BÀN PHÍM` → 0 kết quả**.
+            Nguyên nhân: `LIKE` của SQLite chỉ case-fold ASCII, không fold Unicode
+            (cần ICU extension). Lỗi trực tiếp với người dùng tiếng Việt.
+          expected: 'Không phân biệt hoa/thường nhất quán cho cả ASCII và Unicode.'
+        - bugId: OBS-01
+          severity: 'Observation (không phải bug)'
+          observed: '`?search=` (chuỗi rỗng) là falsy trong JS ⇒ rơi vào nhánh else ⇒ trả toàn bộ. Trùng hành vi với "không truyền param".'
+          expected: 'Cùng kết quả — hợp lý. Ghi làm observation, KHÔNG tính là bug.'
+
+      x-cross-endpoint-check:
+        description: |
+          Case đối chiếu contract giữa 2 endpoint (TC-P1-021). Gọi `listProducts`
+          rồi `getProductById` trên **cùng** product id chẵn (vd id=2) và so kiểu `price`.
+        expected: 'Cùng kiểu number ở cả hai endpoint.'
+        sutActual: 'list → `28000000` (number); detail → `"28000000"` (string) ⇒ FAIL, ánh xạ BUG-01.'
+
+      x-test-partitions:
+        # LƯU Ý: cột `expect` là CONTRACT (kỳ vọng theo FR-05), KHÔNG phải hành vi thực tế của SUT.
+        search:
+          valid:
+            - { classId: SV1, value: '<không truyền>',  expectCount: 5, note: 'đường cơ sở — trả toàn bộ' }
+            - { classId: SV2, value: '',                expectCount: 5, note: 'rỗng ≡ không truyền' }
+            - { classId: SV3, value: 'iPhone',          expectCount: 1, expectIds: [1], note: 'khớp đúng 1' }
+            - { classId: SV4, value: 'Pro',             expectCount: 3, expectIds: [1, 3, 4], note: 'khớp nhiều' }
+            - { classId: SV5, value: 'zzzzz',           expectCount: 0, note: 'không khớp — empty state, KHÔNG phải 404' }
+            - { classId: SV6, value: 'Keychron Q1',     expectCount: 1, expectIds: [5], note: 'khớp phần tên đầy đủ' }
+            - { classId: SB1, value: 'i',               expectCount: '>=1', note: 'biên dưới độ dài = 1 ký tự' }
+            - { classId: SC1, value: 'iphone',          expectCount: 1, expectIds: [1], note: 'case-insensitive ASCII, chữ thường' }
+            - { classId: SC2, value: 'IPHONE',          expectCount: 1, expectIds: [1], note: 'case-insensitive ASCII, chữ hoa' }
+            - { classId: SU1, value: 'Bàn phím',        expectCount: 1, expectIds: [5], note: 'unicode có dấu, đúng case' }
+            - { classId: SU2, value: 'bàn phím',        expectCount: 1, expectIds: [5], note: 'unicode, chữ thường' }
+            - { classId: SU3, value: 'BÀN PHÍM',        expectCount: 1, expectIds: [5], note: 'unicode CHỮ HOA — lớp then chốt, bắt BUG-16' }
+            - { classId: SU4, value: 'Ban phim',        expectCount: 0, note: 'bỏ dấu — FR-05 KHÔNG yêu cầu tìm bỏ dấu ⇒ 0 kết quả là ĐÚNG' }
+          invalid:
+            - { classId: SB2, value: '<1000 ký tự a>',  expectCount: 0, expect: 200, note: 'biên trên độ dài; response time < 2000ms' }
+            - { classId: SI1, value: '%',               expectCount: 0, expect: 200, note: 'wildcard LIKE phải xử lý literal — bắt BUG-17' }
+            - { classId: SI2, value: '_',               expectCount: 0, expect: 200, note: 'wildcard LIKE — bắt BUG-17' }
+            - { classId: SI3, value: '%%',              expectCount: 0, expect: 200, note: 'nhiều wildcard — kiểm tra escape triệt để' }
+            - { classId: SI4, value: '<một khoảng trắng>', expect: 200, expectCount: null, note: 'spec KHÔNG quy định trim ⇒ chỉ assert schema, không assert số lượng' }
+            - { classId: SI5, value: '<lặp: Pro & Mac>', expect: '400 hoặc 200+3', note: 'param lặp — bắt BUG-18' }
+          securityDeferred:
+            - { value: "' OR '1'='1",              sec: SEC-05, note: 'SQLi — sinh ở nhóm Security, không thuộc bảng EP/BVA' }
+            - { value: "'; DROP TABLE products;--", sec: SEC-05, note: 'SQLi destructive — nhóm Security' }
+            - { value: '<script>alert(1)</script>', sec: SEC-04, note: 'XSS reflected — nhóm Security' }
 
     post:
       tags: [API-3 Product Manage]
@@ -314,10 +511,17 @@ paths:
           severity: Major/P1
           observed: '`name` dài 300 ký tự → `200` created.'
           expected: '`400` — vượt giới hạn 255.'
-      x-negative-route-note: |
-        `POST /api/products/{id}` KHÔNG tồn tại trong SUT ⇒ Express trả 404 dạng
-        HTML (`Cannot POST /api/products/1`), không phải JSON. Đưa 1 test case
-        negative để chứng minh contract (Content-Type không phải application/json).
+      x-negative-route-note:
+        bugId: BUG-15
+        severity: Minor/P2
+        observed: |
+          `POST /api/products/{id}` và `PATCH /api/products/{id}` KHÔNG tồn tại ⇒ Express
+          dùng handler mặc định, trả 404 dạng **HTML** (`Cannot POST /api/products/1`)
+          với `Content-Type: text/html; charset=utf-8`.
+        expected: |
+          Mọi lỗi của API phải là JSON `{error}` với `Content-Type: application/json`.
+          Cần một error-handler 404 tập trung.
+        testCase: TC-P1-025
 
   # ==========================================================
   # API-2 — FR-10
@@ -591,6 +795,21 @@ components:
       schema:
         type: string
         example: '25127001'
+
+    SearchQuery:
+      name: search
+      in: query
+      required: false
+      description: |
+        Từ khóa tìm theo **tên** sản phẩm (substring, không phân biệt hoa/thường).
+        Bỏ trống hoặc không truyền ⇒ trả toàn bộ sản phẩm.
+
+        Giá trị phải được xử lý **literal**: `%` và `_` là ký tự thường,
+        không phải wildcard SQL (SEC-05).
+      schema:
+        type: string
+        maxLength: 255
+      example: iPhone
 
     ProductIdPath:
       name: id

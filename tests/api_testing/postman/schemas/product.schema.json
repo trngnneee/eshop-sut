@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "product.schema.json",
+  "title": "Product (response của GET /api/products/:id)",
+  "description": "Contract theo FR-06. Response detail PHẢI có ĐÚNG 6 field, không dư. price BẮT BUỘC là number.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name", "price", "description", "imageUrl", "category_id"],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Khóa chính, số nguyên dương."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0,
+      "description": "BẮT BUỘC number. SUT trả string với id chẵn (BUG-01) ⇒ schema này sẽ FAIL đúng chỗ đó."
+    },
+    "description": {
+      "type": ["string", "null"]
+    },
+    "imageUrl": {
+      "type": ["string", "null"]
+    },
+    "category_id": {
+      "type": ["integer", "null"],
+      "minimum": 1
+    }
+  }
+}

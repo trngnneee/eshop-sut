@@ -1,0 +1,8 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "product-list.schema.json",
+  "title": "Product list (response của GET /api/products[?search=])",
+  "description": "Contract theo FR-05. Response list là MẢNG các Product; mảng rỗng khi không khớp.",
+  "type": "array",
+  "items": { "$ref": "product.schema.json" }
+}
