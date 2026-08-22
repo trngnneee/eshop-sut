@@ -1,0 +1,122 @@
+[
+  {
+    "tc_id": "TC-B-DD-01",
+    "description": "Valid request - Authenticated user retrieves order history",
+    "auth_type": "VALID_USER",
+    "query_params": "",
+    "expected_status": 200,
+    "expect_array": true
+  },
+  {
+    "tc_id": "TC-B-DD-02",
+    "description": "Valid request - Authenticated admin retrieves own order history",
+    "auth_type": "VALID_ADMIN",
+    "query_params": "",
+    "expected_status": 200,
+    "expect_array": true
+  },
+  {
+    "tc_id": "TC-B-DD-03",
+    "description": "Invalid EP - Missing Authorization header",
+    "auth_type": "NO_AUTH",
+    "query_params": "",
+    "expected_status": 401,
+    "expect_array": false
+  },
+  {
+    "tc_id": "TC-B-DD-04",
+    "description": "Invalid EP - Token format missing Bearer prefix",
+    "auth_type": "NO_BEARER_PREFIX",
+    "query_params": "",
+    "expected_status": 401,
+    "expect_array": false
+  },
+  {
+    "tc_id": "TC-B-DD-05",
+    "description": "Invalid EP - Empty Bearer token",
+    "auth_type": "EMPTY_BEARER",
+    "query_params": "",
+    "expected_status": 401,
+    "expect_array": false
+  },
+  {
+    "tc_id": "TC-B-DD-06",
+    "description": "Invalid EP - Forged JWT token",
+    "auth_type": "FORGED_JWT",
+    "query_params": "",
+    "expected_status": 401,
+    "expect_array": false
+  },
+  {
+    "tc_id": "TC-B-DD-07",
+    "description": "Invalid EP - Expired JWT token",
+    "auth_type": "EXPIRED_JWT",
+    "query_params": "",
+    "expected_status": 401,
+    "expect_array": false
+  },
+  {
+    "tc_id": "TC-B-DD-08",
+    "description": "Valid EP - Query parameter ?page=1 (ignored by API)",
+    "auth_type": "VALID_USER",
+    "query_params": "?page=1",
+    "expected_status": 200,
+    "expect_array": true
+  },
+  {
+    "tc_id": "TC-B-DD-09",
+    "description": "Valid EP - Query parameter ?page=0 (ignored by API)",
+    "auth_type": "VALID_USER",
+    "query_params": "?page=0",
+    "expected_status": 200,
+    "expect_array": true
+  },
+  {
+    "tc_id": "TC-B-DD-10",
+    "description": "Valid EP - Query parameter ?limit=9999 (ignored by API)",
+    "auth_type": "VALID_USER",
+    "query_params": "?limit=9999",
+    "expected_status": 200,
+    "expect_array": true
+  },
+  {
+    "tc_id": "TC-B-DD-11",
+    "description": "Security - IDOR attempt with ?user_id=999 (should ignore param and return only own orders)",
+    "auth_type": "VALID_USER",
+    "query_params": "?user_id=999",
+    "expected_status": 200,
+    "expect_array": true
+  },
+  {
+    "tc_id": "TC-B-DD-12",
+    "description": "Security - SQL Injection in query parameter",
+    "auth_type": "VALID_USER",
+    "query_params": "?page=' OR 1=1 --",
+    "expected_status": 200,
+    "expect_array": true
+  },
+  {
+    "tc_id": "TC-B-DD-13",
+    "description": "Extend - JWT Algorithm None attack (unsigned token)",
+    "auth_type": "ALG_NONE_JWT",
+    "query_params": "",
+    "expected_status": 401,
+    "expect_array": false
+  },
+  {
+    "tc_id": "TC-B-DD-14",
+    "description": "Extend - Basic Auth scheme instead of Bearer",
+    "auth_type": "BASIC_AUTH",
+    "query_params": "",
+    "expected_status": 401,
+    "expect_array": false
+  },
+  {
+    "tc_id": "TC-B-DD-15",
+    "description": "Extend - Lowercase 'bearer' keyword in Authorization header",
+    "auth_type": "LOWERCASE_BEARER",
+    "query_params": "",
+    "expected_status": 200,
+    "expect_array": true
+  }
+]

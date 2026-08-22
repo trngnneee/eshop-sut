@@ -1,0 +1,200 @@
+[
+  {
+    "tc_id": "TC-A-DD-01",
+    "description": "Valid registration - Happy path",
+    "name": "Nguyen Van A",
+    "email_prefix": "dd_valid_happy",
+    "password": "Password123!",
+    "expected_status": 200,
+    "has_dynamic_email": true
+  },
+  {
+    "tc_id": "TC-A-DD-02",
+    "description": "Valid registration - Unicode name (Tieng Viet)",
+    "name": "Nguyễn Văn Ánh",
+    "email_prefix": "dd_valid_unicode",
+    "password": "Pass123!Unicode",
+    "expected_status": 200,
+    "has_dynamic_email": true
+  },
+  {
+    "tc_id": "TC-A-DD-03",
+    "description": "Valid registration - Sub-domain email",
+    "name": "User Subdomain",
+    "email_prefix": "dd_subdomain",
+    "email_domain": "mail.sub.domain.com",
+    "password": "Password123!",
+    "expected_status": 200,
+    "has_dynamic_email": true
+  },
+  {
+    "tc_id": "TC-A-DD-04",
+    "description": "Invalid EP - Empty name",
+    "name": "",
+    "email_prefix": "dd_empty_name",
+    "password": "Password123!",
+    "expected_status": 400,
+    "has_dynamic_email": true
+  },
+  {
+    "tc_id": "TC-A-DD-05",
+    "description": "Invalid EP - Missing name field",
+    "email_prefix": "dd_missing_name",
+    "password": "Password123!",
+    "expected_status": 400,
+    "has_dynamic_email": true
+  },
+  {
+    "tc_id": "TC-A-DD-06",
+    "description": "Invalid EP - Email missing @",
+    "name": "User A",
+    "raw_email": "invalidemail.com",
+    "password": "Password123!",
+    "expected_status": 400,
+    "has_dynamic_email": false
+  },
+  {
+    "tc_id": "TC-A-DD-07",
+    "description": "Invalid EP - Email missing domain",
+    "name": "User A",
+    "raw_email": "user@",
+    "password": "Password123!",
+    "expected_status": 400,
+    "has_dynamic_email": false
+  },
+  {
+    "tc_id": "TC-A-DD-08",
+    "description": "Invalid EP - Empty email",
+    "name": "User A",
+    "raw_email": "",
+    "password": "Password123!",
+    "expected_status": 400,
+    "has_dynamic_email": false
+  },
+  {
+    "tc_id": "TC-A-DD-09",
+    "description": "Invalid EP - Missing email field",
+    "name": "User A",
+    "password": "Password123!",
+    "expected_status": 400,
+    "has_dynamic_email": false
+  },
+  {
+    "tc_id": "TC-A-DD-10",
+    "description": "Invalid EP - Empty password",
+    "name": "User A",
+    "email_prefix": "dd_empty_pass",
+    "password": "",
+    "expected_status": 400,
+    "has_dynamic_email": true
+  },
+  {
+    "tc_id": "TC-A-DD-11",
+    "description": "Invalid EP - Missing password field",
+    "name": "User A",
+    "email_prefix": "dd_missing_pass",
+    "expected_status": 400,
+    "has_dynamic_email": true
+  },
+  {
+    "tc_id": "TC-A-DD-12",
+    "description": "BVA - Short password (1 char)",
+    "name": "User A",
+    "email_prefix": "dd_short_pass",
+    "password": "A",
+    "expected_status": 400,
+    "has_dynamic_email": true
+  },
+  {
+    "tc_id": "TC-A-DD-13",
+    "description": "BVA - Minimum password (8 chars)",
+    "name": "User A",
+    "email_prefix": "dd_min_pass",
+    "password": "Password123",
+    "expected_status": 200,
+    "has_dynamic_email": true
+  },
+  {
+    "tc_id": "TC-A-DD-14",
+    "description": "BVA - Password 7 chars (below min)",
+    "name": "User A",
+    "email_prefix": "dd_pass_7",
+    "password": "Pass123",
+    "expected_status": 400,
+    "has_dynamic_email": true
+  },
+  {
+    "tc_id": "TC-A-DD-15",
+    "description": "Security - SQL Injection in email",
+    "name": "User A",
+    "raw_email": "' OR 1=1 --",
+    "password": "Password123!",
+    "expected_status": 400,
+    "has_dynamic_email": false
+  },
+  {
+    "tc_id": "TC-A-DD-16",
+    "description": "Security - SQL Injection in name",
+    "name": "'; DROP TABLE users;--",
+    "email_prefix": "dd_sqli_name",
+    "password": "Password123!",
+    "expected_status": 200,
+    "has_dynamic_email": true
+  },
+  {
+    "tc_id": "TC-A-DD-17",
+    "description": "Security - XSS payload in name",
+    "name": "<script>alert(1)</script>",
+    "email_prefix": "dd_xss_name",
+    "password": "Password123!",
+    "expected_status": 200,
+    "has_dynamic_email": true
+  },
+  {
+    "tc_id": "TC-A-DD-18",
+    "description": "Security - Role Escalation (role=admin in body)",
+    "name": "Hacker",
+    "email_prefix": "dd_role_escalation",
+    "password": "Password123!",
+    "extra_field": "role",
+    "extra_value": "admin",
+    "expected_status": 200,
+    "has_dynamic_email": true
+  },
+  {
+    "tc_id": "TC-A-DD-19",
+    "description": "Extend - JSON null name",
+    "name_is_null": true,
+    "email_prefix": "dd_null_name",
+    "password": "Password123!",
+    "expected_status": 400,
+    "has_dynamic_email": true
+  },
+  {
+    "tc_id": "TC-A-DD-20",
+    "description": "Extend - JSON null email",
+    "name": "User A",
+    "email_is_null": true,
+    "password": "Password123!",
+    "expected_status": 400,
+    "has_dynamic_email": false
+  },
+  {
+    "tc_id": "TC-A-DD-21",
+    "description": "Extend - JSON null password",
+    "name": "User A",
+    "email_prefix": "dd_null_pass",
+    "password_is_null": true,
+    "expected_status": 400,
+    "has_dynamic_email": true
+  },
+  {
+    "tc_id": "TC-A-DD-22",
+    "description": "Extend - Plus-addressing email format (RFC 5321)",
+    "name": "User Plus",
+    "email_prefix": "user+tag",
+    "password": "Password123!",
+    "expected_status": 200,
+    "has_dynamic_email": true
+  }
+]

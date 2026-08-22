@@ -243,6 +243,12 @@ Bảng: [TC ID | Mô tả | Field kiểm tra | Expected schema]
 
 > Newman HTML report: `newman_reports/newman_api1_report.html`
 
+![Kết quả thực thi Newman API 1 - Tổng quan](screenshots/api1-newman-1.png)
+*Hình 2.1: Tổng quan kết quả thực thi Newman API 1 (POST /api/register)*
+
+![Kết quả thực thi Newman API 1 - Chi tiết Assertions](screenshots/api1-newman-2.png)
+*Hình 2.2: Chi tiết các ca kiểm thử và Assertions của API 1 trên Newman HTML Extra Report*
+
 ---
 
 ### 2.5. Bước 5: Báo cáo Bug
@@ -449,6 +455,12 @@ Bảng: [TC ID | Mô tả | Field kiểm tra | Expected schema]
 
 > Newman HTML report: `newman_reports/newman_api2_report.html`
 
+![Kết quả thực thi Newman API 2 - Tổng quan](screenshots/api2-newman-1.png)
+*Hình 3.1: Tổng quan kết quả thực thi Newman API 2 (GET /api/orders/my-orders)*
+
+![Kết quả thực thi Newman API 2 - Chi tiết Assertions](screenshots/api2-newman-2.png)
+*Hình 3.2: Chi tiết các ca kiểm thử và Assertions của API 2 trên Newman HTML Extra Report*
+
 ---
 
 ### 3.5. Bước 5: Báo cáo Bug
@@ -644,6 +656,12 @@ Bảng: [TC ID | Mô tả | Field kiểm tra | Expected schema]
 
 > Newman HTML report: `newman_reports/newman_api3_report.html`
 
+![Kết quả thực thi Newman API 3 - Tổng quan](screenshots/api3-newman-1.png)
+*Hình 4.1: Tổng quan kết quả thực thi Newman API 3 (POST /api/admin/import-products)*
+
+![Kết quả thực thi Newman API 3 - Chi tiết Assertions](screenshots/api3-newman-2.png)
+*Hình 4.2: Chi tiết các ca kiểm thử và Assertions của API 3 trên Newman HTML Extra Report*
+
 ---
 
 ### 4.5. Bước 5: Báo cáo Bug
@@ -663,15 +681,32 @@ Bảng: [TC ID | Mô tả | Field kiểm tra | Expected schema]
 
 ## 5. Các tính năng Postman đã sử dụng
 
-| Tính năng | Mô tả sử dụng |
+![Không gian làm việc Postman Workspace](screenshots/postman-workspace.png)
+*Hình 5.1: Không gian làm việc Postman Workspace `HW06 – EShop API Testing` chứa các Collections và Environments*
+
+| Tính năng | Mô tả sử dụng & Chi tiết triển khai |
 |:---|:---|
-| **Workspaces** | Tạo workspace chuyên biệt `HW06 – EShop API Testing` để quản lý các collections và môi trường của bài tập. |
-| **Collections** | Tổ chức 3 collections riêng biệt theo từng API: `HW06 – API 1 (POST /api/register)`, `HW06 – API 2 (GET /api/orders/my-orders)`, `HW06 – API 3 (POST /api/admin/import-products)`. |
-| **Variables** | Sử dụng biến đa tầng (Collection/Environment variables): `baseUrl`, `studentId`, `token`, `adminToken` để tái sử dụng linh hoạt giữa các requests. |
-| **Environments** | Thiết lập môi trường `HW06-Local` (`postman/hw06_environment.json`) với target `http://localhost:3000` và cấu hình token động. |
-| **Pre-request Scripts** | Tự động tạo timestamp `Date.now()` cho unique email và cấu hình header sinh viên `X-Student-Id` trước khi gửi request. |
-| **Test Scripts** | Viết các Chai Assertion (`pm.test`, `pm.expect`) kiểm tra HTTP status code, JSON response schema, kiểm tra kiểu dữ liệu, xác thực quyền truy cập và phát hiện lộ lọt dữ liệu nhạy cảm. |
-| **Collection Runner / Newman** | Tự động hóa thực thi toàn bộ test suite thông qua Newman CLI (`npx newman run`) và xuất báo cáo trực quan với `newman-reporter-htmlextra`. |
+| **Workspaces** | Tạo workspace chuyên biệt `HW06 – EShop API Testing` để quản lý tập trung các collections, environments và test artifacts. |
+| **Collections** | Tổ chức 3 collections kiểm thử chi tiết theo từng endpoint (`hw06_api1_collection.json`, `hw06_api2_collection.json`, `hw06_api3_collection.json`) và 3 collections chuyên biệt cho Data-Driven. |
+| **Variables (Đa tầng)** | Sử dụng biến đa cấp: Environment (`baseUrl`, `studentId`, `token`, `adminToken`), Collection variables, và Dynamic Runtime variables (`Date.now()`, `pm.variables.set('ts', ...)`). |
+| **Environments** | Thiết lập môi trường `HW06-Local` (`postman/hw06_environment.json`) định tuyến tới `http://localhost:3000` và lưu trữ token động giữa các request. |
+| **Pre-request Scripts** | Tự động sinh dữ liệu ngẫu nhiên chống trùng lặp, cấu hình header sinh viên bắt buộc `X-Student-Id: 23127486`, và trích xuất tham số từ iteration data. |
+| **Test Scripts & Assertions** | Viết hàng trăm assertion Chai JS (`pm.test`, `pm.expect`) kiểm tra status code, cấu trúc JSON Schema, type safety, enum constraints và phòng chống lỗ hổng bảo mật. |
+| **Data-Driven Runs (Runner & Data Files)** | Áp dụng kỹ thuật Data-Driven Testing cho **cả 3 API** thông qua các file dữ liệu JSON kịch bản (`postman/data_driven/api1_data.json`, `api2_data.json`, `api3_data.json`) kết hợp `pm.iterationData.get(...)` và chạy lặp qua Newman CLI (`--iteration-data`). |
+| **Collection Runner & Newman CLI** | Tự động hóa thực thi toàn bộ kịch bản kiểm thử (cả Request-based lẫn Data-Driven) bằng Newman CLI và xuất báo cáo HTML trực quan chuyên nghiệp (`newman-reporter-htmlextra`). |
+
+### 5.1. Bảng tổng hợp Kịch bản Data-Driven Testing cho 3 API
+
+| API | Collection Data-Driven | File Dữ liệu (`.data.json`) | Số Iterations | Báo cáo HTML |
+|:---|:---|:---|:---|:---|
+| **API 1 (FR-01)** | `postman/hw06_api1_datadriven_collection.json` | `postman/data_driven/api1_data.json` | 22 iterations | `newman_reports/datadriven_api1_report.html` |
+| **API 2 (FR-11)** | `postman/hw06_api2_datadriven_collection.json` | `postman/data_driven/api2_data.json` | 15 iterations | `newman_reports/datadriven_api2_report.html` |
+| **API 3 (FR-16)** | `postman/hw06_api3_datadriven_collection.json` | `postman/data_driven/api3_data.json` | 21 iterations | `newman_reports/datadriven_api3_report.html` |
+
+*Lệnh chạy Data-Driven toàn bộ 3 API:*
+```powershell
+powershell -ExecutionPolicy Bypass -File .\run_newman_datadriven.ps1
+```
 
 ---
 

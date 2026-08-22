@@ -1,0 +1,124 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-dd01-4000-8000-000000000001",
+    "name": "HW06 – Data-Driven API 1 (POST /api/register)",
+    "description": "Data-Driven Test Suite for FR-01 Account Registration using iteration data JSON",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "POST /api/register [Data-Driven Runner]",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "var tc_id = pm.iterationData.get('tc_id') || 'TC-A-DD';",
+              "var desc = pm.iterationData.get('description') || '';",
+              "var ts = Date.now();",
+              "",
+              "pm.request.headers.upsert({",
+              "  key: 'X-Student-Id',",
+              "  value: pm.environment.get('studentId') || '23127486'",
+              "});",
+              "",
+              "var body = {};",
+              "if (pm.iterationData.get('name_is_null')) {",
+              "    body.name = null;",
+              "} else if (pm.iterationData.get('name') !== undefined) {",
+              "    body.name = pm.iterationData.get('name');",
+              "}",
+              "",
+              "if (pm.iterationData.get('email_is_null')) {",
+              "    body.email = null;",
+              "} else if (pm.iterationData.get('raw_email') !== undefined) {",
+              "    body.email = pm.iterationData.get('raw_email');",
+              "} else if (pm.iterationData.get('email_prefix')) {",
+              "    var domain = pm.iterationData.get('email_domain') || 'test.com';",
+              "    if (pm.iterationData.get('has_dynamic_email')) {",
+              "        body.email = pm.iterationData.get('email_prefix') + '_' + ts + '@' + domain;",
+              "    } else {",
+              "        body.email = pm.iterationData.get('email_prefix') + '@' + domain;",
+              "    }",
+              "}",
+              "",
+              "if (pm.iterationData.get('password_is_null')) {",
+              "    body.password = null;",
+              "} else if (pm.iterationData.get('password') !== undefined) {",
+              "    body.password = pm.iterationData.get('password');",
+              "}",
+              "",
+              "if (pm.iterationData.get('extra_field')) {",
+              "    body[pm.iterationData.get('extra_field')] = pm.iterationData.get('extra_value');",
+              "}",
+              "",
+              "pm.variables.set('req_body', JSON.stringify(body));",
+              "console.log('[DD API1] Running ' + tc_id + ': ' + desc);"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var tc_id = pm.iterationData.get('tc_id') || 'TC-A-DD';",
+              "var desc = pm.iterationData.get('description') || '';",
+              "var expected_status = pm.iterationData.get('expected_status') || 200;",
+              "",
+              "pm.test('[' + tc_id + '] ' + desc + ' -> Status is ' + expected_status, function () {",
+              "    pm.response.to.have.status(expected_status);",
+              "});",
+              "",
+              "pm.test('[' + tc_id + '] Response Content-Type is JSON', function () {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});",
+              "",
+              "if (expected_status === 200) {",
+              "    pm.test('[' + tc_id + '] Response contains message and numeric id', function () {",
+              "        var jsonData = pm.response.json();",
+              "        pm.expect(jsonData).to.have.property('message');",
+              "        pm.expect(jsonData).to.have.property('id');",
+              "        pm.expect(typeof jsonData.id).to.equal('number');",
+              "        pm.expect(jsonData).to.not.have.property('password');",
+              "        pm.expect(jsonData).to.not.have.property('password_hash');",
+              "    });",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{req_body}}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/register",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

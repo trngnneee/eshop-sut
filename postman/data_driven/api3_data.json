@@ -1,0 +1,230 @@
+[
+  {
+    "tc_id": "TC-C-DD-01",
+    "description": "Valid import - Single product with all valid fields",
+    "auth_role": "admin",
+    "payload": {
+      "products": [
+        {
+          "name": "DD Product 1",
+          "price": 25000,
+          "description": "Valid single product",
+          "imageUrl": "http://img.com/1.png",
+          "category_id": 1
+        }
+      ]
+    },
+    "expected_status": 200
+  },
+  {
+    "tc_id": "TC-C-DD-02",
+    "description": "Valid import - Batch of multiple products",
+    "auth_role": "admin",
+    "payload": {
+      "products": [
+        { "name": "Batch SP 1", "price": 15000, "description": "Desc 1", "imageUrl": "", "category_id": 1 },
+        { "name": "Batch SP 2", "price": 30000, "description": "Desc 2", "imageUrl": "", "category_id": 2 }
+      ]
+    },
+    "expected_status": 200
+  },
+  {
+    "tc_id": "TC-C-DD-03",
+    "description": "Valid import - Nullable imageUrl (empty string)",
+    "auth_role": "admin",
+    "payload": {
+      "products": [
+        { "name": "DD Nullable Img", "price": 12000, "description": "No Image", "imageUrl": "", "category_id": 1 }
+      ]
+    },
+    "expected_status": 200
+  },
+  {
+    "tc_id": "TC-C-DD-04",
+    "description": "BVA - Empty products array",
+    "auth_role": "admin",
+    "payload": {
+      "products": []
+    },
+    "expected_status": 200
+  },
+  {
+    "tc_id": "TC-C-DD-05",
+    "description": "Invalid EP - Missing product name field",
+    "auth_role": "admin",
+    "payload": {
+      "products": [
+        { "price": 20000, "description": "Missing name", "imageUrl": "", "category_id": 1 }
+      ]
+    },
+    "expected_status": 400
+  },
+  {
+    "tc_id": "TC-C-DD-06",
+    "description": "Invalid EP - Empty product name string",
+    "auth_role": "admin",
+    "payload": {
+      "products": [
+        { "name": "", "price": 20000, "description": "Empty name", "imageUrl": "", "category_id": 1 }
+      ]
+    },
+    "expected_status": 400
+  },
+  {
+    "tc_id": "TC-C-DD-07",
+    "description": "Invalid EP - Missing price field",
+    "auth_role": "admin",
+    "payload": {
+      "products": [
+        { "name": "Missing Price SP", "description": "No Price", "imageUrl": "", "category_id": 1 }
+      ]
+    },
+    "expected_status": 400
+  },
+  {
+    "tc_id": "TC-C-DD-08",
+    "description": "BVA - Price is zero (0)",
+    "auth_role": "admin",
+    "payload": {
+      "products": [
+        { "name": "Zero Price SP", "price": 0, "description": "Free item", "imageUrl": "", "category_id": 1 }
+      ]
+    },
+    "expected_status": 200
+  },
+  {
+    "tc_id": "TC-C-DD-09",
+    "description": "Invalid EP - Negative price (-1)",
+    "auth_role": "admin",
+    "payload": {
+      "products": [
+        { "name": "Negative Price SP", "price": -1, "description": "Negative", "imageUrl": "", "category_id": 1 }
+      ]
+    },
+    "expected_status": 400
+  },
+  {
+    "tc_id": "TC-C-DD-10",
+    "description": "Invalid EP - Price is string ('10000')",
+    "auth_role": "admin",
+    "payload": {
+      "products": [
+        { "name": "String Price SP", "price": "10000", "description": "String Price", "imageUrl": "", "category_id": 1 }
+      ]
+    },
+    "expected_status": 400
+  },
+  {
+    "tc_id": "TC-C-DD-11",
+    "description": "Invalid EP - Missing category_id",
+    "auth_role": "admin",
+    "payload": {
+      "products": [
+        { "name": "No Category SP", "price": 10000, "description": "No Cat", "imageUrl": "" }
+      ]
+    },
+    "expected_status": 400
+  },
+  {
+    "tc_id": "TC-C-DD-12",
+    "description": "Invalid EP - Non-existent category_id (9999)",
+    "auth_role": "admin",
+    "payload": {
+      "products": [
+        { "name": "Bad Category SP", "price": 10000, "description": "Bad Cat", "imageUrl": "", "category_id": 9999 }
+      ]
+    },
+    "expected_status": 400
+  },
+  {
+    "tc_id": "TC-C-DD-13",
+    "description": "Invalid EP - Products is object instead of array",
+    "auth_role": "admin",
+    "payload": {
+      "products": { "name": "Not Array", "price": 10000, "category_id": 1 }
+    },
+    "expected_status": 400
+  },
+  {
+    "tc_id": "TC-C-DD-14",
+    "description": "Invalid EP - Empty JSON body {}",
+    "auth_role": "admin",
+    "payload": {},
+    "expected_status": 400
+  },
+  {
+    "tc_id": "TC-C-DD-15",
+    "description": "Security - Missing Authentication token",
+    "auth_role": "none",
+    "payload": {
+      "products": [
+        { "name": "No Auth SP", "price": 10000, "description": "Desc", "imageUrl": "", "category_id": 1 }
+      ]
+    },
+    "expected_status": 401
+  },
+  {
+    "tc_id": "TC-C-DD-16",
+    "description": "Security - Role Escalation (Regular user token accessing admin endpoint)",
+    "auth_role": "user",
+    "payload": {
+      "products": [
+        { "name": "Hacker Import", "price": 10000, "description": "Hacker", "imageUrl": "", "category_id": 1 }
+      ]
+    },
+    "expected_status": 403
+  },
+  {
+    "tc_id": "TC-C-DD-17",
+    "description": "Security - SQL Injection in product name",
+    "auth_role": "admin",
+    "payload": {
+      "products": [
+        { "name": "'; DROP TABLE products;--", "price": 10000, "description": "SQLi", "imageUrl": "", "category_id": 1 }
+      ]
+    },
+    "expected_status": 200
+  },
+  {
+    "tc_id": "TC-C-DD-18",
+    "description": "Security - XSS payload in product name",
+    "auth_role": "admin",
+    "payload": {
+      "products": [
+        { "name": "<script>alert(1)</script>", "price": 10000, "description": "XSS", "imageUrl": "", "category_id": 1 }
+      ]
+    },
+    "expected_status": 200
+  },
+  {
+    "tc_id": "TC-C-DD-19",
+    "description": "Extend - Array contains non-object element",
+    "auth_role": "admin",
+    "payload": {
+      "products": [123, "invalid_element"]
+    },
+    "expected_status": 400
+  },
+  {
+    "tc_id": "TC-C-DD-20",
+    "description": "Extend - Unicode & Emoji product name (🛒 Hàng đặc biệt 特别商品)",
+    "auth_role": "admin",
+    "payload": {
+      "products": [
+        { "name": "🛒 Hàng đặc biệt 特别商品", "price": 50000, "description": "Unicode desc", "imageUrl": "", "category_id": 1 }
+      ]
+    },
+    "expected_status": 200
+  },
+  {
+    "tc_id": "TC-C-DD-21",
+    "description": "Extend - Decimal price (19999.99)",
+    "auth_role": "admin",
+    "payload": {
+      "products": [
+        { "name": "Decimal Price SP", "price": 19999.99, "description": "Decimal", "imageUrl": "", "category_id": 1 }
+      ]
+    },
+    "expected_status": 200
+  }
+]
