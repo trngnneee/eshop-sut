@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "EShop API Test Suite",
+    "description": "Common Postman collection for EShop API tests. Currently contains one passing CI smoke test for FR-03 POST /api/forgot-password.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "FR-03 Forgot Password",
+      "item": [
+        {
+          "name": "TC-CI-FORGOT-PASSWORD-001 - registered email returns reset token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Student-Id",
+                "value": "{{studentId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@eshop.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/forgot-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "forgot-password"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('X-Student-Id header is attached: ' + pm.variables.get('studentId'), function () {",
+                  "  pm.expect(pm.request.headers.get('X-Student-Id')).to.eql(pm.variables.get('studentId'));",
+                  "});",
+                  "",
+                  "pm.test('HTTP 200 OK', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response is JSON with message and resetToken', function () {",
+                  "  pm.response.to.have.header('Content-Type');",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json.message).to.be.a('string');",
+                  "  pm.expect(json.resetToken).to.be.a('string');",
+                  "  pm.expect(json.resetToken).to.match(/^\\d+$/);",
+                  "});",
+                  "",
+                  "pm.test('Response does not leak password data', function () {",
+                  "  const text = pm.response.text().toLowerCase();",
+                  "  pm.expect(text).to.not.include('password');",
+                  "  pm.expect(text).to.not.include('password_hash');",
+                  "  pm.expect(text).to.not.include('passwordhash');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "studentId",
+      "value": "PUT_YOUR_STUDENT_ID_HERE"
+    }
+  ]
+}

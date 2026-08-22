@@ -1,0 +1,77 @@
+name: API tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  newman:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        run: npm ci
+        working-directory: backend
+
+      - name: Seed database
+        run: node database.js
+        working-directory: backend
+
+      - name: Start backend server
+        run: |
+          node server.js > ../backend.log 2>&1 &
+          echo $! > ../backend.pid
+        working-directory: backend
+
+      - name: Wait for API
+        run: |
+          for i in {1..30}; do
+            if curl -s -o /dev/null -w "%{http_code}" \
+              -X POST http://localhost:3000/api/forgot-password \
+              -H "Content-Type: application/json" \
+              -H "X-Student-Id: CI_SMOKE" \
+              -d '{"email":"test@eshop.com"}' | grep -Eq "200|404"; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat backend.log
+          exit 1
+
+      - name: Install Newman
+        run: npm install -g newman newman-reporter-html
+
+      - name: Run Postman collection with Newman
+        run: |
+          newman run API-testing/eshop_api.postman_collection.json \
+            -e API-testing/eshop_api.postman_environment.json \
+            --env-var "studentId=${STUDENT_ID}" \
+            -r cli,html \
+            --reporter-html-export API-testing/newman-eshop-api-report.html
+        env:
+          STUDENT_ID: ${{ vars.STUDENT_ID || 'PUT_YOUR_STUDENT_ID_HERE' }}
+
+      - name: Upload Newman HTML report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: newman-eshop-api-report
+          path: API-testing/newman-eshop-api-report.html
+
+      - name: Upload backend log
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-log
+          path: backend.log
