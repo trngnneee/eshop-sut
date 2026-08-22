@@ -1,6 +1,6 @@
 ---
 name: api-test-generator
-description: AI-driven API test case generator cho SUT EShop trong HW06 – API Testing (level G9.5 – Create). Dùng skill này khi người dùng muốn "generate test case", "sinh test case từ API spec", "tạo bộ test cho API", nhắc tới api_specification.md, EShop, domain partition, state transition, security testing SEC-01–SEC-07, hoặc schema validation cho HW06. Skill điều khiển việc sinh test case qua 4 giai đoạn tách biệt (domain partitions → state transitions → security → schema validation) thay vì 1 prompt chung chung, rồi gộp lại thành bộ test case có ID, có thể mở bằng Excel, sẵn sàng cho bước audit/extend/export mà người dùng tự làm sau đó. Luôn dùng skill này thay vì tự generate test case một lần cho toàn bộ API.
+description: AI-driven API test case generator cho SUT EShop trong HW06 – API Testing (level G9.5 – Create). Dùng skill này khi người dùng muốn "generate test case", "sinh test case từ API spec", "tạo bộ test cho API", nhắc tới api_specification.md, EShop, domain partition, state transition, security testing SEC-01–SEC-07, hoặc schema validation cho HW06. Skill điều khiển việc sinh test case qua 4 giai đoạn tách biệt (domain partitions → state transitions → security → schema validation) thay vì 1 prompt chung chung, rồi gộp lại thành bộ test case có ID, có thể mở bằng Excel, sẵn sàng cho bước audit/extend/export mà người dùng tự làm sau đó. Skill cũng ghi AI Audit Log bắt buộc (Name of AI tool / Date-time / Prompt / Output) cho mọi lượt tương tác AI thuộc HW06 — kể cả các việc ngoài sinh test case như viết hoặc sửa main report, viết AI Critique, viết bug report — nên cũng nên dùng skill này khi người dùng nhờ hỗ trợ các phần đó của HW06 và cần được log lại. Luôn dùng skill này thay vì tự generate test case một lần cho toàn bộ API.
 ---
 
 # API Test Generator (HW06 – G9.5)
@@ -43,11 +43,23 @@ Quy tắc bắt buộc cho 4 entry Stage 1–4:
    - **AI tool**: tên + phiên bản model đang chạy skill này (lấy từ system prompt/ngữ cảnh hiện tại nếu biết, ví dụ "Claude Sonnet 5"; nếu không xác định được version chính xác, ghi "Claude (phiên bản không xác định được từ ngữ cảnh)"). Không tự ý ghi tên tool khác nếu không đúng thực tế đang chạy.
    - **Date and time**: lấy thời gian **thật** bằng lệnh `date "+%Y-%m-%d %H:%M:%S %Z"` qua bash tool ngay tại thời điểm chạy stage đó — **không được bịa/ước lượng giờ**.
    - **Your prompt**: chép lại **nguyên văn, đầy đủ** chỉ dẫn cụ thể đã dùng để sinh stage đó — tức là bản tóm tắt cụ thể hoá từ mục "Stage N" tương ứng trong SKILL.md này, áp dụng cho đúng endpoint/tham số/SEC-id đang xử lý (không chỉ ghi "xem SKILL.md" — phải viết ra prompt thực sự đã dùng, đủ để người khác đọc lại và tái tạo được kết quả).
-   - **The AI output**: nội dung JSON đã sinh ra ở stage đó (dán nguyên khối JSON trong code block, hoặc nếu quá dài thì dán đầy đủ danh sách `temp_id` + `title` của từng test case kèm ghi chú "full JSON tại `0N_....json`" — nhưng ưu tiên dán đầy đủ nếu dung lượng còn hợp lý).
+   - **The AI output**: **tóm tắt** những gì đã sinh ra ở stage đó — không dán full JSON. Gồm: số lượng test case sinh ra, liệt kê ngắn gọn `temp_id` + `title` của từng test case (1 dòng/case), và ghi rõ "chi tiết đầy đủ tại `0N_....json`" để người đọc tự mở file khi cần. Không cần copy nguyên khối JSON vào log.
 3. Không log dồn 4 stage vào 1 entry chung chung — đúng tinh thần "step by step" nghĩa là audit log cũng phải tách theo từng bước, không phải 1 prompt tổng.
 4. Đúng 4 entry cho mỗi API (1 entry/stage sinh test case). Không thêm, không bớt.
 
 File `ai_audit_log.md` này **thay thế** file `generation_log.md` ở bản thiết kế trước — không cần tạo thêm file log riêng nữa.
+
+## General Audit Log — cho các prompt KHÁC ngoài 4 stage sinh test case
+
+`ai_audit_log.md` ở trên chỉ log 4 stage sinh test case của từng API. Nhưng đề bài mục 9 yêu cầu log **mọi** lượt tương tác AI dùng trong cả bài, không riêng phần sinh test case. Vì vậy: bất cứ khi nào người dùng nhờ hỗ trợ AI cho các việc **khác** thuộc HW06 — ví dụ viết/sửa main report, viết đoạn AI Critique (mục 10), viết nội dung bug report, viết/sửa README, viết CI/CD report, sửa lại 1 đoạn báo cáo đã có, v.v. — cũng phải log lại, dù các việc đó không thuộc pipeline 4 stage.
+
+Quy tắc:
+
+1. Log vào file chung `./API-testing/general_audit_log.md` (không phải file theo `<api-slug>`, vì các việc này không gắn với 1 API cụ thể). Tạo file này nếu chưa có, dòng mở đầu cũng là `"I use AI tools for the following tasks:"`.
+2. **Mỗi lần người dùng đưa ra 1 yêu cầu mới thuộc dạng này** (kể cả yêu cầu sửa lại/chỉnh sửa 1 việc đã làm trước đó — sửa report tính là 1 entry mới, không gộp vào entry viết report lần đầu) → append 1 entry, dùng đúng format 4-field như template ở `assets/ai_audit_log_entry_template.md` (đổi tiêu đề entry cho phù hợp, không nhất thiết phải là "Stage N", có thể ghi ví dụ `### Viết main report — phần 6. Requirements`, `### Sửa lại đoạn AI Critique theo góp ý`).
+3. Cùng nguyên tắc như log stage: **Date and time** lấy thật qua `date`, **Your prompt** chép lại đúng yêu cầu/chỉ dẫn đã dùng (có thể là nguyên văn câu người dùng nhắn, hoặc bản diễn giải cụ thể việc đã làm nếu người dùng chỉ nói ngắn gọn), **The AI output** chỉ **tóm tắt** đã tạo/sửa gì (không dán full nội dung report — ví dụ "Đã viết mục 5 (API Selection) và mục 6 (Requirements pipeline) của main report, khoảng 400 từ" hoặc "Đã sửa lại đoạn AI Critique theo hướng cụ thể hoá ví dụ SEC-03 bị AI bỏ sót").
+4. Không log các việc **không liên quan tới AI hỗ trợ** — ví dụ người dùng tự hỏi thông tin, tự trao đổi ý tưởng mà không yêu cầu AI tạo/sửa nội dung nộp bài thì không cần log.
+5. Việc log này **không thay thế** việc người dùng tự viết AI Critique/AI Audit Report hoàn chỉnh để nộp — chỉ là nhật ký nguyên liệu để họ tổng hợp lại cho đúng và đủ, tránh quên lượt tương tác nào.
 
 ## Cấu trúc thư mục output
 
@@ -56,6 +68,7 @@ Tất cả output nằm trong `./API-testing` ở thư mục làm việc hiện 
 ```
 API-testing/
 ├── README.md                          # index tổng: các API đã xử lý + tổng số test case
+├── general_audit_log.md               # AI Audit Log cho các việc KHÁC ngoài 4 stage (viết/sửa report, AI critique, bug report...)
 ├── specs/
 │   └── api_specification.md           # copy của spec đã dùng để sinh test (để đối chiếu sau này)
 └── <api-slug>/                        # 1 thư mục cho mỗi API được chọn, vd: login, cart, product-admin
@@ -168,4 +181,4 @@ Kết thúc bằng việc báo lại ngắn gọn: đã sinh bao nhiêu test cas
 - `references/test_case_schema.md` — định nghĩa đầy đủ các field của 1 test case (dùng thống nhất ở cả 4 stage).
 - `scripts/consolidate.py` — gộp 4 file JSON stage thành 1 CSV master, đánh ID, đếm và cảnh báo ngưỡng ≥35.
 - `assets/test_case_template.csv` — header mẫu, dùng nếu cần tạo file CSV tay thay vì qua script.
-- `assets/ai_audit_log_entry_template.md` — template 1 entry log đúng 4 field bắt buộc (AI tool / Date-time / Prompt / Output), dùng cho mỗi stage.
+- `assets/ai_audit_log_entry_template.md` — template 1 entry log đúng 4 field bắt buộc (AI tool / Date-time / Prompt / Output), dùng cho cả 4 stage sinh test case lẫn các entry trong `general_audit_log.md`.
