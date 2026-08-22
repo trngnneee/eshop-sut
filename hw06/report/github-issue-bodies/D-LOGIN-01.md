@@ -2,6 +2,7 @@
 
 **Bug ID:** `D-LOGIN-01`  
 **Found by Test Case:** `TC-API-LOGIN-018`  
+**Found by (automation):** GitHub Actions `hw06-newman-api-test.yml` mode `canary` — [run #32231020920](https://github.com/trngnneee/eshop-sut/actions/runs/32231020920)  
 **Module:** `api`  
 **Severity:** `critical`  
 **Priority:** `P0`
