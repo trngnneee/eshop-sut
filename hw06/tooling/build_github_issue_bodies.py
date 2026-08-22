@@ -7,6 +7,12 @@ from pathlib import Path
 
 OUT = Path(__file__).resolve().parents[1] / "report" / "github-issue-bodies"
 
+# Rule.pdf §H.10 — bug bắt được bởi pipeline phải ghi Found by: GitHub Actions + run + test case.
+FOUND_BY_AUTOMATION = {
+    "D-LOGIN-01": "GitHub Actions `hw06-newman-api-test.yml` mode `canary` — "
+                  "[run #32231020920](https://github.com/trngnneee/eshop-sut/actions/runs/32231020920)",
+}
+
 BUGS = [
     ("D-LOGIN-01", "Login failure counter increments twice and locks early", "critical", "P0", "api", "TC-API-LOGIN-018", "After two consecutive wrong-password attempts, a valid credential should still be accepted; the account should lock only at the documented threshold.", "The canary/full Newman run observed HTTP 403 for the valid credential after two injected failures. This is the lockout-threshold defect.", "hw06/newman/reports/00-canary-suite.json"),
     ("D-LOGIN-02", "Login lock duration is 180 seconds instead of 30 seconds", "major", "P1", "api", "TC-API-LOGIN-022", "The lockout window should expire after the 30-second requirement.", "The SUT defect catalog records a 180-second lock window. A timed probe is required to measure expiry without waiting in the smoke suite.", "docs/hw06/02-sut-defect-catalog.md"),
@@ -23,17 +29,25 @@ BUGS = [
     ("D-ADM-03", "Admin cannot cancel an order in shipping", "major", "P2", "orders", "TC-API-ORDER-STATUS-015", "The documented transition matrix allows an admin to cancel a shipping order.", "The SUT catalog records HTTP 400 for shipping → canceled; an isolated stateful probe is required.", "docs/hw06/02-sut-defect-catalog.md"),
     ("D-ADM-04", "Admin status endpoint ignores database update errors", "major", "P2", "orders", "TC-API-ORDER-STATUS-041", "A failed UPDATE must return a controlled error, not a success message.", "The callback ignores its database error argument; a nonexistent-order probe is required to demonstrate the false 200.", "docs/hw06/02-sut-defect-catalog.md"),
     ("D-ADM-08", "User can cancel an order while it is shipping", "major", "P1", "orders", "TC-API-ORDER-STATUS-043", "A user may cancel only pending or confirmed orders; shipping should return HTTP 400.", "The SUT catalog records that the user cancel endpoint accepts shipping; an isolated stateful probe is required.", "docs/hw06/02-sut-defect-catalog.md"),
+    ("D-LOGIN-07", "Lock message reveals account state and uses a distinct status code", "minor", "P3", "api", "TC-API-LOGIN-020", "A locked account should return the same generic message as any other failed login, so callers cannot distinguish which emails exist or are locked.", "The data-driven login suite observed the lock-specific Vietnamese message instead of the generic failure text, and a different status code from the wrong-password path. This allows user enumeration.", "hw06/newman/reports/01-ddt-login.json"),
+    ("D-LOGIN-08", "Login does not validate the request body", "minor", "P3", "api", "TC-API-LOGIN-004", "A missing or wrong-typed email/password field should return HTTP 400 with a validation error, distinct from a credential rejection.", "Strict Newman assertion failed: expected response to have status code 400 but got 401. Malformed bodies are treated as failed credentials instead of invalid input.", "hw06/newman/reports/00-full-suite.json; hw06/newman/reports/01-ddt-login.json"),
+    ("D-CHK-05", "Checkout stores shipping_address without validation or escaping", "major", "P1", "checkout", "TC-API-CHECKOUT-042", "A script-bearing shipping address must be rejected or neutralised before persistence, because the admin order screen renders this value.", "The checkout DDT suite read the order back and found the payload persisted byte-for-byte, so the stored value reaches the admin view unchanged.", "hw06/newman/reports/02-ddt-checkout.json"),
+    ("D-ADM-06", "Order status enum is not validated explicitly", "minor", "P3", "orders", "TC-API-ORDER-STATUS-044", "An out-of-enum status value should be rejected as invalid input, distinct from a valid value used in a forbidden transition.", "The transition DDT suite observed a state-transition error message for an out-of-enum value. The whitelist blocks it only as a side effect, so type errors and transition errors are indistinguishable to a caller.", "hw06/newman/reports/03-ddt-order-status.json"),
 ]
 
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     for bug, title, severity, priority, module, tc, expected, actual, evidence in BUGS:
+        automation = (
+            f"**Found by (automation):** {FOUND_BY_AUTOMATION[bug]}  \n"
+            if bug in FOUND_BY_AUTOMATION else ""
+        )
         body = f"""## Defect
 
 **Bug ID:** `{bug}`  
 **Found by Test Case:** `{tc}`  
-**Module:** `{module}`  
+{automation}**Module:** `{module}`  
 **Severity:** `{severity}`  
 **Priority:** `{priority}`
 

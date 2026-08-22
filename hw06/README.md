@@ -19,7 +19,7 @@ Repository công khai: [trngnneee/eshop-sut](https://github.com/trngnneee/eshop-
 | Newman full assertions | 26, failed 8 |
 | Data-driven rows/assertions | 123 (39 + 41 + 43) |
 | DDT assertion results | 76 passed · 47 failed (23 + 17 + 7) |
-| Defect IDs reported | 15 |
+| Defect IDs reported | 19 |
 
 Xem [báo cáo chính](report/main-report.md), [AI audit](report/ai-audit-report.md), [bug report](report/bug-report.md), [CI/CD report](report/cicd-report.md), [Newman reports](newman/reports/) và [Excel](excel/).
 
@@ -33,7 +33,7 @@ Xem [báo cáo chính](report/main-report.md), [AI audit](report/ai-audit-report
 | 4 | Agent Skill/test-generator | 10 | Design, generator, audit hook và `diagram.png` do người học tự vẽ — đã đủ | 9 |
 | **Tổng kỹ thuật hiện tại** |  | **100** |  | **80/100 trước human gates** |
 
-Điểm 100 chỉ có thể tự tin nộp sau khi hoàn tất các gate bắt buộc của đề: xác minh API-3 audit, kiểm tra 15 GitHub Issues + 15 screenshot local, chụp Postman Console/Newman/CI, tự vẽ `test-generator/diagram.png`, viết lại critique bằng lời của người học, xuất PDF, đặt repo public và đóng zip đúng tên.
+Đã hoàn tất: sơ đồ tự vẽ, critique tự viết, hai screenshot CI, 19 GitHub Issue + 19 screenshot, repo public, Pull Request [#428](https://github.com/trngnneee/eshop-sut/pull/428) theo `Rule.pdf` §H.3. Còn lại trước khi nộp: xác minh API-3 audit, chụp Postman Console và Newman CLI, xuất PDF và đóng zip đúng tên.
 
 ## Chạy lại
 
@@ -75,7 +75,7 @@ Nếu không có PDF engine, script lưu HTML in-ready rồi dừng; sau khi ng�
 - [ ] `evidence/screenshots/01-x-student-id-console.png`, `02-newman-cli-run.png`.
 - [x] Hai URL/SHA CI thật trong `report/cicd-report.md`: run `off` xanh và `canary` đỏ đúng một assertion `TC-API-LOGIN-018`.
 - [x] Hai ảnh HUMAN-only `evidence/screenshots/04-ci-pass.png` (run `#3`, SHA `4bf4e5f`, Success) và `05-ci-fail.png` (run `#4`, SHA `03f3699`, Failure) do người học tự chụp từ tab Actions.
-- [x] 15 GitHub Issue public và 15 screenshot local trong `evidence/screenshots/github-issues/` (manifest: `report/github-issues.json`).
+- [x] 19 GitHub Issue public (#413–#432) và 19 screenshot local trong `evidence/screenshots/github-issues/` (manifest: `report/github-issues.json`).
 - [x] `test-generator/diagram.png` HUMAN-only do người học tự vẽ (draw.io) — đã có, đủ 7 nhóm khối, 4 nhánh technique, human review gate và 2 nhánh hồi tiếp.
 - [x] `report/ai-critique.md` đã được người học viết lại; không còn marker draft HUMAN-only.
 - [x] Repository public và script `tooling/package_submission.py` đã có fail-closed gate cho artifact HUMAN-only.

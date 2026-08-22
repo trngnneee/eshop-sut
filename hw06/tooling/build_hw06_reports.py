@@ -164,11 +164,32 @@ def write_main_report(all_rows: list[dict[str, str]], stats: dict[str, dict[str,
         "",
         "## 5. Defects và giới hạn bằng chứng",
         "",
-        (f"15 defect IDs trong defect catalog đã được lập trong [`bug-report.md`](bug-report.md), mỗi dòng có Found by Test Case, expected/actual và nguồn evidence. Newman JSON ghi nhận {stats['00-full-suite']['failed']} fail ở full probe cùng {stats['01-ddt-login']['failed']}/{stats['02-ddt-checkout']['failed']}/{stats['03-ddt-order-status']['failed']} fail ở ba DDT suite; request/test-script infrastructure đều không fail. Đã tạo đủ 15 GitHub Issues scrubbed (#413–#427) và lưu 15 ảnh trang issue tại `evidence/screenshots/github-issues/`. CI external đã chạy thật: mode `off` xanh ở commit `4bf4e5f8…`; mode `canary` đỏ ở commit `03f36993…` với đúng một failed assertion `TC-API-LOGIN-018`. SHA và Actions URL đầy đủ nằm trong [`cicd-report.md`](cicd-report.md)." if issue_manifest else "15 defect IDs trong defect catalog đã được lập trong [`bug-report.md`](bug-report.md); chưa có manifest issue external."),
+        (f"{len(issue_manifest)} defect IDs trong defect catalog đã được lập trong [`bug-report.md`](bug-report.md), mỗi dòng có Found by Test Case, expected/actual và nguồn evidence. Newman JSON ghi nhận {stats['00-full-suite']['failed']} fail ở full probe cùng {stats['01-ddt-login']['failed']}/{stats['02-ddt-checkout']['failed']}/{stats['03-ddt-order-status']['failed']} fail ở ba DDT suite; request/test-script infrastructure đều không fail. Đã tạo đủ {len(issue_manifest)} GitHub Issues scrubbed (#{min(i["issue_number"] for i in issue_manifest.values())}–#{max(i["issue_number"] for i in issue_manifest.values())}) và lưu {len(issue_manifest)} ảnh trang issue tại `evidence/screenshots/github-issues/`. CI external đã chạy thật: mode `off` xanh ở commit `4bf4e5f8…`; mode `canary` đỏ ở commit `03f36993…` với đúng một failed assertion `TC-API-LOGIN-018`. SHA và Actions URL đầy đủ nằm trong [`cicd-report.md`](cicd-report.md)." if issue_manifest else "Defect catalog đã được lập trong [`bug-report.md`](bug-report.md); chưa có manifest issue external."),
         "",
-        "`ai-critique.md` là bản nháp dữ liệu 200–300 từ để người học viết lại bằng nhận xét của chính mình. `test-generator/diagram.png` là HUMAN-only và hiện chưa có; `DRAWING-BRIEF.md` chỉ là checklist hỗ trợ. Mermaid do AI sinh đã được cách ly tại `_reference/diagram-notes.mmd`, ghi rõ không phải sơ đồ nộp bài.",
+        "[`ai-critique.md`](ai-critique.md) do người học tự viết (R-12). [`test-generator/diagram.png`](../test-generator/diagram.png) là HUMAN-only và đã được người học tự thiết kế bố cục, tự vẽ; `DRAWING-BRIEF.md` chỉ là checklist khối/quan hệ tối thiểu. Mermaid do AI sinh được cách ly tại `_reference/diagram-notes.mmd`, ghi rõ không phải sơ đồ nộp bài và không được export.",
         "",
-        "## 6. Artifact index",
+        "## 6. Tuân thủ `Rule.pdf` — quản lý test case trên GitHub",
+        "",
+        "Ngoài `Requirements.pdf`, bài này áp dụng quy ước §H của `Rule.pdf`:",
+        "",
+        "| Điều | Áp dụng trong bài |",
+        "| :--- | :--- |",
+        "| §H.1 liên kết hai chiều | Bug issue ghi `Found by Test Case`; [test run](../../tests/test-runs/hw06-api-test-run.md) ghi `Related Bug = #xx`; Pull Request tham chiếu `Related to` toàn bộ issue |",
+        "| §H.3 cấu trúc thư mục | `tests/test-cases/<module>/`, `tests/test-runs/`, `tests/test-summary/`, `.github/ISSUE_TEMPLATE/` |",
+        "| §H.4 mã test case | `TC-API-LOGIN-###`, `TC-API-CHECKOUT-###`, `TC-API-ORDER-STATUS-###` — tiền tố `API-` để không đụng `TC-LOGIN-001..013` của bài trước |",
+        "| §H.5 template | Mỗi file test case có Requirement · Technique · Preconditions · Data · Expected · Result · Related Bug |",
+        "| §H.6 test run | Bảng 128 dòng `Test Case ID / Module / Tester / Result / Related Bug / Note`, trạng thái Pass·Fail·Blocked·Not Run |",
+        "| §H.7 label | Issue gắn `type: bug`, `module: *`, `severity: *`, `priority: *`, `found-by: test-case` |",
+        f"| §H.8 template bug | {len(issue_manifest)} issue theo cấu trúc Found by → Requirement → Severity → Environment → Steps → Expected → Actual → Evidence |",
+        "| §H.9 traceability | [`traceability-matrix.md`](../../tests/test-summary/traceability-matrix.md) §HW06 — 128 dòng `Requirement / Test Case / Result / Bug Issue / Status` |",
+        "| §H.10 automation | D-LOGIN-01 ghi rõ `Found by: GitHub Actions` + run URL + assertion — xem [`bug-report.md`](bug-report.md) |",
+        f"| §H.11 điều kiện close | {len(issue_manifest)} issue giữ trạng thái Open vì SUT chưa được fix; chưa có retest pass nên chưa được close |",
+        "",
+        "**Quy ước về số lượng file test case riêng lẻ.** Bảng test case đầy đủ (128 case) nằm ở `hw06/api-0X-*/test-cases.md` — dạng bảng để xuất Excel và đối chiếu nhanh. Trong `tests/test-cases/` chỉ sinh file `.md` riêng cho **các case đã FAIL (có bug truy vết được) cộng 5 case đại diện mỗi API**. Đây là quyết định có chủ đích để tránh nhân bản 128 file trùng nội dung với bảng gốc, đồng thời vẫn giữ đúng yêu cầu §H.2 rằng test case phát hiện bug phải tồn tại dưới dạng file có version history và review được qua Pull Request.",
+        "",
+        "**Test case không thực thi tự động.** 4 case `Blocked` và 1 case `Not Run` không có assertion Newman; lý do ghi ở cột Note của test run (chờ lock thật 180 giây, không nhúng signing secret vào artifact công khai, SUT thiếu API quan sát hậu điều kiện). Các case này **không** được gán Pass/Fail suy diễn.",
+        "",
+        "## 7. Artifact index",
         "",
         "- [README tự chấm và summary](../README.md)",
         "- [AI audit log](ai-audit-report.md)",
@@ -178,10 +199,14 @@ def write_main_report(all_rows: list[dict[str, str]], stats: dict[str, dict[str,
         "- [CI/CD report](cicd-report.md)",
         "- [Excel/CSV](../excel/)",
         "- [Traceability](../../tests/test-summary/traceability-matrix.md)",
+        "- [Test run theo §H.6](../../tests/test-runs/hw06-api-test-run.md)",
+        "- [Test case files](../../tests/test-cases/)",
         "",
         "### Human completion gates",
         "",
-        ("1. Xác minh metadata/signature API-3; 2. kiểm tra 15 GitHub issue links + 15 screenshot local; 3. chụp Postman Console/Newman và hai run CI đã được liên kết; 4. tự vẽ `diagram.png`; 5. viết lại critique và xuất ba PDF; 6. đóng zip theo tên đề bài (repo hiện đã public)." if api3_signoff else "1. Ký API-3 audit; 2. kiểm tra 15 GitHub issue links + 15 screenshot local; 3. chụp Postman Console/Newman và hai run CI đã được liên kết; 4. tự vẽ `diagram.png`; 5. viết lại critique và xuất ba PDF; 6. đóng zip theo tên đề bài (repo hiện đã public)."),
+        f"Đã hoàn tất: `diagram.png` tự vẽ · `ai-critique.md` tự viết · hai screenshot CI · {len(issue_manifest)} issue link + {len(issue_manifest)} screenshot · repo public.",
+        "",
+        ("Còn lại: 1. chụp Postman Console (`01-x-student-id-console.png`) và Newman CLI (`02-newman-cli-run.png`); 2. xuất ba PDF và đóng zip theo tên đề bài." if api3_signoff else "Còn lại: 1. ký API-3 audit; 2. chụp Postman Console (`01-x-student-id-console.png`) và Newman CLI (`02-newman-cli-run.png`); 3. xuất ba PDF và đóng zip theo tên đề bài."),
     ]
     (REPORT / "main-report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -203,6 +228,10 @@ def write_bug_report() -> None:
         ("D-ADM-03", "Major", "Admin không hủy được shipping", "TC-API-ORDER-STATUS-015", "200", "Stateful DDT dựng order shipping rồi nhận 400 khi admin hủy", "`03-ddt-order-status.json`"),
         ("D-ADM-04", "Major", "Bỏ qua lỗi UPDATE, trả 200", "TC-API-ORDER-STATUS-041", "4xx/5xx khi update lỗi", "Callback bỏ qua err theo catalog; cần tạo orderId không tồn tại", "Catalog + manual follow-up"),
         ("D-ADM-08", "Major", "User hủy order shipping", "TC-API-ORDER-STATUS-043", "400", "Stateful DDT dựng order shipping rồi user cancel nhận 200", "`03-ddt-order-status.json`"),
+        ("D-LOGIN-07", "Minor", "Message khi khóa lộ trạng thái tài khoản", "TC-API-LOGIN-020", "Cùng message chung như mọi lần đăng nhập hỏng", "DDT nhận message riêng cho tài khoản bị khóa ⇒ user enumeration", "`01-ddt-login.json`"),
+        ("D-LOGIN-08", "Minor", "Không validate body của login", "TC-API-LOGIN-004", "400 khi thiếu/sai kiểu field", "Strict assertion: expected 400 but got 401", "`00-full-suite.json`, `01-ddt-login.json`"),
+        ("D-CHK-05", "Major", "shipping_address không validate/escape", "TC-API-CHECKOUT-042", "Payload script bị từ chối hoặc escape", "Đọc lại order thấy payload lưu nguyên văn", "`02-ddt-checkout.json`"),
+        ("D-ADM-06", "Minor", "Không validate enum status tường minh", "TC-API-ORDER-STATUS-044", "Lỗi giá trị không hợp lệ, tách khỏi lỗi transition", "DDT nhận message state-transition cho giá trị ngoài enum", "`03-ddt-order-status.json`"),
     ]
     issue_manifest_path = REPORT / "github-issues.json"
     issue_manifest = {item["bug_id"]: item for item in json.loads(issue_manifest_path.read_text(encoding="utf-8"))} if issue_manifest_path.exists() else {}
@@ -221,6 +250,10 @@ def write_bug_report() -> None:
 
 
 def write_cicd(stats: dict[str, dict[str, int]]) -> None:
+    target = REPORT / "cicd-report.md"
+    if target.exists() and "actions/runs/" in target.read_text(encoding="utf-8"):
+        print("Bỏ qua cicd-report.md: đã có link GitHub Actions thật, không ghi đè.")
+        return
     lines = ["# HW06 CI/CD report", "", "## Pipeline", "", "```mermaid", "flowchart LR", "A[checkout] --> B[setup Node 20] --> C[npm ci backend] --> D[start localhost:3000] --> E[npm ci hw06] --> F[Newman off/canary/full] --> G[upload HTML+JSON]", "```", "", "Workflow: [`.github/workflows/hw06-newman-api-test.yml`](../../.github/workflows/hw06-newman-api-test.yml). It installs backend dependencies, waits for `/api/products`, starts the SUT, installs Newman and uploads reports even on failure.", "", "## Strict modes", "", "- `off`: only observed/oracle-safe assertions; used as green smoke run.", "- `canary`: strict one-case gate `TC-API-LOGIN-018`; expected red while D-LOGIN-01 exists.", "- `full`: all strict probes; exposes all currently known defects.", "", "## Local evidence (the same collection and runner used by CI)", "", "| Mode/report | Requests | Assertions | Failed | External Actions link | Screenshot |", "| :--- | ---: | ---: | ---: | :--- | :--- |", f"| off — `00-off-suite` | {stats['00-off-suite']['requests']} | {stats['00-off-suite']['assertions']} | {stats['00-off-suite']['failed']} | Chưa có — HUMAN | Chưa có — HUMAN |", f"| canary — `00-canary-suite` | {stats['00-canary-suite']['requests']} | {stats['00-canary-suite']['assertions']} | {stats['00-canary-suite']['failed']} | Chưa có — HUMAN | Chưa có — HUMAN |", "", "Không ghi SHA/link GitHub Actions khi chưa có run external thật. Sau khi push, người học điền hai URL/SHA và chụp `04-ci-pass.png`, `05-ci-fail.png`."]
     (REPORT / "cicd-report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -250,6 +283,26 @@ def write_test_run(stats: dict[str, dict[str, int]]) -> None:
     (RUNS / "hw06-api-test-run.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def execution_status() -> dict[str, tuple[str, str]]:
+    """Đọc execution-coverage.md -> {TC: (Blocked|Not Run|Executed, lý do)}.
+
+    Rule.pdf §H.6 chỉ cho phép Pass/Fail khi test case thực sự được chạy; case không
+    có assertion Newman phải là Blocked hoặc Not Run kèm lý do, không suy diễn kết quả.
+    """
+    import re as _re
+    path = HW / "newman" / "reports" / "execution-coverage.md"
+    if not path.exists():
+        return {}
+    out: dict[str, tuple[str, str]] = {}
+    pattern = r"^\|\s*(TC-API-[A-Z-]+-\d+)\s*\|\s*([^|]*?)\s*\|\s*[^|]*?\s*\|\s*([^|]*?)\s*\|"
+    for tc, executed, note in _re.findall(pattern, path.read_text(encoding="utf-8"), _re.M):
+        if executed.startswith("No"):
+            out[tc] = ("Blocked" if "Blocked" in executed else "Not Run", note.strip())
+        else:
+            out[tc] = ("Executed", "")
+    return out
+
+
 def append_traceability(all_rows: list[dict[str, str]]) -> None:
     path = SUMMARY / "traceability-matrix.md"
     current = path.read_text(encoding="utf-8") if path.exists() else "# Traceability Matrix\n"
@@ -258,13 +311,22 @@ def append_traceability(all_rows: list[dict[str, str]]) -> None:
         current = current.split(marker, 1)[0]
     issue_manifest_path = REPORT / "github-issues.json"
     issue_manifest = {item["bug_id"]: item for item in json.loads(issue_manifest_path.read_text(encoding="utf-8"))} if issue_manifest_path.exists() else {}
+    execution = execution_status()
     lines = [current.rstrip(), marker.rstrip(), "", "| Requirement | Test Case | Result | Bug Issue | Status |", "| :--- | :--- | :--- | :--- | :--- |"]
     for row in all_rows:
-        result = "Fail" if row["Kỳ vọng chạy"].upper() == "FAIL" else "Pass/Smoke"
+        tc = row["TC ID"]
+        ran, reason = execution.get(tc, ("Executed", ""))
+        if ran == "Executed":
+            result = "Fail" if row["Kỳ vọng chạy"].upper() == "FAIL" else "Pass/Smoke"
+            status_suffix = ""
+        else:
+            result = ran
+            status_suffix = f"{ran} — {reason}" if reason else ran
         bug = row["Bug ID"] if row["Bug ID"] not in {"—", "-", ""} else "None"
         issue = issue_manifest.get(bug)
-        bug_cell = f"[{bug} #{issue['issue_number']}]({issue['url']})" if issue else (f"{bug} / chưa tạo issue" if bug != "None" else "None")
-        lines.append(f"| {row['Requirement']} | `{row['TC ID']}` | {result} | {bug_cell} | {'Open' if bug != 'None' else 'Covered'} |")
+        bug_cell = f"[{bug} #{issue['issue_number']}]({issue['url']})" if issue else (f"{bug} / chưa tạo issue" if bug != "None" else "—" if status_suffix else "None")
+        status = status_suffix or ("Open" if bug != "None" else "Covered")
+        lines.append(f"| {row['Requirement']} | `{tc}` | {result} | {bug_cell} | {status} |")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -309,8 +371,8 @@ def main() -> None:
     write_main_report(all_rows, stats)
     write_bug_report()
     write_cicd(stats)
-    write_critique_draft()
-    write_test_run(stats)
+    # ai-critique.md do người học tự viết (R-12) — không tái sinh bản nháp đè lên.
+    # hw06-api-test-run.md nay do build_test_run.py sinh theo Rule.pdf §H.6.
     append_traceability(all_rows)
     write_representative_test_cases(all_rows)
     write_commit_log()

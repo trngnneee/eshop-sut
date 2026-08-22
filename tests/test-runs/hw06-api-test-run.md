@@ -21,7 +21,7 @@ Mọi dòng `Fail`/`Blocked` đều có Related Bug hoặc lý do rõ ràng theo
 | `TC-API-CHECKOUT-009` | api-checkout | 23127207 | Pass | — | FR-08/FR-10 · `02-ddt-checkout` |
 | `TC-API-CHECKOUT-010` | api-checkout | 23127207 | Pass | — | FR-08/FR-10 · `02-ddt-checkout` |
 | `TC-API-CHECKOUT-011` | api-checkout | 23127207 | Pass | — | FR-08/FR-10 · `02-ddt-checkout` |
-| `TC-API-CHECKOUT-012` | api-checkout | 23127207 | Fail | D-CHK-05 — chưa mở issue | FR-08/FR-10 · `02-ddt-checkout` |
+| `TC-API-CHECKOUT-012` | api-checkout | 23127207 | Fail | [#431](https://github.com/trngnneee/eshop-sut/issues/431) (D-CHK-05) | FR-08/FR-10 · `02-ddt-checkout` |
 | `TC-API-CHECKOUT-013` | api-checkout | 23127207 | Pass | — | FR-08/FR-10 · `02-ddt-checkout` |
 | `TC-API-CHECKOUT-014` | api-checkout | 23127207 | Pass | — | FR-08/FR-10 · `02-ddt-checkout` |
 | `TC-API-CHECKOUT-015` | api-checkout | 23127207 | Pass | — | FR-08/FR-10 · `02-ddt-checkout` |
@@ -41,7 +41,7 @@ Mọi dòng `Fail`/`Blocked` đều có Related Bug hoặc lý do rõ ràng theo
 | `TC-API-CHECKOUT-029` | api-checkout | 23127207 | Blocked | — | SUT phát JWT không có exp và không cung cấp signing fixture an toàn, nên không thể tạo token hợp lệ nhưng đã hết hạn mà không sao chép secret vào artifact. |
 | `TC-API-CHECKOUT-030` | api-checkout | 23127207 | Pass | — | FR-08/FR-10 · `02-ddt-checkout` |
 | `TC-API-CHECKOUT-031` | api-checkout | 23127207 | Fail | [#422](https://github.com/trngnneee/eshop-sut/issues/422) (D-CHK-07) | FR-08/FR-10 · `00-canary-suite`, `00-ddt-status-prep`, `00-full-suite`, `00-off-suite`, `02-ddt-checkout` |
-| `TC-API-CHECKOUT-032` | api-checkout | 23127207 | Fail | D-CHK-05 — chưa mở issue | FR-08/FR-10 · `02-ddt-checkout` |
+| `TC-API-CHECKOUT-032` | api-checkout | 23127207 | Fail | [#431](https://github.com/trngnneee/eshop-sut/issues/431) (D-CHK-05) | FR-08/FR-10 · `02-ddt-checkout` |
 | `TC-API-CHECKOUT-033` | api-checkout | 23127207 | Pass | — | FR-08/FR-10 · `02-ddt-checkout` |
 | `TC-API-CHECKOUT-034` | api-checkout | 23127207 | Pass | — | FR-08/FR-10 · `02-ddt-checkout` |
 | `TC-API-CHECKOUT-035` | api-checkout | 23127207 | Pass | — | FR-08/FR-10 · `02-ddt-checkout` |
@@ -51,27 +51,27 @@ Mọi dòng `Fail`/`Blocked` đều có Related Bug hoặc lý do rõ ràng theo
 | `TC-API-CHECKOUT-039` | api-checkout | 23127207 | Fail | [#420](https://github.com/trngnneee/eshop-sut/issues/420) (D-CHK-03) | FR-08/FR-10/SEC-02/SEC-04 · `02-ddt-checkout` |
 | `TC-API-CHECKOUT-040` | api-checkout | 23127207 | Fail | [#421](https://github.com/trngnneee/eshop-sut/issues/421) (D-CHK-04) | FR-08/FR-10/SEC-02/SEC-04 · `02-ddt-checkout` |
 | `TC-API-CHECKOUT-041` | api-checkout | 23127207 | Fail | [#422](https://github.com/trngnneee/eshop-sut/issues/422) (D-CHK-07) | FR-08/FR-10/SEC-02/SEC-04 · `02-ddt-checkout` |
-| `TC-API-CHECKOUT-042` | api-checkout | 23127207 | Fail | D-CHK-05 — chưa mở issue | FR-08/FR-10/SEC-02/SEC-04 · `02-ddt-checkout` |
+| `TC-API-CHECKOUT-042` | api-checkout | 23127207 | Fail | [#431](https://github.com/trngnneee/eshop-sut/issues/431) (D-CHK-05) | FR-08/FR-10/SEC-02/SEC-04 · `02-ddt-checkout` |
 | `TC-API-LOGIN-001` | api-login | 23127207 | Pass | — | FR-02 · `00-canary-suite`, `00-full-suite`, `00-off-suite`, `01-ddt-login` |
 | `TC-API-LOGIN-002` | api-login | 23127207 | Pass | — | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-003` | api-login | 23127207 | Pass | — | FR-02 · `01-ddt-login` |
-| `TC-API-LOGIN-004` | api-login | 23127207 | Fail | D-LOGIN-08 — chưa mở issue | FR-02 · `00-canary-suite`, `00-full-suite`, `00-off-suite`, `01-ddt-login` |
-| `TC-API-LOGIN-005` | api-login | 23127207 | Fail | D-LOGIN-08 — chưa mở issue | FR-02 · `01-ddt-login` |
-| `TC-API-LOGIN-006` | api-login | 23127207 | Fail | D-LOGIN-08 — chưa mở issue | FR-02 · `01-ddt-login` |
+| `TC-API-LOGIN-004` | api-login | 23127207 | Fail | [#430](https://github.com/trngnneee/eshop-sut/issues/430) (D-LOGIN-08) | FR-02 · `00-canary-suite`, `00-full-suite`, `00-off-suite`, `01-ddt-login` |
+| `TC-API-LOGIN-005` | api-login | 23127207 | Fail | [#430](https://github.com/trngnneee/eshop-sut/issues/430) (D-LOGIN-08) | FR-02 · `01-ddt-login` |
+| `TC-API-LOGIN-006` | api-login | 23127207 | Fail | [#430](https://github.com/trngnneee/eshop-sut/issues/430) (D-LOGIN-08) | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-007` | api-login | 23127207 | Pass | — | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-008` | api-login | 23127207 | Pass | — | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-009` | api-login | 23127207 | Pass | — | FR-02 · `01-ddt-login` |
-| `TC-API-LOGIN-010` | api-login | 23127207 | Fail | D-LOGIN-08 — chưa mở issue | FR-02 · `01-ddt-login` |
-| `TC-API-LOGIN-011` | api-login | 23127207 | Fail | D-LOGIN-08 — chưa mở issue | FR-02 · `01-ddt-login` |
-| `TC-API-LOGIN-012` | api-login | 23127207 | Fail | D-LOGIN-08 — chưa mở issue | FR-02 · `01-ddt-login` |
-| `TC-API-LOGIN-013` | api-login | 23127207 | Fail | D-LOGIN-08 — chưa mở issue | FR-02 · `01-ddt-login` |
-| `TC-API-LOGIN-014` | api-login | 23127207 | Fail | D-LOGIN-08 — chưa mở issue | FR-02 · `01-ddt-login` |
+| `TC-API-LOGIN-010` | api-login | 23127207 | Fail | [#430](https://github.com/trngnneee/eshop-sut/issues/430) (D-LOGIN-08) | FR-02 · `01-ddt-login` |
+| `TC-API-LOGIN-011` | api-login | 23127207 | Fail | [#430](https://github.com/trngnneee/eshop-sut/issues/430) (D-LOGIN-08) | FR-02 · `01-ddt-login` |
+| `TC-API-LOGIN-012` | api-login | 23127207 | Fail | [#430](https://github.com/trngnneee/eshop-sut/issues/430) (D-LOGIN-08) | FR-02 · `01-ddt-login` |
+| `TC-API-LOGIN-013` | api-login | 23127207 | Fail | [#430](https://github.com/trngnneee/eshop-sut/issues/430) (D-LOGIN-08) | FR-02 · `01-ddt-login` |
+| `TC-API-LOGIN-014` | api-login | 23127207 | Fail | [#430](https://github.com/trngnneee/eshop-sut/issues/430) (D-LOGIN-08) | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-015` | api-login | 23127207 | Pass | — | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-016` | api-login | 23127207 | Pass | — | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-017` | api-login | 23127207 | Fail | [#413](https://github.com/trngnneee/eshop-sut/issues/413) (D-LOGIN-01) | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-018` | api-login | 23127207 | Pass | [#413](https://github.com/trngnneee/eshop-sut/issues/413) (D-LOGIN-01) | FR-02 · `00-canary-suite`, `00-full-suite`, `00-off-suite`, `01-ddt-login` |
 | `TC-API-LOGIN-019` | api-login | 23127207 | Fail | [#413](https://github.com/trngnneee/eshop-sut/issues/413) (D-LOGIN-01) | FR-02 · `01-ddt-login` |
-| `TC-API-LOGIN-020` | api-login | 23127207 | Fail | D-LOGIN-07 — chưa mở issue | FR-02 · `01-ddt-login` |
+| `TC-API-LOGIN-020` | api-login | 23127207 | Fail | [#429](https://github.com/trngnneee/eshop-sut/issues/429) (D-LOGIN-07) | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-021` | api-login | 23127207 | Pass | — | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-022` | api-login | 23127207 | Fail | [#414](https://github.com/trngnneee/eshop-sut/issues/414) (D-LOGIN-02) | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-023` | api-login | 23127207 | Fail | [#413](https://github.com/trngnneee/eshop-sut/issues/413) (D-LOGIN-01) | FR-02 · `01-ddt-login` |
@@ -83,7 +83,7 @@ Mọi dòng `Fail`/`Blocked` đều có Related Bug hoặc lý do rõ ràng theo
 | `TC-API-LOGIN-029` | api-login | 23127207 | Fail | [#415](https://github.com/trngnneee/eshop-sut/issues/415) (D-LOGIN-03) | SEC-01 · `01-ddt-login` |
 | `TC-API-LOGIN-030` | api-login | 23127207 | Pass | — | SEC-03 · `01-ddt-login` |
 | `TC-API-LOGIN-031` | api-login | 23127207 | Pass | — | SEC-02 · `01-ddt-login` |
-| `TC-API-LOGIN-032` | api-login | 23127207 | Fail | D-LOGIN-07 — chưa mở issue | FR-02 · `01-ddt-login` |
+| `TC-API-LOGIN-032` | api-login | 23127207 | Fail | [#429](https://github.com/trngnneee/eshop-sut/issues/429) (D-LOGIN-07) | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-033` | api-login | 23127207 | Pass | — | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-034` | api-login | 23127207 | Pass | — | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-035` | api-login | 23127207 | Pass | — | FR-02 · `01-ddt-login` |
@@ -137,7 +137,7 @@ Mọi dòng `Fail`/`Blocked` đều có Related Bug hoặc lý do rõ ràng theo
 | `TC-API-ORDER-STATUS-041` | api-order-status | 23127207 | Blocked | [#424](https://github.com/trngnneee/eshop-sut/issues/424) (D-ADM-02) | SUT không có Dashboard/revenue API để quan sát hậu điều kiện doanh thu; transition canceled→delivered được phủ riêng bởi TC-024. |
 | `TC-API-ORDER-STATUS-042` | api-order-status | 23127207 | Fail | [#425](https://github.com/trngnneee/eshop-sut/issues/425) (D-ADM-03) | FR-10/FR-12/FR-18 · `03-ddt-order-status` |
 | `TC-API-ORDER-STATUS-043` | api-order-status | 23127207 | Fail | [#427](https://github.com/trngnneee/eshop-sut/issues/427) (D-ADM-08) | FR-10/FR-12/FR-18 · `03-ddt-order-status` |
-| `TC-API-ORDER-STATUS-044` | api-order-status | 23127207 | Fail | D-ADM-06 — chưa mở issue | FR-10/FR-12/FR-18 · `03-ddt-order-status` |
+| `TC-API-ORDER-STATUS-044` | api-order-status | 23127207 | Fail | [#432](https://github.com/trngnneee/eshop-sut/issues/432) (D-ADM-06) | FR-10/FR-12/FR-18 · `03-ddt-order-status` |
 
 ## Tổng hợp theo suite
 

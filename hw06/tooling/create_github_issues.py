@@ -24,13 +24,25 @@ def existing_issues() -> dict[str, dict]:
     return found
 
 
+def prior_labels() -> dict[str, list]:
+    """Giữ lại nhãn đã ghi trong manifest cũ để lần chạy sau không làm mất dữ liệu."""
+    if not MANIFEST.exists():
+        return {}
+    return {
+        row["bug_id"]: row["labels"]
+        for row in json.loads(MANIFEST.read_text(encoding="utf-8"))
+        if isinstance(row.get("labels"), list)
+    }
+
+
 def main() -> None:
     created = []
     existing = existing_issues()
+    known = prior_labels()
     for bug, title, severity, priority, module, tc, *_ in BUGS:
         if bug in existing:
             issue = existing[bug]
-            created.append({"bug_id": bug, "issue_number": issue["number"], "url": issue["url"], "test_case": tc, "labels": "existing"})
+            created.append({"bug_id": bug, "issue_number": issue["number"], "url": issue["url"], "test_case": tc, "labels": known.get(bug, "existing")})
             print(f"{bug} already exists -> #{issue['number']} {issue['url']}")
             continue
         body_file = OUT / f"{bug}.md"

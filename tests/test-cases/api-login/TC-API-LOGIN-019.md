@@ -6,6 +6,6 @@
 - Method/data: Sai lần 3
 - Expected: `401`; khóa đúng 30 giây
 - Result: FAIL — defect expected
-- Related Bug: [#413](https://github.com/trngnneee/eshop-sut/issues/413) (`D-LOGIN-01`)
+- Related Bug: `D-LOGIN-01`
 
 > This file is a representative/failed-case traceability artifact generated from the final Markdown test table. Full inventory remains in `hw06/api-*/test-cases.md`.

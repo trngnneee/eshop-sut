@@ -6,6 +6,6 @@
 - Method/data: `User không hủy order shipping qua endpoint user`
 - Expected: 400; user không được hủy shipping
 - Result: FAIL — defect expected
-- Related Bug: [#427](https://github.com/trngnneee/eshop-sut/issues/427) (`D-ADM-08`)
+- Related Bug: `D-ADM-08`
 
 > This file is a representative/failed-case traceability artifact generated from the final Markdown test table. Full inventory remains in `hw06/api-*/test-cases.md`.

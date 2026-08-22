@@ -19,18 +19,10 @@
 | D-ADM-03 | Major | Admin không hủy được shipping | `TC-API-ORDER-STATUS-015` | 200 | Stateful DDT dựng order shipping rồi nhận 400 khi admin hủy | `03-ddt-order-status.json` | [#425](https://github.com/trngnneee/eshop-sut/issues/425) | [bug-13-D-ADM-03-issue.png](../evidence/screenshots/github-issues/bug-13-D-ADM-03-issue.png) |
 | D-ADM-04 | Major | Bỏ qua lỗi UPDATE, trả 200 | `TC-API-ORDER-STATUS-041` | 4xx/5xx khi update lỗi | Callback bỏ qua err theo catalog; cần tạo orderId không tồn tại | Catalog + manual follow-up | [#426](https://github.com/trngnneee/eshop-sut/issues/426) | [bug-14-D-ADM-04-issue.png](../evidence/screenshots/github-issues/bug-14-D-ADM-04-issue.png) |
 | D-ADM-08 | Major | User hủy order shipping | `TC-API-ORDER-STATUS-043` | 400 | Stateful DDT dựng order shipping rồi user cancel nhận 200 | `03-ddt-order-status.json` | [#427](https://github.com/trngnneee/eshop-sut/issues/427) | [bug-15-D-ADM-08-issue.png](../evidence/screenshots/github-issues/bug-15-D-ADM-08-issue.png) |
-
-## Bug phát hiện bởi automated test (`Rule.pdf` §H.10)
-
-§H.10 yêu cầu bug do automated test bắt được phải ghi rõ `Found by: GitHub Actions + workflow run + test case/script`.
-
-| Bug ID | Found by | Workflow run | Test case / assertion | Artifact |
-| :--- | :--- | :--- | :--- | :--- |
-| D-LOGIN-01 | GitHub Actions — `hw06-newman-api-test.yml` (mode `canary`) | [run #32231020920](https://github.com/trngnneee/eshop-sut/actions/runs/32231020920), commit `03f3699` | `TC-API-LOGIN-018` — `expected response to have status code 200 but got 403` | Newman HTML/JSON upload bằng `actions/upload-artifact`; bản local đã redaction ở `hw06/newman/reports/00-canary-suite.json` |
-
-Pipeline chạy ở chế độ `canary` để đúng một assertion đỏ, tách khỏi lỗi hạ tầng: các bước checkout, cài dependency, khởi động SUT, redaction và upload artifact đều xanh, Newman thoát code 1 chỉ vì assertion trên. Theo §H.10 đây là lỗi hệ thống (SUT), không phải lỗi test script, nên được mở thành issue [#413](https://github.com/trngnneee/eshop-sut/issues/413).
-
-Theo §H.11, issue chỉ được close sau khi: PR fix đã merge · tester retest pass · comment kết quả retest · không phát sinh regression. Toàn bộ 15 issue hiện còn **Open** vì SUT chưa được sửa — đúng trạng thái mong đợi của bài này.
+| D-LOGIN-07 | Minor | Message khi khóa lộ trạng thái tài khoản | `TC-API-LOGIN-020` | Cùng message chung như mọi lần đăng nhập hỏng | DDT nhận message riêng cho tài khoản bị khóa ⇒ user enumeration | `01-ddt-login.json` | [#429](https://github.com/trngnneee/eshop-sut/issues/429) | [bug-16-D-LOGIN-07-issue.png](../evidence/screenshots/github-issues/bug-16-D-LOGIN-07-issue.png) |
+| D-LOGIN-08 | Minor | Không validate body của login | `TC-API-LOGIN-004` | 400 khi thiếu/sai kiểu field | Strict assertion: expected 400 but got 401 | `00-full-suite.json`, `01-ddt-login.json` | [#430](https://github.com/trngnneee/eshop-sut/issues/430) | [bug-17-D-LOGIN-08-issue.png](../evidence/screenshots/github-issues/bug-17-D-LOGIN-08-issue.png) |
+| D-CHK-05 | Major | shipping_address không validate/escape | `TC-API-CHECKOUT-042` | Payload script bị từ chối hoặc escape | Đọc lại order thấy payload lưu nguyên văn | `02-ddt-checkout.json` | [#431](https://github.com/trngnneee/eshop-sut/issues/431) | [bug-18-D-CHK-05-issue.png](../evidence/screenshots/github-issues/bug-18-D-CHK-05-issue.png) |
+| D-ADM-06 | Minor | Không validate enum status tường minh | `TC-API-ORDER-STATUS-044` | Lỗi giá trị không hợp lệ, tách khỏi lỗi transition | DDT nhận message state-transition cho giá trị ngoài enum | `03-ddt-order-status.json` | [#432](https://github.com/trngnneee/eshop-sut/issues/432) | [bug-19-D-ADM-06-issue.png](../evidence/screenshots/github-issues/bug-19-D-ADM-06-issue.png) |
 
 ## Quy ước reproducing
 

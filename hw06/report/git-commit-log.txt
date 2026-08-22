@@ -1,3 +1,4 @@
+e1bb8242 2026-08-22 11:59:31 +0700 khoadangwneee chore(hw06): dọn gitignore và làm mới git commit log
 2b246427 2026-08-22 11:59:21 +0700 khoadangwneee docs(hw06): bổ sung mục tuân thủ Rule.pdf vào báo cáo chính
 26dcf784 2026-08-22 11:59:20 +0700 khoadangwneee docs(rule): ghi nhận bug do GitHub Actions phát hiện theo §H.10
 06a995b1 2026-08-22 11:59:06 +0700 khoadangwneee docs(rule): liên kết số GitHub Issue vào test case theo §H.1

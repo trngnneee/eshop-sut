@@ -6,6 +6,6 @@
 - Method/data: `Role escalation bằng user token`
 - Expected: 403; không cập nhật order
 - Result: FAIL — defect expected
-- Related Bug: [#423](https://github.com/trngnneee/eshop-sut/issues/423) (`D-ADM-01`)
+- Related Bug: `D-ADM-01`
 
 > This file is a representative/failed-case traceability artifact generated from the final Markdown test table. Full inventory remains in `hw06/api-*/test-cases.md`.

@@ -6,6 +6,6 @@
 - Method/data: `PUT /api/admin/orders/:id; status='canceled'`
 - Expected: 200; transition shipping → canceled được chấp nhận
 - Result: FAIL — defect expected
-- Related Bug: [#425](https://github.com/trngnneee/eshop-sut/issues/425) (`D-ADM-03`)
+- Related Bug: `D-ADM-03`
 
 > This file is a representative/failed-case traceability artifact generated from the final Markdown test table. Full inventory remains in `hw06/api-*/test-cases.md`.

@@ -1,8 +1,8 @@
 # GitHub Issue screenshot evidence
 
-The 15 public GitHub issues are #413–#427 in `trngnneee/eshop-sut`. Playwright
+The 19 public GitHub issues are #413–#432 in `trngnneee/eshop-sut`. Playwright
 opened each public URL in an isolated browser context and saved one screenshot
-per issue under `github-issues/`:
+per issue under `github-issues/` (`hw06/tooling/capture_github_issue_screenshots.mjs`):
 
 - `bug-01-D-LOGIN-01-issue.png` → [#413](https://github.com/trngnneee/eshop-sut/issues/413)
 - `bug-02-D-LOGIN-02-issue.png` → [#414](https://github.com/trngnneee/eshop-sut/issues/414)
@@ -19,8 +19,9 @@ per issue under `github-issues/`:
 - `bug-13-D-ADM-03-issue.png` → [#425](https://github.com/trngnneee/eshop-sut/issues/425)
 - `bug-14-D-ADM-04-issue.png` → [#426](https://github.com/trngnneee/eshop-sut/issues/426)
 - `bug-15-D-ADM-08-issue.png` → [#427](https://github.com/trngnneee/eshop-sut/issues/427)
+- `bug-16-D-LOGIN-07-issue.png` → [#429](https://github.com/trngnneee/eshop-sut/issues/429)
+- `bug-17-D-LOGIN-08-issue.png` → [#430](https://github.com/trngnneee/eshop-sut/issues/430)
+- `bug-18-D-CHK-05-issue.png` → [#431](https://github.com/trngnneee/eshop-sut/issues/431)
+- `bug-19-D-ADM-06-issue.png` → [#432](https://github.com/trngnneee/eshop-sut/issues/432)
 
-Issue bodies were scrubbed: no credentials, JWTs, or raw Newman request dumps
-were published. The local screenshot files are evidence artifacts; the branch
-was not pushed because its existing public environment/report history needs
-secret scrubbing first.
+Mỗi ảnh là trang issue công khai thật, không dựng lại hoặc chỉnh sửa.

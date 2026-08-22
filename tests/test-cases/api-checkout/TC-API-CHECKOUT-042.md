@@ -6,6 +6,6 @@
 - Method/data: `POST /api/checkout` + chained endpoint; XSS trong shipping_address
 - Expected: Payload bị reject hoặc escape, không lưu raw
 - Result: FAIL — defect expected
-- Related Bug: `D-CHK-05` — chưa mở issue
+- Related Bug: `D-CHK-05`
 
 > This file is a representative/failed-case traceability artifact generated from the final Markdown test table. Full inventory remains in `hw06/api-*/test-cases.md`.
