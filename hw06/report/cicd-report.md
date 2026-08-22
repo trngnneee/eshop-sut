@@ -19,8 +19,8 @@ Workflow: [`.github/workflows/hw06-newman-api-test.yml`](../../.github/workflows
 
 | Mode | Commit SHA | Run | Requests | Assertions | Failed | Kết luận | Screenshot |
 | :--- | :--- | :--- | ---: | ---: | ---: | :--- | :--- |
-| `off` | `4bf4e5f812b02ca4adf2a0cb811b3a4edbad5bb0` | [Actions #32230928127](https://github.com/trngnneee/eshop-sut/actions/runs/32230928127) | 19 | 18 | 0 | **SUCCESS** — toàn bộ job xanh | `04-ci-pass.png` — HUMAN-only, chưa có |
-| `canary` | `03f36993b7766d79d605ee3e334201762bfc5f80` | [Actions #32231020920](https://github.com/trngnneee/eshop-sut/actions/runs/32231020920) | 19 | 19 | 1 | **FAILURE theo thiết kế** — chỉ `TC-API-LOGIN-018` fail | `05-ci-fail.png` — HUMAN-only, chưa có |
+| `off` | `4bf4e5f812b02ca4adf2a0cb811b3a4edbad5bb0` | [Actions #32230928127](https://github.com/trngnneee/eshop-sut/actions/runs/32230928127) | 19 | 18 | 0 | **SUCCESS** — toàn bộ job xanh | [`04-ci-pass.png`](../evidence/screenshots/04-ci-pass.png) |
+| `canary` | `03f36993b7766d79d605ee3e334201762bfc5f80` | [Actions #32231020920](https://github.com/trngnneee/eshop-sut/actions/runs/32231020920) | 19 | 19 | 1 | **FAILURE theo thiết kế** — chỉ `TC-API-LOGIN-018` fail | [`05-ci-fail.png`](../evidence/screenshots/05-ci-fail.png) |
 
 Nguồn số liệu: `gh run view` và Newman CLI log của chính hai run trên. Run xanh hoàn tất job `api-test` trong 18 giây. Ở run canary, các bước checkout, cài dependency, khởi động SUT, redaction và upload artifact đều thành công; Newman kết thúc exit code 1 vì đúng một assertion:
 
@@ -38,4 +38,4 @@ Hai run [#32230292930](https://github.com/trngnneee/eshop-sut/actions/runs/32230
 
 ## Human-only evidence
 
-Hai URL/SHA external đã có thật. `04-ci-pass.png` và `05-ci-fail.png` vẫn phải do người học tự chụp từ hai trang Actions tương ứng; agent không tạo, sửa hoặc mô phỏng screenshot.
+Hai URL/SHA external đã có thật. `04-ci-pass.png` và `05-ci-fail.png` do người học tự chụp từ hai trang Actions tương ứng: run `#3` hiển thị `Success` với job `api-test` 18s, run `#4` hiển thị `Failure` với job `api-test` 16s. Agent không tạo, sửa hoặc mô phỏng screenshot.
