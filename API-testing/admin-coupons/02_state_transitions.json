@@ -1,0 +1,176 @@
+[
+  {
+    "temp_id": "ST-01",
+    "category": "StateTransition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "Tao coupon moi chuyen tu non-existent sang active",
+    "preconditions": "Admin da dang nhap; coupon code STATE10 chua ton tai",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "STATE10", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 201,
+    "expected_result": "Coupon duoc tao va co trang thai su dung duoc trong cac API lien quan.",
+    "priority": "High",
+    "from_state": "non-existent",
+    "to_state": "active",
+    "action": "create coupon",
+    "expected_allowed": true,
+    "notes": ""
+  },
+  {
+    "temp_id": "ST-02",
+    "category": "StateTransition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "Tao lai coupon da active bi tu choi duplicate",
+    "preconditions": "Admin da dang nhap; coupon code STATE10 da ton tai va dang active",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "STATE10", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 409,
+    "expected_result": "API khong cho active -> duplicate-created; coupon cu khong bi ghi de.",
+    "priority": "High",
+    "from_state": "active",
+    "to_state": "duplicate-created",
+    "action": "create coupon with existing code",
+    "expected_allowed": false,
+    "notes": ""
+  },
+  {
+    "temp_id": "ST-03",
+    "category": "StateTransition",
+    "endpoint": "DELETE /api/admin/coupons/:id",
+    "related_requirement": "FR-17",
+    "title": "Xoa coupon active chuyen sang deleted",
+    "preconditions": "Admin da dang nhap; coupon id=301 ton tai va dang active",
+    "request": {
+      "method": "DELETE",
+      "path": "/api/admin/coupons/301",
+      "headers": { "Authorization": "Bearer {admin_token}" }
+    },
+    "expected_status": 200,
+    "expected_result": "Coupon bi xoa; sau do khong con nam trong danh sach coupon va khong ap dung duoc.",
+    "priority": "High",
+    "from_state": "active",
+    "to_state": "deleted",
+    "action": "delete coupon",
+    "expected_allowed": true,
+    "notes": "Spec khong ghi response code xoa; 200/204 deu co the hop le tuy implementation."
+  },
+  {
+    "temp_id": "ST-04",
+    "category": "StateTransition",
+    "endpoint": "DELETE /api/admin/coupons/:id",
+    "related_requirement": "FR-17",
+    "title": "Xoa lai coupon da deleted bi tu choi",
+    "preconditions": "Admin da dang nhap; coupon id=301 da bi xoa truoc do",
+    "request": {
+      "method": "DELETE",
+      "path": "/api/admin/coupons/301",
+      "headers": { "Authorization": "Bearer {admin_token}" }
+    },
+    "expected_status": 404,
+    "expected_result": "API bao khong tim thay coupon; khong co side effect moi.",
+    "priority": "Medium",
+    "from_state": "deleted",
+    "to_state": "deleted-again",
+    "action": "delete coupon again",
+    "expected_allowed": false,
+    "notes": ""
+  },
+  {
+    "temp_id": "ST-05",
+    "category": "StateTransition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-17",
+    "title": "Coupon active duoc ap dung va tang usage count cua user",
+    "preconditions": "Coupon STATE10 active, chua het han; user id=1 chua dung coupon",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "code": "STATE10", "total_amount": 200000, "user_id": 1 }
+    },
+    "expected_status": 200,
+    "expected_result": "API tra discount_amount va final_amount dung; usage count cua user doi voi coupon tang len 1.",
+    "priority": "Medium",
+    "from_state": "active-unused-by-user",
+    "to_state": "used-once-by-user",
+    "action": "apply coupon",
+    "expected_allowed": true,
+    "notes": "Dung API apply-coupon lien quan de quan sat state su dung cua coupon."
+  },
+  {
+    "temp_id": "ST-06",
+    "category": "StateTransition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-17",
+    "title": "Dung qua max_uses_per_user bi tu choi",
+    "preconditions": "Coupon STATE10 active, max_uses_per_user=1; user id=1 da dung coupon 1 lan",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "code": "STATE10", "total_amount": 200000, "user_id": 1 }
+    },
+    "expected_status": 400,
+    "expected_result": "API tu choi vi user da dat gioi han su dung coupon; khong giam tien lan hai.",
+    "priority": "High",
+    "from_state": "used-once-by-user",
+    "to_state": "used-beyond-limit",
+    "action": "apply coupon again by same user",
+    "expected_allowed": false,
+    "notes": ""
+  },
+  {
+    "temp_id": "ST-07",
+    "category": "StateTransition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-17",
+    "title": "Coupon expired khong duoc ap dung",
+    "preconditions": "Coupon OLD10 ton tai voi expired_at nam trong qua khu",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "code": "OLD10", "total_amount": 200000, "user_id": 1 }
+    },
+    "expected_status": 400,
+    "expected_result": "API tu choi coupon het han; final_amount khong duoc giam.",
+    "priority": "High",
+    "from_state": "expired",
+    "to_state": "applied",
+    "action": "apply expired coupon",
+    "expected_allowed": false,
+    "notes": ""
+  },
+  {
+    "temp_id": "ST-08",
+    "category": "StateTransition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-17",
+    "title": "Coupon deleted khong duoc ap dung",
+    "preconditions": "Coupon STATE10 da bi admin xoa",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "code": "STATE10", "total_amount": 200000, "user_id": 2 }
+    },
+    "expected_status": 404,
+    "expected_result": "API khong tim thay coupon hoac bao coupon khong hop le; khong giam tien.",
+    "priority": "Medium",
+    "from_state": "deleted",
+    "to_state": "applied",
+    "action": "apply deleted coupon",
+    "expected_allowed": false,
+    "notes": ""
+  }
+]

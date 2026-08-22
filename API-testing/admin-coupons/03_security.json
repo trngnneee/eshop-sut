@@ -1,0 +1,220 @@
+[
+  {
+    "temp_id": "SEC-01",
+    "category": "Security",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17, SEC-02",
+    "title": "Goi API tao coupon khong co Authorization header",
+    "preconditions": "Khong dang nhap hoac khong gui JWT",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Content-Type": "application/json" },
+      "body": { "code": "NOAUTH", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 401,
+    "expected_result": "API tu choi request chua xac thuc; khong tao coupon.",
+    "priority": "High",
+    "sec_id": "SEC-02",
+    "attack_vector": "Broken Auth",
+    "notes": "Admin API bat buoc co JWT hop le."
+  },
+  {
+    "temp_id": "SEC-02",
+    "category": "Security",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17, SEC-02",
+    "title": "Authorization header rong khi tao coupon",
+    "preconditions": "Client gui header Authorization rong",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "", "Content-Type": "application/json" },
+      "body": { "code": "EMPTYAUTH", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 401,
+    "expected_result": "API tu choi request va khong xu ly body tao coupon.",
+    "priority": "High",
+    "sec_id": "SEC-02",
+    "attack_vector": "Broken Auth",
+    "notes": ""
+  },
+  {
+    "temp_id": "SEC-03",
+    "category": "Security",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17, SEC-02",
+    "title": "Token sai dinh dang khi tao coupon",
+    "preconditions": "Client gui chuoi khong phai JWT trong Authorization",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer not-a-jwt", "Content-Type": "application/json" },
+      "body": { "code": "BADJWT", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 401,
+    "expected_result": "API tu choi token khong hop le; khong tao coupon.",
+    "priority": "High",
+    "sec_id": "SEC-02",
+    "attack_vector": "Broken Auth",
+    "notes": ""
+  },
+  {
+    "temp_id": "SEC-04",
+    "category": "Security",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17, SEC-02",
+    "title": "Token het han khi tao coupon",
+    "preconditions": "Co JWT admin da het han",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {expired_admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "EXPIREDJWT", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 401,
+    "expected_result": "API tu choi token het han; khong tao coupon.",
+    "priority": "High",
+    "sec_id": "SEC-02",
+    "attack_vector": "Broken Auth",
+    "notes": ""
+  },
+  {
+    "temp_id": "SEC-05",
+    "category": "Security",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17, SEC-03",
+    "title": "User thuong dung JWT hop le goi API admin tao coupon",
+    "preconditions": "Tai khoan role=user da dang nhap va co JWT hop le",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {user_token}", "Content-Type": "application/json" },
+      "body": { "code": "USERROLE", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 403,
+    "expected_result": "API tu choi vi token khong co role admin; khong tao coupon.",
+    "priority": "High",
+    "sec_id": "SEC-03",
+    "attack_vector": "Role Escalation",
+    "notes": "Bug nghiem trong neu API chi check co token ma khong check role."
+  },
+  {
+    "temp_id": "SEC-06",
+    "category": "Security",
+    "endpoint": "DELETE /api/admin/coupons/:id",
+    "related_requirement": "FR-17, SEC-03",
+    "title": "User thuong dung JWT hop le xoa coupon admin",
+    "preconditions": "Tai khoan role=user co JWT hop le; coupon id=301 ton tai",
+    "request": {
+      "method": "DELETE",
+      "path": "/api/admin/coupons/301",
+      "headers": { "Authorization": "Bearer {user_token}" }
+    },
+    "expected_status": 403,
+    "expected_result": "API tu choi; coupon id=301 van ton tai.",
+    "priority": "High",
+    "sec_id": "SEC-03",
+    "attack_vector": "Role Escalation",
+    "notes": ""
+  },
+  {
+    "temp_id": "SEC-07",
+    "category": "Security",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17, SEC-05",
+    "title": "SQL injection payload trong code coupon",
+    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "' OR '1'='1", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 400,
+    "expected_result": "API tu choi hoac validate code an toan; khong tra loi 500/SQL trace va khong tao/bypass coupon.",
+    "priority": "High",
+    "sec_id": "SEC-05",
+    "attack_vector": "SQL Injection",
+    "notes": "Neu API chap nhan ky tu dac biet trong code thi van phai dam bao parameterized query va khong loi 500."
+  },
+  {
+    "temp_id": "SEC-08",
+    "category": "Security",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17, SEC-04",
+    "title": "XSS payload trong code coupon",
+    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "<script>alert(1)</script>", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 400,
+    "expected_result": "API tu choi code chua HTML/script hoac luu du lieu an toan; response khong lam script thuc thi.",
+    "priority": "Medium",
+    "sec_id": "SEC-04",
+    "attack_vector": "XSS",
+    "notes": "API-level chi kiem tra payload va response; can kiem tra them o FE khi render coupon code."
+  },
+  {
+    "temp_id": "SEC-09",
+    "category": "Security",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17, OWASP-Other",
+    "title": "Mass assignment field role va created_by trong body tao coupon",
+    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "MASSASSIGN", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1, "role": "admin", "created_by": 9999 }
+    },
+    "expected_status": 400,
+    "expected_result": "API tu choi field nhay cam/khong nam trong spec hoac bo qua chung; client khong dieu khien duoc ownership/role.",
+    "priority": "Medium",
+    "sec_id": "OWASP-Other",
+    "attack_vector": "Mass Assignment",
+    "notes": "SEC-06 ap dung truc tiep cho update profile; voi coupon API day la mass assignment tuong tu."
+  },
+  {
+    "temp_id": "SEC-10",
+    "category": "Security",
+    "endpoint": "DELETE /api/admin/coupons/:id",
+    "related_requirement": "FR-17, OWASP-Other",
+    "title": "IDOR: Admin cua scope khac hoac token hop le khong so huu resource thu xoa coupon",
+    "preconditions": "He thong co phan vung tenant/store; token admin_A hop le; coupon id=901 thuoc tenant/store B",
+    "request": {
+      "method": "DELETE",
+      "path": "/api/admin/coupons/901",
+      "headers": { "Authorization": "Bearer {admin_A_token}" }
+    },
+    "expected_status": 403,
+    "expected_result": "API tu choi truy cap resource ngoai scope; coupon id=901 khong bi xoa.",
+    "priority": "Medium",
+    "sec_id": "OWASP-Other",
+    "attack_vector": "IDOR",
+    "notes": "Neu SUT khong co tenant/store scope thi danh dau case nay khong ap dung khi audit."
+  },
+  {
+    "temp_id": "SEC-11",
+    "category": "Security",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17, SEC-01",
+    "title": "Response tao coupon khong duoc lo thong tin nhay cam cua admin",
+    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "NOSENSITIVE", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 201,
+    "expected_result": "Response chi tra thong tin coupon can thiet; khong chua password, passwordHash, token noi bo, refresh token hoac thong tin nhay cam cua admin.",
+    "priority": "Medium",
+    "sec_id": "SEC-01",
+    "attack_vector": "Sensitive Data Exposure",
+    "notes": "SEC-01 khong kiem truc tiep duoc viec luu plaintext password qua API; day la kiem tra gian tiep response leakage."
+  }
+]

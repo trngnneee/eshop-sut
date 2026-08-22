@@ -98,19 +98,3 @@ Initialized at: 2026-08-22 23:32:18 +07
   Chi tiết đầy đủ tại `04_schema_validation.json`.
 
 ---
-
-### Stage 5 — Export Postman/Newman collection — forgot-password only
-
-- **Name of AI tool:** ChatGPT / Codex
-- **Date-time:** 2026-08-23 Asia/Saigon
-- **API under test:** FR-03 - `POST /api/forgot-password`
-- **Prompt / instruction followed:**
-  Người dùng yêu cầu đọc `requirement.md` và tạo Postman collection để chạy Newman cho forgot password, sau đó làm rõ rằng chỉ test endpoint `/api/forgot-password`, không test `/api/reset-password`.
-- **Output:**
-  - Đọc `requirement.md`, `API-testing/specs/api_specification.md`, các test case trong `API-testing/forgot-password/*.json`, và kiểm tra implementation liên quan trong `backend/server.js`.
-  - Tạo `build_postman_collection.js` để sinh Postman Collection v2.1 từ 38 test case hiện có.
-  - Sinh `forgot_password.postman_collection.json` chỉ gồm 38 request tới `POST /api/forgot-password`.
-  - Collection có collection-level pre-request script tự động thêm header `X-Student-Id` từ biến `studentId` và in giá trị ra console để làm bằng chứng.
-  - Assertions giữ theo FR-03/SEC-07, gồm các case có thể fail thật như OTP phải là chuỗi 6 chữ số và rate limit.
-- **Human corrections made:**
-  Người dùng chỉnh phạm vi: chỉ test `/api/forgot-password`. Đã bỏ các request workflow tới `/api/reset-password` và `/api/login`.

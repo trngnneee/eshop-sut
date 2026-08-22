@@ -1,0 +1,302 @@
+[
+  {
+    "temp_id": "DP-01",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "Tao coupon percent hop le voi day du field bat buoc",
+    "preconditions": "Admin da dang nhap va co JWT hop le; chua ton tai coupon code TET2025",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "TET2025", "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 201,
+    "expected_result": "Coupon duoc tao thanh cong; response tra ve thong tin coupon moi voi code, type, discount_value, min_order_amount, expired_at, max_uses_per_user dung nhu request.",
+    "priority": "High",
+    "parameter": "body",
+    "partition_type": "valid-typical",
+    "notes": "Neu implementation dung 200 thay vi 201 thi can doi chieu quy uoc response thuc te; ve nghiep vu day la case hop le."
+  },
+  {
+    "temp_id": "DP-02",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "Tao coupon fixed amount hop le",
+    "preconditions": "Admin da dang nhap va co JWT hop le; chua ton tai coupon code FREESHIP50",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "FREESHIP50", "type": "fixed", "discount_value": 50000, "min_order_amount": 150000, "expired_at": "2026-12-31", "max_uses_per_user": 2 }
+    },
+    "expected_status": 201,
+    "expected_result": "Coupon fixed amount duoc tao thanh cong va co the duoc tim thay trong danh sach coupon admin.",
+    "priority": "High",
+    "parameter": "type",
+    "partition_type": "valid-typical",
+    "notes": "Spec chi neu vi du type=percent; fixed la phan vung hop le thuong gap can xac nhan voi rule business."
+  },
+  {
+    "temp_id": "DP-03",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "Tao coupon percent voi discount_value bien nho nhat hop le la 1",
+    "preconditions": "Admin da dang nhap va co JWT hop le; chua ton tai coupon code PCT001",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "PCT001", "type": "percent", "discount_value": 1, "min_order_amount": 0, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 201,
+    "expected_result": "API chap nhan gia tri giam 1% va min_order_amount = 0 neu coupon khong yeu cau don toi thieu.",
+    "priority": "Medium",
+    "parameter": "discount_value,min_order_amount",
+    "partition_type": "valid-boundary",
+    "notes": "Gia tri bien duoi hop le cho percent va min_order_amount."
+  },
+  {
+    "temp_id": "DP-04",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "Tao coupon percent voi discount_value bien tren hop le la 100",
+    "preconditions": "Admin da dang nhap va co JWT hop le; chua ton tai coupon code PCT100",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "PCT100", "type": "percent", "discount_value": 100, "min_order_amount": 500000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 201,
+    "expected_result": "API chap nhan coupon giam 100% neu business rule cho phep; coupon duoc luu dung gia tri 100.",
+    "priority": "Medium",
+    "parameter": "discount_value",
+    "partition_type": "valid-boundary",
+    "notes": "Neu he thong khong cho 100% thi expected status co the la 422 theo rule business; can audit voi implementation."
+  },
+  {
+    "temp_id": "DP-05",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "Thieu field code khi tao coupon",
+    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 400,
+    "expected_result": "API tu choi request va tra loi loi validation neu thieu code; khong tao coupon moi.",
+    "priority": "High",
+    "parameter": "code",
+    "partition_type": "missing-required",
+    "notes": ""
+  },
+  {
+    "temp_id": "DP-06",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "Code rong hoac chi co khoang trang",
+    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "   ", "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 400,
+    "expected_result": "API tu choi code rong/whitespace sau khi trim; khong tao coupon.",
+    "priority": "High",
+    "parameter": "code",
+    "partition_type": "empty-null-whitespace",
+    "notes": ""
+  },
+  {
+    "temp_id": "DP-07",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "Code bi trung voi coupon da ton tai",
+    "preconditions": "Admin da dang nhap va co JWT hop le; coupon code TET2025 da ton tai",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "TET2025", "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 409,
+    "expected_result": "API tu choi tao coupon trung code va khong ghi de coupon cu.",
+    "priority": "High",
+    "parameter": "code",
+    "partition_type": "invalid-boundary",
+    "notes": "Neu implementation dung 400/422 cho duplicate thi can ghi nhan khi audit."
+  },
+  {
+    "temp_id": "DP-08",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "Type nam ngoai enum hop le",
+    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "BADTYPE", "type": "percentage", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 400,
+    "expected_result": "API tu choi type khong duoc ho tro va tra loi loi validation ro rang.",
+    "priority": "High",
+    "parameter": "type",
+    "partition_type": "invalid-format",
+    "notes": "Enum du kien gom percent/fixed."
+  },
+  {
+    "temp_id": "DP-09",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "discount_value bang 0 cho coupon percent",
+    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "ZERO", "type": "percent", "discount_value": 0, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 400,
+    "expected_result": "API tu choi gia tri giam khong co y nghia; khong tao coupon.",
+    "priority": "High",
+    "parameter": "discount_value",
+    "partition_type": "invalid-boundary",
+    "notes": "Gia tri sai ngay duoi bien hop le."
+  },
+  {
+    "temp_id": "DP-10",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "discount_value lon hon 100 cho coupon percent",
+    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "PCT101", "type": "percent", "discount_value": 101, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 400,
+    "expected_result": "API tu choi percent discount vuot qua 100%; khong tao coupon.",
+    "priority": "High",
+    "parameter": "discount_value",
+    "partition_type": "invalid-boundary",
+    "notes": ""
+  },
+  {
+    "temp_id": "DP-11",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "discount_value sai kieu du lieu la chuoi",
+    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "STRDISC", "type": "percent", "discount_value": "15", "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 400,
+    "expected_result": "API tu choi sai kieu du lieu hoac validate ep kieu chat che; khong tao coupon neu field khong phai number.",
+    "priority": "Medium",
+    "parameter": "discount_value",
+    "partition_type": "wrong-type",
+    "notes": ""
+  },
+  {
+    "temp_id": "DP-12",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "min_order_amount am",
+    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "NEGMIN", "type": "percent", "discount_value": 15, "min_order_amount": -1, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+    },
+    "expected_status": 400,
+    "expected_result": "API tu choi min_order_amount am; khong tao coupon.",
+    "priority": "High",
+    "parameter": "min_order_amount",
+    "partition_type": "invalid-boundary",
+    "notes": ""
+  },
+  {
+    "temp_id": "DP-13",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "expired_at sai dinh dang ngay",
+    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "BADDAY", "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "31-12-2026", "max_uses_per_user": 1 }
+    },
+    "expected_status": 400,
+    "expected_result": "API tu choi ngay het han khong dung format ISO yyyy-mm-dd.",
+    "priority": "High",
+    "parameter": "expired_at",
+    "partition_type": "invalid-format",
+    "notes": ""
+  },
+  {
+    "temp_id": "DP-14",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "max_uses_per_user bang 0",
+    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "ZEROUSE", "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 0 }
+    },
+    "expected_status": 400,
+    "expected_result": "API tu choi gioi han so lan dung/nguoi bang 0; khong tao coupon.",
+    "priority": "High",
+    "parameter": "max_uses_per_user",
+    "partition_type": "invalid-boundary",
+    "notes": ""
+  },
+  {
+    "temp_id": "DP-15",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/admin/coupons",
+    "related_requirement": "FR-17",
+    "title": "Body co field thua is_active khi tao coupon",
+    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/coupons",
+      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
+      "body": { "code": "EXTRA", "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1, "is_active": true }
+    },
+    "expected_status": 400,
+    "expected_result": "API tu choi field khong nam trong spec hoac bo qua field thua ma khong cho client dieu khien trang thai nhay cam.",
+    "priority": "Medium",
+    "parameter": "is_active",
+    "partition_type": "unexpected-extra",
+    "notes": "Neu API bo qua field thua va van tao coupon thi can audit theo policy validation cua project."
+  }
+]
