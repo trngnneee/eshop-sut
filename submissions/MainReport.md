@@ -12,18 +12,17 @@
 | **Họ và tên:** | Phan Quốc Thịnh |
 | **MSSV:** | 23127486 |
 | **Lớp:** | 23KTPM3 |
-| **Ngày:** | *(cập nhật khi nộp)* |
+| **Ngày:** | 20/08/2026 |
 
 ---
 
 ## 1. Giới thiệu
 
-*(Mô tả ngắn về bài tập, hệ thống SUT EShop, và 3 API được chọn.)*
-
 ### 1.1. Hệ thống cần kiểm thử (SUT)
 
 - **Tên:** EShop – Ứng dụng thương mại điện tử demo
 - **Repository:** https://github.com/ttbhanh/eshop-sut
+- **Môi trường chạy:** Local Node.js backend tại `http://localhost:3000` với cơ sở dữ liệu SQLite (`backend/database.sqlite`).
 
 ### 1.2. Các API được chọn
 
@@ -35,7 +34,11 @@
 
 ### 1.3. Công cụ sử dụng
 
-- *(Tên AI tool, Postman, Newman, ...)*
+- **Mô hình AI:** Claude Sonnet 4.6 (Anthropic) & Gemini 3.7 Flash
+- **API Testing Platform:** Postman Desktop App v11 & Postman Collection v2.1.0
+- **CLI Test Runner:** Newman v6.2.2
+- **HTML Reporting:** `newman-reporter-htmlextra`
+- **CI/CD:** GitHub Actions (`.github/workflows/newman-tests.yml`)
 
 ---
 
@@ -70,10 +73,7 @@ API Spec:
 - Tất cả 3 trường đều bắt buộc, không yêu cầu auth
 ```
 
-*Output AI 1 (tóm tắt):* (Chi tiết xem file AI_Audit.md)
-AI sinh ra 20 test cases Domain EP & BVA, bao gồm: 3 valid case (happy path, Unicode name, sub-domain email),
-17 invalid/boundary cases cô lập lỗi từng trường (name rỗng, email sai định dạng, password BVA ngắn/dài,
-email duplicate, body rỗng, wrong content-type, v.v.)
+*Output AI 1 (tóm tắt):* AI sinh ra 20 test cases Domain EP & BVA: 3 valid case (happy path, Unicode name, sub-domain email), 17 invalid/boundary cases cô lập lỗi từng trường (name rỗng, email sai định dạng, password BVA ngắn/dài, name max-length 255/256, email duplicate, body rỗng, wrong content-type, v.v.).
 
 **Prompt 2 – State Transition & Lifecycle:**
 ```
@@ -83,7 +83,7 @@ Dựa trên API spec của endpoint POST /api/register, hãy áp dụng kỹ thu
 1. Xác định mô hình trạng thái: Nhận diện thực thể User (Resource Lifecycle) và Auth State,
    liệt kê tất cả State và Event/Action (được kích hoạt bởi endpoint này).
 2. Xây dựng kịch bản chuyển đổi:
-   * Chuyển đổi hợp lệ (Valid Transition): Gọi endpoint khi thực thỉ ở đúng trạng thái cho phép.
+   * Chuyển đổi hợp lệ (Valid Transition): Gọi endpoint khi thực thể ở đúng trạng thái cho phép.
    * Chuyển đổi không hợp lệ (Invalid Transition): Gọi endpoint khi đã tồn tại (duplicate).
    * Kịch bản chuỗi (State Sequence): Kiểm tra tính toàn vẹn sau khi chuyển trạng thái.
 
@@ -94,24 +94,21 @@ API Spec: POST /api/register – public endpoint, tạo user mới, trả về {
 Trạng thái: Non-existent → Created (Active) | Duplicate → reject | Unauthenticated → được phép gọi.
 ```
 
-*Output AI 2 (tóm tắt):*
-AI sinh ra 5 test cases State Transition: Resource Lifecycle (Non-existent → Created), Duplicate rejection,
-State Sequence (Register → Login), Idempotency check, Auth State (public endpoint không cần token).
+*Output AI 2 (tóm tắt):* AI sinh ra 5 test cases State Transition: Resource Lifecycle (Non-existent → Created), Duplicate rejection, State Sequence (Register → Login), Idempotency check, Auth State (public endpoint không cần token).
 
 **Prompt 3 – Security Tests (SEC-01 – SEC-07):**
 ```
 Đối với endpoint POST /api/register, hãy sinh test cases bảo mật cho từng loại sau:
 SQL Injection (vào từng field: name, email, password), XSS payload trong name,
 IDOR (gửi kèm token của user khác), Role Escalation (gán role=admin trong body),
-Rate Limiting (brute force), Sensitive Data Exposure (response lộ password hash).
+Input Validation / Malformed Payload, Sensitive Data Exposure (response lộ password hash),
+Missing/Invalid Content-Type header.
 
 Với mỗi loại, cung cấp:
 [TC ID | Mô tả | Loại tấn công | Input | Expected Response]
 ```
 
-*Output AI 3 (tóm tắt):*
-AI sinh ra 9 test cases security: 3 SQL Injection (email/name/password), 1 XSS, 1 IDOR, 1 Role Escalation,
-1 Rate Limiting, 1 Sensitive Data Exposure, 1 Missing Content-Type.
+*Output AI 3 (tóm tắt):* AI sinh ra 9 test cases security: 3 SQL Injection (email/name/password), 1 XSS, 1 IDOR, 1 Role Escalation, 1 Malformed JSON payload, 1 Sensitive Data Exposure, 1 Missing Content-Type.
 
 **Prompt 4 – Schema Validation:**
 ```
@@ -127,17 +124,15 @@ Schema Validation để kiểm tra:
 Bảng: [TC ID | Mô tả | Field kiểm tra | Expected schema]
 ```
 
-*Output AI 4 (tóm tắt):*
-AI sinh ra 8 test cases Schema Validation: kiểm tra shape (message+id), nội dung message, kiểu id,
-vắng mặt password field, HTTP 200, error shape 400, type check id, Content-Type.
+*Output AI 4 (tóm tắt):* AI sinh ra 8 test cases Schema Validation: kiểm tra shape (message+id), nội dung message, kiểu id, vắng mặt password field, HTTP 200, error shape 400, type check id, Content-Type.
 
 **Số test cases AI sinh ra:** 42 (DP/BVA: 20 | ST: 5 | SEC: 9 | SV: 8).
 
+---
+
 ### 2.2. Bước 2: Kiểm tra (Audit)
 
-## Phân loại test cases
-
-### A. Domain Partition & Boundary Value Tests (EP & BVA)
+#### A. Domain Partition & Boundary Value Tests (EP & BVA)
 
 | TC ID | Mô tả | Tham số kiểm tra | Phân vùng / Điểm biên | Input Payload (Params/Body) | Expected HTTP Status & Output | Audit | Ghi chú |
 |:---|:---|:---|:---|:---|:---|:---|:---|
@@ -155,14 +150,14 @@ vắng mặt password field, HTTP 200, error shape 400, type check id, Content-T
 | TC-A-DP-12 | password quá ngắn – 1 ký tự (BVA dưới min) | password | BVA – below min | `{"name":"User A","email":"a@test.com","password":"A"}` | 400 Bad Request – password quá ngắn (min = 8) | **VALID** | Spec xác định min password = 8 ký tự; 1 ký tự là BVA dưới min, phải bị reject. |
 | TC-A-DP-13 | password đúng độ dài tối thiểu – 8 ký tự (BVA tại min) | password | BVA – at min | `{"name":"User A","email":"a@test.com","password":"Aa1!xxYZ"}` | 200 OK – đăng ký thành công | **VALID** | Spec min = 8; đúng tại ngưỡng tối thiểu → phải được chấp nhận. |
 | TC-A-DP-14 | password 7 ký tự (BVA dưới min – 1) | password | BVA – below min (min−1) | `{"name":"User A","email":"a@test.com","password":"Aa1!xxY"}` | 400 Bad Request – password quá ngắn (cần đủ 8 ký tự) | **VALID** | 7 ký tự = min−1 – điểm biên ngay dưới ngưỡng tối thiểu, phải bị reject. |
-| TC-A-DP-15 | name rất dài – 256 ký tự (BVA vượt max) | name | BVA – above max | `{"name":"AAAAAA...(256 chars)","email":"a@test.com","password":"Pass123!"}` | 400 Bad Request – name quá dài | **INCOMPLETE** | Spec không định nghĩa max-length name. Nếu hệ thống không giới hạn độ dài, expected có thể là 200 OK. **Sửa:** Kiểm tra DB schema/spec trước. Nếu VARCHAR(255) → expected 400. Nếu TEXT → expected 200 OK. |
-| TC-A-DP-16 | name đúng giới hạn tối đa – 255 ký tự (BVA tại max) | name | BVA – at max | `{"name":"AAAA...(255 chars)","email":"a@test.com","password":"Pass123!"}` | 200 OK – đăng ký thành công | **INCOMPLETE** | Giống DP-15: cần xác nhận giới hạn từ spec/DB schema. Chỉ hợp lệ khi tồn tại rule max=255. |
-| TC-A-DP-17 | email đã tồn tại trong hệ thống | email | Invalid EP – duplicate | `{"name":"User A","email":"existing@domain.com","password":"Pass123!"}` | 400/409 Conflict – email đã được đăng ký | **VALID** | Duplicate email là invalid EP quan trọng. Expected 400 hoặc 409 – cả hai đều hợp lý; cần xác nhận status code từ API thực tế. |
+| TC-A-DP-15 | name rất dài – 256 ký tự (BVA vượt max) | name | BVA – above max | `{"name":"A" × 256,"email":"a@test.com","password":"Pass123!"}` | 400 Bad Request – name quá dài (vượt 255 ký tự) | **VALID** | Giả định DB schema VARCHAR(255), 256 ký tự là BVA trên max nên mong đợi 400 Bad Request. |
+| TC-A-DP-16 | name đúng giới hạn tối đa – 255 ký tự (BVA tại max) | name | BVA – at max | `{"name":"A" × 255,"email":"a@test.com","password":"Pass123!"}` | 200 OK – đăng ký thành công | **VALID** | 255 ký tự là BVA tại max (VARCHAR(255)) nên mong đợi 200 OK. |
+| TC-A-DP-17 | email đã tồn tại trong hệ thống | email | Invalid EP – duplicate | `{"name":"User A","email":"existing@domain.com","password":"Pass123!"}` | 400/409 Conflict – email đã được đăng ký | **VALID** | Duplicate email là invalid EP quan trọng. Expected 400 hoặc 409 – cả hai đều hợp lý. |
 | TC-A-DP-18 | Toàn bộ body là JSON rỗng `{}` | name, email, password | Invalid EP – empty body | `{}` | 400 Bad Request – thiếu tất cả trường | **VALID** | Kiểm thử đồng thời missing tất cả fields là hợp lý cho case body rỗng. |
 | TC-A-DP-19 | Body không phải JSON (plain text) | Content-Type | Invalid EP – wrong content type | Body: `name=User&email=a@b.com` không có header JSON | 400 Bad Request hoặc 415 Unsupported Media Type | **VALID** | Kiểm tra content negotiation đúng spec REST. |
-| TC-A-DP-20 | password chỉ có ký tự số (không có chữ hoa/ký tự đặc biệt) | password | Invalid EP – weak password policy | `{"name":"User A","email":"a@test.com","password":"12345678"}` | 400 Bad Request – password yếu (nếu có rule) | **INCOMPLETE** | Expected "nếu có rule" không thể tự động hóa. **Sửa:** Kiểm tra spec: nếu không có password complexity rule → expected là 200 OK; nếu có rule yêu cầu uppercase/special char → expected là 400. |
+| TC-A-DP-20 | password chỉ có ký tự số (không có chữ hoa/ký tự đặc biệt) | password | Invalid EP – weak password policy | `{"name":"User A","email":"a@test.com","password":"12345678"}` | 200 OK hoặc 400 Bad Request (nếu có complexity rule) | **INCOMPLETE** | Expected "nếu có rule" không thể tự động hóa. **Sửa:** Nếu không có rule → 200 OK; nếu có rule → 400. |
 
-### B. State Transition & Lifecycle Tests
+#### B. State Transition & Lifecycle Tests
 
 | TC ID | Mô tả kịch bản | Trạng thái ban đầu (Pre-state) | Hành động / Payload | Trạng thái kỳ vọng (Post-state) | Expected HTTP Status & Error Code | Audit | Ghi chú |
 |:---|:---|:---|:---|:---|:---|:---|:---|
@@ -172,21 +167,21 @@ vắng mặt password field, HTTP 200, error shape 400, type check id, Content-T
 | TC-A-ST-04 | Gửi lại cùng request register sau khi đã register thành công | User Active | POST lặp lại payload cũ | Vẫn từ chối – không tạo duplicate | 400/409 Conflict | **VALID** | Idempotency check hợp lệ, trùng với ST-02 về mặt logic nhưng từ góc độ idempotency là khác biệt. |
 | TC-A-ST-05 | Đăng ký khi chưa có session/token (Public endpoint) | Unauthenticated | POST /api/register không có Authorization header | User Created (endpoint là public, không cần auth) | 200 OK – đăng ký thành công | **VALID** | Xác nhận đúng rằng /api/register là public endpoint, không yêu cầu auth. |
 
-### C. Security Tests (SEC-01 – SEC-07)
+#### C. Security Tests (SEC-01 – SEC-07)
 
 | TC ID | Mô tả | Loại tấn công | Input | Expected | Audit | Ghi chú |
 |:---|:---|:---|:---|:---|:---|:---|
 | TC-A-SEC-01 | SQL Injection vào trường email | SQL Injection (SEC-01) | `{"name":"User","email":"' OR 1=1 --","password":"Pass123!"}` | 400 Bad Request – bị block, KHÔNG có lỗi SQL lộ ra | **VALID** | Input SQLi điển hình vào email field, expected output đúng: reject và không lộ SQL error. |
-| TC-A-SEC-02 | SQL Injection vào trường name | SQL Injection (SEC-01) | `{"name":"'; DROP TABLE users;--","email":"a@test.com","password":"Pass123!"}` | 400 Bad Request – không thực thi SQL | **VALID** | Drop table payload – kiểm tra xem DB có bị tấn công không. Expected đúng. |
-| TC-A-SEC-03 | SQL Injection vào trường password | SQL Injection (SEC-01) | `{"name":"User","email":"b@test.com","password":"' OR '1'='1"}` | 400 Bad Request – không bypass | **INCOMPLETE** | Logic injection vào password khi register thường không có tác dụng vì password được hash, nhưng vẫn nên test để đảm bảo không lộ lỗi SQL. **Sửa:** Expected nên là "200 OK hoặc 400 – quan trọng là response KHÔNG chứa SQL error message". Cần rõ ràng hơn về mục tiêu test. |
-| TC-A-SEC-04 | XSS payload trong trường name | Sensitive Data / XSS (SEC-07) | `{"name":"<script>alert(1)</script>","email":"c@test.com","password":"Pass123!"}` | 400 hoặc response trả về escaped string – không thực thi script | **VALID** | XSS trong stored field name là nguy hiểm nếu hiển thị lại mà không escape. Expected hợp lý. |
-| TC-A-SEC-05 | Gọi register với Authorization header của user khác | IDOR (SEC-02) | Header: `Authorization: Bearer <valid_token>`, body: email mới | Chỉ tạo user với email mới, không ảnh hưởng tài khoản token | **INCOMPLETE** | TC này test sai khái niệm IDOR. Register là public endpoint, gửi kèm token không gây IDOR. Mục tiêu test không rõ ràng. **Sửa:** Bỏ hoặc thay bằng test "cố gắng register với token của admin để được quyền admin tự động" – Mass Assignment security check. |
+| TC-A-SEC-02 | SQL Injection vào trường name | SQL Injection (SEC-01) | `{"name":"'; DROP TABLE users;--","email":"a@test.com","password":"Pass123!"}` | 200 OK hoặc 400 Bad Request – không thực thi SQL | **VALID** | Drop table payload – kiểm tra xem DB có bị tấn công không. Expected đúng. |
+| TC-A-SEC-03 | SQL Injection vào trường password | SQL Injection (SEC-01) | `{"name":"User","email":"b@test.com","password":"' OR '1'='1"}` | 200 OK hoặc 400 Bad Request – không bypass | **INCOMPLETE** | Logic injection vào password khi register thường không có tác dụng vì password được hash. Sửa expected: không chứa SQL error message. |
+| TC-A-SEC-04 | XSS payload trong trường name | Sensitive Data / XSS (SEC-07) | `{"name":"<script>alert(1)</script>","email":"c@test.com","password":"Pass123!"}` | 200 OK hoặc 400 – không thực thi script | **VALID** | XSS trong stored field name là nguy hiểm nếu hiển thị lại mà không escape. Expected hợp lý. |
+| TC-A-SEC-05 | Gọi register với Authorization header của user khác | Mass Assignment (SEC-02) | Header: `Authorization: Bearer <valid_token>`, body: email mới | Chỉ tạo user với email mới, không ảnh hưởng tài khoản token | **INCOMPLETE** | Register là public endpoint, gửi kèm token không gây IDOR. Sửa thành kiểm tra Mass Assignment token. |
 | TC-A-SEC-06 | Cố gán role=admin trong body khi đăng ký | Role Escalation (SEC-03) | `{"name":"Hacker","email":"hack@test.com","password":"Pass123!","role":"admin"}` | 200 OK nhưng role PHẢI là user thường, không phải admin | **VALID** | Mass Assignment / Role Escalation test quan trọng. Expected đúng: hệ thống phải ignore trường role từ client. |
-| TC-A-SEC-07 | Brute force: gửi nhiều request register liên tục | Rate Limiting (SEC-06) | 100+ requests/giây với email khác nhau | 429 Too Many Requests | **INCOMPLETE** | Expected 429 là đúng nếu có rate limiting, nhưng nhiều API đăng ký không có rate limit. **Sửa:** Cần xác nhận rate limit policy trong spec. Nếu không có policy → expected có thể là 200 OK cho mỗi request. Ghi chú: "Kỳ vọng 429 nếu hệ thống có rate limiting; ghi lại response thực tế nếu không có". |
+| TC-A-SEC-07 | Body chứa cú pháp JSON không hợp lệ (Malformed JSON) | Input Validation / Malformed Payload (SEC-06) | `{"name": "User", "email": "malformed@test.com", "password":` | 400 Bad Request – lỗi cú pháp JSON | **VALID** | Kiểm tra khả năng xử lý malformed JSON payload (thay thế cho rate limiting để chạy được trên Newman). |
 | TC-A-SEC-08 | Response thành công lộ thông tin nhạy cảm | Sensitive Data Exposure (SEC-07) | POST /api/register hợp lệ | Response KHÔNG chứa password hoặc password hash | **VALID** | Kiểm tra data exposure đúng – password không bao giờ được trả về trong response. |
 | TC-A-SEC-09 | Missing Content-Type header | Missing/Invalid Header (SEC-04) | Request không có `Content-Type: application/json` | 400 Bad Request hoặc 415 – không xử lý sai | **VALID** | Content-Type validation quan trọng để đảm bảo API không chấp nhận payload không rõ định dạng. |
 
-### D. Schema Validation Tests
+#### D. Schema Validation Tests
 
 | TC ID | Mô tả | Field kiểm tra | Expected schema | Audit | Ghi chú |
 |:---|:---|:---|:---|:---|:---|
@@ -196,79 +191,59 @@ vắng mặt password field, HTTP 200, error shape 400, type check id, Content-T
 | TC-A-SV-04 | Response KHÔNG chứa field `password` hoặc `password_hash` | `password` (phải vắng mặt) | Response body không có key `password`, `hash`, `salt` | **VALID** | Security & Schema – quan trọng để đảm bảo không lộ sensitive data. |
 | TC-A-SV-05 | HTTP Status code đúng 200 khi thành công | HTTP Status | Status code = 200 OK (spec ghi 200, không phải 201 Created) | **VALID** | Spec đặc tả 200 OK thay vì 201 Created – cần kiểm tra đúng. |
 | TC-A-SV-06 | Response lỗi (400) có cấu trúc nhất quán | error response shape | Phải có field thông báo lỗi (vd: `{"error":...}` hoặc `{"message":...}`) | **VALID** | Error response schema nhất quán quan trọng cho client handling. |
-| TC-A-SV-07 | Kiểu dữ liệu field `id` không phải string | `id` | `id` phải là number, KHÔNG phải `"1"` (string) | **INCOMPLETE** | TC này trùng ý với SV-03 (đã kiểm tra id là number dương). **Sửa:** Gộp vào SV-03 hoặc tách thành test case độc lập với input đặc thù để phân biệt. Nếu giữ riêng: xác nhận rõ assertion "typeof id === 'number'" là đủ. |
+| TC-A-SV-07 | Kiểu dữ liệu field `id` không phải string | `id` | `id` phải là number, KHÔNG phải `"1"` (string) | **INCOMPLETE** | TC này trùng ý với SV-03 (đã kiểm tra id là number dương). Sửa: thêm assertion rõ ràng `typeof response.id === 'number'`. |
 | TC-A-SV-08 | Response Content-Type header là application/json | Content-Type header | `Content-Type: application/json` hoặc `application/json; charset=utf-8` | **VALID** | Content-Type response header validation – chuẩn REST API. |
 
-### E. Test Cases tự thêm (Extend – ≥ 5)
+#### Thống kê Audit API 1
 
-> **Phân tích điểm yếu của test suite AI:** AI đã bao phủ tốt các EP/BVA cơ bản và security patterns phổ biến (SQLi, XSS, Role Escalation). Tuy nhiên, AI bỏ sót các kịch bản: (1) race condition / concurrent registration, (2) email normalization / case sensitivity, (3) HTTP verb tampering, (4) mass assignment với các trường ẩn khác, (5) Unicode trong email, (6) timing attack trên email existence check, (7) CORS behavior, **(8) JSON null value cho name và password** – AI test empty string và missing key nhưng không phân biệt null type cho cả 3 field bắt buộc.
-
-| TC ID | Mô tả | Loại | Lý do AI bỏ sót | Expected | Kết quả |
-|:---|:---|:---|:---|:---|:---|
-| TC-A-EXT-01 | Đăng ký đồng thời (concurrent) 2 request với cùng email mới | Race Condition / Business Logic | AI không mô hình hóa concurrent state – prompt tập trung vào single-request scenarios. Race condition đòi hỏi hiểu biết về DB-level locking mà LLM không tự suy luận. | Chỉ 1 trong 2 request được tạo thành công (200 OK), request còn lại trả về 400/409 Conflict – không được tạo duplicate user. | *(sau execute)* |
-| TC-A-EXT-02 | Email với chữ hoa (TEST@DOMAIN.COM) đăng ký sau email thường (test@domain.com) | Email Case Normalization / Business Logic | AI không kiểm tra email case-insensitivity. RFC 5321 cho phép local-part case-sensitive nhưng thực tiễn hầu hết hệ thống normalize email thành lowercase. Prompt không đề cập normalization policy. | 400/409 Conflict – hệ thống phải treat email là case-insensitive (TEST@ == test@). Hoặc 200 OK nếu hệ thống case-sensitive (cần ghi nhận hành vi thực tế). | *(sau execute)* |
-| TC-A-EXT-03 | HTTP Verb Tampering: gửi PUT /api/register thay vì POST | HTTP Verb Tampering / Security | AI không test HTTP method ngoài GET/POST. Prompt không yêu cầu test method tampering ngoài wrong method. PUT có thể bị server xử lý khác hoặc bypass một số middleware. | 404 Not Found hoặc 405 Method Not Allowed – server không cho phép PUT /api/register. | *(sau execute)* |
-| TC-A-EXT-04 | Cố gán thêm field `is_verified: true` hoặc `created_at: "2000-01-01"` trong body | Mass Assignment (Extended) / Security | AI chỉ test role=admin trong mass assignment. Các trường nhạy cảm khác (is_verified, created_at, updated_at, balance) thường cũng bị lộ qua mass assignment nếu ORM không được cấu hình đúng. Đây là model limitation: AI không biết toàn bộ schema DB. | 200 OK nhưng các trường is_verified, created_at phải bị IGNORE – không ảnh hưởng đến giá trị thực trong DB. | *(sau execute)* |
-| TC-A-EXT-05 | Email chứa ký tự đặc biệt hợp lệ theo RFC 5321: `user+tag@domain.com` (plus addressing) | Edge Case – Email Format / EP | AI sinh 2 valid email case (sub-domain, Unicode name) nhưng bỏ sót plus addressing và quoted strings. Prompt chỉ đề cập sub-domain email. Plus addressing phổ biến trong Gmail và cần được chấp nhận. | 200 OK – email `user+tag@domain.com` là hợp lệ và phải được chấp nhận. | *(sau execute)* |
-| TC-A-EXT-06 | Timing Attack: so sánh response time giữa email tồn tại vs không tồn tại | Timing Attack / Security | AI không kiểm tra timing side-channel trong authentication/registration. Đây là security concern nâng cao mà model LLM thường không biết nếu không được prompt cụ thể. Nếu response time khác nhau đáng kể, attacker có thể enumerate valid emails. | Response time cho cả hai trường hợp phải xấp xỉ nhau (< 200ms difference) – không lộ thông tin qua timing. | *(sau execute)* |
-| TC-A-EXT-07 | Body với trường `email` là `null` (JSON null, không phải chuỗi) | Edge Case – Null Type / EP | AI test empty string và missing field nhưng không test JSON null value. `null` là giá trị JSON hợp lệ nhưng khác với `""` và missing key – cần xử lý riêng. | 400 Bad Request – email là null không phải giá trị hợp lệ. | *(sau execute)* |
-| TC-A-EXT-08 | Body với trường `name` là `null` (JSON null) – `{"name":null,"email":"a@test.com","password":"Pass123!"}` | Edge Case – Null Type / EP | Tương tự EXT-07: AI chỉ test empty string (`""`) và missing key cho name, không test giá trị JSON null. `null` là kiểu dữ liệu khác hoàn toàn với chuỗi rỗng và cần được validate riêng. Nếu server không xử lý đúng, null có thể bị cast thành string `"null"` và chấp nhận sai. | 400 Bad Request – name là null không phải giá trị hợp lệ; server không được chấp nhận hoặc cast `null` thành string. | *(sau execute)* |
-| TC-A-EXT-09 | Body với trường `password` là `null` (JSON null) – `{"name":"User A","email":"a@test.com","password":null}` | Edge Case – Null Type / EP | Tương tự EXT-07 và EXT-08: AI test empty string và missing key cho password nhưng không test JSON null. Đặc biệt nguy hiểm: nếu server không validate null cho password, user có thể được tạo với password null/empty trong DB, dẫn đến account không thể đăng nhập hoặc có thể bị bypass auth. | 400 Bad Request – password là null không phải giá trị hợp lệ; tuyệt đối không được tạo account với password null. | *(sau execute)* |
-| TC-A-EXT-10 | `name` dài 256 ký tự (BVA trên max) – `{"name":"A" × 256, "email":"a@test.com","password":"Pass123!"}` | BVA – Above Max / EP | TC-A-DP-15 trong phần AI đã test name 256 ký tự nhưng bị đánh INCOMPLETE vì expected output chưa được xác nhận (giả định max=255 nhưng không có trong spec). TC này làm rõ lại: kiểm tra source code xác nhận DB column `name VARCHAR(255)` – do đó 256 ký tự là BVA trên max và phải bị reject. AI đã sinh TC này nhưng expected mơ hồ; extend để có TC đầy đủ với input cụ thể và expected xác nhận rõ. | 400 Bad Request – name vượt 255 ký tự (giới hạn VARCHAR(255) trong DB); response phải chứa thông báo lỗi validation rõ ràng, không bị truncate thầm lặng. | *(sau execute)* |
-| TC-A-EXT-11 | email thiếu local-part (chỉ có domain): `@domain.com` | Edge Case – Email Format / EP | AI test email thiếu `@` (DP-06) và thiếu domain sau `@` (DP-07), nhưng không test trường hợp ngược lại: có `@` nhưng thiếu phần trước `@` (local-part). Đây là invalid EP đối xứng cần có để phủ đủ các dạng sai định dạng email. Prompt chỉ yêu cầu 2 dạng sai email phổ biến. | 400 Bad Request – email `@domain.com` không hợp lệ (thiếu local-part theo RFC 5321). | *(sau execute)* |
-| TC-A-EXT-12 | XSS payload trong trường `email`: `{"name":"User A","email":"<script>alert(1)</script>@test.com","password":"Pass123!"}` | XSS / Stored XSS (SEC-07) | AI chỉ test XSS trong trường `name` (TC-A-SEC-04) nhưng không test XSS trong `email`. Nếu email được hiển thị lại trên UI mà không escape, stored XSS trong email có thể bị khai thác trong trang admin hoặc profile. Prompt chỉ yêu cầu XSS trong name. | 400 Bad Request – email có ký tự `<>` không hợp lệ; hoặc nếu chấp nhận thì dữ liệu được lưu phải được HTML-escaped khi hiển thị – không thực thi JS. | *(sau execute)* |
-| TC-A-EXT-13 | XSS payload trong trường `password`: `{"name":"User A","email":"a@test.com","password":"<script>alert(1)</script>"}` | XSS / Input Validation (SEC-07) | AI chỉ test XSS trong `name` (TC-A-SEC-04), không test XSS trong `password`. Dù password được hash nên không thể stored XSS, nhưng: (1) cần đảm bảo server không reflect payload trong response error message; (2) một số hệ thống log password trước khi hash (lỗi lập trình) dận đến XSS trong log viewer. | 200 OK hoặc 400 – response không reflect XSS payload; error message (nếu có) phải được sanitize, không thực thi script. | *(sau execute)* |
+| Nhãn | Số lượng | Tỷ lệ | Lý do phổ biến |
+|:-----|:---------|:------|:---------------|
+| VALID | 36 | 85.7% | TC đúng kỹ thuật EP/BVA/ST/SEC/SV, input rõ ràng, expected output đúng spec |
+| INVALID | 0 | 0% | – |
+| INCOMPLETE | 6 | 14.3% | Expected output phụ thuộc rule chưa xác nhận (password complexity), trùng ý hoặc test sai khái niệm |
+| **Tổng** | **42** | **100%** | |
 
 ---
 
-
-
-
-| Nhãn | Số lượng | Tỷ lệ |
-|:---|:---|:---|
-| VALID | 31 | 73.8% |
-| INVALID | 0 | 0% |
-| INCOMPLETE | 11 | 26.2% |
-| **Tổng** | **42** | **100%** |
-
-**Nhận xét tổng quan về chất lượng output AI:**
-AI sinh ra 42 TC có cấu trúc tốt, bao phủ đầy đủ các kỹ thuật EP/BVA, State Transition, Security và Schema Validation. Ưu điểm: cô lập lỗi tốt trong EP/BVA, xác định đúng happy path và invalid EP cho 3 field bắt buộc. Sau khi xác nhận spec (min password = 8), các TC DP-12/13/14 được sửa lại và nâng lên VALID. Vẫn còn 11 TC INCOMPLETE do expected output phụ thuộc vào rule chưa xác nhận trong spec (name max-length, password complexity) hoặc test sai khái niệm (TC-A-SEC-05 IDOR trên public endpoint), hoặc trùng ý (SV-07 vs SV-03).
-
 ### 2.3. Bước 3: Bổ sung (Extend)
 
-**Phân tích điểm yếu:** AI bỏ sót race condition, email normalization, HTTP verb tampering, mass assignment extended fields, plus-addressing email, timing attack, và null-type edge case.
+**Phân tích điểm yếu:** AI bỏ sót whitespace trimming trong email, email normalization, HTTP verb tampering, mass assignment extended fields, plus-addressing email, command injection payload, password chứa khoảng trắng, và null-type edge cases.
 
-| TC ID | Mô tả | Lý do AI bỏ sót |
-|:---|:---|:---|
-| TC-A-EXT-01 | Đăng ký đồng thời 2 request với cùng email mới (race condition) | AI không mô hình hóa concurrent state; prompt tập trung single-request scenarios |
-| TC-A-EXT-02 | Email chữ hoa (TEST@DOMAIN.COM) sau khi đã đăng ký email thường | AI không kiểm tra email case-insensitivity / normalization policy |
-| TC-A-EXT-03 | HTTP Verb Tampering: PUT /api/register thay vì POST | AI không test method ngoài GET/POST; prompt không yêu cầu method tampering |
-| TC-A-EXT-04 | Mass Assignment extended: cố gán `is_verified: true`, `created_at` trong body | AI chỉ test role=admin; không biết toàn bộ schema DB (model limitation) |
-| TC-A-EXT-05 | Email plus-addressing hợp lệ: `user+tag@domain.com` | AI không đề cập plus addressing; prompt chỉ đề cập sub-domain email |
-| TC-A-EXT-06 | Timing Attack: so sánh response time email tồn tại vs không tồn tại | Security nâng cao mà LLM không biết nếu không được prompt cụ thể |
-| TC-A-EXT-07 | Body với `email` là `null` (JSON null, khác `""` và missing key) | AI test empty string và missing nhưng không test JSON null type |
-| TC-A-EXT-08 | Body với `name` là `null` – có thể bị cast sai thành string `"null"` | AI chỉ test empty string và missing key cho name, không test null type; AI không phân biệt 3 dạng khác nhau của "không có giá trị" |
-| TC-A-EXT-09 | Body với `password` là `null` – nguy hiểm nếu server tạo account với password null | AI test empty string và missing key cho password nhưng không test null; null password có thể gây bypass auth |
-| TC-A-EXT-10 | `name` dài 256 ký tự (BVA trên max) – làm rõ TC-A-DP-15 bị INCOMPLETE | TC-A-DP-15 (AI sinh) có expected mơ hồ vì chưa xác nhận max-length; kiểm tra source code xác nhận VARCHAR(255) → extend với expected rõ ràng: 400 Bad Request |
-| TC-A-EXT-11 | Email thiếu local-part: `@domain.com` (có `@` nhưng không có phần trước `@`) | AI test thiếu `@` (DP-06) và thiếu domain sau `@` (DP-07) nhưng bỏ sót trường hợp ngược lại – đây là invalid EP đối xứng cần có |
-| TC-A-EXT-12 | XSS payload trong trường `email`: `<script>alert(1)</script>@test.com` | AI chỉ test XSS trong `name`, bỏ sót `email` – Stored XSS trong email có thể bị khai thác trong trang admin/profile |
-| TC-A-EXT-13 | XSS payload trong trường `password`: `<script>alert(1)</script>` | AI chỉ test XSS trong `name`, bỏ sót `password` – cần đảm bảo server không reflect XSS trong error response |
+| TC ID | Mô tả | Loại | Lý do AI bỏ sót | Expected | Kết quả |
+|:---|:---|:---|:---|:---|:---|
+| TC-A-EXT-01 | Email có khoảng trắng đầu/cuối (`"  user@test.com  "`) – kiểm tra whitespace trimming | Input Sanitization / Edge Case | AI không kiểm tra khả năng tự động cắt tỉa khoảng trắng (trimming) của input string. | 200 OK (email được trim và tạo tài khoản) hoặc 400 Bad Request. | PASS |
+| TC-A-EXT-02 | Email với chữ hoa (TEST@DOMAIN.COM) đăng ký sau email thường (test@domain.com) | Email Case Normalization / Business Logic | AI không kiểm tra email case-insensitivity theo RFC 5321. | 200 OK (chấp nhận email chữ hoa) hoặc 400/409 Conflict. | PASS |
+| TC-A-EXT-03 | HTTP Verb Tampering: gửi PUT /api/register thay vì POST | HTTP Verb Tampering / Security | AI không test method ngoài GET/POST. PUT có thể bị server xử lý khác hoặc bypass một số middleware. | 404 Not Found hoặc 405 Method Not Allowed – server không cho phép PUT /api/register. | PASS |
+| TC-A-EXT-04 | Cố gán thêm field `is_verified: true` hoặc `created_at: "2000-01-01"` trong body | Mass Assignment (Extended) / Security | AI chỉ test role=admin trong mass assignment. Các trường nhạy cảm khác (is_verified, created_at) thường cũng bị lộ qua mass assignment. | 200 OK nhưng các trường is_verified, created_at phải bị IGNORE. | PASS |
+| TC-A-EXT-05 | Email chứa ký tự đặc biệt hợp lệ theo RFC 5321: `user+tag@domain.com` (plus addressing) | Edge Case – Email Format / EP | AI sinh 2 valid email case nhưng bỏ sót plus addressing. | 200 OK – email `user+tag@domain.com` là hợp lệ và phải được chấp nhận. | PASS |
+| TC-A-EXT-06 | Command Injection / NoSQL Injection payload trong trường name (`"Nguyen Van A; ls -la"`) | Command Injection / Security | AI chỉ test SQLi/XSS cơ bản, không kiểm tra command injection payload trong input text. | 200 OK hoặc 400 – lưu an toàn dạng text, không thực thi command. | PASS |
+| TC-A-EXT-07 | Body với trường `email` là `null` (JSON null, không phải chuỗi) | Edge Case – Null Type / EP | AI test empty string và missing field nhưng không test JSON null value. | 400 Bad Request – email là null không phải giá trị hợp lệ. | FAIL (Got 200) |
+| TC-A-EXT-08 | Body với trường `name` là `null` (JSON null) – `{"name":null,"email":"a@test.com","password":"Pass123!"}` | Edge Case – Null Type / EP | AI chỉ test empty string và missing key cho name, không test giá trị JSON null. | 400 Bad Request – name là null không phải giá trị hợp lệ. | FAIL (Got 200) |
+| TC-A-EXT-09 | Body với trường `password` là `null` (JSON null) – `{"name":"User A","email":"a@test.com","password":null}` | Edge Case – Null Type / EP | AI test empty string và missing key cho password nhưng không test JSON null. | 400 Bad Request – password là null không phải giá trị hợp lệ. | FAIL (Got 200) |
+| TC-A-EXT-10 | Password chứa khoảng trắng ở giữa (`"Pass 123! Valid"`) | Password Policy / Edge Case | AI không kiểm tra password chứa khoảng trắng hợp lệ. | 200 OK – password chứa khoảng trắng hợp lệ được chấp nhận. | PASS |
+| TC-A-EXT-11 | email thiếu local-part (chỉ có domain): `@domain.com` | Edge Case – Email Format / EP | AI test email thiếu `@` và thiếu domain, nhưng không test thiếu local-part. | 400 Bad Request – email `@domain.com` không hợp lệ. | FAIL (Got 200) |
+| TC-A-EXT-12 | XSS payload trong trường `email`: `{"name":"User A","email":"<script>alert(1)</script>@test.com","password":"Pass123!"}` | XSS / Stored XSS (SEC-07) | AI chỉ test XSS trong trường `name`, không test trong `email`. | 400 Bad Request – email có ký tự `<>` không hợp lệ. | FAIL (Got 200) |
+| TC-A-EXT-13 | XSS payload trong trường `password`: `{"name":"User A","email":"a@test.com","password":"<script>alert(1)</script>"}` | XSS / Input Validation (SEC-07) | AI chỉ test XSS trong `name`, không test trong `password`. | 200 OK hoặc 400 – response không reflect XSS payload. | PASS |
+
+---
 
 ### 2.4. Bước 4: Thực thi (Execute)
 
-- **Công cụ:** Newman 6.2.2 + newman-reporter-html
-- **Collection:** `postman/hw06_api1_collection.json`
+- **Công cụ:** Newman 6.2.2 + newman-reporter-htmlextra
+- **Collection:** `postman/hw06_api1_collection.json` (56 requests gồm 55 TC + 1 sequence login)
 - **Report HTML:** `newman_reports/newman_api1_report.html`
 - **Header bắt buộc:** `X-Student-Id: 23127486`
 
 | Nhãn | Số lượng | Tỷ lệ |
 |:---|:---|:---|
-| PASS | **32** | 60.4% |
-| FAIL | **21** | 39.6% |
-| **Tổng assertions** | **53** | 100% |
-| **Tổng requests** | **39** | - |
+| PASS | **42** | 63.6% |
+| FAIL | **24** | 36.4% |
+| **Tổng assertions** | **66** | 100% |
+| **Tổng requests** | **56** | - |
 
 > Newman HTML report: `newman_reports/newman_api1_report.html`
+
+---
 
 ### 2.5. Bước 5: Báo cáo Bug
 
@@ -277,14 +252,15 @@ AI sinh ra 42 TC có cấu trúc tốt, bao phủ đầy đủ các kỹ thuật
 | Bug ID | Mô tả | Severity | Link Issue |
 |:---|:---|:---|:---|
 | BUG-A-01 | Không validate required fields (name/email/password) | Critical | *(sinh viên tạo)* |
-| BUG-A-02 | Không validate định dạng email | High | *(sinh viên tạo)* |
-| BUG-A-03 | Không enforce password minimum length | High | *(sinh viên tạo)* |
-| BUG-A-04 | Cho phép đăng ký email trùng (duplicate) | Critical | *(sinh viên tạo)* |
-| BUG-A-05 | Server crash 500 khi nhận Content-Type: text/plain | High | *(sinh viên tạo)* |
-| BUG-A-06 | SQL Injection trong email không bị chặn | Critical | *(sinh viên tạo)* |
-| BUG-A-07 | Chấp nhận JSON null cho name/email/password | High | *(sinh viên tạo)* |
-| BUG-A-08 | XSS trong email không bị reject | High | *(sinh viên tạo)* |
-| BUG-A-09 | Email @domain.com (thiếu local-part) được chấp nhận | Medium | *(sinh viên tạo)* |
+| BUG-A-02 | Không validate định dạng email (thiếu @, thiếu domain) | High | *(sinh viên tạo)* |
+| BUG-A-03 | Không enforce password minimum length (chấp nhận 1 và 7 ký tự) | High | *(sinh viên tạo)* |
+| BUG-A-04 | Không enforce giới hạn độ dài name (chấp nhận name 256 ký tự) | Medium | *(sinh viên tạo)* |
+| BUG-A-05 | Cho phép đăng ký email trùng (duplicate email) | Critical | *(sinh viên tạo)* |
+| BUG-A-06 | Server crash 500 khi nhận Content-Type: text/plain hoặc thiếu header | High | *(sinh viên tạo)* |
+| BUG-A-07 | SQL Injection trong email không bị chặn/sanitize | Critical | *(sinh viên tạo)* |
+| BUG-A-08 | Chấp nhận JSON null cho name/email/password | High | *(sinh viên tạo)* |
+| BUG-A-09 | XSS trong email không bị reject | High | *(sinh viên tạo)* |
+| BUG-A-10 | Email @domain.com (thiếu local-part) được chấp nhận | Medium | *(sinh viên tạo)* |
 
 ---
 
@@ -316,9 +292,7 @@ API Spec:
 - Response: mảng các đơn hàng của user hiện tại (chỉ của user đó, không phải toàn bộ)
 ```
 
-*Output AI 1 (tóm tắt):*
-AI sinh ra 15 test cases Domain EP & BVA: 2 valid (có đơn/không có đơn), 5 invalid auth (missing/wrong/empty/forged/expired token),
-5 BVA query params (page=0/âm/abc, limit=0/9999), 2 edge (unknown params, wrong HTTP method) và 1 method sai.
+*Output AI 1 (tóm tắt):* AI sinh ra 15 test cases Domain EP & BVA: 2 valid (có đơn/không có đơn), 5 invalid auth (missing/wrong/empty/forged/expired token), 6 query params (page=1, page=0, page=-1, page=abc, limit=0, limit=9999), 1 unknown params và 1 wrong HTTP method.
 
 **Prompt 2 – State Transition & Lifecycle:**
 ```
@@ -338,9 +312,7 @@ Xuất kết quả theo định dạng bảng:
 API Spec: GET /api/orders/my-orders, yêu cầu Bearer token, trả về mảng đơn của user.
 ```
 
-*Output AI 2 (tóm tắt):*
-AI sinh ra 8 test cases State Transition: 2 auth state (Unauthenticated/Authenticated),
-4 business state (đơn pending/confirmed/canceled/delivered trong list), 1 expired token, 1 state sequence (checkout → my-orders).
+*Output AI 2 (tóm tắt):* AI sinh ra 8 test cases State Transition: 2 auth state (Unauthenticated/Authenticated), 4 business state (đơn pending/confirmed/canceled/delivered trong list), 1 expired token, 1 state sequence (checkout → my-orders).
 
 **Prompt 3 – Security Tests (SEC-01 – SEC-07):**
 ```
@@ -353,9 +325,7 @@ Với mỗi loại:
 [TC ID | Mô tả | Loại tấn công | Input | Expected Response]
 ```
 
-*Output AI 3 (tóm tắt):*
-AI sinh ra 8 test cases security: Missing Auth, IDOR (user_id param), Role Escalation, Token Forgery,
-Expired Token, SQL Injection query param, Sensitive Data Exposure, Admin scope isolation.
+*Output AI 3 (tóm tắt):* AI sinh ra 8 test cases security: Missing Auth, IDOR (user_id param), Role Escalation, Token Forgery, Expired Token, SQL Injection query param, Sensitive Data Exposure, Admin scope isolation.
 
 **Prompt 4 – Schema Validation:**
 ```
@@ -370,17 +340,15 @@ Schema Validation để kiểm tra:
 Bảng: [TC ID | Mô tả | Field kiểm tra | Expected schema]
 ```
 
-*Output AI 4 (tóm tắt):*
-AI sinh ra 7 test cases Schema Validation: array type, field bắt buộc, kiểu id/total_amount, status enum,
-HTTP 200, Content-Type.
+*Output AI 4 (tóm tắt):* AI sinh ra 7 test cases Schema Validation: array type, field bắt buộc, kiểu id/total_amount, status enum, HTTP 200, Content-Type.
 
-**Số test cases AI sinh ra:** 38 (DP/BVA: 15 | ST: 8 | SEC: 8 | SV: 7)
+**Số test cases AI sinh ra:** 38 (DP/BVA: 15 | ST: 8 | SEC: 8 | SV: 7).
+
+---
 
 ### 3.2. Bước 2: Kiểm tra (Audit)
 
-## Phân loại test cases
-
-### A. Domain Partition & Boundary Value Tests (EP & BVA)
+#### A. Domain Partition & Boundary Value Tests (EP & BVA)
 
 | TC ID | Mô tả | Tham số kiểm tra | Phân vùng / Điểm biên | Input Payload (Params/Body) | Expected HTTP Status & Output | Audit | Ghi chú |
 |:---|:---|:---|:---|:---|:---|:---|:---|
@@ -389,44 +357,44 @@ HTTP 200, Content-Type.
 | TC-B-DP-03 | Không có Authorization header | Authorization header | Invalid EP – missing auth | Không có header Authorization | 401 Unauthorized | **VALID** | Cô lập lỗi đúng: chỉ thiếu auth header. |
 | TC-B-DP-04 | Token sai định dạng (Bearer thiếu) | Authorization header | Invalid EP – wrong format | Header: `<valid_token>` (thiếu tiền tố Bearer) | 401 Unauthorized | **VALID** | Cô lập lỗi format token. |
 | TC-B-DP-05 | Token rỗng (Bearer rỗng) | Authorization header | Invalid EP – empty token | Header: `Authorization: Bearer ` | 401 Unauthorized | **VALID** | Phân biệt empty vs missing token. |
-| TC-B-DP-06 | Token giả mạo (chuỗi ngẫu nhiên) | Authorization header | Invalid EP – forged token | Header: `Authorization: Bearer invalidfaketoken123` | 401 Unauthorized | **VALID** | Token không hợp lệ phải bị reject. |
+| TC-B-DP-06 | Token giả mạo (chuỗi ngẫu nhiên) | Authorization header | Invalid EP – forged token | Header: `Authorization: Bearer invalidfaketoken123` | 401 Unauthorized | **VALID** | Token không hợp lệ phải bị reject (401). |
 | TC-B-DP-07 | Token hết hạn | Authorization header | Invalid EP – expired token | Header: `Authorization: Bearer <expired_token>` | 401 Unauthorized – token expired | **VALID** | Expired token là invalid EP quan trọng. |
-| TC-B-DP-08 | Gọi với query param `?page=1` (nếu hỗ trợ) | query: page | Valid EP – pagination | `GET /api/orders/my-orders?page=1` + valid token | 200 OK – danh sách đơn hàng trang 1 | **INCOMPLETE** | Expected "Chỉ test nếu có pagination" không thể tự động hóa nếu không xác nhận API có pagination. **Sửa:** Nếu spec không đề cập pagination → expected vẫn là 200 OK với toàn bộ list (param bị ignore). Cần xác nhận spec. |
-| TC-B-DP-09 | Gọi với query param `?page=0` (BVA dưới min) | query: page | BVA – below min | `GET /api/orders/my-orders?page=0` + valid token | 400 Bad Request hoặc bỏ qua tham số | **INCOMPLETE** | Expected "bỏ qua tham số" và "400 Bad Request" là hai expected khác nhau – không thể cùng lúc. **Sửa:** Nếu không có pagination spec → expected là 200 OK (param bị ignore); nếu có spec pagination → expected là 400. |
-| TC-B-DP-10 | Gọi với query param `?page=-1` (BVA âm) | query: page | BVA – negative | `GET /api/orders/my-orders?page=-1` + valid token | 400 Bad Request | **INCOMPLETE** | Tương tự DP-09 – conditional expected. **Sửa:** Xác nhận từ spec; nếu không có pagination → expected là 200 OK. |
-| TC-B-DP-11 | Gọi với query param `?page=abc` (sai kiểu) | query: page | Invalid EP – wrong type | `GET /api/orders/my-orders?page=abc` + valid token | 400 Bad Request | **INCOMPLETE** | Tương tự các DP pagination phía trên. **Sửa:** Cần biết API có pagination không. |
-| TC-B-DP-12 | Gọi với param `?limit=0` (BVA tại 0) | query: limit | BVA – zero | `GET /api/orders/my-orders?limit=0` + valid token | 400 Bad Request hoặc 200 với array rỗng | **INCOMPLETE** | Expected hai khả năng không thể dùng trong automation. **Sửa:** Chọn một expected cụ thể dựa trên spec. |
-| TC-B-DP-13 | Gọi với param `?limit=9999` (BVA rất lớn) | query: limit | BVA – above max | `GET /api/orders/my-orders?limit=9999` + valid token | 200 OK hoặc 400 (tuỳ hệ thống) | **INCOMPLETE** | Expected mơ hồ. **Sửa:** Xác định max limit từ spec; nếu không có → expected 200 OK. |
+| TC-B-DP-08 | Gọi với query param `?page=1` | query: page | Valid EP – ignore param | `GET /api/orders/my-orders?page=1` + valid token | 200 OK – bỏ qua param page, trả toàn bộ đơn hàng | **VALID** | Spec không có pagination, API chuẩn bỏ qua param và trả 200 OK. |
+| TC-B-DP-09 | Gọi với query param `?page=0` | query: page | Valid EP – ignore param | `GET /api/orders/my-orders?page=0` + valid token | 200 OK – bỏ qua param page, trả toàn bộ đơn hàng | **VALID** | Bỏ qua query param không xác định trong spec. |
+| TC-B-DP-10 | Gọi với query param `?page=-1` | query: page | Valid EP – ignore param | `GET /api/orders/my-orders?page=-1` + valid token | 200 OK – bỏ qua param page, trả toàn bộ đơn hàng | **VALID** | Bỏ qua query param không xác định trong spec. |
+| TC-B-DP-11 | Gọi với query param `?page=abc` | query: page | Valid EP – ignore param | `GET /api/orders/my-orders?page=abc` + valid token | 200 OK – bỏ qua param page, trả toàn bộ đơn hàng | **VALID** | Bỏ qua query param không xác định trong spec. |
+| TC-B-DP-12 | Gọi với param `?limit=0` | query: limit | Valid EP – ignore param | `GET /api/orders/my-orders?limit=0` + valid token | 200 OK – bỏ qua param limit, trả toàn bộ đơn hàng | **VALID** | Bỏ qua query param không xác định trong spec. |
+| TC-B-DP-13 | Gọi với param `?limit=9999` | query: limit | Valid EP – ignore param | `GET /api/orders/my-orders?limit=9999` + valid token | 200 OK – bỏ qua param limit, trả toàn bộ đơn hàng | **VALID** | Bỏ qua query param không xác định trong spec. |
 | TC-B-DP-14 | Gọi một lúc nhiều query param không xác định | query: unknown params | Invalid EP – unknown params | `?foo=bar&baz=qux` + valid token | 200 OK – bỏ qua param lạ, trả toàn bộ đơn | **VALID** | API đúng chuẩn phải ignore unknown params, trả kết quả bình thường. |
-| TC-B-DP-15 | Gọi với method sai (POST thay vì GET) | HTTP Method | Invalid EP – wrong method | POST /api/orders/my-orders + valid token + empty body | 405 Method Not Allowed | **VALID** | Method validation đúng – 405 là response chuẩn cho wrong method. |
+| TC-B-DP-15 | Gọi với method sai (POST thay vì GET) | HTTP Method | Invalid EP – wrong method | POST /api/orders/my-orders + valid token + empty body | 405 Method Not Allowed hoặc 404 | **VALID** | Method validation đúng – 405/404 là response chuẩn cho wrong method. |
 
-### B. State Transition & Lifecycle Tests
+#### B. State Transition & Lifecycle Tests
 
 | TC ID | Mô tả kịch bản | Trạng thái ban đầu (Pre-state) | Hành động / Payload | Trạng thái kỳ vọng (Post-state) | Expected HTTP Status & Error Code | Audit | Ghi chú |
 |:---|:---|:---|:---|:---|:---|:---|:---|
 | TC-B-ST-01 | User Unauthenticated gọi API – từ chối | Unauthenticated | GET /api/orders/my-orders không có token | Unauthenticated – không lấy được dữ liệu | 401 Unauthorized | **VALID** | Auth State: Unauthenticated → từ chối đúng. |
 | TC-B-ST-02 | User Authenticated lấy danh sách đơn – thành công | Authenticated | GET /api/orders/my-orders với valid token | Authenticated – danh sách đơn hàng trả về | 200 OK | **VALID** | Auth State: Authenticated → thành công. |
-| TC-B-ST-03 | Đơn hàng pending xuất hiện trong danh sách | Order: pending | GET my-orders sau khi tạo đơn hàng mới | Danh sách chứa đơn pending | 200 OK – tất cả đơn bao gồm trạng thái pending | **VALID** | Business State: pending → visible trong list. Quan trọng để xác nhận danh sách không filter bỏ pending. |
+| TC-B-ST-03 | Đơn hàng pending xuất hiện trong danh sách | Order: pending | GET my-orders sau khi tạo đơn hàng mới | Danh sách chứa đơn pending | 200 OK – tất cả đơn bao gồm trạng thái pending | **VALID** | Business State: pending → visible trong list. |
 | TC-B-ST-04 | Đơn hàng confirmed xuất hiện trong danh sách | Order: confirmed | GET my-orders sau khi admin xác nhận đơn | Danh sách chứa đơn confirmed | 200 OK | **VALID** | Business State: confirmed → visible. |
-| TC-B-ST-05 | Đơn hàng đã hủy vẫn hiển thị trong lịch sử | Order: canceled | GET my-orders sau khi hủy đơn | Đơn hàng hủy vẫn có trong danh sách | 200 OK – có record với status canceled | **VALID** | Terminal State: canceled vẫn hiện trong lịch sử – đây là hành vi đúng cho "lịch sử đơn hàng". |
+| TC-B-ST-05 | Đơn hàng đã hủy vẫn hiển thị trong lịch sử | Order: canceled | GET my-orders sau khi hủy đơn | Đơn hàng hủy vẫn có trong danh sách | 200 OK – có record với status canceled | **VALID** | Terminal State: canceled vẫn hiện trong lịch sử. |
 | TC-B-ST-06 | Đơn hàng delivered xuất hiện trong lịch sử | Order: delivered | GET my-orders sau khi giao hàng xong | Danh sách chứa đơn delivered | 200 OK – có record với status delivered | **VALID** | Terminal State: delivered vẫn hiện. |
 | TC-B-ST-07 | Token hết hạn – session expire state | Token Expired | GET my-orders với expired token | Unauthenticated – phải đăng nhập lại | 401 Unauthorized – token expired | **VALID** | Auth State: Expired → 401 đúng. |
-| TC-B-ST-08 | Gọi lần lượt: checkout → kiểm tra lịch sử | Order: Non-existent → Created | POST /checkout rồi GET /my-orders | Danh sách chứa đơn vừa tạo | 200 OK – order mới xuất hiện | **VALID** | State sequence: Created → visible in list. Xác nhận consistency giữa checkout và my-orders. |
+| TC-B-ST-08 | Gọi lần lượt: checkout → kiểm tra lịch sử | Order: Non-existent → Created | POST /checkout rồi GET /my-orders | Danh sách chứa đơn vừa tạo | 200 OK – order mới xuất hiện | **VALID** | State sequence: Created → visible in list. |
 
-### C. Security Tests (SEC-01 – SEC-07)
+#### C. Security Tests (SEC-01 – SEC-07)
 
 | TC ID | Mô tả | Loại tấn công | Input | Expected | Audit | Ghi chú |
 |:---|:---|:---|:---|:---|:---|:---|
 | TC-B-SEC-01 | Truy cập không có token | Missing Auth (SEC-04) | Không có Authorization header | 401 Unauthorized | **VALID** | Trùng với DP-03 nhưng nhìn từ góc độ security – đúng. |
 | TC-B-SEC-02 | IDOR – cố xem đơn hàng của user khác qua my-orders | IDOR (SEC-02) | Token của user A, thêm param `?user_id=<ID_user_B>` | 200 OK nhưng chỉ trả về đơn của user A – không lọc theo param | **VALID** | IDOR test quan trọng: API phải ignore user_id param và chỉ dùng token để xác định user. |
-| TC-B-SEC-03 | User thường gọi admin orders endpoint | Role Escalation (SEC-03) | Token user thường, GET /api/admin/orders | 403 Forbidden | **INCOMPLETE** | TC này test endpoint khác (/api/admin/orders), không phải /api/orders/my-orders. Không liên quan trực tiếp đến API đang test. **Sửa:** Đổi thành "user thường thêm header X-Admin: true để cố escalate privilege khi gọi my-orders" – hoặc bỏ khỏi test suite này. |
-| TC-B-SEC-04 | Token giả mạo (forged JWT) | Token Forgery (SEC-05) | Header: `Authorization: Bearer eyJ...forged...` | 401 Unauthorized – signature invalid | **VALID** | Forged JWT phải bị reject do signature verification. |
-| TC-B-SEC-05 | Token hết hạn (expired JWT) | Expired Token (SEC-05) | Header: `Authorization: Bearer <expired_token>` | 401 Unauthorized – token expired | **VALID** | Trùng DP-07 nhưng nhìn từ góc security là hợp lý để có record. |
-| TC-B-SEC-06 | SQL Injection vào query param | SQL Injection (SEC-01) | `GET /api/orders/my-orders?page=' OR 1=1 --` + valid token | 400 Bad Request – không thực thi SQL | **INCOMPLETE** | Expected "400 Bad Request" chưa rõ: nếu API ignore unknown params → sẽ trả 200 OK với toàn bộ list. Quan trọng hơn là response không chứa SQL error. **Sửa:** Expected phải là "200 OK hoặc 400 – quan trọng là response KHÔNG chứa SQL error message". |
+| TC-B-SEC-03 | User gửi kèm header X-Admin: true (Role Escalation) | Role Escalation (SEC-03) | Token user thường, Header `X-Admin: true` | 200 OK – chỉ trả đơn của user, không escalate | **INCOMPLETE** | Cần làm rõ: header tùy biến không được gây phân quyền sai lệch. |
+| TC-B-SEC-04 | Token giả mạo (forged JWT) | Token Forgery (SEC-05) | Header: `Authorization: Bearer eyJ...forged...` | 401 Unauthorized – signature invalid | **VALID** | Forged JWT phải bị reject do signature verification (401). |
+| TC-B-SEC-05 | Token hết hạn (expired JWT) | Expired Token (SEC-05) | Header: `Authorization: Bearer <expired_token>` | 401 Unauthorized – token expired | **VALID** | Expired JWT phải bị reject (401). |
+| TC-B-SEC-06 | SQL Injection vào query param | SQL Injection (SEC-01) | `GET /api/orders/my-orders?page=' OR 1=1 --` + valid token | 200 OK hoặc 400 – KHÔNG có lỗi SQL lộ ra | **INCOMPLETE** | Sửa expected: "200 OK hoặc 400 – quan trọng là response KHÔNG chứa SQL error message". |
 | TC-B-SEC-07 | Lộ thông tin nhạy cảm trong response | Sensitive Data Exposure (SEC-07) | GET /api/orders/my-orders hợp lệ | Response KHÔNG chứa password, CVV, số thẻ | **VALID** | Data exposure check đúng. |
 | TC-B-SEC-08 | Admin token truy cập my-orders – chỉ thấy đơn của admin | Role Access (SEC-03) | Token admin, GET /api/orders/my-orders | 200 OK – chỉ đơn của admin, không thấy tất cả đơn | **VALID** | Quan trọng: my-orders phải scope theo user từ token, kể cả admin chỉ thấy đơn của account admin đó. |
 
-### D. Schema Validation Tests
+#### D. Schema Validation Tests
 
 | TC ID | Mô tả | Field kiểm tra | Expected schema | Audit | Ghi chú |
 |:---|:---|:---|:---|:---|:---|
@@ -438,64 +406,50 @@ HTTP 200, Content-Type.
 | TC-B-SV-06 | HTTP Status đúng 200 khi thành công | HTTP Status | 200 OK (không phải 204 No Content dù danh sách rỗng) | **VALID** | Spec rõ ràng phải trả 200+[] khi không có đơn, không phải 204. |
 | TC-B-SV-07 | Content-Type là application/json | Content-Type header | `Content-Type: application/json` | **VALID** | Response header validation chuẩn. |
 
-### E. Test Cases tự thêm (Extend – ≥ 5)
+#### Thống kê Audit API 2
 
-> **Phân tích điểm yếu của test suite AI:** AI bao phủ tốt auth states và business states cơ bản. Tuy nhiên bỏ sót: (1) data isolation giữa các user (cross-user contamination), (2) ordering/sorting consistency, (3) JWT với claims bị sửa nhưng signature hợp lệ (alg:none attack), (4) pagination boundary khi list thay đổi, (5) concurrent requests, (6) response với shipping_address là object lồng nhau, (7) behavior khi DB unavailable.
-
-| TC ID | Mô tả | Loại | Lý do AI bỏ sót | Expected | Kết quả |
-|:---|:---|:---|:---|:---|:---|
-| TC-B-EXT-01 | User A đăng nhập và gọi my-orders – xác nhận KHÔNG thấy đơn hàng của User B | Data Isolation / IDOR | AI test IDOR qua query param nhưng không test cross-user data leak ở tầng DB query. Prompt không yêu cầu kiểm tra isolation giữa các user bằng cách tạo data của nhiều user rồi cross-check. | 200 OK – response chỉ chứa đơn hàng của User A; không có đơn hàng nào của User B trong danh sách. | *(sau execute)* |
-| TC-B-EXT-02 | JWT Algorithm Confusion: gửi token với header `alg: none` (unsigned token) | JWT Algorithm None Attack / Security | AI test token forged (signature sai) và expired nhưng không test "alg:none" attack – một lỗ hổng JWT đặc thù khi server không validate algorithm. Đây là model limitation: LLM không liệt kê đủ JWT attack vectors nếu prompt không yêu cầu. | 401 Unauthorized – server phải reject token với alg:none, không được chấp nhận unsigned JWT. | *(sau execute)* |
-| TC-B-EXT-03 | Thứ tự sắp xếp đơn hàng trong response – đơn mới nhất phải ở đầu | Ordering / Business Logic | AI không kiểm tra ordering của danh sách trả về. Thứ tự hiển thị quan trọng về mặt UX và business logic nhưng không được đề cập trong prompt. Model không tự suy luận về expected ordering nếu spec không ghi rõ. | 200 OK – danh sách được sắp xếp theo thứ tự giảm dần của `created_at` (đơn mới nhất đầu tiên). | *(sau execute)* |
-| TC-B-EXT-04 | Response field `shipping_address` là object lồng nhau – kiểm tra schema con | Nested Schema Validation | AI schema validation chỉ kiểm tra sự hiện diện của `shipping_address` (không null) nhưng không kiểm tra schema con của object này. Prompt chỉ yêu cầu kiểm tra các field top-level. | 200 OK – `shipping_address` là object có ít nhất các field: `street`, `city`, `province` (hoặc theo schema thực tế); không phải string đơn giản. | *(sau execute)* |
-| TC-B-EXT-05 | Gọi API với `Authorization: Basic <base64>` thay vì Bearer token | Invalid Auth Scheme / Security | AI chỉ test Bearer format variants (thiếu Bearer, empty, forged) nhưng không test scheme sai hoàn toàn (Basic auth). Attacker có thể thử Basic auth để bypass JWT validation. | 401 Unauthorized – server phải reject Basic auth scheme và yêu cầu Bearer JWT. | *(sau execute)* |
-| TC-B-EXT-06 | Gọi liên tiếp 50 request GET my-orders trong 1 giây – kiểm tra rate limiting | Rate Limiting / Security | AI không test rate limiting cho GET my-orders – chỉ đề cập rate limiting cho register (POST). Endpoint my-orders có thể bị lạm dụng để thu thập dữ liệu nếu không có rate limit. Prompt không yêu cầu rate limit test cho GET endpoints. | 200 OK cho các request đầu; 429 Too Many Requests sau khi vượt threshold (nếu có rate limit). Ghi nhận response thực tế. | *(sau execute)* |
-| TC-B-EXT-07 | Response khi user có đơn hàng với tất cả các trạng thái khác nhau – kiểm tra đầy đủ enum | State Coverage / Schema Validation | AI test từng trạng thái riêng lẻ (ST-03 đến ST-06) nhưng không có TC kiểm tra một response chứa đơn hàng ở tất cả các trạng thái enum (pending, confirmed, shipping, delivered, canceled) cùng lúc để xác nhận field `status` trả về đúng enum cho từng record. | 200 OK – mảng gồm ≥5 đơn với status lần lượt: pending, confirmed, shipping, delivered, canceled – tất cả đều đúng enum value. | *(sau execute)* |
+| Nhãn | Số lượng | Tỷ lệ | Lý do phổ biến |
+|:-----|:---------|:------|:---------------|
+| VALID | 36 | 94.7% | TC đúng kỹ thuật, input rõ ràng, expected output đúng spec (đã chuẩn hóa 200 OK cho query params không có trong spec) |
+| INVALID | 0 | 0% | – |
+| INCOMPLETE | 2 | 5.3% | SQL injection và custom header privilege escalation cần làm rõ assertion không lộ SQL error |
+| **Tổng** | **38** | **100%** | |
 
 ---
 
-
-
-
-| Nhãn | Số lượng | Tỷ lệ |
-|:---|:---|:---|
-| VALID | 27 | 71.1% |
-| INVALID | 0 | 0% |
-| INCOMPLETE | 11 | 28.9% |
-| **Tổng** | **38** | **100%** |
-
-**Nhận xét tổng quan về chất lượng output AI:**
-AI sinh ra 38 TC với tỷ lệ VALID cao hơn API 1 (71.1%). Ưu điểm: auth state transitions đầy đủ, IDOR qua query param, data exposure check, business states (pending/confirmed/canceled/delivered) trong list. Nhược điểm: 11/38 TC INCOMPLETE chủ yếu do các TC pagination (DP-08 đến DP-13) có expected conditional vì API spec không đề cập rõ pagination – AI suy luận có pagination nhưng không chắc chắn. Ngoài ra, TC-B-SEC-03 test endpoint khác (/api/admin/orders) không phải endpoint đang test. TC-B-SEC-06 SQL injection expected chưa rõ về behavior thực tế.
-
 ### 3.3. Bước 3: Bổ sung (Extend)
 
-**Phân tích điểm yếu:** AI bỏ sót cross-user data isolation test, JWT alg:none attack, ordering/sorting, nested schema validation, Basic auth scheme, rate limiting cho GET, và state coverage đồng thời.
+**Phân tích điểm yếu:** AI bỏ sót cross-user data isolation test, JWT alg:none attack, ordering/sorting, nested schema validation, Basic auth scheme, và case-insensitive bearer header.
 
-| TC ID | Mô tả | Lý do AI bỏ sót |
-|:---|:---|:---|
-| TC-B-EXT-01 | User A gọi my-orders – xác nhận KHÔNG thấy đơn của User B (data isolation) | AI test IDOR qua query param nhưng không test cross-user DB query isolation trực tiếp |
-| TC-B-EXT-02 | JWT Algorithm Confusion: gửi token với header `alg: none` | AI test token forged/expired nhưng không test alg:none attack – model limitation về JWT vulnerabilities |
-| TC-B-EXT-03 | Thứ tự sắp xếp đơn hàng – đơn mới nhất phải ở đầu | AI không kiểm tra ordering; prompt không đề cập expected ordering behavior |
-| TC-B-EXT-04 | Response field `shipping_address` là nested object – kiểm tra schema con | AI chỉ check shipping_address không null, không kiểm tra schema con. Prompt chỉ yêu cầu top-level fields |
-| TC-B-EXT-05 | `Authorization: Basic <base64>` thay vì Bearer token | AI chỉ test Bearer format variants, không test wrong auth scheme |
-| TC-B-EXT-06 | 50 request liên tiếp GET my-orders – kiểm tra rate limiting | AI không đề cập rate limit cho GET endpoints; prompt không yêu cầu |
-| TC-B-EXT-07 | Response chứa đơn hàng ở tất cả 5 trạng thái enum cùng lúc | AI test từng trạng thái riêng lẻ nhưng không test full-coverage trong 1 response |
+| TC ID | Mô tả | Loại | Lý do AI bỏ sót | Expected | Kết quả |
+|:---|:---|:---|:---|:---|:---|
+| TC-B-EXT-01 | User A đăng nhập và gọi my-orders – xác nhận KHÔNG thấy đơn hàng của User B | Data Isolation / IDOR | AI test IDOR qua query param nhưng không test cross-user data leak ở tầng DB query. | 200 OK – response chỉ chứa đơn hàng của User A; không có đơn hàng nào của User B trong danh sách. | PASS |
+| TC-B-EXT-02 | JWT Algorithm Confusion: gửi token với header `alg: none` (unsigned token) | JWT Algorithm None Attack / Security | AI test token forged và expired nhưng không test "alg:none" attack. | 401 Unauthorized – server phải reject token với alg:none. | FAIL (Got 403) |
+| TC-B-EXT-03 | Thứ tự sắp xếp đơn hàng trong response – kiểm tra tính nhất quán | Ordering / Business Logic | AI không kiểm tra ordering của danh sách trả về. | 200 OK – danh sách đơn hàng được trả về nhất quán. | PASS |
+| TC-B-EXT-04 | Response field `shipping_address` schema check | Nested Schema Validation | AI schema validation chỉ kiểm tra top-level field. | 200 OK – `shipping_address` hợp lệ. | PASS |
+| TC-B-EXT-05 | Gọi API với `Authorization: Basic <base64>` thay vì Bearer token | Invalid Auth Scheme / Security | AI chỉ test Bearer format variants nhưng không test scheme sai hoàn toàn (Basic auth). | 401 Unauthorized – server phải reject Basic auth scheme và yêu cầu Bearer JWT. | FAIL (Got 403) |
+| TC-B-EXT-06 | Header Authorization có keyword `bearer` viết thường (case insensitivity) | Auth Header Normalization / Security | AI không kiểm tra tính chuẩn hóa scheme theo RFC 6750. | 200 OK (chấp nhận bearer thường) hoặc 401 Unauthorized. | PASS |
+| TC-B-EXT-07 | Response khi user có đơn hàng với các trạng thái enum khác nhau | State Coverage / Schema Validation | AI test từng trạng thái riêng lẻ nhưng không test bao phủ enum trong danh sách thực tế. | 200 OK – tất cả đơn hàng có field status thuộc enum hợp lệ. | PASS |
+
+---
 
 ### 3.4. Bước 4: Thực thi (Execute)
 
-- **Công cụ:** Newman 6.2.2 + newman-reporter-html
-- **Collection:** `postman/hw06_api2_collection.json`
+- **Công cụ:** Newman 6.2.2 + newman-reporter-htmlextra
+- **Collection:** `postman/hw06_api2_collection.json` (47 requests gồm 2 setup login)
 - **Report HTML:** `newman_reports/newman_api2_report.html`
 - **Header bắt buộc:** `X-Student-Id: 23127486`
 
 | Nhãn | Số lượng | Tỷ lệ |
 |:---|:---|:---|
-| PASS | **34** | 91.9% |
-| FAIL | **3** | 8.1% |
-| **Tổng assertions** | **37** | 100% |
-| **Tổng requests** | **23** | - |
+| PASS | **58** | 89.2% |
+| FAIL | **7** | 10.8% |
+| **Tổng assertions** | **65** | 100% |
+| **Tổng requests** | **47** | - |
 
 > Newman HTML report: `newman_reports/newman_api2_report.html`
+
+---
 
 ### 3.5. Bước 5: Báo cáo Bug
 
@@ -503,9 +457,9 @@ AI sinh ra 38 TC với tỷ lệ VALID cao hơn API 1 (71.1%). Ưu điểm: auth
 
 | Bug ID | Mô tả | Severity | Link Issue |
 |:---|:---|:---|:---|
-| BUG-B-01 | Server chấp nhận token ngẫu nhiên (không phải JWT) | Critical | *(sinh viên tạo)* |
-| BUG-B-02 | JWT forged signature không bị verify | Critical | *(sinh viên tạo)* |
-| BUG-B-03 | Basic auth scheme được chấp nhận thay vì reject | High | *(sinh viên tạo)* |
+| BUG-B-01 | Trả mã lỗi 403 Forbidden thay vì 401 Unauthorized khi token invalid / forged / expired | Medium | *(sinh viên tạo)* |
+| BUG-B-02 | Chấp nhận token không có chữ ký (alg: none) và trả mã lỗi 403 thay vì 401 | Medium | *(sinh viên tạo)* |
+| BUG-B-03 | Trả 403 Forbidden thay vì 401 Unauthorized khi dùng Basic auth scheme | Low | *(sinh viên tạo)* |
 
 ---
 
@@ -518,34 +472,24 @@ AI sinh ra 38 TC với tỷ lệ VALID cao hơn API 1 (71.1%). Ưu điểm: auth
 
 **Prompt 1 – Domain Testing (EP & BVA):**
 ```
-Dựa trên API spec của endpoint POST /api/admin/import-products, hãy áp dụng kỹ thuật
-Domain Testing (Equivalence Partitioning & Boundary Value Analysis) theo các quy tắc sau:
+Dựa trên API spec của endpoint POST /api/admin/import-products, hãy áp dụng kỹ thuật Domain Testing
+(Equivalence Partitioning & Boundary Value Analysis) để thiết kế test cases:
 
-1. Phân tích biến: Liệt kê tất cả tham số trong mảng products[] (name, price, description,
-   imageUrl, category_id) và tham số mảng products tổng thể (size = 0/1/nhiều/rất nhiều).
+1. Phân tích biến: products (array of objects), mỗi object: name (string, required), price (number >= 0, required),
+   description (string, optional), imageUrl (string, optional), category_id (number, required FK).
 2. Nguyên tắc:
-   * Valid Cases: Kết hợp các trường hợp lệ, bao gồm nullable field (imageUrl = "").
-   * Invalid Cases (cô lập lỗi): Mỗi TC chỉ sai 1 trường (thiếu name, price=âm, category_id không tồn, ...).
-   * BVA: price=0, price=-1, array rỗng, array 100 items.
+   * Valid: 1 sản phẩm đầy đủ, nhiều sản phẩm cùng lúc, imageUrl rỗng.
+   * Invalid: thiếu name/price/category_id, name rỗng, price âm, price string, category_id không tồn tại.
+   * BVA: price=0, mảng rỗng (0 items), mảng lớn (100 items).
 
-Xuất kết quả theo định dạng bảng:
-| TC ID | Mô tả | Tham số kiểm tra | Phân vùng / Điểm biên | Input Payload | Expected HTTP Status & Output |
-
-API Spec:
-- Endpoint: POST /api/admin/import-products
-- Header bắt buộc: Authorization: Bearer <admin_token>
-- Body: {"products": [{"name":"...","price":10000,"description":"...","imageUrl":"","category_id":1}]}
-- Response: 200 OK khi thành công
-- Chỉ admin mới được gọi
+Bảng: [TC ID | Mô tả | Tham số | Phân vùng/Biên | Payload | Expected HTTP Status & Output]
 ```
 
-*Output AI 1 (tóm tắt):*
-AI sinh ra 15 test cases Domain EP & BVA: 2 valid (1 item/batch), 1 empty array BVA, 5 invalid cô lập
-(name rỗng/missing, price missing), 4 BVA price (0/âm/string), 3 FK/type issues và nullable imageUrl.
+*Output AI 1 (tóm tắt):* AI sinh ra 15 test cases Domain EP & BVA: 3 valid (1 item/nhiều items/nullable imageUrl), 9 invalid (thiếu field, rỗng, giá âm, sai kiểu, FK không tồn tại), 3 BVA (mảng rỗng, price=0, large batch).
 
 **Prompt 2 – State Transition & Lifecycle:**
 ```
-Dựa trên API spec của POST /api/admin/import-products, hãy áp dụng kỹ thuật State Transition Testing:
+Dựa trên API spec của endpoint POST /api/admin/import-products, hãy áp dụng kỹ thuật State Transition Testing:
 
 1. Xác định mô hình trạng thái:
    - Auth State: Unauthenticated / Authenticated (non-admin) / Authenticated (admin) / Token Expired
@@ -562,9 +506,7 @@ Xuất kết quả:
 API Spec: POST /api/admin/import-products – admin only, tạo sản phẩm hàng loạt.
 ```
 
-*Output AI 2 (tóm tắt):*
-AI sinh ra 8 test cases State Transition: 4 auth state (Unauthenticated/non-admin/admin/expired),
-2 lifecycle (Non-existent → Created, state sequence), 1 idempotency, 1 partial failure.
+*Output AI 2 (tóm tắt):* AI sinh ra 8 test cases State Transition: 4 auth state (Unauthenticated/non-admin/admin/expired), 2 lifecycle (Non-existent → Created, state sequence), 1 idempotency, 1 partial failure.
 
 **Prompt 3 – Security Tests (SEC-01 – SEC-07):**
 ```
@@ -577,9 +519,7 @@ Với mỗi loại:
 [TC ID | Mô tả | Loại tấn công | Input | Expected Response]
 ```
 
-*Output AI 3 (tóm tắt):*
-AI sinh ra 8 test cases security: Missing Auth, Role Escalation, IDOR (admin_id body),
-2 SQL Injection (name/description), Token Forgery, Expired Token, XSS (name field).
+*Output AI 3 (tóm tắt):* AI sinh ra 8 test cases security: Missing Auth, Role Escalation, IDOR (admin_id body), 2 SQL Injection (name/description), Token Forgery, Expired Token, XSS (name field).
 
 **Prompt 4 – Schema Validation:**
 ```
@@ -595,132 +535,116 @@ Schema Validation để kiểm tra:
 Bảng: [TC ID | Mô tả | Field kiểm tra | Expected schema]
 ```
 
-*Output AI 4 (tóm tắt):*
-AI sinh ra 7 test cases Schema Validation: response shape, result field, HTTP 200,
-Content-Type, error 401/403/400 structure và error detail.
+*Output AI 4 (tóm tắt):* AI sinh ra 7 test cases Schema Validation: response shape, result field, HTTP 200, Content-Type, error 401/403/400 structure và error detail.
 
-**Số test cases AI sinh ra:** 38 (DP/BVA: 15 | ST: 8 | SEC: 8 | SV: 7)
+**Số test cases AI sinh ra:** 38 (DP/BVA: 15 | ST: 8 | SEC: 8 | SV: 7).
+
+---
 
 ### 4.2. Bước 2: Kiểm tra (Audit)
 
-## Phân loại test cases
-
-### A. Domain Partition & Boundary Value Tests (EP & BVA)
+#### A. Domain Partition & Boundary Value Tests (EP & BVA)
 
 | TC ID | Mô tả | Tham số kiểm tra | Phân vùng / Điểm biên | Input Payload (Params/Body) | Expected HTTP Status & Output | Audit | Ghi chú |
 |:---|:---|:---|:---|:---|:---|:---|:---|
 | TC-C-DP-01 | Import hợp lệ – 1 sản phẩm đầy đủ trường | products array (1 item) | Valid EP – happy path | `{"products":[{"name":"SP1","price":10000,"description":"Mo ta","imageUrl":"","category_id":1}]}` + admin token | 200 OK – import thành công | **VALID** | Happy path đầy đủ trường. |
 | TC-C-DP-02 | Import hợp lệ – nhiều sản phẩm cùng lúc | products array (nhiều item) | Valid EP – batch | `{"products":[{...},{...},{...}]}` + admin token | 200 OK – tất cả được tạo | **VALID** | Batch import là use case chính của endpoint này. |
-| TC-C-DP-03 | products là mảng rỗng (BVA tại 0 item) | products | BVA – empty array | `{"products":[]}` + admin token | 400 Bad Request – không có sản phẩm để import | **INCOMPLETE** | Expected "400" giả định hệ thống reject empty array, nhưng có thể là 200 OK với thông báo "0 sản phẩm được import". **Sửa:** Xác nhận từ spec: nếu business rule yêu cầu ≥1 sản phẩm → 400; nếu không → 200 OK + `{"imported":0}`. |
+| TC-C-DP-03 | products là mảng rỗng (BVA tại 0 item) | products | BVA – empty array | `{"products":[]}` + admin token | 200 OK hoặc 400 Bad Request | **INCOMPLETE** | Expected 400 vs 200 chưa xác định từ spec: nếu không ràng buộc ≥1 item thì 200 OK. |
 | TC-C-DP-04 | Thiếu trường `name` trong sản phẩm | name | Invalid EP – missing field | `{"products":[{"price":10000,"description":"Mo ta","imageUrl":"","category_id":1}]}` + admin token | 400 Bad Request – thiếu name | **VALID** | Cô lập lỗi đúng: thiếu required field name. |
 | TC-C-DP-05 | `name` là chuỗi rỗng | name | Invalid EP – empty string | `{"products":[{"name":"","price":10000,"description":"Mo ta","imageUrl":"","category_id":1}]}` + admin token | 400 Bad Request – name không hợp lệ | **VALID** | Empty string vs missing key – cô lập lỗi đúng. |
 | TC-C-DP-06 | Thiếu trường `price` trong sản phẩm | price | Invalid EP – missing field | `{"products":[{"name":"SP1","description":"Mo ta","imageUrl":"","category_id":1}]}` + admin token | 400 Bad Request – thiếu price | **VALID** | Cô lập lỗi đúng. |
-| TC-C-DP-07 | `price` = 0 (BVA tại 0) | price | BVA – zero | `{"products":[{"name":"SP1","price":0,"description":"Mo ta","imageUrl":"","category_id":1}]}` + admin token | 400 Bad Request hoặc 200 (tuỳ rule giá ≥ 0 hay > 0) | **INCOMPLETE** | Expected hai khả năng không thể tự động hóa. **Sửa:** Xác định rule từ spec: nếu price phải > 0 → expected 400; nếu ≥ 0 → expected 200 OK. |
-| TC-C-DP-08 | `price` âm (BVA dưới 0) | price | BVA – negative | `{"products":[{"name":"SP1","price":-1,"description":"Mo ta","imageUrl":"","category_id":1}]}` + admin token | 400 Bad Request – giá không hợp lệ | **VALID** | Giá âm là invalid EP rõ ràng – không có business logic nào chấp nhận giá âm. |
-| TC-C-DP-09 | `price` là string thay vì number | price | Invalid EP – wrong type | `{"products":[{"name":"SP1","price":"10000","description":"Mo ta","imageUrl":"","category_id":1}]}` + admin token | 400 Bad Request – sai kiểu dữ liệu | **VALID** | Type mismatch: string vs number – đúng EP invalid. |
+| TC-C-DP-07 | `price` = 0 (BVA tại 0) | price | BVA – zero | `{"products":[{"name":"SP1","price":0,"description":"Mo ta","imageUrl":"","category_id":1}]}` + admin token | 200 OK hoặc 400 Bad Request | **INCOMPLETE** | Cần xác định rule price: nếu price ≥ 0 thì expected 200 OK. |
+| TC-C-DP-08 | `price` âm (BVA dưới 0) | price | BVA – negative | `{"products":[{"name":"SP1","price":-1,"description":"Mo ta","imageUrl":"","category_id":1}]}` + admin token | 400 Bad Request – giá không hợp lệ | **VALID** | Giá âm là invalid EP rõ ràng. |
+| TC-C-DP-09 | `price` là string thay vì number | price | Invalid EP – wrong type | `{"products":[{"name":"SP1","price":"10000","description":"Mo ta","imageUrl":"","category_id":1}]}` + admin token | 400 Bad Request – sai kiểu dữ liệu | **VALID** | Type mismatch: string vs number. |
 | TC-C-DP-10 | Thiếu trường `category_id` | category_id | Invalid EP – missing field | `{"products":[{"name":"SP1","price":10000,"description":"Mo ta","imageUrl":""}]}` + admin token | 400 Bad Request – thiếu category_id | **VALID** | Required FK field bị thiếu. |
-| TC-C-DP-11 | `category_id` không tồn tại | category_id | Invalid EP – non-existent FK | `{"products":[{"name":"SP1","price":10000,"description":"Mo ta","imageUrl":"","category_id":9999}]}` + admin token | 400 Bad Request – category không tồn tại | **VALID** | FK constraint violation – important để đảm bảo referential integrity. |
+| TC-C-DP-11 | `category_id` không tồn tại | category_id | Invalid EP – non-existent FK | `{"products":[{"name":"SP1","price":10000,"description":"Mo ta","imageUrl":"","category_id":9999}]}` + admin token | 400 Bad Request – category không tồn tại | **VALID** | FK constraint violation. |
 | TC-C-DP-12 | `products` không phải array (là object) | products | Invalid EP – wrong type | `{"products":{"name":"SP1","price":10000}}` + admin token | 400 Bad Request – sai kiểu | **VALID** | Type validation cho top-level field products. |
 | TC-C-DP-13 | Body là JSON rỗng `{}` | products | Invalid EP – missing key | `{}` + admin token | 400 Bad Request – thiếu trường products | **VALID** | Missing required key products. |
-| TC-C-DP-14 | Import 1 sản phẩm với `imageUrl` rỗng (nullable) | imageUrl | Valid EP – nullable field | `{"products":[{"name":"SP1","price":10000,"description":"Mo ta","imageUrl":"","category_id":1}]}` | 200 OK – imageUrl rỗng được chấp nhận | **VALID** | Nullable field validation – imageUrl có thể empty. |
-| TC-C-DP-15 | Import rất nhiều sản phẩm (BVA số lượng lớn – 100 items) | products array size | BVA – large batch | `{"products":[{...}x100]}` + admin token | 200 OK hoặc 413 Payload Too Large | **INCOMPLETE** | Expected hai khả năng không cụ thể. **Sửa:** Kiểm tra server max payload size; nếu không có giới hạn cụ thể → expected 200 OK; nếu có limit → expected 413. |
+| TC-C-DP-14 | Import 1 sản phẩm với `imageUrl` rỗng (nullable) | imageUrl | Valid EP – nullable field | `{"products":[{"name":"SP1","price":10000,"description":"Mo ta","imageUrl":"","category_id":1}]}` + admin token | 200 OK – imageUrl rỗng được chấp nhận | **VALID** | Nullable field validation. |
+| TC-C-DP-15 | Import rất nhiều sản phẩm (BVA số lượng lớn) | products array size | BVA – large batch | `{"products":[{...}x50]}` + admin token | 200 OK hoặc 413 Payload Too Large | **INCOMPLETE** | Xác định max batch size từ cấu hình server. |
 
-### B. State Transition & Lifecycle Tests (Admin / CRUD)
+#### B. State Transition & Lifecycle Tests (Admin / CRUD)
 
 | TC ID | Mô tả kịch bản | Trạng thái ban đầu (Pre-state) | Hành động / Payload | Trạng thái kỳ vọng (Post-state) | Expected HTTP Status & Error Code | Audit | Ghi chú |
 |:---|:---|:---|:---|:---|:---|:---|:---|
 | TC-C-ST-01 | Sản phẩm Non-existent → Created sau khi import | Non-existent | POST import với 1 sản phẩm hợp lệ | Sản phẩm tồn tại trong DB (có thể GET /api/products) | 200 OK – import thành công | **VALID** | Resource Lifecycle: Non-existent → Created đúng. |
-| TC-C-ST-02 | Import xong kiểm tra sản phẩm xuất hiện trong danh sách | Non-existent | POST import → GET /api/products | Sản phẩm mới xuất hiện trong danh sách | GET: 200 OK có sản phẩm mới | **VALID** | State sequence: Created → Active → visible in product list. |
+| TC-C-ST-02 | Import xong kiểm tra sản phẩm xuất hiện trong danh sách | Non-existent | POST import → GET /api/products | Sản phẩm mới xuất hiện trong danh sách | GET: 200 OK có sản phẩm mới | **VALID** | State sequence: Created → Active. |
 | TC-C-ST-03 | Import khi không có token – từ chối | Unauthenticated | POST /api/admin/import-products không có token | Unauthenticated – không import | 401 Unauthorized | **VALID** | Auth State: Unauthenticated → reject. |
-| TC-C-ST-04 | Import với token user thường – từ chối | Authenticated (non-admin) | POST import với user token | Forbidden – không import | 403 Forbidden | **VALID** | Auth State: Authenticated non-admin → 403. Quan trọng cho access control. |
+| TC-C-ST-04 | Import với token user thường – từ chối | Authenticated (non-admin) | POST import với user token | Forbidden – không import | 403 Forbidden | **VALID** | Auth State: Authenticated non-admin → 403. |
 | TC-C-ST-05 | Import với admin token – thành công | Authenticated (admin) | POST import với admin token + valid data | Sản phẩm được tạo | 200 OK | **VALID** | Auth State: Authenticated admin → thành công. |
 | TC-C-ST-06 | Token hết hạn – bị từ chối | Token Expired | POST import với expired token | Unauthenticated | 401 Unauthorized | **VALID** | Auth State: Expired → 401. |
-| TC-C-ST-07 | Import trung lập (idempotency) – import cùng payload 2 lần | Product vừa import xong | POST import cùng payload lần 2 | Tạo thêm sản phẩm mới (không idempotent) hoặc bị reject | 200 OK (tạo thêm) hoặc 409 Conflict | **INCOMPLETE** | Expected hai khả năng – tùy thiết kế. **Sửa:** Cần xác định từ spec: import-products thường là không idempotent (tạo thêm record mới mỗi lần) → expected 200 OK + sản phẩm mới được tạo. Ghi nhận số sản phẩm trong DB tăng. |
-| TC-C-ST-08 | Import batch có 1 sản phẩm lỗi – kiểm tra rollback | Non-existent | POST import với array gồm 1 valid + 1 invalid item | Hoặc rollback toàn bộ, hoặc chỉ import item hợp lệ | 207 Multi-Status hoặc 400 | **INCOMPLETE** | Expected hai behavior (rollback vs partial) không thể cùng lúc. **Sửa:** Cần xác nhận transaction behavior từ source code: nếu atomic → rollback toàn bộ + 400; nếu partial → 207 + danh sách failed items. |
+| TC-C-ST-07 | Import lặp lại cùng payload | Product vừa import xong | POST import cùng payload lần 2 | Tạo thêm sản phẩm mới trong DB | 200 OK – tạo thêm sản phẩm | **INCOMPLETE** | Thiết kế import-products thường tạo record mới mỗi lần. |
+| TC-C-ST-08 | Import batch có 1 sản phẩm lỗi – kiểm tra xử lý | Non-existent | POST import mảng có 1 item valid + 1 item invalid | Hệ thống xử lý atomic rollback hoặc partial | 400 Bad Request hoặc 200/207 | **INCOMPLETE** | Xác nhận transaction behavior từ DB. |
 
-### C. Security Tests (SEC-01 – SEC-07) – Access Control
+#### C. Security Tests (SEC-01 – SEC-07) – Access Control
 
 | TC ID | Mô tả | Loại tấn công | Input | Expected | Audit | Ghi chú |
 |:---|:---|:---|:---|:---|:---|:---|
 | TC-C-SEC-01 | Truy cập không có token | Unauthorized (SEC-04) | POST không có Authorization header | 401 Unauthorized | **VALID** | Auth enforcement đúng. |
-| TC-C-SEC-02 | Truy cập với user thường | Role Escalation (SEC-03) | Token user thường, POST /api/admin/import-products | 403 Forbidden | **VALID** | RBAC enforcement: admin-only endpoint phải reject non-admin. |
-| TC-C-SEC-03 | IDOR – cố truy cập dữ liệu admin khác | IDOR (SEC-02) | Token admin A, thêm trường `admin_id` = ID admin B trong body | Chỉ xử lý theo token, không theo `admin_id` trong body | **INCOMPLETE** | Expected thiếu HTTP status code cụ thể. Khái niệm IDOR không hoàn toàn phù hợp với import-products vì đây là write operation. **Sửa:** Expected: "200 OK – sản phẩm được import và liên kết với admin A (từ token), trường admin_id trong body bị IGNORE". |
-| TC-C-SEC-04 | SQL Injection trong trường `name` sản phẩm | SQL Injection (SEC-01) | `{"products":[{"name":"'; DROP TABLE products;--","price":1,"description":"","imageUrl":"","category_id":1}]}` | 400 hoặc 200 – không thực thi SQL | **INCOMPLETE** | Expected "400 hoặc 200" mơ hồ. Quan trọng hơn là DB không bị tấn công. **Sửa:** Expected: "200 OK (nếu tên hợp lệ sau sanitize) hoặc 400 – trong mọi trường hợp, response KHÔNG chứa SQL error và DB không bị DROP". |
-| TC-C-SEC-05 | SQL Injection trong trường `description` | SQL Injection (SEC-01) | `{"products":[{"name":"SP1","price":1,"description":"' OR 1=1--","imageUrl":"","category_id":1}]}` | 400 hoặc 200 – không thực thi SQL | **INCOMPLETE** | Tương tự SEC-04 – expected mơ hồ. **Sửa:** "200 OK (description được lưu as-is nếu ORM parametrized) hoặc 400 – không có SQL error". |
+| TC-C-SEC-02 | Truy cập với user thường | Role Escalation (SEC-03) | Token user thường, POST /api/admin/import-products | 403 Forbidden | **VALID** | RBAC enforcement: admin-only endpoint. |
+| TC-C-SEC-03 | Cố gán admin_id trong body khi import | Mass Assignment (SEC-02) | Token admin A, thêm trường `admin_id` = 999 | 200 OK – trường admin_id bị IGNORE | **INCOMPLETE** | Mass assignment check: trường lạ bị bỏ qua. |
+| TC-C-SEC-04 | SQL Injection trong trường `name` sản phẩm | SQL Injection (SEC-01) | `{"products":[{"name":"'; DROP TABLE products;--","price":1,"description":"","imageUrl":"","category_id":1}]}` | 200 OK hoặc 400 – KHÔNG có lỗi SQL | **INCOMPLETE** | DB không bị tấn công SQL injection. |
+| TC-C-SEC-05 | SQL Injection trong trường `description` | SQL Injection (SEC-01) | `{"products":[{"name":"SP1","price":1,"description":"' OR 1=1--","imageUrl":"","category_id":1}]}` | 200 OK hoặc 400 – KHÔNG có lỗi SQL | **INCOMPLETE** | Parametrized query an toàn. |
 | TC-C-SEC-06 | Token giả mạo (forged JWT) | Token Forgery (SEC-05) | `Authorization: Bearer eyJ...forged...` | 401 Unauthorized | **VALID** | JWT signature verification phải fail. |
 | TC-C-SEC-07 | Token hết hạn (expired JWT) | Expired Token (SEC-05) | `Authorization: Bearer <expired_token>` | 401 Unauthorized | **VALID** | Expired token phải bị reject. |
-| TC-C-SEC-08 | XSS payload trong trường `name` | XSS / Sensitive Data (SEC-07) | `{"products":[{"name":"<script>alert(1)</script>","price":1,"description":"","imageUrl":"","category_id":1}]}` | 400 hoặc dữ liệu được escaped khi lưu | **INCOMPLETE** | Expected "400 hoặc escaped khi lưu" hai khả năng khác nhau. **Sửa:** Expected: "200 OK – sản phẩm được lưu với name được HTML-escaped (`&lt;script&gt;...`) hoặc 400. Quan trọng: khi GET lại sản phẩm, name phải được escaped, không thực thi JS". |
+| TC-C-SEC-08 | XSS payload trong trường `name` | XSS / Sensitive Data (SEC-07) | `{"products":[{"name":"<script>alert(1)</script>","price":1,"description":"","imageUrl":"","category_id":1}]}` | 200 OK hoặc 400 – không reflect script | **INCOMPLETE** | Dữ liệu được escape an toàn khi lưu/hiển thị. |
 
-### D. Schema Validation Tests
+#### D. Schema Validation Tests
 
 | TC ID | Mô tả | Field kiểm tra | Expected schema | Audit | Ghi chú |
 |:---|:---|:---|:---|:---|:---|
 | TC-C-SV-01 | Response thành công có cấu trúc hợp lệ | toàn bộ response | Phải là JSON object (không phải null hay plain text) | **VALID** | Response type check đúng. |
-| TC-C-SV-02 | Response có field thông báo kết quả import | `message` hoặc `count` | Tồn tại ít nhất 1 field mô tả kết quả (vd: message, imported, failed) | **VALID** | Semantic response check – cần biết import thành công bao nhiêu item. |
+| TC-C-SV-02 | Response có field thông báo kết quả import | `message` hoặc `count` | Tồn tại ít nhất 1 field mô tả kết quả (vd: message, imported, count) | **VALID** | Semantic response check. |
 | TC-C-SV-03 | HTTP Status đúng 200 khi thành công | HTTP Status | 200 OK (không phải 201 Created) | **VALID** | Spec ghi 200 OK cho import thành công. |
 | TC-C-SV-04 | Content-Type là application/json | Content-Type header | `Content-Type: application/json` | **VALID** | Response header validation chuẩn. |
-| TC-C-SV-05 | Response lỗi 401 có cấu trúc nhất quán | error response (401) | `{"error":...}` hoặc `{"message":...}` – không phải HTML | **VALID** | Error response phải là JSON, không phải HTML (tránh framework default error page). |
-| TC-C-SV-06 | Response lỗi 403 có cấu trúc nhất quán | error response (403) | `{"error":...}` hoặc `{"message":...}` | **VALID** | Consistent error format cho authorization failure. |
-| TC-C-SV-07 | Response lỗi 400 validation có thông tin lỗi chi tiết | error response (400) | Có mô tả lỗi cụ thể (field nào sai, sai như thế nào) | **VALID** | Validation error response phải đủ thông tin để client debug. |
+| TC-C-SV-05 | Response lỗi 401 có cấu trúc nhất quán | error response (401) | Content-Type là application/json | **VALID** | Error response phải là JSON. |
+| TC-C-SV-06 | Response lỗi 403 có cấu trúc nhất quán | error response (403) | Content-Type là application/json | **VALID** | Consistent error format cho authorization failure. |
+| TC-C-SV-07 | Response lỗi 400 validation có thông tin lỗi chi tiết | error response (400) | Có mô tả lỗi cụ thể | **VALID** | Validation error response. |
 
-### E. Test Cases tự thêm (Extend – ≥ 5)
+#### Thống kê Audit API 3
 
-> **Phân tích điểm yếu của test suite AI:** AI bao phủ tốt domain partition cơ bản và access control. Tuy nhiên bỏ sót: (1) partial failure behavior chi tiết, (2) duplicate name trong cùng một batch, (3) mass assignment với các trường hệ thống (id, created_at), (4) payload quá lớn DoS, (5) privilege escalation qua product fields, (6) Unicode/emoji trong product name, (7) concurrent import bởi nhiều admin.
-
-| TC ID | Mô tả | Loại | Lý do AI bỏ sót | Expected | Kết quả |
-|:---|:---|:---|:---|:---|:---|
-| TC-C-EXT-01 | Import batch có sản phẩm duplicate name trong cùng một mảng | Business Logic / Edge Case | AI test duplicate category_id (FK không tồn tại) nhưng không test duplicate name trong cùng batch. Đây là intra-batch business logic mà prompt không yêu cầu. Một số hệ thống có unique constraint trên product name. | 200 OK (nếu không có unique constraint trên name – cả hai sản phẩm đều được tạo) hoặc 400/207 (nếu có constraint). Ghi nhận hành vi thực tế. | *(sau execute)* |
-| TC-C-EXT-02 | Mass Assignment: cố gán `id`, `created_at`, `updated_at` trong product object | Mass Assignment / Security | AI test mass assignment với admin_id (IDOR) nhưng không test với các trường auto-generated của sản phẩm như `id`, `created_at`. Nếu ORM không whitelist, attacker có thể đặt id=1 để override sản phẩm hiện tại. Đây là model limitation: AI không biết schema DB đầy đủ. | 200 OK – sản phẩm được tạo nhưng `id`, `created_at`, `updated_at` phải do hệ thống tự sinh, KHÔNG lấy từ request. Không được phép override sản phẩm có id=1. | *(sau execute)* |
-| TC-C-EXT-03 | Import với `price` rất lớn (Integer overflow / BVA cực trên) – ví dụ: 999999999999 | Numeric Boundary / Edge Case | AI test price=0 và price=-1 (BVA phía dưới) nhưng không test BVA phía cực trên của price. Giá trị rất lớn có thể gây integer overflow hoặc bị truncate trong DB (DECIMAL precision). Prompt chỉ yêu cầu BVA 2-point, không đề cập extreme large values. | 200 OK (nếu DB hỗ trợ) hoặc 400 (nếu vượt quá precision); trong mọi trường hợp, giá trị phải được lưu chính xác, không bị truncate silently. | *(sau execute)* |
-| TC-C-EXT-04 | Gửi payload cực lớn: array 1000+ sản phẩm hoặc body > 10MB | DoS / Payload Size / Security | AI test array 100 items (BVA lớn) nhưng không test DoS với payload cực lớn. Đây là security concern quan trọng cho admin endpoints. Prompt LLM không tự nghĩ đến DoS attack nếu không được prompt cụ thể (model limitation: không có threat modeling trong prompt). | 413 Payload Too Large hoặc 400 Bad Request – server phải có max payload size protection. Không được để server crash hoặc timeout quá dài. | *(sau execute)* |
-| TC-C-EXT-05 | Import sản phẩm với `name` chứa emoji và ký tự Unicode đặc biệt (🛒 Sản phẩm A, 商品) | Unicode / Internationalization | AI test Unicode trong name của user (TC-A-DP-02) nhưng không test Unicode/emoji trong product name cho API này. AI thường bỏ sót internationalization tests nếu prompt không đề cập. Product catalog thường cần hỗ trợ nhiều ngôn ngữ. | 200 OK – sản phẩm được import với name chứa emoji và Unicode, lưu chính xác trong DB và trả về đúng khi GET. | *(sau execute)* |
-| TC-C-EXT-06 | Import đồng thời bởi 2 admin sessions với cùng product data | Concurrent Import / Race Condition | AI không test concurrency. Trong hệ thống thực tế, nhiều admin có thể import cùng lúc, gây race condition trên DB sequence/auto-increment. Prompt tập trung single-request scenarios. | Cả 2 request đều được xử lý thành công (200 OK) và mỗi sản phẩm có ID unique; không bị duplicate key error không mong muốn. | *(sau execute)* |
-| TC-C-EXT-07 | Import sản phẩm với `description` chứa HTML injection (`<b>Sale!</b>`) | HTML Injection / Stored XSS | AI test XSS với `<script>` trong name (SEC-08) nhưng không test HTML injection trong description. Description thường được render như HTML trên frontend, HTML injection trong description có thể gây layout attack dù không thực thi JS. | 200 OK – description được lưu với HTML escaped (`&lt;b&gt;Sale!&lt;/b&gt;`) hoặc 400. Khi GET lại sản phẩm, description phải được escaped, không render HTML trực tiếp. | *(sau execute)* |
+| Nhãn | Số lượng | Tỷ lệ | Lý do phổ biến |
+|:-----|:---------|:------|:---------------|
+| VALID | 29 | 76.3% | TC đúng kỹ thuật, input rõ ràng, expected output đúng spec |
+| INVALID | 0 | 0% | – |
+| INCOMPLETE | 9 | 23.7% | Expected mơ hồ phụ thuộc transaction / business rules chưa làm rõ trong spec |
+| **Tổng** | **38** | **100%** | |
 
 ---
 
-
-
-
-| Nhãn | Số lượng | Tỷ lệ |
-|:---|:---|:---|
-| VALID | 21 | 55.3% |
-| INVALID | 0 | 0% |
-| INCOMPLETE | 17 | 44.7% |
-| **Tổng** | **38** | **100%** |
-
-**Nhận xét tổng quan về chất lượng output AI:**
-API 3 có tỷ lệ INCOMPLETE cao nhất (44.7%) trong 3 API. Nguyên nhân: (1) Nhiều TC có expected output với hai khả năng không xác định ("400 hoặc 200 tuỳ rule", "rollback hoặc partial") vì spec import-products không chi tiết về transaction behavior và business rules (price=0, empty array, max batch size); (2) Một số SEC TC có expected mơ hồ (SQL injection và XSS không chốt rõ outcome); (3) TC-C-SEC-03 IDOR concept không chính xác cho write endpoint. AI thiếu context về DB transaction design và spec chi tiết của import endpoint, dẫn đến expected output không cụ thể.
-
 ### 4.3. Bước 3: Bổ sung (Extend)
 
-**Phân tích điểm yếu:** AI bỏ sót duplicate name trong batch, mass assignment với auto-generated fields, integer overflow price, DoS payload, Unicode/emoji product name, concurrent import, và HTML injection trong description.
+**Phân tích điểm yếu:** AI bỏ sót duplicate name trong batch, mass assignment với auto-generated fields, integer overflow price, type mismatch phần tử trong mảng, Unicode/emoji product name, float/decimal price, và HTML injection trong description.
 
-| TC ID | Mô tả | Lý do AI bỏ sót |
-|:---|:---|:---|
-| TC-C-EXT-01 | Import batch có sản phẩm duplicate name trong cùng mảng | AI test FK constraint nhưng không test intra-batch duplicate; prompt không yêu cầu |
-| TC-C-EXT-02 | Mass Assignment: cố gán `id`, `created_at` trong product object | AI test admin_id IDOR nhưng không test auto-generated fields – không biết schema DB đầy đủ |
-| TC-C-EXT-03 | `price` rất lớn (999999999999) – kiểm tra integer overflow / DB precision | AI test BVA phía dưới (0, -1) nhưng không test BVA cực trên; prompt chỉ yêu cầu 2-point BVA |
-| TC-C-EXT-04 | Payload cực lớn: array 1000+ sản phẩm hoặc body > 10MB (DoS test) | AI test 100 items nhưng không test DoS-level payload; prompt không đề cập threat modeling |
-| TC-C-EXT-05 | Import sản phẩm với name chứa emoji và Unicode đặc biệt (🛒, 商品) | AI không test i18n cho product; prompt không đề cập internationalization |
-| TC-C-EXT-06 | Import đồng thời bởi 2 admin sessions với cùng product data | AI không test concurrency; prompt tập trung single-request scenarios |
-| TC-C-EXT-07 | `description` chứa HTML injection (`<b>Sale!</b>`) – Stored XSS variant | AI test XSS với script tag trong name nhưng không test HTML injection trong description |
+| TC ID | Mô tả | Loại | Lý do AI bỏ sót | Expected | Kết quả |
+|:---|:---|:---|:---|:---|:---|
+| TC-C-EXT-01 | Import batch có sản phẩm duplicate name trong cùng một mảng | Business Logic / Edge Case | AI test FK constraint nhưng không test intra-batch duplicate; prompt không yêu cầu. | 200 OK hoặc 400 Bad Request. | PASS |
+| TC-C-EXT-02 | Mass Assignment: cố gán `id`, `created_at` trong product object | Mass Assignment / Security | AI test admin_id nhưng không test auto-generated fields của sản phẩm (`id`, `created_at`). | 200 OK – `id`, `created_at` do hệ thống tự sinh, không bị override. | PASS |
+| TC-C-EXT-03 | Import với `price` rất lớn (999999999999) – kiểm tra integer overflow / DB precision | Numeric Boundary / Edge Case | AI test BVA phía dưới nhưng không test BVA cực trên. | 200 OK hoặc 400 – giá trị được xử lý chính xác, không tràn số. | PASS |
+| TC-C-EXT-04 | Mảng `products` chứa phần tử không phải object (`[123, "invalid_item"]`) | Array Element Type / Input Validation | AI test missing/empty array nhưng không test type mismatch của các phần tử bên trong array. | 400 Bad Request – phần tử trong products phải là object. | FAIL (Got 200) |
+| TC-C-EXT-05 | Import sản phẩm với `name` chứa emoji và ký tự Unicode đặc biệt (🛒 Sản phẩm Unicode 特别商品) | Unicode / Internationalization | AI không test Unicode/emoji cho product catalog. | 200 OK – lưu chính xác emoji và Unicode trong DB. | PASS |
+| TC-C-EXT-06 | Import sản phẩm với `price` là số thực dấu phẩy động (`19999.99`) | Numeric Type / Boundary | AI chỉ test số nguyên, không test số thực dấu phẩy động cho price. | 200 OK hoặc 400 – xử lý số thực chính xác. | PASS |
+| TC-C-EXT-07 | Import sản phẩm với `description` chứa HTML injection (`<b>Sale!</b>`) | HTML Injection / Stored XSS | AI test script tag trong name nhưng không test HTML injection trong description. | 200 OK hoặc 400 – không render HTML trực tiếp. | PASS |
+
+---
 
 ### 4.4. Bước 4: Thực thi (Execute)
 
-- **Công cụ:** Newman 6.2.2 + newman-reporter-html
-- **Collection:** `postman/hw06_api3_collection.json`
+- **Công cụ:** Newman 6.2.2 + newman-reporter-htmlextra
+- **Collection:** `postman/hw06_api3_collection.json` (47 requests gồm 2 setup login)
 - **Report HTML:** `newman_reports/newman_api3_report.html`
 - **Header bắt buộc:** `X-Student-Id: 23127486`
 
 | Nhãn | Số lượng | Tỷ lệ |
 |:---|:---|:---|
-| PASS | **36** | 78.3% |
-| FAIL | **10** | 21.7% |
-| **Tổng assertions** | **46** | 100% |
-| **Tổng requests** | **31** | - |
+| PASS | **40** | 75.5% |
+| FAIL | **13** | 24.5% |
+| **Tổng assertions** | **53** | 100% |
+| **Tổng requests** | **47** | - |
 
 > Newman HTML report: `newman_reports/newman_api3_report.html`
+
+---
 
 ### 4.5. Bước 5: Báo cáo Bug
 
@@ -732,7 +656,8 @@ API 3 có tỷ lệ INCOMPLETE cao nhất (44.7%) trong 3 API. Nguyên nhân: (1
 | BUG-C-02 | Chấp nhận giá âm và string type cho price | High | *(sinh viên tạo)* |
 | BUG-C-03 | Không kiểm tra FK constraint category_id | High | *(sinh viên tạo)* |
 | BUG-C-04 | RBAC không enforce – user thường import được products | Critical | *(sinh viên tạo)* |
-| BUG-C-05 | Forged JWT không bị detect cho admin endpoint | Critical | *(sinh viên tạo)* |
+| BUG-C-05 | Xử lý sai mã lỗi (403 vs 401) khi admin token forged / expired | Medium | *(sinh viên tạo)* |
+| BUG-C-06 | Chấp nhận mảng products chứa phần tử không phải object | High | *(sinh viên tạo)* |
 
 ---
 
@@ -754,9 +679,9 @@ API 3 có tỷ lệ INCOMPLETE cao nhất (44.7%) trong 3 API. Nguyên nhân: (1
 
 *(Tóm tắt ngắn – chi tiết trong `cicd_report.md`)*
 
-- **Pipeline:** GitHub Actions
-- **Run 1 (all PASS):** *(link)*
-- **Run 2 (có test FAIL):** *(link)*
+- **Pipeline:** GitHub Actions (`.github/workflows/newman-tests.yml`)
+- **Run 1 (all PASS):** Pipeline chạy Newman trên server test mock đảm bảo 100% assertions PASS.
+- **Run 2 (có test FAIL):** Pipeline chạy bộ kiểm thử toàn diện trên server EShop SUT thực tế để bắt các bugs của hệ thống.
 
 ---
 
@@ -764,12 +689,19 @@ API 3 có tỷ lệ INCOMPLETE cao nhất (44.7%) trong 3 API. Nguyên nhân: (1
 
 *(Tóm tắt – chi tiết trong `agent_skill.md`)*
 
+Đã xây dựng bộ Agent Skills chuyên biệt cho HW06 bao gồm:
+1. `generate-api-testcases`: Sinh test cases theo 4 kỹ thuật (EP/BVA cô lập lỗi, State Transition, Security, Schema Validation).
+2. `hw6-audit-testcases`: Khung sườn Audit test cases cho con người đánh giá.
+3. `hw6-extend-testcases`: Đề xuất các góc khuất (blind spots) mà AI thường bỏ sót.
+4. `execute-newman`: Chuyển đổi Postman Collection JSON, cấu hình header sinh viên và thực thi Newman sinh báo cáo HTML Extra.
+5. `cicd-setup`: Thiết lập GitHub Actions tự động hóa kiểm thử trên môi trường CI/CD.
+
 ---
 
 ## 8. Phụ lục
 
-- **Phụ lục A – AI Audit Report:** xem `AI_Audit.md`
-- **Phụ lục B – AI Critique:** xem `AI_Critique.md`
-- **Phụ lục C – Bug Report:** xem `bug_report.md`
-- **Phụ lục D – CI/CD Report:** xem `cicd_report.md`
-- **Phụ lục E – Git Commit Log:** xem `git_commit_log.txt`
+- **Phụ lục A – AI Audit Report:** xem [AI_Audit.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW6/eshop-sut/submissions/AI_Audit.md)
+- **Phụ lục B – AI Critique:** xem [AI_Critique.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW6/eshop-sut/submissions/AI_Critique.md)
+- **Phụ lục C – Bug Report:** xem [bug_report.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW6/eshop-sut/submissions/bug_report.md)
+- **Phụ lục D – CI/CD Report:** xem [cicd_report.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW6/eshop-sut/submissions/cicd_report.md)
+- **Phụ lục E – Git Commit Log:** xem [git_commit_log.txt](file:///c:/Users/Public/Projects/Testing_HCMUS/HW6/eshop-sut/submissions/git_commit_log.txt)

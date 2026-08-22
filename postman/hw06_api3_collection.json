@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "HW06 - API 3 - Pool C - POST /api/admin/import-products",
-    "_postman_id": "hw06-api3-v3",
+    "_postman_id": "hw06-api3-v4",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -47,8 +47,7 @@
           "listen": "test",
           "script": {
             "exec": [
-              "if(pm.response.code===200){var j=pm.response.json(); if(j.token) pm.environment.set('adminToken',j.token); pm.test('SETUP admin: ok', function(){pm.response.to.have.status(200);});}",
-              "else{pm.test('SETUP admin: attempt', function(){pm.expect(pm.response.code).to.be.oneOf([200,400,401]);});}"
+              "if (pm.response.code === 200) { var j = pm.response.json(); if (j.token) pm.environment.set('adminToken', j.token); pm.test('SETUP admin: ok', function() { pm.response.to.have.status(200); }); } else { pm.test('SETUP admin: attempt', function() { pm.expect(pm.response.code).to.be.oneOf([200, 400, 401]); }); }"
             ]
           }
         }
@@ -90,15 +89,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "if(pm.response.code===200){var j=pm.response.json(); if(j.token) pm.environment.set('token',j.token); pm.test('SETUP user: ok', function(){pm.response.to.have.status(200);});}",
-              "else{pm.test('SETUP user: attempt', function(){pm.expect(pm.response.code).to.be.oneOf([200,400,401]);});}"
+              "if (pm.response.code === 200) { var j = pm.response.json(); if (j.token) pm.environment.set('token', j.token); pm.test('SETUP user: ok', function() { pm.response.to.have.status(200); }); } else { pm.test('SETUP user: attempt', function() { pm.expect(pm.response.code).to.be.oneOf([200, 400, 401]); }); }"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-DP-01 Import 1 valid product",
+      "name": "TC-C-DP-01 – Import hợp lệ – 1 sản phẩm đầy đủ trường",
       "request": {
         "method": "POST",
         "header": [
@@ -138,17 +136,15 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-DP-01: Status 200 (import 1 product)', function(){pm.response.to.have.status(200);});",
-              "pm.test('TC-C-DP-01: Response is JSON object', function(){pm.expect(pm.response.json()).to.be.an('object');});",
-              "pm.test('TC-C-SV-03: Status 200 not 201', function(){pm.response.to.have.status(200);});",
-              "pm.test('TC-C-SV-04: Content-Type is JSON', function(){pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');});"
+              "pm.test('TC-C-DP-01: Status 200 (import 1 product)', function() { pm.response.to.have.status(200); });",
+              "pm.test('TC-C-DP-01: Response is JSON object', function() { pm.expect(pm.response.json()).to.be.an('object'); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-DP-02 Import batch 3 products",
+      "name": "TC-C-DP-02 – Import hợp lệ – nhiều sản phẩm cùng lúc (batch 3 products)",
       "request": {
         "method": "POST",
         "header": [
@@ -188,15 +184,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-DP-02: Status 200 (batch import)', function(){pm.response.to.have.status(200);});",
-              "pm.test('TC-C-SV-02: Response has result field', function(){var j=pm.response.json(); pm.expect(j.message || j.imported || j.count || j.success).to.exist;});"
+              "pm.test('TC-C-DP-02: Status 200 (batch import)', function() { pm.response.to.have.status(200); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-DP-03 Empty products array",
+      "name": "TC-C-DP-03 – products là mảng rỗng (BVA tại 0 item)",
       "request": {
         "method": "POST",
         "header": [
@@ -236,14 +231,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-DP-03: Status 200 or 400 (empty array)', function(){pm.expect(pm.response.code).to.be.oneOf([200,400]);});"
+              "pm.test('TC-C-DP-03: Status 200 or 400 (empty products array)', function() { pm.expect(pm.response.code).to.be.oneOf([200, 400]); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-DP-04 Missing name field",
+      "name": "TC-C-DP-04 – Thiếu trường name trong sản phẩm",
       "request": {
         "method": "POST",
         "header": [
@@ -283,15 +278,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-DP-04: Status 400 (missing name)', function(){pm.response.to.have.status(400);});",
-              "pm.test('TC-C-SV-07: Error response has detail', function(){var j=pm.response.json(); pm.expect(j.error || j.message).to.exist;});"
+              "pm.test('TC-C-DP-04: Status 400 (missing name)', function() { pm.response.to.have.status(400); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-DP-05 Empty name string",
+      "name": "TC-C-DP-05 – name là chuỗi rỗng",
       "request": {
         "method": "POST",
         "header": [
@@ -331,14 +325,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-DP-05: Status 400 (empty name)', function(){pm.response.to.have.status(400);});"
+              "pm.test('TC-C-DP-05: Status 400 (empty name string)', function() { pm.response.to.have.status(400); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-DP-06 Missing price field",
+      "name": "TC-C-DP-06 – Thiếu trường price trong sản phẩm",
       "request": {
         "method": "POST",
         "header": [
@@ -370,7 +364,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\"products\":[{\"name\":\"SP test\",\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1}]}"
+          "raw": "{\"products\":[{\"name\":\"SP1\",\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1}]}"
         }
       },
       "event": [
@@ -378,14 +372,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-DP-06: Status 400 (missing price)', function(){pm.response.to.have.status(400);});"
+              "pm.test('TC-C-DP-06: Status 400 (missing price)', function() { pm.response.to.have.status(400); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-DP-07 Price = 0 (BVA at zero)",
+      "name": "TC-C-DP-07 – price = 0 (BVA tại 0)",
       "request": {
         "method": "POST",
         "header": [
@@ -425,14 +419,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-DP-07: Status 200 or 400 (price=0 depends on rule)', function(){pm.expect(pm.response.code).to.be.oneOf([200,400]);});"
+              "pm.test('TC-C-DP-07: Status 200 or 400 (price=0)', function() { pm.expect(pm.response.code).to.be.oneOf([200, 400]); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-DP-08 Negative price (BVA below 0)",
+      "name": "TC-C-DP-08 – price âm (BVA dưới 0)",
       "request": {
         "method": "POST",
         "header": [
@@ -472,14 +466,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-DP-08: Status 400 (negative price)', function(){pm.response.to.have.status(400);});"
+              "pm.test('TC-C-DP-08: Status 400 (negative price)', function() { pm.response.to.have.status(400); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-DP-09 Price is string (wrong type)",
+      "name": "TC-C-DP-09 – price là string thay vì number",
       "request": {
         "method": "POST",
         "header": [
@@ -519,14 +513,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-DP-09: Status 400 (string price wrong type)', function(){pm.response.to.have.status(400);});"
+              "pm.test('TC-C-DP-09: Status 400 (string price wrong type)', function() { pm.response.to.have.status(400); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-DP-10 Missing category_id",
+      "name": "TC-C-DP-10 – Thiếu trường category_id",
       "request": {
         "method": "POST",
         "header": [
@@ -558,7 +552,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\"products\":[{\"name\":\"No CatId SP\",\"price\":10000,\"description\":\"Mo ta\",\"imageUrl\":\"\"}]}"
+          "raw": "{\"products\":[{\"name\":\"No Cat SP\",\"price\":10000,\"description\":\"Mo ta\",\"imageUrl\":\"\"}]}"
         }
       },
       "event": [
@@ -566,14 +560,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-DP-10: Status 400 (missing category_id)', function(){pm.response.to.have.status(400);});"
+              "pm.test('TC-C-DP-10: Status 400 (missing category_id)', function() { pm.response.to.have.status(400); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-DP-11 Non-existent category_id",
+      "name": "TC-C-DP-11 – category_id không tồn tại (FK constraint check)",
       "request": {
         "method": "POST",
         "header": [
@@ -605,7 +599,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\"products\":[{\"name\":\"Bad CatId SP\",\"price\":10000,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":9999}]}"
+          "raw": "{\"products\":[{\"name\":\"Bad Cat SP\",\"price\":10000,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":9999}]}"
         }
       },
       "event": [
@@ -613,14 +607,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-DP-11: Status 400 (non-existent FK category)', function(){pm.response.to.have.status(400);});"
+              "pm.test('TC-C-DP-11: Status 400 (non-existent FK category)', function() { pm.response.to.have.status(400); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-DP-12 Products is object not array",
+      "name": "TC-C-DP-12 – products không phải array (là object)",
       "request": {
         "method": "POST",
         "header": [
@@ -660,14 +654,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-DP-12: Status 400 (products must be array)', function(){pm.response.to.have.status(400);});"
+              "pm.test('TC-C-DP-12: Status 400 (products must be array)', function() { pm.response.to.have.status(400); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-DP-13 Empty JSON body {}",
+      "name": "TC-C-DP-13 – Body là JSON rỗng {}",
       "request": {
         "method": "POST",
         "header": [
@@ -707,14 +701,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-DP-13: Status 400 (missing products key)', function(){pm.response.to.have.status(400);});"
+              "pm.test('TC-C-DP-13: Status 400 (missing products key)', function() { pm.response.to.have.status(400); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-DP-14 Empty imageUrl (nullable)",
+      "name": "TC-C-DP-14 – Import 1 sản phẩm với imageUrl rỗng (nullable)",
       "request": {
         "method": "POST",
         "header": [
@@ -754,14 +748,61 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-DP-14: Status 200 (empty imageUrl accepted)', function(){pm.response.to.have.status(200);});"
+              "pm.test('TC-C-DP-14: Status 200 (empty imageUrl accepted)', function() { pm.response.to.have.status(200); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-ST-01 Resource lifecycle Non-existent -> Created",
+      "name": "TC-C-DP-15 – Import rất nhiều sản phẩm (BVA large batch 100 items)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"Batch50 SP 0\",\"price\":10000,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 1\",\"price\":10100,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 2\",\"price\":10200,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 3\",\"price\":10300,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 4\",\"price\":10400,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 5\",\"price\":10500,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 6\",\"price\":10600,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 7\",\"price\":10700,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 8\",\"price\":10800,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 9\",\"price\":10900,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 10\",\"price\":11000,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 11\",\"price\":11100,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 12\",\"price\":11200,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 13\",\"price\":11300,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 14\",\"price\":11400,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 15\",\"price\":11500,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 16\",\"price\":11600,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 17\",\"price\":11700,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 18\",\"price\":11800,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 19\",\"price\":11900,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 20\",\"price\":12000,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 21\",\"price\":12100,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 22\",\"price\":12200,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 23\",\"price\":12300,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 24\",\"price\":12400,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 25\",\"price\":12500,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 26\",\"price\":12600,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 27\",\"price\":12700,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 28\",\"price\":12800,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 29\",\"price\":12900,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 30\",\"price\":13000,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 31\",\"price\":13100,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 32\",\"price\":13200,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 33\",\"price\":13300,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 34\",\"price\":13400,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 35\",\"price\":13500,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 36\",\"price\":13600,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 37\",\"price\":13700,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 38\",\"price\":13800,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 39\",\"price\":13900,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 40\",\"price\":14000,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 41\",\"price\":14100,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 42\",\"price\":14200,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 43\",\"price\":14300,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 44\",\"price\":14400,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 45\",\"price\":14500,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 46\",\"price\":14600,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 47\",\"price\":14700,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 48\",\"price\":14800,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch50 SP 49\",\"price\":14900,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-DP-15: Status 200 or 413 (large batch handled)', function() { pm.expect(pm.response.code).to.be.oneOf([200, 413]); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-ST-01 – Sản phẩm Non-existent → Created sau khi import",
       "request": {
         "method": "POST",
         "header": [
@@ -801,14 +842,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-ST-01: Status 200 (Non-existent -> Created)', function(){pm.response.to.have.status(200);});"
+              "pm.test('TC-C-ST-01: Status 200 (Non-existent -> Created)', function() { pm.response.to.have.status(200); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-ST-02 Verify product in list after import",
+      "name": "TC-C-ST-02 – Import xong kiểm tra sản phẩm xuất hiện trong danh sách",
       "request": {
         "method": "GET",
         "header": [
@@ -835,15 +876,15 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-ST-02: Status 200 (product list accessible)', function(){pm.response.to.have.status(200);});",
-              "pm.test('TC-C-ST-02: Products is array', function(){pm.expect(pm.response.json()).to.be.an('array');});"
+              "pm.test('TC-C-ST-02: Status 200 (product list accessible)', function() { pm.response.to.have.status(200); });",
+              "pm.test('TC-C-ST-02: Response is array', function() { pm.expect(pm.response.json()).to.be.an('array'); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-ST-03 Import without token (Unauthenticated)",
+      "name": "TC-C-ST-03 – Import khi không có token (từ chối 401)",
       "request": {
         "method": "POST",
         "header": [
@@ -879,15 +920,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-ST-03: Status 401 (no token)', function(){pm.response.to.have.status(401);});",
-              "pm.test('TC-C-SV-05: 401 response is JSON', function(){pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');});"
+              "pm.test('TC-C-ST-03: Status 401 (no token)', function() { pm.response.to.have.status(401); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-ST-04 Import with regular user token",
+      "name": "TC-C-ST-04 – Import với token user thường (từ chối 403)",
       "request": {
         "method": "POST",
         "header": [
@@ -927,15 +967,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-ST-04: Status 403 (non-admin rejected)', function(){pm.response.to.have.status(403);});",
-              "pm.test('TC-C-SV-06: 403 response is JSON', function(){pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');});"
+              "pm.test('TC-C-ST-04: Status 403 (non-admin rejected)', function() { pm.response.to.have.status(403); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-ST-05 Import with admin token (success)",
+      "name": "TC-C-ST-05 – Import với admin token (thành công 200)",
       "request": {
         "method": "POST",
         "header": [
@@ -975,14 +1014,155 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-ST-05: Status 200 (admin token accepted)', function(){pm.response.to.have.status(200);});"
+              "pm.test('TC-C-ST-05: Status 200 (admin token accepted)', function() { pm.response.to.have.status(200); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-SEC-01 No token (security)",
+      "name": "TC-C-ST-06 – Token hết hạn (từ chối 401)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoxNTAwMDAwMDAwfQ.invalid"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"Expired SP\",\"price\":10000,\"description\":\"\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-ST-06: Status 401 (expired token rejected)', function() { pm.response.to.have.status(401); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-ST-07 – Import trung lập – import cùng payload lần 2",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"Idempotency SP\",\"price\":10000,\"description\":\"Repeat\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-ST-07: Status 200 (repeated import creates new records)', function() { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-ST-08 – Import batch có 1 sản phẩm lỗi (atomic / partial check)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"Valid SP\",\"price\":10000,\"description\":\"\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Invalid SP\",\"price\":-500,\"description\":\"\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-ST-08: Status 400 or 200 or 207 (partial batch handled)', function() { pm.expect(pm.response.code).to.be.oneOf([200, 207, 400]); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-SEC-01 – Truy cập không có token (Security check)",
       "request": {
         "method": "POST",
         "header": [
@@ -1018,14 +1198,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-SEC-01: Status 401 (no token)', function(){pm.response.to.have.status(401);});"
+              "pm.test('TC-C-SEC-01: Status 401 (missing token)', function() { pm.response.to.have.status(401); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-SEC-02 User token - role escalation",
+      "name": "TC-C-SEC-02 – Truy cập với user thường (Role Escalation check)",
       "request": {
         "method": "POST",
         "header": [
@@ -1065,14 +1245,61 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-SEC-02: Status 403 (non-admin RBAC)', function(){pm.response.to.have.status(403);});"
+              "pm.test('TC-C-SEC-02: Status 403 (non-admin RBAC check)', function() { pm.response.to.have.status(403); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-SEC-04 SQLi in product name",
+      "name": "TC-C-SEC-03 – Cố gán admin_id trong body khi import (Mass Assignment check)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"Mass AdminId SP\",\"price\":10000,\"description\":\"\",\"imageUrl\":\"\",\"category_id\":1}],\"admin_id\":999}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-SEC-03: Status 200 (admin_id in body ignored)', function() { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-SEC-04 – SQL Injection trong trường name sản phẩm",
       "request": {
         "method": "POST",
         "header": [
@@ -1112,15 +1339,15 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-SEC-04: Status 200 or 400 (SQLi in name)', function(){pm.expect(pm.response.code).to.be.oneOf([200,400]);});",
-              "pm.test('TC-C-SEC-04: No SQL error', function(){var b=pm.response.text().toLowerCase(); pm.expect(b).to.not.include('syntax error'); pm.expect(b).to.not.include('sqlite_error');});"
+              "pm.test('TC-C-SEC-04: Status 200 or 400 (SQLi in name)', function() { pm.expect(pm.response.code).to.be.oneOf([200, 400]); });",
+              "pm.test('TC-C-SEC-04: No SQL error', function() { var b = pm.response.text().toLowerCase(); pm.expect(b).to.not.include('syntax error'); pm.expect(b).to.not.include('sqlite_error'); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-SEC-05 SQLi in description",
+      "name": "TC-C-SEC-05 – SQL Injection trong trường description",
       "request": {
         "method": "POST",
         "header": [
@@ -1160,15 +1387,15 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-SEC-05: Status 200 or 400 (SQLi in description)', function(){pm.expect(pm.response.code).to.be.oneOf([200,400]);});",
-              "pm.test('TC-C-SEC-05: No SQL error', function(){var b=pm.response.text().toLowerCase(); pm.expect(b).to.not.include('syntax error');});"
+              "pm.test('TC-C-SEC-05: Status 200 or 400 (SQLi in description)', function() { pm.expect(pm.response.code).to.be.oneOf([200, 400]); });",
+              "pm.test('TC-C-SEC-05: No SQL error', function() { var b = pm.response.text().toLowerCase(); pm.expect(b).to.not.include('syntax error'); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-SEC-06 Forged JWT",
+      "name": "TC-C-SEC-06 – Token giả mạo (forged JWT signature)",
       "request": {
         "method": "POST",
         "header": [
@@ -1182,7 +1409,7 @@
           },
           {
             "key": "Authorization",
-            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBmb3JnZWQuY29tIiwicm9sZSI6ImFkbWluIn0.forged_invalid_sig"
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBlc2hvcC5jb20iLCJyb2xlIjoiYWRtaW4ifQ.forged_invalid_sig"
           }
         ],
         "url": {
@@ -1208,14 +1435,61 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-SEC-06: Status 401 (forged JWT)', function(){pm.response.to.have.status(401);});"
+              "pm.test('TC-C-SEC-06: Status 401 (forged JWT rejected)', function() { pm.response.to.have.status(401); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-SEC-08 XSS in name",
+      "name": "TC-C-SEC-07 – Token hết hạn (Expired JWT security check)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoxNTAwMDAwMDAwfQ.invalid"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"Expired SP\",\"price\":1,\"description\":\"\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-SEC-07: Status 401 (expired JWT)', function() { pm.response.to.have.status(401); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-SEC-08 – XSS payload trong trường name",
       "request": {
         "method": "POST",
         "header": [
@@ -1255,15 +1529,15 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-SEC-08: Status 200 or 400 (XSS in name)', function(){pm.expect(pm.response.code).to.be.oneOf([200,400]);});",
-              "pm.test('TC-C-SEC-08: No raw script in response', function(){var b=pm.response.text(); pm.expect(b).to.not.include('<script>alert(1)</script>');});"
+              "pm.test('TC-C-SEC-08: Status 200 or 400 (XSS in name)', function() { pm.expect(pm.response.code).to.be.oneOf([200, 400]); });",
+              "pm.test('TC-C-SEC-08: No raw script reflection', function() { var b = pm.response.text(); pm.expect(b).to.not.include('<script>alert(1)</script>'); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-SV-01 Schema validation bundle",
+      "name": "TC-C-SV-01 – Response thành công có cấu trúc hợp lệ (JSON object)",
       "request": {
         "method": "POST",
         "header": [
@@ -1303,18 +1577,15 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-SV-01: Status 200', function(){pm.response.to.have.status(200);});",
-              "pm.test('TC-C-SV-01: Response is JSON object not null', function(){var j=pm.response.json(); pm.expect(j).to.be.an('object'); pm.expect(j).to.not.equal(null);});",
-              "pm.test('TC-C-SV-02: Has result indicator', function(){var j=pm.response.json(); pm.expect(j.message || j.imported || j.count || j.success).to.exist;});",
-              "pm.test('TC-C-SV-03: Status 200 not 201', function(){pm.response.to.have.status(200);});",
-              "pm.test('TC-C-SV-04: Content-Type is JSON', function(){pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');});"
+              "pm.test('TC-C-SV-01: Status 200', function() { pm.response.to.have.status(200); });",
+              "pm.test('TC-C-SV-01: Response is JSON object not null', function() { var j = pm.response.json(); pm.expect(j).to.be.an('object'); pm.expect(j).to.not.equal(null); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-EXT-02 Mass assignment (id in body)",
+      "name": "TC-C-SV-02 – Response có field thông báo kết quả import",
       "request": {
         "method": "POST",
         "header": [
@@ -1346,7 +1617,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\"products\":[{\"id\":9999,\"name\":\"Mass Assignment SP\",\"price\":10000,\"description\":\"Mass test\",\"imageUrl\":\"\",\"category_id\":1,\"created_at\":\"2000-01-01\"}]}"
+          "raw": "{\"products\":[{\"name\":\"SV02 Schema SP\",\"price\":5000,\"description\":\"Schema test\",\"imageUrl\":\"\",\"category_id\":1}]}"
         }
       },
       "event": [
@@ -1354,14 +1625,14 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-EXT-02: Status 200 (mass assignment id ignored)', function(){pm.response.to.have.status(200);});"
+              "pm.test('TC-C-SV-02: Has result indicator (message/imported/count)', function() { var j = pm.response.json(); pm.expect(j.message || j.imported || j.count || j.success).to.exist; });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-EXT-05 Unicode emoji in name",
+      "name": "TC-C-SV-03 – HTTP Status đúng 200 khi thành công",
       "request": {
         "method": "POST",
         "header": [
@@ -1393,7 +1664,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\"products\":[{\"name\":\"🛒 San pham Unicode\",\"price\":10000,\"description\":\"Unicode test\",\"imageUrl\":\"\",\"category_id\":1}]}"
+          "raw": "{\"products\":[{\"name\":\"SV03 Schema SP\",\"price\":5000,\"description\":\"Schema test\",\"imageUrl\":\"\",\"category_id\":1}]}"
         }
       },
       "event": [
@@ -1401,14 +1672,480 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-EXT-05: Status 200 (Unicode in name)', function(){pm.response.to.have.status(200);});"
+              "pm.test('TC-C-SV-03: Status 200 not 201', function() { pm.response.to.have.status(200); });"
             ]
           }
         }
       ]
     },
     {
-      "name": "TC-C-EXT-07 HTML injection in description",
+      "name": "TC-C-SV-04 – Content-Type là application/json",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"SV04 Schema SP\",\"price\":5000,\"description\":\"Schema test\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-SV-04: Content-Type is JSON', function() { pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-SV-05 – Response lỗi 401 có cấu trúc nhất quán (JSON)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"SP\",\"price\":1000,\"description\":\"\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-SV-05: 401 response is JSON', function() { pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-SV-06 – Response lỗi 403 có cấu trúc nhất quán (JSON)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"SP\",\"price\":1000,\"description\":\"\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-SV-06: 403 response is JSON', function() { pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-SV-07 – Response lỗi 400 validation có thông tin lỗi chi tiết",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"price\":1000,\"description\":\"\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-SV-07: Error response has detail', function() { var j = pm.response.json(); pm.expect(j.error || j.message).to.exist; });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-EXT-01 – Import batch có sản phẩm duplicate name trong cùng mảng",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"SameNameSP\",\"price\":10000,\"description\":\"\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"SameNameSP\",\"price\":20000,\"description\":\"\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-EXT-01: Status 200 or 400 (duplicate name in batch)', function() { pm.expect(pm.response.code).to.be.oneOf([200, 400]); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-EXT-02 – Mass assignment (cố gán id, created_at trong product object)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"id\":9999,\"name\":\"Mass Assign SP\",\"price\":10000,\"description\":\"Mass test\",\"imageUrl\":\"\",\"category_id\":1,\"created_at\":\"2000-01-01\"}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-EXT-02: Status 200 (mass assignment id ignored)', function() { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-EXT-03 – Import với price rất lớn (999999999999) – integer overflow check",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"Large Price SP\",\"price\":999999999999,\"description\":\"Large price\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-EXT-03: Status 200 or 400 (large price handled)', function() { pm.expect(pm.response.code).to.be.oneOf([200, 400]); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-EXT-04 – Mảng products chứa phần tử không phải object ([123, invalid_item])",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[123, \"invalid_element_string\"]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-EXT-04: Status 400 (non-object item in products rejected)', function() { pm.response.to.have.status(400); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-EXT-05 – Import sản phẩm với name chứa emoji và Unicode đặc biệt",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"🛒 San pham Unicode 特别商品\",\"price\":10000,\"description\":\"Unicode test\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-EXT-05: Status 200 (Unicode emoji in name)', function() { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-EXT-06 – Import sản phẩm với price là số thực dấu phẩy động (19999.99)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"Float Price SP\",\"price\":19999.99,\"description\":\"Float price\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-EXT-06: Status 200 or 400 (float price handled)', function() { pm.expect(pm.response.code).to.be.oneOf([200, 400]); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-EXT-07 – Import sản phẩm với description chứa HTML injection (<b>Sale!</b>)",
       "request": {
         "method": "POST",
         "header": [
@@ -1448,7 +2185,7 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('TC-C-EXT-07: Status 200 or 400 (HTML in description)', function(){pm.expect(pm.response.code).to.be.oneOf([200,400]);});"
+              "pm.test('TC-C-EXT-07: Status 200 or 400 (HTML in description)', function() { pm.expect(pm.response.code).to.be.oneOf([200, 400]); });"
             ]
           }
         }
