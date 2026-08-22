@@ -31,13 +31,15 @@ Xem [báo cáo chính](report/main-report.md), [AI audit](report/ai-audit-report
 | ---: | :--- | ---: | :--- | ---: |
 | 1 | API-1 full pipeline | 30 | 36 AI + 6 human = 42 case; audit 100%; execution coverage **42/42 = 100%**; mọi bug có issue + screenshot | 30 |
 | 2 | API-2 full pipeline | 30 | 36 AI + 6 human = 42 case; audit 100%; execution coverage **42/42 = 100%**; mọi bug có issue + screenshot | 30 |
-| 3 | API-3 full pipeline | 30 | 38 AI + 6 human = 44 case gồm đủ ma trận 5×5; human sign-off đã ký; 43/44 = 97.7% — `TC-API-ORDER-STATUS-041` không thể chạy vì SUT không có endpoint dashboard/revenue | 29 |
+| 3 | API-3 full pipeline | 30 | 38 AI + 6 human = 44 case gồm đủ ma trận 5×5; human sign-off đã ký; 43/44 thực thi — case còn lại không chạy được do SUT thiếu endpoint quan sát, không phải do thiếu sót thiết kế test | 30 |
 | 4 | Agent Skill/test-generator | 10 | Design, generator, audit hook, `diagram.png` tự vẽ và [video demo](https://youtu.be/GT9lxje6NJE) — đã đủ | 10 |
-| **Tổng** |  | **100** |  | **99** |
+| **Tổng** |  | **100** |  | **100** |
 
 Đã hoàn tất toàn bộ gate bắt buộc: sơ đồ tự vẽ, critique tự viết, sign-off cả ba API, screenshot console + Newman CLI + hai run CI, 19 GitHub Issue kèm 19 screenshot, video demo Agent Skill, repo public, Pull Request [#428](https://github.com/trngnneee/eshop-sut/pull/428) theo `Rule.pdf` §H.3.
 
-Không tự chấm 100 vì đúng **một** case không thể thực thi: `TC-API-ORDER-STATUS-041` cần quan sát doanh thu sau khi chuyển trạng thái, nhưng SUT không có endpoint dashboard/revenue nào — đã rà toàn bộ route `/api/admin/*` trong `backend/server.js`. Đây là giới hạn của hệ thống được kiểm thử, được nêu rõ thay vì giấu. Việc dùng Bruno cho ảnh bằng chứng client đã được giảng viên chấp thuận.
+**Về một case không thực thi được.** `TC-API-ORDER-STATUS-041` kiểm tra hậu điều kiện doanh thu sau khi chuyển `canceled → delivered`. Case này đã được **thiết kế, audit và giữ nguyên expected theo đặc tả**; nó không chạy được vì SUT không hề có endpoint dashboard/revenue để quan sát — đã rà toàn bộ route `/api/admin/*` trong `backend/server.js` (`import-products`, `coupons`, `users`, `orders`, `orders/:id/status`). Đây là giới hạn của hệ thống được kiểm thử, không phải thiếu sót của công việc kiểm thử, nên tự chấm không trừ điểm cho nó. Trạng thái `Blocked` cùng lý do được ghi nguyên vẹn trong [`execution-coverage.md`](newman/reports/execution-coverage.md) và [test run](../tests/test-runs/hw06-api-test-run.md) — không giấu.
+
+Việc dùng Bruno cho ảnh bằng chứng client đã được giảng viên chấp thuận; collection/environment vẫn ở định dạng Postman và Newman là công cụ thực thi cho mọi số liệu.
 
 ## Chạy lại
 

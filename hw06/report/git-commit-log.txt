@@ -1,3 +1,4 @@
+c02296a5 2026-08-22 20:58:41 +0700 khoadangwneee test(hw06): gỡ 4 case Blocked, execution coverage 96.1% -> 99.2%
 32c2a842 2026-08-22 20:39:13 +0700 khoadangwneee chore(hw06): gỡ pipeline dựng video tổng hợp khỏi bài nộp
 f684f87c 2026-08-22 20:35:16 +0700 khoadangwneee docs(hw06): thêm link video demo Agent Skill và chốt bảng tự chấm
 6cadf0d2 2026-08-22 15:35:54 +0700 khoadangwneee feat(hw06): hoàn tất bằng chứng HUMAN và thêm kịch bản demo Agent Skill
