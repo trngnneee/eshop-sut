@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "created-response.schema.json",
+  "title": "Create success — {message: string, id: number}",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["message", "id"],
+  "properties": {
+    "message": { "type": "string", "minLength": 1 },
+    "id": { "type": "integer", "minimum": 1 }
+  }
+}
