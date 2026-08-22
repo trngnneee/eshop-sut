@@ -1,3 +1,4 @@
+fbcce49e 2026-08-22 12:11:09 +0700 khoadangwneee feat(hw06): mở 4 issue còn thiếu và chống ghi đè artifact người học
 e1bb8242 2026-08-22 11:59:31 +0700 khoadangwneee chore(hw06): dọn gitignore và làm mới git commit log
 2b246427 2026-08-22 11:59:21 +0700 khoadangwneee docs(hw06): bổ sung mục tuân thủ Rule.pdf vào báo cáo chính
 26dcf784 2026-08-22 11:59:20 +0700 khoadangwneee docs(rule): ghi nhận bug do GitHub Actions phát hiện theo §H.10

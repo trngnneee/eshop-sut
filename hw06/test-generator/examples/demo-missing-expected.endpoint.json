@@ -1,0 +1,11 @@
+{
+  "id_prefix": "TC-API-DEMO",
+  "method": "POST",
+  "path": "/api/login",
+  "parameters": [
+    {"name": "email", "examples": ["test@eshop.com", ""], "expected": "", "requirement": "FR-02"}
+  ],
+  "security": [
+    {"title": "SQL injection is rejected", "technique": "SQLi", "expected": "401/no token", "requirement": "SEC-05"}
+  ]
+}

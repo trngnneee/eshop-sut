@@ -85,6 +85,6 @@ Ngoài `Requirements.pdf`, bài này áp dụng quy ước §H của `Rule.pdf`:
 
 ### Human completion gates
 
-Đã hoàn tất: `diagram.png` tự vẽ · `ai-critique.md` tự viết · hai screenshot CI · 19 issue link + 19 screenshot · repo public.
+Đã hoàn tất: `diagram.png` tự vẽ · `ai-critique.md` tự viết · screenshot console (Bruno Timeline) và Newman CLI · hai screenshot CI · 19 issue link + 19 screenshot · repo public.
 
-Còn lại: 1. chụp Postman Console (`01-x-student-id-console.png`) và Newman CLI (`02-newman-cli-run.png`); 2. xuất ba PDF và đóng zip theo tên đề bài.
+Còn lại: xuất ba PDF và đóng zip theo tên đề bài.

@@ -4,7 +4,7 @@
 | :--- | :--- | :--- |
 | Collection/folders | Setup, API-1, API-2, API-3 and DDT folders | JSON in repo |
 | Environment/variables | base_url, student_id, credentials, tokens, orderId, spec_strict | Environment JSON |
-| Collection pre-request | Adds X-Student-Id and logs every request | Console log; HUMAN screenshot required |
+| Collection pre-request | Adds X-Student-Id and logs every request | `01-x-student-id-console.png` (Bruno Timeline) + `02-newman-cli-run.png` (Newman CLI) |
 | Dynamic data | Date.now() disposable lock user | Register pre-request |
 | Test scripts / Chai | Functional and strict contract assertions | Newman reports |
 | Data-driven runs | 3 JSON data files | run-newman.ps1/.sh |
@@ -13,4 +13,12 @@
 | CI integration | GitHub Actions workflow | .github/workflows |
 | Workspace/Mock/Monitor | Postman cloud features | HUMAN must create/screenshot; not fabricated |
 
-The exported environment keeps `http://localhost:3000` as required by the assignment. The local script supports a `base_url` override because port 3000 is occupied by an unrelated local process.
+The exported environment keeps `http://localhost:3000` as required by the assignment. The local script supports a `base_url` override for when port 3000 is occupied by an unrelated local process.
+
+## Ghi chú về client dùng để chụp bằng chứng
+
+Collection và environment ở **định dạng Postman** (`.postman_collection.json` / `.postman_environment.json`) và được thực thi bằng **Newman** — cả ở máy local lẫn trong GitHub Actions. Toàn bộ số liệu trong báo cáo đến từ Newman.
+
+Riêng ảnh `01-x-student-id-console.png` được chụp bằng **Bruno**, một API client tương thích collection Postman, ở tab **Timeline** (tương đương Postman Console). Ảnh cho thấy `HEADERS (1) — X-Student-Id: 23127207` trong khi request không khai báo header tĩnh nào, tức header do **script pre-request cấp collection** gắn lúc runtime, đúng cơ chế mô tả ở bảng trên.
+
+Bằng chứng độc lập cho cùng tiêu chí R-14 nằm ở `02-newman-cli-run.png`: Newman in `X-Student-Id: 23127207` trên cả 19 request, kèm URL đã resolve `http://localhost:3000/...`.

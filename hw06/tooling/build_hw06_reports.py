@@ -204,9 +204,9 @@ def write_main_report(all_rows: list[dict[str, str]], stats: dict[str, dict[str,
         "",
         "### Human completion gates",
         "",
-        f"Đã hoàn tất: `diagram.png` tự vẽ · `ai-critique.md` tự viết · hai screenshot CI · {len(issue_manifest)} issue link + {len(issue_manifest)} screenshot · repo public.",
+        f"Đã hoàn tất: `diagram.png` tự vẽ · `ai-critique.md` tự viết · screenshot console (Bruno Timeline) và Newman CLI · hai screenshot CI · {len(issue_manifest)} issue link + {len(issue_manifest)} screenshot · repo public.",
         "",
-        ("Còn lại: 1. chụp Postman Console (`01-x-student-id-console.png`) và Newman CLI (`02-newman-cli-run.png`); 2. xuất ba PDF và đóng zip theo tên đề bài." if api3_signoff else "Còn lại: 1. ký API-3 audit; 2. chụp Postman Console (`01-x-student-id-console.png`) và Newman CLI (`02-newman-cli-run.png`); 3. xuất ba PDF và đóng zip theo tên đề bài."),
+        ("Còn lại: xuất ba PDF và đóng zip theo tên đề bài." if api3_signoff else "Còn lại: 1. ký API-3 audit; 2. xuất ba PDF và đóng zip theo tên đề bài."),
     ]
     (REPORT / "main-report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
