@@ -2,3 +2,5 @@ node_modules
 .tools/
 jmeter.log
 demo/
+hw06/test-generator/_build/
+hw06/test-generator/demo-video.mp4
