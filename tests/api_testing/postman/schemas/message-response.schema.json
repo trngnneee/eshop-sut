@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "message-response.schema.json",
+  "title": "Success response (cancel OK) — {message: string}",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["message"],
+  "properties": {
+    "message": { "type": "string", "minLength": 1 }
+  }
+}

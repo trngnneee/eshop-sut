@@ -32,7 +32,7 @@ Adapted from Med Kharbach, PhD (2026) — AI Use Policy Templates for Higher Edu
 
 Tick all that apply: [x] brainstorming  [x] outlining  [x] drafting  [x] feedback  [x] revision  [x] coding  [x] data analysis  [ ] visual design  [ ] other (specify).
 
-AI drafted the implementation plan, converted the API specification to OpenAPI (`openapi.yaml`), wrote the two reusable JSON Schemas, and generated the four API-1 test-case groups (Equivalence Partitioning + Boundary Value Analysis, Security, Schema validation, Negative/Contract). I set the scope and the technique for each step, drove the AI one technique at a time, ran the SUT locally and probed every endpoint with cURL to establish the real "actual" behaviour myself, decided the STRICT contract convention (DEC-01), and made every expected-result and severity decision. The self-drawn AI-test-generator diagram (Agent Skill, Step 9) is designed by me, not AI-generated.
+AI drafted the implementation plan, converted the API specification to OpenAPI (`openapi.yaml`), wrote four reusable JSON Schemas, and generated the API-1 and API-2 test-case groups (partitioning, boundary, state-transition, security, schema, negative/contract). I set the scope and the technique for each step, drove the AI one technique at a time, ran the SUT locally and probed every endpoint with cURL to establish the real "actual" behaviour myself, decided the STRICT contract convention (DEC-01), and made every expected-result and severity decision. The self-drawn AI-test-generator diagram (Agent Skill, Step 9) is designed by me, not AI-generated.
 
 ### 3. Main prompts or tasks given to the AI:
 
@@ -56,7 +56,7 @@ The full prompt set is in the AI Audit Report (Section 3), pasted verbatim. The 
 
 Be specific. Example: 'AI generated TC01–TC15 in Section 3.2; I rewrote TC04 and TC11; AI did NOT contribute to Sections 1, 2, 4, or the AI Critique.'
 
-Claude Code generated `plan.md`, `openapi.yaml`, `postman/schemas/product.schema.json` + `product-list.schema.json`, and the four API-1 test-case files (`API-1_TestCases.md` TC-P1-001→044, `API-1_Security_TestCases.md` 045→058, `API-1_Schema_TestCases.md` 059→074, `API-1_Negative_Contract_TestCases.md` 075→083). I decided the scope (3 APIs), the technique sequence, and DEC-01 (STRICT id validation); I ran the SUT and produced all cURL evidence for the "actual" columns; I wrote `docs/openapi-audit.md` correcting 5 AI mismatches. AI did NOT contribute to: the scope/technique decisions, the expected-result oracle, the self-drawn generator diagram, or the AI Critique.
+Claude Code generated `plan.md`, `openapi.yaml`, the four reusable JSON Schemas under `postman/schemas/` (product, product-list, message-response, error-response), the four **API-1** test-case files (TC-P1-001→083: EP+BVA, Security, Schema, Negative/Contract) and the five **API-2** test-case files (TC-O2-001→057: :id-partitioning, State-Transition, Security, Schema, Negative/Contract). I decided the scope (3 APIs), the technique sequence, and DEC-01 (STRICT id validation); I ran the SUT and produced all cURL evidence for the "actual" columns (including forging JWTs with the leaked secret and probing all 5 order states); I wrote `docs/openapi-audit.md` correcting 5 AI mismatches. AI did NOT contribute to: the scope/technique decisions, the expected-result oracle, the self-drawn generator diagram, or the AI Critique. **API-3 (FR-15) is not yet done.**
 
 ### 5. How I reviewed, revised, or verified the AI output:
 
@@ -64,7 +64,8 @@ Describe your verification method (ran the test, checked the spec, asked the TA,
 
 - I stood up the SUT (`node server.js`, localhost:3000) and probed every endpoint with cURL, backing up `database.sqlite` before destructive tests and restoring it after. This caught claims the AI could not derive from the spec: BUG-07 (admin product routes have no auth), BUG-01 (`id % 2` coerces price to string), BUG-20 (UNION SQLi leaks admin credentials), and the forged-token verdict error in `openapi.yaml` (AI said 403; actual is 200).
 - I validated `openapi.yaml` with Redocly (0 errors) and validated both JSON Schemas with Python `jsonschema` (Draft7Validator) against known-good and known-bad samples to prove they catch BUG-01/02 and extra fields.
-- I cross-checked expected results against the README FR spec and cited ISTQB / RFC 9110 / RFC 8259 in the audit reasoning column.
+- For API-2 I forged JWTs with the leaked secret (`server.js:9`) using `jsonwebtoken` and drove the full order state machine (checkout → admin status updates) to reach each of the 5 states, confirming BUG-05 (user cancels a shipping order) and BUG-13 (forged-id token cancels another user's order).
+- I cross-checked expected results against the README FR spec and cited ISTQB / RFC 9110 / RFC 8259 / RFC 7519 in the audit reasoning column.
 
 ### 6. Citation (if required by course style guide):
 
