@@ -44,7 +44,7 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-02 | `TC-API-LOGIN-021` | Pass/Smoke | None | Covered |
 | FR-02 | `TC-API-LOGIN-022` | Fail | [D-LOGIN-02 #414](https://github.com/trngnneee/eshop-sut/issues/414) | Open |
 | FR-02 | `TC-API-LOGIN-023` | Fail | [D-LOGIN-01 #413](https://github.com/trngnneee/eshop-sut/issues/413) | Open |
-| FR-02 | `TC-API-LOGIN-024` | Pass/Smoke | [D-LOGIN-01 #413](https://github.com/trngnneee/eshop-sut/issues/413) | Open |
+| FR-02 | `TC-API-LOGIN-024` | Blocked | [D-LOGIN-01 #413](https://github.com/trngnneee/eshop-sut/issues/413) | Blocked — D-LOGIN-01 chặn tiền đề TC-023 |
 | SEC-05 | `TC-API-LOGIN-025` | Pass/Smoke | None | Covered |
 | SEC-05 | `TC-API-LOGIN-026` | Pass/Smoke | None | Covered |
 | SEC-04 | `TC-API-LOGIN-027` | Pass/Smoke | None | Covered |
@@ -61,8 +61,8 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-02 | `TC-API-LOGIN-038` | Fail | [D-LOGIN-02 #414](https://github.com/trngnneee/eshop-sut/issues/414) | Open |
 | SEC-01 | `TC-API-LOGIN-039` | Fail | [D-LOGIN-03 #415](https://github.com/trngnneee/eshop-sut/issues/415) | Open |
 | SEC-02 | `TC-API-LOGIN-040` | Fail | [D-LOGIN-05 #416](https://github.com/trngnneee/eshop-sut/issues/416) | Open |
-| FR-02 | `TC-API-LOGIN-041` | Fail | [D-LOGIN-06 #417](https://github.com/trngnneee/eshop-sut/issues/417) | Open |
-| SEC-02 | `TC-API-LOGIN-042` | Fail | [D-LOGIN-05 #416](https://github.com/trngnneee/eshop-sut/issues/416) | Open |
+| FR-02 | `TC-API-LOGIN-041` | Not Run | [D-LOGIN-06 #417](https://github.com/trngnneee/eshop-sut/issues/417) | Manual — chờ lock thật 180s, tách khỏi regression tự động |
+| SEC-02 | `TC-API-LOGIN-042` | Blocked | [D-LOGIN-05 #416](https://github.com/trngnneee/eshop-sut/issues/416) | Blocked — không nhúng signing secret vào artifact công khai |
 | FR-08/FR-10 | `TC-API-CHECKOUT-001` | Fail | [D-CHK-01 #418](https://github.com/trngnneee/eshop-sut/issues/418) | Open |
 | FR-08/FR-10 | `TC-API-CHECKOUT-002` | Pass/Smoke | None | Covered |
 | FR-08/FR-10 | `TC-API-CHECKOUT-003` | Pass/Smoke | None | Covered |
@@ -91,7 +91,7 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-08/FR-10 | `TC-API-CHECKOUT-026` | Pass/Smoke | None | Covered |
 | FR-08/FR-10 | `TC-API-CHECKOUT-027` | Pass/Smoke | None | Covered |
 | FR-08/FR-10 | `TC-API-CHECKOUT-028` | Pass/Smoke | None | Covered |
-| FR-08/FR-10 | `TC-API-CHECKOUT-029` | Pass/Smoke | None | Covered |
+| FR-08/FR-10 | `TC-API-CHECKOUT-029` | Blocked | — | Blocked — SUT phát JWT không có exp, không có signing fixture an toàn |
 | FR-08/FR-10 | `TC-API-CHECKOUT-030` | Pass/Smoke | None | Covered |
 | FR-08/FR-10 | `TC-API-CHECKOUT-031` | Fail | [D-CHK-07 #422](https://github.com/trngnneee/eshop-sut/issues/422) | Open |
 | FR-08/FR-10 | `TC-API-CHECKOUT-032` | Fail | D-CHK-05 / chưa tạo issue | Open |
@@ -145,7 +145,7 @@ Bảng truy vết giúp đảm bảo độ bao phủ của kiểm thử và theo
 | FR-10/FR-12/FR-18 | `TC-API-ORDER-STATUS-038` | Pass/Smoke | None | Covered |
 | FR-10/FR-12/FR-18 | `TC-API-ORDER-STATUS-039` | Fail | [D-ADM-01 #423](https://github.com/trngnneee/eshop-sut/issues/423) | Open |
 | FR-10/FR-12/FR-18 | `TC-API-ORDER-STATUS-040` | Fail | [D-ADM-01 #423](https://github.com/trngnneee/eshop-sut/issues/423) | Open |
-| FR-10/FR-12/FR-18 | `TC-API-ORDER-STATUS-041` | Fail | [D-ADM-02 #424](https://github.com/trngnneee/eshop-sut/issues/424) | Open |
+| FR-10/FR-12/FR-18 | `TC-API-ORDER-STATUS-041` | Blocked | [D-ADM-02 #424](https://github.com/trngnneee/eshop-sut/issues/424) | Blocked — SUT không có Dashboard/revenue API để quan sát hậu điều kiện |
 | FR-10/FR-12/FR-18 | `TC-API-ORDER-STATUS-042` | Fail | [D-ADM-03 #425](https://github.com/trngnneee/eshop-sut/issues/425) | Open |
 | FR-10/FR-12/FR-18 | `TC-API-ORDER-STATUS-043` | Fail | [D-ADM-08 #427](https://github.com/trngnneee/eshop-sut/issues/427) | Open |
 | FR-10/FR-12/FR-18 | `TC-API-ORDER-STATUS-044` | Fail | D-ADM-06 / chưa tạo issue | Open |
