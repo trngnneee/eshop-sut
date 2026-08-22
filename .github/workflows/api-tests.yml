@@ -52,15 +52,13 @@ jobs:
       - name: Install Newman
         run: npm install -g newman newman-reporter-html
 
-      - name: Run Postman collection with Newman
+      - name: Run data-driven Postman collection with Newman
         run: |
-          newman run API-testing/eshop_api.postman_collection.json \
+          newman run API-testing/eshop_data_driven.postman_collection.json \
             -e API-testing/eshop_api.postman_environment.json \
-            --env-var "studentId=${STUDENT_ID}" \
+            --iteration-data API-testing/data/test-data.json \
             -r cli,html \
             --reporter-html-export API-testing/newman-eshop-api-report.html
-        env:
-          STUDENT_ID: ${{ vars.STUDENT_ID || '23127158' }}
 
       - name: Upload Newman HTML report
         uses: actions/upload-artifact@v4
