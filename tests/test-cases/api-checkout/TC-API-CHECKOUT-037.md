@@ -6,6 +6,6 @@
 - Method/data: `POST /api/checkout` + chained endpoint; Dùng tổng giả trong body
 - Expected: Đơn phải có tổng tính từ giỏ, không phải 1
 - Result: FAIL — defect expected
-- Related Bug: `D-CHK-01`
+- Related Bug: [#418](https://github.com/trngnneee/eshop-sut/issues/418) (`D-CHK-01`)
 
 > This file is a representative/failed-case traceability artifact generated from the final Markdown test table. Full inventory remains in `hw06/api-*/test-cases.md`.

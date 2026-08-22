@@ -6,6 +6,6 @@
 - Method/data: `POST /api/checkout` + chained endpoint; IDOR khi đọc order
 - Expected: 401/403; không lộ order A
 - Result: FAIL — defect expected
-- Related Bug: `D-CHK-07`
+- Related Bug: [#422](https://github.com/trngnneee/eshop-sut/issues/422) (`D-CHK-07`)
 
 > This file is a representative/failed-case traceability artifact generated from the final Markdown test table. Full inventory remains in `hw06/api-*/test-cases.md`.

@@ -6,6 +6,6 @@
 - Method/data: `Status sai kiểu dữ liệu`
 - Expected: 400; phân biệt type invalid với transition invalid
 - Result: FAIL — defect expected
-- Related Bug: `D-ADM-06`
+- Related Bug: `D-ADM-06` — chưa mở issue
 
 > This file is a representative/failed-case traceability artifact generated from the final Markdown test table. Full inventory remains in `hw06/api-*/test-cases.md`.
