@@ -3,6 +3,7 @@ param(
     [string]$Mode = 'full',
     [string]$BaseUrl = 'http://127.0.0.1:3001',
     [string]$ReportName = '00-full-suite',
+    [string]$SutJwtSecret = $(if ($env:HW06_SUT_JWT_SECRET) { $env:HW06_SUT_JWT_SECRET } else { 'super_secret_key_that_should_not_be_here' }),
     [string]$UserPassword = $env:HW06_USER_PASSWORD,
     [string]$AdminPassword = $env:HW06_ADMIN_PASSWORD,
     [switch]$DataDriven
@@ -29,7 +30,7 @@ function Invoke-NewmanRun([string]$Name, [string[]]$ExtraArgs, [string]$Environm
     $html = Join-Path $out ($Name + '.html')
     $json = Join-Path $out ($Name + '.json')
     Write-Host "Running $Name against $BaseUrl (spec_strict=$Mode)"
-    & node $newman run $collection -e $EnvironmentPath --env-var "base_url=$BaseUrl" --env-var "spec_strict=$Mode" --env-var "user_password=$UserPassword" --env-var "admin_password=$AdminPassword" -r cli,htmlextra,json --reporter-htmlextra-export $html --reporter-json-export $json @ExtraArgs
+    & node $newman run $collection -e $EnvironmentPath --env-var "base_url=$BaseUrl" --env-var "spec_strict=$Mode" --env-var "user_password=$UserPassword" --env-var "admin_password=$AdminPassword" --env-var "sut_jwt_secret=$SutJwtSecret" -r cli,htmlextra,json --reporter-htmlextra-export $html --reporter-json-export $json @ExtraArgs
     $newmanExit = [int]$LASTEXITCODE
     & python -B $sanitizer $html $json
     if ($LASTEXITCODE -ne 0) { throw "Failed to sanitize Newman report $Name" }

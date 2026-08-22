@@ -19,6 +19,8 @@ The exported environment keeps `http://localhost:3000` as required by the assign
 
 Collection và environment ở **định dạng Postman** (`.postman_collection.json` / `.postman_environment.json`) và được thực thi bằng **Newman** — cả ở máy local lẫn trong GitHub Actions. Toàn bộ số liệu trong báo cáo đến từ Newman.
 
+**Giảng viên đã chấp thuận dùng Bruno cho phần chụp bằng chứng client** (người học hỏi trực tiếp và được đồng ý). Collection và environment vẫn ở định dạng Postman, và Newman là công cụ thực thi cho mọi số liệu trong báo cáo.
+
 Riêng ảnh `01-x-student-id-console.png` được chụp bằng **Bruno**, một API client tương thích collection Postman, ở tab **Timeline** (tương đương Postman Console). Ảnh cho thấy `HEADERS (1) — X-Student-Id: 23127207` trong khi request không khai báo header tĩnh nào, tức header do **script pre-request cấp collection** gắn lúc runtime, đúng cơ chế mô tả ở bảng trên.
 
 Bằng chứng độc lập cho cùng tiêu chí R-14 nằm ở `02-newman-cli-run.png`: Newman in `X-Student-Id: 23127207` trên cả 19 request, kèm URL đã resolve `http://localhost:3000/...`.

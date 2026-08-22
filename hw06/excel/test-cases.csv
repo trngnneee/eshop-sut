@@ -22,7 +22,7 @@ API-1,TC-API-LOGIN-020,FR-02,State,State transition,User đang khóa,Login đún
 API-1,TC-API-LOGIN-021,FR-02,State,Temporal BVA,User vừa khóa,"Chờ 29 giây, login đúng",Vẫn bị từ chối; không token,AI,PASS,—,Automated,—
 API-1,TC-API-LOGIN-022,FR-02,State,Temporal BVA,User vừa khóa,"Chờ 31 giây, login đúng",`200`; reset attempts/lock,AI,FAIL,D-LOGIN-02,Automated,—
 API-1,TC-API-LOGIN-023,FR-02,State,State transition,Disposable user,Sai 2 lần rồi login đúng,`200`; reset chuỗi sai,AI,FAIL,D-LOGIN-01,Automated,—
-API-1,TC-API-LOGIN-024,FR-02,State,State transition,Case 023 thành công,Sai một lần sau reset,`401`; chưa khóa,AI,BLOCKED nếu 023 fail,D-LOGIN-01,Blocked,"Tiền điều kiện yêu cầu TC-023 đăng nhập thành công sau hai lần sai, nhưng D-LOGIN-01 khóa tài khoản sớm nên không thể đi tới trạng thái reset cần kiểm thử."
+API-1,TC-API-LOGIN-024,FR-02,State,State transition,Case 023 thành công,Sai một lần sau reset,`401`; chưa khóa,AI,FAIL,D-LOGIN-01,Blocked,"Đã chạy trong `05-timed-assert` và có assertion Newman thật, nhưng tiền đề của case không tồn tại trên SUT: D-LOGIN-06 khiến không bao giờ đạt được trạng thái reset sau lock. Blocked có bằng chứng, không phải giả định."
 API-1,TC-API-LOGIN-025,SEC-05,Security,SQLi,DB sạch,SQLi ở email,`401`; không bypass/không đổi DB,AI-audited,PASS,—,Automated,—
 API-1,TC-API-LOGIN-026,SEC-05,Security,SQLi,DB sạch,SQLi ở password,`401`; không bypass,AI,PASS,—,Automated,—
 API-1,TC-API-LOGIN-027,SEC-04,Security,XSS/non-reflection,DB sạch,XSS ở email,4xx; không reflect payload,AI,PASS,—,Automated,—
@@ -39,8 +39,8 @@ API-1,TC-API-LOGIN-037,FR-02,State,Sequence/state,Disposable user,Sai 2 lần r�
 API-1,TC-API-LOGIN-038,FR-02,State,Temporal BVA,User vừa khóa,Chờ 35 giây rồi đúng,`200`; lock hết hạn,Human,FAIL,D-LOGIN-02,Automated,—
 API-1,TC-API-LOGIN-039,SEC-01,Security,Negative schema,Seed user active,Login đúng,Không field nhạy cảm ở root/user,Human,FAIL,D-LOGIN-03,Automated,—
 API-1,TC-API-LOGIN-040,SEC-02,Security,JWT claims,Seed user active,Decode token,Có `iat/exp`; TTL ≤24h,Human,FAIL,D-LOGIN-05,Automated,—
-API-1,TC-API-LOGIN-041,FR-02,State,Residual-state,Lock đã hết hạn,Sai 1 lần rồi đúng,"`401,200`; không khóa lại",Human,FAIL,D-LOGIN-06,Manual,Phải chờ lock thực tế 180 giây rồi kiểm tra residual state; tách khỏi regression tự động để tránh một iteration kéo dài và dễ nhiễu thời gian.
-API-1,TC-API-LOGIN-042,SEC-02,Security,JWT forgery,Biết source secret,Token tự ký gọi admin API,`401/403`,Human,FAIL,D-LOGIN-05,Blocked,Cần ký JWT bằng secret của SUT; không nhúng signing secret hoặc forged token vào collection/report công khai.
+API-1,TC-API-LOGIN-041,FR-02,State,Residual-state,Lock đã hết hạn,Sai 1 lần rồi đúng,"`401,200`; không khóa lại",Human,FAIL,D-LOGIN-06,Automated,"Chạy trong `05-timed-assert` sau khi chờ lock 180s hết hạn: sai một lần nhận `401`, nhưng đăng nhập đúng ngay sau đó nhận `403` — counter không reset."
+API-1,TC-API-LOGIN-042,SEC-02,Security,JWT forgery,Biết source secret,Token tự ký gọi admin API,`401/403`,Human,FAIL,D-LOGIN-05,Automated,"Chạy trong `04-jwt-cases`: tự ký JWT bằng secret công khai ở `server.js:9`, gọi `GET /api/admin/orders` nhận `200` — token giả được chấp nhận."
 API-2,TC-API-CHECKOUT-001,FR-08/FR-10,Partition,EP,User có JWT; giỏ có một sản phẩm,`POST /api/checkout`; total_amount=200000; shipping_address='123 Le Loi',200; orderId là số nguyên; đơn có total theo giỏ; status=pending,AI/audit,FAIL,D-CHK-01,Automated,—
 API-2,TC-API-CHECKOUT-002,FR-08/FR-10,Partition,EP,Giỏ không quan trọng,`POST /api/checkout`; Không gửi Authorization,401; không tạo đơn,AI/audit,PASS,—,Automated,—
 API-2,TC-API-CHECKOUT-003,FR-08/FR-10,Partition,EP,Không gửi request trước,`POST /api/checkout`; Authorization='abc',403; không tạo đơn,AI/audit,PASS,—,Automated,—
@@ -69,7 +69,7 @@ API-2,TC-API-CHECKOUT-025,FR-08/FR-10,State,Security/state,User A có JWT; body 
 API-2,TC-API-CHECKOUT-026,FR-08/FR-10,State,State-transition,User đăng nhập; giỏ có sản phẩm,`POST /api/checkout`; Login → add cart → checkout,200; pending; order thuộc user vừa login,AI/audit,PASS,—,Automated,—
 API-2,TC-API-CHECKOUT-027,FR-08/FR-10,Security,Security,Giỏ có thể có hoặc không,`POST /api/checkout`; POST checkout không Authorization,401; không tạo đơn,AI/audit,PASS,—,Automated,—
 API-2,TC-API-CHECKOUT-028,FR-08/FR-10,Security,Security,Có token giả,`POST /api/checkout`; Bearer token bị sửa payload,403; không tạo đơn,AI/audit,PASS,—,Automated,—
-API-2,TC-API-CHECKOUT-029,FR-08/FR-10,Security,Security,Có JWT exp trong quá khứ,`POST /api/checkout`; Bearer expired JWT,403; không tạo đơn,AI/audit,PASS,—,Blocked,"SUT phát JWT không có exp và không cung cấp signing fixture an toàn, nên không thể tạo token hợp lệ nhưng đã hết hạn mà không sao chép secret vào artifact."
+API-2,TC-API-CHECKOUT-029,FR-08/FR-10,Security,Security,Có JWT exp trong quá khứ,`POST /api/checkout`; Bearer expired JWT,403; không tạo đơn,AI/audit,PASS,—,Automated,"Chạy trong `04-jwt-cases`: ký JWT với `exp` trong quá khứ, `POST /api/checkout` nhận `403` và không tạo đơn."
 API-2,TC-API-CHECKOUT-030,FR-08/FR-10,Security,Security/IDOR,User A có cart; User B có JWT,`POST /api/checkout`; B checkout với body cố trỏ tới cart/order của A,Đơn chỉ thuộc user B; không đọc/ghi cart của A,AI/audit,PASS,—,Automated,—
 API-2,TC-API-CHECKOUT-031,FR-08/FR-10,Security,Security/IDOR,Có orderId của user khác,`POST /api/checkout`; GET /api/orders/{id} không Authorization,401/403; không lộ order,AI/audit,FAIL,D-CHK-07,Automated,—
 API-2,TC-API-CHECKOUT-032,FR-08/FR-10,Security,Security,User có JWT; giỏ có sản phẩm,`POST /api/checkout`; shipping_address='<script>alert(1)</script>',Payload bị từ chối hoặc được escape khi đọc lại,AI/audit,FAIL,D-CHK-05,Automated,—

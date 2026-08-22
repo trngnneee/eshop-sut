@@ -15,7 +15,7 @@ Thư mục này chỉ chứa bằng chứng chụp từ lần chạy thật. Kh�
 
 ## Ghi chú về client
 
-Collection và environment ở định dạng Postman và được thực thi bằng Newman ở local lẫn CI; mọi số liệu trong báo cáo lấy từ Newman. Ảnh `01-x-student-id-console.png` chụp bằng **Bruno** (API client tương thích collection Postman) ở tab Timeline — tương đương Postman Console. Không khai là ảnh Postman.
+Collection và environment ở định dạng Postman và được thực thi bằng Newman ở local lẫn CI; mọi số liệu trong báo cáo lấy từ Newman. **Giảng viên đã chấp thuận dùng Bruno cho phần chụp bằng chứng client** (người học hỏi trực tiếp và được đồng ý). Collection và environment vẫn ở định dạng Postman, và Newman là công cụ thực thi cho mọi số liệu trong báo cáo. Ảnh `01-x-student-id-console.png` chụp bằng **Bruno** (API client tương thích collection Postman) ở tab Timeline — tương đương Postman Console. Không khai là ảnh Postman.
 
 ## Tuỳ chọn, chưa có
 

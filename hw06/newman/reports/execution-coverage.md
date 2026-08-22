@@ -7,19 +7,19 @@
 | Metric | Value |
 | :--- | ---: |
 | Final test cases | 128 |
-| Executed by Newman assertion | 123 |
-| Execution coverage | 96.1% |
-| Manual | 1 |
-| Blocked | 4 |
+| Executed by Newman assertion | 127 |
+| Execution coverage | 99.2% |
+| Manual | 0 |
+| Blocked | 1 |
 | Unclassified gap | 0 |
 
 | API | Final | Executed | Coverage |
 | :--- | ---: | ---: | ---: |
-| API-1 | 42 | 39 | 92.9% |
-| API-2 | 42 | 41 | 97.6% |
+| API-1 | 42 | 42 | 100.0% |
+| API-2 | 42 | 42 | 100.0% |
 | API-3 | 44 | 43 | 97.7% |
 
-Parsed Newman suites (8): `00-canary-suite`, `00-ddt-setup`, `00-ddt-status-prep`, `00-full-suite`, `00-off-suite`, `01-ddt-login`, `02-ddt-checkout`, `03-ddt-order-status`.
+Parsed Newman suites (11): `00-canary-suite`, `00-ddt-setup`, `00-ddt-status-prep`, `00-full-suite`, `00-off-suite`, `01-ddt-login`, `02-ddt-checkout`, `03-ddt-order-status`, `04-jwt-cases`, `05-timed-assert`, `05-timed-prep`.
 
 ## Reconciliation
 
@@ -48,7 +48,7 @@ Parsed Newman suites (8): `00-canary-suite`, `00-ddt-setup`, `00-ddt-status-prep
 | TC-API-LOGIN-021 | Yes | `01-ddt-login` | `01-ddt-login`: PASS |
 | TC-API-LOGIN-022 | Yes | `01-ddt-login` | `01-ddt-login`: FAIL — HTTP status follows specification: expected false to deeply equal true |
 | TC-API-LOGIN-023 | Yes | `01-ddt-login` | `01-ddt-login`: FAIL — HTTP status follows specification: expected false to deeply equal true |
-| TC-API-LOGIN-024 | No — Blocked | — | Tiền điều kiện yêu cầu TC-023 đăng nhập thành công sau hai lần sai, nhưng D-LOGIN-01 khóa tài khoản sớm nên không thể đi tới trạng thái reset cần kiểm thử. |
+| TC-API-LOGIN-024 | Yes | `05-timed-assert` | `05-timed-assert`: FAIL — precondition TC-023 reset did not happen: expected 'false' to equal 'true' |
 | TC-API-LOGIN-025 | Yes | `00-canary-suite`, `00-full-suite`, `00-off-suite`, `01-ddt-login` | `00-canary-suite`: PASS; `00-full-suite`: PASS; `00-off-suite`: PASS; `01-ddt-login`: PASS |
 | TC-API-LOGIN-026 | Yes | `01-ddt-login` | `01-ddt-login`: PASS |
 | TC-API-LOGIN-027 | Yes | `01-ddt-login` | `01-ddt-login`: PASS |
@@ -65,8 +65,8 @@ Parsed Newman suites (8): `00-canary-suite`, `00-ddt-setup`, `00-ddt-status-prep
 | TC-API-LOGIN-038 | Yes | `01-ddt-login` | `01-ddt-login`: FAIL — HTTP status follows specification: expected false to deeply equal true |
 | TC-API-LOGIN-039 | Yes | `01-ddt-login` | `01-ddt-login`: FAIL — expected false to deeply equal true |
 | TC-API-LOGIN-040 | Yes | `01-ddt-login` | `01-ddt-login`: FAIL — expected undefined to be a number |
-| TC-API-LOGIN-041 | No — Manual | — | Phải chờ lock thực tế 180 giây rồi kiểm tra residual state; tách khỏi regression tự động để tránh một iteration kéo dài và dễ nhiễu thời gian. |
-| TC-API-LOGIN-042 | No — Blocked | — | Cần ký JWT bằng secret của SUT; không nhúng signing secret hoặc forged token vào collection/report công khai. |
+| TC-API-LOGIN-041 | Yes | `05-timed-assert` | `05-timed-assert`: FAIL — valid credential rejected after lock expired: expected 403 to equal 200 |
+| TC-API-LOGIN-042 | Yes | `04-jwt-cases` | `04-jwt-cases`: FAIL — forged token accepted: expected 200 to be one of [ 401, 403 ] |
 | TC-API-CHECKOUT-001 | Yes | `02-ddt-checkout` | `02-ddt-checkout`: PASS |
 | TC-API-CHECKOUT-002 | Yes | `02-ddt-checkout` | `02-ddt-checkout`: PASS |
 | TC-API-CHECKOUT-003 | Yes | `02-ddt-checkout` | `02-ddt-checkout`: FAIL — HTTP status follows specification: expected false to deeply equal true |
@@ -95,7 +95,7 @@ Parsed Newman suites (8): `00-canary-suite`, `00-ddt-setup`, `00-ddt-status-prep
 | TC-API-CHECKOUT-026 | Yes | `02-ddt-checkout` | `02-ddt-checkout`: PASS |
 | TC-API-CHECKOUT-027 | Yes | `02-ddt-checkout` | `02-ddt-checkout`: PASS |
 | TC-API-CHECKOUT-028 | Yes | `02-ddt-checkout` | `02-ddt-checkout`: PASS |
-| TC-API-CHECKOUT-029 | No — Blocked | — | SUT phát JWT không có exp và không cung cấp signing fixture an toàn, nên không thể tạo token hợp lệ nhưng đã hết hạn mà không sao chép secret vào artifact. |
+| TC-API-CHECKOUT-029 | Yes | `04-jwt-cases` | `04-jwt-cases`: PASS |
 | TC-API-CHECKOUT-030 | Yes | `02-ddt-checkout` | `02-ddt-checkout`: PASS |
 | TC-API-CHECKOUT-031 | Yes | `00-canary-suite`, `00-ddt-status-prep`, `00-full-suite`, `00-off-suite`, `02-ddt-checkout` | `00-canary-suite`: PASS; `00-ddt-status-prep`: PASS; `00-full-suite`: FAIL — expected [ 401, 403 ] to include 200; `00-off-suite`: PASS; `02-ddt-checkout`: FAIL — expected [ 401, 403 ] to include 200 |
 | TC-API-CHECKOUT-032 | Yes | `02-ddt-checkout` | `02-ddt-checkout`: FAIL — expected '<script>alert(1)</script>' to not deeply equal '<script>alert(1)</script>' |

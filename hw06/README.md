@@ -12,8 +12,8 @@ Repository công khai: [trngnneee/eshop-sut](https://github.com/trngnneee/eshop-
 | AI-generated cases | 110 (36 + 36 + 38) |
 | Human extension cases | 18 (6/API) |
 | Final test cases | 128 (42 + 42 + 44) |
-| Test cases có assertion Newman thật | 123/128 (96.1%) |
-| Execution classification | 123 Automated · 1 Manual · 4 Blocked |
+| Test cases có assertion Newman thật | 127/128 (99.2%) |
+| Execution classification | 127 Automated · 1 Blocked |
 | Newman off assertions | 18, failed 0 |
 | Newman canary assertions | 19, failed 1 |
 | Newman full assertions | 26, failed 8 |
@@ -29,15 +29,15 @@ Xem [báo cáo chính](report/main-report.md), [AI audit](report/ai-audit-report
 
 | No. | Criteria | Max | Technical completion | Self-assessed now |
 | ---: | :--- | ---: | :--- | ---: |
-| 1 | API-1 full pipeline | 30 | 36 AI + 6 human = 42 case; audit 100%; bug có issue + screenshot; 3 case Blocked/Not Run do giới hạn SUT, ghi rõ lý do | 29 |
-| 2 | API-2 full pipeline | 30 | 36 AI + 6 human = 42 case; audit 100%; bug có issue + screenshot; 1 case Blocked do SUT không có signing fixture an toàn | 29 |
-| 3 | API-3 full pipeline | 30 | 38 AI + 6 human = 44 case gồm đủ ma trận 5×5; human sign-off đã ký; 1 case Blocked do SUT thiếu API quan sát doanh thu | 29 |
+| 1 | API-1 full pipeline | 30 | 36 AI + 6 human = 42 case; audit 100%; execution coverage **42/42 = 100%**; mọi bug có issue + screenshot | 30 |
+| 2 | API-2 full pipeline | 30 | 36 AI + 6 human = 42 case; audit 100%; execution coverage **42/42 = 100%**; mọi bug có issue + screenshot | 30 |
+| 3 | API-3 full pipeline | 30 | 38 AI + 6 human = 44 case gồm đủ ma trận 5×5; human sign-off đã ký; 43/44 = 97.7% — `TC-API-ORDER-STATUS-041` không thể chạy vì SUT không có endpoint dashboard/revenue | 29 |
 | 4 | Agent Skill/test-generator | 10 | Design, generator, audit hook, `diagram.png` tự vẽ và [video demo](https://youtu.be/GT9lxje6NJE) — đã đủ | 10 |
-| **Tổng** |  | **100** |  | **97** |
+| **Tổng** |  | **100** |  | **99** |
 
 Đã hoàn tất toàn bộ gate bắt buộc: sơ đồ tự vẽ, critique tự viết, sign-off cả ba API, screenshot console + Newman CLI + hai run CI, 19 GitHub Issue kèm 19 screenshot, video demo Agent Skill, repo public, Pull Request [#428](https://github.com/trngnneee/eshop-sut/pull/428) theo `Rule.pdf` §H.3.
 
-Không tự chấm 100 vì hồ sơ tự ghi nhận hai hạn chế còn lại: execution coverage 96.1% (4 Blocked + 1 Not Run, nguyên nhân từ chính SUT) và chưa dùng nhóm tính năng Postman cloud (Workspace/Mock/Monitor) của R-06. Cả hai đều được nêu rõ thay vì giấu.
+Không tự chấm 100 vì đúng **một** case không thể thực thi: `TC-API-ORDER-STATUS-041` cần quan sát doanh thu sau khi chuyển trạng thái, nhưng SUT không có endpoint dashboard/revenue nào — đã rà toàn bộ route `/api/admin/*` trong `backend/server.js`. Đây là giới hạn của hệ thống được kiểm thử, được nêu rõ thay vì giấu. Việc dùng Bruno cho ảnh bằng chứng client đã được giảng viên chấp thuận.
 
 ## Chạy lại
 

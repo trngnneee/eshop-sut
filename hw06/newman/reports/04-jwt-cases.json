@@ -1,0 +1,3048 @@
+{
+  "collection": {
+    "_": {
+      "postman_id": "b1d9d8da-2312-4077-9062-hw06-23127207"
+    },
+    "item": [
+      {
+        "id": "62c921b7-eefd-4b61-a334-23e809c7d588",
+        "name": "00 - Setup",
+        "item": [
+          {
+            "id": "ebb8e704-3c30-4691-ae58-e09079f95cac",
+            "name": "[SETUP] Health check",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "products"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "c86ecfc3-c936-4a13-b20f-a5749f2613fd",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('[SETUP] health 200',()=>pm.response.to.have.status(200));",
+                    "pm.test('[SETUP] five products',()=>pm.expect(jsonBody()).to.be.an('array').with.length(5));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "59d213a7-b66d-4061-a2b9-27efa0211492",
+            "name": "[SETUP] Register disposable lock user",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "register"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"name\": \"HW06 Lock User\", \"email\": \"{{lockUser}}\", \"password\": \"{{lockPassword}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "5b30241e-7751-4bd9-a35a-3e00a8ef171e",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.environment.set('lockUser','hw06_lock_'+Date.now()+'@test.local');",
+                    "pm.environment.set('lockPassword','hw06-lock-'+pm.variables.replaceIn('{{$guid}}'));"
+                  ]
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "6fb6b77d-0306-461a-9c32-43eff2482b0f",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('[SETUP] register 200',()=>pm.response.to.have.status(200));",
+                    "pm.environment.set('lockUserId',String(jsonBody().id||''));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "9a6e4b9e-e7cf-4edd-8771-4fdc07d410ae",
+            "name": "[SETUP] Login user",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{user_email}}\", \"password\": \"{{user_password}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "53b2a7c3-9572-4404-bd06-b7c6231d581f",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('[SETUP] user login 200',()=>pm.response.to.have.status(200));",
+                    "const d=jsonBody();pm.expect(d.token).to.be.a('string').and.not.empty;pm.environment.set('userToken',d.token);pm.environment.set('userId',String(d.user&&d.user.id||''));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "b05e6b4c-d202-4016-8459-acecac61866a",
+            "name": "[SETUP] Login admin",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{admin_email}}\", \"password\": \"{{admin_password}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "a3fc2ee9-0417-427c-ba1f-23eb81100004",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('[SETUP] admin login 200',()=>pm.response.to.have.status(200));",
+                    "pm.environment.set('adminToken',jsonBody().token||'');"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "c36c092c-bdf9-4e7e-96a1-2b43384c73d0",
+            "name": "[SETUP] Add product to cart",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "cart"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"id\": 1, \"name\": \"Laptop\", \"price\": 100000, \"quantity\": 1}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "4d92614e-97c0-43b6-8187-5eb5ea4d4a22",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('[SETUP] add cart 200',()=>pm.response.to.have.status(200));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "cc88a138-a0dc-43b0-9c1c-8882a0a971e8",
+        "name": "API-1 - POST /api/login",
+        "item": [
+          {
+            "id": "b2746dfb-f82a-40cd-a558-1ac138982078",
+            "name": "TC-API-LOGIN-001 - valid credential",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{user_email}}\", \"password\": \"{{user_password}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "b62a5a68-a298-4ef2-bdeb-17e0f3136e8a",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-LOGIN-001 status',()=>pm.response.to.have.status(200));",
+                    "pm.expect(jsonBody().token).to.be.a('string').and.not.empty;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "576b4d66-c0a2-4131-8d2e-06dafce1ea0c",
+            "name": "TC-API-LOGIN-004 - missing email",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"password\": \"{{user_password}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "95cfeee8-8669-4376-8f80-d29c66eef01a",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-LOGIN-004 observed',()=>pm.expect([400,401]).to.include(pm.response.code));",
+                    "specTest('TC-API-LOGIN-004','missing email validates',()=>pm.response.to.have.status(400));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "6177f1bc-9437-47bd-9b44-28568eeb003a",
+            "name": "TC-API-LOGIN-025 - SQL injection",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"' OR 1=1 --\", \"password\": \"anything\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "b5a51c7b-8b77-493f-8fdc-196d417c890c",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-LOGIN-025 rejected',()=>pm.response.to.have.status(401));",
+                    "pm.expect(jsonBody().token).to.be.undefined;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "1a9d2d5b-3c3a-4154-a39d-35f7b3cb2f75",
+            "name": "TC-API-LOGIN-028 - no password leakage",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{user_email}}\", \"password\": \"{{user_password}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "13a63014-be9b-4d01-a99b-7a40325c33d9",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-LOGIN-028 login 200',()=>pm.response.to.have.status(200));",
+                    "specTest('TC-API-LOGIN-028','no password in response',()=>pm.expect(jsonBody().user.password).to.be.undefined);"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "3bdf5d78-0aa7-469c-9509-8342681c7dd6",
+            "name": "TC-API-LOGIN-018 - two failures then correct",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{lockUser}}\", \"password\": \"{{lockPassword}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "6c4b80ab-8e9d-4ce5-9a9f-4e4e99b4dd63",
+                  "type": "text/javascript",
+                  "exec": [
+                    "const h={'Content-Type':'application/json','X-Student-Id':pm.environment.get('student_id')};pm.sendRequest({url:pm.environment.get('base_url')+'/api/login',method:'POST',header:h,body:{mode:'raw',raw:JSON.stringify({email:pm.environment.get('lockUser'),password:'intentionally-wrong'})}},function(){pm.sendRequest({url:pm.environment.get('base_url')+'/api/login',method:'POST',header:h,body:{mode:'raw',raw:JSON.stringify({email:pm.environment.get('lockUser'),password:'intentionally-wrong'})}},function(){});});"
+                  ]
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "aece2d73-e422-4d8e-83de-078260b1a914",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-LOGIN-018 observed',()=>pm.expect([200,401,403]).to.include(pm.response.code));",
+                    "specTest('TC-API-LOGIN-018','correct login after two failures',()=>pm.response.to.have.status(200));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "58c08d44-acd2-4698-a1f8-261566305c3a",
+        "name": "API-2 - POST /api/checkout",
+        "item": [
+          {
+            "id": "532c4005-77df-4093-8f37-57a956898b64",
+            "name": "TC-API-CHECKOUT-037 - client total probe",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "checkout"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"total_amount\": 1, \"shipping_address\": \"123 Le Loi\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "ef050bf7-fa04-4533-ab08-cf285f50e980",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-CHECKOUT-037 checkout 200',()=>pm.response.to.have.status(200));",
+                    "pm.environment.set('orderId',String(jsonBody().orderId||''));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "56fb5572-b6be-4cbf-81b6-7a0091ed5443",
+            "name": "TC-API-CHECKOUT-031 - IDOR probe",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "orders",
+                  "{{orderId}}"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "389faafb-2e04-4f67-a22e-dd96b0078d45",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-CHECKOUT-031 observed',()=>pm.expect([200,401,403]).to.include(pm.response.code));",
+                    "specTest('TC-API-CHECKOUT-031','order detail needs auth',()=>pm.expect([401,403]).to.include(pm.response.code));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "dbc58dc7-60b7-4c00-b16e-02f0cb3f656b",
+            "name": "TC-API-CHECKOUT-020 - cart post-condition",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "cart"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "5af65cc9-07db-4251-b49c-8a908d989976",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-CHECKOUT-020 cart response',()=>pm.response.to.have.status(200));",
+                    "specTest('TC-API-CHECKOUT-020','cart empty after checkout',()=>pm.expect(jsonBody()).to.be.an('array').that.is.empty);"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "eb8f56e6-e86c-43ab-840b-516557a2d6fa",
+            "name": "TC-API-CHECKOUT-005 - zero total",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "checkout"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"total_amount\": 0, \"shipping_address\": \"A\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "b5a62a74-aa7a-4cfe-a90a-7b1ad1c81536",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-CHECKOUT-005 observed',()=>pm.expect([200,400]).to.include(pm.response.code));",
+                    "specTest('TC-API-CHECKOUT-005','zero total rejected',()=>pm.response.to.have.status(400));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "c7f1efad-6036-470a-a671-3c41a519054a",
+        "name": "API-3 - PUT /api/admin/orders/:id/status",
+        "item": [
+          {
+            "id": "10bed80a-0d38-4248-88d8-3df68a1101c8",
+            "name": "TC-API-ORDER-STATUS-002 - pending to confirmed",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{orderId}}",
+                  "status"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"confirmed\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "91e994e4-6311-4122-bca1-1835bb5c04d3",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-ORDER-STATUS-002 admin update',()=>pm.response.to.have.status(200));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "52c8dd95-ac46-464f-9809-8f6cc6cfab2f",
+            "name": "TC-API-ORDER-STATUS-033 - role escalation",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{orderId}}",
+                  "status"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{userToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"shipping\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "eab5d0d9-887f-4206-8d5e-8b5bbee813e5",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-ORDER-STATUS-033 observed',()=>pm.expect([200,403]).to.include(pm.response.code));",
+                    "specTest('TC-API-ORDER-STATUS-033','user role rejected',()=>pm.response.to.have.status(403));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "e4e2b851-b37a-4644-98f8-e429706d6e04",
+            "name": "TC-API-ORDER-STATUS-024 - canceled terminal",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders",
+                  "{{orderId}}",
+                  "status"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminToken}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"status\": \"delivered\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "849a3cfc-e4b9-4085-9b52-29952890bb1b",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full'||(m==='canary'&&id==='TC-API-LOGIN-018'))pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-ORDER-STATUS-024 observed',()=>pm.expect([200,400]).to.include(pm.response.code));",
+                    "specTest('TC-API-ORDER-STATUS-024','canceled cannot become delivered',()=>pm.response.to.have.status(400));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "91c5c583-034c-4a0a-9506-27a558367056",
+        "name": "1.1 Domain partitions [DDT]",
+        "item": [
+          {
+            "id": "d05c8bc6-b77a-499c-b7ed-b5ec8f444275",
+            "name": "[DDT] login partitions",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{{case_body}}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "3c614d8e-9f32-4d66-90a8-93cd5d0d5bd2",
+                  "type": "text/javascript",
+                  "exec": [
+                    "const tcId = String(pm.iterationData.get('tc_id') || '');",
+                    "if (!tcId) { pm.execution.skipRequest(); return; }",
+                    "",
+                    "const number = Number(tcId.slice(-3));",
+                    "const base = pm.environment.get('base_url');",
+                    "const sid = pm.environment.get('student_id') || '23127207';",
+                    "const seedEmail = pm.environment.get('user_email');",
+                    "const seedPassword = pm.environment.get('user_password');",
+                    "const casePassword = 'Hw06-' + pm.variables.replaceIn('{{$guid}}');",
+                    "const caseEmail = 'hw06-login-' + number + '-' + pm.info.iteration + '-' + Date.now() + '@test.local';",
+                    "",
+                    "pm.variables.set('setup_error', '');",
+                    "pm.variables.set('case_email', caseEmail);",
+                    "pm.variables.set('case_password', casePassword);",
+                    "",
+                    "function headers(token) {",
+                    "  const result = [{key: 'X-Student-Id', value: sid}, {key: 'Content-Type', value: 'application/json'}];",
+                    "  if (token) result.push({key: 'Authorization', value: 'Bearer ' + token});",
+                    "  return result;",
+                    "}",
+                    "function send(method, path, body, token, callback) {",
+                    "  pm.sendRequest({",
+                    "    url: base + path,",
+                    "    method,",
+                    "    header: headers(token),",
+                    "    body: body === undefined ? undefined : {mode: 'raw', raw: JSON.stringify(body)}",
+                    "  }, callback);",
+                    "}",
+                    "function recordSetupError(label, err, response) {",
+                    "  if (err) pm.variables.set('setup_error', label + ': ' + err.message);",
+                    "  else if (!response || response.code >= 400) pm.variables.set('setup_error', label + ': HTTP ' + (response && response.code));",
+                    "}",
+                    "function bodyForCase() {",
+                    "  const email = pm.iterationData.get('register_user') ? caseEmail : seedEmail;",
+                    "  const password = pm.iterationData.get('register_user') ? casePassword : seedPassword;",
+                    "  switch (number) {",
+                    "    case 2: return {email, password: 'wrong-' + casePassword};",
+                    "    case 3: return {email: 'missing-' + Date.now() + '@test.local', password: 'unknown'};",
+                    "    case 4: return {password: seedPassword};",
+                    "    case 5: return {email};",
+                    "    case 6: return {email: '', password: seedPassword};",
+                    "    case 7: return {email, password: 'abc'};",
+                    "    case 8: return {email: 'not-an-email', password: 'unknown'};",
+                    "    case 9: return {email: ' ' + email + ' ', password};",
+                    "    case 10: return {email: null, password: seedPassword};",
+                    "    case 11: return {email, password: null};",
+                    "    case 12: return {email: 123, password: seedPassword};",
+                    "    case 13: return {email, password: {value: password}};",
+                    "    case 14: return [];",
+                    "    case 16: return {email, password, rememberMe: true};",
+                    "    case 17: return {email, password: 'wrong-' + casePassword};",
+                    "    case 19: return {email, password: 'wrong-third-' + casePassword};",
+                    "    case 25: return {email: \"' OR 1=1 --\", password: 'irrelevant'};",
+                    "    case 26: return {email, password: \"' OR 1=1 --\"};",
+                    "    case 27: return {email: '<script>alert(1)</script>', password: 'irrelevant'};",
+                    "    case 30: return {email, password, role: 'admin'};",
+                    "    case 35: return {email, password: 'wrong-' + casePassword};",
+                    "    default: return {email, password};",
+                    "  }",
+                    "}",
+                    "",
+                    "pm.variables.set('case_body', JSON.stringify(bodyForCase()));",
+                    "if (number === 15) pm.request.headers.remove('Content-Type');",
+                    "else pm.request.headers.upsert({key: 'Content-Type', value: 'application/json'});",
+                    "",
+                    "function delayThenFinish() {",
+                    "  const delay = Number(pm.iterationData.get('delay_ms') || 0);",
+                    "  if (delay > 0) setTimeout(function () {}, delay);",
+                    "}",
+                    "function injectFailures(remaining) {",
+                    "  if (remaining <= 0) { delayThenFinish(); return; }",
+                    "  send('POST', '/api/login', {email: caseEmail, password: 'wrong-' + remaining + '-' + casePassword}, null,",
+                    "    function (err, response) {",
+                    "      if (err || !response || (response.code !== 401 && response.code !== 403)) {",
+                    "        recordSetupError('pre-failure', err, response);",
+                    "        return;",
+                    "      }",
+                    "      injectFailures(remaining - 1);",
+                    "    });",
+                    "}",
+                    "",
+                    "if (pm.iterationData.get('register_user')) {",
+                    "  send('POST', '/api/register', {name: 'HW06 Coverage ' + number, email: caseEmail, password: casePassword}, null,",
+                    "    function (err, response) {",
+                    "      recordSetupError('register', err, response);",
+                    "      if (!err && response && response.code < 400) injectFailures(Number(pm.iterationData.get('pre_failures') || 0));",
+                    "    });",
+                    "} else {",
+                    "  delayThenFinish();",
+                    "}"
+                  ]
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "3ab6e7e9-12e0-4ea8-bc2f-9b20965927d5",
+                  "type": "text/javascript",
+                  "exec": [
+                    "const tcId = String(pm.iterationData.get('tc_id') || '');",
+                    "if (!tcId) return;",
+                    "const number = Number(tcId.slice(-3));",
+                    "const mode = String(pm.environment.get('spec_strict') || 'off').toLowerCase();",
+                    "",
+                    "function shouldRun() { return mode === 'full' || (mode === 'canary' && tcId === 'TC-API-LOGIN-018'); }",
+                    "function specTest(name, fn) { if (shouldRun()) pm.test(tcId + ' - ' + name, fn); }",
+                    "function jsonOf(response) { try { return response.json(); } catch (_) { return {}; } }",
+                    "function expectedStatus(code) {",
+                    "  const expected = String(pm.iterationData.get('expected_status'));",
+                    "  if (expected === '4xx') return code >= 400 && code < 500;",
+                    "  return expected.split('|').map(Number).indexOf(code) !== -1;",
+                    "}",
+                    "function noSecrets(value) {",
+                    "  const text = JSON.stringify(value || {}).toLowerCase();",
+                    "  return ['password', 'reset_token', 'login_attempts', 'locked_until'].every(key => text.indexOf(key) === -1);",
+                    "}",
+                    "function setupOk() { pm.expect(pm.variables.get('setup_error') || '').to.eql(''); }",
+                    "function request(method, path, token, callback) {",
+                    "  const headers = [{key: 'X-Student-Id', value: pm.environment.get('student_id') || '23127207'}];",
+                    "  if (token) headers.push({key: 'Authorization', value: 'Bearer ' + token});",
+                    "  pm.sendRequest({url: pm.environment.get('base_url') + path, method, header: headers}, callback);",
+                    "}",
+                    "",
+                    "const payload = jsonOf(pm.response);",
+                    "if (number === 17) {",
+                    "  request('GET', '/api/admin/users', pm.environment.get('adminToken'), function (err, response) {",
+                    "    specTest('first failure increments the counter exactly once', function () {",
+                    "      setupOk();",
+                    "      pm.expect(pm.response.code).to.eql(401);",
+                    "      pm.expect(err).to.eql(null);",
+                    "      pm.expect(response.code).to.eql(200);",
+                    "      const user = jsonOf(response).find(item => item.email === pm.variables.get('case_email'));",
+                    "      pm.expect(user, 'registered user is observable').to.be.an('object');",
+                    "      pm.expect(user.login_attempts).to.eql(1);",
+                    "    });",
+                    "  });",
+                    "} else if (number === 31) {",
+                    "  request('GET', '/api/users/me', payload.token, function (err, response) {",
+                    "    specTest('issued token resolves to the same user', function () {",
+                    "      setupOk();",
+                    "      pm.expect(pm.response.code).to.eql(200);",
+                    "      pm.expect(err).to.eql(null);",
+                    "      pm.expect(response.code).to.eql(200);",
+                    "      pm.expect(jsonOf(response).id).to.eql(payload.user.id);",
+                    "    });",
+                    "  });",
+                    "} else if (number === 20 || number === 32) {",
+                    "  specTest('locked response keeps the generic public contract', function () {",
+                    "    setupOk();",
+                    "    pm.expect(expectedStatus(pm.response.code)).to.eql(true);",
+                    "    pm.expect(payload).to.not.have.property('token');",
+                    "    pm.expect(payload.error).to.eql('Invalid email or password');",
+                    "  });",
+                    "} else if ([28, 29, 36, 39].indexOf(number) !== -1) {",
+                    "  specTest('successful response excludes sensitive fields', function () {",
+                    "    setupOk();",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    pm.expect(noSecrets(payload)).to.eql(true);",
+                    "  });",
+                    "} else if (number === 30) {",
+                    "  specTest('body role cannot elevate the authenticated user', function () {",
+                    "    setupOk();",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    pm.expect(payload.user.role).to.eql('user');",
+                    "  });",
+                    "} else if (number === 33) {",
+                    "  specTest('success schema is typed', function () {",
+                    "    setupOk();",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    pm.expect(payload.token).to.be.a('string').and.not.empty;",
+                    "    pm.expect(payload.user.id).to.be.a('number');",
+                    "    pm.expect(payload.user.email).to.be.a('string');",
+                    "    pm.expect(payload.user.role).to.be.a('string');",
+                    "  });",
+                    "} else if (number === 34) {",
+                    "  specTest('response content type is JSON', function () {",
+                    "    setupOk();",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    pm.expect(pm.response.headers.get('Content-Type') || '').to.match(/application\\/json/i);",
+                    "  });",
+                    "} else if (number === 35) {",
+                    "  specTest('wrong-password error uses the generic JSON schema', function () {",
+                    "    setupOk();",
+                    "    pm.expect(pm.response.code).to.eql(401);",
+                    "    pm.expect(payload.error).to.be.a('string');",
+                    "    pm.expect(payload).to.not.have.property('token');",
+                    "  });",
+                    "} else if (number === 27) {",
+                    "  specTest('XSS input is not reflected', function () {",
+                    "    setupOk();",
+                    "    pm.expect(expectedStatus(pm.response.code)).to.eql(true);",
+                    "    pm.expect(JSON.stringify(payload)).to.not.include('<script>alert(1)</script>');",
+                    "  });",
+                    "} else if (number === 40) {",
+                    "  specTest('JWT has iat and exp with a maximum 24-hour TTL', function () {",
+                    "    setupOk();",
+                    "    pm.expect(pm.response.code).to.eql(200);",
+                    "    const segment = String(payload.token || '').split('.')[1] || '';",
+                    "    const normalized = segment.replace(/-/g, '+').replace(/_/g, '/');",
+                    "    const decoded = JSON.parse(atob(normalized.padEnd(Math.ceil(normalized.length / 4) * 4, '=')));",
+                    "    pm.expect(decoded.iat).to.be.a('number');",
+                    "    pm.expect(decoded.exp).to.be.a('number');",
+                    "    pm.expect(decoded.exp - decoded.iat).to.be.at.most(86400);",
+                    "  });",
+                    "} else {",
+                    "  specTest(String(pm.iterationData.get('scenario')), function () {",
+                    "    setupOk();",
+                    "    pm.expect(expectedStatus(pm.response.code), 'HTTP status follows specification').to.eql(true);",
+                    "    if ([1, 16].indexOf(number) !== -1) {",
+                    "      pm.expect(payload.token).to.be.a('string').and.not.empty;",
+                    "      pm.expect(payload.user).to.be.an('object');",
+                    "    }",
+                    "    if (number === 21) pm.expect(payload).to.not.have.property('token');",
+                    "  });",
+                    "}"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "7ef45e7a-075f-4c03-a93a-94e9759f60e4",
+        "name": "2.1 Domain partitions [DDT]",
+        "item": [
+          {
+            "id": "b291d80c-ec88-4fed-8035-61230ecfa62f",
+            "name": "[DDT] checkout partitions",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "checkout"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "{{case_authorization}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{{case_body}}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "924712c8-76dd-453a-afe3-3c01b33ec94b",
+                  "type": "text/javascript",
+                  "exec": [
+                    "const tcId = String(pm.iterationData.get('tc_id') || '');",
+                    "if (!tcId) { pm.execution.skipRequest(); return; }",
+                    "",
+                    "const number = Number(tcId.slice(-3));",
+                    "const base = pm.environment.get('base_url');",
+                    "const sid = pm.environment.get('student_id') || '23127207';",
+                    "const caseEmail = 'hw06-checkout-' + number + '-' + pm.info.iteration + '-' + Date.now() + '@test.local';",
+                    "const casePassword = 'Hw06-' + pm.variables.replaceIn('{{$guid}}');",
+                    "const cartTotal = Number(pm.iterationData.get('cart_total') || 200000);",
+                    "",
+                    "pm.variables.set('setup_error', '');",
+                    "pm.variables.set('case_email', caseEmail);",
+                    "pm.variables.set('case_password', casePassword);",
+                    "pm.variables.set('case_cart_total', cartTotal);",
+                    "",
+                    "function headers(token) {",
+                    "  const result = [{key: 'X-Student-Id', value: sid}, {key: 'Content-Type', value: 'application/json'}];",
+                    "  if (token) result.push({key: 'Authorization', value: 'Bearer ' + token});",
+                    "  return result;",
+                    "}",
+                    "function send(method, path, body, token, callback) {",
+                    "  pm.sendRequest({",
+                    "    url: base + path,",
+                    "    method,",
+                    "    header: headers(token),",
+                    "    body: body === undefined ? undefined : {mode: 'raw', raw: JSON.stringify(body)}",
+                    "  }, callback);",
+                    "}",
+                    "function fail(label, err, response) {",
+                    "  if (err) pm.variables.set('setup_error', label + ': ' + err.message);",
+                    "  else if (!response || response.code >= 400) pm.variables.set('setup_error', label + ': HTTP ' + (response && response.code));",
+                    "}",
+                    "function bodyForCase() {",
+                    "  const body = {total_amount: 200000, shipping_address: '123 Le Loi'};",
+                    "  switch (number) {",
+                    "    case 5: body.total_amount = 0; break;",
+                    "    case 6: case 38: body.total_amount = -500000; break;",
+                    "    case 7: body.total_amount = '200000'; break;",
+                    "    case 8: body.total_amount = null; break;",
+                    "    case 9: delete body.shipping_address; break;",
+                    "    case 10: body.shipping_address = ''; break;",
+                    "    case 11: body.shipping_address = 'A'.repeat(1001); break;",
+                    "    case 12: case 42: body.shipping_address = '<img src=x onerror=alert(1)>'; break;",
+                    "    case 13: body.shipping_address = \"' OR 1=1 --\"; break;",
+                    "    case 14: body.shipping_address = '12 Lê Lợi, Quận 1, TP.HCM'; break;",
+                    "    case 15: body.total_amount = 200000.5; break;",
+                    "    case 16: body.total_amount = 9000000000000000000; break;",
+                    "    case 17: body.role = 'admin'; break;",
+                    "    case 22: case 40: body.total_amount = 1; break;",
+                    "    case 25: case 30: body.user_id = 999; break;",
+                    "    case 32: body.shipping_address = '<script>alert(1)</script>'; break;",
+                    "    case 37: body.total_amount = 1; break;",
+                    "  }",
+                    "  return body;",
+                    "}",
+                    "",
+                    "const caseBody = bodyForCase();",
+                    "pm.variables.set('case_body_object', JSON.stringify(caseBody));",
+                    "pm.variables.set('case_body', number === 18",
+                    "  ? '{\"total_amount\":2e5,\"shipping_address\":\"123 Le Loi\"}'",
+                    "  : JSON.stringify(caseBody));",
+                    "",
+                    "function configureAuthorization(token) {",
+                    "  pm.variables.set('case_token', token || '');",
+                    "  const kind = String(pm.iterationData.get('auth_kind') || 'user');",
+                    "  if (kind === 'none') {",
+                    "    pm.request.headers.remove('Authorization');",
+                    "    pm.variables.set('case_authorization', '');",
+                    "  } else if (kind === 'malformed') {",
+                    "    pm.request.headers.upsert({key: 'Authorization', value: 'abc'});",
+                    "    pm.variables.set('case_authorization', 'abc');",
+                    "  } else if (kind === 'invalid') {",
+                    "    pm.request.headers.upsert({key: 'Authorization', value: 'Bearer invalid.signature.token'});",
+                    "    pm.variables.set('case_authorization', 'Bearer invalid.signature.token');",
+                    "  } else {",
+                    "    pm.request.headers.upsert({key: 'Authorization', value: 'Bearer ' + token});",
+                    "    pm.variables.set('case_authorization', 'Bearer ' + token);",
+                    "  }",
+                    "}",
+                    "function addCartThenFinish(token) {",
+                    "  configureAuthorization(token);",
+                    "  if (!pm.iterationData.get('cart_setup')) return;",
+                    "  send('POST', '/api/cart', {product_id: 1, quantity: 1, price: cartTotal, name: 'HW06 coverage item'}, token,",
+                    "    function (err, response) { fail('add cart', err, response); });",
+                    "}",
+                    "",
+                    "send('POST', '/api/register', {name: 'HW06 Checkout ' + number, email: caseEmail, password: casePassword}, null,",
+                    "  function (registerErr, registerResponse) {",
+                    "    fail('register', registerErr, registerResponse);",
+                    "    if (registerErr || !registerResponse || registerResponse.code >= 400) return;",
+                    "    const registered = registerResponse.json();",
+                    "    pm.variables.set('case_user_id', registered.id);",
+                    "    send('POST', '/api/login', {email: caseEmail, password: casePassword}, null,",
+                    "      function (loginErr, loginResponse) {",
+                    "        fail('login', loginErr, loginResponse);",
+                    "        if (loginErr || !loginResponse || loginResponse.code >= 400) return;",
+                    "        addCartThenFinish(loginResponse.json().token);",
+                    "      });",
+                    "  });"
+                  ]
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "6c9dc185-20d3-4a72-8c7a-ab0c1914e15b",
+                  "type": "text/javascript",
+                  "exec": [
+                    "const tcId = String(pm.iterationData.get('tc_id') || '');",
+                    "if (!tcId) return;",
+                    "const number = Number(tcId.slice(-3));",
+                    "const mode = String(pm.environment.get('spec_strict') || 'off').toLowerCase();",
+                    "",
+                    "function specTest(name, fn) { if (mode === 'full') pm.test(tcId + ' - ' + name, fn); }",
+                    "function jsonOf(response) { try { return response.json(); } catch (_) { return {}; } }",
+                    "function setupOk() { pm.expect(pm.variables.get('setup_error') || '').to.eql(''); }",
+                    "function statusMatches(code, expected) {",
+                    "  expected = String(expected);",
+                    "  if (expected === 'not-5xx') return code < 500;",
+                    "  if (expected === '4xx') return code >= 400 && code < 500;",
+                    "  if (expected === 'reject-or-sanitize') return code >= 200 && code < 500;",
+                    "  return expected.split('|').map(Number).indexOf(code) !== -1;",
+                    "}",
+                    "function request(method, path, body, token, callback) {",
+                    "  const headers = [",
+                    "    {key: 'X-Student-Id', value: pm.environment.get('student_id') || '23127207'},",
+                    "    {key: 'Content-Type', value: 'application/json'}",
+                    "  ];",
+                    "  if (token) headers.push({key: 'Authorization', value: 'Bearer ' + token});",
+                    "  pm.sendRequest({",
+                    "    url: pm.environment.get('base_url') + path,",
+                    "    method,",
+                    "    header: headers,",
+                    "    body: body === undefined ? undefined : {mode: 'raw', raw: JSON.stringify(body)}",
+                    "  }, callback);",
+                    "}",
+                    "function noSecrets(value) {",
+                    "  const text = JSON.stringify(value || {}).toLowerCase();",
+                    "  return ['password', 'reset_token', 'login_attempts', 'locked_until'].every(key => text.indexOf(key) === -1);",
+                    "}",
+                    "function assertMain() {",
+                    "  setupOk();",
+                    "  pm.expect(statusMatches(pm.response.code, pm.iterationData.get('expected_status')), 'HTTP status follows specification').to.eql(true);",
+                    "}",
+                    "",
+                    "const payload = jsonOf(pm.response);",
+                    "const token = pm.variables.get('case_token');",
+                    "const body = JSON.parse(pm.variables.get('case_body_object'));",
+                    "const orderId = payload.orderId;",
+                    "",
+                    "if ([1, 17, 18, 19, 24, 25, 26, 30, 33, 35, 36, 37].indexOf(number) !== -1) {",
+                    "  request('GET', '/api/orders/' + orderId, undefined, token, function (err, response) {",
+                    "    specTest(String(pm.iterationData.get('scenario')), function () {",
+                    "      assertMain();",
+                    "      pm.expect(err).to.eql(null);",
+                    "      pm.expect(response.code).to.eql(200);",
+                    "      const order = jsonOf(response);",
+                    "      if ([1, 18, 37].indexOf(number) !== -1) pm.expect(order.total_amount).to.eql(Number(pm.variables.get('case_cart_total')));",
+                    "      if ([19, 26].indexOf(number) !== -1) pm.expect(order.status).to.eql('pending');",
+                    "      if ([17, 25, 30].indexOf(number) !== -1) pm.expect(order.user_id).to.eql(Number(pm.variables.get('case_user_id')));",
+                    "      if ([24, 35].indexOf(number) !== -1) pm.expect(orderId).to.be.a('number').and.above(0);",
+                    "      if (number === 33) {",
+                    "        pm.expect(payload.message).to.be.a('string');",
+                    "        pm.expect(orderId).to.be.a('number');",
+                    "      }",
+                    "      if (number === 36) pm.expect(noSecrets(order)).to.eql(true);",
+                    "    });",
+                    "  });",
+                    "} else if ([20, 39].indexOf(number) !== -1) {",
+                    "  request('GET', '/api/cart', undefined, token, function (err, response) {",
+                    "    specTest('successful checkout clears the cart', function () {",
+                    "      assertMain();",
+                    "      pm.expect(err).to.eql(null);",
+                    "      pm.expect(response.code).to.eql(200);",
+                    "      pm.expect(jsonOf(response)).to.be.an('array').that.is.empty;",
+                    "    });",
+                    "  });",
+                    "} else if (number === 21) {",
+                    "  request('POST', '/api/checkout', body, token, function (err, response) {",
+                    "    specTest('duplicate checkout remains a controlled observable result', function () {",
+                    "      assertMain();",
+                    "      pm.expect(err).to.eql(null);",
+                    "      pm.expect(response.code).to.be.below(500);",
+                    "      const second = jsonOf(response);",
+                    "      if (pm.response.code === 200 && response.code === 200) pm.expect(second.orderId).to.not.eql(orderId);",
+                    "    });",
+                    "  });",
+                    "} else if (number === 23) {",
+                    "  request('GET', '/api/orders/my-orders', undefined, token, function (err, response) {",
+                    "    specTest('created order appears in the authenticated user history', function () {",
+                    "      assertMain();",
+                    "      pm.expect(err).to.eql(null);",
+                    "      pm.expect(response.code).to.eql(200);",
+                    "      const orders = jsonOf(response);",
+                    "      pm.expect(orders.some(order => order.id === orderId && order.status === 'pending')).to.eql(true);",
+                    "    });",
+                    "  });",
+                    "} else if ([31, 41].indexOf(number) !== -1) {",
+                    "  request('GET', '/api/orders/' + orderId, undefined, null, function (err, response) {",
+                    "    specTest('order detail rejects an anonymous IDOR read', function () {",
+                    "      setupOk();",
+                    "      pm.expect(pm.response.code).to.eql(200);",
+                    "      pm.expect(err).to.eql(null);",
+                    "      pm.expect([401, 403]).to.include(response.code);",
+                    "    });",
+                    "  });",
+                    "} else if ([12, 32, 42].indexOf(number) !== -1) {",
+                    "  if (pm.response.code >= 400 && pm.response.code < 500) {",
+                    "    specTest('XSS address is rejected or safely persisted', function () { setupOk(); });",
+                    "  } else {",
+                    "    request('GET', '/api/orders/' + orderId, undefined, token, function (err, response) {",
+                    "      specTest('XSS address is rejected or safely persisted', function () {",
+                    "        setupOk();",
+                    "        pm.expect(pm.response.code).to.eql(200);",
+                    "        pm.expect(err).to.eql(null);",
+                    "        pm.expect(response.code).to.eql(200);",
+                    "        pm.expect(jsonOf(response).shipping_address).to.not.eql(body.shipping_address);",
+                    "      });",
+                    "    });",
+                    "  }",
+                    "} else if (number === 34) {",
+                    "  specTest('response content type is JSON', function () {",
+                    "    assertMain();",
+                    "    pm.expect(pm.response.headers.get('Content-Type') || '').to.match(/application\\/json/i);",
+                    "  });",
+                    "} else {",
+                    "  specTest(String(pm.iterationData.get('scenario')), function () { assertMain(); });",
+                    "}"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "fc582a7d-6732-4384-aa79-cd31c3d24b83",
+        "name": "3.1 Transition matrix [DDT]",
+        "item": [
+          {
+            "id": "2cf2ba66-1381-4ba4-b467-fd65bd89a162",
+            "name": "[DDT] transition matrix",
+            "request": {
+              "url": {
+                "host": [
+                  "{{base_url}}{{case_status_path}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "{{case_authorization}}"
+                }
+              ],
+              "method": "PUT",
+              "body": {
+                "mode": "raw",
+                "raw": "{{case_status_body}}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "db5fe2da-486d-4657-a7e0-18e507754d22",
+                  "type": "text/javascript",
+                  "exec": [
+                    "const tcId = String(pm.iterationData.get('tc_id') || '');",
+                    "if (!tcId) { pm.execution.skipRequest(); return; }",
+                    "",
+                    "const number = Number(tcId.slice(-3));",
+                    "const base = pm.environment.get('base_url');",
+                    "const sid = pm.environment.get('student_id') || '23127207';",
+                    "const userToken = pm.environment.get('userToken');",
+                    "const adminToken = pm.environment.get('adminToken');",
+                    "pm.variables.set('setup_error', '');",
+                    "",
+                    "function headers(token) {",
+                    "  const result = [{key: 'X-Student-Id', value: sid}, {key: 'Content-Type', value: 'application/json'}];",
+                    "  if (token) result.push({key: 'Authorization', value: 'Bearer ' + token});",
+                    "  return result;",
+                    "}",
+                    "function send(method, path, body, token, callback) {",
+                    "  pm.sendRequest({",
+                    "    url: base + path,",
+                    "    method,",
+                    "    header: headers(token),",
+                    "    body: body === undefined ? undefined : {mode: 'raw', raw: JSON.stringify(body)}",
+                    "  }, callback);",
+                    "}",
+                    "function fail(label, err, response) {",
+                    "  if (err) pm.variables.set('setup_error', label + ': ' + err.message);",
+                    "  else if (!response || response.code >= 400) pm.variables.set('setup_error', label + ': HTTP ' + (response && response.code));",
+                    "}",
+                    "function transitionsFor(status) {",
+                    "  if (status === 'confirmed') return ['confirmed'];",
+                    "  if (status === 'shipping') return ['confirmed', 'shipping'];",
+                    "  if (status === 'delivered') return ['confirmed', 'shipping', 'delivered'];",
+                    "  if (status === 'canceled') return ['canceled'];",
+                    "  return [];",
+                    "}",
+                    "function setState(orderId, transitions, index, done) {",
+                    "  if (index >= transitions.length) { done(); return; }",
+                    "  send('PUT', '/api/admin/orders/' + orderId + '/status', {status: transitions[index]}, adminToken,",
+                    "    function (err, response) {",
+                    "      fail('set state ' + transitions[index], err, response);",
+                    "      if (!err && response && response.code < 400) setState(orderId, transitions, index + 1, done);",
+                    "    });",
+                    "}",
+                    "function configure(orderId, attackerToken) {",
+                    "  let path = '/api/admin/orders/' + orderId + '/status';",
+                    "  let body = {status: pm.iterationData.get('to_status') || 'confirmed'};",
+                    "  let auth = 'Bearer ' + adminToken;",
+                    "  switch (number) {",
+                    "    case 26: path = '/api/admin/orders/999999/status'; break;",
+                    "    case 27: path = '/api/admin/orders/-1/status'; break;",
+                    "    case 28: path = '/api/admin/orders/abc/status'; break;",
+                    "    case 29: body = {}; break;",
+                    "    case 30: body = {status: 'DELIVERED'}; break;",
+                    "    case 31: auth = ''; break;",
+                    "    case 32: auth = 'Bearer invalid.signature.token'; break;",
+                    "    case 33: case 34: case 39: auth = 'Bearer ' + userToken; break;",
+                    "    case 40: auth = 'Bearer ' + attackerToken; break;",
+                    "    case 35: case 37: case 38: body = {status: 'confirmed'}; break;",
+                    "    case 36: body = {status: 'delivered'}; break;",
+                    "    case 42: body = {status: 'canceled'}; break;",
+                    "    case 43:",
+                    "      path = '/api/orders/' + orderId + '/cancel';",
+                    "      body = {};",
+                    "      auth = 'Bearer ' + userToken;",
+                    "      break;",
+                    "    case 44: body = {status: ['delivered']}; break;",
+                    "  }",
+                    "  pm.variables.set('case_status_path', path);",
+                    "  pm.variables.set('case_status_body', JSON.stringify(body));",
+                    "  pm.variables.set('case_authorization', auth);",
+                    "  if (auth) pm.request.headers.upsert({key: 'Authorization', value: auth});",
+                    "  else pm.request.headers.remove('Authorization');",
+                    "}",
+                    "function createAttackerThenConfigure(orderId) {",
+                    "  if (number !== 40) { configure(orderId, ''); return; }",
+                    "  const email = 'hw06-status-attacker-' + Date.now() + '@test.local';",
+                    "  const password = 'Hw06-' + pm.variables.replaceIn('{{$guid}}');",
+                    "  send('POST', '/api/register', {name: 'HW06 Status Attacker', email, password}, null,",
+                    "    function (registerErr, registerResponse) {",
+                    "      fail('register attacker', registerErr, registerResponse);",
+                    "      if (registerErr || !registerResponse || registerResponse.code >= 400) return;",
+                    "      send('POST', '/api/login', {email, password}, null, function (loginErr, loginResponse) {",
+                    "        fail('login attacker', loginErr, loginResponse);",
+                    "        if (!loginErr && loginResponse && loginResponse.code < 400) configure(orderId, loginResponse.json().token);",
+                    "      });",
+                    "    });",
+                    "}",
+                    "",
+                    "send('POST', '/api/checkout', {total_amount: 200000, shipping_address: 'HW06 status coverage'}, userToken,",
+                    "  function (checkoutErr, checkoutResponse) {",
+                    "    fail('create order', checkoutErr, checkoutResponse);",
+                    "    if (checkoutErr || !checkoutResponse || checkoutResponse.code >= 400) return;",
+                    "    const orderId = checkoutResponse.json().orderId;",
+                    "    pm.variables.set('case_order_id', orderId);",
+                    "    const desired = String(pm.iterationData.get('from_status') || 'pending');",
+                    "    setState(orderId, transitionsFor(desired), 0, function () { createAttackerThenConfigure(orderId); });",
+                    "  });"
+                  ]
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "e007a7bd-24d6-4946-91d5-713ea43676b5",
+                  "type": "text/javascript",
+                  "exec": [
+                    "const tcId = String(pm.iterationData.get('tc_id') || '');",
+                    "if (!tcId) return;",
+                    "const number = Number(tcId.slice(-3));",
+                    "const mode = String(pm.environment.get('spec_strict') || 'off').toLowerCase();",
+                    "",
+                    "function specTest(name, fn) { if (mode === 'full') pm.test(tcId + ' - ' + name, fn); }",
+                    "function jsonBody() { try { return pm.response.json(); } catch (_) { return {}; } }",
+                    "function setupOk() { pm.expect(pm.variables.get('setup_error') || '').to.eql(''); }",
+                    "function statusMatches(code) {",
+                    "  const expected = String(pm.iterationData.get('expected_status'));",
+                    "  if (expected === '4xx') return code >= 400 && code < 500;",
+                    "  return expected.split('|').map(Number).indexOf(code) !== -1;",
+                    "}",
+                    "function noSecrets(value) {",
+                    "  const text = JSON.stringify(value || {}).toLowerCase();",
+                    "  return ['password', 'token', 'secret', 'reset_token', 'login_attempts', 'locked_until'].every(key => text.indexOf(key) === -1);",
+                    "}",
+                    "",
+                    "const payload = jsonBody();",
+                    "specTest(String(pm.iterationData.get('scenario') || (pm.iterationData.get('from_status') + ' to ' + pm.iterationData.get('to_status'))), function () {",
+                    "  setupOk();",
+                    "  pm.expect(statusMatches(pm.response.code), 'HTTP status follows specification').to.eql(true);",
+                    "  if (number === 26) pm.expect(payload.error).to.eql('Order not found');",
+                    "  if (number === 35) pm.expect(payload.message).to.be.a('string');",
+                    "  if (number === 36) pm.expect(payload.error).to.be.a('string');",
+                    "  if (number === 37) pm.expect(pm.response.headers.get('Content-Type') || '').to.match(/application\\/json/i);",
+                    "  if (number === 38) pm.expect(noSecrets(payload)).to.eql(true);",
+                    "  if (number === 44) pm.expect(String(payload.error || '').toLowerCase()).to.not.include('state transition');",
+                    "});"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "5179fa2a-ab10-4099-8564-5ea8452d1c01",
+        "name": "04 - JWT forgery/expiry",
+        "item": [
+          {
+            "id": "308a1485-9539-4ca3-aae9-70c6f9d1a92f",
+            "name": "TC-API-LOGIN-042 - forged admin token",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "admin",
+                  "orders"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{forgedAdminToken}}"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "f0a4a5a9-a54e-4a23-9db1-1eb263f74836",
+                  "type": "text/javascript",
+                  "exec": [
+                    "// CryptoJS là global sẵn có của sandbox Postman; không khai báo lại kẻo trùng identifier.",
+                    "const CJS = (typeof CryptoJS !== 'undefined') ? CryptoJS : require('crypto-js');",
+                    "const SECRET = pm.environment.get('sut_jwt_secret') || '';",
+                    "function b64url(words){return CJS.enc.Base64.stringify(words).replace(/=+$/,'').replace(/\\+/g,'-').replace(/\\//g,'_');}",
+                    "function sign(payload){",
+                    "  const h = b64url(CJS.enc.Utf8.parse(JSON.stringify({alg:'HS256',typ:'JWT'})));",
+                    "  const p = b64url(CJS.enc.Utf8.parse(JSON.stringify(payload)));",
+                    "  const s = b64url(CJS.HmacSHA256(h + '.' + p, SECRET));",
+                    "  return h + '.' + p + '.' + s;",
+                    "}",
+                    "pm.environment.set('forgedAdminToken', sign({id: 1, role: 'admin'}));"
+                  ],
+                  "_lastExecutionId": "e52bff68-2cf1-4b34-b665-6d75fc176747"
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "1ad0aba0-f70f-4b22-9c9b-d9c09850ebf7",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-LOGIN-042 token minted', ()=>{const t=pm.environment.get('forgedAdminToken')||'';pm.expect(t.split('.').length, 'forged JWT was not minted').to.equal(3);});",
+                    "pm.test('TC-API-LOGIN-042 observed', ()=>pm.expect(pm.response.code).to.be.oneOf([200,401,403]));",
+                    "specTest('TC-API-LOGIN-042','self-signed admin token must be rejected',()=>{",
+                    "  pm.expect(pm.response.code, 'forged token accepted').to.be.oneOf([401,403]);",
+                    "  pm.expect(Array.isArray(jsonBody()), 'admin order list leaked').to.equal(false);",
+                    "});"
+                  ],
+                  "_lastExecutionId": "d5173abb-8bcb-4ad7-a083-fc398346b326"
+                }
+              }
+            ]
+          },
+          {
+            "id": "ebbf2f90-9f2f-407c-bd89-8a3e094cd6d6",
+            "name": "TC-API-CHECKOUT-029 - expired token",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "checkout"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{expiredToken}}"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"total_amount\": 30000000, \"shipping_address\": \"1 Test St\", \"phone\": \"0900000000\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "88b0f3bf-f540-4b92-a430-59278f83488a",
+                  "type": "text/javascript",
+                  "exec": [
+                    "// CryptoJS là global sẵn có của sandbox Postman; không khai báo lại kẻo trùng identifier.",
+                    "const CJS = (typeof CryptoJS !== 'undefined') ? CryptoJS : require('crypto-js');",
+                    "const SECRET = pm.environment.get('sut_jwt_secret') || '';",
+                    "function b64url(words){return CJS.enc.Base64.stringify(words).replace(/=+$/,'').replace(/\\+/g,'-').replace(/\\//g,'_');}",
+                    "function sign(payload){",
+                    "  const h = b64url(CJS.enc.Utf8.parse(JSON.stringify({alg:'HS256',typ:'JWT'})));",
+                    "  const p = b64url(CJS.enc.Utf8.parse(JSON.stringify(payload)));",
+                    "  const s = b64url(CJS.HmacSHA256(h + '.' + p, SECRET));",
+                    "  return h + '.' + p + '.' + s;",
+                    "}",
+                    "const now = Math.floor(Date.now()/1000);",
+                    "pm.environment.set('expiredToken', sign({id: 2, role: 'user', iat: now - 7200, exp: now - 3600}));"
+                  ],
+                  "_lastExecutionId": "987cdcbd-df88-496b-9483-111543cf03eb"
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "2035a5df-7ded-4c11-aaec-287f040c680c",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                    "pm.test('TC-API-CHECKOUT-029 token minted', ()=>{const t=pm.environment.get('expiredToken')||'';pm.expect(t.split('.').length, 'expired JWT was not minted').to.equal(3);});",
+                    "pm.test('TC-API-CHECKOUT-029 expired token rejected', ()=>pm.expect(pm.response.code).to.be.oneOf([401,403]));",
+                    "pm.test('TC-API-CHECKOUT-029 no order created', ()=>pm.expect(jsonBody().orderId).to.be.undefined);"
+                  ],
+                  "_lastExecutionId": "16427b3e-b2e7-4c6b-b5af-9a4435fc1a0e"
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "315cb130-dce9-4ee6-a6c8-9fdb4323b010",
+        "name": "05 - Timed lock prep",
+        "item": [
+          {
+            "id": "dd04d8f9-8e78-4736-a9dd-2d207db8d5fb",
+            "name": "[PREP] Register timed user",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "register"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"name\":\"Timed User\",\"email\":\"{{timedUser}}\",\"password\":\"{{timedPassword}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "id": "5517849d-6339-4ddb-857e-84ed584b64a9",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.environment.set('timedUser', 'timed_' + Date.now() + '@eshop.com');",
+                    "pm.environment.set('timedPassword', 'Timed1234!');"
+                  ]
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "id": "d7900102-fe29-419b-9a68-1b35360fbc4e",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('[PREP] timed user registered', ()=>pm.response.to.have.status(200));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "dc148cbe-a3a1-4db9-831a-3a3aae2c5a05",
+            "name": "[PREP] Wrong password #1",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{timedUser}}\", \"password\": \"definitely-wrong\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "d5a7b287-fc6c-4300-b93e-4e0001533422",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "pm.test('[PREP] wrong attempt 1 observed', ()=>pm.expect(pm.response.code).to.be.oneOf([401,403]));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "c7338e6e-6ceb-4709-8b9e-6d43c5ce2702",
+            "name": "[PREP] Wrong password #2",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{timedUser}}\", \"password\": \"definitely-wrong\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "af6f1954-7bd7-44cd-87d6-3a63fec34331",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "pm.test('[PREP] wrong attempt 2 observed', ()=>pm.expect(pm.response.code).to.be.oneOf([401,403]));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "e2f0e150-ccea-4c7d-bd80-9d6b9c76173c",
+        "name": "05 - Timed lock assert",
+        "item": [
+          {
+            "id": "797a608d-a9ca-42bd-b9c4-8a1803ba0d6f",
+            "name": "TC-API-LOGIN-041a - wrong attempt after lock expiry",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{timedUser}}\", \"password\": \"definitely-wrong\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "af449fa2-4f62-40d8-9a5f-d9f4fca1af48",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "pm.test('TC-API-LOGIN-041 wrong-after-expiry observed', ()=>pm.expect(pm.response.code).to.be.oneOf([401,403]));",
+                    "specTest('TC-API-LOGIN-041','counter must reset after lock expiry',()=>{",
+                    "  pm.expect(pm.response.code, 'account re-locked immediately, counter did not reset').to.equal(401);",
+                    "});"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "2fbce6d3-589e-43fc-9788-55a552948135",
+            "name": "TC-API-LOGIN-041b - correct login after lock expiry",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{timedUser}}\", \"password\": \"{{timedPassword}}\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "0c213e96-7f68-428d-ab4c-53b97449dadc",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "pm.test('TC-API-LOGIN-041 correct-after-expiry observed', ()=>pm.expect(pm.response.code).to.be.oneOf([200,403]));",
+                    "pm.environment.set('timedResetOk', String(pm.response.code === 200));",
+                    "specTest('TC-API-LOGIN-041','valid credential accepted after lock expiry',()=>{",
+                    "  pm.expect(pm.response.code, 'valid credential rejected after lock expired').to.equal(200);",
+                    "});"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "efe6e5d2-c745-46ff-b6fd-d8370f5d1e47",
+            "name": "TC-API-LOGIN-024 - one failure after successful reset",
+            "request": {
+              "url": {
+                "path": [
+                  "api",
+                  "login"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\"email\": \"{{timedUser}}\", \"password\": \"definitely-wrong\"}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "1ff10760-f1f4-422d-8cf3-f0751d7ad23c",
+                  "type": "text/javascript",
+                  "exec": [
+                    "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                    "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                    "pm.test('TC-API-LOGIN-024 observed', ()=>pm.expect(pm.response.code).to.be.oneOf([401,403]));",
+                    "specTest('TC-API-LOGIN-024','single failure after reset must not lock',()=>{",
+                    "  pm.expect(pm.environment.get('timedResetOk'), 'precondition TC-023 reset did not happen').to.equal('true');",
+                    "  pm.expect(pm.response.code, 'locked after a single failure').to.equal(401);",
+                    "});"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      }
+    ],
+    "event": [
+      {
+        "listen": "prerequest",
+        "script": {
+          "id": "65f25580-95c8-4958-8ad0-5140d2d283ab",
+          "type": "text/javascript",
+          "exec": [
+            "const sid=pm.environment.get('student_id')||'23127207';",
+            "pm.request.headers.upsert({key:'X-Student-Id',value:sid});",
+            "console.log('[HW06] '+pm.info.requestName+' | X-Student-Id: '+sid+' | '+pm.request.method+' '+pm.request.url.toString());"
+          ],
+          "_lastExecutionId": "fc5a6d58-e273-4b2f-a070-b0d549436be7"
+        }
+      }
+    ],
+    "variable": [],
+    "info": {
+      "_postman_id": "b1d9d8da-2312-4077-9062-hw06-23127207",
+      "name": "EShop HW06 - API Testing - 23127207",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "description": {
+        "content": "AI-first API testing. Collection pre-request adds X-Student-Id to every request.",
+        "type": "text/plain"
+      }
+    }
+  },
+  "environment": {
+    "_": {
+      "postman_variable_scope": "environment"
+    },
+    "id": "7c6c8c83-2312-4077-local-hw06",
+    "name": "EShop-HW06-local",
+    "values": [
+      {
+        "type": "any",
+        "value": "http://localhost:3000",
+        "key": "base_url"
+      },
+      {
+        "type": "any",
+        "value": "23127207",
+        "key": "student_id"
+      },
+      {
+        "type": "any",
+        "value": "admin@eshop.com",
+        "key": "admin_email"
+      },
+      {
+        "type": "any",
+        "value": "<redacted-admin-password>",
+        "key": "admin_password"
+      },
+      {
+        "type": "any",
+        "value": "test@eshop.com",
+        "key": "user_email"
+      },
+      {
+        "type": "any",
+        "value": "<redacted-user-password>",
+        "key": "user_password"
+      },
+      {
+        "type": "any",
+        "value": "",
+        "key": "userToken"
+      },
+      {
+        "type": "any",
+        "value": "",
+        "key": "adminToken"
+      },
+      {
+        "type": "any",
+        "value": "",
+        "key": "userId"
+      },
+      {
+        "type": "any",
+        "value": "",
+        "key": "orderId"
+      },
+      {
+        "type": "any",
+        "value": "",
+        "key": "lockUser"
+      },
+      {
+        "type": "any",
+        "value": "",
+        "key": "lockUserId"
+      },
+      {
+        "type": "any",
+        "value": "full",
+        "key": "spec_strict"
+      },
+      {
+        "type": "any",
+        "value": "super_secret_key_that_should_not_be_here",
+        "key": "sut_jwt_secret"
+      },
+      {
+        "type": "any",
+        "value": "<redacted-jwt>",
+        "key": "forgedAdminToken"
+      },
+      {
+        "type": "any",
+        "value": "<redacted-jwt>",
+        "key": "expiredToken"
+      }
+    ]
+  },
+  "globals": {
+    "id": "5bd48796-9d28-4154-9c69-3d2ce5139451",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 2,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 6,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 2,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 2,
+        "pending": 0,
+        "failed": 0
+      },
+      "tests": {
+        "total": 2,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 6,
+        "pending": 0,
+        "failed": 1
+      },
+      "testScripts": {
+        "total": 2,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 4,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 27.5,
+      "responseMin": 8,
+      "responseMax": 47,
+      "responseSd": 19.5,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1787406972418,
+      "completed": 1787406972697
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 2,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "305804f1-69af-4fcc-a45d-95b0ea154f85",
+          "httpRequestId": "eb291b7d-3f19-45ac-ad99-2039b733952e"
+        },
+        "item": {
+          "id": "308a1485-9539-4ca3-aae9-70c6f9d1a92f",
+          "name": "TC-API-LOGIN-042 - forged admin token",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "orders"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{forgedAdminToken}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "f0a4a5a9-a54e-4a23-9db1-1eb263f74836",
+                "type": "text/javascript",
+                "exec": [
+                  "// CryptoJS là global sẵn có của sandbox Postman; không khai báo lại kẻo trùng identifier.",
+                  "const CJS = (typeof CryptoJS !== 'undefined') ? CryptoJS : require('crypto-js');",
+                  "const SECRET = pm.environment.get('sut_jwt_secret') || '';",
+                  "function b64url(words){return CJS.enc.Base64.stringify(words).replace(/=+$/,'').replace(/\\+/g,'-').replace(/\\//g,'_');}",
+                  "function sign(payload){",
+                  "  const h = b64url(CJS.enc.Utf8.parse(JSON.stringify({alg:'HS256',typ:'JWT'})));",
+                  "  const p = b64url(CJS.enc.Utf8.parse(JSON.stringify(payload)));",
+                  "  const s = b64url(CJS.HmacSHA256(h + '.' + p, SECRET));",
+                  "  return h + '.' + p + '.' + s;",
+                  "}",
+                  "pm.environment.set('forgedAdminToken', sign({id: 1, role: 'admin'}));"
+                ],
+                "_lastExecutionId": "e52bff68-2cf1-4b34-b665-6d75fc176747"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "1ad0aba0-f70f-4b22-9c9b-d9c09850ebf7",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('TC-API-LOGIN-042 token minted', ()=>{const t=pm.environment.get('forgedAdminToken')||'';pm.expect(t.split('.').length, 'forged JWT was not minted').to.equal(3);});",
+                  "pm.test('TC-API-LOGIN-042 observed', ()=>pm.expect(pm.response.code).to.be.oneOf([200,401,403]));",
+                  "specTest('TC-API-LOGIN-042','self-signed admin token must be rejected',()=>{",
+                  "  pm.expect(pm.response.code, 'forged token accepted').to.be.oneOf([401,403]);",
+                  "  pm.expect(Array.isArray(jsonBody()), 'admin order list leaked').to.equal(false);",
+                  "});"
+                ],
+                "_lastExecutionId": "d5173abb-8bcb-4ad7-a083-fc398346b326"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "admin",
+              "orders"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "49a33c47-0cbf-471b-bca6-781b7cb36665",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "66fee1eb-e675-47a0-b03b-57d4d006a36d",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "2"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\""
+            },
+            {
+              "key": "Date",
+              "value": "Sat, 22 Aug 2026 13:56:12 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              91,
+              93
+            ]
+          },
+          "cookie": [],
+          "responseTime": 47,
+          "responseSize": 2
+        },
+        "id": "308a1485-9539-4ca3-aae9-70c6f9d1a92f",
+        "assertions": [
+          {
+            "assertion": "TC-API-LOGIN-042 token minted",
+            "skipped": false
+          },
+          {
+            "assertion": "TC-API-LOGIN-042 observed",
+            "skipped": false
+          },
+          {
+            "assertion": "[SPEC] TC-API-LOGIN-042 - self-signed admin token must be rejected",
+            "skipped": false,
+            "error": {
+              "name": "AssertionError",
+              "index": 2,
+              "test": "[SPEC] TC-API-LOGIN-042 - self-signed admin token must be rejected",
+              "message": "forged token accepted: expected 200 to be one of [ 401, 403 ]",
+              "stack": "AssertionError: forged token accepted: expected 200 to be one of [ 401, 403 ]\n   at Object.eval sandbox-script.js:3:1)"
+            }
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "48ad783b-c5ea-49d2-9a68-5e692042074b",
+          "length": 2,
+          "cycles": 1,
+          "position": 1,
+          "iteration": 0,
+          "httpRequestId": "813c3b6a-c514-4ab1-9013-d5962e81972a"
+        },
+        "item": {
+          "id": "ebbf2f90-9f2f-407c-bd89-8a3e094cd6d6",
+          "name": "TC-API-CHECKOUT-029 - expired token",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "checkout"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{expiredToken}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 30000000, \"shipping_address\": \"1 Test St\", \"phone\": \"0900000000\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "88b0f3bf-f540-4b92-a430-59278f83488a",
+                "type": "text/javascript",
+                "exec": [
+                  "// CryptoJS là global sẵn có của sandbox Postman; không khai báo lại kẻo trùng identifier.",
+                  "const CJS = (typeof CryptoJS !== 'undefined') ? CryptoJS : require('crypto-js');",
+                  "const SECRET = pm.environment.get('sut_jwt_secret') || '';",
+                  "function b64url(words){return CJS.enc.Base64.stringify(words).replace(/=+$/,'').replace(/\\+/g,'-').replace(/\\//g,'_');}",
+                  "function sign(payload){",
+                  "  const h = b64url(CJS.enc.Utf8.parse(JSON.stringify({alg:'HS256',typ:'JWT'})));",
+                  "  const p = b64url(CJS.enc.Utf8.parse(JSON.stringify(payload)));",
+                  "  const s = b64url(CJS.HmacSHA256(h + '.' + p, SECRET));",
+                  "  return h + '.' + p + '.' + s;",
+                  "}",
+                  "const now = Math.floor(Date.now()/1000);",
+                  "pm.environment.set('expiredToken', sign({id: 2, role: 'user', iat: now - 7200, exp: now - 3600}));"
+                ],
+                "_lastExecutionId": "987cdcbd-df88-496b-9483-111543cf03eb"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "2035a5df-7ded-4c11-aaec-287f040c680c",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('TC-API-CHECKOUT-029 token minted', ()=>{const t=pm.environment.get('expiredToken')||'';pm.expect(t.split('.').length, 'expired JWT was not minted').to.equal(3);});",
+                  "pm.test('TC-API-CHECKOUT-029 expired token rejected', ()=>pm.expect(pm.response.code).to.be.oneOf([401,403]));",
+                  "pm.test('TC-API-CHECKOUT-029 no order created', ()=>pm.expect(jsonBody().orderId).to.be.undefined);"
+                ],
+                "_lastExecutionId": "16427b3e-b2e7-4c6b-b5af-9a4435fc1a0e"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "3000",
+            "path": [
+              "api",
+              "checkout"
+            ],
+            "host": [
+              "localhost"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer <redacted-jwt>"
+            },
+            {
+              "key": "X-Student-Id",
+              "value": "23127207"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "701bc3f6-6506-415f-b2d6-6e5fecd42222",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "localhost:3000",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "82",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\"total_amount\": 30000000, \"shipping_address\": \"1 Test St\", \"phone\": \"0900000000\"}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "27ecbd02-f232-4185-a829-ee0984043fd0",
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "21"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"15-TLNzmZqKxaTuFdX/dVWWPBu44/c\""
+            },
+            {
+              "key": "Date",
+              "value": "Sat, 22 Aug 2026 13:56:12 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              101,
+              114,
+              114,
+              111,
+              114,
+              34,
+              58,
+              34,
+              70,
+              111,
+              114,
+              98,
+              105,
+              100,
+              100,
+              101,
+              110,
+              34,
+              125
+            ]
+          },
+          "cookie": [],
+          "responseTime": 8,
+          "responseSize": 21
+        },
+        "id": "ebbf2f90-9f2f-407c-bd89-8a3e094cd6d6",
+        "assertions": [
+          {
+            "assertion": "TC-API-CHECKOUT-029 token minted",
+            "skipped": false
+          },
+          {
+            "assertion": "TC-API-CHECKOUT-029 expired token rejected",
+            "skipped": false
+          },
+          {
+            "assertion": "TC-API-CHECKOUT-029 no order created",
+            "skipped": false
+          }
+        ]
+      }
+    ],
+    "transfers": {
+      "responseTotal": 23
+    },
+    "failures": [
+      {
+        "error": {
+          "name": "AssertionError",
+          "index": 2,
+          "test": "[SPEC] TC-API-LOGIN-042 - self-signed admin token must be rejected",
+          "message": "forged token accepted: expected 200 to be one of [ 401, 403 ]",
+          "stack": "AssertionError: forged token accepted: expected 200 to be one of [ 401, 403 ]\n   at Object.eval sandbox-script.js:3:1)",
+          "checksum": "56f9ecd1d2769565dc0ab62eb7da7033",
+          "id": "9aed8442-4392-4eff-a72e-dce46dd4bf65",
+          "timestamp": 1787406972554,
+          "stacktrace": [
+            {
+              "fileName": "sandbox-script.js",
+              "lineNumber": 3,
+              "functionName": "Object.eval",
+              "typeName": "Object",
+              "methodName": "eval",
+              "columnNumber": 1,
+              "native": false
+            }
+          ]
+        },
+        "at": "assertion:2 in test-script",
+        "source": {
+          "id": "308a1485-9539-4ca3-aae9-70c6f9d1a92f",
+          "name": "TC-API-LOGIN-042 - forged admin token",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "admin",
+                "orders"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{forgedAdminToken}}"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "f0a4a5a9-a54e-4a23-9db1-1eb263f74836",
+                "type": "text/javascript",
+                "exec": [
+                  "// CryptoJS là global sẵn có của sandbox Postman; không khai báo lại kẻo trùng identifier.",
+                  "const CJS = (typeof CryptoJS !== 'undefined') ? CryptoJS : require('crypto-js');",
+                  "const SECRET = pm.environment.get('sut_jwt_secret') || '';",
+                  "function b64url(words){return CJS.enc.Base64.stringify(words).replace(/=+$/,'').replace(/\\+/g,'-').replace(/\\//g,'_');}",
+                  "function sign(payload){",
+                  "  const h = b64url(CJS.enc.Utf8.parse(JSON.stringify({alg:'HS256',typ:'JWT'})));",
+                  "  const p = b64url(CJS.enc.Utf8.parse(JSON.stringify(payload)));",
+                  "  const s = b64url(CJS.HmacSHA256(h + '.' + p, SECRET));",
+                  "  return h + '.' + p + '.' + s;",
+                  "}",
+                  "pm.environment.set('forgedAdminToken', sign({id: 1, role: 'admin'}));"
+                ],
+                "_lastExecutionId": "e52bff68-2cf1-4b34-b665-6d75fc176747"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "1ad0aba0-f70f-4b22-9c9b-d9c09850ebf7",
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('TC-API-LOGIN-042 token minted', ()=>{const t=pm.environment.get('forgedAdminToken')||'';pm.expect(t.split('.').length, 'forged JWT was not minted').to.equal(3);});",
+                  "pm.test('TC-API-LOGIN-042 observed', ()=>pm.expect(pm.response.code).to.be.oneOf([200,401,403]));",
+                  "specTest('TC-API-LOGIN-042','self-signed admin token must be rejected',()=>{",
+                  "  pm.expect(pm.response.code, 'forged token accepted').to.be.oneOf([401,403]);",
+                  "  pm.expect(Array.isArray(jsonBody()), 'admin order list leaked').to.equal(false);",
+                  "});"
+                ],
+                "_lastExecutionId": "d5173abb-8bcb-4ad7-a083-fc398346b326"
+              }
+            }
+          ]
+        },
+        "parent": {
+          "id": "5179fa2a-ab10-4099-8564-5ea8452d1c01",
+          "name": "04 - JWT forgery/expiry",
+          "item": [
+            {
+              "id": "308a1485-9539-4ca3-aae9-70c6f9d1a92f",
+              "name": "TC-API-LOGIN-042 - forged admin token",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "admin",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{forgedAdminToken}}"
+                  }
+                ],
+                "method": "GET"
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "f0a4a5a9-a54e-4a23-9db1-1eb263f74836",
+                    "type": "text/javascript",
+                    "exec": [
+                      "// CryptoJS là global sẵn có của sandbox Postman; không khai báo lại kẻo trùng identifier.",
+                      "const CJS = (typeof CryptoJS !== 'undefined') ? CryptoJS : require('crypto-js');",
+                      "const SECRET = pm.environment.get('sut_jwt_secret') || '';",
+                      "function b64url(words){return CJS.enc.Base64.stringify(words).replace(/=+$/,'').replace(/\\+/g,'-').replace(/\\//g,'_');}",
+                      "function sign(payload){",
+                      "  const h = b64url(CJS.enc.Utf8.parse(JSON.stringify({alg:'HS256',typ:'JWT'})));",
+                      "  const p = b64url(CJS.enc.Utf8.parse(JSON.stringify(payload)));",
+                      "  const s = b64url(CJS.HmacSHA256(h + '.' + p, SECRET));",
+                      "  return h + '.' + p + '.' + s;",
+                      "}",
+                      "pm.environment.set('forgedAdminToken', sign({id: 1, role: 'admin'}));"
+                    ],
+                    "_lastExecutionId": "e52bff68-2cf1-4b34-b665-6d75fc176747"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "1ad0aba0-f70f-4b22-9c9b-d9c09850ebf7",
+                    "type": "text/javascript",
+                    "exec": [
+                      "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                      "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                      "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                      "pm.test('TC-API-LOGIN-042 token minted', ()=>{const t=pm.environment.get('forgedAdminToken')||'';pm.expect(t.split('.').length, 'forged JWT was not minted').to.equal(3);});",
+                      "pm.test('TC-API-LOGIN-042 observed', ()=>pm.expect(pm.response.code).to.be.oneOf([200,401,403]));",
+                      "specTest('TC-API-LOGIN-042','self-signed admin token must be rejected',()=>{",
+                      "  pm.expect(pm.response.code, 'forged token accepted').to.be.oneOf([401,403]);",
+                      "  pm.expect(Array.isArray(jsonBody()), 'admin order list leaked').to.equal(false);",
+                      "});"
+                    ],
+                    "_lastExecutionId": "d5173abb-8bcb-4ad7-a083-fc398346b326"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "ebbf2f90-9f2f-407c-bd89-8a3e094cd6d6",
+              "name": "TC-API-CHECKOUT-029 - expired token",
+              "request": {
+                "url": {
+                  "path": [
+                    "api",
+                    "checkout"
+                  ],
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{expiredToken}}"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"total_amount\": 30000000, \"shipping_address\": \"1 Test St\", \"phone\": \"0900000000\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "88b0f3bf-f540-4b92-a430-59278f83488a",
+                    "type": "text/javascript",
+                    "exec": [
+                      "// CryptoJS là global sẵn có của sandbox Postman; không khai báo lại kẻo trùng identifier.",
+                      "const CJS = (typeof CryptoJS !== 'undefined') ? CryptoJS : require('crypto-js');",
+                      "const SECRET = pm.environment.get('sut_jwt_secret') || '';",
+                      "function b64url(words){return CJS.enc.Base64.stringify(words).replace(/=+$/,'').replace(/\\+/g,'-').replace(/\\//g,'_');}",
+                      "function sign(payload){",
+                      "  const h = b64url(CJS.enc.Utf8.parse(JSON.stringify({alg:'HS256',typ:'JWT'})));",
+                      "  const p = b64url(CJS.enc.Utf8.parse(JSON.stringify(payload)));",
+                      "  const s = b64url(CJS.HmacSHA256(h + '.' + p, SECRET));",
+                      "  return h + '.' + p + '.' + s;",
+                      "}",
+                      "const now = Math.floor(Date.now()/1000);",
+                      "pm.environment.set('expiredToken', sign({id: 2, role: 'user', iat: now - 7200, exp: now - 3600}));"
+                    ],
+                    "_lastExecutionId": "987cdcbd-df88-496b-9483-111543cf03eb"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "2035a5df-7ded-4c11-aaec-287f040c680c",
+                    "type": "text/javascript",
+                    "exec": [
+                      "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                      "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                      "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                      "pm.test('TC-API-CHECKOUT-029 token minted', ()=>{const t=pm.environment.get('expiredToken')||'';pm.expect(t.split('.').length, 'expired JWT was not minted').to.equal(3);});",
+                      "pm.test('TC-API-CHECKOUT-029 expired token rejected', ()=>pm.expect(pm.response.code).to.be.oneOf([401,403]));",
+                      "pm.test('TC-API-CHECKOUT-029 no order created', ()=>pm.expect(jsonBody().orderId).to.be.undefined);"
+                    ],
+                    "_lastExecutionId": "16427b3e-b2e7-4c6b-b5af-9a4435fc1a0e"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": []
+        },
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 2,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "305804f1-69af-4fcc-a45d-95b0ea154f85",
+          "httpRequestId": "eb291b7d-3f19-45ac-ad99-2039b733952e",
+          "scriptId": "1ad0aba0-f70f-4b22-9c9b-d9c09850ebf7",
+          "execution": "d5173abb-8bcb-4ad7-a083-fc398346b326"
+        }
+      }
+    ],
+    "error": null
+  }
+}

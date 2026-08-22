@@ -27,7 +27,7 @@
 | TC-API-LOGIN-021 | FR-02 | State | Temporal BVA | User vừa khóa | Chờ 29 giây, login đúng | Vẫn bị từ chối; không token | AI | PASS | — | Automated | — |
 | TC-API-LOGIN-022 | FR-02 | State | Temporal BVA | User vừa khóa | Chờ 31 giây, login đúng | `200`; reset attempts/lock | AI | FAIL | D-LOGIN-02 | Automated | — |
 | TC-API-LOGIN-023 | FR-02 | State | State transition | Disposable user | Sai 2 lần rồi login đúng | `200`; reset chuỗi sai | AI | FAIL | D-LOGIN-01 | Automated | — |
-| TC-API-LOGIN-024 | FR-02 | State | State transition | Case 023 thành công | Sai một lần sau reset | `401`; chưa khóa | AI | BLOCKED nếu 023 fail | D-LOGIN-01 | Blocked | Tiền điều kiện yêu cầu TC-023 đăng nhập thành công sau hai lần sai, nhưng D-LOGIN-01 khóa tài khoản sớm nên không thể đi tới trạng thái reset cần kiểm thử. |
+| TC-API-LOGIN-024 | FR-02 | State | State transition | Case 023 thành công | Sai một lần sau reset | `401`; chưa khóa | AI | FAIL | D-LOGIN-01 | Blocked | Đã chạy trong `05-timed-assert` và có assertion Newman thật, nhưng tiền đề của case không tồn tại trên SUT: D-LOGIN-06 khiến không bao giờ đạt được trạng thái reset sau lock. Blocked có bằng chứng, không phải giả định. |
 | TC-API-LOGIN-025 | SEC-05 | Security | SQLi | DB sạch | SQLi ở email | `401`; không bypass/không đổi DB | AI-audited | PASS | — | Automated | — |
 | TC-API-LOGIN-026 | SEC-05 | Security | SQLi | DB sạch | SQLi ở password | `401`; không bypass | AI | PASS | — | Automated | — |
 | TC-API-LOGIN-027 | SEC-04 | Security | XSS/non-reflection | DB sạch | XSS ở email | 4xx; không reflect payload | AI | PASS | — | Automated | — |
@@ -44,9 +44,8 @@
 | TC-API-LOGIN-038 | FR-02 | State | Temporal BVA | User vừa khóa | Chờ 35 giây rồi đúng | `200`; lock hết hạn | Human | FAIL | D-LOGIN-02 | Automated | — |
 | TC-API-LOGIN-039 | SEC-01 | Security | Negative schema | Seed user active | Login đúng | Không field nhạy cảm ở root/user | Human | FAIL | D-LOGIN-03 | Automated | — |
 | TC-API-LOGIN-040 | SEC-02 | Security | JWT claims | Seed user active | Decode token | Có `iat/exp`; TTL ≤24h | Human | FAIL | D-LOGIN-05 | Automated | — |
-| TC-API-LOGIN-041 | FR-02 | State | Residual-state | Lock đã hết hạn | Sai 1 lần rồi đúng | `401,200`; không khóa lại | Human | FAIL | D-LOGIN-06 | Manual | Phải chờ lock thực tế 180 giây rồi kiểm tra residual state; tách khỏi regression tự động để tránh một iteration kéo dài và dễ nhiễu thời gian. |
-| TC-API-LOGIN-042 | SEC-02 | Security | JWT forgery | Biết source secret | Token tự ký gọi admin API | `401/403` | Human | FAIL | D-LOGIN-05 | Blocked | Cần ký JWT bằng secret của SUT; không nhúng signing secret hoặc forged token vào collection/report công khai. |
-
+| TC-API-LOGIN-041 | FR-02 | State | Residual-state | Lock đã hết hạn | Sai 1 lần rồi đúng | `401,200`; không khóa lại | Human | FAIL | D-LOGIN-06 | Automated | Chạy trong `05-timed-assert` sau khi chờ lock 180s hết hạn: sai một lần nhận `401`, nhưng đăng nhập đúng ngay sau đó nhận `403` — counter không reset. |
+| TC-API-LOGIN-042 | SEC-02 | Security | JWT forgery | Biết source secret | Token tự ký gọi admin API | `401/403` | Human | FAIL | D-LOGIN-05 | Automated | Chạy trong `04-jwt-cases`: tự ký JWT bằng secret công khai ở `server.js:9`, gọi `GET /api/admin/orders` nhận `200` — token giả được chấp nhận. |
 ## Coverage summary
 
 | Nguồn | Partition | State | Security | Schema | Tổng |

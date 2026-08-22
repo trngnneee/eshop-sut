@@ -1,4 +1,4 @@
 ﻿API,Endpoint,Requirements,AI generated,Human extended,Final cases,Automated,Manual,Blocked,Expected FAIL
-API-1,POST /api/login,"FR-02, SEC-02, SEC-05",36,6,42,39,1,2,24
-API-2,POST /api/checkout,"FR-08, SEC-02, SEC-04",36,6,42,41,0,1,14
+API-1,POST /api/login,"FR-02, SEC-02, SEC-05",36,6,42,41,0,1,25
+API-2,POST /api/checkout,"FR-08, SEC-02, SEC-04",36,6,42,42,0,0,14
 API-3,PUT /api/admin/orders/:id/status,"FR-10, FR-12, SEC-03",38,6,44,43,0,1,9

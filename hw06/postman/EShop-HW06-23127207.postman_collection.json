@@ -1545,6 +1545,440 @@
           ]
         }
       ]
+    },
+    {
+      "name": "04 - JWT forgery/expiry",
+      "item": [
+        {
+          "name": "TC-API-LOGIN-042 - forged admin token",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// CryptoJS là global sẵn có của sandbox Postman; không khai báo lại kẻo trùng identifier.",
+                  "const CJS = (typeof CryptoJS !== 'undefined') ? CryptoJS : require('crypto-js');",
+                  "const SECRET = pm.environment.get('sut_jwt_secret') || '';",
+                  "function b64url(words){return CJS.enc.Base64.stringify(words).replace(/=+$/,'').replace(/\\+/g,'-').replace(/\\//g,'_');}",
+                  "function sign(payload){",
+                  "  const h = b64url(CJS.enc.Utf8.parse(JSON.stringify({alg:'HS256',typ:'JWT'})));",
+                  "  const p = b64url(CJS.enc.Utf8.parse(JSON.stringify(payload)));",
+                  "  const s = b64url(CJS.HmacSHA256(h + '.' + p, SECRET));",
+                  "  return h + '.' + p + '.' + s;",
+                  "}",
+                  "pm.environment.set('forgedAdminToken', sign({id: 1, role: 'admin'}));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('TC-API-LOGIN-042 token minted', ()=>{const t=pm.environment.get('forgedAdminToken')||'';pm.expect(t.split('.').length, 'forged JWT was not minted').to.equal(3);});",
+                  "pm.test('TC-API-LOGIN-042 observed', ()=>pm.expect(pm.response.code).to.be.oneOf([200,401,403]));",
+                  "specTest('TC-API-LOGIN-042','self-signed admin token must be rejected',()=>{",
+                  "  pm.expect(pm.response.code, 'forged token accepted').to.be.oneOf([401,403]);",
+                  "  pm.expect(Array.isArray(jsonBody()), 'admin order list leaked').to.equal(false);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{forgedAdminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "orders"
+              ]
+            }
+          }
+        },
+        {
+          "name": "TC-API-CHECKOUT-029 - expired token",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// CryptoJS là global sẵn có của sandbox Postman; không khai báo lại kẻo trùng identifier.",
+                  "const CJS = (typeof CryptoJS !== 'undefined') ? CryptoJS : require('crypto-js');",
+                  "const SECRET = pm.environment.get('sut_jwt_secret') || '';",
+                  "function b64url(words){return CJS.enc.Base64.stringify(words).replace(/=+$/,'').replace(/\\+/g,'-').replace(/\\//g,'_');}",
+                  "function sign(payload){",
+                  "  const h = b64url(CJS.enc.Utf8.parse(JSON.stringify({alg:'HS256',typ:'JWT'})));",
+                  "  const p = b64url(CJS.enc.Utf8.parse(JSON.stringify(payload)));",
+                  "  const s = b64url(CJS.HmacSHA256(h + '.' + p, SECRET));",
+                  "  return h + '.' + p + '.' + s;",
+                  "}",
+                  "const now = Math.floor(Date.now()/1000);",
+                  "pm.environment.set('expiredToken', sign({id: 2, role: 'user', iat: now - 7200, exp: now - 3600}));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "function jsonBody(){try{return pm.response.json();}catch(_){return {};}}",
+                  "pm.test('TC-API-CHECKOUT-029 token minted', ()=>{const t=pm.environment.get('expiredToken')||'';pm.expect(t.split('.').length, 'expired JWT was not minted').to.equal(3);});",
+                  "pm.test('TC-API-CHECKOUT-029 expired token rejected', ()=>pm.expect(pm.response.code).to.be.oneOf([401,403]));",
+                  "pm.test('TC-API-CHECKOUT-029 no order created', ()=>pm.expect(jsonBody().orderId).to.be.undefined);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{expiredToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/checkout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "checkout"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"total_amount\": 30000000, \"shipping_address\": \"1 Test St\", \"phone\": \"0900000000\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 - Timed lock prep",
+      "item": [
+        {
+          "name": "[PREP] Register timed user",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Timed User\",\"email\":\"{{timedUser}}\",\"password\":\"{{timedPassword}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.environment.set('timedUser', 'timed_' + Date.now() + '@eshop.com');",
+                  "pm.environment.set('timedPassword', 'Timed1234!');"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('[PREP] timed user registered', ()=>pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[PREP] Wrong password #1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{timedUser}}\", \"password\": \"definitely-wrong\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "pm.test('[PREP] wrong attempt 1 observed', ()=>pm.expect(pm.response.code).to.be.oneOf([401,403]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[PREP] Wrong password #2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{timedUser}}\", \"password\": \"definitely-wrong\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "pm.test('[PREP] wrong attempt 2 observed', ()=>pm.expect(pm.response.code).to.be.oneOf([401,403]));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "05 - Timed lock assert",
+      "item": [
+        {
+          "name": "TC-API-LOGIN-041a - wrong attempt after lock expiry",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{timedUser}}\", \"password\": \"definitely-wrong\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "pm.test('TC-API-LOGIN-041 wrong-after-expiry observed', ()=>pm.expect(pm.response.code).to.be.oneOf([401,403]));",
+                  "specTest('TC-API-LOGIN-041','counter must reset after lock expiry',()=>{",
+                  "  pm.expect(pm.response.code, 'account re-locked immediately, counter did not reset').to.equal(401);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-API-LOGIN-041b - correct login after lock expiry",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{timedUser}}\", \"password\": \"{{timedPassword}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "pm.test('TC-API-LOGIN-041 correct-after-expiry observed', ()=>pm.expect(pm.response.code).to.be.oneOf([200,403]));",
+                  "pm.environment.set('timedResetOk', String(pm.response.code === 200));",
+                  "specTest('TC-API-LOGIN-041','valid credential accepted after lock expiry',()=>{",
+                  "  pm.expect(pm.response.code, 'valid credential rejected after lock expired').to.equal(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "TC-API-LOGIN-024 - one failure after successful reset",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{timedUser}}\", \"password\": \"definitely-wrong\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "function currentMode(){return String(pm.environment.get('spec_strict')||'off').toLowerCase();}",
+                  "function specTest(id,name,fn){const m=currentMode();if(m==='full')pm.test('[SPEC] '+id+' - '+name,fn);}",
+                  "pm.test('TC-API-LOGIN-024 observed', ()=>pm.expect(pm.response.code).to.be.oneOf([401,403]));",
+                  "specTest('TC-API-LOGIN-024','single failure after reset must not lock',()=>{",
+                  "  pm.expect(pm.environment.get('timedResetOk'), 'precondition TC-023 reset did not happen').to.equal('true');",
+                  "  pm.expect(pm.response.code, 'locked after a single failure').to.equal(401);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -4,7 +4,7 @@
 
 **Tester:** 23127207 · **Môi trường:** `http://127.0.0.1:3001` · **Runner:** Newman (`hw06/newman/run-newman.ps1`)
 
-**Tổng 128 test case** — Pass: 80 · Fail: 43 · Blocked: 4 · Not Run: 1
+**Tổng 128 test case** — Pass: 81 · Fail: 46 · Blocked: 1 · Not Run: 0
 
 Mọi dòng `Fail`/`Blocked` đều có Related Bug hoặc lý do rõ ràng theo §H.6. Các dòng `Blocked`/`Not Run` là test case đã thiết kế nhưng chưa có assertion Newman — lý do ghi ở cột Note, không suy diễn kết quả Pass/Fail.
 
@@ -38,7 +38,7 @@ Mọi dòng `Fail`/`Blocked` đều có Related Bug hoặc lý do rõ ràng theo
 | `TC-API-CHECKOUT-026` | api-checkout | 23127207 | Pass | — | FR-08/FR-10 · `02-ddt-checkout` |
 | `TC-API-CHECKOUT-027` | api-checkout | 23127207 | Pass | — | FR-08/FR-10 · `02-ddt-checkout` |
 | `TC-API-CHECKOUT-028` | api-checkout | 23127207 | Pass | — | FR-08/FR-10 · `02-ddt-checkout` |
-| `TC-API-CHECKOUT-029` | api-checkout | 23127207 | Blocked | — | SUT phát JWT không có exp và không cung cấp signing fixture an toàn, nên không thể tạo token hợp lệ nhưng đã hết hạn mà không sao chép secret vào artifact. |
+| `TC-API-CHECKOUT-029` | api-checkout | 23127207 | Pass | — | FR-08/FR-10 · `04-jwt-cases` |
 | `TC-API-CHECKOUT-030` | api-checkout | 23127207 | Pass | — | FR-08/FR-10 · `02-ddt-checkout` |
 | `TC-API-CHECKOUT-031` | api-checkout | 23127207 | Fail | [#422](https://github.com/trngnneee/eshop-sut/issues/422) (D-CHK-07) | FR-08/FR-10 · `00-canary-suite`, `00-ddt-status-prep`, `00-full-suite`, `00-off-suite`, `02-ddt-checkout` |
 | `TC-API-CHECKOUT-032` | api-checkout | 23127207 | Fail | [#431](https://github.com/trngnneee/eshop-sut/issues/431) (D-CHK-05) | FR-08/FR-10 · `02-ddt-checkout` |
@@ -75,7 +75,7 @@ Mọi dòng `Fail`/`Blocked` đều có Related Bug hoặc lý do rõ ràng theo
 | `TC-API-LOGIN-021` | api-login | 23127207 | Pass | — | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-022` | api-login | 23127207 | Fail | [#414](https://github.com/trngnneee/eshop-sut/issues/414) (D-LOGIN-02) | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-023` | api-login | 23127207 | Fail | [#413](https://github.com/trngnneee/eshop-sut/issues/413) (D-LOGIN-01) | FR-02 · `01-ddt-login` |
-| `TC-API-LOGIN-024` | api-login | 23127207 | Blocked | [#413](https://github.com/trngnneee/eshop-sut/issues/413) (D-LOGIN-01) | Tiền điều kiện yêu cầu TC-023 đăng nhập thành công sau hai lần sai, nhưng D-LOGIN-01 khóa tài khoản sớm nên không thể đi tới trạng thái reset cần kiểm thử. |
+| `TC-API-LOGIN-024` | api-login | 23127207 | Fail | [#413](https://github.com/trngnneee/eshop-sut/issues/413) (D-LOGIN-01) | FR-02 · `05-timed-assert` |
 | `TC-API-LOGIN-025` | api-login | 23127207 | Pass | — | SEC-05 · `00-canary-suite`, `00-full-suite`, `00-off-suite`, `01-ddt-login` |
 | `TC-API-LOGIN-026` | api-login | 23127207 | Pass | — | SEC-05 · `01-ddt-login` |
 | `TC-API-LOGIN-027` | api-login | 23127207 | Pass | — | SEC-04 · `01-ddt-login` |
@@ -92,8 +92,8 @@ Mọi dòng `Fail`/`Blocked` đều có Related Bug hoặc lý do rõ ràng theo
 | `TC-API-LOGIN-038` | api-login | 23127207 | Fail | [#414](https://github.com/trngnneee/eshop-sut/issues/414) (D-LOGIN-02) | FR-02 · `01-ddt-login` |
 | `TC-API-LOGIN-039` | api-login | 23127207 | Fail | [#415](https://github.com/trngnneee/eshop-sut/issues/415) (D-LOGIN-03) | SEC-01 · `01-ddt-login` |
 | `TC-API-LOGIN-040` | api-login | 23127207 | Fail | [#416](https://github.com/trngnneee/eshop-sut/issues/416) (D-LOGIN-05) | SEC-02 · `01-ddt-login` |
-| `TC-API-LOGIN-041` | api-login | 23127207 | Not Run | [#417](https://github.com/trngnneee/eshop-sut/issues/417) (D-LOGIN-06) | Phải chờ lock thực tế 180 giây rồi kiểm tra residual state; tách khỏi regression tự động để tránh một iteration kéo dài và dễ nhiễu thời gian. |
-| `TC-API-LOGIN-042` | api-login | 23127207 | Blocked | [#416](https://github.com/trngnneee/eshop-sut/issues/416) (D-LOGIN-05) | Cần ký JWT bằng secret của SUT; không nhúng signing secret hoặc forged token vào collection/report công khai. |
+| `TC-API-LOGIN-041` | api-login | 23127207 | Fail | [#417](https://github.com/trngnneee/eshop-sut/issues/417) (D-LOGIN-06) | FR-02 · `05-timed-assert` |
+| `TC-API-LOGIN-042` | api-login | 23127207 | Fail | [#416](https://github.com/trngnneee/eshop-sut/issues/416) (D-LOGIN-05) | SEC-02 · `04-jwt-cases` |
 | `TC-API-ORDER-STATUS-001` | api-order-status | 23127207 | Pass | — | FR-10/FR-12/FR-18 · `03-ddt-order-status` |
 | `TC-API-ORDER-STATUS-002` | api-order-status | 23127207 | Pass | — | FR-10/FR-12/FR-18 · `00-canary-suite`, `00-full-suite`, `00-off-suite`, `03-ddt-order-status` |
 | `TC-API-ORDER-STATUS-003` | api-order-status | 23127207 | Pass | — | FR-10/FR-12/FR-18 · `03-ddt-order-status` |
