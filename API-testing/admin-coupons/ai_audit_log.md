@@ -13,23 +13,23 @@ API: FR-17 - Admin coupon management (`POST /api/admin/coupons`, related `DELETE
 - **The AI output**:
 
   Đã sinh 15 test case:
-  - DP-01: Tao coupon percent hop le voi day du field bat buoc
-  - DP-02: Tao coupon fixed amount hop le
-  - DP-03: Tao coupon percent voi discount_value bien nho nhat hop le la 1
-  - DP-04: Tao coupon percent voi discount_value bien tren hop le la 100
-  - DP-05: Thieu field code khi tao coupon
-  - DP-06: Code rong hoac chi co khoang trang
-  - DP-07: Code bi trung voi coupon da ton tai
-  - DP-08: Type nam ngoai enum hop le
-  - DP-09: discount_value bang 0 cho coupon percent
-  - DP-10: discount_value lon hon 100 cho coupon percent
-  - DP-11: discount_value sai kieu du lieu la chuoi
-  - DP-12: min_order_amount am
-  - DP-13: expired_at sai dinh dang ngay
-  - DP-14: max_uses_per_user bang 0
-  - DP-15: Body co field thua is_active khi tao coupon
+  - DP-01: Tạo coupon percent hợp lệ với đầy đủ field bắt buộc
+  - DP-02: Tạo coupon fixed amount hợp lệ
+  - DP-03: Tạo coupon percent với discount_value biên nhỏ nhất hợp lệ là 1
+  - DP-04: Tạo coupon percent với discount_value biên trên hợp lệ là 100
+  - DP-05: Thiếu field code khi tạo coupon
+  - DP-06: Code rỗng hoặc chỉ có khoảng trắng
+  - DP-07: Code bị trùng với coupon đã tồn tại
+  - DP-08: Type nằm ngoài enum hợp lệ
+  - DP-09: discount_value bằng 0 cho coupon percent
+  - DP-10: discount_value lớn hơn 100 cho coupon percent
+  - DP-11: discount_value sai kiểu dữ liệu là chuỗi
+  - DP-12: min_order_amount âm
+  - DP-13: expired_at sai định dạng ngày
+  - DP-14: max_uses_per_user bằng 0
+  - DP-15: Body có field thừa is_active khi tạo coupon
 
-  Chi tiet day du tai `01_domain_partitions.json`.
+  Chi tiết đầy đủ tại `01_domain_partitions.json`.
 
 ### Stage 2 - State Transition - admin-coupons
 
@@ -42,16 +42,16 @@ API: FR-17 - Admin coupon management (`POST /api/admin/coupons`, related `DELETE
 - **The AI output**:
 
   Đã sinh 8 test case:
-  - ST-01: Tao coupon moi chuyen tu non-existent sang active
-  - ST-02: Tao lai coupon da active bi tu choi duplicate
-  - ST-03: Xoa coupon active chuyen sang deleted
-  - ST-04: Xoa lai coupon da deleted bi tu choi
-  - ST-05: Coupon active duoc ap dung va tang usage count cua user
-  - ST-06: Dung qua max_uses_per_user bi tu choi
-  - ST-07: Coupon expired khong duoc ap dung
-  - ST-08: Coupon deleted khong duoc ap dung
+  - ST-01: Tạo coupon mới chuyển từ non-existent sang active
+  - ST-02: Tạo lại coupon đã active bị từ chối duplicate
+  - ST-03: Xóa coupon active chuyển sang deleted
+  - ST-04: Xóa lại coupon đã deleted bị từ chối
+  - ST-05: Coupon active được áp dụng và tăng usage count của user
+  - ST-06: Dùng quá max_uses_per_user bị từ chối
+  - ST-07: Coupon expired không được áp dụng
+  - ST-08: Coupon deleted không được áp dụng
 
-  Chi tiet day du tai `02_state_transitions.json`.
+  Chi tiết đầy đủ tại `02_state_transitions.json`.
 
 ### Stage 3 - Security - admin-coupons
 
@@ -64,19 +64,19 @@ API: FR-17 - Admin coupon management (`POST /api/admin/coupons`, related `DELETE
 - **The AI output**:
 
   Đã sinh 11 test case:
-  - SEC-01: Goi API tao coupon khong co Authorization header
-  - SEC-02: Authorization header rong khi tao coupon
-  - SEC-03: Token sai dinh dang khi tao coupon
-  - SEC-04: Token het han khi tao coupon
-  - SEC-05: User thuong dung JWT hop le goi API admin tao coupon
-  - SEC-06: User thuong dung JWT hop le xoa coupon admin
+  - SEC-01: Gọi API tạo coupon không có Authorization header
+  - SEC-02: Authorization header rỗng khi tạo coupon
+  - SEC-03: Token sai định dạng khi tạo coupon
+  - SEC-04: Token hết hạn khi tạo coupon
+  - SEC-05: User thường dùng JWT hợp lệ gọi API admin tạo coupon
+  - SEC-06: User thường dùng JWT hợp lệ xóa coupon admin
   - SEC-07: SQL injection payload trong code coupon
   - SEC-08: XSS payload trong code coupon
-  - SEC-09: Mass assignment field role va created_by trong body tao coupon
-  - SEC-10: IDOR: Admin cua scope khac hoac token hop le khong so huu resource thu xoa coupon
-  - SEC-11: Response tao coupon khong duoc lo thong tin nhay cam cua admin
+  - SEC-09: Mass assignment field role và created_by trong body tạo coupon
+  - SEC-10: IDOR: Admin của scope khác hoặc token hợp lệ không sở hữu resource thử xóa coupon
+  - SEC-11: Response tạo coupon không được lộ thông tin nhạy cảm của admin
 
-  Chi tiet day du tai `03_security.json`.
+  Chi tiết đầy đủ tại `03_security.json`.
 
 ### Stage 4 - Schema Validation - admin-coupons
 
@@ -89,13 +89,13 @@ API: FR-17 - Admin coupon management (`POST /api/admin/coupons`, related `DELETE
 - **The AI output**:
 
   Đã sinh 8 test case:
-  - SV-01: Response tao coupon thanh cong co du field coupon bat buoc
-  - SV-02: Kieu du lieu response coupon dung voi spec
-  - SV-03: Response tao coupon khong chua field ngoai schema
-  - SV-04: Validation error khi thieu code co cau truc loi on dinh
-  - SV-05: Unauthorized error khi thieu token dung status va schema
-  - SV-06: Forbidden error khi user thuong goi API admin dung status va schema
-  - SV-07: Response xoa coupon thanh cong co schema toi thieu nhat quan
-  - SV-08: Response xoa coupon khong ton tai tra 404 dung schema loi
+  - SV-01: Response tạo coupon thành công có đủ field coupon bắt buộc
+  - SV-02: Kiểu dữ liệu response coupon đúng với spec
+  - SV-03: Response tạo coupon không chứa field ngoài schema
+  - SV-04: Validation error khi thiếu code có cấu trúc lỗi ổn định
+  - SV-05: Unauthorized error khi thiếu token đúng status và schema
+  - SV-06: Forbidden error khi user thường gọi API admin đúng status và schema
+  - SV-07: Response xóa coupon thành công có schema tối thiểu nhất quán
+  - SV-08: Response xóa coupon không tồn tại trả 404 đúng schema lỗi
 
-  Chi tiet day du tai `04_schema_validation.json`.
+  Chi tiết đầy đủ tại `04_schema_validation.json`.

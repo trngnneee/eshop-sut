@@ -4,39 +4,75 @@
     "category": "SchemaValidation",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "Response tao coupon thanh cong co du field coupon bat buoc",
-    "preconditions": "Admin da dang nhap; coupon code SCHEMA10 chua ton tai",
+    "title": "Response tạo coupon thành công có đủ field coupon bắt buộc",
+    "preconditions": "Admin đã đăng nhập; coupon code SCHEMA10 chưa tồn tại",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "SCHEMA10", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SCHEMA10",
+        "type": "percent",
+        "discount_value": 10,
+        "min_order_amount": 100000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 201,
-    "expected_result": "Response la JSON object chua coupon moi voi id, code, type, discount_value, min_order_amount, expired_at, max_uses_per_user; cac gia tri khop request.",
+    "expected_result": "Response là JSON object chứa coupon mới với id, code, type, discount_value, min_order_amount, expired_at, max_uses_per_user; các giá trị khớp request.",
     "priority": "High",
     "schema_ref": "FR-17 coupon create success response",
-    "fields_checked": ["id", "code", "type", "discount_value", "min_order_amount", "expired_at", "max_uses_per_user"],
-    "notes": "Spec khong dinh nghia schema chi tiet nen fields_checked duoc suy ra tu body va hanh vi tao resource."
+    "fields_checked": [
+      "id",
+      "code",
+      "type",
+      "discount_value",
+      "min_order_amount",
+      "expired_at",
+      "max_uses_per_user"
+    ],
+    "notes": "Spec không định nghĩa schema chi tiết nên fields_checked được suy ra từ body và hành vi tạo resource."
   },
   {
     "temp_id": "SV-02",
     "category": "SchemaValidation",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "Kieu du lieu response coupon dung voi spec",
-    "preconditions": "Admin da dang nhap; coupon code SCHEMATYPE chua ton tai",
+    "title": "Kiểu dữ liệu response coupon đúng với spec",
+    "preconditions": "Admin đã đăng nhập; coupon code SCHEMATYPE chưa tồn tại",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "SCHEMATYPE", "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SCHEMATYPE",
+        "type": "percent",
+        "discount_value": 15,
+        "min_order_amount": 200000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 201,
-    "expected_result": "id, discount_value, min_order_amount, max_uses_per_user la number; code/type/expired_at la string; expired_at parse duoc theo date ISO.",
+    "expected_result": "id, discount_value, min_order_amount, max_uses_per_user là number; code/type/expired_at là string; expired_at parse được theo date ISO.",
     "priority": "High",
     "schema_ref": "Coupon object schema",
-    "fields_checked": ["id:number", "code:string", "type:string", "discount_value:number", "min_order_amount:number", "expired_at:date-string", "max_uses_per_user:number"],
+    "fields_checked": [
+      "id:number",
+      "code:string",
+      "type:string",
+      "discount_value:number",
+      "min_order_amount:number",
+      "expired_at:date-string",
+      "max_uses_per_user:number"
+    ],
     "notes": ""
   },
   {
@@ -44,59 +80,104 @@
     "category": "SchemaValidation",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "Response tao coupon khong chua field ngoai schema",
-    "preconditions": "Admin da dang nhap; coupon code NOSURPLUS chua ton tai",
+    "title": "Response tạo coupon không chứa field ngoài schema",
+    "preconditions": "Admin đã đăng nhập; coupon code NOSURPLUS chưa tồn tại",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "NOSURPLUS", "type": "percent", "discount_value": 20, "min_order_amount": 300000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "NOSURPLUS",
+        "type": "percent",
+        "discount_value": 20,
+        "min_order_amount": 300000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 201,
-    "expected_result": "Response khong co password, passwordHash, internalCost, sql, stack, token, refreshToken hoac field debug noi bo.",
+    "expected_result": "Response không có password, passwordHash, internalCost, sql, stack, token, refreshToken hoặc field debug nội bộ.",
     "priority": "Medium",
     "schema_ref": "Coupon create success response",
-    "fields_checked": ["password", "passwordHash", "internalCost", "sql", "stack", "token", "refreshToken"],
-    "notes": "Day la schema negative check: cac field nay khong duoc xuat hien."
+    "fields_checked": [
+      "password",
+      "passwordHash",
+      "internalCost",
+      "sql",
+      "stack",
+      "token",
+      "refreshToken"
+    ],
+    "notes": "Đây là schema negative check: các field này không được xuất hiện."
   },
   {
     "temp_id": "SV-04",
     "category": "SchemaValidation",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "Validation error khi thieu code co cau truc loi on dinh",
-    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "title": "Validation error khi thiếu code có cấu trúc lỗi ổn định",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "type": "percent",
+        "discount_value": 15,
+        "min_order_amount": 200000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 400,
-    "expected_result": "Response loi la JSON co message hoac error.message mo ta field code bat buoc; khong tra HTML/plain stack trace.",
+    "expected_result": "Response lỗi là JSON có message hoặc error.message mô tả field code bắt buộc; không trả HTML/plain stack trace.",
     "priority": "High",
     "schema_ref": "Error response schema - validation",
-    "fields_checked": ["message", "error", "error.message", "status"],
-    "notes": "Spec khong chot error schema, chap nhan message hoac error.message nhung phai nhat quan."
+    "fields_checked": [
+      "message",
+      "error",
+      "error.message",
+      "status"
+    ],
+    "notes": "Spec không chốt error schema, chấp nhận message hoặc error.message nhưng phải nhất quán."
   },
   {
     "temp_id": "SV-05",
     "category": "SchemaValidation",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17, SEC-02",
-    "title": "Unauthorized error khi thieu token dung status va schema",
-    "preconditions": "Khong gui Authorization header",
+    "title": "Unauthorized error khi thiếu token đúng status và schema",
+    "preconditions": "Không gửi Authorization header",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Content-Type": "application/json" },
-      "body": { "code": "UNAUTHSCHEMA", "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "UNAUTHSCHEMA",
+        "type": "percent",
+        "discount_value": 15,
+        "min_order_amount": 200000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 401,
-    "expected_result": "Response loi xac thuc la JSON, co message/error ro rang va khong xu ly body.",
+    "expected_result": "Response lỗi xác thực là JSON, có message/error rõ ràng và không xử lý body.",
     "priority": "High",
     "schema_ref": "Error response schema - unauthorized",
-    "fields_checked": ["message", "error", "status"],
+    "fields_checked": [
+      "message",
+      "error",
+      "status"
+    ],
     "notes": ""
   },
   {
@@ -104,19 +185,33 @@
     "category": "SchemaValidation",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17, SEC-03",
-    "title": "Forbidden error khi user thuong goi API admin dung status va schema",
-    "preconditions": "Co JWT hop le cua role=user",
+    "title": "Forbidden error khi user thường gọi API admin đúng status và schema",
+    "preconditions": "Có JWT hợp lệ của role=user",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {user_token}", "Content-Type": "application/json" },
-      "body": { "code": "FORBIDSCHEMA", "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {user_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "FORBIDSCHEMA",
+        "type": "percent",
+        "discount_value": 15,
+        "min_order_amount": 200000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 403,
-    "expected_result": "Response phan quyen la JSON, phan biet 403 voi 401 va co message/error khong tiet lo thong tin noi bo.",
+    "expected_result": "Response phân quyền là JSON, phân biệt 403 với 401 và có message/error không tiết lộ thông tin nội bộ.",
     "priority": "High",
     "schema_ref": "Error response schema - forbidden",
-    "fields_checked": ["message", "error", "status"],
+    "fields_checked": [
+      "message",
+      "error",
+      "status"
+    ],
     "notes": ""
   },
   {
@@ -124,37 +219,48 @@
     "category": "SchemaValidation",
     "endpoint": "DELETE /api/admin/coupons/:id",
     "related_requirement": "FR-17",
-    "title": "Response xoa coupon thanh cong co schema toi thieu nhat quan",
-    "preconditions": "Admin da dang nhap; coupon id=401 ton tai",
+    "title": "Response xóa coupon thành công có schema tối thiểu nhất quán",
+    "preconditions": "Admin đã đăng nhập; coupon id=401 tồn tại",
     "request": {
       "method": "DELETE",
       "path": "/api/admin/coupons/401",
-      "headers": { "Authorization": "Bearer {admin_token}" }
+      "headers": {
+        "Authorization": "Bearer {admin_token}"
+      }
     },
     "expected_status": "200 or 204",
-    "expected_result": "Neu status 200 thi response JSON co message/id da xoa; neu 204 thi body rong. Khong tra coupon nhay cam hoac stack trace.",
+    "expected_result": "Nếu status 200 thì response JSON có message/id đã xóa; nếu 204 thì body rỗng. Không trả coupon nhạy cảm hoặc stack trace.",
     "priority": "Medium",
     "schema_ref": "FR-17 coupon delete success response",
-    "fields_checked": ["message", "id"],
-    "notes": "Spec chi liet ke endpoint xoa, khong mo ta body; case nay kiem tra tinh nhat quan response."
+    "fields_checked": [
+      "message",
+      "id"
+    ],
+    "notes": "Spec chỉ liệt kê endpoint xóa, không mô tả body; case này kiểm tra tính nhất quán response."
   },
   {
     "temp_id": "SV-08",
     "category": "SchemaValidation",
     "endpoint": "DELETE /api/admin/coupons/:id",
     "related_requirement": "FR-17",
-    "title": "Response xoa coupon khong ton tai tra 404 dung schema loi",
-    "preconditions": "Admin da dang nhap; coupon id=999999 khong ton tai",
+    "title": "Response xóa coupon không tồn tại trả 404 đúng schema lỗi",
+    "preconditions": "Admin đã đăng nhập; coupon id=999999 không tồn tại",
     "request": {
       "method": "DELETE",
       "path": "/api/admin/coupons/999999",
-      "headers": { "Authorization": "Bearer {admin_token}" }
+      "headers": {
+        "Authorization": "Bearer {admin_token}"
+      }
     },
     "expected_status": 404,
-    "expected_result": "Response loi la JSON co message/error ro rang, khong tra HTML hoac stack trace.",
+    "expected_result": "Response lỗi là JSON có message/error rõ ràng, không trả HTML hoặc stack trace.",
     "priority": "Medium",
     "schema_ref": "Error response schema - not found",
-    "fields_checked": ["message", "error", "status"],
+    "fields_checked": [
+      "message",
+      "error",
+      "status"
+    ],
     "notes": ""
   }
 ]

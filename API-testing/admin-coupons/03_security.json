@@ -4,36 +4,55 @@
     "category": "Security",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17, SEC-02",
-    "title": "Goi API tao coupon khong co Authorization header",
-    "preconditions": "Khong dang nhap hoac khong gui JWT",
+    "title": "Gọi API tạo coupon không có Authorization header",
+    "preconditions": "Không đăng nhập hoặc không gửi JWT",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Content-Type": "application/json" },
-      "body": { "code": "NOAUTH", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "NOAUTH",
+        "type": "percent",
+        "discount_value": 10,
+        "min_order_amount": 100000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 401,
-    "expected_result": "API tu choi request chua xac thuc; khong tao coupon.",
+    "expected_result": "API từ chối request chưa xác thực; không tạo coupon.",
     "priority": "High",
     "sec_id": "SEC-02",
     "attack_vector": "Broken Auth",
-    "notes": "Admin API bat buoc co JWT hop le."
+    "notes": "Admin API bắt buộc có JWT hợp lệ."
   },
   {
     "temp_id": "SEC-02",
     "category": "Security",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17, SEC-02",
-    "title": "Authorization header rong khi tao coupon",
-    "preconditions": "Client gui header Authorization rong",
+    "title": "Authorization header rỗng khi tạo coupon",
+    "preconditions": "Client gửi header Authorization rỗng",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "", "Content-Type": "application/json" },
-      "body": { "code": "EMPTYAUTH", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "EMPTYAUTH",
+        "type": "percent",
+        "discount_value": 10,
+        "min_order_amount": 100000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 401,
-    "expected_result": "API tu choi request va khong xu ly body tao coupon.",
+    "expected_result": "API từ chối request và không xử lý body tạo coupon.",
     "priority": "High",
     "sec_id": "SEC-02",
     "attack_vector": "Broken Auth",
@@ -44,16 +63,26 @@
     "category": "Security",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17, SEC-02",
-    "title": "Token sai dinh dang khi tao coupon",
-    "preconditions": "Client gui chuoi khong phai JWT trong Authorization",
+    "title": "Token sai định dạng khi tạo coupon",
+    "preconditions": "Client gửi chuỗi không phải JWT trong Authorization",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer not-a-jwt", "Content-Type": "application/json" },
-      "body": { "code": "BADJWT", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer not-a-jwt",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "BADJWT",
+        "type": "percent",
+        "discount_value": 10,
+        "min_order_amount": 100000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 401,
-    "expected_result": "API tu choi token khong hop le; khong tao coupon.",
+    "expected_result": "API từ chối token không hợp lệ; không tạo coupon.",
     "priority": "High",
     "sec_id": "SEC-02",
     "attack_vector": "Broken Auth",
@@ -64,16 +93,26 @@
     "category": "Security",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17, SEC-02",
-    "title": "Token het han khi tao coupon",
-    "preconditions": "Co JWT admin da het han",
+    "title": "Token hết hạn khi tạo coupon",
+    "preconditions": "Có JWT admin đã hết hạn",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {expired_admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "EXPIREDJWT", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {expired_admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "EXPIREDJWT",
+        "type": "percent",
+        "discount_value": 10,
+        "min_order_amount": 100000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 401,
-    "expected_result": "API tu choi token het han; khong tao coupon.",
+    "expected_result": "API từ chối token hết hạn; không tạo coupon.",
     "priority": "High",
     "sec_id": "SEC-02",
     "attack_vector": "Broken Auth",
@@ -84,35 +123,47 @@
     "category": "Security",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17, SEC-03",
-    "title": "User thuong dung JWT hop le goi API admin tao coupon",
-    "preconditions": "Tai khoan role=user da dang nhap va co JWT hop le",
+    "title": "User thường dùng JWT hợp lệ gọi API admin tạo coupon",
+    "preconditions": "Tài khoản role=user đã đăng nhập và có JWT hợp lệ",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {user_token}", "Content-Type": "application/json" },
-      "body": { "code": "USERROLE", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {user_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "USERROLE",
+        "type": "percent",
+        "discount_value": 10,
+        "min_order_amount": 100000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 403,
-    "expected_result": "API tu choi vi token khong co role admin; khong tao coupon.",
+    "expected_result": "API từ chối vì token không có role admin; không tạo coupon.",
     "priority": "High",
     "sec_id": "SEC-03",
     "attack_vector": "Role Escalation",
-    "notes": "Bug nghiem trong neu API chi check co token ma khong check role."
+    "notes": "Bug nghiêm trọng nếu API chỉ check có token mà không check role."
   },
   {
     "temp_id": "SEC-06",
     "category": "Security",
     "endpoint": "DELETE /api/admin/coupons/:id",
     "related_requirement": "FR-17, SEC-03",
-    "title": "User thuong dung JWT hop le xoa coupon admin",
-    "preconditions": "Tai khoan role=user co JWT hop le; coupon id=301 ton tai",
+    "title": "User thường dùng JWT hợp lệ xóa coupon admin",
+    "preconditions": "Tài khoản role=user có JWT hợp lệ; coupon id=301 tồn tại",
     "request": {
       "method": "DELETE",
       "path": "/api/admin/coupons/301",
-      "headers": { "Authorization": "Bearer {user_token}" }
+      "headers": {
+        "Authorization": "Bearer {user_token}"
+      }
     },
     "expected_status": 403,
-    "expected_result": "API tu choi; coupon id=301 van ton tai.",
+    "expected_result": "API từ chối; coupon id=301 vẫn tồn tại.",
     "priority": "High",
     "sec_id": "SEC-03",
     "attack_vector": "Role Escalation",
@@ -124,19 +175,29 @@
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17, SEC-05",
     "title": "SQL injection payload trong code coupon",
-    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "' OR '1'='1", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "' OR '1'='1",
+        "type": "percent",
+        "discount_value": 10,
+        "min_order_amount": 100000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 400,
-    "expected_result": "API tu choi hoac validate code an toan; khong tra loi 500/SQL trace va khong tao/bypass coupon.",
+    "expected_result": "API từ chối hoặc validate code an toàn; không trả lỗi 500/SQL trace và không tạo/bypass coupon.",
     "priority": "High",
     "sec_id": "SEC-05",
     "attack_vector": "SQL Injection",
-    "notes": "Neu API chap nhan ky tu dac biet trong code thi van phai dam bao parameterized query va khong loi 500."
+    "notes": "Nếu API chấp nhận ký tự đặc biệt trong code thì vẫn phải đảm bảo parameterized query và không lỗi 500."
   },
   {
     "temp_id": "SEC-08",
@@ -144,77 +205,111 @@
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17, SEC-04",
     "title": "XSS payload trong code coupon",
-    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "<script>alert(1)</script>", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "<script>alert(1)</script>",
+        "type": "percent",
+        "discount_value": 10,
+        "min_order_amount": 100000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 400,
-    "expected_result": "API tu choi code chua HTML/script hoac luu du lieu an toan; response khong lam script thuc thi.",
+    "expected_result": "API từ chối code chứa HTML/script hoặc lưu dữ liệu an toàn; response không làm script thực thi.",
     "priority": "Medium",
     "sec_id": "SEC-04",
     "attack_vector": "XSS",
-    "notes": "API-level chi kiem tra payload va response; can kiem tra them o FE khi render coupon code."
+    "notes": "API-level chỉ kiểm tra payload và response; cần kiểm tra thêm ở FE khi render coupon code."
   },
   {
     "temp_id": "SEC-09",
     "category": "Security",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17, OWASP-Other",
-    "title": "Mass assignment field role va created_by trong body tao coupon",
-    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "title": "Mass assignment field role và created_by trong body tạo coupon",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "MASSASSIGN", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1, "role": "admin", "created_by": 9999 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "MASSASSIGN",
+        "type": "percent",
+        "discount_value": 10,
+        "min_order_amount": 100000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1,
+        "role": "admin",
+        "created_by": 9999
+      }
     },
     "expected_status": 400,
-    "expected_result": "API tu choi field nhay cam/khong nam trong spec hoac bo qua chung; client khong dieu khien duoc ownership/role.",
+    "expected_result": "API từ chối field nhạy cảm/không nằm trong spec hoặc bỏ qua chúng; client không điều khiển được ownership/role.",
     "priority": "Medium",
     "sec_id": "OWASP-Other",
     "attack_vector": "Mass Assignment",
-    "notes": "SEC-06 ap dung truc tiep cho update profile; voi coupon API day la mass assignment tuong tu."
+    "notes": "SEC-06 áp dụng trực tiếp cho update profile; với coupon API đây là mass assignment tương tự."
   },
   {
     "temp_id": "SEC-10",
     "category": "Security",
     "endpoint": "DELETE /api/admin/coupons/:id",
     "related_requirement": "FR-17, OWASP-Other",
-    "title": "IDOR: Admin cua scope khac hoac token hop le khong so huu resource thu xoa coupon",
-    "preconditions": "He thong co phan vung tenant/store; token admin_A hop le; coupon id=901 thuoc tenant/store B",
+    "title": "IDOR: Admin của scope khác hoặc token hợp lệ không sở hữu resource thử xóa coupon",
+    "preconditions": "Hệ thống có phân vùng tenant/store; token admin_A hợp lệ; coupon id=901 thuộc tenant/store B",
     "request": {
       "method": "DELETE",
       "path": "/api/admin/coupons/901",
-      "headers": { "Authorization": "Bearer {admin_A_token}" }
+      "headers": {
+        "Authorization": "Bearer {admin_A_token}"
+      }
     },
     "expected_status": 403,
-    "expected_result": "API tu choi truy cap resource ngoai scope; coupon id=901 khong bi xoa.",
+    "expected_result": "API từ chối truy cập resource ngoài scope; coupon id=901 không bị xóa.",
     "priority": "Medium",
     "sec_id": "OWASP-Other",
     "attack_vector": "IDOR",
-    "notes": "Neu SUT khong co tenant/store scope thi danh dau case nay khong ap dung khi audit."
+    "notes": "Nếu SUT không có tenant/store scope thì đánh dấu case này không áp dụng khi audit."
   },
   {
     "temp_id": "SEC-11",
     "category": "Security",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17, SEC-01",
-    "title": "Response tao coupon khong duoc lo thong tin nhay cam cua admin",
-    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "title": "Response tạo coupon không được lộ thông tin nhạy cảm của admin",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "NOSENSITIVE", "type": "percent", "discount_value": 10, "min_order_amount": 100000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "NOSENSITIVE",
+        "type": "percent",
+        "discount_value": 10,
+        "min_order_amount": 100000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 201,
-    "expected_result": "Response chi tra thong tin coupon can thiet; khong chua password, passwordHash, token noi bo, refresh token hoac thong tin nhay cam cua admin.",
+    "expected_result": "Response chỉ trả thông tin coupon cần thiết; không chứa password, passwordHash, token nội bộ, refresh token hoặc thông tin nhạy cảm của admin.",
     "priority": "Medium",
     "sec_id": "SEC-01",
     "attack_vector": "Sensitive Data Exposure",
-    "notes": "SEC-01 khong kiem truc tiep duoc viec luu plaintext password qua API; day la kiem tra gian tiep response leakage."
+    "notes": "SEC-01 không kiểm trực tiếp được việc lưu plaintext password qua API; đây là kiểm tra gián tiếp response leakage."
   }
 ]

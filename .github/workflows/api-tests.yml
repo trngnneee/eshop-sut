@@ -38,16 +38,16 @@ jobs:
         run: |
           for i in {1..30}; do
             if curl -s -o /dev/null -w "%{http_code}" \
-              -X POST http://localhost:3000/api/forgot-password \
-              -H "Content-Type: application/json" \
-              -H "X-Student-Id: CI_SMOKE" \
-              -d '{"email":"test@eshop.com"}' | grep -Eq "200|404"; then
+              http://localhost:3000/api/products | grep -Eq "200"; then
               exit 0
             fi
             sleep 1
           done
           cat backend.log
           exit 1
+
+      - name: Build current Postman collection
+        run: node API-testing/build_common_postman_collection.js
 
       - name: Install Newman
         run: npm install -g newman newman-reporter-html
@@ -60,7 +60,7 @@ jobs:
             -r cli,html \
             --reporter-html-export API-testing/newman-eshop-api-report.html
         env:
-          STUDENT_ID: ${{ vars.STUDENT_ID || 'PUT_YOUR_STUDENT_ID_HERE' }}
+          STUDENT_ID: ${{ vars.STUDENT_ID || '23127158' }}
 
       - name: Upload Newman HTML report
         uses: actions/upload-artifact@v4

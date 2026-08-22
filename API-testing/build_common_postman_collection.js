@@ -25,6 +25,16 @@ const suites = [
       "04_schema_validation.json",
     ],
   },
+  {
+    name: "FR-17 Admin Coupons",
+    dir: "admin-coupons",
+    files: [
+      "01_domain_partitions.json",
+      "02_state_transitions.json",
+      "03_security.json",
+      "04_schema_validation.json",
+    ],
+  },
 ];
 
 function readCases(suite) {
@@ -40,7 +50,14 @@ function readCases(suite) {
 }
 
 function headerList(headers = {}) {
-  const result = Object.entries(headers).map(([key, value]) => ({ key, value }));
+  const result = Object.entries(headers).map(([key, value]) => ({
+    key,
+    value: String(value)
+      .replace("{admin_token}", "{{adminToken}}")
+      .replace("{user_token}", "{{userToken}}")
+      .replace("{expired_admin_token}", "{{expiredAdminToken}}")
+      .replace("{admin_A_token}", "{{adminToken}}"),
+  }));
   if (!result.some((header) => header.key.toLowerCase() === "content-type")) {
     result.push({ key: "Content-Type", value: "application/json" });
   }
@@ -113,6 +130,68 @@ function safeName(value) {
   return String(value || "").replace(/"/g, '\\"');
 }
 
+function loginItem({ name, email, password, variableName }) {
+  return {
+    name,
+    request: {
+      method: "POST",
+      header: [
+        { key: "Content-Type", value: "application/json" },
+        { key: "X-Student-Id", value: "{{studentId}}" },
+      ],
+      body: {
+        mode: "raw",
+        raw: JSON.stringify({ email, password }, null, 2),
+        options: { raw: { language: "json" } },
+      },
+      url: {
+        raw: `${baseUrl}/api/login`,
+        host: ["{{baseUrl}}"],
+        path: ["api", "login"],
+      },
+    },
+    event: [
+      {
+        listen: "test",
+        script: {
+          type: "text/javascript",
+          exec: [
+            'pm.test("Login returns HTTP 200", function () {',
+            "  pm.response.to.have.status(200);",
+            "});",
+            "",
+            `pm.test("Store ${variableName}", function () {`,
+            "  const json = pm.response.json();",
+            '  pm.expect(json.token, "token").to.be.a("string").and.not.empty;',
+            `  pm.collectionVariables.set("${variableName}", json.token);`,
+            "});",
+          ],
+        },
+      },
+    ],
+  };
+}
+
+function authItems() {
+  return {
+    name: "Auth - Get Tokens",
+    item: [
+      loginItem({
+        name: "Login admin and save adminToken",
+        email: "admin@eshop.com",
+        password: "Admin123!",
+        variableName: "adminToken",
+      }),
+      loginItem({
+        name: "Login user and save userToken",
+        email: "test@eshop.com",
+        password: "Test1234!",
+        variableName: "userToken",
+      }),
+    ],
+  };
+}
+
 function commonTests(testCase) {
   const id = testCase.temp_id;
   const endpoint = testCase.endpoint || `${testCase.request.method} ${testCase.request.path}`;
@@ -170,6 +249,14 @@ function commonTests(testCase) {
 });`);
   }
 
+  if (endpoint.includes("/api/admin/coupons") && expectedCodes.some((code) => code >= 200 && code < 300)) {
+    lines.push(`pm.test("Admin coupon success response is a JSON object when body exists", function () {
+  if (pm.response.text()) {
+    pm.expect(pm.response.json()).to.be.an("object");
+  }
+});`);
+  }
+
   return lines.join("\n\n");
 }
 
@@ -210,13 +297,16 @@ const collection = {
   info: {
     name: "EShop API Test Suite",
     description:
-      "Common Postman collection for all current API test cases under API-testing. Generated from stage JSON files for forgot-password and apply-coupon.",
+      "Common Postman collection for all current API test cases under API-testing. Generated from stage JSON files for forgot-password, apply-coupon, and admin-coupons.",
     schema: "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
   },
-  item: collectionItems,
+  item: [authItems(), ...collectionItems],
   variable: [
     { key: "baseUrl", value: "http://localhost:3000" },
     { key: "studentId", value: "PUT_YOUR_STUDENT_ID_HERE" },
+    { key: "adminToken", value: "" },
+    { key: "userToken", value: "" },
+    { key: "expiredAdminToken", value: "expired-or-invalid-token" },
   ],
 };
 

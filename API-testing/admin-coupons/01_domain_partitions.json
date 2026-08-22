@@ -4,96 +4,145 @@
     "category": "DomainPartition",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "Tao coupon percent hop le voi day du field bat buoc",
-    "preconditions": "Admin da dang nhap va co JWT hop le; chua ton tai coupon code TET2025",
+    "title": "Tạo coupon percent hợp lệ với đầy đủ field bắt buộc",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ; chưa tồn tại coupon code TET2025",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "TET2025", "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "TET2025",
+        "type": "percent",
+        "discount_value": 15,
+        "min_order_amount": 200000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 201,
-    "expected_result": "Coupon duoc tao thanh cong; response tra ve thong tin coupon moi voi code, type, discount_value, min_order_amount, expired_at, max_uses_per_user dung nhu request.",
+    "expected_result": "Coupon được tạo thành công; response trả về thông tin coupon mới với code, type, discount_value, min_order_amount, expired_at, max_uses_per_user đúng như request.",
     "priority": "High",
     "parameter": "body",
     "partition_type": "valid-typical",
-    "notes": "Neu implementation dung 200 thay vi 201 thi can doi chieu quy uoc response thuc te; ve nghiep vu day la case hop le."
+    "notes": "Nếu implementation dùng 200 thay vì 201 thì cần đối chiếu quy ước response thực tế; về nghiệp vụ đây là case hợp lệ."
   },
   {
     "temp_id": "DP-02",
     "category": "DomainPartition",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "Tao coupon fixed amount hop le",
-    "preconditions": "Admin da dang nhap va co JWT hop le; chua ton tai coupon code FREESHIP50",
+    "title": "Tạo coupon fixed amount hợp lệ",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ; chưa tồn tại coupon code FREESHIP50",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "FREESHIP50", "type": "fixed", "discount_value": 50000, "min_order_amount": 150000, "expired_at": "2026-12-31", "max_uses_per_user": 2 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "FREESHIP50",
+        "type": "fixed",
+        "discount_value": 50000,
+        "min_order_amount": 150000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 2
+      }
     },
     "expected_status": 201,
-    "expected_result": "Coupon fixed amount duoc tao thanh cong va co the duoc tim thay trong danh sach coupon admin.",
+    "expected_result": "Coupon fixed amount được tạo thành công và có thể được tìm thấy trong danh sách coupon admin.",
     "priority": "High",
     "parameter": "type",
     "partition_type": "valid-typical",
-    "notes": "Spec chi neu vi du type=percent; fixed la phan vung hop le thuong gap can xac nhan voi rule business."
+    "notes": "Spec chỉ nêu ví dụ type=percent; fixed là phân vùng hợp lệ thường gặp cần xác nhận với rule business."
   },
   {
     "temp_id": "DP-03",
     "category": "DomainPartition",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "Tao coupon percent voi discount_value bien nho nhat hop le la 1",
-    "preconditions": "Admin da dang nhap va co JWT hop le; chua ton tai coupon code PCT001",
+    "title": "Tạo coupon percent với discount_value biên nhỏ nhất hợp lệ là 1",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ; chưa tồn tại coupon code PCT001",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "PCT001", "type": "percent", "discount_value": 1, "min_order_amount": 0, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "PCT001",
+        "type": "percent",
+        "discount_value": 1,
+        "min_order_amount": 0,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 201,
-    "expected_result": "API chap nhan gia tri giam 1% va min_order_amount = 0 neu coupon khong yeu cau don toi thieu.",
+    "expected_result": "API chấp nhận giá trị giảm 1% và min_order_amount = 0 nếu coupon không yêu cầu đơn tối thiểu.",
     "priority": "Medium",
     "parameter": "discount_value,min_order_amount",
     "partition_type": "valid-boundary",
-    "notes": "Gia tri bien duoi hop le cho percent va min_order_amount."
+    "notes": "Giá trị biên dưới hợp lệ cho percent và min_order_amount."
   },
   {
     "temp_id": "DP-04",
     "category": "DomainPartition",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "Tao coupon percent voi discount_value bien tren hop le la 100",
-    "preconditions": "Admin da dang nhap va co JWT hop le; chua ton tai coupon code PCT100",
+    "title": "Tạo coupon percent với discount_value biên trên hợp lệ là 100",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ; chưa tồn tại coupon code PCT100",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "PCT100", "type": "percent", "discount_value": 100, "min_order_amount": 500000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "PCT100",
+        "type": "percent",
+        "discount_value": 100,
+        "min_order_amount": 500000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 201,
-    "expected_result": "API chap nhan coupon giam 100% neu business rule cho phep; coupon duoc luu dung gia tri 100.",
+    "expected_result": "API chấp nhận coupon giảm 100% nếu business rule cho phép; coupon được lưu đúng giá trị 100.",
     "priority": "Medium",
     "parameter": "discount_value",
     "partition_type": "valid-boundary",
-    "notes": "Neu he thong khong cho 100% thi expected status co the la 422 theo rule business; can audit voi implementation."
+    "notes": "Nếu hệ thống không cho 100% thì expected status có thể là 422 theo rule business; cần audit với implementation."
   },
   {
     "temp_id": "DP-05",
     "category": "DomainPartition",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "Thieu field code khi tao coupon",
-    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "title": "Thiếu field code khi tạo coupon",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "type": "percent",
+        "discount_value": 15,
+        "min_order_amount": 200000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 400,
-    "expected_result": "API tu choi request va tra loi loi validation neu thieu code; khong tao coupon moi.",
+    "expected_result": "API từ chối request và trả lời lỗi validation nếu thiếu code; không tạo coupon mới.",
     "priority": "High",
     "parameter": "code",
     "partition_type": "missing-required",
@@ -104,16 +153,26 @@
     "category": "DomainPartition",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "Code rong hoac chi co khoang trang",
-    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "title": "Code rỗng hoặc chỉ có khoảng trắng",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "   ", "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "   ",
+        "type": "percent",
+        "discount_value": 15,
+        "min_order_amount": 200000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 400,
-    "expected_result": "API tu choi code rong/whitespace sau khi trim; khong tao coupon.",
+    "expected_result": "API từ chối code rỗng/whitespace sau khi trim; không tạo coupon.",
     "priority": "High",
     "parameter": "code",
     "partition_type": "empty-null-whitespace",
@@ -124,76 +183,116 @@
     "category": "DomainPartition",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "Code bi trung voi coupon da ton tai",
-    "preconditions": "Admin da dang nhap va co JWT hop le; coupon code TET2025 da ton tai",
+    "title": "Code bị trùng với coupon đã tồn tại",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ; coupon code TET2025 đã tồn tại",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "TET2025", "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "TET2025",
+        "type": "percent",
+        "discount_value": 15,
+        "min_order_amount": 200000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 409,
-    "expected_result": "API tu choi tao coupon trung code va khong ghi de coupon cu.",
+    "expected_result": "API từ chối tạo coupon trùng code và không ghi đè coupon cũ.",
     "priority": "High",
     "parameter": "code",
     "partition_type": "invalid-boundary",
-    "notes": "Neu implementation dung 400/422 cho duplicate thi can ghi nhan khi audit."
+    "notes": "Nếu implementation dùng 400/422 cho duplicate thì cần ghi nhận khi audit."
   },
   {
     "temp_id": "DP-08",
     "category": "DomainPartition",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "Type nam ngoai enum hop le",
-    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "title": "Type nằm ngoài enum hợp lệ",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "BADTYPE", "type": "percentage", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "BADTYPE",
+        "type": "percentage",
+        "discount_value": 15,
+        "min_order_amount": 200000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 400,
-    "expected_result": "API tu choi type khong duoc ho tro va tra loi loi validation ro rang.",
+    "expected_result": "API từ chối type không được hỗ trợ và trả lời lỗi validation rõ ràng.",
     "priority": "High",
     "parameter": "type",
     "partition_type": "invalid-format",
-    "notes": "Enum du kien gom percent/fixed."
+    "notes": "Enum dự kiến gồm percent/fixed."
   },
   {
     "temp_id": "DP-09",
     "category": "DomainPartition",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "discount_value bang 0 cho coupon percent",
-    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "title": "discount_value bằng 0 cho coupon percent",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "ZERO", "type": "percent", "discount_value": 0, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "ZERO",
+        "type": "percent",
+        "discount_value": 0,
+        "min_order_amount": 200000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 400,
-    "expected_result": "API tu choi gia tri giam khong co y nghia; khong tao coupon.",
+    "expected_result": "API từ chối giá trị giảm không có ý nghĩa; không tạo coupon.",
     "priority": "High",
     "parameter": "discount_value",
     "partition_type": "invalid-boundary",
-    "notes": "Gia tri sai ngay duoi bien hop le."
+    "notes": "Giá trị sai ngay dưới biên hợp lệ."
   },
   {
     "temp_id": "DP-10",
     "category": "DomainPartition",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "discount_value lon hon 100 cho coupon percent",
-    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "title": "discount_value lớn hơn 100 cho coupon percent",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "PCT101", "type": "percent", "discount_value": 101, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "PCT101",
+        "type": "percent",
+        "discount_value": 101,
+        "min_order_amount": 200000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 400,
-    "expected_result": "API tu choi percent discount vuot qua 100%; khong tao coupon.",
+    "expected_result": "API từ chối percent discount vượt quá 100%; không tạo coupon.",
     "priority": "High",
     "parameter": "discount_value",
     "partition_type": "invalid-boundary",
@@ -204,16 +303,26 @@
     "category": "DomainPartition",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "discount_value sai kieu du lieu la chuoi",
-    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "title": "discount_value sai kiểu dữ liệu là chuỗi",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "STRDISC", "type": "percent", "discount_value": "15", "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "STRDISC",
+        "type": "percent",
+        "discount_value": "15",
+        "min_order_amount": 200000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 400,
-    "expected_result": "API tu choi sai kieu du lieu hoac validate ep kieu chat che; khong tao coupon neu field khong phai number.",
+    "expected_result": "API từ chối sai kiểu dữ liệu hoặc validate ép kiểu chặt chẽ; không tạo coupon nếu field không phải number.",
     "priority": "Medium",
     "parameter": "discount_value",
     "partition_type": "wrong-type",
@@ -224,16 +333,26 @@
     "category": "DomainPartition",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "min_order_amount am",
-    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "title": "min_order_amount âm",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "NEGMIN", "type": "percent", "discount_value": 15, "min_order_amount": -1, "expired_at": "2026-12-31", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "NEGMIN",
+        "type": "percent",
+        "discount_value": 15,
+        "min_order_amount": -1,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 400,
-    "expected_result": "API tu choi min_order_amount am; khong tao coupon.",
+    "expected_result": "API từ chối min_order_amount âm; không tạo coupon.",
     "priority": "High",
     "parameter": "min_order_amount",
     "partition_type": "invalid-boundary",
@@ -244,16 +363,26 @@
     "category": "DomainPartition",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "expired_at sai dinh dang ngay",
-    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "title": "expired_at sai định dạng ngày",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "BADDAY", "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "31-12-2026", "max_uses_per_user": 1 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "BADDAY",
+        "type": "percent",
+        "discount_value": 15,
+        "min_order_amount": 200000,
+        "expired_at": "31-12-2026",
+        "max_uses_per_user": 1
+      }
     },
     "expected_status": 400,
-    "expected_result": "API tu choi ngay het han khong dung format ISO yyyy-mm-dd.",
+    "expected_result": "API từ chối ngày hết hạn không đúng format ISO yyyy-mm-dd.",
     "priority": "High",
     "parameter": "expired_at",
     "partition_type": "invalid-format",
@@ -264,16 +393,26 @@
     "category": "DomainPartition",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "max_uses_per_user bang 0",
-    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "title": "max_uses_per_user bằng 0",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "ZEROUSE", "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 0 }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "ZEROUSE",
+        "type": "percent",
+        "discount_value": 15,
+        "min_order_amount": 200000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 0
+      }
     },
     "expected_status": 400,
-    "expected_result": "API tu choi gioi han so lan dung/nguoi bang 0; khong tao coupon.",
+    "expected_result": "API từ chối giới hạn số lần dùng/người bằng 0; không tạo coupon.",
     "priority": "High",
     "parameter": "max_uses_per_user",
     "partition_type": "invalid-boundary",
@@ -284,19 +423,30 @@
     "category": "DomainPartition",
     "endpoint": "POST /api/admin/coupons",
     "related_requirement": "FR-17",
-    "title": "Body co field thua is_active khi tao coupon",
-    "preconditions": "Admin da dang nhap va co JWT hop le",
+    "title": "Body có field thừa is_active khi tạo coupon",
+    "preconditions": "Admin đã đăng nhập và có JWT hợp lệ",
     "request": {
       "method": "POST",
       "path": "/api/admin/coupons",
-      "headers": { "Authorization": "Bearer {admin_token}", "Content-Type": "application/json" },
-      "body": { "code": "EXTRA", "type": "percent", "discount_value": 15, "min_order_amount": 200000, "expired_at": "2026-12-31", "max_uses_per_user": 1, "is_active": true }
+      "headers": {
+        "Authorization": "Bearer {admin_token}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "EXTRA",
+        "type": "percent",
+        "discount_value": 15,
+        "min_order_amount": 200000,
+        "expired_at": "2026-12-31",
+        "max_uses_per_user": 1,
+        "is_active": true
+      }
     },
     "expected_status": 400,
-    "expected_result": "API tu choi field khong nam trong spec hoac bo qua field thua ma khong cho client dieu khien trang thai nhay cam.",
+    "expected_result": "API từ chối field không nằm trong spec hoặc bỏ qua field thừa mà không cho client điều khiển trạng thái nhạy cảm.",
     "priority": "Medium",
     "parameter": "is_active",
     "partition_type": "unexpected-extra",
-    "notes": "Neu API bo qua field thua va van tao coupon thi can audit theo policy validation cua project."
+    "notes": "Nếu API bỏ qua field thừa và vẫn tạo coupon thì cần audit theo policy validation của project."
   }
 ]
