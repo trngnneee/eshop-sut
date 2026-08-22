@@ -1,0 +1,15 @@
+{
+  "name": "api-testing",
+  "version": "1.0.0",
+  "description": "Generated test cases for selected EShop APIs.",
+  "main": "index.js",
+  "scripts": {
+    "forgot": "newman run forgot_password.postman_collection.json -e eshop_api.postman_environment.json -r cli,htmlextra --reporter-htmlextra-export forgot-password--report.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "newman": "^6.2.2",
+    "newman-reporter-htmlextra": "^1.23.1"
+  }
+}

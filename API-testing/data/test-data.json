@@ -1,53 +1,5 @@
 [
   {
-    "id": "AUTH-ADMIN-001",
-    "tempId": "AUTH-ADMIN-001",
-    "apiSlug": "auth",
-    "suiteName": "Auth setup",
-    "sourceFile": "generated-auth-setup",
-    "category": "AuthSetup",
-    "title": "Đăng nhập admin và lưu adminToken",
-    "relatedRequirement": "Setup",
-    "method": "POST",
-    "path": "/api/login",
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "body": {
-      "email": "admin@eshop.com",
-      "password": "Admin123!"
-    },
-    "expectedStatus": 200,
-    "expectedResult": "Response trả JWT token của admin và lưu vào collection variable adminToken.",
-    "priority": "High",
-    "setTokenVariable": "adminToken",
-    "notes": "Seed account từ backend/database.js; dùng làm auth context cho admin API."
-  },
-  {
-    "id": "AUTH-USER-001",
-    "tempId": "AUTH-USER-001",
-    "apiSlug": "auth",
-    "suiteName": "Auth setup",
-    "sourceFile": "generated-auth-setup",
-    "category": "AuthSetup",
-    "title": "Đăng nhập user thường và lưu userToken",
-    "relatedRequirement": "Setup",
-    "method": "POST",
-    "path": "/api/login",
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "body": {
-      "email": "test@eshop.com",
-      "password": "Test1234!"
-    },
-    "expectedStatus": 200,
-    "expectedResult": "Response trả JWT token của user thường và lưu vào collection variable userToken.",
-    "priority": "High",
-    "setTokenVariable": "userToken",
-    "notes": "Seed account từ backend/database.js; dùng cho các security case kiểm role user."
-  },
-  {
     "id": "TC-FORGOT-PASSWORD-DP-001",
     "tempId": "DP-01",
     "apiSlug": "forgot-password",
@@ -86,7 +38,7 @@
     "suiteName": "FR-03 Forgot Password",
     "sourceFile": "01_domain_partitions.json",
     "category": "DomainPartition",
-    "title": "Email hợp lệ có chữ hoa/thường vẫn được nhận diện đúng user",
+    "title": "Email viết hoa/thường khác email đã đăng ký nên không nhận diện cùng user",
     "relatedRequirement": "FR-03",
     "method": "POST",
     "path": "/api/forgot-password",
@@ -96,8 +48,8 @@
     "body": {
       "email": "TEST@ESHOP.COM"
     },
-    "expectedStatus": 200,
-    "expectedResult": "API xử lý email không phân biệt hoa thường hoặc chuẩn hóa email trước khi tìm user; nếu hệ thống quy định phân biệt hoa thường thì phải được ghi rõ",
+    "expectedStatus": 404,
+    "expectedResult": "API xử lý email theo exact match; TEST@ESHOP.COM được xem là email khác test@eshop.com nên trả JSON error User not found và không tạo OTP.",
     "priority": "Medium",
     "parameter": "email",
     "partitionType": "valid-boundary",
@@ -109,7 +61,7 @@
     "attackVector": "",
     "schemaRef": "",
     "fieldsChecked": [],
-    "notes": "Email thường được xử lý case-insensitive trong luồng đăng nhập/quên mật khẩu"
+    "notes": "CSV audit đánh dấu INVALID cho giả định AI ban đầu: email hoa/thường là cùng tài khoản. Record này đã được sửa thành negative test case hợp lệ."
   },
   {
     "id": "TC-FORGOT-PASSWORD-DP-003",
@@ -128,8 +80,8 @@
     "body": {
       "email": "nobody@example.com"
     },
-    "expectedStatus": "200 hoặc 404 theo chính sách bảo mật được thống nhất",
-    "expectedResult": "Nếu ưu tiên chống user enumeration, API nên trả thông báo chung không xác nhận email tồn tại; nếu theo api_spec hiện tại có thể trả lỗi nhưng cần đánh giá là rủi ro",
+    "expectedStatus": 404,
+    "expectedResult": "API trả JSON error User not found và không tạo OTP cho email chưa đăng ký; phản hồi này có thể dùng để ghi nhận rủi ro user enumeration.",
     "priority": "High",
     "parameter": "email",
     "partitionType": "valid-typical",
@@ -141,7 +93,7 @@
     "attackVector": "",
     "schemaRef": "",
     "fieldsChecked": [],
-    "notes": "Implementation hiện tại trả 404 User not found; đây là case quan trọng để audit bảo mật"
+    "notes": "Đã chốt theo backend hiện tại là 404; security case riêng kiểm policy 200 thông báo chung để chống user enumeration."
   },
   {
     "id": "TC-FORGOT-PASSWORD-DP-004",
@@ -351,7 +303,7 @@
       "email": "  test@eshop.com  "
     },
     "expectedStatus": 200,
-    "expectedResult": "API trim email trước khi xử lý và tạo OTP cho user tương ứng",
+    "expectedResult": "API trim email trước khi xử lý và tạo OTP cho user tương ứng.",
     "priority": "Medium",
     "parameter": "email",
     "partitionType": "valid-boundary",
@@ -363,7 +315,7 @@
     "attackVector": "",
     "schemaRef": "",
     "fieldsChecked": [],
-    "notes": "Nếu backend không trim thì có thể trả sai lỗi user không tồn tại"
+    "notes": "VALID boundary/normalization case; nếu backend không trim và trả 404 thì ghi nhận bug hoặc behavior lệch requirement."
   },
   {
     "id": "TC-FORGOT-PASSWORD-DP-011",
@@ -575,8 +527,8 @@
     "body": {
       "email": "nobody@example.com"
     },
-    "expectedStatus": "200 thông báo chung hoặc 404 theo api_spec hiện tại",
-    "expectedResult": "Không có OTP nào được tạo hoặc lưu cho email chưa đăng ký; hệ thống không tạo tài khoản ngầm",
+    "expectedStatus": 404,
+    "expectedResult": "API trả JSON error User not found; không có OTP nào được tạo hoặc lưu cho email chưa đăng ký và hệ thống không tạo tài khoản ngầm.",
     "priority": "High",
     "parameter": "",
     "partitionType": "",
@@ -588,7 +540,7 @@
     "attackVector": "",
     "schemaRef": "",
     "fieldsChecked": [],
-    "notes": "Nếu trả 404 User not found thì có rủi ro user enumeration"
+    "notes": "Đã chốt expectedStatus 404 theo backend hiện tại; rủi ro user enumeration được kiểm ở security case."
   },
   {
     "id": "TC-FORGOT-PASSWORD-ST-004",
@@ -1233,8 +1185,8 @@
     "body": {
       "email": "nobody@example.com"
     },
-    "expectedStatus": 200,
-    "expectedResult": "Response có cùng cấu trúc thông báo chung như email tồn tại nhưng không có resetToken thật; nếu theo api_spec trả lỗi thì error schema vẫn phải là JSON ổn định",
+    "expectedStatus": 404,
+    "expectedResult": "Response lỗi là JSON object có field error kiểu string, không có resetToken thật và không lộ field nhạy cảm.",
     "priority": "Medium",
     "parameter": "",
     "partitionType": "",
@@ -1250,7 +1202,7 @@
       "error",
       "resetToken"
     ],
-    "notes": "Case này giao giữa schema và security user enumeration"
+    "notes": "Schema case kiểm response lỗi thực tế 404; policy 200 chống enumeration được giữ ở security case."
   },
   {
     "id": "TC-FORGOT-PASSWORD-SV-007",
@@ -4320,5 +4272,239 @@
       "status"
     ],
     "notes": ""
+  },
+  {
+    "id": "HT-FORGOT-EXT-001",
+    "tempId": "EXT-01",
+    "apiSlug": "forgot-password",
+    "suiteName": "FR-03 Forgot Password",
+    "sourceFile": "human_extended_test_cases.md",
+    "category": "Security",
+    "title": "Không cho dùng OTP của user A để reset mật khẩu user B",
+    "relatedRequirement": "FR-03, SEC-07",
+    "method": "POST",
+    "path": "/api/reset-password",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "email": "admin@eshop.com",
+      "resetToken": "{{otpFromOtherUser}}",
+      "newPassword": "NewAdmin123!"
+    },
+    "expectedStatus": 400,
+    "expectedResult": "API từ chối; mật khẩu của admin@eshop.com không đổi; OTP của user khác không được áp dụng.",
+    "priority": "High",
+    "parameter": "",
+    "partitionType": "",
+    "fromState": "",
+    "toState": "",
+    "action": "",
+    "expectedAllowed": "",
+    "secId": "SEC-07",
+    "attackVector": "Token Binding Bypass",
+    "schemaRef": "",
+    "fieldsChecked": [],
+    "notes": "Bổ sung thủ công sau bước audit."
+  },
+  {
+    "id": "HT-FORGOT-EXT-002",
+    "tempId": "EXT-02",
+    "apiSlug": "forgot-password",
+    "suiteName": "FR-03 Forgot Password",
+    "sourceFile": "human_extended_test_cases.md",
+    "category": "StateTransition",
+    "title": "OTP đã dùng thành công không được dùng lại",
+    "relatedRequirement": "FR-03, SEC-07",
+    "method": "POST",
+    "path": "/api/reset-password",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "email": "test@eshop.com",
+      "resetToken": "{{consumedResetToken}}",
+      "newPassword": "AnotherPass123!"
+    },
+    "expectedStatus": 400,
+    "expectedResult": "API từ chối OTP đã dùng; mật khẩu không bị đổi lần nữa.",
+    "priority": "High",
+    "parameter": "",
+    "partitionType": "",
+    "fromState": "OTP consumed after successful reset",
+    "toState": "OTP remains invalid",
+    "action": "Reuse consumed OTP",
+    "expectedAllowed": false,
+    "secId": "SEC-07",
+    "attackVector": "OTP Replay",
+    "schemaRef": "",
+    "fieldsChecked": [],
+    "notes": "Bổ sung thủ công sau bước audit."
+  },
+  {
+    "id": "HT-FORGOT-EXT-003",
+    "tempId": "EXT-03",
+    "apiSlug": "forgot-password",
+    "suiteName": "FR-03 Forgot Password",
+    "sourceFile": "human_extended_test_cases.md",
+    "category": "StateTransition",
+    "title": "OTP cũ bị vô hiệu khi user yêu cầu OTP mới",
+    "relatedRequirement": "FR-03, SEC-07",
+    "method": "POST",
+    "path": "/api/reset-password",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "email": "test@eshop.com",
+      "resetToken": "{{oldResetToken}}",
+      "newPassword": "NewPass123!"
+    },
+    "expectedStatus": 400,
+    "expectedResult": "API từ chối OTP A cũ; chỉ OTP B mới nhất được chấp nhận.",
+    "priority": "High",
+    "parameter": "",
+    "partitionType": "",
+    "fromState": "Active OTP B replaces OTP A",
+    "toState": "Old OTP rejected",
+    "action": "Use previous OTP after requesting a new one",
+    "expectedAllowed": false,
+    "secId": "SEC-07",
+    "attackVector": "Stale OTP Reuse",
+    "schemaRef": "",
+    "fieldsChecked": [],
+    "notes": "Bổ sung thủ công sau bước audit."
+  },
+  {
+    "id": "HT-FORGOT-EXT-004",
+    "tempId": "EXT-04",
+    "apiSlug": "forgot-password",
+    "suiteName": "FR-03 Forgot Password",
+    "sourceFile": "human_extended_test_cases.md",
+    "category": "Security",
+    "title": "Reset password phải kiểm password policy cho newPassword",
+    "relatedRequirement": "FR-03, SEC-07",
+    "method": "POST",
+    "path": "/api/reset-password",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "email": "test@eshop.com",
+      "resetToken": "{{validResetToken}}",
+      "newPassword": "123"
+    },
+    "expectedStatus": 400,
+    "expectedResult": "API từ chối mật khẩu yếu; không cập nhật password và không lộ token/password trong response.",
+    "priority": "High",
+    "parameter": "",
+    "partitionType": "",
+    "fromState": "",
+    "toState": "",
+    "action": "",
+    "expectedAllowed": "",
+    "secId": "SEC-07",
+    "attackVector": "Weak Password Reset",
+    "schemaRef": "",
+    "fieldsChecked": [],
+    "notes": "Bổ sung thủ công sau bước audit."
+  },
+  {
+    "id": "HT-FORGOT-EXT-005",
+    "tempId": "EXT-05",
+    "apiSlug": "forgot-password",
+    "suiteName": "FR-03 Forgot Password",
+    "sourceFile": "human_extended_test_cases.md",
+    "category": "StateTransition",
+    "title": "Hai request reset-password song song với cùng OTP chỉ được một request thành công",
+    "relatedRequirement": "FR-03, SEC-07",
+    "method": "POST",
+    "path": "/api/reset-password",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "email": "test@eshop.com",
+      "resetToken": "{{validResetToken}}",
+      "newPassword": "RacePass123!"
+    },
+    "expectedStatus": 400,
+    "expectedResult": "Sau khi một request đã dùng OTP thành công, request còn lại phải bị từ chối; token không được double-spend.",
+    "priority": "High",
+    "parameter": "",
+    "partitionType": "",
+    "fromState": "Active OTP with concurrent reset attempts",
+    "toState": "Only one reset succeeds",
+    "action": "Submit duplicate reset requests concurrently",
+    "expectedAllowed": false,
+    "secId": "SEC-07",
+    "attackVector": "Race Condition",
+    "schemaRef": "",
+    "fieldsChecked": [],
+    "notes": "Bổ sung thủ công sau bước audit."
+  },
+  {
+    "id": "HT-FORGOT-EXT-006",
+    "tempId": "EXT-06",
+    "apiSlug": "forgot-password",
+    "suiteName": "FR-03 Forgot Password",
+    "sourceFile": "human_extended_test_cases.md",
+    "category": "Security",
+    "title": "Method confusion: GET không được tạo OTP",
+    "relatedRequirement": "FR-03",
+    "method": "GET",
+    "path": "/api/forgot-password?email=test@eshop.com",
+    "headers": {},
+    "body": null,
+    "expectedStatus": 404,
+    "expectedResult": "API không tạo OTP bằng GET; state reset_token của user không đổi.",
+    "priority": "Medium",
+    "parameter": "",
+    "partitionType": "",
+    "fromState": "",
+    "toState": "",
+    "action": "",
+    "expectedAllowed": "",
+    "secId": "OWASP-Other",
+    "attackVector": "Method Confusion",
+    "schemaRef": "",
+    "fieldsChecked": [],
+    "notes": "Bổ sung thủ công sau bước audit."
+  },
+  {
+    "id": "HT-FORGOT-EXT-007",
+    "tempId": "EXT-07",
+    "apiSlug": "forgot-password",
+    "suiteName": "FR-03 Forgot Password",
+    "sourceFile": "human_extended_test_cases.md",
+    "category": "Security",
+    "title": "Response chứa resetToken không được cache bởi browser/proxy",
+    "relatedRequirement": "FR-03, SEC-07",
+    "method": "POST",
+    "path": "/api/forgot-password",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "email": "test@eshop.com"
+    },
+    "expectedStatus": 200,
+    "expectedResult": "Response có header Cache-Control: no-store hoặc cơ chế tương đương để tránh cache OTP.",
+    "priority": "Medium",
+    "parameter": "",
+    "partitionType": "",
+    "fromState": "",
+    "toState": "",
+    "action": "",
+    "expectedAllowed": "",
+    "secId": "SEC-07",
+    "attackVector": "Sensitive Token Caching",
+    "schemaRef": "Forgot-password success response headers",
+    "fieldsChecked": [
+      "Cache-Control",
+      "Pragma",
+      "Expires"
+    ],
+    "notes": "Bổ sung thủ công sau bước audit."
   }
 ]
