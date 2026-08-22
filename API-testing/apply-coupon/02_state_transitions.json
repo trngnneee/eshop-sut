@@ -1,0 +1,226 @@
+[
+  {
+    "temp_id": "ST-01",
+    "category": "StateTransition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Coupon còn hiệu lực chuyển từ chưa áp dụng sang đã áp dụng",
+    "preconditions": "Coupon code=SAVE10 tồn tại, còn hạn, chưa vượt giới hạn sử dụng; user_id=1 tồn tại; total_amount=500000 đạt min_order_amount nếu coupon có cấu hình này.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": 200,
+    "expected_result": "API cho phép áp dụng coupon, trả discount_amount > 0 và final_amount nhỏ hơn total_amount.",
+    "priority": "High",
+    "notes": "State ẩn của FR-09: coupon_active + user_eligible + order_meets_minimum.",
+    "from_state": "coupon_active, user_not_yet_used, order_amount_eligible",
+    "to_state": "coupon_applied",
+    "action": "apply valid coupon to eligible order",
+    "expected_allowed": true
+  },
+  {
+    "temp_id": "ST-02",
+    "category": "StateTransition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Coupon hết hạn không được chuyển sang trạng thái đã áp dụng",
+    "preconditions": "Coupon code=OLD2025 tồn tại nhưng expired_at đã ở quá khứ; user_id=1 tồn tại; total_amount đủ lớn.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "OLD2025",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": "400 hoặc 410",
+    "expected_result": "API từ chối coupon hết hạn, không trả kết quả giảm giá thành công và không thay đổi lượt sử dụng của user.",
+    "priority": "High",
+    "notes": "Dựa trên field expired_at của API quản lý coupon trong spec.",
+    "from_state": "coupon_expired, user_not_yet_used, order_amount_eligible",
+    "to_state": "coupon_applied",
+    "action": "apply expired coupon",
+    "expected_allowed": false
+  },
+  {
+    "temp_id": "ST-03",
+    "category": "StateTransition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Coupon đã bị xóa không được áp dụng",
+    "preconditions": "Coupon code=DELETED10 từng tồn tại nhưng đã bị xóa qua API admin; user_id=1 tồn tại; total_amount đủ lớn.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "DELETED10",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": "400 hoặc 404",
+    "expected_result": "API từ chối vì coupon không còn ở trạng thái có thể áp dụng; không tạo discount_amount hợp lệ.",
+    "priority": "High",
+    "notes": "State ẩn được suy ra từ endpoint DELETE /api/admin/coupons/:id trong spec.",
+    "from_state": "coupon_deleted",
+    "to_state": "coupon_applied",
+    "action": "apply deleted coupon",
+    "expected_allowed": false
+  },
+  {
+    "temp_id": "ST-04",
+    "category": "StateTransition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Đơn hàng chưa đạt min_order_amount không được áp dụng coupon",
+    "preconditions": "Coupon code=TET2025 tồn tại, còn hạn, min_order_amount=200000; user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "TET2025",
+        "total_amount": 199999,
+        "user_id": 1
+      }
+    },
+    "expected_status": 400,
+    "expected_result": "API từ chối áp dụng coupon vì tổng tiền hiện tại chưa đạt ngưỡng tối thiểu; final_amount không được tính như đơn được giảm giá.",
+    "priority": "High",
+    "notes": "Dựa trên field min_order_amount của API tạo coupon trong spec.",
+    "from_state": "coupon_active, order_amount_below_minimum",
+    "to_state": "coupon_applied",
+    "action": "apply coupon before reaching minimum order amount",
+    "expected_allowed": false
+  },
+  {
+    "temp_id": "ST-05",
+    "category": "StateTransition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Đơn hàng vừa đạt min_order_amount được áp dụng coupon",
+    "preconditions": "Coupon code=TET2025 tồn tại, còn hạn, min_order_amount=200000; user_id=1 tồn tại và chưa dùng coupon.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "TET2025",
+        "total_amount": 200000,
+        "user_id": 1
+      }
+    },
+    "expected_status": 200,
+    "expected_result": "API cho phép áp dụng coupon ở đúng ngưỡng tối thiểu; trả discount_amount và final_amount hợp lệ.",
+    "priority": "Medium",
+    "notes": "Boundary hợp lệ trong state order_amount_at_minimum.",
+    "from_state": "coupon_active, order_amount_at_minimum, user_not_yet_used",
+    "to_state": "coupon_applied",
+    "action": "apply coupon at minimum order amount",
+    "expected_allowed": true
+  },
+  {
+    "temp_id": "ST-06",
+    "category": "StateTransition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "User đã dùng hết max_uses_per_user không được áp dụng lại coupon",
+    "preconditions": "Coupon code=ONCEONLY tồn tại, còn hạn, max_uses_per_user=1; user_id=1 đã áp dụng coupon này thành công trước đó.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "ONCEONLY",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": 400,
+    "expected_result": "API từ chối lần áp dụng tiếp theo vì user đã đạt giới hạn sử dụng; không tăng thêm số lần dùng coupon.",
+    "priority": "High",
+    "notes": "Dựa trên field max_uses_per_user của API tạo coupon trong spec.",
+    "from_state": "user_coupon_usage_exhausted",
+    "to_state": "coupon_applied_again",
+    "action": "reapply coupon after max uses per user reached",
+    "expected_allowed": false
+  },
+  {
+    "temp_id": "ST-07",
+    "category": "StateTransition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "User khác vẫn được áp dụng coupon khi quota của chính họ còn",
+    "preconditions": "Coupon code=ONCEONLY tồn tại, còn hạn, max_uses_per_user=1; user_id=1 đã dùng coupon; user_id=2 tồn tại và chưa dùng coupon.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "ONCEONLY",
+        "total_amount": 500000,
+        "user_id": 2
+      }
+    },
+    "expected_status": 200,
+    "expected_result": "API cho phép user_id=2 áp dụng coupon vì giới hạn sử dụng được tính theo từng user, không bị ảnh hưởng bởi trạng thái đã dùng của user_id=1.",
+    "priority": "Medium",
+    "notes": "Kiểm tra chuyển trạng thái theo phạm vi per-user.",
+    "from_state": "coupon_active, different_user_not_yet_used, order_amount_eligible",
+    "to_state": "coupon_applied_for_different_user",
+    "action": "apply coupon for another eligible user",
+    "expected_allowed": true
+  },
+  {
+    "temp_id": "ST-08",
+    "category": "StateTransition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Coupon vừa hết hạn sau một lần áp dụng thành công không được áp dụng tiếp",
+    "preconditions": "Coupon code=FLASHSALE từng áp dụng thành công khi còn hạn; sau đó thời gian hiện tại vượt quá expired_at; user_id=1 tồn tại; total_amount đủ lớn.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "FLASHSALE",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": "400 hoặc 410",
+    "expected_result": "API đánh giá trạng thái coupon tại thời điểm request hiện tại và từ chối coupon đã hết hạn, dù coupon từng hợp lệ trước đó.",
+    "priority": "Medium",
+    "notes": "Kiểm tra chuyển trạng thái theo thời gian: active -> expired.",
+    "from_state": "coupon_previously_active_then_expired",
+    "to_state": "coupon_applied_after_expiry",
+    "action": "apply coupon after expiry transition",
+    "expected_allowed": false
+  }
+]

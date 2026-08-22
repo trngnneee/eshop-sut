@@ -1,0 +1,217 @@
+[
+  {
+    "temp_id": "SV-01",
+    "category": "SchemaValidation",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Response thành công phải có đủ discount_amount và final_amount",
+    "preconditions": "Coupon code=SAVE10 hợp lệ, còn hiệu lực; user_id=1 tồn tại; total_amount=500000 đủ điều kiện áp dụng.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": 200,
+    "expected_result": "Response JSON chứa đầy đủ 2 field bắt buộc theo spec: discount_amount và final_amount.",
+    "priority": "High",
+    "notes": "Spec FR-09 mô tả response thành công chứa discount_amount và final_amount.",
+    "schema_ref": "FR-09 success response schema",
+    "fields_checked": [
+      "discount_amount",
+      "final_amount"
+    ]
+  },
+  {
+    "temp_id": "SV-02",
+    "category": "SchemaValidation",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "discount_amount và final_amount phải là number",
+    "preconditions": "Coupon code=SAVE10 hợp lệ, còn hiệu lực; user_id=1 tồn tại; total_amount=500000 đủ điều kiện áp dụng.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": 200,
+    "expected_result": "Response trả discount_amount và final_amount dưới dạng number, không phải string, null, object hoặc array.",
+    "priority": "High",
+    "notes": "Giúp tránh lỗi client phải tự parse chuỗi tiền tệ hoặc nhận kiểu dữ liệu không ổn định.",
+    "schema_ref": "FR-09 success response schema",
+    "fields_checked": [
+      "discount_amount:type=number",
+      "final_amount:type=number"
+    ]
+  },
+  {
+    "temp_id": "SV-03",
+    "category": "SchemaValidation",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "final_amount phải khớp công thức total_amount - discount_amount",
+    "preconditions": "Coupon code=SAVE10 hợp lệ, còn hiệu lực; user_id=1 tồn tại; total_amount=500000 đủ điều kiện áp dụng.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": 200,
+    "expected_result": "Response thỏa điều kiện final_amount = 500000 - discount_amount; discount_amount >= 0; final_amount >= 0.",
+    "priority": "High",
+    "notes": "Đây là invariant schema/contract của response tính tiền, không kiểm chi tiết business rule của từng coupon.",
+    "schema_ref": "FR-09 success response numeric invariant",
+    "fields_checked": [
+      "discount_amount",
+      "final_amount",
+      "total_amount"
+    ]
+  },
+  {
+    "temp_id": "SV-04",
+    "category": "SchemaValidation",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Response thành công không trả thừa object coupon hoặc user",
+    "preconditions": "Coupon code=SAVE10 hợp lệ, còn hiệu lực; user_id=1 tồn tại; total_amount=500000 đủ điều kiện áp dụng.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": 200,
+    "expected_result": "Response chỉ trả các field cần thiết cho FR-09; không trả thừa toàn bộ coupon, user, password/passwordHash, resetToken, token nội bộ hoặc cấu hình nhạy cảm.",
+    "priority": "Medium",
+    "notes": "Stage 4 kiểm response shape; case security rò rỉ dữ liệu đã được nhấn mạnh thêm ở Stage 3.",
+    "schema_ref": "FR-09 success response allowed fields",
+    "fields_checked": [
+      "discount_amount",
+      "final_amount",
+      "coupon",
+      "user",
+      "password",
+      "passwordHash",
+      "resetToken",
+      "token"
+    ]
+  },
+  {
+    "temp_id": "SV-05",
+    "category": "SchemaValidation",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Coupon không tồn tại trả error schema, không trả success schema",
+    "preconditions": "Không tồn tại coupon code=NOTFOUND trong dữ liệu test; user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "NOTFOUND",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": "400 hoặc 404",
+    "expected_result": "Response lỗi có cấu trúc nhất quán, ví dụ message hoặc error.message/code; không chứa discount_amount/final_amount như response thành công.",
+    "priority": "High",
+    "notes": "Spec chưa chuẩn hóa error schema, nên test cần audit theo actual convention của SUT.",
+    "schema_ref": "FR-09 error response schema - invalid coupon",
+    "fields_checked": [
+      "error",
+      "message",
+      "code",
+      "discount_amount",
+      "final_amount"
+    ]
+  },
+  {
+    "temp_id": "SV-06",
+    "category": "SchemaValidation",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Thiếu field code trả lỗi validation có message rõ ràng",
+    "preconditions": "user_id=1 tồn tại; total_amount=500000 hợp lệ.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": 400,
+    "expected_result": "Response lỗi validation có field message/error nêu thiếu code; không trả stack trace hoặc HTML error page.",
+    "priority": "High",
+    "notes": "Kiểm schema lỗi validation cho missing required field.",
+    "schema_ref": "FR-09 validation error response schema",
+    "fields_checked": [
+      "error",
+      "message",
+      "code"
+    ]
+  },
+  {
+    "temp_id": "SV-07",
+    "category": "SchemaValidation",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Sai kiểu total_amount trả lỗi validation JSON ổn định",
+    "preconditions": "Coupon code=SAVE10 hợp lệ; user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": "500000",
+        "user_id": 1
+      }
+    },
+    "expected_status": 400,
+    "expected_result": "Response lỗi validation là JSON có message/error rõ ràng về kiểu dữ liệu total_amount; không trả 500, stack trace hoặc response text/html.",
+    "priority": "High",
+    "notes": "Đối chiếu error response khi body hợp lệ về JSON syntax nhưng sai schema field.",
+    "schema_ref": "FR-09 validation error response schema",
+    "fields_checked": [
+      "error",
+      "message",
+      "code",
+      "content-type:application/json"
+    ]
+  }
+]

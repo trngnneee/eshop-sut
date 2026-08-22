@@ -1,0 +1,266 @@
+[
+  {
+    "temp_id": "SEC-01",
+    "category": "Security",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09, SEC-05",
+    "title": "SQL injection payload trong field code không được làm bypass coupon lookup",
+    "preconditions": "Có dữ liệu coupon/user bình thường; không có coupon code đúng bằng payload SQLi.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "' OR '1'='1",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": "400 hoặc 404",
+    "expected_result": "API không áp dụng bất kỳ coupon nào, không trả discount_amount thành công, không trả lỗi 500 hoặc SQL trace.",
+    "priority": "High",
+    "sec_id": "SEC-05",
+    "attack_vector": "SQL Injection",
+    "notes": "Field code nhiều khả năng được dùng để query coupon theo mã; cần parameterized query."
+  },
+  {
+    "temp_id": "SEC-02",
+    "category": "Security",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09, SEC-05",
+    "title": "SQL injection destructive payload trong code không được gây lỗi DB hoặc thay đổi dữ liệu",
+    "preconditions": "Có coupon/user dữ liệu test; hệ thống đang chạy với database test có thể kiểm tra sau request.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "'; DROP TABLE coupons; --",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": "400 hoặc 404",
+    "expected_result": "API từ chối mã coupon độc hại, không crash, không trả SQL error chi tiết, bảng coupons và dữ liệu coupon vẫn còn nguyên.",
+    "priority": "High",
+    "sec_id": "SEC-05",
+    "attack_vector": "SQL Injection",
+    "notes": "Sau request nên gọi lại API lấy coupon/admin hoặc kiểm DB test để xác nhận không mất dữ liệu."
+  },
+  {
+    "temp_id": "SEC-03",
+    "category": "Security",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09, SEC-02",
+    "title": "Không cho client tự áp dụng coupon cho user_id khác khi không có JWT",
+    "preconditions": "Coupon code=ONCEONLY tồn tại; user_id=2 tồn tại; endpoint có tác động đến quota sử dụng coupon theo user.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "ONCEONLY",
+        "total_amount": 500000,
+        "user_id": 2
+      }
+    },
+    "expected_status": "401 hoặc 403",
+    "expected_result": "API yêu cầu xác thực hoặc từ chối request không có JWT khi request có thể ghi nhận quota coupon theo user_id.",
+    "priority": "High",
+    "sec_id": "SEC-02",
+    "attack_vector": "Broken Auth",
+    "notes": "Spec không ghi Authorization cho FR-09; case này kiểm tra rủi ro bảo mật nếu API dựa hoàn toàn vào user_id do client gửi."
+  },
+  {
+    "temp_id": "SEC-04",
+    "category": "Security",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09, SEC-02",
+    "title": "Token hợp lệ của user này không được áp dụng coupon thay cho user khác",
+    "preconditions": "User_id=1 đã login và có JWT hợp lệ; user_id=2 tồn tại; coupon code=ONCEONLY còn hiệu lực.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {user1_token}"
+      },
+      "body": {
+        "code": "ONCEONLY",
+        "total_amount": 500000,
+        "user_id": 2
+      }
+    },
+    "expected_status": "403 hoặc 400",
+    "expected_result": "API từ chối mismatch giữa user trong JWT và user_id trong body, hoặc bỏ qua user_id body và chỉ áp dụng cho user trong token; tuyệt đối không trừ quota của user_id=2.",
+    "priority": "High",
+    "sec_id": "SEC-02",
+    "attack_vector": "IDOR",
+    "notes": "Nếu endpoint không dùng JWT theo spec hiện tại, đây là test phát hiện IDOR/broken object authorization."
+  },
+  {
+    "temp_id": "SEC-05",
+    "category": "Security",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09, OWASP-Other",
+    "title": "Client không được tự gửi discount_amount để tăng mức giảm",
+    "preconditions": "Coupon code=SAVE10 tồn tại, còn hiệu lực; user_id=1 tồn tại; mức giảm thật nhỏ hơn 499999.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": 500000,
+        "user_id": 1,
+        "discount_amount": 499999
+      }
+    },
+    "expected_status": "200 hoặc 400",
+    "expected_result": "API không tin discount_amount do client gửi; nếu request thành công thì discount_amount phải được server tính lại từ coupon thật, không lấy giá trị 499999.",
+    "priority": "High",
+    "sec_id": "OWASP-Other",
+    "attack_vector": "Parameter Tampering",
+    "notes": "Security variant của field thừa: chống client-side price tampering."
+  },
+  {
+    "temp_id": "SEC-06",
+    "category": "Security",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09, OWASP-Other",
+    "title": "Client không được tự gửi final_amount để thao túng tổng tiền cuối",
+    "preconditions": "Coupon code=SAVE10 tồn tại, còn hiệu lực; user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": 500000,
+        "user_id": 1,
+        "final_amount": 1
+      }
+    },
+    "expected_status": "200 hoặc 400",
+    "expected_result": "API bỏ qua hoặc từ chối final_amount do client gửi; response final_amount phải được tính lại bằng total_amount - discount_amount trên server.",
+    "priority": "High",
+    "sec_id": "OWASP-Other",
+    "attack_vector": "Parameter Tampering",
+    "notes": "Bảo vệ logic tính tiền; không thuộc SEC-01..07 nên gắn OWASP-Other."
+  },
+  {
+    "temp_id": "SEC-07",
+    "category": "Security",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09, OWASP-Other",
+    "title": "Không cho dùng total_amount giả lớn hơn giỏ hàng thật để đạt min_order_amount",
+    "preconditions": "User_id=1 có giỏ hàng thật tổng 100000; coupon code=TET2025 yêu cầu min_order_amount=200000.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {user1_token}"
+      },
+      "body": {
+        "code": "TET2025",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": "400 hoặc 403",
+    "expected_result": "API không chỉ tin total_amount từ client; phải đối chiếu tổng tiền giỏ hàng/order phía server và từ chối nếu giỏ hàng thật chưa đạt min_order_amount.",
+    "priority": "High",
+    "sec_id": "OWASP-Other",
+    "attack_vector": "Business Logic Abuse",
+    "notes": "Nếu FR-09 được thiết kế chỉ là calculator thuần không đọc cart server, cần ghi rõ rủi ro khi dùng kết quả này cho checkout."
+  },
+  {
+    "temp_id": "SEC-08",
+    "category": "Security",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09, OWASP-Other",
+    "title": "Rate limit khi brute-force nhiều coupon code",
+    "preconditions": "Không có coupon code trong danh sách thử; có thể gửi nhiều request liên tiếp từ cùng IP/user trong môi trường test.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "{bruteforce_candidate_code}",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": "429 sau N lần thất bại liên tiếp",
+    "expected_result": "Sau nhiều lần thử coupon code sai trong thời gian ngắn, API áp dụng rate limit hoặc cơ chế chặn; không cho brute-force không giới hạn.",
+    "priority": "Medium",
+    "sec_id": "OWASP-Other",
+    "attack_vector": "Rate Limit Bypass",
+    "notes": "Nên script hóa trong Postman/Newman bằng vòng lặp nhiều mã khác nhau."
+  },
+  {
+    "temp_id": "SEC-09",
+    "category": "Security",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09, SEC-01",
+    "title": "Response apply-coupon không được rò rỉ password hoặc passwordHash của user",
+    "preconditions": "Coupon code=SAVE10 hợp lệ; user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": 200,
+    "expected_result": "Response chỉ chứa dữ liệu cần thiết như discount_amount và final_amount; không chứa password, passwordHash, resetToken, token nội bộ hoặc toàn bộ object user.",
+    "priority": "Medium",
+    "sec_id": "SEC-01",
+    "attack_vector": "Sensitive Data Exposure",
+    "notes": "Kiểm tra gián tiếp qua response; xác nhận đầy đủ việc không lưu plaintext password cần review DB/code."
+  },
+  {
+    "temp_id": "SEC-10",
+    "category": "Security",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09, SEC-04",
+    "title": "XSS payload trong code không được phản hồi như HTML thực thi được",
+    "preconditions": "Không có coupon code đúng bằng payload XSS; client/FE có thể hiển thị message lỗi coupon.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "<script>alert(1)</script>",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": "400 hoặc 404",
+    "expected_result": "API trả lỗi an toàn, không trả HTML/script có thể thực thi; nếu echo lại code trong message thì phải được escape khi hiển thị ở UI.",
+    "priority": "Medium",
+    "sec_id": "SEC-04",
+    "attack_vector": "XSS",
+    "notes": "API-level chỉ kiểm được response/message; cần kiểm thêm ở FE để xác nhận không dùng innerHTML nguy hiểm."
+  }
+]

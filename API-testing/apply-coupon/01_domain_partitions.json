@@ -1,0 +1,438 @@
+[
+  {
+    "temp_id": "DP-01",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Áp dụng mã coupon hợp lệ với tổng tiền đủ điều kiện",
+    "preconditions": "Đã tồn tại coupon code=SAVE10 còn hiệu lực; user_id=1 tồn tại; total_amount đủ điều kiện áp dụng mã.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": 200,
+    "expected_result": "API trả về JSON có discount_amount > 0 và final_amount = total_amount - discount_amount.",
+    "priority": "High",
+    "notes": "Case valid điển hình theo ví dụ trong spec.",
+    "parameter": "body.code, body.total_amount, body.user_id",
+    "partition_type": "valid-typical"
+  },
+  {
+    "temp_id": "DP-02",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Code hợp lệ có chữ thường cần được xử lý nhất quán",
+    "preconditions": "Đã tồn tại coupon code=SAVE10 còn hiệu lực; user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "save10",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": "200 hoặc 400/404 tùy quy định case-sensitive của hệ thống",
+    "expected_result": "API xử lý nhất quán theo rule đã định: nếu coupon không phân biệt hoa thường thì áp dụng như SAVE10; nếu phân biệt hoa thường thì từ chối bằng lỗi rõ ràng.",
+    "priority": "Medium",
+    "notes": "Spec không nêu code có case-sensitive hay không; test này giúp làm rõ partition chữ hoa/chữ thường.",
+    "parameter": "body.code",
+    "partition_type": "valid-boundary"
+  },
+  {
+    "temp_id": "DP-03",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Code không tồn tại trong hệ thống",
+    "preconditions": "Không tồn tại coupon code=NOTFOUND trong dữ liệu test; user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "NOTFOUND",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": "400 hoặc 404",
+    "expected_result": "API từ chối áp dụng coupon và không trả discount_amount như coupon hợp lệ; response lỗi nêu rõ mã không hợp lệ hoặc không tồn tại.",
+    "priority": "High",
+    "notes": "Invalid domain cho giá trị code hợp lệ về định dạng nhưng không có trong dữ liệu.",
+    "parameter": "body.code",
+    "partition_type": "invalid-format"
+  },
+  {
+    "temp_id": "DP-04",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Thiếu field code trong body",
+    "preconditions": "user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": 400,
+    "expected_result": "API trả lỗi validation vì code là field bắt buộc; không tính discount_amount/final_amount.",
+    "priority": "High",
+    "notes": "",
+    "parameter": "body.code",
+    "partition_type": "missing-required"
+  },
+  {
+    "temp_id": "DP-05",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Code là chuỗi rỗng",
+    "preconditions": "user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": 400,
+    "expected_result": "API trả lỗi validation vì code rỗng không phải mã coupon hợp lệ.",
+    "priority": "High",
+    "notes": "",
+    "parameter": "body.code",
+    "partition_type": "empty-null-whitespace"
+  },
+  {
+    "temp_id": "DP-06",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Code chỉ chứa khoảng trắng",
+    "preconditions": "user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "   ",
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": 400,
+    "expected_result": "API trim và từ chối code rỗng sau khi loại khoảng trắng; không áp dụng giảm giá.",
+    "priority": "Medium",
+    "notes": "",
+    "parameter": "body.code",
+    "partition_type": "empty-null-whitespace"
+  },
+  {
+    "temp_id": "DP-07",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Code sai kiểu dữ liệu là number",
+    "preconditions": "user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": 12345,
+        "total_amount": 500000,
+        "user_id": 1
+      }
+    },
+    "expected_status": 400,
+    "expected_result": "API trả lỗi validation vì code phải là string.",
+    "priority": "High",
+    "notes": "",
+    "parameter": "body.code",
+    "partition_type": "wrong-type"
+  },
+  {
+    "temp_id": "DP-08",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "total_amount bằng 0",
+    "preconditions": "Đã tồn tại coupon code=SAVE10 còn hiệu lực; user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": 0,
+        "user_id": 1
+      }
+    },
+    "expected_status": 400,
+    "expected_result": "API từ chối vì total_amount phải lớn hơn 0; không tạo final_amount âm hoặc không hợp lệ.",
+    "priority": "High",
+    "notes": "Boundary invalid cho số tiền đơn hàng.",
+    "parameter": "body.total_amount",
+    "partition_type": "invalid-boundary"
+  },
+  {
+    "temp_id": "DP-09",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "total_amount là số âm",
+    "preconditions": "Đã tồn tại coupon code=SAVE10 còn hiệu lực; user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": -1,
+        "user_id": 1
+      }
+    },
+    "expected_status": 400,
+    "expected_result": "API trả lỗi validation vì total_amount âm không hợp lệ.",
+    "priority": "High",
+    "notes": "",
+    "parameter": "body.total_amount",
+    "partition_type": "invalid-boundary"
+  },
+  {
+    "temp_id": "DP-10",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "total_amount là số dương rất nhỏ",
+    "preconditions": "Đã tồn tại coupon code=SAVE10 còn hiệu lực; user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": 1,
+        "user_id": 1
+      }
+    },
+    "expected_status": "200 hoặc 400 tùy min_order_amount của coupon",
+    "expected_result": "API xử lý đúng boundary số tiền dương nhỏ: áp dụng nếu không có min_order_amount, hoặc trả lỗi rõ ràng nếu chưa đạt giá trị tối thiểu của coupon.",
+    "priority": "Medium",
+    "notes": "Spec admin coupon có min_order_amount nhưng FR-09 không nêu dữ liệu coupon SAVE10 cụ thể.",
+    "parameter": "body.total_amount",
+    "partition_type": "valid-boundary"
+  },
+  {
+    "temp_id": "DP-11",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "total_amount sai kiểu dữ liệu là string",
+    "preconditions": "Đã tồn tại coupon code=SAVE10 còn hiệu lực; user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": "500000",
+        "user_id": 1
+      }
+    },
+    "expected_status": 400,
+    "expected_result": "API trả lỗi validation vì total_amount phải là number, không âm thầm ép kiểu chuỗi sang số.",
+    "priority": "High",
+    "notes": "",
+    "parameter": "body.total_amount",
+    "partition_type": "wrong-type"
+  },
+  {
+    "temp_id": "DP-12",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Thiếu field total_amount trong body",
+    "preconditions": "Đã tồn tại coupon code=SAVE10 còn hiệu lực; user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "user_id": 1
+      }
+    },
+    "expected_status": 400,
+    "expected_result": "API trả lỗi validation vì total_amount là field bắt buộc.",
+    "priority": "High",
+    "notes": "",
+    "parameter": "body.total_amount",
+    "partition_type": "missing-required"
+  },
+  {
+    "temp_id": "DP-13",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "user_id không tồn tại",
+    "preconditions": "Đã tồn tại coupon code=SAVE10 còn hiệu lực; không tồn tại user_id=999999.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": 500000,
+        "user_id": 999999
+      }
+    },
+    "expected_status": "400 hoặc 404",
+    "expected_result": "API từ chối vì user_id không hợp lệ hoặc không tồn tại; không áp dụng coupon cho user không xác định.",
+    "priority": "High",
+    "notes": "",
+    "parameter": "body.user_id",
+    "partition_type": "invalid-boundary"
+  },
+  {
+    "temp_id": "DP-14",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "user_id sai kiểu dữ liệu là string",
+    "preconditions": "Đã tồn tại coupon code=SAVE10 còn hiệu lực.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": 500000,
+        "user_id": "1"
+      }
+    },
+    "expected_status": 400,
+    "expected_result": "API trả lỗi validation vì user_id phải là number/integer, không âm thầm ép kiểu chuỗi sang số.",
+    "priority": "High",
+    "notes": "",
+    "parameter": "body.user_id",
+    "partition_type": "wrong-type"
+  },
+  {
+    "temp_id": "DP-15",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Thiếu field user_id trong body",
+    "preconditions": "Đã tồn tại coupon code=SAVE10 còn hiệu lực.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": 500000
+      }
+    },
+    "expected_status": 400,
+    "expected_result": "API trả lỗi validation vì user_id là field bắt buộc trong body của FR-09.",
+    "priority": "High",
+    "notes": "",
+    "parameter": "body.user_id",
+    "partition_type": "missing-required"
+  },
+  {
+    "temp_id": "DP-16",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Body có field thừa discount_amount do client gửi lên",
+    "preconditions": "Đã tồn tại coupon code=SAVE10 còn hiệu lực; user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "code": "SAVE10",
+        "total_amount": 500000,
+        "user_id": 1,
+        "discount_amount": 499999
+      }
+    },
+    "expected_status": "200 hoặc 400",
+    "expected_result": "API không tin giá trị discount_amount do client gửi; nếu chấp nhận request thì discount_amount phải được tính lại từ coupon trên server, nếu không thì trả lỗi field không mong đợi.",
+    "priority": "High",
+    "notes": "Kiểm tra partition field thừa, chưa đi sâu mass assignment/security.",
+    "parameter": "body.discount_amount",
+    "partition_type": "unexpected-extra"
+  },
+  {
+    "temp_id": "DP-17",
+    "category": "DomainPartition",
+    "endpoint": "POST /api/apply-coupon",
+    "related_requirement": "FR-09",
+    "title": "Content-Type không phải application/json",
+    "preconditions": "Đã tồn tại coupon code=SAVE10 còn hiệu lực; user_id=1 tồn tại.",
+    "request": {
+      "method": "POST",
+      "path": "/api/apply-coupon",
+      "headers": {
+        "Content-Type": "text/plain"
+      },
+      "body": "code=SAVE10&total_amount=500000&user_id=1"
+    },
+    "expected_status": 400,
+    "expected_result": "API từ chối hoặc báo lỗi parse/validation vì endpoint yêu cầu Body JSON.",
+    "priority": "Medium",
+    "notes": "",
+    "parameter": "header.Content-Type",
+    "partition_type": "invalid-format"
+  }
+]
