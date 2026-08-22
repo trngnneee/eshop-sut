@@ -1,0 +1,1458 @@
+{
+  "info": {
+    "name": "HW06 - API 3 - Pool C - POST /api/admin/import-products",
+    "_postman_id": "hw06-api3-v3",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "studentId",
+      "value": "23127486"
+    }
+  ],
+  "item": [
+    {
+      "name": "SETUP Login admin",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\":\"admin@eshop.com\",\"password\":\"Admin123!\"}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if(pm.response.code===200){var j=pm.response.json(); if(j.token) pm.environment.set('adminToken',j.token); pm.test('SETUP admin: ok', function(){pm.response.to.have.status(200);});}",
+              "else{pm.test('SETUP admin: attempt', function(){pm.expect(pm.response.code).to.be.oneOf([200,400,401]);});}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "SETUP Login regular user",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\":\"test@eshop.com\",\"password\":\"Test1234!\"}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if(pm.response.code===200){var j=pm.response.json(); if(j.token) pm.environment.set('token',j.token); pm.test('SETUP user: ok', function(){pm.response.to.have.status(200);});}",
+              "else{pm.test('SETUP user: attempt', function(){pm.expect(pm.response.code).to.be.oneOf([200,400,401]);});}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-DP-01 Import 1 valid product",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"DP01 Test Product\",\"price\":10000,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-DP-01: Status 200 (import 1 product)', function(){pm.response.to.have.status(200);});",
+              "pm.test('TC-C-DP-01: Response is JSON object', function(){pm.expect(pm.response.json()).to.be.an('object');});",
+              "pm.test('TC-C-SV-03: Status 200 not 201', function(){pm.response.to.have.status(200);});",
+              "pm.test('TC-C-SV-04: Content-Type is JSON', function(){pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-DP-02 Import batch 3 products",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"Batch SP1\",\"price\":10000,\"description\":\"Mo ta 1\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch SP2\",\"price\":20000,\"description\":\"Mo ta 2\",\"imageUrl\":\"\",\"category_id\":1},{\"name\":\"Batch SP3\",\"price\":30000,\"description\":\"Mo ta 3\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-DP-02: Status 200 (batch import)', function(){pm.response.to.have.status(200);});",
+              "pm.test('TC-C-SV-02: Response has result field', function(){var j=pm.response.json(); pm.expect(j.message || j.imported || j.count || j.success).to.exist;});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-DP-03 Empty products array",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-DP-03: Status 200 or 400 (empty array)', function(){pm.expect(pm.response.code).to.be.oneOf([200,400]);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-DP-04 Missing name field",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"price\":10000,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-DP-04: Status 400 (missing name)', function(){pm.response.to.have.status(400);});",
+              "pm.test('TC-C-SV-07: Error response has detail', function(){var j=pm.response.json(); pm.expect(j.error || j.message).to.exist;});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-DP-05 Empty name string",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"\",\"price\":10000,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-DP-05: Status 400 (empty name)', function(){pm.response.to.have.status(400);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-DP-06 Missing price field",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"SP test\",\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-DP-06: Status 400 (missing price)', function(){pm.response.to.have.status(400);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-DP-07 Price = 0 (BVA at zero)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"Zero Price SP\",\"price\":0,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-DP-07: Status 200 or 400 (price=0 depends on rule)', function(){pm.expect(pm.response.code).to.be.oneOf([200,400]);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-DP-08 Negative price (BVA below 0)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"Neg Price SP\",\"price\":-1,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-DP-08: Status 400 (negative price)', function(){pm.response.to.have.status(400);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-DP-09 Price is string (wrong type)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"String Price SP\",\"price\":\"10000\",\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-DP-09: Status 400 (string price wrong type)', function(){pm.response.to.have.status(400);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-DP-10 Missing category_id",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"No CatId SP\",\"price\":10000,\"description\":\"Mo ta\",\"imageUrl\":\"\"}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-DP-10: Status 400 (missing category_id)', function(){pm.response.to.have.status(400);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-DP-11 Non-existent category_id",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"Bad CatId SP\",\"price\":10000,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":9999}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-DP-11: Status 400 (non-existent FK category)', function(){pm.response.to.have.status(400);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-DP-12 Products is object not array",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":{\"name\":\"SP1\",\"price\":10000}}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-DP-12: Status 400 (products must be array)', function(){pm.response.to.have.status(400);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-DP-13 Empty JSON body {}",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-DP-13: Status 400 (missing products key)', function(){pm.response.to.have.status(400);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-DP-14 Empty imageUrl (nullable)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"Empty ImageUrl SP\",\"price\":10000,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-DP-14: Status 200 (empty imageUrl accepted)', function(){pm.response.to.have.status(200);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-ST-01 Resource lifecycle Non-existent -> Created",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"ST01 Lifecycle SP\",\"price\":15000,\"description\":\"Lifecycle\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-ST-01: Status 200 (Non-existent -> Created)', function(){pm.response.to.have.status(200);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-ST-02 Verify product in list after import",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "products"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-ST-02: Status 200 (product list accessible)', function(){pm.response.to.have.status(200);});",
+              "pm.test('TC-C-ST-02: Products is array', function(){pm.expect(pm.response.json()).to.be.an('array');});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-ST-03 Import without token (Unauthenticated)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"Unauth SP\",\"price\":10000,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-ST-03: Status 401 (no token)', function(){pm.response.to.have.status(401);});",
+              "pm.test('TC-C-SV-05: 401 response is JSON', function(){pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-ST-04 Import with regular user token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"NonAdmin SP\",\"price\":10000,\"description\":\"Mo ta\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-ST-04: Status 403 (non-admin rejected)', function(){pm.response.to.have.status(403);});",
+              "pm.test('TC-C-SV-06: 403 response is JSON', function(){pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-ST-05 Import with admin token (success)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"AdminAuth SP\",\"price\":10000,\"description\":\"Admin import\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-ST-05: Status 200 (admin token accepted)', function(){pm.response.to.have.status(200);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-SEC-01 No token (security)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"SecTest\",\"price\":1,\"description\":\"\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-SEC-01: Status 401 (no token)', function(){pm.response.to.have.status(401);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-SEC-02 User token - role escalation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"Escalation SP\",\"price\":1,\"description\":\"\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-SEC-02: Status 403 (non-admin RBAC)', function(){pm.response.to.have.status(403);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-SEC-04 SQLi in product name",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"'; DROP TABLE products;--\",\"price\":1,\"description\":\"\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-SEC-04: Status 200 or 400 (SQLi in name)', function(){pm.expect(pm.response.code).to.be.oneOf([200,400]);});",
+              "pm.test('TC-C-SEC-04: No SQL error', function(){var b=pm.response.text().toLowerCase(); pm.expect(b).to.not.include('syntax error'); pm.expect(b).to.not.include('sqlite_error');});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-SEC-05 SQLi in description",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"SQL Desc SP\",\"price\":1,\"description\":\"' OR 1=1--\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-SEC-05: Status 200 or 400 (SQLi in description)', function(){pm.expect(pm.response.code).to.be.oneOf([200,400]);});",
+              "pm.test('TC-C-SEC-05: No SQL error', function(){var b=pm.response.text().toLowerCase(); pm.expect(b).to.not.include('syntax error');});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-SEC-06 Forged JWT",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBmb3JnZWQuY29tIiwicm9sZSI6ImFkbWluIn0.forged_invalid_sig"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"Forged SP\",\"price\":1,\"description\":\"\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-SEC-06: Status 401 (forged JWT)', function(){pm.response.to.have.status(401);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-SEC-08 XSS in name",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"<script>alert(1)</script>\",\"price\":1,\"description\":\"\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-SEC-08: Status 200 or 400 (XSS in name)', function(){pm.expect(pm.response.code).to.be.oneOf([200,400]);});",
+              "pm.test('TC-C-SEC-08: No raw script in response', function(){var b=pm.response.text(); pm.expect(b).to.not.include('<script>alert(1)</script>');});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-SV-01 Schema validation bundle",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"SV01 Schema SP\",\"price\":5000,\"description\":\"Schema test\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-SV-01: Status 200', function(){pm.response.to.have.status(200);});",
+              "pm.test('TC-C-SV-01: Response is JSON object not null', function(){var j=pm.response.json(); pm.expect(j).to.be.an('object'); pm.expect(j).to.not.equal(null);});",
+              "pm.test('TC-C-SV-02: Has result indicator', function(){var j=pm.response.json(); pm.expect(j.message || j.imported || j.count || j.success).to.exist;});",
+              "pm.test('TC-C-SV-03: Status 200 not 201', function(){pm.response.to.have.status(200);});",
+              "pm.test('TC-C-SV-04: Content-Type is JSON', function(){pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-EXT-02 Mass assignment (id in body)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"id\":9999,\"name\":\"Mass Assignment SP\",\"price\":10000,\"description\":\"Mass test\",\"imageUrl\":\"\",\"category_id\":1,\"created_at\":\"2000-01-01\"}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-EXT-02: Status 200 (mass assignment id ignored)', function(){pm.response.to.have.status(200);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-EXT-05 Unicode emoji in name",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"🛒 San pham Unicode\",\"price\":10000,\"description\":\"Unicode test\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-EXT-05: Status 200 (Unicode in name)', function(){pm.response.to.have.status(200);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC-C-EXT-07 HTML injection in description",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Student-Id",
+            "value": "{{studentId}}"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/admin/import-products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "import-products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"products\":[{\"name\":\"HTML Inject SP\",\"price\":10000,\"description\":\"<b>Sale!</b>\",\"imageUrl\":\"\",\"category_id\":1}]}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC-C-EXT-07: Status 200 or 400 (HTML in description)', function(){pm.expect(pm.response.code).to.be.oneOf([200,400]);});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
