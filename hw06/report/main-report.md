@@ -47,9 +47,30 @@ OpenAPI audit: file [`openapi/eshop.openapi.yaml`](../openapi/eshop.openapi.yaml
 
 15 defect IDs trong defect catalog đã được lập trong [`bug-report.md`](bug-report.md), mỗi dòng có Found by Test Case, expected/actual và nguồn evidence. Newman JSON ghi nhận 8 fail ở full probe cùng 23/17/7 fail ở ba DDT suite; request/test-script infrastructure đều không fail. Đã tạo đủ 15 GitHub Issues scrubbed (#413–#427) và lưu 15 ảnh trang issue tại `evidence/screenshots/github-issues/`. CI external đã chạy thật: mode `off` xanh ở commit `4bf4e5f8…`; mode `canary` đỏ ở commit `03f36993…` với đúng một failed assertion `TC-API-LOGIN-018`. SHA và Actions URL đầy đủ nằm trong [`cicd-report.md`](cicd-report.md).
 
-`ai-critique.md` là bản nháp dữ liệu 200–300 từ để người học viết lại bằng nhận xét của chính mình. `test-generator/diagram.png` là HUMAN-only và hiện chưa có; `DRAWING-BRIEF.md` chỉ là checklist hỗ trợ. Mermaid do AI sinh đã được cách ly tại `_reference/diagram-notes.mmd`, ghi rõ không phải sơ đồ nộp bài.
+[`ai-critique.md`](ai-critique.md) do người học tự viết (284 từ, trong khung 200–300 của đề). [`test-generator/diagram.png`](../test-generator/diagram.png) là HUMAN-only và đã được người học tự thiết kế bố cục, tự vẽ bằng draw.io; `DRAWING-BRIEF.md` chỉ là checklist khối/quan hệ tối thiểu. Mermaid do AI sinh được cách ly tại `_reference/diagram-notes.mmd`, ghi rõ không phải sơ đồ nộp bài và không được export.
 
-## 6. Artifact index
+## 6. Tuân thủ `Rule.pdf` — quản lý test case trên GitHub
+
+Ngoài `Requirements.pdf`, bài này áp dụng quy ước §H của `Rule.pdf`:
+
+| Điều | Áp dụng trong bài |
+| :--- | :--- |
+| §H.1 liên kết hai chiều | Bug issue ghi `Found by Test Case`; [test run](../../tests/test-runs/hw06-api-test-run.md) ghi `Related Bug = #xx`; Pull Request tham chiếu `Related to #413…#427` |
+| §H.3 cấu trúc thư mục | `tests/test-cases/<module>/`, `tests/test-runs/`, `tests/test-summary/`, `.github/ISSUE_TEMPLATE/` |
+| §H.4 mã test case | `TC-API-LOGIN-###`, `TC-API-CHECKOUT-###`, `TC-API-ORDER-STATUS-###` — tiền tố `API-` để không đụng `TC-LOGIN-001..013` của bài trước |
+| §H.5 template | Mỗi file test case có Requirement · Technique · Preconditions · Data · Expected · Result · Related Bug |
+| §H.6 test run | Bảng 128 dòng `Test Case ID / Module / Tester / Result / Related Bug / Note`, trạng thái Pass·Fail·Blocked·Not Run |
+| §H.7 label | Issue gắn `type: bug`, `module: api`, `severity: *`, `priority: *`, `found-by: test-case` |
+| §H.8 template bug | 15 issue theo cấu trúc Found by → Requirement → Severity → Environment → Steps → Expected → Actual → Evidence |
+| §H.9 traceability | [`traceability-matrix.md`](../../tests/test-summary/traceability-matrix.md) §HW06 — 128 dòng `Requirement / Test Case / Result / Bug Issue / Status` |
+| §H.10 automation | D-LOGIN-01 ghi rõ `Found by: GitHub Actions` + run URL + assertion — xem [`bug-report.md`](bug-report.md) |
+| §H.11 điều kiện close | 15 issue giữ trạng thái Open vì SUT chưa được fix; chưa có retest pass nên chưa được close |
+
+**Quy ước về số lượng file test case riêng lẻ.** Bảng test case đầy đủ (128 case) nằm ở `hw06/api-0X-*/test-cases.md` — dạng bảng để xuất Excel và đối chiếu nhanh. Trong `tests/test-cases/` chỉ sinh file `.md` riêng cho **các case đã FAIL (có bug truy vết được) cộng 5 case đại diện mỗi API**, tổng 57 file. Đây là quyết định có chủ đích để tránh nhân bản 128 file trùng nội dung với bảng gốc, đồng thời vẫn giữ đúng yêu cầu §H.2 rằng test case phát hiện bug phải tồn tại dưới dạng file có version history và review được qua Pull Request.
+
+**Test case không thực thi tự động.** 4 case `Blocked` và 1 case `Not Run` không có assertion Newman; lý do ghi ở cột Note của test run (chờ lock thật 180 giây, không nhúng signing secret vào artifact công khai, SUT thiếu API quan sát hậu điều kiện). Các case này **không** được gán Pass/Fail suy diễn.
+
+## 7. Artifact index
 
 - [README tự chấm và summary](../README.md)
 - [AI audit log](ai-audit-report.md)
@@ -59,7 +80,11 @@ OpenAPI audit: file [`openapi/eshop.openapi.yaml`](../openapi/eshop.openapi.yaml
 - [CI/CD report](cicd-report.md)
 - [Excel/CSV](../excel/)
 - [Traceability](../../tests/test-summary/traceability-matrix.md)
+- [Test run theo §H.6](../../tests/test-runs/hw06-api-test-run.md)
+- [Test case files](../../tests/test-cases/)
 
 ### Human completion gates
 
-1. Xác minh metadata/signature API-3; 2. kiểm tra 15 GitHub issue links + 15 screenshot local; 3. chụp Postman Console/Newman và hai run CI đã được liên kết; 4. tự vẽ `diagram.png`; 5. viết lại critique và xuất ba PDF; 6. đóng zip theo tên đề bài (repo hiện đã public).
+Đã hoàn tất: `diagram.png` tự vẽ · `ai-critique.md` tự viết · hai screenshot CI · 15 issue link + 15 screenshot · repo public.
+
+Còn lại: 1. xác minh metadata/signature API-3; 2. chụp Postman Console (`01-x-student-id-console.png`) và Newman CLI (`02-newman-cli-run.png`); 3. xuất ba PDF và đóng zip theo tên đề bài.
