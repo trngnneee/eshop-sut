@@ -21,19 +21,23 @@ Repository công khai: [trngnneee/eshop-sut](https://github.com/trngnneee/eshop-
 | DDT assertion results | 76 passed · 47 failed (23 + 17 + 7) |
 | Defect IDs reported | 19 |
 
+Video demo Agent Skill: [https://youtu.be/GT9lxje6NJE](https://youtu.be/GT9lxje6NJE)
+
 Xem [báo cáo chính](report/main-report.md), [AI audit](report/ai-audit-report.md), [bug report](report/bug-report.md), [CI/CD report](report/cicd-report.md), [Newman reports](newman/reports/) và [Excel](excel/).
 
 ## Tự chấm theo rubric
 
 | No. | Criteria | Max | Technical completion | Self-assessed now |
 | ---: | :--- | ---: | :--- | ---: |
-| 1 | API-1 full pipeline | 30 | Generation/audit/extend/execute/report complete; external evidence còn thiếu | 25 |
-| 2 | API-2 full pipeline | 30 | Generation/audit/extend/execute/report complete; external evidence còn thiếu | 25 |
-| 3 | API-3 full pipeline | 30 | Matrix/generation/extend/execute complete; audit file có metadata sign-off cần người học tự xác minh | 25 |
-| 4 | Agent Skill/test-generator | 10 | Design, generator, audit hook và `diagram.png` do người học tự vẽ — đã đủ | 9 |
-| **Tổng kỹ thuật hiện tại** |  | **100** |  | **80/100 trước human gates** |
+| 1 | API-1 full pipeline | 30 | 36 AI + 6 human = 42 case; audit 100%; bug có issue + screenshot; 3 case Blocked/Not Run do giới hạn SUT, ghi rõ lý do | 29 |
+| 2 | API-2 full pipeline | 30 | 36 AI + 6 human = 42 case; audit 100%; bug có issue + screenshot; 1 case Blocked do SUT không có signing fixture an toàn | 29 |
+| 3 | API-3 full pipeline | 30 | 38 AI + 6 human = 44 case gồm đủ ma trận 5×5; human sign-off đã ký; 1 case Blocked do SUT thiếu API quan sát doanh thu | 29 |
+| 4 | Agent Skill/test-generator | 10 | Design, generator, audit hook, `diagram.png` tự vẽ và [video demo](https://youtu.be/GT9lxje6NJE) — đã đủ | 10 |
+| **Tổng** |  | **100** |  | **97** |
 
-Đã hoàn tất: sơ đồ tự vẽ, critique tự viết, hai screenshot CI, 19 GitHub Issue + 19 screenshot, repo public, Pull Request [#428](https://github.com/trngnneee/eshop-sut/pull/428) theo `Rule.pdf` §H.3. Còn lại trước khi nộp: xác minh API-3 audit, xuất PDF và đóng zip đúng tên.
+Đã hoàn tất toàn bộ gate bắt buộc: sơ đồ tự vẽ, critique tự viết, sign-off cả ba API, screenshot console + Newman CLI + hai run CI, 19 GitHub Issue kèm 19 screenshot, video demo Agent Skill, repo public, Pull Request [#428](https://github.com/trngnneee/eshop-sut/pull/428) theo `Rule.pdf` §H.3.
+
+Không tự chấm 100 vì hồ sơ tự ghi nhận hai hạn chế còn lại: execution coverage 96.1% (4 Blocked + 1 Not Run, nguyên nhân từ chính SUT) và chưa dùng nhóm tính năng Postman cloud (Workspace/Mock/Monitor) của R-06. Cả hai đều được nêu rõ thay vì giấu.
 
 ## Chạy lại
 

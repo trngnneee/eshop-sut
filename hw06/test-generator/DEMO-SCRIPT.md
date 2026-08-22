@@ -1,5 +1,7 @@
 # Kịch bản quay video demo Agent Skill (R-10)
 
+> **Đã quay xong:** [https://youtu.be/GT9lxje6NJE](https://youtu.be/GT9lxje6NJE)
+
 > Mục tiêu: ~3 phút, chứng minh **bạn hiểu công cụ mình xây**, không phải chỉ chạy được lệnh.
 > Điểm mấu chốt của R-10 không nằm ở chỗ generator sinh ra nhiều case, mà ở chỗ bạn giải thích được
 > **vì sao output của nó chưa phải test case cuối cùng**.

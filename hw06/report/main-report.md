@@ -39,7 +39,7 @@ HTML/JSON evidence: [`newman/reports`](../newman/reports/). DDT runner tự chu�
 
 ## 4. Postman, CI và generator
 
-Collection có collection-level pre-request, environment variables, dynamic disposable user, token chaining, response assertions, strict modes `off/canary/full`, data-driven folders và htmlextra/JSON export. Chi tiết ở [`postman-features.md`](../postman/postman-features.md). Workflow nằm ở [`.github/workflows/hw06-newman-api-test.yml`](../../.github/workflows/hw06-newman-api-test.yml). Pseudocode và generator tham chiếu ở [`test-generator/design.md`](../test-generator/design.md) và [`generator.py`](../test-generator/generator.py).
+Collection có collection-level pre-request, environment variables, dynamic disposable user, token chaining, response assertions, strict modes `off/canary/full`, data-driven folders và htmlextra/JSON export. Chi tiết ở [`postman-features.md`](../postman/postman-features.md). Workflow nằm ở [`.github/workflows/hw06-newman-api-test.yml`](../../.github/workflows/hw06-newman-api-test.yml). Pseudocode và generator tham chiếu ở [`test-generator/design.md`](../test-generator/design.md) và [`generator.py`](../test-generator/generator.py). **Video demo Agent Skill (R-10):** [https://youtu.be/GT9lxje6NJE](https://youtu.be/GT9lxje6NJE) — chạy generator trên spec thật, minh hoạ audit hook bắt case thiếu `expected`, và giải thích vì sao 12 case sinh tự động vẫn phải qua human review mới thành 42 case cuối cùng của API-1. Kịch bản quay lưu ở [`DEMO-SCRIPT.md`](../test-generator/DEMO-SCRIPT.md).
 
 OpenAPI audit: file [`openapi/eshop.openapi.yaml`](../openapi/eshop.openapi.yaml) chỉ mô tả các endpoint được test; mọi expected result vẫn đối chiếu SUT defect catalog.
 
