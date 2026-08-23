@@ -1,0 +1,490 @@
+{
+  "info": {
+    "_postman_id": "23127438-ci-green",
+    "name": "EShop CI — green (23127438)",
+    "description": "Baseline/regression suite cho CI — CHỈ các case PASS-expected trên SUT hiện tại (login, list, detail id lẻ, search khớp/rỗng, cancel pending→200, double-cancel→400, create hợp lệ). Pipeline **XANH 100%**. Dùng cho Commit A. Không chứa case bắt bug.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "noauth"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "23127438-ci-coll-pre",
+        "type": "text/javascript",
+        "exec": [
+          "pm.request.headers.upsert({ key: 'X-Student-Id', value: pm.environment.get('studentId') });",
+          "console.log('[HW06][CI] X-Student-Id =', pm.environment.get('studentId'), '->', pm.request.url.toString());"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "CI-01 — Login admin → adminToken",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ci-01-test",
+            "type": "text/javascript",
+            "exec": [
+              "const j = pm.response.json();",
+              "pm.test('login admin 200 + token', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(j.token, 'token').to.be.a('string').and.not.empty;",
+              "});",
+              "if (j.token) pm.environment.set('adminToken', j.token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
+        },
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@eshop.com\",\n  \"password\": \"Admin123!\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "CI-02 — Login user → userToken",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ci-02-test",
+            "type": "text/javascript",
+            "exec": [
+              "const j = pm.response.json();",
+              "pm.test('login user 200 + token', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(j.token).to.be.a('string').and.not.empty;",
+              "});",
+              "if (j.token) pm.environment.set('userToken', j.token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
+        },
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"test@eshop.com\",\n  \"password\": \"Test1234!\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "CI-03 — GET /products trả 5 sản phẩm seed",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ci-03-test",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('list 200 + đúng 5 sản phẩm', function () {",
+              "  pm.response.to.have.status(200);",
+              "  const a = pm.response.json();",
+              "  pm.expect(Array.isArray(a)).to.be.true;",
+              "  pm.expect(a.length).to.eql(5);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "products"
+          ]
+        },
+        "auth": {
+          "type": "noauth"
+        }
+      }
+    },
+    {
+      "name": "CI-04 — GET /products/1 (id lẻ) price là number",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ci-04-test",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('detail id lẻ 200 + price number', function () {",
+              "  pm.response.to.have.status(200);",
+              "  const b = pm.response.json();",
+              "  pm.expect(b.id).to.eql(1);",
+              "  pm.expect(b.price, 'price id lẻ').to.be.a('number');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/products/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "1"
+          ]
+        },
+        "auth": {
+          "type": "noauth"
+        }
+      }
+    },
+    {
+      "name": "CI-05 — search=iPhone khớp 1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ci-05-test",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('search khớp 1 (id=1)', function () {",
+              "  pm.response.to.have.status(200);",
+              "  const a = pm.response.json();",
+              "  pm.expect(a.length).to.eql(1);",
+              "  pm.expect(a[0].id).to.eql(1);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/products?search=iPhone",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "products"
+          ],
+          "query": [
+            {
+              "key": "search",
+              "value": "iPhone"
+            }
+          ]
+        },
+        "auth": {
+          "type": "noauth"
+        }
+      }
+    },
+    {
+      "name": "CI-06 — search=zzzzz empty state []",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ci-06-test",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('search không khớp trả mảng rỗng', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json()).to.eql([]);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/products?search=zzzzz",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "products"
+          ],
+          "query": [
+            {
+              "key": "search",
+              "value": "zzzzz"
+            }
+          ]
+        },
+        "auth": {
+          "type": "noauth"
+        }
+      }
+    },
+    {
+      "name": "CI-07 — Checkout tạo đơn pending → orderId",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ci-07-test",
+            "type": "text/javascript",
+            "exec": [
+              "const j = pm.response.json();",
+              "pm.test('checkout 200 + orderId', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(j.orderId).to.be.a('number');",
+              "});",
+              "if (j.orderId) pm.environment.set('ciOrderId', j.orderId);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/checkout",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "checkout"
+          ]
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{userToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"total_amount\": 200000,\n  \"shipping_address\": \"CI test\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "CI-08 — Cancel đơn pending → 200 (transition hợp lệ)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ci-08-test",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('pending -> cancel = 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json().message).to.be.a('string');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/orders/{{ciOrderId}}/cancel",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders",
+            "{{ciOrderId}}",
+            "cancel"
+          ]
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{userToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CI-09 — Double-cancel: hủy lại đơn đã canceled → 400",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ci-09-test",
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('canceled -> cancel = 400 (final state)', function () {",
+              "  pm.response.to.have.status(400);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/orders/{{ciOrderId}}/cancel",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders",
+            "{{ciOrderId}}",
+            "cancel"
+          ]
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{userToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CI-10 — POST product hợp lệ → 200 {message,id}",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ci-10-test",
+            "type": "text/javascript",
+            "exec": [
+              "const j = pm.response.json();",
+              "pm.test('create hợp lệ 200 + {message,id}', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(j.message).to.be.a('string');",
+              "  pm.expect(j.id).to.be.a('number');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "products"
+          ]
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"CI baseline product\",\n  \"price\": 999000,\n  \"description\": \"ci\",\n  \"imageUrl\": \"http://localhost:3000/img/ci.png\",\n  \"category_id\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

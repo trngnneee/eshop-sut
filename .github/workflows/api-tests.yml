@@ -1,0 +1,73 @@
+name: API Tests (Newman)
+
+# Chạy suite Postman bằng Newman trên SUT EShop khởi động ngay trong runner (localhost:3000).
+# - push / pull_request: chạy suite GREEN (baseline) ⇒ pipeline XANH (Commit A).
+# - workflow_dispatch: chọn suite = green | onefail để demo run ĐỎ đúng 1 fail (Commit B, BUG-05).
+on:
+  push:
+    branches: ['**']
+    paths:
+      - 'backend/**'
+      - 'tests/api_testing/postman/**'
+      - '.github/workflows/api-tests.yml'
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: 'Suite chạy CI'
+        type: choice
+        default: green
+        options: [green, onefail]
+
+env:
+  STUDENT_ID: '23127438'
+  PM_DIR: tests/api_testing/postman
+  REPORT_DIR: tests/api_testing/newman
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Chọn suite (push/PR = green; dispatch = theo input)
+        id: pick
+        run: echo "suite=${{ github.event.inputs.suite || 'green' }}" >> "$GITHUB_OUTPUT"
+
+      - name: Cài dependency của SUT
+        run: cd backend && npm install
+
+      - name: Khởi động backend (database.js tự DROP + reseed mỗi lần start)
+        run: |
+          cd backend && node server.js &
+          npx --yes wait-on tcp:127.0.0.1:3000 -t 30000
+          curl -sf http://localhost:3000/api/products > /dev/null && echo "SUT sẵn sàng trên localhost:3000"
+
+      - name: Cài Newman + htmlextra
+        run: npm i -g newman newman-reporter-htmlextra
+
+      - name: Chạy Newman (suite = ${{ steps.pick.outputs.suite }})
+        run: |
+          mkdir -p "$REPORT_DIR"
+          newman run "$PM_DIR/EShop-CI-${{ steps.pick.outputs.suite }}.postman_collection.json" \
+            -e "$PM_DIR/EShop-Local.postman_environment.json" \
+            --env-var "studentId=$STUDENT_ID" \
+            --env-var "baseUrl=http://localhost:3000" \
+            -r cli,htmlextra,json \
+            --reporter-htmlextra-export "$REPORT_DIR/ci-report-${{ steps.pick.outputs.suite }}.html" \
+            --reporter-json-export "$REPORT_DIR/ci-report-${{ steps.pick.outputs.suite }}.json" \
+            --reporter-htmlextra-title "HW06 API Testing — EShop (CI ${{ steps.pick.outputs.suite }})"
+
+      - name: Upload report (kể cả khi fail)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-report-${{ steps.pick.outputs.suite }}
+          path: |
+            ${{ env.REPORT_DIR }}/ci-report-*.html
+            ${{ env.REPORT_DIR }}/ci-report-*.json
+          if-no-files-found: warn
