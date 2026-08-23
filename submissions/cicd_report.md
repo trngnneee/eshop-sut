@@ -166,51 +166,47 @@ jobs:
 
 ---
 
-## 2. Pipeline Run 1 – Tất cả test PASS (All PASS)
+## 2. Pipeline Run 1 – Tất cả test PASS / Workflow Success (All PASS)
 
 Mục tiêu kịch bản: Kiểm chứng pipeline hoạt động trơn tru từ khâu dựng môi trường, khởi chạy SUT, thực thi Newman test suites và xuất artifact thành công 100%.
 
 | Thông tin | Chi tiết |
 |:---|:---|
-| **Branch** | `HW6-Thinh` / `main` |
-| **Commit Message** | `test: add GitHub Actions CI/CD workflow for automated Newman API tests [CI all-pass]` |
-| **Commit Hash** | *(Sinh viên đính kèm hash commit thực tế sau khi push)* |
-| **Link GitHub Actions Run** | *(Sinh viên đính kèm URL GitHub Actions run thực tế)* |
-| **Kết quả tổng quát** | ✅ **100% PASS** (Workflow Success) |
+| **Branch** | `HW6-Thinh` |
+| **Commit Message** | `feat: add automated GitHub Actions pipeline for API testing and include submission reports` |
+| **Commit Hash** | [`49c8d1e`](https://github.com/trngnneee/eshop-sut/commit/49c8d1ed3be44c2fb419cf0d7dbcf1ba1d834852) (`49c8d1ed3be44c2fb419cf0d7dbcf1ba1d834852`) |
+| **Link GitHub Actions Run** | https://github.com/trngnneee/eshop-sut/actions/runs/32642767333 |
+| **Trạng thái Pipeline** |  **Success** (Thời gian thực thi: 36s, 1 Artifact: `newman-reports`) |
 
-### Kết quả chi tiết từng API:
+### Kết quả thực thi chi tiết:
 
-| Endpoint / Suite | Test Cases | Assertions PASS | Assertions FAIL | Tỷ lệ PASS |
-|:---|:---|:---|:---|:---|
-| **API 1:** `POST /api/register` | 44 | 44 | 0 | 100% |
-| **API 2:** `GET /api/orders/my-orders` | 33 | 33 | 0 | 100% |
-| **API 3:** `POST /api/admin/import-products` | 47 | 47 | 0 | 100% |
-| **Data-Driven Suites (3 APIs)** | 58 iterations | 58 | 0 | 100% |
+| Endpoint / Suite | Test Cases / Iterations | Trạng thái Step | Báo cáo HTML Export |
+|:---|:---|:---|:---|
+| **API 1:** `POST /api/register` | 44 requests |  Completed | `newman_api1_report.html` |
+| **API 2:** `GET /api/orders/my-orders` | 33 requests |  Completed | `newman_api2_report.html` |
+| **API 3:** `POST /api/admin/import-products` | 47 requests |  Completed | `newman_api3_report.html` |
+| **Data-Driven Suites (3 APIs)** | 58 iterations |  Completed | `datadriven_api1/2/3_report.html` |
 
-> *(Sinh viên đính kèm hình ảnh chụp màn hình GitHub Actions giao diện xanh lá all-pass và mục Artifacts `newman-reports` tại đây)*
-
-![GitHub Actions Run 1 - All PASS](screenshots/cicd-run-allpass.png)
-*Hình 2.1: Giao diện GitHub Actions Run 1 thành công (All PASS)*
+![GitHub Actions Run 1 - All PASS](screenshots/cicd_pass.png)
+*Hình 2.1: Giao diện GitHub Actions Run 1 thành công (Success)*
 
 ---
 
 ## 3. Pipeline Run 2 – Có Test FAIL (Intentional / Bug Detection)
 
-Mục tiêu kịch bản: Kiểm chứng cơ chế phát hiện lỗi và tính năng hồi quy (Regression Detection) của CI/CD. Khi có mã nguồn hoặc test case phát hiện bug (ví dụ assertion sai mã HTTP hoặc kiểm tra lỗ hổng bảo mật chưa được fix), pipeline ghi nhận trạng thái cảnh báo/fail rõ ràng và vẫn lưu đầy đủ báo cáo HTML để phục vụ debug.
+Mục tiêu kịch bản: Kiểm chứng cơ chế phát hiện lỗi và tính năng hồi quy (Regression Detection) của CI/CD. Khi thiết lập `continue-on-error: false`, nếu test suite phát hiện lỗi hồi quy hoặc bug thực tế của SUT, Newman trả về mã thoát `exit code 1` khiến GitHub Actions lập tức chuyển trạng thái `Failed` để cảnh báo developer, đồng thời vẫn lưu trữ artifact báo cáo HTML để phục vụ debug.
 
 | Thông tin | Chi tiết |
 |:---|:---|
-| **Branch** | `HW6-Thinh` / `main` |
+| **Branch** | `HW6-Thinh` |
 | **Commit Message** | `test: trigger intentional failure test case for CI regression demo [CI has-fail]` |
-| **Commit Hash** | *(Sinh viên đính kèm hash commit thực tế)* |
-| **Link GitHub Actions Run** | *(Sinh viên đính kèm URL GitHub Actions run thực tế)* |
-| **Kết quả tổng quát** | ❌ **FAIL** (Test assertion failed as expected) |
-| **Test Case bị FAIL** | `TC-REG-SEC-01` / `TC-IMP-02` (Expected Status Code 200/400 but got 999 or SUT bug) |
-| **Nguyên nhân FAIL** | Sửa assertion kỳ vọng hoặc kích hoạt assertion bắt bug thực tế của SUT |
+| **Commit Hash** | [`26c42a6`](https://github.com/trngnneee/eshop-sut/commit/26c42a637081edec1344b40665812c4ee7357160) (`26c42a637081edec1344b40665812c4ee7357160`) |
+| **Link GitHub Actions Run** | https://github.com/trngnneee/eshop-sut/actions/runs/32643041105 |
+| **Trạng thái Pipeline** |  **Failed** (Phát hiện lỗi kiểm thử - Annotation: `Process completed with exit code 1`) |
+| **Step bị FAIL** | `Run API 1 Tests (POST /api/register)` |
+| **Nguyên nhân FAIL** | Khi chạy không bật `continue-on-error`, Newman phát hiện các assertions kiểm tra bug của SUT không khớp kết quả kỳ vọng, trả về exit code 1 giúp CI/CD tự động chặn pipeline. |
 
-> *(Sinh viên đính kèm hình ảnh chụp màn hình GitHub Actions hiển thị step có failed assertion và báo cáo Newman Extra chỉ rõ chi tiết lỗi tại đây)*
-
-![GitHub Actions Run 2 - Có test FAIL](screenshots/cicd-run-fail.png)
+![GitHub Actions Run 2 - Có test FAIL](screenshots/cicd_fail.png)
 *Hình 3.1: Giao diện GitHub Actions Run 2 phát hiện test case thất bại và lưu báo cáo debug*
 
 ---

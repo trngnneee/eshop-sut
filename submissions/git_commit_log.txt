@@ -1,124 +1,80 @@
 HW06 – Git Commit Log
-Sinh viên: Phan Quoc Thinh – 23127486 – 23KTPM3
-Repository: (link GitHub repo)
+Sinh viên: Phan Quốc Thịnh – 23127486 – 23KTPM3
+Repository: https://github.com/trngnneee/eshop-sut
+Branch: HW6-Thinh
 
 ==============================================================
-Ghi chú: Mỗi bước của quy trình cần có ít nhất 1 commit riêng.
-Cấu trúc commit message khuyến nghị:
-  [API-X][Bước] Mô tả ngắn gọn
-Ví dụ:
-  [API-1][Generate] Sinh test cases cho API Login (FR-02) bằng Claude
-  [API-1][Audit] Kiểm tra và gắn nhãn VALID/INVALID/INCOMPLETE
-  [API-1][Extend] Thêm 5 test cases security/state mà AI bỏ sót
-  [API-1][Execute] Chạy Newman, đính kèm report
+Ghi chú: Lịch sử commit thực tế của quá trình thực hiện đồ án HW06
 ==============================================================
 
---- Commit Log (điền sau khi thực hiện) ---
+commit 26c42a637081edec1344b40665812c4ee7357160
+Author: blueToothFairy <thinhpham2310@gmail.com>
+Date:   2026-08-23 20:39:50
 
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
+    test: trigger intentional failure test case for CI regression demo [CI has-fail]
 
-    [Setup] Khởi tạo cấu trúc thư mục submissions HW06
+commit 49c8d1ed3be44c2fb419cf0d7dbcf1ba1d834852
+Author: blueToothFairy <thinhpham2310@gmail.com>
+Date:   2026-08-23 20:33:07
 
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
+    feat: add automated GitHub Actions pipeline for API testing and include submission reports
 
-    [API-1][Generate] Sinh test cases cho API 1 (Pool A – FR-0x)
+commit bad99696a18f594b7b6bfd0d84ce055457aae75f
+Author: blueToothFairy <thinhpham2310@gmail.com>
+Date:   2026-08-22 22:09:55
 
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
+    add data driven test scripts
 
-    [API-1][Audit] Kiểm tra nhãn VALID/INVALID/INCOMPLETE – API 1
+commit 294dad0489bccf7b6b46720b62f3b6940e8a6d3d
+Author: blueToothFairy <thinhpham2310@gmail.com>
+Date:   2026-08-22 21:04:15
 
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
+    feat: update testcases và test runs
 
-    [API-1][Extend] Bổ sung test cases security + state – API 1
+commit fad0a7bb9ab2b56c3f41cf17200b0cb1998a92af
+Author: blueToothFairy <thinhpham2310@gmail.com>
+Date:   2026-08-22 19:39:15
 
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
+    feat:create Postman collections, automation scripts, and test reports
 
-    [API-1][Execute] Chạy Newman API 1 – kết quả PASS/FAIL
+commit e72fa5b39fafe3e6b9a81d72b148b607f097c783
+Author: blueToothFairy <thinhpham2310@gmail.com>
+Date:   2026-08-18 11:49:56
 
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
+    feat: update submissions and add agent skills for HW6
 
-    [API-2][Generate] Sinh test cases cho API 2 (Pool B – FR-0x)
+commit 1b2b0c8a624eeef6a5f84cfc5f6d98581a3356e8
+Author: blueToothFairy <thinhpham2310@gmail.com>
+Date:   2026-08-18 10:24:52
 
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
+    feat: add documentation and submission templates for HW06 API testing assignment
 
-    [API-2][Audit] Kiểm tra nhãn – API 2
+commit 23e1335a52e792243cc9fc8bca22e9b48aed733c
+Author: blueToothFairy <thinhpham2310@gmail.com>
+Date:   2026-08-10 16:06:33
 
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
+    feat(api-test): update data suite to ensure all 5 iterations pass
 
-    [API-2][Extend] Bổ sung test cases – API 2
+commit ccbcb8d236cff69e2a088de433af89f344d30d76
+Author: blueToothFairy <thinhpham2310@gmail.com>
+Date:   2026-08-10 16:02:25
 
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
+    fix(ci): upgrade actions to v4
 
-    [API-2][Execute] Chạy Newman API 2
+commit 730ac62c600d7d3d27e966b260b40f02ab659a7d
+Author: blueToothFairy <thinhpham2310@gmail.com>
+Date:   2026-08-10 15:59:40
 
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
+    ci: update workflow triggers
 
-    [API-3][Generate] Sinh test cases cho API 3 (Pool C – FR-1x)
+commit 0001016d65b20073ad1926a85098ceb6018e812b
+Author: blueToothFairy <thinhpham2310@gmail.com>
+Date:   2026-08-10 15:55:45
 
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
+    ci: allow workflow to run on all branches
 
-    [API-3][Audit] Kiểm tra nhãn – API 3
+commit 2f8031f914c2c464b725183514b6bbdf7f81a71b
+Author: blueToothFairy <thinhpham2310@gmail.com>
+Date:   2026-08-10 15:52:53
 
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
-
-    [API-3][Extend] Bổ sung test cases – API 3
-
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
-
-    [API-3][Execute] Chạy Newman API 3
-
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
-
-    [CICD] Thêm GitHub Actions workflow – newman run
-
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
-
-    [CICD][Run-1] All tests PASS – pipeline xanh
-
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
-
-    [CICD][Run-2] Intentional failure – pipeline đỏ
-
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
-
-    [AgentSkill] Thiết kế AI-driven test generator – diagram + pseudocode
-
-commit <hash>
-Author: Phan Quoc Thinh <email>
-Date:   <datetime>
-
-    [Final] Hoàn thiện báo cáo, AI Audit, AI Critique, README
+    feat(api-test): add newman test suite and ci workflow for register api

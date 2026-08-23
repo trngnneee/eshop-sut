@@ -21,7 +21,7 @@
 ### 1.1. Hệ thống cần kiểm thử (SUT)
 
 - **Tên:** EShop – Ứng dụng thương mại điện tử demo
-- **Repository:** https://github.com/ttbhanh/eshop-sut
+- **Repository:** https://github.com/trngnneee/eshop-sut/tree/HW6-Thinh (Nhánh HW6-Thinh)
 - **Môi trường chạy:** Local Node.js backend tại `http://localhost:3000` với cơ sở dữ liệu SQLite (`backend/database.sqlite`).
 
 ### 1.2. Các API được chọn
@@ -712,33 +712,40 @@ powershell -ExecutionPolicy Bypass -File .\run_newman_datadriven.ps1
 
 ## 6. Tích hợp CI/CD
 
-- **Pipeline:** GitHub Actions (`.github/workflows/api-tests.yml`)
+- **Pipeline:** GitHub Actions ([`.github/workflows/api-tests.yml`](file:///c:/Users/Public/Projects/Testing_HCMUS/HW6/eshop-sut/.github/workflows/api-tests.yml))
+- **Repository:** https://github.com/trngnneee/eshop-sut
 - **Trigger:** Push / Pull Request vào các nhánh `main`, `master`, `HW6-Thinh`
-- **Các bước:** Checkout → Setup Node.js 20 → Install Newman & Reporters → Khởi chạy Backend EShop SUT (kèm healthcheck) → Thực thi Newman cho 3 API (Request-based & Data-Driven) → Tải lên Newman HTML Reports làm Artifacts.
-- **Run 1 (All PASS):** Pipeline chạy bộ kiểm thử thành công, xuất artifact báo cáo HTML đầy đủ.
-- **Run 2 (Có test FAIL / Bug detection):** Pipeline kiểm chứng tính năng hồi quy và phát hiện lỗi, lưu báo cáo HTML debug.
+- **Các bước trong pipeline:** Checkout repository → Setup Node.js 20 → Install Newman & `newman-reporter-htmlextra` → Khởi chạy Backend EShop SUT (kèm healthcheck `curl`) → Thực thi Newman cho 3 API (Request-based & Data-Driven) → Tải lên Newman HTML Reports làm Artifacts (`actions/upload-artifact@v4`).
+- **Run 1 (Workflow Success / All PASS):** 
+  - Commit: [`49c8d1e`](https://github.com/trngnneee/eshop-sut/commit/49c8d1ed3be44c2fb419cf0d7dbcf1ba1d834852) – `feat: add automated GitHub Actions pipeline for API testing and include submission reports`
+  - GitHub Actions Run URL: https://github.com/trngnneee/eshop-sut/actions/runs/32642767333
+  - Kết quả: Success (36s, 1 Artifact `newman-reports`)
+- **Run 2 (Có test FAIL / Bug detection & Regression):**
+  - Commit: [`26c42a6`](https://github.com/trngnneee/eshop-sut/commit/26c42a637081edec1344b40665812c4ee7357160) – `test: trigger intentional failure test case for CI regression demo [CI has-fail]`
+  - GitHub Actions Run URL: https://github.com/trngnneee/eshop-sut/actions/runs/32643041105
+  - Kết quả: Failed (Bắt đúng lỗi hồi quy và bug của SUT khi `continue-on-error: false`)
 
-> Chi tiết xem file: `submissions/cicd_report.md`
+> Chi tiết cấu hình và hình ảnh minh chứng xem tại: [cicd_report.md](cicd_report.md)
 
 ---
 
 ## 7. Agent Skill – AI-driven Test Generator
 
-*(Tóm tắt – chi tiết trong `agent_skill.md`)*
+*(Tóm tắt – chi tiết trong [`AI Agent/agent_skill.md`](AI%20Agent/agent_skill.md))*
 
 Đã xây dựng bộ Agent Skills chuyên biệt cho HW06 bao gồm:
 1. `generate-api-testcases`: Sinh test cases theo 4 kỹ thuật (EP/BVA cô lập lỗi, State Transition, Security, Schema Validation).
-2. `hw6-audit-testcases`: Khung sườn Audit test cases cho con người đánh giá.
-3. `hw6-extend-testcases`: Đề xuất các góc khuất (blind spots) mà AI thường bỏ sót.
-4. `execute-newman`: Chuyển đổi Postman Collection JSON, cấu hình header sinh viên và thực thi Newman sinh báo cáo HTML Extra.
-5. `cicd-setup`: Thiết lập GitHub Actions tự động hóa kiểm thử trên môi trường CI/CD.
+2. `execute-newman`: Chuyển đổi Postman Collection JSON, cấu hình header sinh viên và thực thi Newman sinh báo cáo HTML Extra.
+
+- **Video Demo (YouTube):** [https://youtu.be/cyVliBtOv4E](https://youtu.be/cyVliBtOv4E)
 
 ---
 
 ## 8. Phụ lục
 
-- **Phụ lục A – AI Audit Report:** xem [AI_Audit.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW6/eshop-sut/submissions/AI_Audit.md)
-- **Phụ lục B – AI Critique:** xem [AI_Critique.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW6/eshop-sut/submissions/AI_Critique.md)
-- **Phụ lục C – Bug Report:** xem [bug_report.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW6/eshop-sut/submissions/bug_report.md)
-- **Phụ lục D – CI/CD Report:** xem [cicd_report.md](file:///c:/Users/Public/Projects/Testing_HCMUS/HW6/eshop-sut/submissions/cicd_report.md)
-- **Phụ lục E – Git Commit Log:** xem [git_commit_log.txt](file:///c:/Users/Public/Projects/Testing_HCMUS/HW6/eshop-sut/submissions/git_commit_log.txt)
+- **Phụ lục A – AI Audit Report:** xem [AI_Audit.md](AI_Audit.md)
+- **Phụ lục B – AI Critique:** xem [AI_Critique.md](AI_Critique.md)
+- **Phụ lục C – Bug Report:** xem [bug_report.md](bug_report.md)
+- **Phụ lục D – CI/CD Report:** xem [cicd_report.md](cicd_report.md)
+- **Phụ lục E – AI Agent Skill Report:** xem [agent_skill.md](AI%20Agent/agent_skill.md)
+- **Phụ lục F – Git Commit Log:** xem [git_commit_log.txt](git_commit_log.txt)
