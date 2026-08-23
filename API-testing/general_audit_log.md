@@ -179,3 +179,39 @@ I use AI tools for the following tasks:
 - **The AI output**:
 
   Đã cập nhật `.github/workflows/api-tests.yml` để CI cài dependency cho `API-testing`, chạy lần lượt ba script Newman `npm run forgot`, `npm run apply`, `npm run admin`, gom exit code để cả ba collection đều chạy trước khi job fail nếu có lỗi. Đã bỏ bước build/run collection cũ `eshop_data_driven.postman_collection.json` và đổi artifact upload sang ba report HTML: `forgot-password--report.html`, `apply-coupon-report.html`, `admin-coupons-report.html`.
+
+### Viết main report Sections 1-5
+
+- **AI tool**: Codex (GPT-5)
+- **Date and time**: 2026-08-23 22:55:00 +07
+- **Your prompt**:
+
+  Hãy đọc file main-report.md và viết dựa trên các artifact hiện có trong folder API-testing
+
+- **The AI output**:
+
+  Đã viết lại `API-testing/report/main-report.md` theo template Sections 1-5 dựa trên artifact thật trong `API-testing`: README, ba `test_cases_master.csv`, ba collection Postman, ba data JSON, ba Newman HTML reports, bug reports, audit logs, và CI workflow. Report hiện có thông tin SUT, API selection, tổng quan từng API, số lượng AI-generated/audit/human-added/executed/pass/fail/blocked/not-executed, danh sách bug reports, Postman features, CI/CD pipeline, và thiết kế AI-driven API test generator. Các thông tin cá nhân/CI run link không có trong artifact được ghi rõ là chưa có evidence thay vì bịa.
+
+### Chuyển main report sang tiếng Việt
+
+- **AI tool**: Codex (GPT-5)
+- **Date and time**: 2026-08-23 23:01:00 +07
+- **Your prompt**:
+
+  tôi muốn tiếng việt
+
+- **The AI output**:
+
+  Đã chuyển toàn bộ `API-testing/report/main-report.md` sang tiếng Việt, giữ nguyên số liệu và bằng chứng từ artifact hiện có. Các tên endpoint, TC ID, file path, status keyword và thuật ngữ kỹ thuật cần đối chiếu vẫn được giữ nguyên để tiện trace về CSV, collection, Newman report và bug reports.
+
+### Tạo collection smoke all-pass cho CI evidence
+
+- **AI tool**: Codex (GPT-5)
+- **Date and time**: 2026-08-23 23:08:00 +07
+- **Your prompt**:
+
+  hãy cho tôi 1 collection để test all pass vì hiện tại đang 3 collection chạy đều có bug nên hãy cho tôi 1 collection chứa tầm 3 test case đều pass để chạy CI-pass
+
+- **The AI output**:
+
+  Đã tạo `API-testing/ci_pass_smoke.postman_collection.json` gồm 3 smoke test ổn định trên các endpoint public seeded data: `GET /api/products`, `GET /api/categories`, `GET /api/products/1`. Đã thêm script `npm run ci-pass` trong `API-testing/package.json` và workflow riêng `.github/workflows/api-tests-pass.yml` để chạy collection này trong GitHub Actions mà không ảnh hưởng workflow chính đang bắt bug thật. Đã chạy local thành công: 3 requests, 9 assertions, 0 failed; report sinh tại `API-testing/ci-pass-smoke-report.html`.
