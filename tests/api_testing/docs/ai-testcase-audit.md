@@ -26,6 +26,8 @@ Cái này em bám theo checklist trong plan. Kết quả rà:
 
 ## Con số để đưa vào AI Critique
 
+> **Lưu ý đơn vị đếm — đọc kỹ chỗ này để khỏi tưởng số bị lệch.** Bảng dưới đếm **theo từng test case** (đơn vị = 1 TC-ID, tổng 212). Còn bảng trong AI Audit Report (`ai_declaration/[AI-02]`, mục 3) đếm **theo artifact/prompt** (đơn vị = 1 lần AI sinh ra 1 file/artifact, tổng 16 artifact → 11 VALID / 5 INCOMPLETE). Hai bảng **khác đơn vị nên không so trực tiếp được**: một artifact "INCOMPLETE" ở AI-02 (vd cả file EP+BVA của API-1) bên trong vẫn gồm phần lớn test case VALID cộng vài case phải sửa. Khi viết AI Critique em sẽ nói rõ đang trích con số theo đơn vị nào (per-case ở đây, per-artifact ở AI-02), tránh để người chấm tưởng hai chỗ mâu thuẫn.
+
 | API | Tổng | VALID | INVALID | INCOMPLETE | Trong đó VALID mà sẽ FAIL (lộ bug) |
 |-----|------|-------|---------|------------|-------------------------------------|
 | API-1 | 83 | 82 | 1 | 0 | ~25 (id strict → 400, BUG-01/02, SQLi thật, trả HTML) |
