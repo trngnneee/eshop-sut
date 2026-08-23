@@ -1,0 +1,22 @@
+Stage 1 Domain partitions only (Skill-01 + API testing checklist). No Postman, Newman, or security/state/schema suites.
+
+Sources: Repo/eshop-sut/README.md (FR-04, FR-07, FR-19, FR-06 qty, FR-12, SEC-02/03/06) and api_specification.md bodies/headers.
+
+Module codes: PROFILE, CART, ADMINUSERS.
+
+Counts: 40 PROFILE (TC-PROFILE-001..040) + 39 CART (TC-CART-001..039) + 20 ADMINUSERS (TC-ADMINUSERS-001..020) = 99 DomainPartition cases.
+
+Method: per-variable valid/invalid sub-domains; 1×1 representative values; on-point (all valid) + off-point (one invalid, others valid); business-rule extras (role/email immutability; cart merge; admin self-delete). Combination cases: TC-PROFILE-003 (unicode name + 11-digit phone + unicode address), TC-CART-002 (id=1 and qty=1).
+
+Assumptions flagged with ⚠️: HTTP 400/401/403/404 when spec omits codes; name/phone/address treated as required; cart id must exist; client price/name must not spoof catalogue; no max length for name/address; deleting another admin unspecified.
+
+Artifacts under SoftwareTesting-HW/HW06/23127271/:
+- docs/domain-testing-report.md (Steps 1–5)
+- tests/test-cases/{profile,cart,admin-users}/*.md (Skill-01 per-TC files)
+- sheets/domain-partitions.csv (API template columns; Source=AI; AuditStatus blank)
+- scripts/generate_domain_partitions.py
+- README.md
+
+Oracles are spec-based, not seed-SUT behaviour (PUT me currently accepts role; POST /api/cart appends without merge/validation; DELETE /api/admin/users/:id has no admin/self checks).
+
+Not in this drop: Stage 2 audit labels, Stage 3 human-found cases, Postman collection, Newman run, bug reports.

@@ -1,0 +1,2 @@
+Scope: FR-04 PUT /api/users/me | FR-07 POST /api/cart | FR-19 DELETE /api/admin/users/:id | @Repo/eshop-sut
+Using api testing skill requirement and @.cursor/rules/skill-01-domain-testing.mdc to design and generate all domain partitions test cases for the scope above
