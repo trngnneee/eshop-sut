@@ -1,0 +1,372 @@
+{
+  "name": "00-Setup",
+  "item": [
+    {
+      "name": "SETUP-01 — Login admin → {{adminToken}}",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "23127438-setup-01-test",
+            "type": "text/javascript",
+            "exec": [
+              "// ---- SETUP-01 · POST /api/login (admin) -> {{adminToken}} ----",
+              "// Fixture (ngoài scope chấm điểm): PHẢI PASS, nếu fail thì mọi folder sau vô nghĩa.",
+              "const ok   = pm.response.code === 200;",
+              "const json = ok ? pm.response.json() : {};",
+              "",
+              "pm.test('SETUP-01 · status 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('SETUP-01 · Content-Type là application/json', function () {",
+              "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+              "});",
+              "",
+              "pm.test('SETUP-01 · body có token dạng JWT (3 phần)', function () {",
+              "    pm.expect(json).to.have.property('token');",
+              "    pm.expect(json.token, 'token').to.be.a('string').and.not.empty;",
+              "    pm.expect(json.token.split('.'), 'JWT phải có header.payload.signature').to.have.lengthOf(3);",
+              "});",
+              "",
+              "pm.test(\"SETUP-01 · đúng tài khoản admin (role = 'admin')\", function () {",
+              "    pm.expect(json.user, 'user').to.be.an('object');",
+              "    pm.expect(json.user.role).to.eql('admin');",
+              "});",
+              "",
+              "if (json.token) {",
+              "    pm.environment.set('adminToken', json.token);",
+              "    console.log('[HW06][SETUP-01] adminToken đã set, độ dài =', json.token.length);",
+              "} else {",
+              "    console.error('[HW06][SETUP-01] KHÔNG lấy được token — các request sau sẽ fail.');",
+              "}",
+              "",
+              "pm.test('SETUP-01 · đã set environment {{adminToken}}', function () {",
+              "    pm.expect(pm.environment.get('adminToken'), 'adminToken').to.be.a('string').and.not.empty;",
+              "});",
+              "",
+              "pm.test('SETUP-01 · response time < 2000ms', function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "});",
+              "",
+              "",
+              "// ---- Bằng chứng cho report: header X-Student-Id do PRE-REQUEST SCRIPT cấp collection chèn,",
+              "// ---- request KHÔNG hardcode. Mở View > Show Postman Console để chụp dòng log [HW06].",
+              "pm.test('SETUP-01 · X-Student-Id được pre-request script cấp collection chèn', function () {",
+              "    const sid = pm.request.headers.get('X-Student-Id') || pm.request.headers.get('x-student-id');",
+              "    pm.expect(sid, 'X-Student-Id').to.eql(pm.environment.get('studentId'));",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@eshop.com\",\n  \"password\": \"Admin123!\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
+        },
+        "description": "Fixture — lấy JWT của tài khoản seed admin (users.id=1, role='admin').\n\nToken do `POST /api/login` cấp, payload `{id, role}` và **KHÔNG có `exp`** (server.js:51) — nên case 'token hết hạn' ở API-2 phải tự forge token, không lấy được token expired thật từ đây.\n\nCảnh báo khi chạy lại: sai password 3 lần sẽ khóa tài khoản 180s (server.js:54-58, mỗi lần sai +2 attempts) — đừng đổi password trong request này."
+      }
+    },
+    {
+      "name": "SETUP-02 — Login user test → {{userToken}}",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "23127438-setup-02-test",
+            "type": "text/javascript",
+            "exec": [
+              "// ---- SETUP-02 · POST /api/login (user) -> {{userToken}} ----",
+              "// Fixture (ngoài scope chấm điểm): PHẢI PASS, nếu fail thì mọi folder sau vô nghĩa.",
+              "const ok   = pm.response.code === 200;",
+              "const json = ok ? pm.response.json() : {};",
+              "",
+              "pm.test('SETUP-02 · status 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('SETUP-02 · Content-Type là application/json', function () {",
+              "    pm.expect(pm.response.headers.get('Content-Type') || '').to.include('application/json');",
+              "});",
+              "",
+              "pm.test('SETUP-02 · body có token dạng JWT (3 phần)', function () {",
+              "    pm.expect(json).to.have.property('token');",
+              "    pm.expect(json.token, 'token').to.be.a('string').and.not.empty;",
+              "    pm.expect(json.token.split('.'), 'JWT phải có header.payload.signature').to.have.lengthOf(3);",
+              "});",
+              "",
+              "pm.test(\"SETUP-02 · đúng tài khoản user (role = 'user')\", function () {",
+              "    pm.expect(json.user, 'user').to.be.an('object');",
+              "    pm.expect(json.user.role).to.eql('user');",
+              "});",
+              "",
+              "if (json.token) {",
+              "    pm.environment.set('userToken', json.token);",
+              "    console.log('[HW06][SETUP-02] userToken đã set, độ dài =', json.token.length);",
+              "} else {",
+              "    console.error('[HW06][SETUP-02] KHÔNG lấy được token — các request sau sẽ fail.');",
+              "}",
+              "",
+              "pm.test('SETUP-02 · đã set environment {{userToken}}', function () {",
+              "    pm.expect(pm.environment.get('userToken'), 'userToken').to.be.a('string').and.not.empty;",
+              "});",
+              "",
+              "pm.test('SETUP-02 · response time < 2000ms', function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"test@eshop.com\",\n  \"password\": \"Test1234!\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
+        },
+        "description": "Fixture — lấy JWT của tài khoản seed user thường (users.id=2, role='user').\n\nDùng cho: API-2 (user tự hủy đơn của mình), case IDOR, và case 'token role=user gọi API-3 phải bị 403' (SEC-03)."
+      }
+    },
+    {
+      "name": "SETUP-03 — Tạo product mẫu → {{productId}}",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "23127438-setup-03-prerequest",
+            "type": "text/javascript",
+            "exec": [
+              "// Tên product phải DUY NHẤT mỗi lần chạy (tránh trùng khi chạy lại suite mà chưa restart server).",
+              "// Dùng dynamic variable của Postman + timestamp, rồi lưu lại để các folder sau đối chiếu được.",
+              "const seedName = pm.variables.replaceIn('HW06 {{$randomProductName}} {{$timestamp}}');",
+              "pm.environment.set('seedProductName', seedName);",
+              "console.log('[HW06][SETUP-03] seedProductName =', seedName);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "23127438-setup-03-test",
+            "type": "text/javascript",
+            "exec": [
+              "// ---- SETUP-03 · POST /api/products -> {{productId}} ----",
+              "// Payload HỢP LỆ theo FR-15 (name <= 255, price > 0, category_id thuộc {1,2,3})",
+              "// => contract kỳ vọng 200 + {message, id}. Đây là fixture, PHẢI PASS.",
+              "// Ghi chú: SUT không gắn authenticateToken cho route này (BUG-07) nhưng request vẫn gửi",
+              "// Bearer {{adminToken}} cho ĐÚNG thiết kế theo spec (FR-12: CRUD sản phẩm dành cho Admin).",
+              "const ok   = pm.response.code === 200;",
+              "const json = ok ? pm.response.json() : {};",
+              "",
+              "pm.test('SETUP-03 · status 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('SETUP-03 · khớp created-response schema {message, id}', function () {",
+              "    const schema = JSON.parse(pm.collectionVariables.get('createdSchema'));",
+              "    pm.response.to.have.jsonSchema(schema);",
+              "});",
+              "",
+              "pm.test('SETUP-03 · id là số nguyên > 5 (ngoài 5 product seed)', function () {",
+              "    pm.expect(json.id, 'id').to.be.a('number');",
+              "    pm.expect(Number.isInteger(json.id), 'id phải là integer').to.be.true;",
+              "    pm.expect(json.id).to.be.above(5);",
+              "});",
+              "",
+              "if (json.id) {",
+              "    pm.environment.set('productId', json.id);",
+              "    console.log('[HW06][SETUP-03] productId =', json.id, '| name =', pm.environment.get('seedProductName'));",
+              "}",
+              "",
+              "pm.test('SETUP-03 · đã set environment {{productId}}', function () {",
+              "    pm.expect(pm.environment.get('productId'), 'productId').to.not.be.empty;",
+              "});",
+              "",
+              "pm.test('SETUP-03 · response time < 2000ms', function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"{{seedProductName}}\",\n  \"price\": 8500000,\n  \"description\": \"Seed product của HW06 — tạo bởi folder 00-Setup\",\n  \"imageUrl\": \"http://localhost:3000/img/hw06-seed.png\",\n  \"category_id\": 3\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "products"
+          ]
+        },
+        "description": "Fixture — tạo 1 product HỢP LỆ theo FR-15 để các folder sau có id ổn định ({{productId}}) mà không phải hardcode id seed 1..5.\n\n`name` dùng dynamic variable `{{$randomProductName}}` + `{{$timestamp}}` (sinh ở pre-request script, lưu vào `{{seedProductName}}`) nên chạy lại nhiều lần không trùng tên.\n\nRequest gửi `Bearer {{adminToken}}` cho đúng thiết kế theo spec (FR-12: CRUD sản phẩm dành cho Admin), mặc dù SUT quên gắn middleware `authenticateToken` (BUG-07). Việc chứng minh BUG-07 nằm ở folder `03-API3-Product-Manage > Auth-Escalation`, không phải ở đây."
+      }
+    },
+    {
+      "name": "SETUP-04 — Checkout tạo đơn pending → {{orderId}}",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "23127438-setup-04-test",
+            "type": "text/javascript",
+            "exec": [
+              "// ---- SETUP-04 · POST /api/checkout (Bearer {{userToken}}) -> {{orderId}} ----",
+              "// Đơn vừa tạo luôn ở state 'pending' (server.js:303 hardcode 'pending').",
+              "// Đây là đơn dùng cho các case \"đơn của chính mình\" ở API-2.",
+              "// Các đơn theo TỪNG state (ordPending/ordConfirmed/ordShipping/ordDelivered/ordCanceled)",
+              "// được dựng riêng ở folder 02-API2-Order-Cancel > Fixtures.",
+              "const ok   = pm.response.code === 200;",
+              "const json = ok ? pm.response.json() : {};",
+              "",
+              "pm.test('SETUP-04 · status 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('SETUP-04 · body có {message, orderId}', function () {",
+              "    pm.expect(json).to.have.property('message');",
+              "    pm.expect(json).to.have.property('orderId');",
+              "    pm.expect(json.orderId, 'orderId').to.be.a('number');",
+              "    pm.expect(Number.isInteger(json.orderId), 'orderId phải là integer').to.be.true;",
+              "    pm.expect(json.orderId).to.be.at.least(1);",
+              "});",
+              "",
+              "if (json.orderId) {",
+              "    pm.environment.set('orderId', json.orderId);",
+              "    console.log('[HW06][SETUP-04] orderId =', json.orderId, '(state = pending)');",
+              "}",
+              "",
+              "pm.test('SETUP-04 · đã set environment {{orderId}}', function () {",
+              "    pm.expect(pm.environment.get('orderId'), 'orderId').to.not.be.empty;",
+              "});",
+              "",
+              "pm.test('SETUP-04 · response time < 2000ms', function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{userToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"total_amount\": 200000,\n  \"shipping_address\": \"123 Le Loi, TP.HCM\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/checkout",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "checkout"
+          ]
+        },
+        "description": "Fixture — tạo 1 đơn hàng của user test, state `pending` (server.js:303 hardcode `'pending'`), lưu vào `{{orderId}}`.\n\nBảng `orders` RỖNG sau mỗi lần `node server.js` (database.js DROP + reseed), nên đơn đầu tiên thường có id = 1 — nhưng test vẫn đọc từ `{{orderId}}`, không hardcode."
+      }
+    }
+  ],
+  "description": "Login lấy adminToken/userToken, tạo product mẫu ({{productId}}) và đơn pending ({{orderId}}). CHẠY ĐẦU TIÊN — các folder sau đọc biến từ đây.",
+  "auth": {
+    "type": "noauth"
+  }
+}
