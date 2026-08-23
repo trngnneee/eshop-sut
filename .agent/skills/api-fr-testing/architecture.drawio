@@ -1,0 +1,162 @@
+<mxfile host="Electron">
+  <diagram name="api-fr-testing generator" id="0">
+    <mxGraphModel dx="1099" dy="849" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;fontSize=18;fontStyle=1;align=left;verticalAlign=middle;" value="Agent Skill &lt;b&gt;api-fr-testing&lt;/b&gt; — AI-driven API Test Generator (HW06 EShop · MSSV 23127438)" vertex="1">
+          <mxGeometry height="30" width="900" x="40" y="14" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" parent="1" style="text;html=1;fontSize=11;align=left;verticalAlign=middle;fontColor=#666666;" value="6-stage pipeline · input = spec + rules → output = test-case table + Postman collection · human-in-the-loop audit/extend" vertex="1">
+          <mxGeometry height="20" width="900" x="40" y="42" as="geometry" />
+        </mxCell>
+
+        <mxCell id="spec" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=8;" value="&lt;b&gt;Spec&lt;/b&gt; — openapi.yaml&#xa;(3 API in scope, đã audit&#xa;→ docs/openapi-audit.md)&#xa;+ api_specification.md" vertex="1">
+          <mxGeometry height="80" width="250" x="40" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rules" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=8;" value="&lt;b&gt;Rules&lt;/b&gt; — FR + SEC (README SUT)&#xa;FR-05/FR-06 · FR-10 · FR-15&#xa;SEC-01 … SEC-07" vertex="1">
+          <mxGeometry height="70" width="250" x="40" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="scope" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=8;verticalAlign=top;" value="&lt;b&gt;SCOPE — 3 API / 5 endpoint&lt;/b&gt;&#xa;&#xa;&lt;b&gt;API-1&lt;/b&gt; · FR-05/FR-06 · Product Read&#xa;   GET /api/products/:id&#xa;   GET /api/products?search=&#xa;&#xa;&lt;b&gt;API-2&lt;/b&gt; · FR-10 · Order Cancel&#xa;   PUT /api/orders/:id/cancel&#xa;&#xa;&lt;b&gt;API-3&lt;/b&gt; · FR-15 · Product CRUD (admin)&#xa;   POST /api/products&#xa;   PUT /api/products/:id" vertex="1">
+          <mxGeometry height="200" width="250" x="40" y="270" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" value="STAGE 1 — PARSE&#xa;&lt;span style=&quot;font-weight:normal&quot;&gt;spec → Endpoint{method, path, params[],&#xa;body_schema, auth_required, responses}&#xa;rules → RuleSet{FR constraints, SEC[]}&lt;/span&gt;" vertex="1">
+          <mxGeometry height="90" width="320" x="400" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" value="STAGE 2 — CLASSIFY&#xa;&lt;span style=&quot;font-weight:normal&quot;&gt;mỗi param → Domain{type, required,&#xa;min, max, enum, format, FK exists?}&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="320" x="400" y="215" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s3" parent="1" style="swimlane;startSize=44;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;verticalAlign=top;" value="STAGE 3 — GENERATE (generator độc lập, chạy trên mỗi endpoint)&#xa;&lt;span style=&quot;font-weight:normal;font-size:10px&quot;&gt;generator.py: g_partition (G1+G2) · g_state · g_security · g_schema&lt;/span&gt;" vertex="1">
+          <mxGeometry height="200" width="760" x="400" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="g1" parent="s3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" value="&lt;b&gt;G1 PartitionGen&lt;/b&gt;&#xa;1 valid class&#xa;+ 1 case / invalid class" vertex="1">
+          <mxGeometry height="130" width="115" x="10" y="56" as="geometry" />
+        </mxCell>
+        <mxCell id="g2" parent="s3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" value="&lt;b&gt;G2 BoundaryGen&lt;/b&gt;&#xa;min-1/min/min+1&#xa;max-1/max/max+1&#xa;+ dạng không canonical&#xa;(&quot;1.0&quot;, &quot;01&quot;, &quot; 1&quot;)" vertex="1">
+          <mxGeometry height="130" width="115" x="135" y="56" as="geometry" />
+        </mxCell>
+        <mxCell id="g3" parent="s3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" value="&lt;b&gt;G3 StateGen&lt;/b&gt;&#xa;from_state × action&#xa;(ma trận đầy đủ)&#xa;+ fixture chain&#xa;checkout → admin set status" vertex="1">
+          <mxGeometry height="130" width="115" x="260" y="56" as="geometry" />
+        </mxCell>
+        <mxCell id="g4" parent="s3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" value="&lt;b&gt;G4 SecurityGen&lt;/b&gt;&#xa;no-token / empty / wrong-role&#xa;forged JWT · IDOR&#xa;SQLi · UNION leak · XSS&#xa;mass-assignment" vertex="1">
+          <mxGeometry height="130" width="115" x="385" y="56" as="geometry" />
+        </mxCell>
+        <mxCell id="g5" parent="s3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" value="&lt;b&gt;G5 SchemaGen&lt;/b&gt;&#xa;1 JSON Schema / response code&#xa;→ pm.response.to.&#xa;have.jsonSchema()&#xa;+ Content-Type" vertex="1">
+          <mxGeometry height="130" width="115" x="510" y="56" as="geometry" />
+        </mxCell>
+        <mxCell id="g6" parent="s3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;dashed=1;" value="&lt;b&gt;G6 NegativeGen&lt;/b&gt;&#xa;method sai · Content-Type&#xa;body malformed/rỗng/array&#xa;thiếu X-Student-Id&#xa;&lt;i&gt;(Prompt 5 — chưa code&#xa;trong generator.py)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="130" width="115" x="635" y="56" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sm" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" value="&lt;b&gt;State machine (FR-10)&lt;/b&gt;&#xa;pending / confirmed / shipping /&#xa;delivered / canceled → cancel" vertex="1">
+          <mxGeometry height="60" width="200" x="790" y="215" as="geometry" />
+        </mxCell>
+        <mxCell id="sec" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" value="&lt;b&gt;SEC catalog + leaked secret&lt;/b&gt;&#xa;JWT secret hardcode&#xa;(backend/server.js:9) → forge token" vertex="1">
+          <mxGeometry height="60" width="220" x="1010" y="215" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" value="STAGE 4 — DEDUPE + RANK&#xa;&lt;span style=&quot;font-weight:normal&quot;&gt;key = md5(endpoint, param, value, kind) → gộp trùng&#xa;priority P0/P1/P2 · weight: security &gt; state &gt; boundary &gt; partition/schema&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="380" x="400" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="s5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" value="STAGE 5 — EMIT&#xa;&lt;span style=&quot;font-weight:normal&quot;&gt;render bảng Markdown/CSV + Postman item (request + pm.test)&#xa;inject X-Student-Id = 23127438 ở collection-level pre-request&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="380" x="400" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="s6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" value="STAGE 6 — SELF-CHECK (coverage gate)&#xa;&lt;span style=&quot;font-weight:normal&quot;&gt;mỗi param có ≥1 valid + ≥1 invalid? mỗi FR có ≥1 case?&#xa;mỗi SEC áp dụng được có ≥1 case? → in bảng coverage gap&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="380" x="400" y="820" as="geometry" />
+        </mxCell>
+
+        <mxCell id="out1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" value="&lt;b&gt;Test-case table (MD/CSV)&lt;/b&gt;&#xa;219 case · 12 file testcases/*.md&#xa;API-1: 85 · API-2: 59 · API-3: 75" vertex="1">
+          <mxGeometry height="60" width="260" x="850" y="655" as="geometry" />
+        </mxCell>
+        <mxCell id="out2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" value="&lt;b&gt;Postman collection (.json)&lt;/b&gt;&#xa;EShop-HW06 · 238 request&#xa;+ 5 JSON Schema · 3 CSV data file" vertex="1">
+          <mxGeometry height="60" width="260" x="850" y="730" as="geometry" />
+        </mxCell>
+        <mxCell id="out3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" value="&lt;b&gt;Newman + htmlextra&lt;/b&gt; (localhost:3000)&#xa;→ newman/report.html&#xa;&lt;b&gt;CI — GitHub Actions&lt;/b&gt;&#xa;suite green: 10/10 pass (pipeline xanh)&#xa;suite onefail: 1 fail = BUG-05 (đỏ)" vertex="1">
+          <mxGeometry height="90" width="260" x="1170" y="690" as="geometry" />
+        </mxCell>
+
+        <mxCell id="human" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;align=left;spacingLeft=8;" value="HUMAN REVIEW&#xa;&lt;span style=&quot;font-weight:normal&quot;&gt;Phase 3 — audit VALID / INVALID / INCOMPLETE&#xa;   → docs/ai-testcase-audit.md&#xa;Phase 4 — extend 7 case AI bỏ sót (đọc source + probe)&#xa;   → docs/extended-cases.md&lt;/span&gt;" vertex="1">
+          <mxGeometry height="90" width="330" x="850" y="850" as="geometry" />
+        </mxCell>
+
+        <mxCell id="probe" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;dashed=1;fontSize=10;align=left;spacingLeft=8;" value="&lt;b&gt;Phase 1 — SUT probe (cURL)&lt;/b&gt;&#xa;localhost:3000 · backup + restore&#xa;backend/database.sqlite" vertex="1">
+          <mxGeometry height="60" width="270" x="1280" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="actual" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;dashed=1;fontSize=10;align=left;spacingLeft=8;" value="&lt;b&gt;Cột Actual / bug-map&lt;/b&gt;&#xa;20 BUG đã verify (BUG-01…18, 20, 21)&#xa;+ OBS-01 · 18 file bug-reports/*.md&#xa;&lt;b&gt;KHÔNG bao giờ dùng để tính Expected&lt;/b&gt;" vertex="1">
+          <mxGeometry height="80" width="270" x="1280" y="190" as="geometry" />
+        </mxCell>
+
+        <mxCell id="inv" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fillColor=#fff2cc;strokeColor=#d6b656;spacingLeft=8;spacingTop=6;" value="&lt;b&gt;INVARIANT&lt;/b&gt;&#xa;Expected luôn lấy từ &lt;b&gt;Spec + Rules (contract)&lt;/b&gt;,&#xa;không bao giờ lấy từ SUT probe.&#xa;Test lệch spec là test &lt;b&gt;phải FAIL&lt;/b&gt; —&#xa;chính cái FAIL đó là bug report.&#xa;(74/219 case kỳ vọng FAIL ⇒ 20 bug)" vertex="1">
+          <mxGeometry height="130" width="290" x="40" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="anticheat" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fillColor=#f5f5f5;strokeColor=#999999;spacingLeft=8;spacingTop=6;fontSize=10;" value="&lt;b&gt;Ràng buộc đề bài&lt;/b&gt;&#xa;· mọi request mang header X-Student-Id&#xa;· Newman chạy trên localhost / 127.0.0.1&#xa;· diagram này &lt;b&gt;tự vẽ&lt;/b&gt; (draw.io), không AI-generate" vertex="1">
+          <mxGeometry height="90" width="290" x="40" y="730" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_spec" edge="1" parent="1" source="spec" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=10;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="s1" value="OpenAPI + x-test-* hints">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rules" edge="1" parent="1" source="rules" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=10;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.55;entryDx=0;entryDy=0;" target="s1" value="FR + SEC">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_scope" edge="1" parent="1" source="scope" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=10;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.85;entryDx=0;entryDy=0;" target="s1" value="5 endpoint in scope">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="s1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=10;" target="s2" value="Endpoint[] + RuleSet">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" edge="1" parent="1" source="s2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=10;" target="s3" value="Domain{} mỗi param">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e34" edge="1" parent="1" source="s3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=10;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s4" value="Case[] (gộp 6 nhánh)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e45" edge="1" parent="1" source="s4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=10;" target="s5" value="ranked + priority">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e56" edge="1" parent="1" source="s5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" target="s6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sm" edge="1" parent="1" source="sm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=10;dashed=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="g3" value="ma trận trạng thái">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sec" edge="1" parent="1" source="sec" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=10;dashed=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="g4" value="SEC-01…07 + secret lộ">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_out1" edge="1" parent="1" source="s5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=10;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="out1" value="CSV / MD">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_out2" edge="1" parent="1" source="s5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=10;exitX=1;exitY=0.7;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="out2" value="Postman .json">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_out3" edge="1" parent="1" source="out2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=10;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="out3" value="newman run">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_gap" edge="1" parent="1" source="s6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=10;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="human" value="coverage-gap report">
+          <mxGeometry relative="1" x="-0.45" as="geometry"><mxPoint as="offset" y="-12" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e_fb" edge="1" parent="1" source="human" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=10;dashed=1;strokeColor=#b85450;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.12;entryDx=0;entryDy=0;" target="s3" value="extend (feedback loop)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1250" y="850" />
+              <mxPoint x="1250" y="354" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_probe" edge="1" parent="1" source="probe" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=10;dashed=1;" target="actual" value="chỉ điền cột Actual">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_bugmap" edge="1" parent="1" source="actual" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=10;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="human" value="ánh xạ BUG ↔ TC-ID">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1570" y="230" />
+              <mxPoint x="1570" y="895" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
