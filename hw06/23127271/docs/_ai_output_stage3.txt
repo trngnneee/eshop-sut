@@ -1,0 +1,10 @@
+Stage 3: 6 human-found domain-partition SUP cases (≥5 required).
+
+TC-PROFILE-SUP-001 partial phone-only PUT — prompt quality (example triple bias).
+TC-PROFILE-SUP-002 fullwidth Unicode phone — model limitation (ASCII-only digits).
+TC-PROFILE-SUP-003 duplicate JSON phone key — API/JSON parser + model unique keys.
+TC-CART-SUP-001 same id different name merge — API characteristic (undefined product identity).
+TC-CART-SUP-002 merge 2+3 — prompt quality / 1×1 (only 1+1 before).
+TC-ADMINUSERS-SUP-001 percent-encoded path id — model limitation (URI not in spec).
+
+Artifacts: tests/test-cases/*/TC-*-SUP-*.md, docs/stage3-extend.md, CSV rows Source=Human.
