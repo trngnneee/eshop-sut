@@ -1,0 +1,6 @@
+fromState,expectedStatus
+pending,200
+confirmed,200
+shipping,400
+delivered,400
+canceled,400

@@ -1,0 +1,289 @@
+{
+  "name": "04-DataDriven-CSV",
+  "description": "3 request **data-driven** chạy bằng **Collection Runner** (không chạy tuần tự cùng suite — mỗi request chọn riêng + đính file CSV tương ứng trong `postman/data/`).\n\nĐây là dạng gộp-matrix của các case đã có: DD-1↔TC-P1-020/070, DD-2↔API-3 validation, DD-3↔API-2 state-transition. Mục đích: minh hoạ tính năng **Runner + CSV** cho báo cáo.\n\n**Cách chạy:** Runner → chọn request → Data: chọn CSV → Iterations tự nhận theo số dòng → Run.\n\n⚠ Cần chạy `00-Setup` trước (để có `{{adminToken}}`/`{{userToken}}`).",
+  "item": [
+    {
+      "name": "DD-1 — GET /products/{{id}} · matrix chẵn/lẻ (product-ids.csv)",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "23127438-dd-1-pre",
+            "type": "text/javascript",
+            "exec": [
+              "// Chạy bằng Collection Runner + postman/data/product-ids.csv (cột: id = 1..5).",
+              "// Nếu chạy lẻ không kèm data file thì fallback id = 2 để vẫn lộ BUG-01.",
+              "if (pm.iterationData.get('id') === undefined || pm.iterationData.get('id') === null) {",
+              "    pm.variables.set('id', 2);",
+              "    console.warn('[HW06][DD-1] Không có data file — fallback id=2. Đính product-ids.csv vào Runner để phủ matrix 1..5.');",
+              "} else {",
+              "    pm.variables.set('id', pm.iterationData.get('id'));",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "23127438-dd-1-test",
+            "type": "text/javascript",
+            "exec": [
+              "let body = null;",
+              "try { body = pm.response.json(); } catch (e) { body = null; }",
+              "",
+              "const sentId = Number(pm.iterationData.get('id') || pm.variables.get('id'));",
+              "",
+              "pm.test('DD-1 · status 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('DD-1 · id trả về khớp id đã gửi (' + sentId + ')', function () {",
+              "    pm.expect(body && body.id, 'body.id').to.eql(sentId);",
+              "});",
+              "",
+              "pm.test('DD-1 · khớp JSON Schema Product', function () {",
+              "    const s = JSON.parse(pm.collectionVariables.get('productSchema'));",
+              "    pm.response.to.have.jsonSchema(s);",
+              "});",
+              "",
+              "pm.test('DD-1 · typeof price === \"number\" (id CHẴN sẽ FAIL = BUG-01)', function () {",
+              "    console.log('[HW06][DD-1] id =', sentId, '| typeof price =', typeof (body && body.price));",
+              "    pm.expect(body && body.price, 'price').to.be.a('number');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/products/{{id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "products",
+            "{{id}}"
+          ]
+        },
+        "description": "**Data-driven** — chạy bằng **Collection Runner**, chọn RIÊNG request này, đính `postman/data/product-ids.csv` (cột `id` = 1..5), Iterations = 5.\n\nTương đương TC-P1-020 / TC-P1-070 nhưng dạng CSV. Kỳ vọng theo contract: mọi id → `typeof price === 'number'`.\n\n⚠ Kết quả SUT: id lẻ (1,3,5) PASS · id chẵn (2,4) **FAIL** ⇒ chứng minh **BUG-01** trên toàn matrix. Có fallback id=2 khi chạy lẻ không kèm CSV."
+      }
+    },
+    {
+      "name": "DD-2 — POST /products · matrix validation (products.csv)",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "23127438-dd-2-pre",
+            "type": "text/javascript",
+            "exec": [
+              "// Chạy bằng Collection Runner + postman/data/products.csv",
+              "// (cột: name, price, category_id, expectedStatus, note).",
+              "// Dựng body JSON từ iterationData (ép kiểu số cho price/category_id, giữ '' cho name rỗng).",
+              "function num(x) {",
+              "    if (x === '' || x === undefined || x === null) return null;",
+              "    const n = Number(x);",
+              "    return isNaN(n) ? x : n;",
+              "}",
+              "if (pm.iterationData.get('name') === undefined) {",
+              "    console.warn('[HW06][DD-2] Không có data file — đính postman/data/products.csv vào Runner.');",
+              "}",
+              "const bodyObj = {",
+              "    name: pm.iterationData.get('name'),",
+              "    price: num(pm.iterationData.get('price')),",
+              "    description: 'DD-2 ' + (pm.iterationData.get('note') || ''),",
+              "    imageUrl: 'http://localhost:3000/img/dd.png',",
+              "    category_id: num(pm.iterationData.get('category_id'))",
+              "};",
+              "pm.variables.set('ddPostBody', JSON.stringify(bodyObj));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "23127438-dd-2-test",
+            "type": "text/javascript",
+            "exec": [
+              "let body = null;",
+              "try { body = pm.response.json(); } catch (e) { body = null; }",
+              "",
+              "const expected = Number(pm.iterationData.get('expectedStatus'));",
+              "const note = pm.iterationData.get('note') || '';",
+              "",
+              "pm.test('DD-2 · [' + note + '] status = ' + expected + ' (theo FR-15)', function () {",
+              "    pm.expect(pm.response.code, 'status').to.eql(expected);",
+              "});",
+              "",
+              "// Với dòng hợp lệ (200) thì response phải khớp created schema; dòng lỗi (400) phải là error schema.",
+              "if (expected === 200) {",
+              "    pm.test('DD-2 · [' + note + '] response khớp created {message,id}', function () {",
+              "        const s = JSON.parse(pm.collectionVariables.get('createdSchema'));",
+              "        pm.response.to.have.jsonSchema(s);",
+              "    });",
+              "} else {",
+              "    pm.test('DD-2 · [' + note + '] response khớp error {error}', function () {",
+              "        const s = JSON.parse(pm.collectionVariables.get('errorSchema'));",
+              "        pm.response.to.have.jsonSchema(s);",
+              "    });",
+              "    if (pm.response.code === 200) {",
+              "        pm.test('DD-2 · [' + note + '] ⚠ SUT tạo record với input vi phạm (BUG-08/10)', function () {",
+              "            pm.expect.fail('SUT trả 200 cho input đáng lẽ 400 — không validate FR-15');",
+              "        });",
+              "    }",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{{ddPostBody}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "products"
+          ]
+        },
+        "description": "**Data-driven** — Collection Runner + `postman/data/products.csv` (cột `name,price,category_id,expectedStatus,note`), Iterations = 6.\n\nBody JSON dựng ở pre-request từ mỗi dòng CSV. Test so `pm.response.code` với `{{expectedStatus}}`.\n\nDòng hợp lệ (200) → khớp `createdSchema`; dòng vi phạm (400) → khớp `errorSchema`.\n\n⚠ SUT không validate ⇒ 5 dòng lỗi đều trả 200 ⇒ **FAIL = BUG-08/10** (matrix gộp cho API-3 validation)."
+      }
+    },
+    {
+      "name": "DD-3 — PUT cancel · state matrix (cancel-states.csv)",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "23127438-dd-3-pre",
+            "type": "text/javascript",
+            "exec": [
+              "// Chạy bằng Collection Runner + postman/data/cancel-states.csv (cột: fromState, expectedStatus).",
+              "// Dựng 1 đơn tới đúng {{fromState}} rồi để request PUT cancel. Đợi các pm.sendRequest xong.",
+              "const base = pm.environment.get('baseUrl');",
+              "const sid  = pm.environment.get('studentId');",
+              "const uTok = pm.environment.get('userToken');",
+              "const aTok = pm.environment.get('adminToken');",
+              "function hdr(t) { const h = { 'Content-Type': 'application/json', 'X-Student-Id': sid }; if (t) h['Authorization'] = 'Bearer ' + t; return h; }",
+              "",
+              "const fromState = pm.iterationData.get('fromState') || 'pending';",
+              "const PUSH = {",
+              "    pending:   [],",
+              "    confirmed: [{ type: 'admin', status: 'confirmed' }],",
+              "    shipping:  [{ type: 'admin', status: 'confirmed' }, { type: 'admin', status: 'shipping' }],",
+              "    delivered: [{ type: 'admin', status: 'confirmed' }, { type: 'admin', status: 'shipping' }, { type: 'admin', status: 'delivered' }],",
+              "    canceled:  [{ type: 'cancel' }]",
+              "};",
+              "const actions = PUSH[fromState] || [];",
+              "",
+              "pm.sendRequest({",
+              "    url: base + '/api/checkout', method: 'POST', header: hdr(uTok),",
+              "    body: { mode: 'raw', raw: JSON.stringify({ total_amount: 200000, shipping_address: 'HW06 DD-3 ' + fromState }) }",
+              "}, function (err, res) {",
+              "    if (err || !res || res.code !== 200) { console.error('[HW06][DD-3] checkout lỗi'); return; }",
+              "    const id = res.json().orderId;",
+              "    pm.variables.set('ddOrderId', id);",
+              "    let i = 0;",
+              "    (function next() {",
+              "        if (i >= actions.length) {",
+              "            console.log('[HW06][DD-3] đơn #' + id + ' -> state ' + fromState);",
+              "            return;",
+              "        }",
+              "        const a = actions[i++];",
+              "        if (a.type === 'admin') {",
+              "            pm.sendRequest({ url: base + '/api/admin/orders/' + id + '/status', method: 'PUT',",
+              "                header: hdr(aTok), body: { mode: 'raw', raw: JSON.stringify({ status: a.status }) } }, function () { next(); });",
+              "        } else {",
+              "            pm.sendRequest({ url: base + '/api/orders/' + id + '/cancel', method: 'PUT', header: hdr(uTok) }, function () { next(); });",
+              "        }",
+              "    })();",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "23127438-dd-3-test",
+            "type": "text/javascript",
+            "exec": [
+              "let body = null;",
+              "try { body = pm.response.json(); } catch (e) { body = null; }",
+              "",
+              "const fromState = pm.iterationData.get('fromState') || 'pending';",
+              "const expected = Number(pm.iterationData.get('expectedStatus'));",
+              "",
+              "pm.test('DD-3 · [' + fromState + '→cancel] status = ' + expected + ' (theo FR-10)', function () {",
+              "    pm.expect(pm.response.code, 'status').to.eql(expected);",
+              "});",
+              "",
+              "// shipping→cancel: contract 400 nhưng SUT 200 = BUG-05",
+              "if (fromState === 'shipping' && pm.response.code === 200) {",
+              "    pm.test('DD-3 · [shipping→cancel] ⚠ BUG-05: user hủy được đơn đang giao', function () {",
+              "        pm.expect.fail('SUT trả 200 cho shipping→cancel — đáng lẽ 400 (guard thiếu shipping)');",
+              "    });",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{userToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/orders/{{ddOrderId}}/cancel",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders",
+            "{{ddOrderId}}",
+            "cancel"
+          ]
+        },
+        "description": "**Data-driven** — Collection Runner + `postman/data/cancel-states.csv` (cột `fromState,expectedStatus`), Iterations = 5.\n\nPre-request dựng 1 đơn tới đúng `{{fromState}}` (checkout → admin đẩy state) rồi request PUT cancel. Test so `pm.response.code` với `{{expectedStatus}}`.\n\nKỳ vọng: pending/confirmed → 200 · shipping/delivered/canceled → 400.\n\n⚠ Dòng `shipping` → SUT trả 200 ⇒ **FAIL = BUG-05** (matrix gộp cho state-transition API-2)."
+      }
+    }
+  ]
+}
