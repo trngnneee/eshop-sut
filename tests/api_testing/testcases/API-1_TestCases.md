@@ -177,7 +177,7 @@ Cột `Headers` chỉ ghi phần **thêm vào**. Endpoint là `GET` nên `Body` 
 | TC-P1-041 | API-1 | FR-05 | **EP-SI2** | PRE-1 | `GET /api/products?search=_` | — | — | `200` | Array **rỗng** — `_` phải literal | **P0** |
 | TC-P1-042 | API-1 | FR-05 | EP-SI3 | PRE-1 | `GET /api/products?search=%25%25` | — | — | `200` | Array **rỗng** | P1 |
 | TC-P1-043 | API-1 | FR-05 | EP-SI4 | PRE-1 | `GET /api/products?search=%20` | — | — | `200` | Array khớp schema. **Không assert số lượng** — spec không quy định trim (spec gap, ghi observation) | P2 |
-| TC-P1-044 | API-1 | FR-05 | EP-SI5 | PRE-1 | `GET /api/products?search=Pro&search=Mac` | — | — | `200` hoặc `400` | Nếu `200`: array **3** (dùng giá trị đầu `Pro`). Không được nối 2 giá trị thành `"Pro,Mac"` | P2 |
+| TC-P1-044 | API-1 | FR-05 | EP-SI5 | PRE-1 | `GET /api/products?search=Pro&search=Mac` | — | — | `200` | Array **rỗng** `[]`. Express gom `search` lặp thành mảng `['Pro','Mac']` → nội suy thành `LIKE '%Pro,Mac%'` → **0 kết quả** (thất bại im lặng). Đây là **BUG-18**, không phải "lấy giá trị đầu" | P2 |
 
 **Tổng: 44 test case** (25 cho `:id`, 19 cho `?search=`) — đã vượt mốc ≥35/API chỉ bằng EP + BVA.
 Các nhóm **Security (SEC-01…07)** và **Schema validation** sẽ bổ sung thêm ở bước sau.

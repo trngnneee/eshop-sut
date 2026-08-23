@@ -17,6 +17,8 @@
 
 Header chung mọi case (trừ nhóm 3): `X-Student-Id: 23127438`.
 
+> **⚠ Thứ tự chạy (Postman Runner):** TC-P1-078 (`DELETE /api/products/1`) **xoá thật** product 1. Bắt buộc: (a) đặt case này **cuối folder** API-1, sau mọi case đọc product 1; (b) thêm bước **teardown re-seed** (restart server hoặc chạy lại `node database.js`) trước khi chạy folder khác. Nếu chạy lẫn giữa chừng, các case đọc product 1 phía sau (vd nhóm Schema TC-P1-059) sẽ FAIL sai lệch vì product đã bị xoá.
+
 ---
 
 ## 1. Bản đồ method của các route sản phẩm (đã probe — trả lời câu "route có tồn tại không?")

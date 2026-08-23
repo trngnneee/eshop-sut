@@ -100,7 +100,7 @@ Cột `Precondition` ghi rõ **state của đơn** và **đơn thuộc user nào
 |-------|-----|--------|-----------|--------------|--------------|---------|------|-----------------|-------------------------------|----------|
 | TC-O2-013 | API-2 | FR-10 | Double-cancel (idempotency) | PRE-CANCELED: đơn **canceled**, của user | `PUT /api/orders/{{canceledOrderId}}/cancel` | `Bearer {{userToken}}` | — | `400` | `{ "error": "Cannot cancel this order." }`. Không hủy lại đơn đã hủy | P1 |
 | TC-O2-014 | API-2 | FR-10 | Ownership + đã canceled | Đơn canceled của **admin** | `PUT /api/orders/{{otherCanceledId}}/cancel` | `Bearer {{userToken}}` | — | `404` | Ownership check **ưu tiên trước** state check ⇒ `404` (không lộ đơn đang ở state nào) | P2 |
-| TC-O2-015 | API-2 | FR-10 | Method đúng, body thừa | PRE-OWN | `PUT /api/orders/{{ownOrderId}}/cancel` | `Bearer {{userToken}}` | `{"status":"delivered"}` | `200` | Body bị **bỏ qua** — cancel không nhận field từ client (chống mass-assign); kết quả = `canceled`, không phải `delivered` | P2 |
+| TC-O2-015 | API-2 | FR-10 | Body thừa field lạ (khác `status`) | PRE-OWN | `PUT /api/orders/{{ownOrderId}}/cancel` | `Bearer {{userToken}}` | `{"user_id":1,"total_amount":0,"foo":"bar"}` | `200` | Body bị **bỏ qua** hoàn toàn — hủy thành công, `user_id`/`total_amount` của đơn **không đổi** (hậu kiểm bằng `GET`). *(Vector `{"status":"delivered"}` tách riêng ở nhóm Security TC-O2-036 để không trùng)* | P2 |
 
 **Tổng nhóm phân hoạch `:id`: 15 test case** (TC-O2-001 → 015).
 Nhóm **state-transition** (5 state × cancel + fixtures qua admin) sẽ nối tiếp từ **TC-O2-016**.

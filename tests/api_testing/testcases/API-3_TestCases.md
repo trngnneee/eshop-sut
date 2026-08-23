@@ -119,7 +119,7 @@ Body luôn kèm các field hợp lệ khác (theo PRE-VALID), chỉ **biến thi
 | TC-P3-014 | API-3 | FR-15 | P-I4 chuỗi | PRE-1 | `POST /api/products` | `price:"1000"` | **`400`** | Sai kiểu. SUT `200`, lưu số 1000 (coerce) ⇒ BUG-08 | P1 |
 | TC-P3-015 | API-3 | FR-15 | P-I5 null | PRE-1 | `POST /api/products` | `price:null` | **`400`** | Bắt buộc. SUT `200` ⇒ BUG-08/09 | P1 |
 | TC-P3-016 | API-3 | FR-15 | P-I6 thiếu | PRE-1 | `POST /api/products` | *(bỏ price)* | **`400`** | Bắt buộc. SUT `200` ⇒ BUG-08 | **P0** |
-| TC-P3-017 | API-3 | FR-15 | P-I7 cực lớn | PRE-1 | `POST /api/products` | `price:999999999999999` | `400`/`200` | Kiểm giới hạn hợp lý; ghi observation nếu chấp nhận vô hạn | P2 |
+| TC-P3-017 | API-3 | FR-15 | P-I7 cực lớn | PRE-1 | `POST /api/products` | `price:999999999999999` | `200` | **Observation:** FR-15 + cột `price INTEGER` không đặt trần ⇒ chấp nhận là đúng spec. Assert lưu đúng số (không tràn/không đổi) | P2 |
 | TC-P3-018 | API-3 | FR-15 | P-I8 (1e5) | PRE-1 | `POST /api/products` | `price:1e5` | `200` | JSON parse `1e5`→`100000` (>0) ⇒ hợp lệ; assert lưu `100000` | P2 |
 
 ### 5.3 category_id
@@ -139,8 +139,8 @@ Body luôn kèm các field hợp lệ khác (theo PRE-VALID), chỉ **biến thi
 | TC-ID | API | FR/SEC | Technique | Precondition | Method + URL | Body (field biến thiên) | Expected status | Expected / **assertion** | Priority |
 |-------|-----|--------|-----------|--------------|--------------|--------------------------|-----------------|--------------------------|----------|
 | TC-P3-026 | API-3 | FR-15 | IM-V1/V2 | PRE-1 | `POST /api/products` | `imageUrl:""` / `null` | `200` | Optional ⇒ chấp nhận | P2 |
-| TC-P3-027 | API-3 | FR-15 | IM-I1 bad url | PRE-1 | `POST /api/products` | `imageUrl:"not a url"` | `200`/`400` | Spec không quy định format ⇒ observation; assert lưu nguyên | P3 |
-| TC-P3-028 | API-3 | FR-15 | IM-I2 dài | PRE-1 | `POST /api/products` | `imageUrl`=5000 ký tự | `200`/`400` | Kiểm giới hạn độ dài | P3 |
+| TC-P3-027 | API-3 | FR-15 | IM-I1 bad url | PRE-1 | `POST /api/products` | `imageUrl:"not a url"` | `200` | **Observation:** FR-15 không ràng buộc định dạng URL ⇒ chấp nhận. Assert lưu **nguyên văn** chuỗi | P3 |
+| TC-P3-028 | API-3 | FR-15 | IM-I2 dài | PRE-1 | `POST /api/products` | `imageUrl`=5000 ký tự | `200` | **Observation:** FR-15 không nêu ngưỡng độ dài cho imageUrl ⇒ khẳng định hành vi: `200` + assert lưu đủ 5000 ký tự. (Muốn test giới hạn thì phải chốt ngưỡng trước) | P3 |
 | TC-P3-029 | API-3 | FR-15 | DE-V1 | PRE-1 | `POST /api/products` | `description:""`/`null` | `200` | Optional | P3 |
 | TC-P3-030 | API-3 | FR-15 | **Tổ hợp nhiều lỗi** | PRE-1 | `POST /api/products` | `{"name":"","price":-500,"category_id":9999}` | **`400`** | Nhiều vi phạm cùng lúc. SUT `200` created (record rác) ⇒ **BUG-08** | **P0** |
 | TC-P3-031 | API-3 | FR-15 | Body rỗng | PRE-1 | `POST /api/products` | `{}` | **`400`** | Thiếu mọi field bắt buộc. SUT `200`, record toàn null ⇒ **BUG-09** | **P0** |
@@ -170,9 +170,11 @@ Body luôn kèm các field hợp lệ khác (theo PRE-VALID), chỉ **biến thi
 | TC-P3-045 | API-3 | FR-15 | malformed JSON | PRE-1 | `POST /api/products` | `{bad json` | `400` + JSON | Body-parser lỗi → `400`; SUT trả HTML ⇒ BUG-15 | P2 |
 | TC-P3-046 | API-3 | FR-15 | Content-Type text/plain | PRE-1 | `POST /api/products` | `Content-Type: text/plain` + JSON string | `400`/`415` | Không parse JSON ⇒ body rỗng ⇒ tạo record null (BUG-09) hoặc từ chối | P3 |
 | TC-P3-047 | API-3 | FR-15 | Content-Type + valid | PRE-1 | `POST /api/products` | `application/json` + PRE-VALID | `200` | Đối chứng dương: tạo thành công đúng contract | P2 |
-| TC-P3-048 | API-3 | SEC-06 | Mass-assign `id`/`role` | PRE-1 | `POST /api/products` | `{...hợp lệ, "id":999, "role":"admin"}` | `200` | Field lạ `id`/`role` bị bỏ qua (products không có cột role; id tự tăng). Assert id trả về ≠ 999 | P2 |
+| ~~TC-P3-048~~ | — | — | *(đã bỏ)* | — | — | — | — | **Gộp vào TC-P3-057** (nhóm Security) — trùng test mass-assign `id`/`role` trên POST; TC-057 bao rộng hơn (thêm `is_admin`). Xem `docs/ai-testcase-audit.md`. | — |
 
-**Tổng nhóm validation API-3: 48 test case** (TC-P3-001 → 048).
+| TC-P3-073 | API-3 | FR-15 | Thiếu header `X-Student-Id` | PRE-1 | `POST /api/products` (body hợp lệ, **không** gửi `X-Student-Id`) | `200` | SUT **không** yêu cầu header này (yêu cầu của HW06, không phải SUT) ⇒ tạo product bình thường. Bằng chứng chấm bài nằm ở **console pre-request script**, không ở phía server. Đối chứng với API-1 TC-P1-082 / API-2 TC-O2-056 | P3 |
+
+**Tổng nhóm validation API-3: 48 test case hiệu lực** (TC-P3-001 → 048, trong đó TC-P3-048 đã gộp vào TC-P3-057) **+ TC-P3-073** (bổ sung header) = **48 case**.
 Nhóm **Security/Auth** (BUG-07 — thiếu middleware) và **Schema** sẽ là nhóm riêng kế tiếp.
 
 ---

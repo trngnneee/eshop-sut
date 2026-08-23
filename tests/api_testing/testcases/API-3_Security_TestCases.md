@@ -41,6 +41,8 @@ endpoint này là **thừa** vì không có cổng auth nào để vượt.
 
 Header chung: `X-Student-Id: 23127438`. Payload hợp lệ: `{"name":"SecTest","price":1000,"category_id":1}`.
 
+> **⚠ Thứ tự chạy (Postman Runner):** TC-P3-054 (`DELETE /api/products/5`) và TC-P3-055 (`DELETE /api/products/4`) **xoá thật** product 4, 5. Bắt buộc: (a) đặt **cuối folder** API-3; (b) **teardown re-seed** sau khi chạy. Vì DB re-seed rỗng bảng `orders` và reset products id 1–5 mỗi lần `node server.js`, cách sạch nhất là restart server giữa các folder API. Nếu không, các case validation/schema phía sau (đang giả định đủ 5 product seed) sẽ chạy sai.
+
 ---
 
 ## 1. Test cases
