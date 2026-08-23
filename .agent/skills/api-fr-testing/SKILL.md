@@ -96,3 +96,9 @@ spec into a test-case table + Postman items. The stage-by-stage design is in
 > diagrams, the architecture diagram must be **hand-drawn**. `references/pseudocode.md`
 > describes the architecture in text so you can draw it yourself; do not export an
 > AI-generated image as the deliverable.
+
+---
+
+## Demo video
+
+Minh hoạ skill chạy end-to-end: https://drive.google.com/drive/folders/13lSkQF2vfeJV9PTGLdRy5Aptm-ZgceKb?usp=sharing

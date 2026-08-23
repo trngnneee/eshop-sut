@@ -53,3 +53,10 @@ Run tổng: **Postman Runner 905 tests → 629 pass / 276 fail**; **Newman 893 a
 - `tests/api_testing/newman/screenshots/postman-run-result.png`
 - `tests/api_testing/newman/screenshots/newman-terminal-localhost.png` (chứng minh host `localhost:3000`)
 - `tests/api_testing/newman/screenshots/newman-htmlextra-summary.png`
+
+
+**GitHub Issue:** [#452](https://github.com/trngnneee/eshop-sut/issues/452)
+
+**Screenshot Issue:**
+
+![Issue #452](screenshots/issue-452-price-type.png)

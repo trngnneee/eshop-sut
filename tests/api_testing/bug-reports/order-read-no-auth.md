@@ -51,3 +51,10 @@ Run tổng: **Postman Runner 905 tests → 629 pass / 276 fail**; **Newman 893 a
 - `tests/api_testing/newman/screenshots/postman-run-result.png`
 - `tests/api_testing/newman/screenshots/newman-terminal-localhost.png` (chứng minh host `localhost:3000`)
 - `tests/api_testing/newman/screenshots/newman-htmlextra-summary.png`
+
+
+**GitHub Issue:** [#451](https://github.com/trngnneee/eshop-sut/issues/451)
+
+**Screenshot Issue:**
+
+![Issue #451](screenshots/issue-451-order-read-no-auth.png)
