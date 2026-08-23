@@ -34,9 +34,21 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Chọn suite (push/PR = green; dispatch = theo input)
+      - name: Chọn suite
         id: pick
-        run: echo "suite=${{ github.event.inputs.suite || 'green' }}" >> "$GITHUB_OUTPUT"
+        env:
+          INPUT_SUITE: ${{ github.event.inputs.suite }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+        run: |
+          # Ưu tiên: input của workflow_dispatch > marker [ci-onefail] trong commit message > mặc định green.
+          SUITE="green"
+          if [ -n "$INPUT_SUITE" ]; then
+            SUITE="$INPUT_SUITE"
+          elif printf '%s' "$COMMIT_MSG" | grep -q 'ci-onefail'; then
+            SUITE="onefail"
+          fi
+          echo "suite=$SUITE" >> "$GITHUB_OUTPUT"
+          echo "→ Chọn suite = $SUITE"
 
       - name: Cài dependency của SUT
         run: cd backend && npm install

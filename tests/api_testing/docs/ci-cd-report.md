@@ -18,8 +18,9 @@
 | 6 | Upload report | `actions/upload-artifact@v4` (`if: always()`) — `ci-report-<suite>.html/.json` |
 
 **Trigger:**
-- `push` / `pull_request` → chạy suite **green** ⇒ pipeline **XANH** (Commit A).
-- `workflow_dispatch` (input `suite = green | onefail`) → chọn chạy suite **onefail** ⇒ pipeline **ĐỎ đúng 1 fail** (Commit B).
+- `push` / `pull_request` → mặc định chạy suite **green** ⇒ pipeline **XANH** (Commit A).
+- Push với commit message chứa **`[ci-onefail]`** → chạy suite **onefail** ⇒ pipeline **ĐỎ đúng 1 fail** (Commit B).
+- `workflow_dispatch` (input `suite = green | onefail`) → chỉ khả dụng khi workflow đã có trên nhánh mặc định `main`.
 - `studentId` inject qua `--env-var` (không hardcode trong request); log Console in `[HW06][CI] X-Student-Id = 23127438 -> ...`.
 
 ---
@@ -63,11 +64,17 @@ iterations 1/0 · requests 14/0 · assertions 11 / FAILED 1
 | **A** (all-pass) | green | push | ✅ xanh | _(dán link Actions run)_ | `newman/screenshots/ci-run-all-pass.png` |
 | **B** (đúng 1 fail) | onefail | workflow_dispatch → suite=onefail | ❌ đỏ (1 fail) | _(dán link Actions run)_ | `newman/screenshots/ci-run-one-fail.png` |
 
-**Cách tạo 2 run sau khi push workflow:**
-1. **Run A:** `git push` (hoặc vào tab Actions → chọn workflow → Run workflow, suite=green). Pipeline xanh.
-2. **Run B:** tab **Actions** → **API Tests (Newman)** → **Run workflow** → chọn `suite = onefail` → Run. Pipeline đỏ với 1 fail (BUG-05).
-3. Mở mỗi run → chụp screenshot (summary + bảng Newman) → lưu vào `newman/screenshots/`.
-4. Tải artifact `newman-report-<suite>` để xem report HTML.
+**Cách tạo 2 run (workflow đang ở nhánh `HW06-Nguyen`, chưa lên `main` nên KHÔNG có nút Run workflow):**
+1. **Run A (green — đã có, run #4):** commit + push bình thường ⇒ suite green ⇒ pipeline xanh.
+2. **Run B (đỏ 1 fail):** push 1 commit có `[ci-onefail]` trong message:
+   ```bash
+   git commit --allow-empty -m "ci: demo one-fail run [ci-onefail]"
+   git push
+   ```
+   ⇒ workflow chạy suite `onefail` ⇒ đỏ đúng 1 fail (BUG-05).
+3. (Tùy chọn) Nếu muốn dùng nút **Run workflow → suite=onefail**: merge/đưa `api-tests.yml` lên nhánh mặc định `main` trước, rồi mới dispatch được.
+4. Mở mỗi run → chụp screenshot (summary + bảng Newman) → lưu `newman/screenshots/ci-run-all-pass.png`, `ci-run-one-fail.png`.
+5. Tải artifact `newman-report-<suite>` để xem report HTML.
 
 ---
 
