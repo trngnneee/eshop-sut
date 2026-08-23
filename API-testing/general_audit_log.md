@@ -155,3 +155,15 @@ I use AI tools for the following tasks:
 - **The AI output**:
 
   Đã cập nhật `API-testing/build_forgot_password_data_driven_collection.js` để file runtime `API-testing/data/forgot-password.test-data.json` chỉ xuất các field cần cho data-driven Newman giống `apply-coupon`: `testCaseId`, metadata request, `expectedStatus`, `expectedResult`, `secId`, `attackVector`, và `assertions`; giữ riêng `setupFlow` vì forgot-password cần chuẩn bị OTP/reset-password theo từng case. Đã loại các field audit/review như `reviewStatus`, `validationStatus`, `notes` khỏi JSON runtime, normalize `expectedStatus` về number khi là HTTP code, regenerate `API-testing/data/forgot-password.test-data.json` và `API-testing/forgot_password.postman_collection.json`, đồng thời sửa extract `secId` để đọc đúng `SEC-01..SEC-07` từ CSV master.
+
+### Tạo collection data-driven cho admin-coupons
+
+- **AI tool**: Codex (GPT-5)
+- **Date and time**: 2026-08-23 21:25:00 +07
+- **Your prompt**:
+
+  Hãy tạo file collection cho admin-coupons. Đọc file test_cases_master.csv để hiểu các test cases. Xem format của các file data của 2 api khác. Vì luồng này cần token để test nên nhớ setup để lấy token.
+
+- **The AI output**:
+
+  Đã tạo collection data-driven `API-testing/admin_coupons.postman_collection.json` cho `POST /api/admin/coupons`, sinh từ `API-testing/admin-coupons/test_cases_master.csv` qua script `API-testing/build_admin_coupons_data_driven_collection.js`. Đã tạo `API-testing/data/admin-coupons.test-data.json` đủ 49 rows, đồng nhất format runtime với `apply-coupon` và `forgot-password`, không đưa các field audit như `sourceFile`, `priority`, `reviewStatus`, `notes`, `Audit`, `Status` vào data JSON. Collection có pre-request script tự login admin/user qua `POST /api/login`, lưu `adminToken` và `userToken`, đồng thời sinh token hết hạn và forged token cho security cases. Các case ngoài scope được set skipped để Newman report hiện `skipped` thay vì fail; đã thêm script `npm run admin` trong `API-testing/package.json`.
