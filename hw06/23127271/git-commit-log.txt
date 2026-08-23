@@ -1,0 +1,111 @@
+commit e97607ef4a289b178bc83e8957c3d731f451068f
+Author:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+AuthorDate: Mon Aug 24 00:58:35 2026 +0700
+Commit:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+CommitDate: Mon Aug 24 00:58:35 2026 +0700
+
+    HW06: Stage 4/5 — Postman collection, Newman HTML report, combined sheets, execution docs.
+
+commit 1b84523c6c439f48d9e1f445224bf74f44f86f66
+Author:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+AuthorDate: Mon Aug 24 00:58:35 2026 +0700
+Commit:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+CommitDate: Mon Aug 24 00:58:35 2026 +0700
+
+    HW06 FR-19: Stage 5 — execute Admin Users tests; file bugs from Newman manual triage.
+
+commit 015d221b620578f8f9696e62499a5ba33eaeb3ab
+Author:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+AuthorDate: Mon Aug 24 00:58:34 2026 +0700
+Commit:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+CommitDate: Mon Aug 24 00:58:34 2026 +0700
+
+    HW06 FR-19: Stage 3 — extend Admin Users with human-found SUP cases and audit notes.
+
+commit 8386f829641ad91a09dd6a41d2e0a54e8a88cf7f
+Author:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+AuthorDate: Mon Aug 24 00:58:34 2026 +0700
+Commit:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+CommitDate: Mon Aug 24 00:58:34 2026 +0700
+
+    HW06 FR-19: Stage 2 — audit AI Admin Users cases (VALID/INVALID/INCOMPLETE + corrected oracles).
+
+commit 3b3b97dddc02b8b2e298969c56f7ed5f71cb8bf1
+Author:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+AuthorDate: Mon Aug 24 00:58:33 2026 +0700
+Commit:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+CommitDate: Mon Aug 24 00:58:33 2026 +0700
+
+    HW06 FR-19: Stage 1 — AI-generate Admin Users test cases (domain, state, security, schema).
+
+commit 4645acf6516718b2ad6595f1e65f4890c01a0088
+Author:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+AuthorDate: Mon Aug 24 00:58:32 2026 +0700
+Commit:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+CommitDate: Mon Aug 24 00:58:32 2026 +0700
+
+    HW06 FR-07: Stage 5 — execute Cart tests; file bugs from Newman manual triage.
+
+commit a22ce43c0190addd2ded66bd901f07f9baa17f69
+Author:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+AuthorDate: Mon Aug 24 00:58:32 2026 +0700
+Commit:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+CommitDate: Mon Aug 24 00:58:32 2026 +0700
+
+    HW06 FR-07: Stage 3 — extend Cart with human-found SUP cases and audit notes.
+
+commit 3b9a2785d69fa0360e362a802cf25b6b62b8e6ab
+Author:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+AuthorDate: Mon Aug 24 00:58:31 2026 +0700
+Commit:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+CommitDate: Mon Aug 24 00:58:31 2026 +0700
+
+    HW06 FR-07: Stage 2 — audit AI Cart cases (VALID/INVALID/INCOMPLETE + corrected oracles).
+
+commit f34b22e4f8e903882600751033cbd8556859e3e6
+Author:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+AuthorDate: Mon Aug 24 00:58:30 2026 +0700
+Commit:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+CommitDate: Mon Aug 24 00:58:30 2026 +0700
+
+    HW06 FR-07: Stage 1 — AI-generate Cart test cases (domain, state, security, schema).
+
+commit d2fa71830e5b896d13da795ed237a64be575a195
+Author:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+AuthorDate: Mon Aug 24 00:58:29 2026 +0700
+Commit:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+CommitDate: Mon Aug 24 00:58:29 2026 +0700
+
+    HW06 FR-04: Stage 5 — execute Profile tests; file bugs from Newman manual triage.
+
+commit ca6f9c58457e3615934f8d3f3edaa28265cb00ef
+Author:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+AuthorDate: Mon Aug 24 00:58:29 2026 +0700
+Commit:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+CommitDate: Mon Aug 24 00:58:29 2026 +0700
+
+    HW06 FR-04: Stage 3 — extend Profile with human-found SUP cases and audit notes.
+
+commit b6c0f2e1e15c076196b5b2be8d63f47acf5c1b1e
+Author:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+AuthorDate: Mon Aug 24 00:58:28 2026 +0700
+Commit:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+CommitDate: Mon Aug 24 00:58:28 2026 +0700
+
+    HW06 FR-04: Stage 2 — audit AI Profile cases (VALID/INVALID/INCOMPLETE + corrected oracles).
+
+commit 83beb6bd3099b44a1da88de89aa3aa40d4ad4aa9
+Author:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+AuthorDate: Mon Aug 24 00:58:27 2026 +0700
+Commit:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+CommitDate: Mon Aug 24 00:58:27 2026 +0700
+
+    HW06 FR-04: Stage 1 — AI-generate Profile test cases (domain, state, security, schema).
+
+commit b74a5812194cf0a1b6b0c2a1279e6c70deba3643
+Author:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+AuthorDate: Mon Aug 24 00:57:31 2026 +0700
+Commit:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+CommitDate: Mon Aug 24 00:57:31 2026 +0700
+
+    HW06: add README scaffold for student 23127271 API testing workspace.
