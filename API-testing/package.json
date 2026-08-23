@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "forgot": "newman run forgot_password.postman_collection.json -e eshop_api.postman_environment.json --iteration-data data/forgot-password.test-data.json -r cli,htmlextra --reporter-htmlextra-export forgot-password--report.html",
-    "apply": "newman run apply_coupon.postman_collection.json -e eshop_api.postman_environment.json --iteration-data data/apply-coupon.test-data.json -r cli,htmlextra --reporter-htmlextra-export apply-coupon-report.html"
+    "apply": "newman run apply_coupon.postman_collection.json -e eshop_api.postman_environment.json --iteration-data data/apply-coupon.test-data.json -r cli,htmlextra --reporter-htmlextra-export apply-coupon-report.html",
+    "admin": "newman run admin_coupons.postman_collection.json -e eshop_api.postman_environment.json --iteration-data data/admin-coupons.test-data.json -r cli,htmlextra --reporter-htmlextra-export admin-coupons-report.html"
   },
   "author": "",
   "license": "ISC",
