@@ -1,0 +1,3 @@
+Label each AI-generated test case VALID / INVALID / INCOMPLETE with reasoning, and correct the invalid or incomplete ones. Dont assume anything, just reason if the requirement was missing.
+
+| P-NAME-05 | Field omitted | Invalid ⚠️ assumed required | (omit name) | is assumed
