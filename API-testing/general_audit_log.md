@@ -167,3 +167,15 @@ I use AI tools for the following tasks:
 - **The AI output**:
 
   Đã tạo collection data-driven `API-testing/admin_coupons.postman_collection.json` cho `POST /api/admin/coupons`, sinh từ `API-testing/admin-coupons/test_cases_master.csv` qua script `API-testing/build_admin_coupons_data_driven_collection.js`. Đã tạo `API-testing/data/admin-coupons.test-data.json` đủ 49 rows, đồng nhất format runtime với `apply-coupon` và `forgot-password`, không đưa các field audit như `sourceFile`, `priority`, `reviewStatus`, `notes`, `Audit`, `Status` vào data JSON. Collection có pre-request script tự login admin/user qua `POST /api/login`, lưu `adminToken` và `userToken`, đồng thời sinh token hết hạn và forged token cho security cases. Các case ngoài scope được set skipped để Newman report hiện `skipped` thay vì fail; đã thêm script `npm run admin` trong `API-testing/package.json`.
+
+### Sửa CI workflow chạy ba Postman collections
+
+- **AI tool**: Codex (GPT-5)
+- **Date and time**: 2026-08-23 22:35:00 +07
+- **Your prompt**:
+
+  Hãy sửa CI workflow để chạy 3 file collection đi
+
+- **The AI output**:
+
+  Đã cập nhật `.github/workflows/api-tests.yml` để CI cài dependency cho `API-testing`, chạy lần lượt ba script Newman `npm run forgot`, `npm run apply`, `npm run admin`, gom exit code để cả ba collection đều chạy trước khi job fail nếu có lỗi. Đã bỏ bước build/run collection cũ `eshop_data_driven.postman_collection.json` và đổi artifact upload sang ba report HTML: `forgot-password--report.html`, `apply-coupon-report.html`, `admin-coupons-report.html`.

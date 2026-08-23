@@ -18,11 +18,17 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: backend/package-lock.json
+          cache-dependency-path: |
+            backend/package-lock.json
+            API-testing/package-lock.json
 
       - name: Install backend dependencies
         run: npm ci
         working-directory: backend
+
+      - name: Install API testing dependencies
+        run: npm ci
+        working-directory: API-testing
 
       - name: Seed database
         run: node database.js
@@ -46,26 +52,35 @@ jobs:
           cat backend.log
           exit 1
 
-      - name: Build current Postman collection
-        run: node API-testing/build_common_postman_collection.js
-
-      - name: Install Newman
-        run: npm install -g newman newman-reporter-html
-
-      - name: Run data-driven Postman collection with Newman
+      - name: Run Postman collections with Newman
         run: |
-          newman run API-testing/eshop_data_driven.postman_collection.json \
-            -e API-testing/eshop_api.postman_environment.json \
-            --iteration-data API-testing/data/test-data.json \
-            -r cli,html \
-            --reporter-html-export API-testing/newman-eshop-api-report.html
+          set +e
+
+          npm run forgot
+          forgot_status=$?
+
+          npm run apply
+          apply_status=$?
+
+          npm run admin
+          admin_status=$?
+
+          if [ "$forgot_status" -ne 0 ] || [ "$apply_status" -ne 0 ] || [ "$admin_status" -ne 0 ]; then
+            echo "One or more Newman collections failed."
+            echo "forgot=$forgot_status apply=$apply_status admin=$admin_status"
+            exit 1
+          fi
+        working-directory: API-testing
 
       - name: Upload Newman HTML report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: newman-eshop-api-report
-          path: API-testing/newman-eshop-api-report.html
+          name: newman-html-reports
+          path: |
+            API-testing/forgot-password--report.html
+            API-testing/apply-coupon-report.html
+            API-testing/admin-coupons-report.html
 
       - name: Upload backend log
         uses: actions/upload-artifact@v4
