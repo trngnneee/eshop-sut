@@ -1,0 +1,116 @@
+name: HW06 – API Tests (Newman)
+
+on:
+  push:
+    branches: [ main, master, HW6-Thinh ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  api-tests:
+    name: Run Newman API Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install Newman and Reporters
+        run: |
+          npm install -g newman newman-reporter-htmlextra
+      
+      - name: Start EShop Backend Server
+        run: |
+          cd backend
+          npm install
+          npm start &
+          sleep 5
+          curl --retry 5 --retry-delay 2 http://localhost:3000/api/products || exit 1
+      
+      - name: Create Reports Directory
+        run: mkdir -p newman_reports
+      
+      - name: Run API 1 Tests (POST /api/register)
+        continue-on-error: true
+        run: |
+          newman run postman/hw06_api1_collection.json \
+            --environment postman/hw06_environment.json \
+            --env-var "studentId=${{ env.STUDENT_ID }}" \
+            --env-var "baseUrl=http://localhost:3000" \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export newman_reports/newman_api1_report.html \
+            --reporter-htmlextra-title "HW06 API1 Tests - 23127486"
+        env:
+          STUDENT_ID: "23127486"
+      
+      - name: Run API 2 Tests (GET /api/orders/my-orders)
+        continue-on-error: true
+        run: |
+          newman run postman/hw06_api2_collection.json \
+            --environment postman/hw06_environment.json \
+            --env-var "studentId=${{ env.STUDENT_ID }}" \
+            --env-var "baseUrl=http://localhost:3000" \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export newman_reports/newman_api2_report.html \
+            --reporter-htmlextra-title "HW06 API2 Tests - 23127486"
+        env:
+          STUDENT_ID: "23127486"
+      
+      - name: Run API 3 Tests (POST /api/admin/import-products)
+        continue-on-error: true
+        run: |
+          newman run postman/hw06_api3_collection.json \
+            --environment postman/hw06_environment.json \
+            --env-var "studentId=${{ env.STUDENT_ID }}" \
+            --env-var "baseUrl=http://localhost:3000" \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export newman_reports/newman_api3_report.html \
+            --reporter-htmlextra-title "HW06 API3 Tests - 23127486"
+        env:
+          STUDENT_ID: "23127486"
+      
+      - name: Run Data-Driven Tests (All 3 APIs)
+        continue-on-error: true
+        run: |
+          newman run postman/hw06_api1_datadriven_collection.json \
+            --environment postman/hw06_environment.json \
+            --iteration-data postman/data_driven/api1_data.json \
+            --env-var "studentId=${{ env.STUDENT_ID }}" \
+            --env-var "baseUrl=http://localhost:3000" \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export newman_reports/datadriven_api1_report.html \
+            --reporter-htmlextra-title "HW06 Data-Driven API1 - 23127486"
+          
+          newman run postman/hw06_api2_datadriven_collection.json \
+            --environment postman/hw06_environment.json \
+            --iteration-data postman/data_driven/api2_data.json \
+            --env-var "studentId=${{ env.STUDENT_ID }}" \
+            --env-var "baseUrl=http://localhost:3000" \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export newman_reports/datadriven_api2_report.html \
+            --reporter-htmlextra-title "HW06 Data-Driven API2 - 23127486"
+          
+          newman run postman/hw06_api3_datadriven_collection.json \
+            --environment postman/hw06_environment.json \
+            --iteration-data postman/data_driven/api3_data.json \
+            --env-var "studentId=${{ env.STUDENT_ID }}" \
+            --env-var "baseUrl=http://localhost:3000" \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export newman_reports/datadriven_api3_report.html \
+            --reporter-htmlextra-title "HW06 Data-Driven API3 - 23127486"
+        env:
+          STUDENT_ID: "23127486"
+      
+      - name: Upload Newman HTML Reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: newman-reports
+          path: newman_reports/
+          retention-days: 14

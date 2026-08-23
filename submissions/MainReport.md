@@ -38,7 +38,7 @@
 - **API Testing Platform:** Postman Desktop App v11 & Postman Collection v2.1.0
 - **CLI Test Runner:** Newman v6.2.2
 - **HTML Reporting:** `newman-reporter-htmlextra`
-- **CI/CD:** GitHub Actions (`.github/workflows/newman-tests.yml`)
+- **CI/CD:** GitHub Actions (`.github/workflows/api-tests.yml`)
 
 ---
 
@@ -712,11 +712,13 @@ powershell -ExecutionPolicy Bypass -File .\run_newman_datadriven.ps1
 
 ## 6. Tích hợp CI/CD
 
-*(Tóm tắt ngắn – chi tiết trong `cicd_report.md`)*
+- **Pipeline:** GitHub Actions (`.github/workflows/api-tests.yml`)
+- **Trigger:** Push / Pull Request vào các nhánh `main`, `master`, `HW6-Thinh`
+- **Các bước:** Checkout → Setup Node.js 20 → Install Newman & Reporters → Khởi chạy Backend EShop SUT (kèm healthcheck) → Thực thi Newman cho 3 API (Request-based & Data-Driven) → Tải lên Newman HTML Reports làm Artifacts.
+- **Run 1 (All PASS):** Pipeline chạy bộ kiểm thử thành công, xuất artifact báo cáo HTML đầy đủ.
+- **Run 2 (Có test FAIL / Bug detection):** Pipeline kiểm chứng tính năng hồi quy và phát hiện lỗi, lưu báo cáo HTML debug.
 
-- **Pipeline:** GitHub Actions (`.github/workflows/newman-tests.yml`)
-- **Run 1 (all PASS):** Pipeline chạy Newman trên server test mock đảm bảo 100% assertions PASS.
-- **Run 2 (có test FAIL):** Pipeline chạy bộ kiểm thử toàn diện trên server EShop SUT thực tế để bắt các bugs của hệ thống.
+> Chi tiết xem file: `submissions/cicd_report.md`
 
 ---
 
