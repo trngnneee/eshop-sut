@@ -47,15 +47,3 @@ I use AI tools for the following tasks:
 - **The AI output**:
 
   Đã cập nhật `API-testing/build_common_postman_collection.js` để ngoài collection tổng `eshop_api.postman_collection.json` còn sinh thêm 3 collection riêng: `forgot_password.postman_collection.json`, `apply_coupon.postman_collection.json`, và `admin_coupons.postman_collection.json`. Đã cập nhật GitHub Actions workflow để chạy 3 collection riêng và upload các report HTML theo glob `API-testing/newman-*-report.html`; đồng thời cập nhật `API-testing/README.md` với lệnh Newman cho từng collection.
-
-### Refactor Postman/Newman sang luồng data-driven chính
-
-- **AI tool**: Codex (GPT-5)
-- **Date and time**: 2026-08-23 04:18:07 +07
-- **Your prompt**:
-
-  Oke và bây giờ sửa theo một hướng clean, data driven hơn. Sẽ có một file json chứa các thông tin của test-case: `test-data.json` -> Postman Collection -> đọc từng record ở mỗi iteration -> gửi request tương ứng -> assert expected result -> Newman report.
-
-- **The AI output**:
-
-  Đã cập nhật `API-testing/build_common_postman_collection.js` để sinh `API-testing/data/test-data.json` chứa các record test case và `API-testing/eshop_data_driven.postman_collection.json` chứa một request runner đọc từng record qua iteration data. Hai record đầu trong `test-data.json` đăng nhập seed admin/user và lưu `adminToken`/`userToken`; các record sau gửi request theo `method`, `path`, `headers`, `body` và assert theo `expectedStatus`. Đã sửa workflow CI để chạy collection data-driven bằng `--iteration-data API-testing/data/test-data.json` và xuất `newman-eshop-api-report.html`; cập nhật README theo flow mới.

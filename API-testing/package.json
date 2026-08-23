@@ -4,7 +4,8 @@
   "description": "Generated test cases for selected EShop APIs.",
   "main": "index.js",
   "scripts": {
-    "forgot": "newman run forgot_password.postman_collection.json -e eshop_api.postman_environment.json -r cli,htmlextra --reporter-htmlextra-export forgot-password--report.html"
+    "forgot": "newman run forgot_password.postman_collection.json -e eshop_api.postman_environment.json -r cli,htmlextra --reporter-htmlextra-export forgot-password--report.html",
+    "apply": "newman run apply_coupon.postman_collection.json -e eshop_api.postman_environment.json -r cli,htmlextra --reporter-htmlextra-export apply-coupon-report.html"
   },
   "author": "",
   "license": "ISC",

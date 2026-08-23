@@ -1,0 +1,4172 @@
+{
+  "info": {
+    "name": "FR-09 Apply Coupon API Test Suite",
+    "description": "Postman collection for FR-09 POST /api/apply-coupon. One request per reviewed test case, grouped by testing stage. Uses environment variables baseUrl and studentId.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Domain Partitions",
+      "item": [
+        {
+          "name": "TC-APPLY-COUPON-DP-001 - Áp dụng mã coupon hợp lệ với tổng tiền đủ điều kiện",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Successful coupon response has discount and final amounts\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "  pm.expect(json.discount_amount).to.be.above(0);",
+                  "  pm.expect(json.final_amount).to.be.below(500000);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API trả về JSON có discount_amount > 0 và final_amount = total_amount - discount_amount.\nAudit: VALID\nNotes: Case valid điển hình theo ví dụ trong spec."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-DP-002 - Code hợp lệ có chữ thường cần được xử lý nhất quán",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 404\", function () {",
+                  "  pm.expect([404], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Lowercase code is rejected as a distinct coupon code\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"save10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API xử lý coupon code theo exact match; nếu chỉ có SAVE10 thì save10 bị từ chối bằng JSON error rõ ràng và không trả discount_amount/final_amount thành công.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì expected_status ghi nhiều khả năng và spec không chốt case-sensitive. Đã chốt theo backend hiện tại: lookup code exact match nên coupon chữ thường trả 404."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-DP-003 - Code không tồn tại trong hệ thống",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 404\", function () {",
+                  "  pm.expect([404], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Unknown coupon returns error schema only\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"NOTFOUND\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API từ chối áp dụng coupon không tồn tại bằng JSON error; không trả discount_amount/final_amount như coupon hợp lệ.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì expected_status ghi 400 hoặc 404. Đã chốt theo backend hiện tại: coupon không tìm thấy trả 404."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-DP-004 - Thiếu field code trong body",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Missing code returns validation error\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "  pm.expect(String(json.error || json.message)).to.match(/mã|code|coupon/i);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API trả lỗi validation vì code là field bắt buộc; không tính discount_amount/final_amount.\nAudit: VALID\nNotes: Không cần chỉnh sửa sau human review."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-DP-005 - Code là chuỗi rỗng",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Empty code returns validation error\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API trả lỗi validation vì code rỗng không phải mã coupon hợp lệ.\nAudit: VALID\nNotes: Không cần chỉnh sửa sau human review."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-DP-006 - Code chỉ chứa khoảng trắng",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Whitespace-only code returns validation error\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"   \",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API trim và từ chối code rỗng sau khi loại khoảng trắng; không áp dụng giảm giá.\nAudit: VALID\nNotes: Không cần chỉnh sửa sau human review."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-DP-007 - Code sai kiểu dữ liệu là number",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Numeric code is rejected\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": 12345,\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API trả lỗi validation vì code phải là string.\nAudit: VALID\nNotes: Không cần chỉnh sửa sau human review."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-DP-008 - total_amount bằng 0",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Zero total amount is rejected\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 0,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API từ chối vì total_amount phải lớn hơn 0; không tạo final_amount âm hoặc không hợp lệ.\nAudit: VALID\nNotes: Boundary invalid cho số tiền đơn hàng."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-DP-009 - total_amount là số âm",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Negative total amount is rejected\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": -1,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API trả lỗi validation vì total_amount âm không hợp lệ.\nAudit: VALID\nNotes: Không cần chỉnh sửa sau human review."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-DP-010 - total_amount là số dương rất nhỏ",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Amount below SAVE10 minimum is rejected\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 1,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: Với coupon SAVE10 có min_order_amount=300000, total_amount=1 chưa đạt ngưỡng tối thiểu nên API trả lỗi và không áp dụng giảm giá.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì expected_status phụ thuộc min_order_amount chưa ghi rõ. Đã đối chiếu seed data: SAVE10 yêu cầu tối thiểu 300000 nên case này kỳ vọng 400."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-DP-011 - total_amount sai kiểu dữ liệu là string",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"String total amount is rejected\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": \"500000\",\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API trả lỗi validation vì total_amount phải là number, không âm thầm ép kiểu chuỗi sang số.\nAudit: VALID\nNotes: Không cần chỉnh sửa sau human review."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-DP-012 - Thiếu field total_amount trong body",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Missing total amount returns validation error\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API trả lỗi validation vì total_amount là field bắt buộc.\nAudit: VALID\nNotes: Không cần chỉnh sửa sau human review."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-DP-013 - user_id không tồn tại",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Unknown user is not treated as eligible user\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 999999\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API nên từ chối user_id không tồn tại hoặc không hợp lệ; không áp dụng coupon cho user không xác định.\nAudit: VALID\nNotes: Giữ là test case hợp lệ để phát hiện rủi ro business logic. Nếu backend hiện không kiểm tra user tồn tại và trả 200 thì đó là bug/behavior cần báo cáo."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-DP-014 - user_id sai kiểu dữ liệu là string",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"String user_id is rejected\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": \"1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API trả lỗi validation vì user_id phải là number/integer, không âm thầm ép kiểu chuỗi sang số.\nAudit: VALID\nNotes: Không cần chỉnh sửa sau human review."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-DP-015 - Thiếu field user_id trong body",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Missing user_id is rejected\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API trả lỗi validation vì user_id là field bắt buộc trong body của FR-09.\nAudit: VALID\nNotes: Không cần chỉnh sửa sau human review."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-DP-016 - Body có field thừa discount_amount do client gửi lên",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Client discount_amount is ignored\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "  pm.expect(json.discount_amount).to.not.eql(499999);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1,\n  \"discount_amount\": 499999\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API bỏ qua discount_amount do client gửi và tính lại discount_amount/final_amount từ coupon trên server.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì expected_status ghi 200 hoặc 400. Đã chốt theo hướng server chấp nhận request nhưng không tin field thừa; security case riêng cũng kiểm parameter tampering."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-DP-017 - Content-Type không phải application/json",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Non-JSON content type does not produce success schema\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "text/plain"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "code=SAVE10&total_amount=500000&user_id=1",
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API từ chối hoặc báo lỗi parse/validation vì endpoint yêu cầu Body JSON.\nAudit: VALID\nNotes: Không cần chỉnh sửa sau human review."
+          },
+          "response": []
+        },
+        {
+          "name": "HT-APPLY-EXT-007 - Code có khoảng trắng đầu/cuối không được match nhầm coupon hợp lệ",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 404\", function () {",
+                  "  pm.expect([404], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Leading and trailing whitespace code is handled consistently\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \" SAVE10 \",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API phải xử lý nhất quán: hoặc trim rõ ràng trước khi lookup theo rule đã định hoặc trả 404/error; không được áp dụng coupon ngoài ý muốn khi input không đúng mã.\nAudit: HUMAN-ADDED\nNotes: Bổ sung thủ công sau bước audit để bao phủ partition whitespace quanh coupon code"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "State Transitions",
+      "item": [
+        {
+          "name": "TC-APPLY-COUPON-ST-001 - Coupon còn hiệu lực chuyển từ chưa áp dụng sang đã áp dụng",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Active coupon transitions to applied preview\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.below(500000);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API cho phép áp dụng coupon, trả discount_amount > 0 và final_amount nhỏ hơn total_amount.\nAudit: VALID\nNotes: State ẩn của FR-09: coupon_active + user_eligible + order_meets_minimum."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-ST-002 - Coupon hết hạn không được chuyển sang trạng thái đã áp dụng",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Expired coupon is rejected\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "  pm.expect(String(json.error || json.message)).to.match(/hết hạn|expired/i);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"EXPIRED\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API từ chối coupon hết hạn bằng JSON error, không trả kết quả giảm giá thành công và không thay đổi lượt sử dụng của user.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì dùng code OLD2025 không có trong seed data và expected_status ghi 400 hoặc 410. Đã sửa precondition sang EXPIRED và chốt expected_status 400 theo backend."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-ST-003 - Coupon đã bị xóa không được áp dụng",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 404\", function () {",
+                  "  pm.expect([404], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Deleted coupon state is not applicable\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"DELETED10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API từ chối vì coupon không còn ở trạng thái có thể áp dụng; không tạo discount_amount hợp lệ.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì cần setup xóa coupon qua admin API trước khi chạy; nếu chỉ gọi code không tồn tại thì backend trả 404. Khi execute cần tạo rồi xóa coupon trong setup riêng."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-ST-004 - Đơn hàng chưa đạt min_order_amount không được áp dụng coupon",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Below minimum order amount is rejected\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 299999,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API từ chối áp dụng coupon vì total_amount hiện tại chưa đạt ngưỡng tối thiểu; final_amount không được tính như đơn được giảm giá.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì dùng TET2025 không có trong seed data. Đã sửa precondition theo SAVE10/min_order_amount=300000 để case chạy được với dữ liệu hiện tại."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-ST-005 - Đơn hàng vừa đạt min_order_amount được áp dụng coupon",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"At minimum order amount is accepted\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 300000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API nên cho phép áp dụng coupon khi total_amount đúng bằng min_order_amount; trả discount_amount và final_amount hợp lệ.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì dùng TET2025 không có trong seed data. Đã sửa precondition theo SAVE10; case này kiểm boundary tại ngưỡng tối thiểu và có thể phát hiện lỗi nếu backend dùng điều kiện > thay vì >=."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-ST-006 - User đã dùng hết max_uses_per_user không được áp dụng lại coupon",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Exceeded per-user usage is rejected\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API từ chối lần áp dụng tiếp theo vì user đã đạt giới hạn sử dụng; không tăng thêm số lần dùng coupon.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì dùng ONCEONLY không có trong seed data. Đã sửa precondition sang SAVE10, coupon seed có max_uses_per_user=1."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-ST-007 - User khác vẫn được áp dụng coupon khi quota của chính họ còn",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Different user can still preview coupon\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API cho phép user_id=2 áp dụng coupon vì giới hạn sử dụng được tính theo từng user, không bị ảnh hưởng bởi trạng thái đã dùng của user_id=1.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì dùng ONCEONLY không có trong seed data. Đã sửa precondition sang SAVE10 để kiểm quota tính theo từng user."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-ST-008 - Coupon vừa hết hạn sau một lần áp dụng thành công không được áp dụng tiếp",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Coupon expired after previous validity is rejected\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"FLASHSALE\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: API đánh giá trạng thái coupon tại thời điểm request hiện tại và từ chối coupon đã hết hạn, dù coupon từng hợp lệ trước đó.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì cần setup coupon đang active rồi chuyển sang expired theo thời gian; code FLASHSALE không có trong seed data. Giữ case workflow riêng, không phù hợp chạy data-driven đơn giản."
+          },
+          "response": []
+        },
+        {
+          "name": "HT-APPLY-EXT-006 - Preview apply-coupon không được tự tăng coupon_usage",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Preview request remains side-effect free\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: Gọi apply-coupon hai lần liên tiếp không qua checkout/coupon-usage vẫn chỉ là preview tính giảm giá; nếu lần hai bị chặn quota thì endpoint đã tạo side effect sai chỗ.\nAudit: HUMAN-ADDED\nNotes: Bổ sung thủ công sau bước audit để phân biệt state preview coupon và state lưu coupon usage sau checkout."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Security",
+      "item": [
+        {
+          "name": "TC-APPLY-COUPON-SEC-001 - SQL injection payload trong field code không được làm bypass coupon lookup",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 404\", function () {",
+                  "  pm.expect([404], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"SQL injection does not bypass coupon lookup\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "  pm.expect(pm.response.text().toLowerCase()).to.not.include(\"sql\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"' OR '1'='1\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09, SEC-05\nExpected: API không áp dụng bất kỳ coupon nào, không trả discount_amount thành công, không trả lỗi 500 hoặc SQL trace.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì expected_status ghi 400 hoặc 404. Đã chốt theo backend hiện tại: payload SQLi được query parameterized như code không tồn tại nên trả 404."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-SEC-002 - SQL injection destructive payload trong code không được gây lỗi DB hoặc thay đổi dữ liệu",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 404\", function () {",
+                  "  pm.expect([404], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Destructive SQL payload does not expose SQL error\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "  pm.expect(pm.response.text().toLowerCase()).to.not.include(\"sql\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"'; DROP TABLE coupons; --\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09, SEC-05\nExpected: API từ chối mã coupon độc hại, không crash, không trả SQL error chi tiết, bảng coupons và dữ liệu coupon vẫn còn nguyên.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì expected_status ghi 400 hoặc 404. Đã chốt theo backend hiện tại: destructive payload không match coupon nào nên trả 404; vẫn cần kiểm không có SQL trace và DB không bị thay đổi."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-SEC-003 - Endpoint apply-coupon public không yêu cầu JWT khi chỉ tính thử coupon",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Public apply-coupon returns only calculation data\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "  pm.expect(json.user).to.equal(undefined);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09, SEC-02\nExpected: API cho phép gọi public để tính thử discount_amount/final_amount; không ghi nhận usage trực tiếp và không cấp quyền thay đổi dữ liệu user.\nAudit: INVALID\nNotes: Ban đầu INVALID vì AI giả định /api/apply-coupon bắt buộc JWT và có side effect quota theo user. Spec FR-09 không yêu cầu Authorization; việc lưu usage nằm ở endpoint /api/coupon-usage."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-SEC-004 - Authorization header không được làm thay đổi user được tính coupon nếu endpoint không bind JWT",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Authorization header does not add side effects\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "  pm.expect(json.user).to.equal(undefined);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09, SEC-02\nExpected: API chỉ tính toán coupon theo input hợp lệ; nếu có Authorization header thì không được cấp thêm quyền hoặc ghi usage cho user khác trong endpoint apply-coupon.\nAudit: INVALID\nNotes: Ban đầu INVALID vì AI biến case này thành IDOR trên endpoint không có authentication binding trong spec. Đã sửa thành kiểm phạm vi: apply-coupon chỉ là calculator và không được có side effect theo JWT."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-SEC-005 - Client không được tự gửi discount_amount để tăng mức giảm",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Client-supplied discount_amount cannot tamper result\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "  pm.expect(json.discount_amount).to.not.eql(499999);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1,\n  \"discount_amount\": 499999\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09, OWASP-Other\nExpected: API bỏ qua discount_amount do client gửi; response discount_amount phải được server tính lại từ coupon thật, không lấy giá trị 499999.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì expected_status ghi 200 hoặc 400. Đã chốt theo behavior mong muốn cho endpoint hiện tại: chấp nhận request nhưng ignore field client-side tampering."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-SEC-006 - Client không được tự gửi final_amount để thao túng tổng tiền cuối",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Client-supplied final_amount cannot tamper result\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.not.eql(1);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1,\n  \"final_amount\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09, OWASP-Other\nExpected: API bỏ qua final_amount do client gửi; response final_amount phải được tính lại bằng total_amount - discount_amount trên server.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì expected_status ghi 200 hoặc 400. Đã chốt theo behavior mong muốn: chấp nhận request nhưng tính lại final_amount phía server."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-SEC-007 - Không cho dùng total_amount giả lớn hơn giỏ hàng thật để đạt min_order_amount",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test.skip(\"Manual flow required: Không thể xác minh đầy đủ bằng riêng endpoint apply-coupon; cần checkout/cart flow riêng.\");",
+                  ""
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09, OWASP-Other\nExpected: Không thể xác minh đầy đủ bằng riêng endpoint apply-coupon nếu API được thiết kế là calculator nhận total_amount từ client; cần kết hợp cart/checkout server-side để kiểm tra giỏ hàng thật.\nAudit: INVALID\nNotes: Ban đầu INVALID cho phạm vi endpoint này vì AI giả định apply-coupon có thể đối chiếu cart thật. Case nên chuyển sang checkout/cart flow nếu muốn kiểm business logic abuse."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-SEC-008 - Rate limit khi brute-force nhiều coupon code",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 429\", function () {",
+                  "  pm.expect([429], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Brute-force coupon attempts are rate limited\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"BRUTEFORCE-NOTFOUND\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09, OWASP-Other\nExpected: Sau nhiều lần thử coupon code sai trong thời gian ngắn, API áp dụng rate limit hoặc cơ chế chặn; không cho brute-force không giới hạn.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì expected_status ghi \"429 sau N lần\" nhưng chưa định nghĩa ngưỡng N và cần script lặp request. Giữ expected_status 429 và ghi rõ cần setup runner riêng."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-SEC-009 - Response apply-coupon không được rò rỉ password hoặc passwordHash của user",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Response does not leak sensitive user fields\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09, SEC-01\nExpected: Response chỉ chứa dữ liệu cần thiết như discount_amount và final_amount; không chứa password, passwordHash, resetToken, token nội bộ hoặc toàn bộ object user.\nAudit: VALID\nNotes: Kiểm tra gián tiếp qua response; xác nhận đầy đủ việc không lưu plaintext password cần review DB/code."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-SEC-010 - XSS payload trong code không được phản hồi như HTML thực thi được",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 404\", function () {",
+                  "  pm.expect([404], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"XSS payload is not reflected as executable HTML\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "  pm.expect(pm.response.text()).to.not.include(\"<script>\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"<script>alert(1)</script>\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09, SEC-04\nExpected: API trả lỗi an toàn, không trả HTML/script có thể thực thi; nếu echo lại code trong message thì phải được escape khi hiển thị ở UI.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì expected_status ghi 400 hoặc 404. Đã chốt theo backend hiện tại: XSS payload được xem như coupon code không tồn tại nên trả 404; vẫn kiểm message không render HTML/script."
+          },
+          "response": []
+        },
+        {
+          "name": "HT-APPLY-EXT-003 - Coupon percent không được tạo final_amount âm hoặc tăng tổng tiền",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Money values stay within safe bounds\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "  pm.expect(json.discount_amount).to.be.at.most(500000);",
+                  "  pm.expect(json.final_amount).to.be.at.most(500000);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09, OWASP-Other\nExpected: Response phải đảm bảo discount_amount >= 0; discount_amount <= total_amount; final_amount >= 0; final_amount <= total_amount.\nAudit: HUMAN-ADDED\nNotes: Bổ sung thủ công sau bước audit để bắt lỗi business logic/price tampering ở invariant tiền tệ."
+          },
+          "response": []
+        },
+        {
+          "name": "HT-APPLY-EXT-004 - user_id null không được bypass giới hạn sử dụng coupon",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Null user_id cannot bypass usage policy\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": null\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09, OWASP-Other\nExpected: API phải từ chối user_id null hoặc không ghi nhận flow áp dụng coupon như user hợp lệ; không được dùng null để né quota theo user.\nAudit: HUMAN-ADDED\nNotes: Bổ sung thủ công sau bước audit vì AI chỉ có case thiếu user_id nhưng chưa kiểm bypass bằng null."
+          },
+          "response": []
+        },
+        {
+          "name": "HT-APPLY-EXT-005 - user_id bằng 0 không được bypass giới hạn sử dụng coupon",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Zero user_id cannot bypass falsy check\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09, OWASP-Other\nExpected: API phải từ chối user_id=0 hoặc xác thực user hợp lệ; không được xem 0 là falsy để bỏ qua kiểm tra quota.\nAudit: HUMAN-ADDED\nNotes: Bổ sung thủ công sau bước audit để bắt lỗi falsy value trong kiểm tra user_id."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Schema Validation",
+      "item": [
+        {
+          "name": "TC-APPLY-COUPON-SV-001 - Response thành công phải có đủ discount_amount và final_amount",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Success response has required schema fields\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "  pm.expect(json).to.have.property(\"discount_amount\");",
+                  "  pm.expect(json).to.have.property(\"final_amount\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: Response JSON chứa đầy đủ 2 field bắt buộc theo spec: discount_amount và final_amount.\nAudit: VALID\nNotes: Spec FR-09 mô tả response thành công chứa discount_amount và final_amount."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-SV-002 - discount_amount và final_amount phải là number",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Amount fields are numbers\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: Response trả discount_amount và final_amount dưới dạng number, không phải string, null, object hoặc array.\nAudit: VALID\nNotes: Giúp tránh lỗi client phải tự parse chuỗi tiền tệ hoặc nhận kiểu dữ liệu không ổn định."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-SV-003 - final_amount phải khớp công thức total_amount - discount_amount",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"final_amount matches total minus discount\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.eql(500000 - json.discount_amount);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: Response thỏa điều kiện final_amount = 500000 - discount_amount; discount_amount >= 0; final_amount >= 0.\nAudit: VALID\nNotes: Đây là invariant schema/contract của response tính tiền, không kiểm chi tiết business rule của từng coupon."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-SV-004 - Response thành công không trả thừa object coupon hoặc user",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Success response avoids oversized internal objects\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "  pm.expect(json.user).to.equal(undefined);",
+                  "  pm.expect(json.password).to.equal(undefined);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: Response chỉ trả các field cần thiết cho FR-09; không trả thừa toàn bộ coupon, user, password/passwordHash, resetToken, token nội bộ hoặc cấu hình nhạy cảm.\nAudit: VALID\nNotes: Stage 4 kiểm response shape; case security rò rỉ dữ liệu đã được nhấn mạnh thêm ở Stage 3."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-SV-005 - Coupon không tồn tại trả error schema, không trả success schema",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 404\", function () {",
+                  "  pm.expect([404], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Invalid coupon error has stable error schema\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"NOTFOUND\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: Response lỗi có cấu trúc nhất quán, ví dụ message hoặc error.message/code; không chứa discount_amount/final_amount như response thành công.\nAudit: INCOMPLETE\nNotes: Ban đầu INCOMPLETE vì expected_status ghi 400 hoặc 404 và spec chưa chuẩn hóa error schema. Đã chốt theo backend hiện tại: coupon không tồn tại trả 404."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-SV-006 - Thiếu field code trả lỗi validation có message rõ ràng",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Missing code validation error is JSON\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: Response lỗi validation có field message/error nêu thiếu code; không trả stack trace hoặc HTML error page.\nAudit: VALID\nNotes: Kiểm schema lỗi validation cho missing required field."
+          },
+          "response": []
+        },
+        {
+          "name": "TC-APPLY-COUPON-SV-007 - Sai kiểu total_amount trả lỗi validation JSON ổn định",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 400\", function () {",
+                  "  pm.expect([400], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"Wrong total_amount type returns JSON error\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.equal(undefined);",
+                  "  pm.expect(json.final_amount).to.equal(undefined);",
+                  "  pm.expect(String(json.error || json.message || \"\")).to.not.equal(\"\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": \"500000\",\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: Response lỗi validation là JSON có message/error rõ ràng về kiểu dữ liệu total_amount; không trả 500, stack trace hoặc response text/html.\nAudit: VALID\nNotes: Đối chiếu error response khi body hợp lệ về JSON syntax nhưng sai schema field."
+          },
+          "response": []
+        },
+        {
+          "name": "HT-APPLY-EXT-001 - Coupon percent SAVE10 phải tính đúng 10%",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"SAVE10 percent calculation is exact\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "  pm.expect(json.discount_amount).to.eql(50000);",
+                  "  pm.expect(json.final_amount).to.eql(450000);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SAVE10\",\n  \"total_amount\": 500000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: Response phải có discount_amount = 50000 và final_amount = 450000; discount_amount không được âm hoặc lớn hơn total_amount.\nAudit: HUMAN-ADDED\nNotes: Bổ sung thủ công sau bước audit để kiểm công thức tính phần trăm coupon cụ thể; AI trước đó chỉ kiểm shape chung nên có thể bỏ sót lỗi công thức."
+          },
+          "response": []
+        },
+        {
+          "name": "HT-APPLY-EXT-002 - Coupon fixed BIGBUY phải tính đúng số tiền giảm cố định",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.request.headers.upsert({ key: \"X-Student-Id\", value: pm.variables.get(\"studentId\") });"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"X-Student-Id header is attached: \" + pm.variables.get(\"studentId\"), function () {",
+                  "  pm.expect(pm.request.headers.get(\"X-Student-Id\")).to.eql(pm.variables.get(\"studentId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Expected HTTP 200\", function () {",
+                  "  pm.expect([200], \"expected status list\").to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "function jsonOrNull() {",
+                  "  try { return pm.response.json(); } catch (e) { return null; }",
+                  "}",
+                  "",
+                  "function expectJsonBody() {",
+                  "  const json = jsonOrNull();",
+                  "  pm.expect(json, \"response JSON body\").to.not.equal(null);",
+                  "  return json;",
+                  "}",
+                  "",
+                  "function expectNoSensitiveKeys(obj) {",
+                  "  const text = JSON.stringify(obj).toLowerCase();",
+                  "  [\"password\", \"passwordhash\", \"password_hash\", \"resettoken\", \"token\"].forEach(function (key) {",
+                  "    pm.expect(text, \"sensitive field: \" + key).to.not.include(key);",
+                  "  });",
+                  "}",
+                  "",
+                  "pm.test(\"BIGBUY fixed calculation is exact\", function () {",
+                  "  const json = expectJsonBody();",
+                  "  expectNoSensitiveKeys(json);",
+                  "  pm.expect(json.discount_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.final_amount).to.be.a(\"number\");",
+                  "  pm.expect(json.discount_amount).to.be.at.least(0);",
+                  "  pm.expect(json.final_amount).to.be.at.least(0);",
+                  "  pm.expect(json.discount_amount).to.eql(50000);",
+                  "  pm.expect(json.final_amount).to.eql(550000);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"BIGBUY\",\n  \"total_amount\": 600000,\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apply-coupon",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apply-coupon"
+              ]
+            },
+            "description": "Requirement: FR-09\nExpected: Response phải có discount_amount = 50000 và final_amount = 550000.\nAudit: HUMAN-ADDED\nNotes: Bổ sung thủ công sau bước audit để tách riêng logic coupon fixed khỏi coupon percent."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "studentId",
+      "value": "23127158"
+    }
+  ]
+}
