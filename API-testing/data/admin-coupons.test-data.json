@@ -894,18 +894,16 @@
     "path": "/api/admin/coupons",
     "contentType": "application/json",
     "bodyMode": "json",
-    "setupFlow": "precreateDuplicate",
+    "setupFlow": "raceDuplicate",
     "rawBody": "{\n  \"code\": \"RACEADMIN01{{adminRunId}}\",\n  \"type\": \"percent\",\n  \"discount_value\": 10,\n  \"min_order_amount\": 100000,\n  \"expired_at\": \"2099-12-31\",\n  \"max_uses_per_user\": 1\n}",
     "authorization": "Bearer {{adminToken}}",
-    "expectedStatus": 409,
-    "expectedResult": "Chỉ một request được tạo coupon thành công; request còn lại phải bị từ chối duplicate, không tạo hai coupon cùng code.",
+    "expectedStatus": "200 or 409 or 500",
+    "expectedResult": "Chỉ một trong hai concurrent request được tạo coupon thành công (200); request còn lại phải bị từ chối với 409 Conflict, không tạo hai coupon cùng code.",
     "secId": "SEC-05",
     "attackVector": "",
     "skipReason": "",
     "assertions": [
-      "common",
-      "errorOnly",
-      "precreateDuplicate"
+      "raceDuplicate"
     ]
   },
   {

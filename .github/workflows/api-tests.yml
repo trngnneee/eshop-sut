@@ -56,12 +56,18 @@ jobs:
         run: |
           set +e
 
-          npm run ci-pass
-          ci-pass_status=$?
+          npm run forgot
+          forgot_status=$?
 
-          if [ "$ci-pass_status" -ne 0 ]; then
+          npm run apply
+          apply_status=$?
+
+          npm run admin
+          admin_status=$?
+
+          if [ "$forgot_status" -ne 0 ] || [ "$apply_status" -ne 0 ] || [ "$admin_status" -ne 0 ]; then
             echo "One or more Newman collections failed."
-            echo "ci-pass=$ci-pass_status"
+            echo "forgot=$forgot_status apply=$apply_status admin=$admin_status"
             exit 1
           fi
         working-directory: API-testing
@@ -72,7 +78,9 @@ jobs:
         with:
           name: newman-html-reports
           path: |
-            API-testing/ci-pass-report.html
+            API-testing/forgot-password--report.html
+            API-testing/apply-coupon-report.html
+            API-testing/admin-coupons-report.html
 
       - name: Upload backend log
         uses: actions/upload-artifact@v4

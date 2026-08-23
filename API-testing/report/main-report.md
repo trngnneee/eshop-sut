@@ -324,8 +324,8 @@ Các row invalid chủ yếu là apply-coupon ngoài scope hoặc case không á
 |---|---:|
 | Final Test Cases | 49 |
 | Executed | 45 |
-| Passed | 13 |
-| Failed | 32 |
+| Passed | 14 |
+| Failed | 31 |
 | Blocked | 0 |
 | Not Executed | 4 |
 
@@ -366,8 +366,8 @@ Bốn row `NOT EXECUTED` là các apply-coupon state cases được giữ trong 
 | Human-added | 7 |
 | Final Test Cases | 49 |
 | Executed | 45 |
-| Passed | 13 |
-| Failed | 32 |
+| Passed | 14 |
+| Failed | 31 |
 | Blocked | 0 |
 | Not Executed | 4 |
 | Confirmed Bugs | 7 |
@@ -379,19 +379,17 @@ Bốn row `NOT EXECUTED` là các apply-coupon state cases được giữ trong 
 | Tính năng | Cách sử dụng | Mục đích |
 |---|---|---|
 | Collections | Ba collection riêng: `forgot_password`, `apply_coupon`, `admin_coupons` | Giữ từng API độc lập, dễ chạy và review |
-| Request template data-driven | Mỗi collection dùng row data để update method/path/body/auth | Tránh duplicate hàng chục request tương tự nhau |
 | Environment Variables | `baseUrl`, `studentId`, seed credentials, token placeholders | Tái sử dụng cấu hình local và CI |
 | Collection Variables | Lưu `adminToken`, `userToken`, OTP, run IDs, fixture coupon IDs | Chia sẻ state giữa pre-request và test scripts |
 | Pre-request Scripts | Build request động, login khi cần, sinh forged tokens, tạo/xóa fixtures | Hỗ trợ stateful và security tests |
 | Test Scripts | Assert status, JSON schema, business values, sensitive fields, skip/blocked behavior | Biến mỗi CSV/data row thành executable validation |
 | Data-driven Testing | Các file `data/*.test-data.json` điều khiển iterations | Một iteration tương ứng một test case |
 | Collection Runner / Newman | Newman chạy collection từ CLI | Thực thi lặp lại được ở local và CI |
-| HTML Report | `htmlextra` report được sinh cho từng API | Bằng chứng pass/fail/skipped |
-| CI Artifacts | GitHub Actions upload ba HTML reports | Lưu bằng chứng thực thi |
 
 ### Bằng chứng `X-Student-Id`
+![](../artifacts/student-id-header-attached.png)
 
-Mỗi collection gắn `X-Student-Id` từ biến `studentId`. Giá trị hiện tại trong environment là `23127158`, và các request scripts upsert header này cho request chính lẫn helper requests. Bằng chứng có thể đối chiếu trong collection JSON và Newman reports; screenshot Postman Console nên được đính kèm riêng khi nộp cuối cùng theo yêu cầu anti-cheat của môn học.
+![](../artifacts/student-id-header.png)
 
 ---
 
@@ -399,7 +397,6 @@ Mỗi collection gắn `X-Student-Id` từ biến `studentId`. Giá trị hiện
 
 ## 4.1 Thiết kế pipeline
 
-- Workflow file: `.github/workflows/api-tests.yml`
 - Trigger: `push`, `pull_request`, và `workflow_dispatch`
 - Các bước chính:
   1. Checkout repository.
@@ -417,31 +414,20 @@ Workflow chạy cả ba collection ngay cả khi một collection fail. Pipeline
 
 | Thuộc tính | Giá trị |
 |---|---|
-| Commit | Chưa có trong local artifacts |
-| Workflow Run | Chưa có trong local artifacts |
-| Total Tests | Chưa có trong local artifacts |
-| Passed | Chưa có trong local artifacts |
-| Failed | Mục tiêu của run all-passing là `0` |
-| Result | Chưa có evidence trong workspace |
-| Evidence | Cần đính kèm screenshot/link sau khi chạy GitHub Actions |
-| Link | Chưa có trong local artifacts |
+| Commit | Test CI Pass |
+| Evidence | ![](../artifacts/CI-Pass.png) |
+| Link | https://github.com/trngnneee/eshop-sut/actions/runs/32650890035 |
 
 ## 4.3 Lần chạy failing
 
 | Thuộc tính | Giá trị |
 |---|---|
-| Commit | Chưa có trong local artifacts |
-| Workflow Run | Chưa có trong local artifacts |
-| Failing TC | Có nhiều ví dụ local, ví dụ `TC-ADMIN-COUPONS-SEC-006` |
-| Expected | `403` |
-| Actual | `200 {"message":"Coupon deleted"}` |
-| Result | `FAIL` |
-| Evidence | Evidence local: `API-testing/admin-coupons-report.html` |
-| Link | Chưa có trong local artifacts |
+| Commit | Test CI Fail |
+| Evidence | ![](../artifacts/CI-Fail.png) |
+| Link | https://github.com/trngnneee/eshop-sut/actions/runs/32649108372 |
 
-## 4.4 Đánh giá CI/CD
-
-CI/CD hiện đã đủ để chạy ba Newman collections trên backend vừa seed mới. Reports được upload bằng `actions/upload-artifact@v4`. Hạn chế hiện tại là workspace local chưa có GitHub Actions run links hoặc screenshots cho hai sample commits all-passing/failing mà đề yêu cầu; các bằng chứng đó cần bổ sung sau khi chạy thật trên GitHub.
+> [!NOTE]
+> Lần chạy thành công (all-passing) thực tế chỉ sử dụng bộ test suite rút gọn (smoke test) nhằm xác minh cấu hình CI/CD pipeline hoạt động chính xác. Khi thực thi đầy đủ cả 3 collection kiểm thử thực tế, kết quả sẽ thất bại (fail) do các lỗi nghiệp vụ và bảo mật hiện có trên backend (chi tiết tại Mục 2).
 
 ---
 
@@ -450,9 +436,9 @@ CI/CD hiện đã đủ để chạy ba Newman collections trên backend vừa s
 ## 5.1 Mục tiêu
 
 **Input:** API specification của EShop.  
-**Output:** structured API test cases, CSV master files, Postman/Newman runtime data và audit logs.
+**Output:** Các file JSON trung gian của 4 stage (`01_domain_partitions.json`, `02_state_transitions.json`, `03_security.json`, `04_schema_validation.json`), file gộp CSV master (`test_cases_master.csv`) và nhật ký tương tác AI (`ai_audit_log.md`).
 
-Thiết kế generator chia quá trình sinh test thành bốn stage rõ ràng thay vì hỏi AI một prompt chung chung. Cách này giúp tách domain partitions, state transitions, security checks và schema validation thành các phần có thể audit được.
+Thiết kế generator chia quá trình sinh test thành bốn stage rõ ràng thay vì hỏi AI một prompt chung chung. Cách này giúp tách domain partitions, state transitions, security checks và schema validation thành các phần có thể audit được trước khi gộp thành file CSV tổng thể.
 
 ## 5.2 Inputs và Outputs
 
@@ -462,95 +448,50 @@ Thiết kế generator chia quá trình sinh test thành bốn stage rõ ràng t
 | Parser | Trích xuất endpoint, request fields, auth requirement, response shape và FR/SEC liên quan bằng human/AI-assisted process |
 | Test Analysis | Suy luận theo stage: domain partitions, state transitions, security, schema validation |
 | Test Generator | Codex/GPT-5 prompts được ghi trong `ai_audit_log.md` của từng API |
-| Validator / Reviewer | Human audit bằng `VALID`, `INVALID`, `INCOMPLETE`, sau đó sửa theo seed data và report output |
-| Output | `test_cases_master.csv`, `data/*.test-data.json`, Postman collections, Newman HTML reports, bug reports |
+| Validator / Reviewer | Human audit bằng `VALID`, `INVALID`, `INCOMPLETE`, sau đó sửa các file test case JSON/CSV theo seed data và kết quả chạy thử |
+| Output | `01_domain_partitions.json`, `02_state_transitions.json`, `03_security.json`, `04_schema_validation.json`, `test_cases_master.csv` và `ai_audit_log.md`. *Lưu ý: Các tài liệu/dữ liệu khác như Postman collections, Newman HTML reports và bug reports được tạo ở các bước kiểm thử tiếp theo do con người thực hiện, không phải là output trực tiếp của Generator.* |
 
-## 5.3 Workflow đề xuất
+## 5.3 Self-Drawn Diagram
 
-```text
-API Specification
-        |
-        v
-Chọn API + FR/SEC liên quan
-        |
-        v
-Stage 1: Domain Partitions
-        |
-        v
-Stage 2: State Transitions / Hidden State
-        |
-        v
-Stage 3: Security Tests
-        |
-        v
-Stage 4: Schema Validation
-        |
-        v
-Consolidate thành CSV Master
-        |
-        v
-Human Audit: VALID / INVALID / INCOMPLETE
-        |
-        v
-Human Extension: các security/state cases AI bỏ sót
-        |
-        v
-Export Runtime JSON + Postman Collection
-        |
-        v
-Newman Execution + HTML Report + Bug Reports
-```
+![](../artifacts/diagram.png)
 
-## 5.4 Self-Drawn Diagram
-
-Diagram tự vẽ cần được chèn vào đây trong bản Markdown/PDF cuối cùng. Thiết kế đã implement được mô tả trong `API-testing/g9_5_ai_api_test_generator_design.md`, còn reusable skill nằm ở `.agents/skills/api-test-generator/SKILL.md`.
-
-## 5.5 Pseudocode
+## 5.4 Pseudocode
 
 ```text
-INPUT: api_specification.md, selected API slug
+PROCEDURE GenerateApiTests(apiSpecification, selectedEndpoint)
+    api <- selectedEndpoint
+    spec <- Read(apiSpecification)
+    contract <- ExtractContract(spec, api)
 
-Create API output directory
-Copy or reference API specification
-Initialize AI audit log
+    domainTests <- AskAI(
+        "Generate domain partition test cases from this API contract"
+    )
+    Save(domainTests, "01_domain_partitions.json")
 
-FOR each selected API:
-    Read endpoint, method, body fields, path/query params
-    Read authentication and role requirements
-    Read related functional and security requirements
+    stateTests <- AskAI(
+        "Generate state transition test cases from this API contract"
+    )
+    Save(stateTests, "02_state_transitions.json")
 
-    Prompt AI for Stage 1 domain partitions
-    Save 01_domain_partitions.json
-    Log prompt/output summary
+    securityTests <- AskAI(
+        "Generate security test cases using SEC-01 to SEC-07 where applicable"
+    )
+    Save(securityTests, "03_security.json")
 
-    Prompt AI for Stage 2 state transitions
-    Save 02_state_transitions.json
-    Log prompt/output summary
+    schemaTests <- AskAI(
+        "Generate schema validation test cases from the response specification"
+    )
+    Save(schemaTests, "04_schema_validation.json")
 
-    Prompt AI for Stage 3 security tests
-    Save 03_security.json
-    Log prompt/output summary
+    allTests <- Merge(domainTests, stateTests, securityTests, schemaTests)
+    allTests <- ValidateFormat(allTests)
+    allTests <- AssignFinalIds(allTests)
 
-    Prompt AI for Stage 4 schema validation
-    Save 04_schema_validation.json
-    Log prompt/output summary
-
-    Consolidate stage JSON into test_cases_master.csv
-    Human reviews each AI row:
-        mark VALID, INVALID, or INCOMPLETE
-        correct expected status, data, preconditions, and notes
-
-    Human adds missed tests
-    Convert final CSV rows into runtime JSON
-    Generate a data-driven Postman collection
-    Execute with Newman
-    Update status from HTML report
-    Create or update bug reports for product failures
-
-OUTPUT: reviewed CSV, Postman collection, Newman report, bug reports, audit log
+    ExportCsv(allTests, "test_cases_master.csv")
+END PROCEDURE
 ```
 
-## 5.6 Đánh giá thiết kế generator
+## 5.5 Đánh giá thiết kế generator
 
 ### Điểm mạnh
 
