@@ -364,16 +364,17 @@
     "path": "/api/admin/coupons/{{createdCouponId}}",
     "contentType": "application/json",
     "bodyMode": "json",
-    "setupFlow": "",
+    "setupFlow": "createCouponForDelete",
     "rawBody": "{}",
-    "authorization": "",
-    "expectedStatus": "N/A",
+    "authorization": "Bearer {{adminToken}}",
+    "expectedStatus": 200,
     "expectedResult": "Coupon bị xóa; response trả message xóa thành công và coupon đó không còn dùng được sau khi xóa.",
     "secId": "",
     "attackVector": "",
-    "skipReason": "Ngoài scope chạy hiện tại vì chỉ test POST /api/admin/coupons",
+    "skipReason": "",
     "assertions": [
-      "skip"
+      "common",
+      "successDeleteSchema"
     ]
   },
   {
@@ -384,16 +385,17 @@
     "path": "/api/admin/coupons/{{deletedCouponId}}",
     "contentType": "application/json",
     "bodyMode": "json",
-    "setupFlow": "",
+    "setupFlow": "deleteCouponBeforeMain",
     "rawBody": "{}",
-    "authorization": "",
-    "expectedStatus": "N/A",
+    "authorization": "Bearer {{adminToken}}",
+    "expectedStatus": 404,
     "expectedResult": "API nên báo không tìm thấy coupon khi xóa lại resource đã deleted; không có side effect mới.",
     "secId": "",
     "attackVector": "",
-    "skipReason": "Ngoài scope chạy hiện tại vì chỉ test POST /api/admin/coupons",
+    "skipReason": "",
     "assertions": [
-      "skip"
+      "common",
+      "errorOnly"
     ]
   },
   {
@@ -411,7 +413,7 @@
     "expectedResult": "API apply-coupon trả discount_amount và final_amount đúng khi coupon active đủ điều kiện.",
     "secId": "",
     "attackVector": "",
-    "skipReason": "Ngoài scope chạy hiện tại vì chỉ test POST /api/admin/coupons",
+    "skipReason": "Ngoài scope chạy hiện tại vì chỉ test POST/DELETE /api/admin/coupons",
     "assertions": [
       "skip"
     ]
@@ -431,7 +433,7 @@
     "expectedResult": "API từ chối vì user đã đạt giới hạn sử dụng coupon; không giảm tiền lần hai.",
     "secId": "",
     "attackVector": "",
-    "skipReason": "Ngoài scope chạy hiện tại vì chỉ test POST /api/admin/coupons",
+    "skipReason": "Ngoài scope chạy hiện tại vì chỉ test POST/DELETE /api/admin/coupons",
     "assertions": [
       "skip"
     ]
@@ -451,7 +453,7 @@
     "expectedResult": "API từ chối coupon hết hạn; final_amount không được giảm.",
     "secId": "",
     "attackVector": "",
-    "skipReason": "Ngoài scope chạy hiện tại vì chỉ test POST /api/admin/coupons",
+    "skipReason": "Ngoài scope chạy hiện tại vì chỉ test POST/DELETE /api/admin/coupons",
     "assertions": [
       "skip"
     ]
@@ -471,7 +473,7 @@
     "expectedResult": "API không tìm thấy coupon đã xóa hoặc báo coupon không hợp lệ; không giảm tiền.",
     "secId": "",
     "attackVector": "",
-    "skipReason": "Ngoài scope chạy hiện tại vì chỉ test POST /api/admin/coupons",
+    "skipReason": "Ngoài scope chạy hiện tại vì chỉ test POST/DELETE /api/admin/coupons",
     "assertions": [
       "skip"
     ]
@@ -586,19 +588,20 @@
     "title": "User thường dùng JWT hợp lệ xóa coupon admin",
     "category": "Security",
     "method": "DELETE",
-    "path": "/api/admin/coupons/4",
+    "path": "/api/admin/coupons/{{createdCouponId}}",
     "contentType": "application/json",
     "bodyMode": "json",
-    "setupFlow": "",
+    "setupFlow": "createCouponForDelete",
     "rawBody": "{}",
-    "authorization": "",
-    "expectedStatus": "N/A",
+    "authorization": "Bearer {{userToken}}",
+    "expectedStatus": 403,
     "expectedResult": "API từ chối; coupon id=4 vẫn tồn tại.",
     "secId": "SEC-03",
     "attackVector": "",
-    "skipReason": "Ngoài scope chạy hiện tại vì chỉ test POST /api/admin/coupons",
+    "skipReason": "",
     "assertions": [
-      "skip"
+      "common",
+      "errorOnly"
     ]
   },
   {
@@ -668,22 +671,23 @@
   },
   {
     "testCaseId": "TC-ADMIN-COUPONS-SEC-010",
-    "title": "IDOR: Admin của scope khác hoặc token hợp lệ không sở hữu resource thử xóa coupon",
+    "title": "JWT payload giả role admin nhưng signature sai không được xóa coupon",
     "category": "Security",
     "method": "DELETE",
-    "path": "/api/admin/coupons/901",
+    "path": "/api/admin/coupons/{{createdCouponId}}",
     "contentType": "application/json",
     "bodyMode": "json",
-    "setupFlow": "",
+    "setupFlow": "createCouponForDelete",
     "rawBody": "{}",
-    "authorization": "",
-    "expectedStatus": "N/A",
-    "expectedResult": "Không áp dụng với SUT hiện tại vì hệ thống không có tenant/store scope cho coupon; cần bỏ qua hoặc thay bằng kiểm role=user gọi admin API.",
-    "secId": "SEC-01, OWASP-Other",
-    "attackVector": "",
-    "skipReason": "Ngoài scope chạy hiện tại vì chỉ test POST /api/admin/coupons",
+    "authorization": "Bearer {{forgedAdminRoleToken}}",
+    "expectedStatus": 401,
+    "expectedResult": "API từ chối JWT bị chỉnh payload role=admin nhưng signature sai; coupon fixture không được xóa bởi token giả.",
+    "secId": "SEC-02, SEC-03",
+    "attackVector": "Forged JWT role escalation on DELETE admin coupon",
+    "skipReason": "",
     "assertions": [
-      "skip"
+      "common",
+      "errorOnly"
     ]
   },
   {
@@ -847,16 +851,18 @@
     "path": "/api/admin/coupons/{{createdCouponId}}",
     "contentType": "application/json",
     "bodyMode": "json",
-    "setupFlow": "",
+    "setupFlow": "createCouponForDelete",
     "rawBody": "{}",
-    "authorization": "",
-    "expectedStatus": "N/A",
+    "authorization": "Bearer {{adminToken}}",
+    "expectedStatus": 200,
     "expectedResult": "Response xóa coupon thành công là JSON có message kiểu string; không trả stack trace hoặc dữ liệu nhạy cảm.",
     "secId": "",
     "attackVector": "",
-    "skipReason": "Ngoài scope chạy hiện tại vì chỉ test POST /api/admin/coupons",
+    "skipReason": "",
     "assertions": [
-      "skip"
+      "common",
+      "successDeleteSchema",
+      "messageString"
     ]
   },
   {
@@ -869,14 +875,15 @@
     "bodyMode": "json",
     "setupFlow": "",
     "rawBody": "{}",
-    "authorization": "",
-    "expectedStatus": "N/A",
+    "authorization": "Bearer {{adminToken}}",
+    "expectedStatus": 404,
     "expectedResult": "Response lỗi khi xóa coupon không tồn tại nên là JSON có message/error rõ ràng, không trả HTML hoặc stack trace.",
     "secId": "",
     "attackVector": "",
-    "skipReason": "Ngoài scope chạy hiện tại vì chỉ test POST /api/admin/coupons",
+    "skipReason": "",
     "assertions": [
-      "skip"
+      "common",
+      "errorOnly"
     ]
   },
   {
