@@ -1,7 +1,4 @@
-# Báo cáo chính HW06 - API Testing
-
-> Phạm vi: chỉ viết Sections 1-5 theo template.  
-> Nguồn bằng chứng: các artifact trong `API-testing/`, file `api_specification.md` ở root, và workflow `.github/workflows/api-tests.yml`.
+# Báo cáo HW06 - API Testing
 
 ---
 
@@ -11,31 +8,27 @@
 
 | Trường | Thông tin |
 |---|---|
-| Họ tên | Chưa có trong artifact |
+| Họ tên | `Nguyễn Thanh Gia Bảo` |
 | MSSV | `23127158` |
-| Lớp | Chưa có trong artifact |
-| Môn học | API Testing / Software Testing |
+| Lớp | `23KTPM3` |
+| Môn học | API Testing |
 | Bài tập | `HW06 - API Testing` |
 | Hình thức nộp | Bài cá nhân |
-| GitHub Repository | `https://github.com/trngnneee/eshop-sut` |
-| Ngày nộp | `2026-08-23` |
+| GitHub Repository | https://github.com/trngnneee/eshop-sut/tree/HW6-Bao |
+
 
 ## 1.2 Hệ thống được kiểm thử
 
 | Trường | Thông tin |
 |---|---|
 | System Under Test | `EShop` |
-| Repository gốc | `https://github.com/ttbhanh/eshop-sut` |
-| Repository kiểm thử | `https://github.com/trngnneee/eshop-sut` |
+| Repository gốc | https://github.com/ttbhanh/eshop-sut |
+| Repository kiểm thử | https://github.com/trngnneee/eshop-sut/tree/HW6-Bao |
 | Base URL | `http://localhost:3000` |
 | Môi trường kiểm thử | Local Windows workspace; GitHub Actions dùng `ubuntu-latest`; backend chạy bằng Node.js |
 | Công cụ API testing | Postman collection JSON |
 | CLI runner | Newman với `newman-reporter-htmlextra` |
 | CI/CD | GitHub Actions |
-
-### Mục tiêu
-
-Mục tiêu của HW06 là tạo, audit, mở rộng, thực thi và báo cáo test API cho ba feature được chọn của EShop. Ba API được chọn bao phủ đủ ba pool bắt buộc: Pool A authentication (`FR-03`), Pool B coupon application (`FR-09`), và Pool C admin coupon management (`FR-17`). Test case được sinh bằng quy trình AI-driven theo từng stage, sau đó được review thủ công, bổ sung các case người kiểm thử tự phát hiện, chạy bằng Postman/Newman và tổng hợp thành bug report.
 
 ## 1.3 Các API được chọn
 
@@ -63,20 +56,17 @@ Mục tiêu của HW06 là tạo, audit, mở rộng, thực thi và báo cáo t
 | Input chính | `email`; reset flow dùng thêm `email`, `resetToken`, `newPassword` |
 | Response chính | Thành công trả JSON có message/reset token trong SUT này; lỗi validation/security nên trả JSON ổn định |
 
-API này bắt đầu luồng reset password bằng cách nhận email và sinh reset token/OTP. Endpoint `POST /api/reset-password` được dùng như endpoint liên quan để kiểm tra vòng đời đầy đủ của token: token thuộc đúng email, không dùng lại, bị vô hiệu khi có token mới, và có kiểm password policy hay không.
 
 ### 2.1.2 Test case do AI sinh
 
 | Loại bao phủ | Số test case | Ghi chú |
 |---|---:|---|
 | Domain Partition | 14 | Email format, thiếu/rỗng/null/sai kiểu, content type |
-| State Transition | 9 | Vòng đời reset token và các flow forgot-password/reset-password lặp lại |
-| Security | 15 | OTP entropy, rate limit, SQLi/XSS, user enumeration, token behavior |
+| State Transition | 6 | Vòng đời OTP/reset-password: yêu cầu lại OTP, email chưa đăng ký, token thay thế, rate limit |
+| Security | 11 | OTP entropy, SQLi/XSS, user enumeration, mass assignment, token exposure |
 | Schema Validation | 7 | Response body thành công/lỗi và kiểm dữ liệu nhạy cảm |
-| **Tổng stage output ban đầu do AI sinh** | **45** | Các file `01_domain_partitions.json` đến `04_schema_validation.json` |
+| **Tổng stage output ban đầu do AI sinh** | **38** | Các file `01_domain_partitions.json` đến `04_schema_validation.json` |
 | **AI rows còn lại trong CSV cuối** | **38** | CSV cuối gồm AI rows đã review và human extensions |
-
-AI generation được thực hiện bằng Codex/GPT-5 dựa trên API specification của EShop. Quy trình tách thành bốn stage: domain partitions, state transitions, security và schema validation. Prompt và output được ghi trong `API-testing/forgot-password/ai_audit_log.md`.
 
 ### 2.1.3 Human Audit
 
@@ -86,8 +76,6 @@ AI generation được thực hiện bằng Codex/GPT-5 dựa trên API specific
 | INVALID | 2 |
 | INCOMPLETE | 3 |
 | **Tổng AI rows được review** | **38** |
-
-Các case invalid/incomplete đã được review và sửa trong `API-testing/forgot-password/test_cases_master.csv`. Các human-added rows không tính vào số lượng audit AI.
 
 ### 2.1.4 Test case người kiểm thử bổ sung
 
@@ -112,19 +100,6 @@ Các case invalid/incomplete đã được review và sửa trong `API-testing/f
 | Blocked | 0 |
 | Not Executed | 0 |
 
-Các failure đáng chú ý gồm: invalid email/body vẫn trả response thành công hoặc không ổn định, OTP chỉ có 4 chữ số, thiếu rate limiting, có user enumeration, chấp nhận password yếu và thiếu cache-control cho reset token.
-
-**Thiết lập thực thi**
-
-- Collection: `API-testing/forgot_password.postman_collection.json`
-- Environment: `API-testing/eshop_api.postman_environment.json`
-- Data file: `API-testing/data/forgot-password.test-data.json`
-- Pre-request script: chuẩn bị request body, lưu OTP/reset token khi flow cần, và xử lý các flow reset-password nhiều bước.
-- Test script: kiểm HTTP status, JSON response shape, OTP format, sensitive field leakage và các assertion riêng của từng flow.
-- `X-Student-Id`: gắn giá trị `23127158` qua collection/environment variables và request headers.
-- Newman command: chạy `npm run forgot` trong thư mục `API-testing`.
-- Bằng chứng thực thi: `API-testing/forgot-password--report.html`.
-
 ### 2.1.6 Bug tìm được
 
 | Bug Report | Nhóm lỗi |
@@ -141,7 +116,7 @@ Các failure đáng chú ý gồm: invalid email/body vẫn trả response thàn
 
 | Metric | Kết quả |
 |---|---:|
-| Initial AI-generated stage output | 45 |
+| Initial AI-generated stage output | 38 |
 | AI rows retained after audit | 38 |
 | VALID | 33 |
 | INVALID | 2 |
@@ -171,8 +146,6 @@ Các failure đáng chú ý gồm: invalid email/body vẫn trả response thàn
 | Input chính | `code`, `total_amount`, `user_id` |
 | Response chính | Thành công nên có `discount_amount` và `final_amount`; lỗi nên là JSON |
 
-API này preview hoặc áp dụng tính toán giảm giá dựa trên coupon seed data và request body. Test suite cũng kiểm việc API có vô tình thay đổi `coupon_usage` trong lúc preview hay không, và liệu `user_id` có thể bị spoof để áp dụng coupon thay user khác hay không.
-
 ### 2.2.2 Test case do AI sinh
 
 | Loại bao phủ | Số test case | Ghi chú |
@@ -184,8 +157,6 @@ API này preview hoặc áp dụng tính toán giảm giá dựa trên coupon se
 | **Tổng stage output ban đầu do AI sinh** | **42** | Các file `01_domain_partitions.json` đến `04_schema_validation.json` |
 | **AI rows còn lại trong CSV cuối** | **42** | Trước khi thêm 7 human extensions |
 
-AI generation được thực hiện theo stage từ API specification, sau đó audit thủ công dựa trên seed data và Newman report thực tế. Audit log nằm ở `API-testing/apply-coupon/ai_audit_log.md`.
-
 ### 2.2.3 Human Audit
 
 | Audit Status | Số lượng |
@@ -194,8 +165,6 @@ AI generation được thực hiện theo stage từ API specification, sau đó
 | INVALID | 1 |
 | INCOMPLETE | 9 |
 | **Tổng AI rows được review** | **42** |
-
-Một số case incomplete đã được sửa vì data ban đầu tham chiếu coupon không tồn tại trong seed data hoặc expected status còn mơ hồ.
 
 ### 2.2.4 Test case người kiểm thử bổ sung
 
@@ -219,19 +188,6 @@ Một số case incomplete đã được sửa vì data ban đầu tham chiếu 
 | Failed | 31 |
 | Blocked | 1 |
 | Not Executed | 0 |
-
-Case blocked được đánh dấu `BLOCKED` trong CSV/report thay vì để fail như lỗi thông thường. Phần lớn failure tập trung vào tính sai discount, validation chưa đủ, thiếu auth/user binding, thiếu rate limit và lỗi quota/state.
-
-**Thiết lập thực thi**
-
-- Collection: `API-testing/apply_coupon.postman_collection.json`
-- Environment: `API-testing/eshop_api.postman_environment.json`
-- Data file: `API-testing/data/apply-coupon.test-data.json`
-- Pre-request script: load row data động và lazy-login seed user khi row cần `{{userToken}}`.
-- Test script: kiểm status, response schema, công thức tính tiền, money invariants, skipped/blocked behavior và error bodies.
-- `X-Student-Id`: gắn giá trị `23127158` qua request headers.
-- Newman command: chạy `npm run apply` trong thư mục `API-testing`.
-- Bằng chứng thực thi: `API-testing/apply-coupon-report.html`.
 
 ### 2.2.6 Bug tìm được
 
@@ -280,7 +236,6 @@ Case blocked được đánh dấu `BLOCKED` trong CSV/report thay vì để fai
 | Input chính | `code`, `type`, `discount_value`, `min_order_amount`, `expired_at`, `max_uses_per_user`; DELETE path `id` |
 | Response chính | Create success trả message/id; delete success trả message; lỗi nên dùng status code JSON ổn định |
 
-API này quản lý coupon ở phía admin. Collection bao phủ cả create và delete vì `FR-17` là coupon CRUD. Các row ngoài scope `POST/DELETE /api/admin/coupons` được giữ trong CSV để traceability nhưng đánh dấu `NOT EXECUTED`.
 
 ### 2.3.2 Test case do AI sinh
 
@@ -293,8 +248,6 @@ API này quản lý coupon ở phía admin. Collection bao phủ cả create và
 | **Tổng stage output ban đầu do AI sinh** | **42** | Các file `01_domain_partitions.json` đến `04_schema_validation.json` |
 | **AI rows còn lại trong CSV cuối** | **42** | Trước khi thêm 7 human extensions |
 
-Các case AI-generated được audit và sửa lại theo scope hiện tại. `DELETE /api/admin/coupons/:id` được chấp nhận là một phần của `FR-17`; các row `POST /api/apply-coupon` vẫn là ngoài scope thực thi hiện tại.
-
 ### 2.3.3 Human Audit
 
 | Audit Status | Số lượng |
@@ -303,8 +256,6 @@ Các case AI-generated được audit và sửa lại theo scope hiện tại. `
 | INVALID | 4 |
 | INCOMPLETE | 1 |
 | **Tổng AI rows được review** | **42** |
-
-Các row invalid chủ yếu là apply-coupon ngoài scope hoặc case không áp dụng được vì SUT không có tenant/store scope. Các DELETE cases đã được chuyển thành data-driven fixture chạy được.
 
 ### 2.3.4 Test case người kiểm thử bổ sung
 
@@ -328,19 +279,6 @@ Các row invalid chủ yếu là apply-coupon ngoài scope hoặc case không á
 | Failed | 31 |
 | Blocked | 0 |
 | Not Executed | 4 |
-
-Bốn row `NOT EXECUTED` là các apply-coupon state cases được giữ trong master CSV để traceability nhưng nằm ngoài scope chạy admin-coupons hiện tại. Các failure đã chạy cho thấy thiếu validation, thiếu enforce role admin, phân biệt sai `401/403`, duplicate trả raw SQLite error, và DELETE không phân biệt resource không tồn tại.
-
-**Thiết lập thực thi**
-
-- Collection: `API-testing/admin_coupons.postman_collection.json`
-- Environment: `API-testing/eshop_api.postman_environment.json`
-- Data file: `API-testing/data/admin-coupons.test-data.json`
-- Pre-request script: auto-login admin/user token, tạo coupon fixture tạm cho DELETE cases, và chuẩn bị forged/expired token variables.
-- Test script: kiểm status, success create/delete schemas, error-only responses, no sensitive fields, SQL/XSS leakage và normalization assertions.
-- `X-Student-Id`: gắn giá trị `23127158` qua request headers.
-- Newman command: chạy `npm run admin` trong thư mục `API-testing`.
-- Bằng chứng thực thi: `API-testing/admin-coupons-report.html`.
 
 ### 2.3.6 Bug tìm được
 
@@ -490,23 +428,3 @@ PROCEDURE GenerateApiTests(apiSpecification, selectedEndpoint)
     ExportCsv(allTests, "test_cases_master.csv")
 END PROCEDURE
 ```
-
-## 5.5 Đánh giá thiết kế generator
-
-### Điểm mạnh
-
-- Thiết kế bốn stage buộc AI bao phủ có hệ thống thay vì dùng một prompt chung chung.
-- Output của AI có trace rõ qua audit logs theo từng API, giúp review thủ công dễ hơn.
-- Data-driven Postman collections cho phép giữ một request template dễ bảo trì nhưng vẫn chạy được nhiều test case.
-- Human extension bắt được những gap AI thường bỏ sót, đặc biệt là sequence, security và hidden-state cases.
-
-### Hạn chế
-
-- AI vẫn sinh ra một số row invalid hoặc incomplete, đặc biệt khi seed data hoặc implementation behavior khác với đặc tả viết.
-- Một số security/state scenario cần multi-step fixtures hoặc endpoint liên quan, nên dễ bị bỏ sót nếu chỉ nhìn một endpoint.
-- Workspace local chưa có evidence GitHub Actions all-passing/failing run links; cần bổ sung sau khi chạy thật trên GitHub.
-- Self-drawn generator diagram hiện mới được reference, chưa embed trực tiếp vào Markdown này.
-
----
-
-> Kết thúc phạm vi Main Report theo template: Sections 1-5.

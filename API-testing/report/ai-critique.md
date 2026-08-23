@@ -1,0 +1,5 @@
+# AI Critique
+
+Sau khi làm việc với AI để xây dựng bộ test case này, em nhận thấy công cụ này rất mạnh ở tốc độ và khả năng bao phủ các trường hợp biên cơ bản. Tuy nhiên, AI lại thường bị tập trung quá mức vào lý thuyết và giả định một hệ thống hoạt động hoàn hảo theo đặc tả. Chẳng hạn, khi gặp lỗi trùng lặp dữ liệu hay token không hợp lệ, AI mặc định server sẽ xử lý mượt mà và trả về mã lỗi chuẩn (như 409 hay 401). Nhưng thực tế chạy thử nghiệm lại cho thấy server bị crash và trả về lỗi 500 hoặc 403 do SQLite hoặc cấu hình phân quyền phía dưới. Điều này xảy ra do mô hình ngôn ngữ lớn chỉ phân tích tĩnh trên văn bản đặc tả, hoàn toàn thiếu đi ngữ cảnh runtime thực tế của hệ thống.
+
+Bài học lớn nhất em rút ra là không bao giờ được tin tưởng hoàn toàn vào kết quả tự động của AI. AI chỉ đóng vai trò là một trợ lý đắc lực giúp rút ngắn thời gian chuẩn bị kịch bản ban đầu. Vai trò của con người trong việc chạy thực tế, phân tích log lỗi để điều chỉnh lại các mong đợi và viết thêm kịch bản nâng cao vẫn là yếu tố quyết định chất lượng kiểm thử.

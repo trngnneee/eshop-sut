@@ -1,97 +1,63 @@
-# API Testing Output
+# HW06 – API Testing — `README.md`
 
-Generated test cases for selected EShop APIs.
+**Student:** Nguyễn Thanh Gia Bảo | **MSSV:** 23127158 | **Lớp:** 23KTPM3
 
-| API slug | Method + endpoint | Related requirement | DomainPartition | StateTransition | Security | SchemaValidation | Total | Last run |
-|---|---|---|---:|---:|---:|---:|---:|---|
-| forgot-password | `POST /api/forgot-password` | FR-03 | 14 | 9 | 15 | 7 | 45 | Sun 08/23/2026 Asia/Saigon |
-| apply-coupon | `POST /api/apply-coupon` | FR-09 | 17 | 8 | 10 | 7 | 42 | Sun 08/23/2026 01:13 Asia/Saigon |
-| admin-coupons | `POST /api/admin/coupons`, `DELETE /api/admin/coupons/:id` | FR-17 | 15 | 8 | 11 | 8 | 42 | Sun 08/23/2026 02:15 Asia/Saigon |
+**Repository:** https://github.com/trngnneee/eshop-sut/tree/HW6-Bao
 
-## Files
+---
 
-- `specs/api_specification.md`: copied API specification used for generation.
-- `forgot-password/01_domain_partitions.json`: Stage 1 output.
-- `forgot-password/02_state_transitions.json`: Stage 2 output.
-- `forgot-password/03_security.json`: Stage 3 output.
-- `forgot-password/04_schema_validation.json`: Stage 4 output.
-- `forgot-password/test_cases_master.csv`: consolidated CSV for Excel.
-- `forgot-password/ai_audit_log.md`: AI audit log for the generation pipeline.
-- `apply-coupon/01_domain_partitions.json`: Stage 1 output.
-- `apply-coupon/02_state_transitions.json`: Stage 2 output.
-- `apply-coupon/03_security.json`: Stage 3 output.
-- `apply-coupon/04_schema_validation.json`: Stage 4 output.
-- `apply-coupon/test_cases_master.csv`: consolidated CSV for Excel.
-- `apply-coupon/ai_audit_log.md`: AI audit log for the generation pipeline.
-- `admin-coupons/01_domain_partitions.json`: Stage 1 output.
-- `admin-coupons/02_state_transitions.json`: Stage 2 output.
-- `admin-coupons/03_security.json`: Stage 3 output.
-- `admin-coupons/04_schema_validation.json`: Stage 4 output.
-- `admin-coupons/test_cases_master.csv`: consolidated CSV for Excel.
-- `admin-coupons/ai_audit_log.md`: AI audit log for the generation pipeline.
-- `forgot_password.postman_collection.json`: dedicated FR-03 data-driven collection generated from `forgot-password/test_cases_master.csv`, with one request template and deeper per-test-case assertions for OTP/reset-password flows.
-- `apply_coupon.postman_collection.json`: dedicated FR-09 data-driven collection with one request and per-row assertions from `data/apply-coupon.test-data.json`.
-- `admin_coupons.postman_collection.json`: Postman collection for FR-17 only.
-- `eshop_api.postman_collection.json`: combined data-driven Postman collection for all selected APIs.
-- `build_forgot_password_collection.js`: helper script to regenerate the dedicated FR-03 collection from `data/forgot-password.test-data.json`.
-- `build_apply_coupon_data_driven_collection.js`: helper script to regenerate the dedicated FR-09 collection from `data/apply-coupon.test-data.json`.
-- `data/test-data.json`: combined data-driven test case records used by Newman/Postman Collection Runner.
-- `data/forgot-password.test-data.json`: split data file for FR-03 forgot-password records.
-- `data/apply-coupon.test-data.json`: split data file for FR-09 apply-coupon records.
-- `data/admin-coupons.test-data.json`: split data file for FR-17 admin-coupons records.
+## Self-Assessment Table
 
-## Postman / Newman
+| No. | Criteria | Grade | Self-Assessed Grade |
+|---|---|---|---|
+| 1 | API 1 — full pipeline (generate + audit + extend + execute + bugs) | 30 | 30 |
+| 2 | API 2 — full pipeline (same criteria) | 30 | 30 |
+| 3 | API 3 — full pipeline (same criteria) | 30 | 30 |
+| 4 | Agent Skills (AI-driven test generator) | 10 | 10 |
+| | **Total** | **100** | **100** |
 
-Primary data-driven flow:
+---
 
-```text
-data/test-data.json
-  -> eshop_api.postman_collection.json
-  -> one iteration per test case record
-  -> dynamic request method/path/body/headers
-  -> pre-request login only when a row needs adminToken/userToken
-  -> assertions from expectedStatus and response contract
-  -> Newman HTML report
+## Test Summary Report
+
+- **Number of APIs tested:** 3
+- **Total test cases generated (AI):** 122
+- **Total test cases added (Human):** 21
+- **Total test cases (combined):** 143
+- **Total executed:** 139 _(4 Not Executed — out-of-scope rows kept for traceability)_
+- **Total passed:** 53
+- **Total failed:** 85
+- **Total blocked:** 1
+- **Total confirmed bugs:** 22
+
+| API | Endpoint(s) | Pool | FR | Domain<br>Partition | State<br>Transition | Security | Schema<br>Validation | Total | Passed | Failed |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| forgot-password | `POST /api/forgot-password` | A | FR-03 | 14 | 9 | 15 | 7 | **45** | 22 | 23 |
+| apply-coupon | `POST /api/apply-coupon` | B | FR-09 | 18 | 9 | 13 | 9 | **49** | 17 | 31 |
+| admin-coupons | `POST /api/admin/coupons`<br>`DELETE /api/admin/coupons/:id` | C | FR-17 | 18 | 10 | 13 | 8 | **49** | 14 | 31 |
+| **Total** | | | | **50** | **28** | **41** | **24** | **143** | **53** | **85** |
+
+---
+
+## Agent Skill — Demonstration Video
+
+YouTube link: https://youtu.be/VteHAszZx9A
+
+---
+
+## Running the Tests
+
+```bash
+# Install dependencies (from API-testing/)
+npm ci
+
+# Run individual collections
+npm run forgot   # FR-03 forgot-password
+npm run apply    # FR-09 apply-coupon
+npm run admin    # FR-17 admin-coupons
+npm run ci-pass  # Smoke test (CI all-passing demo)
 ```
 
-Split data files for easier review:
+Reports are saved to `report/html-report/`.
 
-```text
-data/forgot-password.test-data.json
-data/apply-coupon.test-data.json
-data/admin-coupons.test-data.json
-```
-
-Run the primary data-driven collection:
-
-```powershell
-newman run API-testing/eshop_api.postman_collection.json -e API-testing/eshop_api.postman_environment.json --iteration-data API-testing/data/test-data.json -r cli,html --reporter-html-export API-testing/newman-eshop-api-report.html
-```
-
-Run one API data file:
-
-```powershell
-newman run API-testing/eshop_api.postman_collection.json -e API-testing/eshop_api.postman_environment.json --iteration-data API-testing/data/forgot-password.test-data.json -r cli,html --reporter-html-export API-testing/newman-forgot-password-report.html
-```
-
-Run the dedicated forgot-password deep assertion collection:
-
-```powershell
-newman run API-testing/forgot_password.postman_collection.json -e API-testing/eshop_api.postman_environment.json --iteration-data API-testing/data/forgot-password.test-data.json -r cli,html --reporter-html-export API-testing/newman-forgot-password-deep-report.html
-```
-
-```powershell
-newman run API-testing/eshop_api.postman_collection.json -e API-testing/eshop_api.postman_environment.json --iteration-data API-testing/data/apply-coupon.test-data.json -r cli,html --reporter-html-export API-testing/newman-apply-coupon-report.html
-```
-
-```powershell
-newman run API-testing/eshop_api.postman_collection.json -e API-testing/eshop_api.postman_environment.json --iteration-data API-testing/data/admin-coupons.test-data.json -r cli,html --reporter-html-export API-testing/newman-admin-coupons-report.html
-```
-
-Run the dedicated apply-coupon data-driven collection:
-
-```powershell
-newman run API-testing/apply_coupon.postman_collection.json -e API-testing/eshop_api.postman_environment.json --iteration-data API-testing/data/apply-coupon.test-data.json -r cli,html --reporter-html-export API-testing/newman-apply-coupon-report.html
-```
-
-`apply_coupon.postman_collection.json` lazy-logins with the seed user `test@eshop.com` / `Test1234!` only when an iteration row uses `authorization: "Bearer {{userToken}}"`. Rows with empty `authorization` intentionally run without the header for no-auth/security cases. Override `testUserEmail`, `testUserPassword`, or `userToken` with Newman `--env-var` when needed.
+---

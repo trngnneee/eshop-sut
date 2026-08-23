@@ -78,9 +78,10 @@ jobs:
         with:
           name: newman-html-reports
           path: |
-            API-testing/forgot-password--report.html
-            API-testing/apply-coupon-report.html
-            API-testing/admin-coupons-report.html
+            API-testing/report/html-report/forgot-password-report.html
+            API-testing/report/html-report/apply-coupon-report.html
+            API-testing/report/html-report/admin-coupons-report.html
+            API-testing/report/html-report/ci-pass-smoke-report.html
 
       - name: Upload backend log
         uses: actions/upload-artifact@v4

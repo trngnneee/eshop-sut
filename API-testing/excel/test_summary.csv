@@ -1,0 +1,5 @@
+api_slug,endpoint,pool,ai_generated,human_added,total_test_cases,executed,passed,failed,blocked,not_executed,confirmed_bugs
+forgot-password,POST /api/forgot-password,Pool A,38,7,45,45,22,23,0,0,7
+apply-coupon,POST /api/apply-coupon,Pool B,42,7,49,49,17,31,1,0,8
+admin-coupons,"POST /api/admin/coupons, DELETE /api/admin/coupons/:id",Pool C,42,7,49,45,14,31,0,4,7
+Total,-,-,122,21,143,139,53,85,1,4,22
