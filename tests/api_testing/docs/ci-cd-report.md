@@ -69,8 +69,8 @@ iterations 1/0 · requests 14/0 · assertions 11 / FAILED 1
 
 | Commit | Suite | Trigger | Trạng thái | Link run | Screenshot |
 |--------|-------|---------|-----------|----------|------------|
-| **A** (all-pass) | green | push (commit `2b3c804`) | ✅ xanh (28s) | https://github.com/trngnneee/eshop-sut/actions/runs/32619544526 | `newman/screenshots/ci-run-all-pass.png` |
-| **B** (đúng 1 fail) | onefail | push commit `[ci-onefail]` (`498a70d`) | ❌ đỏ — 1 fail (BUG-05) | https://github.com/trngnneee/eshop-sut/actions/runs/32619881963 | `newman/screenshots/ci-run-fail.png` |
+| **A** (all-pass) | green | push (commit `2b3c804`) | ✅ xanh (28s) | https://github.com/trngnneee/eshop-sut/actions/runs/32619544526 | `newman/screenshots/ci-run-all-pass.jpg` |
+| **B** (đúng 1 fail) | onefail | push commit `[ci-onefail]` (`498a70d`) | ❌ đỏ — 1 fail (BUG-05) | https://github.com/trngnneee/eshop-sut/actions/runs/32619881963 | `newman/screenshots/ci-run-fail.jpg` |
 
 **Cách tạo 2 run (workflow đang ở nhánh `HW06-Nguyen`, chưa lên `main` nên KHÔNG có nút Run workflow):**
 
@@ -87,7 +87,7 @@ git push
 
 3. (Tùy chọn) Nếu muốn dùng nút **Run workflow → suite=onefail**: merge/đưa `api-tests.yml` lên nhánh mặc định `main` trước, rồi mới dispatch được.
 
-4. Mở mỗi run → chụp screenshot (summary + bảng Newman) → lưu `newman/screenshots/ci-run-all-pass.png`, `ci-run-one-fail.png`.
+4. Mở mỗi run → chụp screenshot (summary + bảng Newman) → lưu `newman/screenshots/ci-run-all-pass.jpg`, `ci-run-one-fail.png`.
 
 5. Tải artifact `newman-report-<suite>` để xem report HTML.
 

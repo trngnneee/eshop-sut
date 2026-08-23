@@ -49,13 +49,13 @@ TC-P1-007 assert `pm.response.code === 404` FAIL (nhận 200).
 Run tổng: **Postman Runner 905 tests → 629 pass / 276 fail**; **Newman 893 assertions / 327 failed** (các fail là bằng chứng bug, không phải lỗi test).
 
 - `tests/api_testing/newman/report.html` (htmlextra — lọc theo TC-ID ở cột Failed)
-- `tests/api_testing/newman/screenshots/postman-run-result.png`
-- `tests/api_testing/newman/screenshots/newman-terminal-localhost.png` (chứng minh host `localhost:3000`)
-- `tests/api_testing/newman/screenshots/newman-htmlextra-summary.png`
+- `tests/api_testing/newman/screenshots/postman-run-result.jpg`
+- `tests/api_testing/newman/screenshots/newman-terminal-localhost.jpg` (chứng minh host `localhost:3000`)
+- `tests/api_testing/newman/screenshots/newman-htmlextra-summary.jpg`
 
 
 **GitHub Issue:** [#450](https://github.com/trngnneee/eshop-sut/issues/450)
 
 **Screenshot Issue:**
 
-![Issue #450](screenshots/issue-450-not-found-200.png)
+![Issue #450](screenshots/issue-450-not-found-200.jpg)

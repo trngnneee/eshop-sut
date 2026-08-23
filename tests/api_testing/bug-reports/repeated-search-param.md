@@ -48,13 +48,13 @@ TC-P1-044 assert length 0 — case cố ý ghi nhận hành vi sai (thất bại
 Run tổng: **Postman Runner 905 tests → 629 pass / 276 fail**; **Newman 893 assertions / 327 failed** (các fail là bằng chứng bug, không phải lỗi test).
 
 - `tests/api_testing/newman/report.html` (htmlextra — lọc theo TC-ID ở cột Failed)
-- `tests/api_testing/newman/screenshots/postman-run-result.png`
-- `tests/api_testing/newman/screenshots/newman-terminal-localhost.png` (chứng minh host `localhost:3000`)
-- `tests/api_testing/newman/screenshots/newman-htmlextra-summary.png`
+- `tests/api_testing/newman/screenshots/postman-run-result.jpg`
+- `tests/api_testing/newman/screenshots/newman-terminal-localhost.jpg` (chứng minh host `localhost:3000`)
+- `tests/api_testing/newman/screenshots/newman-htmlextra-summary.jpg`
 
 
 **GitHub Issue:** [#455](https://github.com/trngnneee/eshop-sut/issues/455)
 
 **Screenshot Issue:**
 
-![Issue #455](screenshots/issue-455-repeated-search.png)
+![Issue #455](screenshots/issue-455-repeated-search.jpg)

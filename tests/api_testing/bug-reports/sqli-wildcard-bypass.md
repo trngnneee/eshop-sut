@@ -50,13 +50,13 @@ TC-P1-040 (`%`) assert length 0 FAIL (nhận 5). TC-P1-045 (tautology) FAIL.
 Run tổng: **Postman Runner 905 tests → 629 pass / 276 fail**; **Newman 893 assertions / 327 failed** (các fail là bằng chứng bug, không phải lỗi test).
 
 - `tests/api_testing/newman/report.html` (htmlextra — lọc theo TC-ID ở cột Failed)
-- `tests/api_testing/newman/screenshots/postman-run-result.png`
-- `tests/api_testing/newman/screenshots/newman-terminal-localhost.png` (chứng minh host `localhost:3000`)
-- `tests/api_testing/newman/screenshots/newman-htmlextra-summary.png`
+- `tests/api_testing/newman/screenshots/postman-run-result.jpg`
+- `tests/api_testing/newman/screenshots/newman-terminal-localhost.jpg` (chứng minh host `localhost:3000`)
+- `tests/api_testing/newman/screenshots/newman-htmlextra-summary.jpg`
 
 
 **GitHub Issue:** [#457](https://github.com/trngnneee/eshop-sut/issues/457)
 
 **Screenshot Issue:**
 
-![Issue #457](screenshots/issue-457-sqli-wildcard.png)
+![Issue #457](screenshots/issue-457-sqli-wildcard.jpg)

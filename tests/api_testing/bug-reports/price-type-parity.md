@@ -50,13 +50,13 @@ Postman: tab Test Results của TC-P1-004 (`typeof price === "number"` FAIL) và
 Run tổng: **Postman Runner 905 tests → 629 pass / 276 fail**; **Newman 893 assertions / 327 failed** (các fail là bằng chứng bug, không phải lỗi test).
 
 - `tests/api_testing/newman/report.html` (htmlextra — lọc theo TC-ID ở cột Failed)
-- `tests/api_testing/newman/screenshots/postman-run-result.png`
-- `tests/api_testing/newman/screenshots/newman-terminal-localhost.png` (chứng minh host `localhost:3000`)
-- `tests/api_testing/newman/screenshots/newman-htmlextra-summary.png`
+- `tests/api_testing/newman/screenshots/postman-run-result.jpg`
+- `tests/api_testing/newman/screenshots/newman-terminal-localhost.jpg` (chứng minh host `localhost:3000`)
+- `tests/api_testing/newman/screenshots/newman-htmlextra-summary.jpg`
 
 
 **GitHub Issue:** [#452](https://github.com/trngnneee/eshop-sut/issues/452)
 
 **Screenshot Issue:**
 
-![Issue #452](screenshots/issue-452-price-type.png)
+![Issue #452](screenshots/issue-452-price-type.jpg)

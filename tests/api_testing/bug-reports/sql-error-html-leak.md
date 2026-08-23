@@ -49,13 +49,13 @@ TC-P1-050 assert Content-Type application/json + không chứa `<h1>`/`SQLITE` F
 Run tổng: **Postman Runner 905 tests → 629 pass / 276 fail**; **Newman 893 assertions / 327 failed** (các fail là bằng chứng bug, không phải lỗi test).
 
 - `tests/api_testing/newman/report.html` (htmlextra — lọc theo TC-ID ở cột Failed)
-- `tests/api_testing/newman/screenshots/postman-run-result.png`
-- `tests/api_testing/newman/screenshots/newman-terminal-localhost.png` (chứng minh host `localhost:3000`)
-- `tests/api_testing/newman/screenshots/newman-htmlextra-summary.png`
+- `tests/api_testing/newman/screenshots/postman-run-result.jpg`
+- `tests/api_testing/newman/screenshots/newman-terminal-localhost.jpg` (chứng minh host `localhost:3000`)
+- `tests/api_testing/newman/screenshots/newman-htmlextra-summary.jpg`
 
 
 **GitHub Issue:** [#456](https://github.com/trngnneee/eshop-sut/issues/456)
 
 **Screenshot Issue:**
 
-![Issue #456](screenshots/issue-456-sql-error-html.png)
+![Issue #456](screenshots/issue-456-sql-error-html.jpg)

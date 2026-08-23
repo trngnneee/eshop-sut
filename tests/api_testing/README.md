@@ -99,8 +99,8 @@ tests/api_testing/
 
 | Yêu cầu | Bằng chứng |
 |---------|-----------|
-| Header `X-Student-Id: 23127438` do pre-request script chèn | `newman/screenshots/console-x-student-id.png` (Postman Console log `[HW06] X-Student-Id = 23127438 -> ...`) |
-| Newman chạy trên `localhost`/`127.0.0.1` | `newman/screenshots/newman-terminal-localhost.png` |
+| Header `X-Student-Id: 23127438` do pre-request script chèn | `newman/screenshots/console-x-student-id.jpg` (Postman Console log `[HW06] X-Student-Id = 23127438 -> ...`) |
+| Newman chạy trên `localhost`/`127.0.0.1` | `newman/screenshots/newman-terminal-localhost.jpg` |
 | Diagram AI test-generator **tự vẽ** | `.agent/skills/api-fr-testing/architecture.drawio` + `.png` (thiết kế bởi SV) |
 
 ---

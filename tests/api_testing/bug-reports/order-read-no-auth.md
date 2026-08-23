@@ -48,13 +48,13 @@ TC-O2-058 assert 401/403 FAIL (nhận 200, body chứa shipping_address).
 Run tổng: **Postman Runner 905 tests → 629 pass / 276 fail**; **Newman 893 assertions / 327 failed** (các fail là bằng chứng bug, không phải lỗi test).
 
 - `tests/api_testing/newman/report.html` (htmlextra — lọc theo TC-ID ở cột Failed)
-- `tests/api_testing/newman/screenshots/postman-run-result.png`
-- `tests/api_testing/newman/screenshots/newman-terminal-localhost.png` (chứng minh host `localhost:3000`)
-- `tests/api_testing/newman/screenshots/newman-htmlextra-summary.png`
+- `tests/api_testing/newman/screenshots/postman-run-result.jpg`
+- `tests/api_testing/newman/screenshots/newman-terminal-localhost.jpg` (chứng minh host `localhost:3000`)
+- `tests/api_testing/newman/screenshots/newman-htmlextra-summary.jpg`
 
 
 **GitHub Issue:** [#451](https://github.com/trngnneee/eshop-sut/issues/451)
 
 **Screenshot Issue:**
 
-![Issue #451](screenshots/issue-451-order-read-no-auth.png)
+![Issue #451](screenshots/issue-451-order-read-no-auth.jpg)
