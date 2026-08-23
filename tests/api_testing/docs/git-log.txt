@@ -1,0 +1,510 @@
+===================================================================
+HW06 — API Testing · Git Commit Log
+Repo: trngnneee/eshop-sut · MSSV: 23127438 · Export: 2026-08-23
+Nhánh: HW06-Nguyen
+===================================================================
+
+----- 1) Tóm tắt (oneline, mới → cũ) -----
+bd36014 (HEAD -> HW06-Nguyen, origin/HW06-Nguyen) Add bug reports and screenshots for various issues; update README files
+6b3d508 Add API functional testing resources and generator script
+4bfad86 Add screenshots for CI run results (pass and fail)
+498a70d ci: demo one-fail run [ci-onefail]
+63a9e47 ci: run onefail suite on marker
+2b3c804 Add GitHub Actions workflow for API tests using Newman
+0d883f3 Update AI Audit Report and Disclosure Form with revised test case counts and verification details
+4dd3550 Add multiple bug reports for API testing failures
+0601698 Add screenshots and update Postman environment for HW06 submission
+98fab86 Add Postman features documentation and data-driven tests for API validation
+18c7127 Refactor code structure for improved readability and maintainability
+b621d25 Refactor AI Audit Report and Disclosure Form; update test case summaries and extend cases
+d374e24 Add AI test case audit documentation and refine existing test cases
+4557df8 Add comprehensive security and validation test cases for API-3
+1a5938b Add comprehensive test cases for API-2: Security, State Transition, and ID partitioning
+ebed285 Add comprehensive test cases for `GET /api/products/:id` endpoint using Equivalence Partitioning and Boundary Value Analysis
+a208a31 Add OpenAPI audit documentation and update openapi.yaml with corrections
+36fd20e Update package-lock.json and add API specification documentation
+c291580 (origin/main, origin/HW6-Tram, origin/HEAD, main) Delete tests directory
+c067b7f Delete Requirements directory
+63b004e Delete .agents/skills/domain_and_boundary_testing directory
+dc41066 setup skill for agent(antigravity)
+ddfb42f Test case login
+ad020a0 Test case login
+d897a21 Update issue templates
+957052d Fix url frontend-admin
+b4a0df5 Update Backend URL call cho FE
+1673255 Fix
+4c3230c Remove
+4065ae3 Update sqlite3 version
+
+----- 2) Thống kê số commit theo tác giả -----
+   182	khoadangwneee
+   106	trngnneee
+    57	blueToothFairy
+    45	giabao1509
+    40	Võ Ngọc Bích Trâm
+    22	Bao Nguyen
+     5	PandoraMiracle
+     4	Đặng Trường Nguyên
+     1	Hanh Tran
+     1	Khoa HW3 Evidence
+     1	ttbhanh-hcmus
+
+----- 3) Chi tiết từng commit (kèm file thay đổi) -----
+
+=== bd36014 · 2026-08-23 13:21 · trngnneee ===
+Add bug reports and screenshots for various issues; update README files
+- Added detailed bug reports for issues #452, #453, #454, #455, #456, #457, #458, and #459, including GitHub issue links and screenshots.
+- Created a new README for screenshots to standardize naming and documentation for bug issue images.
+- Included new screenshots for each bug report to provide visual evidence of the issues.
+- Updated CI/CD report and overall testing documentation to reflect the latest findings and processes.
+- Removed outdated README for Newman screenshots as the information is now consolidated.
+
+ .DS_Store                                          | Bin 0 -> 6148 bytes
+ .agent/skills/api-fr-testing/SKILL.md              |   6 +
+ tests/api_testing/.DS_Store                        | Bin 0 -> 6148 bytes
+ tests/api_testing/HW06_TestCases.xlsx              | Bin 0 -> 39260 bytes
+ tests/api_testing/README.md                        | 117 +++++++++++++++++
+ tests/api_testing/bug-reports/cancel-shipping.md   |   7 +
+ .../bug-reports/empty-body-null-record.md          |   7 +
+ .../api_testing/bug-reports/error-html-not-json.md |   7 +
+ tests/api_testing/bug-reports/id-no-validation.md  |   7 +
+ tests/api_testing/bug-reports/id-non-canonical.md  |   7 +
+ .../bug-reports/jwt-hardcoded-secret.md            |   7 +
+ tests/api_testing/bug-reports/missing-nosniff.md   |   7 +
+ tests/api_testing/bug-reports/name-over-255.md     |   7 +
+ .../api_testing/bug-reports/no-input-validation.md |   7 +
+ tests/api_testing/bug-reports/no-op-not-found.md   |   7 +
+ tests/api_testing/bug-reports/not-found-200.md     |   7 +
+ .../api_testing/bug-reports/order-read-no-auth.md  |   7 +
+ tests/api_testing/bug-reports/price-type-parity.md |   7 +
+ .../bug-reports/product-crud-no-auth.md            |   7 +
+ tests/api_testing/bug-reports/put-null-fields.md   |   7 +
+ .../bug-reports/repeated-search-param.md           |   7 +
+ .../api_testing/bug-reports/screenshots/README.md  |  29 +++++
+ .../screenshots/issue-440-cancel-shipping.png      | Bin 0 -> 855474 bytes
+ .../screenshots/issue-441-empty-body.png           | Bin 0 -> 837168 bytes
+ .../screenshots/issue-442-error-html.png           | Bin 0 -> 856544 bytes
+ .../screenshots/issue-443-id-no-validation.png     | Bin 0 -> 842371 bytes
+ .../screenshots/issue-444-id-non-canonical.png     | Bin 0 -> 865572 bytes
+ .../screenshots/issue-445-jwt-forge.png            | Bin 0 -> 852347 bytes
+ .../bug-reports/screenshots/issue-446-nosniff.png  | Bin 0 -> 832804 bytes
+ .../screenshots/issue-447-name-over-255.png        | Bin 0 -> 825758 bytes
+ .../screenshots/issue-448-no-validation.png        | Bin 0 -> 880284 bytes
+ .../screenshots/issue-449-no-op-not-found.png      | Bin 0 -> 853123 bytes
+ .../screenshots/issue-450-not-found-200.png        | Bin 0 -> 836320 bytes
+ .../screenshots/issue-451-order-read-no-auth.png   | Bin 0 -> 836671 bytes
+ .../screenshots/issue-452-price-type.png           | Bin 0 -> 855232 bytes
+ .../screenshots/issue-453-crud-no-auth.png         | Bin 0 -> 868944 bytes
+ .../screenshots/issue-454-put-null-fields.png      | Bin 0 -> 843300 bytes
+ .../screenshots/issue-455-repeated-search.png      | Bin 0 -> 829790 bytes
+ .../screenshots/issue-456-sql-error-html.png       | Bin 0 -> 854476 bytes
+ .../screenshots/issue-457-sqli-wildcard.png        | Bin 0 -> 875451 bytes
+ .../screenshots/issue-458-unicode-search.png       | Bin 0 -> 868893 bytes
+ .../screenshots/issue-459-union-leak.png           | Bin 0 -> 818026 bytes
+ .../api_testing/bug-reports/sql-error-html-leak.md |   7 +
+ .../bug-reports/sqli-wildcard-bypass.md            |   7 +
+ tests/api_testing/bug-reports/unicode-search.md    |   7 +
+ .../bug-reports/union-credential-leak.md           |   7 +
+ tests/api_testing/demo-video/README.md             |   5 +
+ tests/api_testing/docs/ai-critique.md              |  68 ++++++++++
+ tests/api_testing/docs/ci-cd-report.md             |  41 ++++--
+ tests/api_testing/docs/report.md                   | 141 +++++++++++++++++++++
+ tests/api_testing/newman/screenshots/README.md     |  13 --
+ 51 files changed, 534 insertions(+), 26 deletions(-)
+
+
+=== 6b3d508 · 2026-08-23 13:02 · trngnneee ===
+Add API functional testing resources and generator script
+- Introduced architecture diagram for API functional testing.
+- Added methodology documentation outlining conventions and detailed testing phases.
+- Created packaging guidelines for Postman collections and Newman usage.
+- Developed parameterized prompt sequences for AI-driven test case generation.
+- Implemented pseudocode for a 6-stage pipeline to generate test cases from OpenAPI specs.
+- Added a Python script to automate the test case generation process based on the defined pipeline.
+
+ .agent/skills/api-fr-testing/SKILL.md              |  98 ++++++++++++
+ .agent/skills/api-fr-testing/architecture.drawio   | 162 ++++++++++++++++++++
+ .agent/skills/api-fr-testing/architecture.png      | Bin 0 -> 1372148 bytes
+ .../api-fr-testing/references/methodology.md       |  89 +++++++++++
+ .../skills/api-fr-testing/references/packaging.md  |  79 ++++++++++
+ .agent/skills/api-fr-testing/references/prompts.md |  81 ++++++++++
+ .../skills/api-fr-testing/references/pseudocode.md |  56 +++++++
+ .agent/skills/api-fr-testing/scripts/generator.py  | 169 +++++++++++++++++++++
+ 8 files changed, 734 insertions(+)
+
+
+=== 4bfad86 · 2026-08-23 12:16 · trngnneee ===
+Add screenshots for CI run results (pass and fail)
+
+ .../api_testing/newman/screenshots/ci-run-all-pass.png | Bin 0 -> 696189 bytes
+ tests/api_testing/newman/screenshots/ci-run-fail.png   | Bin 0 -> 802108 bytes
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+
+=== 498a70d · 2026-08-23 12:14 · trngnneee ===
+ci: demo one-fail run [ci-onefail]
+
+
+=== 63a9e47 · 2026-08-23 12:14 · trngnneee ===
+ci: run onefail suite on marker
+
+ .github/workflows/api-tests.yml        | 16 ++++++++++++++--
+ tests/api_testing/docs/ci-cd-report.md | 21 ++++++++++++++-------
+ 2 files changed, 28 insertions(+), 9 deletions(-)
+
+
+=== 2b3c804 · 2026-08-23 12:06 · trngnneee ===
+Add GitHub Actions workflow for API tests using Newman
+- Create a new workflow file `.github/workflows/api-tests.yml` to run API tests on push and pull request events.
+- Configure the workflow to run Postman collections using Newman, with options for different test suites (green and onefail).
+- Set up environment variables and install necessary dependencies.
+- Implement steps to start the backend server, run tests, and upload reports regardless of test outcomes.
+
+Add CI/CD report documentation for HW06 API Testing
+
+- Create `tests/api_testing/docs/ci-cd-report.md` to document the CI/CD pipeline, including stages, triggers, and expected outcomes.
+- Detail the two test suites: green (all pass) and onefail (one intentional failure).
+- Include results from local Newman runs and instructions for creating demo runs.
+
+Add Postman collections for API testing
+
+- Create `tests/api_testing/postman/EShop-CI-green.postman_collection.json` for the green test suite with 10 passing cases.
+- Create `tests/api_testing/postman/EShop-CI-onefail.postman_collection.json` for the onefail test suite, including a case that intentionally fails (BUG-05).
+
+ .github/workflows/api-tests.yml                    |  73 +++
+ tests/api_testing/docs/ci-cd-report.md             |  78 +++
+ .../postman/EShop-CI-green.postman_collection.json | 490 ++++++++++++++++++
+ .../EShop-CI-onefail.postman_collection.json       | 561 +++++++++++++++++++++
+ 4 files changed, 1202 insertions(+)
+
+
+=== 0d883f3 · 2026-08-23 11:57 · trngnneee ===
+Update AI Audit Report and Disclosure Form with revised test case counts and verification details
+- Expanded the audit report to include additional steps and details on the Postman collection assembly and bug reporting.
+- Corrected the date in the AI Disclosure Form to reflect the accurate submission date.
+- Adjusted the summary of AI-generated artifacts in the audit report to reflect the correct counts after de-duplication and extension.
+- Enhanced the verification section in the Disclosure Form to include comprehensive testing and validation methods used.
+
+ .../[AI-02] - FIT@HCMUS - AI Audit Report_En.md          | 16 +++++++++++-----
+ .../[AI-03] - FIT@HCMUS - AI Disclosure Form_En.md       |  7 ++++---
+ 2 files changed, 15 insertions(+), 8 deletions(-)
+
+
+=== 4dd3550 · 2026-08-23 11:51 · trngnneee ===
+Add multiple bug reports for API testing failures
+- [BUG][API-1] Report on non-canonical ID acceptance (numeric affinity)
+- [BUG][API-2/API-3] Report on hardcoded JWT secret leading to token forgery and privilege escalation
+- [BUG][API-1] Report on missing `X-Content-Type-Options: nosniff` header
+- [BUG][API-3] Report on creation of product with `name` exceeding 255 characters
+- [BUG][API-3] Report on missing input validation for POST/PUT requests
+- [BUG][API-3] Report on PUT/DELETE operations returning 200 for non-existent IDs
+- [BUG][API-1] Report on GET requests returning 200 for non-existent IDs
+- [BUG][API-2] Report on unauthorized access to order details
+- [BUG][API-1] Report on inconsistent price type for products with even IDs
+- [BUG][API-3] Report on unauthorized CRUD operations on products
+- [BUG][API-3] Report on PUT requests nullifying unspecified fields
+- [BUG][API-1] Report on repeated search parameters causing silent failures
+- [BUG][API-1] Report on SQL errors leaking HTML and database error messages
+- [BUG][API-1] Report on SQL injection vulnerabilities with wildcard bypass
+- [BUG][API-1] Report on inconsistent Unicode search behavior
+- [BUG][API-1] Report on SQL injection allowing access to user credentials via UNION
+
+ tests/api_testing/bug-reports/README.md            | 32 ++++++++++++
+ tests/api_testing/bug-reports/cancel-shipping.md   | 56 +++++++++++++++++++++
+ .../bug-reports/empty-body-null-record.md          | 54 ++++++++++++++++++++
+ .../api_testing/bug-reports/error-html-not-json.md | 55 +++++++++++++++++++++
+ tests/api_testing/bug-reports/id-no-validation.md  | 56 +++++++++++++++++++++
+ tests/api_testing/bug-reports/id-non-canonical.md  | 54 ++++++++++++++++++++
+ .../bug-reports/jwt-hardcoded-secret.md            | 57 ++++++++++++++++++++++
+ tests/api_testing/bug-reports/missing-nosniff.md   | 53 ++++++++++++++++++++
+ tests/api_testing/bug-reports/name-over-255.md     | 53 ++++++++++++++++++++
+ .../api_testing/bug-reports/no-input-validation.md | 55 +++++++++++++++++++++
+ tests/api_testing/bug-reports/no-op-not-found.md   | 54 ++++++++++++++++++++
+ tests/api_testing/bug-reports/not-found-200.md     | 54 ++++++++++++++++++++
+ .../api_testing/bug-reports/order-read-no-auth.md  | 53 ++++++++++++++++++++
+ tests/api_testing/bug-reports/price-type-parity.md | 55 +++++++++++++++++++++
+ .../bug-reports/product-crud-no-auth.md            | 55 +++++++++++++++++++++
+ tests/api_testing/bug-reports/put-null-fields.md   | 56 +++++++++++++++++++++
+ .../bug-reports/repeated-search-param.md           | 53 ++++++++++++++++++++
+ .../api_testing/bug-reports/sql-error-html-leak.md | 54 ++++++++++++++++++++
+ .../bug-reports/sqli-wildcard-bypass.md            | 55 +++++++++++++++++++++
+ tests/api_testing/bug-reports/unicode-search.md    | 54 ++++++++++++++++++++
+ .../bug-reports/union-credential-leak.md           | 54 ++++++++++++++++++++
+ 21 files changed, 1122 insertions(+)
+
+
+=== 0601698 · 2026-08-23 11:35 · trngnneee ===
+Add screenshots and update Postman environment for HW06 submission
+- Created README.md for screenshot requirements
+- Added screenshots: console-x-student-id.png, postman-run-result.png, newman-terminal-localhost.png, newman-htmlextra-summary.png
+- Updated Postman environment with new secret values for forgedVictim, forgedAdminRole, forgedExpired, and tokenWrongSecret
+
+ tests/api_testing/newman/report-dd1.html           |  2838 +
+ tests/api_testing/newman/report-dd2.html           |  3383 +
+ tests/api_testing/newman/report.html               | 75600 +++++++++++++++++++
+ tests/api_testing/newman/screenshots/README.md     |    13 +
+ .../newman/screenshots/console-x-student-id.png    |   Bin 0 -> 736163 bytes
+ .../screenshots/newman-htmlextra-summary.png       |   Bin 0 -> 802467 bytes
+ .../screenshots/newman-terminal-localhost.png      |   Bin 0 -> 2092287 bytes
+ .../newman/screenshots/postman-run-result.png      |   Bin 0 -> 819014 bytes
+ .../postman/EShop-Local.postman_environment.json   |    10 +-
+ 9 files changed, 81839 insertions(+), 5 deletions(-)
+
+
+=== 98fab86 · 2026-08-23 11:04 · trngnneee ===
+Add Postman features documentation and data-driven tests for API validation
+- Created POSTMAN-FEATURES.md to document Postman features used in the testing suite.
+- Added folder for data-driven tests (04-DataDriven-CSV) with three requests:
+  - DD-1: GET /products with product IDs from product-ids.csv to validate response structure and types.
+  - DD-2: POST /products with various product data from products.csv to test validation and error handling.
+  - DD-3: PUT /orders/cancel with states from cancel-states.csv to check state transition logic.
+- Included CSV files for product IDs, product data, and cancel states to support data-driven testing.
+
+ .../postman/EShop-HW06.postman_collection.json     | 568 ++++++++++++++++++++-
+ tests/api_testing/postman/POSTMAN-FEATURES.md      |  58 +++
+ .../postman/_folder-04-DataDriven.item.json        | 289 +++++++++++
+ tests/api_testing/postman/data/cancel-states.csv   |   6 +
+ tests/api_testing/postman/data/product-ids.csv     |   6 +
+ tests/api_testing/postman/data/products.csv        |   7 +
+ 6 files changed, 933 insertions(+), 1 deletion(-)
+
+
+=== 18c7127 · 2026-08-23 10:57 · trngnneee ===
+Refactor code structure for improved readability and maintainability
+
+ .../postman/EShop-HW06.postman_collection.json     | 17387 +++++++++++++++++++
+ .../postman/EShop-Local.postman_environment.json   |   110 +
+ .../api_testing/postman/_folder-00-Setup.item.json |   372 +
+ .../api_testing/postman/_folder-01-API1.item.json  |  5005 ++++++
+ .../api_testing/postman/_folder-02-API2.item.json  |  5808 +++++++
+ .../api_testing/postman/_folder-03-API3.item.json  |  6134 +++++++
+ 6 files changed, 34816 insertions(+)
+
+
+=== b621d25 · 2026-08-23 10:12 · trngnneee ===
+Refactor AI Audit Report and Disclosure Form; update test case summaries and extend cases
+- Updated the AI Audit Report to reflect a total of 219 test cases after de-duplication and extension, including detailed descriptions of the audit process and findings.
+- Revised the AI Disclosure Form to include the consolidated summary of test cases generated and extended.
+- Created a new document for extended test cases, detailing cases that AI might miss based on spec alone, with explanations for each.
+- Added a comprehensive summary of all test cases across three APIs, including breakdowns by category and the rationale for each case.
+
+ .../[AI-02] - FIT@HCMUS - AI Audit Report_En.md    |  13 ++-
+ .../[AI-03] - FIT@HCMUS - AI Disclosure Form_En.md |   2 +-
+ tests/api_testing/docs/ai-testcase-audit.md        |   2 +
+ tests/api_testing/docs/extended-cases.md           |  53 +++++++++
+ .../api_testing/testcases/00-TestCases-Summary.md  | 124 +++++++++++++++++++++
+ 5 files changed, 187 insertions(+), 7 deletions(-)
+
+
+=== d374e24 · 2026-08-23 10:00 · trngnneee ===
+Add AI test case audit documentation and refine existing test cases
+- Created a new document `ai-testcase-audit.md` detailing the review process of AI-generated test cases, including classifications (VALID, INVALID, INCOMPLETE) and common AI errors.
+- Updated `API-1_Negative_Contract_TestCases.md` to include notes on the execution order for DELETE operations to prevent data integrity issues.
+- Revised `API-1_TestCases.md` to correct the expected outcome for TC-P1-044, clarifying the behavior of the search query.
+- Modified `API-2_TestCases.md` to enhance clarity on TC-O2-015 regarding body fields and their handling during cancellation.
+- Adjusted `API-3_Security_TestCases.md` to include execution order notes for DELETE operations and ensure proper teardown procedures.
+- Updated `API-3_TestCases.md` to consolidate TC-P3-048 into TC-P3-057 and added a new test case TC-P3-073 for missing headers.
+
+ tests/api_testing/docs/ai-testcase-audit.md        | 73 ++++++++++++++++++++++
+ .../testcases/API-1_Negative_Contract_TestCases.md |  2 +
+ tests/api_testing/testcases/API-1_TestCases.md     |  2 +-
+ tests/api_testing/testcases/API-2_TestCases.md     |  2 +-
+ .../testcases/API-3_Security_TestCases.md          |  2 +
+ tests/api_testing/testcases/API-3_TestCases.md     | 12 ++--
+ 6 files changed, 86 insertions(+), 7 deletions(-)
+
+
+=== 4557df8 · 2026-08-22 23:08 · trngnneee ===
+Add comprehensive security and validation test cases for API-3
+- Introduced a new test suite for security testing (API-3_Security_TestCases.md) covering access control, JWT forging, mass assignment, and stored XSS vulnerabilities.
+- Added detailed test cases for input validation (API-3_TestCases.md) focusing on product creation and updating, including equivalence partitioning and boundary value analysis for fields like name, price, and category_id.
+- Identified critical bugs related to missing authentication middleware and lack of input validation, with specific test cases highlighting these issues.
+
+ .../[AI-02] - FIT@HCMUS - AI Audit Report_En.md    |  14 +-
+ .../[AI-03] - FIT@HCMUS - AI Disclosure Form_En.md |   2 +-
+ .../postman/schemas/created-response.schema.json   |  12 ++
+ .../testcases/API-3_Schema_TestCases.md            | 156 ++++++++++++++
+ .../testcases/API-3_Security_TestCases.md          | 122 +++++++++++
+ tests/api_testing/testcases/API-3_TestCases.md     | 233 +++++++++++++++++++++
+ 6 files changed, 532 insertions(+), 7 deletions(-)
+
+
+=== 1a5938b · 2026-08-22 22:55 · trngnneee ===
+Add comprehensive test cases for API-2: Security, State Transition, and ID partitioning
+- Introduced security test cases (TC-O2-025 to TC-O2-037) focusing on JWT vulnerabilities, privilege escalation, IDOR, and mass assignment.
+- Implemented state transition test cases (TC-O2-016 to TC-O2-024) to validate order cancellation across different states, ensuring adherence to the order state machine.
+- Developed ID partitioning test cases (TC-O2-001 to TC-O2-015) to cover ownership checks and input validation for the order cancellation endpoint.
+- Documented findings and identified critical bugs related to JWT handling and state transitions.
+
+ .../[AI-02] - FIT@HCMUS - AI Audit Report_En.md    |  18 ++-
+ .../[AI-03] - FIT@HCMUS - AI Disclosure Form_En.md |   7 +-
+ .../postman/schemas/error-response.schema.json     |  11 ++
+ .../postman/schemas/message-response.schema.json   |  11 ++
+ .../testcases/API-2_Negative_Contract_TestCases.md |  92 ++++++++++++++
+ .../testcases/API-2_Schema_TestCases.md            | 134 ++++++++++++++++++++
+ .../testcases/API-2_Security_TestCases.md          | 141 +++++++++++++++++++++
+ .../testcases/API-2_StateTransition_TestCases.md   | 116 +++++++++++++++++
+ tests/api_testing/testcases/API-2_TestCases.md     | 138 ++++++++++++++++++++
+ 9 files changed, 658 insertions(+), 10 deletions(-)
+
+
+=== ebed285 · 2026-08-22 22:38 · trngnneee ===
+Add comprehensive test cases for `GET /api/products/:id` endpoint using Equivalence Partitioning and Boundary Value Analysis
+- Created a new markdown file `API-1_TestCases.md` detailing test cases for the `GET /api/products/:id` API.
+- Included preconditions, valid and invalid input scenarios, boundary cases, and expected outcomes.
+- Documented the rationale for expected results based on the API contract and specifications.
+- Ensured coverage of various input types including valid integers, invalid strings, and edge cases.
+- Added sections for testing query parameters with `?search=` to validate search functionality.
+- Included notes on strict validation decisions and potential bugs identified during testing.
+
+ .../[AI-02] - FIT@HCMUS - AI Audit Report_En.md    |  92 +++++++
+ .../[AI-03] - FIT@HCMUS - AI Disclosure Form_En.md |  98 ++++++++
+ ...AI-05] - FIT@HCMUS - AI Privacy Checklist_En.md |  62 +++++
+ tests/api_testing/ai_declaration/signature.png     | Bin 0 -> 3911 bytes
+ tests/api_testing/openapi.yaml                     | 257 +++++++++++++++++--
+ .../postman/schemas/product-list.schema.json       |   8 +
+ .../postman/schemas/product.schema.json            |  36 +++
+ .../testcases/API-1_Negative_Contract_TestCases.md | 107 ++++++++
+ .../testcases/API-1_Schema_TestCases.md            | 168 +++++++++++++
+ .../testcases/API-1_Security_TestCases.md          | 124 ++++++++++
+ tests/api_testing/testcases/API-1_TestCases.md     | 273 +++++++++++++++++++++
+ 11 files changed, 1206 insertions(+), 19 deletions(-)
+
+
+=== a208a31 · 2026-08-22 22:00 · trngnneee ===
+Add OpenAPI audit documentation and update openapi.yaml with corrections
+- Created a new audit document for OpenAPI detailing discrepancies found during testing.
+- Updated openapi.yaml to reflect accurate API specifications, including:
+  - Corrections to expected response codes for authorization scenarios.
+  - Adjustments to line references for bug tracking.
+  - Clarifications in the x-test-partitions regarding expected vs actual behavior.
+  - Added vendor extensions for observed bugs and their severity.
+
+ tests/api_testing/{ => docs}/api_specification.md |  54 +-
+ tests/api_testing/docs/openapi-audit.md           | 138 ++++
+ tests/api_testing/openapi.yaml                    | 798 ++++++++++++++++++++++
+ 3 files changed, 975 insertions(+), 15 deletions(-)
+
+
+=== 36fd20e · 2026-08-22 21:40 · trngnneee ===
+Update package-lock.json and add API specification documentation
+
+ backend/package-lock.json              |   1 -
+ tests/api_testing/api_specification.md | 194 +++++++++++++++++++++++++++++++++
+ 2 files changed, 194 insertions(+), 1 deletion(-)
+
+
+=== c291580 · 2026-07-09 21:24 · Đặng Trường Nguyên ===
+Delete tests directory
+
+ tests/test-cases/login/TC-LOGIN-001.md       |  22 ---
+ tests/test-cases/login/TC-LOGIN-002.md       |  22 ---
+ tests/test-cases/login/TC-LOGIN-003.md       |  25 ----
+ tests/test-cases/register/TC-REGISTER-001.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-002.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-003.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-004.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-005.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-006.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-007.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-008.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-009.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-010.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-011.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-012.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-013.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-014.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-015.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-016.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-017.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-018.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-019.md |  26 ----
+ tests/test-cases/register/TC-REGISTER-020.md |  26 ----
+ tests/test-runs/sprint-1-test-run.md         |  11 --
+ tests/test-runs/sprint-2-test-run.md         |  16 ---
+ tests/test-summary/traceability-matrix.md    |   8 --
+ tests/test_fr02.py                           | 191 ---------------------------
+ tests/work-division.md                       |  57 --------
+ 28 files changed, 872 deletions(-)
+
+
+=== c067b7f · 2026-07-09 21:24 · Đặng Trường Nguyên ===
+Delete Requirements directory
+
+ Requirements/Requirements.pdf | Bin 403870 -> 0 bytes
+ Requirements/Rule.pdf         | Bin 415258 -> 0 bytes
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+
+=== 63b004e · 2026-07-09 21:24 · Đặng Trường Nguyên ===
+Delete .agents/skills/domain_and_boundary_testing directory
+
+ .../skills/domain_and_boundary_testing/SKILL.md    | 117 ------------
+ .../examples/register_config.json                  |  34 ----
+ .../scripts/generate_test_cases.py                 | 212 ---------------------
+ 3 files changed, 363 deletions(-)
+
+
+=== dc41066 · 2026-06-23 13:54 · khoadangwneee ===
+setup skill for agent(antigravity)
+
+ .../skills/domain_and_boundary_testing/SKILL.md    |  117 ++
+ .../examples/register_config.json                  |   34 +
+ .../scripts/generate_test_cases.py                 |  212 +++
+ backend/database.sqlite                            |  Bin 0 -> 36864 bytes
+ backend/package-lock.json                          | 1667 ++++++++++++++++++++
+ frontend-admin/package-lock.json                   |   35 +-
+ frontend-web/package-lock.json                     |   35 +-
+ tests/test-cases/login/TC-LOGIN-002.md             |    2 +-
+ tests/test-cases/login/TC-LOGIN-003.md             |    2 +-
+ tests/test-cases/register/TC-REGISTER-001.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-002.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-003.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-004.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-005.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-006.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-007.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-008.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-009.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-010.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-011.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-012.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-013.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-014.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-015.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-016.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-017.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-018.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-019.md       |   26 +
+ tests/test-cases/register/TC-REGISTER-020.md       |   26 +
+ tests/test-runs/sprint-1-test-run.md               |    4 +-
+ tests/test-runs/sprint-2-test-run.md               |   16 +
+ tests/test-summary/traceability-matrix.md          |    4 +-
+ tests/test_fr02.py                                 |  191 +++
+ tests/work-division.md                             |   57 +
+ 34 files changed, 2844 insertions(+), 52 deletions(-)
+
+
+=== ddfb42f · 2026-06-08 16:47 · khoadangwneee ===
+Test case login
+
+
+=== ad020a0 · 2026-06-08 16:45 · khoadangwneee ===
+Test case login
+
+ .github/ISSUE_TEMPLATE/bug_report.md      |  48 ++++++++++++++++++++++++++++++
+ Requirements/Requirements.pdf             | Bin 0 -> 403870 bytes
+ Requirements/Rule.pdf                     | Bin 0 -> 415258 bytes
+ tests/test-cases/login/TC-LOGIN-001.md    |  22 ++++++++++++++
+ tests/test-cases/login/TC-LOGIN-002.md    |  22 ++++++++++++++
+ tests/test-cases/login/TC-LOGIN-003.md    |  25 ++++++++++++++++
+ tests/test-runs/sprint-1-test-run.md      |  11 +++++++
+ tests/test-summary/traceability-matrix.md |   8 +++++
+ 8 files changed, 136 insertions(+)
+
+
+=== d897a21 · 2026-06-08 16:42 · Đặng Trường Nguyên ===
+Update issue templates
+
+ .github/ISSUE_TEMPLATE/bug_report.md | 56 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
