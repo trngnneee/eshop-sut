@@ -18,7 +18,7 @@ Adapted from Med Kharbach, PhD (2026) — AI Use Policy Templates for Higher Edu
 | Assignment ID: | HW06 — API Testing |
 | Assignment Title: | API Testing on EShop (SUT) — 3 APIs: FR-05/06, FR-10, FR-15 |
 | AI Use Category (1–5): | Category |
-| Date: | 22/08/2026 |
+| Date: | 23/08/2026 |
 | Student name: | Dang Truong Nguyen |
 | Student ID: | 23127438 |
 
@@ -56,7 +56,7 @@ The full prompt set is in the AI Audit Report (Section 3), pasted verbatim. The 
 
 Be specific. Example: 'AI generated TC01–TC15 in Section 3.2; I rewrote TC04 and TC11; AI did NOT contribute to Sections 1, 2, 4, or the AI Critique.'
 
-Claude Code generated `plan.md`, `openapi.yaml`, the four reusable JSON Schemas under `postman/schemas/` (product, product-list, message-response, error-response), the four **API-1** files (TC-P1-001→083), the five **API-2** files (TC-O2-001→057), and the three **API-3** files (TC-P3-001→072: input-validation, security, schema), and the consolidated `testcases/00-TestCases-Summary.md` — **219 test cases** total after my Step-3 audit (de-duplication) and Step-4 extend passes. I decided the scope (3 APIs), the technique sequence, and DEC-01 (STRICT id validation); I ran the SUT and produced all cURL evidence for the "actual" columns (including forging JWTs with the leaked secret and probing all 5 order states); I wrote `docs/openapi-audit.md` correcting 5 AI mismatches. AI did NOT contribute to: the scope/technique decisions, the expected-result oracle, the self-drawn generator diagram, or the AI Critique. All three in-scope APIs are covered; remaining HW06 steps (Postman collection assembly, Newman run, CI/CD, agent-skill generator) are pending.
+Claude Code generated `plan.md`, `openapi.yaml`, the four reusable JSON Schemas under `postman/schemas/` (product, product-list, message-response, error-response), the four **API-1** files (TC-P1-001→083), the five **API-2** files (TC-O2-001→057), and the three **API-3** files (TC-P3-001→072: input-validation, security, schema), and the consolidated `testcases/00-TestCases-Summary.md` — **219 test cases** total after my Step-3 audit (de-duplication) and Step-4 extend passes. I decided the scope (3 APIs), the technique sequence, and DEC-01 (STRICT id validation); I ran the SUT and produced all cURL evidence for the "actual" columns (including forging JWTs with the leaked secret and probing all 5 order states); I wrote `docs/openapi-audit.md` correcting 5 AI mismatches. Building on that, Claude Code also assembled the **Postman collection** (`postman/EShop-HW06.postman_collection.json`, v2.1.0 — 238 requests over 7 folders, a collection-level pre-request that injects `X-Student-Id`, the 5 JSON Schemas as collection variables, and per-request order/product fixtures), the **environment** file, the three **data-driven CSV** files under `postman/data/`, the **99-Teardown** and **05-Mock-Spec** folders, `POSTMAN-FEATURES.md`, and the **20 bug-report issues** under `tests/api_testing/bug-reports/` (pushed to GitHub Issues #440–#459 via `gh`, at my explicit instruction). AI did NOT contribute to: the scope/technique decisions, the expected-result oracle, the self-drawn generator diagram, or the AI Critique. The remaining HW06 steps (CI/CD pipeline and the agent-skill generator) are pending.
 
 ### 5. How I reviewed, revised, or verified the AI output:
 
@@ -66,6 +66,7 @@ Describe your verification method (ran the test, checked the spec, asked the TA,
 - I validated `openapi.yaml` with Redocly (0 errors) and validated both JSON Schemas with Python `jsonschema` (Draft7Validator) against known-good and known-bad samples to prove they catch BUG-01/02 and extra fields.
 - For API-2 I forged JWTs with the leaked secret (`server.js:9`) using `jsonwebtoken` and drove the full order state machine (checkout → admin status updates) to reach each of the 5 states, confirming BUG-05 (user cancels a shipping order) and BUG-13 (forged-id token cancels another user's order).
 - I cross-checked expected results against the README FR spec and cited ISTQB / RFC 9110 / RFC 8259 / RFC 7519 in the audit reasoning column.
+- I verified the Postman collection by importing it and confirming every request script is syntactically valid (`node --check` on all 299 scripts, 0 errors), then ran the whole suite in the Postman Runner (905 tests → 629 pass / 276 fail) and Newman with htmlextra (893 assertions / 327 failed). The FAILs are the intended bug-catching results and map one-to-one to the confirmed defects; I captured console/terminal screenshots proving the `localhost:3000` host and the injected `X-Student-Id`. I caught and removed an AI bug-numbering inconsistency (between `plan.md §11` and the OpenAPI/test-case numbering) before filing issues, and I authorized and supervised the `gh` push to GitHub Issues myself.
 
 ### 6. Citation (if required by course style guide):
 
@@ -85,7 +86,7 @@ By signing below, I confirm that the disclosure above is accurate and complete. 
 | Class / Cohort: | 23KTPM3 |
 | Course: | CS423 / CSC13003 – Software Testing |
 | Instructor: | Msc. Tran Thi Bich Hanh |
-| Date: | 22/08/2026 |
+| Date: | 23/08/2026 |
 | Signature: | ![signature](./signature.png) |
 
 ## References
