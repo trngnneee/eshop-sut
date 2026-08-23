@@ -46,4 +46,4 @@ Backend trả HTTP `500 Internal Server Error` và body không phải JSON hợp
 
 ## Link Github Issue
 
-N/A
+https://github.com/trngnneee/eshop-sut/issues/462#issue-5227161461

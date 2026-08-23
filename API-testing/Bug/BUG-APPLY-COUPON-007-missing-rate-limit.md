@@ -45,4 +45,4 @@ Backend chỉ tiếp tục trả `404` cho coupon không tồn tại, chưa có 
 
 ## Link Github Issue
 
-N/A
+https://github.com/trngnneee/eshop-sut/issues/466#issue-5227190957

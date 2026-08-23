@@ -47,4 +47,4 @@ Backend vẫn trả HTTP `200` và response tính giảm giá, nghĩa là quota 
 
 ## Link Github Issue
 
-N/A
+https://github.com/trngnneee/eshop-sut/issues/464#issue-5227178980

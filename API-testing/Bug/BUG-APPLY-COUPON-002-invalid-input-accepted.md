@@ -51,4 +51,4 @@ Riêng case `code` là number trả `404` thay vì lỗi validation `400`, cho t
 
 ## Link Github Issue
 
-N/A
+https://github.com/trngnneee/eshop-sut/issues/461#issue-5227154335

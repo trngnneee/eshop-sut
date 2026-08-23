@@ -46,4 +46,4 @@ Backend đang từ chối đơn hàng tại đúng boundary `min_order_amount`, 
 
 ## Link Github Issue
 
-N/A
+https://github.com/trngnneee/eshop-sut/issues/463#issue-5227167875

@@ -48,4 +48,4 @@ Backend trả HTTP `200` và response thành công cho payload độc hại. Đ�
 
 ## Link Github Issue
 
-N/A
+https://github.com/trngnneee/eshop-sut/issues/465#issue-5227185096

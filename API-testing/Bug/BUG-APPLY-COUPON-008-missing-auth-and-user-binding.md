@@ -51,4 +51,4 @@ Endpoint vẫn trả `200 OK` và response áp dụng coupon thành công:
 
 ## Link Github Issue
 
-N/A
+https://github.com/trngnneee/eshop-sut/issues/467#issue-5227196864

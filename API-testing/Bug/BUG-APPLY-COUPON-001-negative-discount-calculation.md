@@ -52,4 +52,4 @@ Response thành công có `discount_amount` âm. Report ghi nhiều assertion fa
 
 ## Link Github Issue
 
-N/A
+https://github.com/trngnneee/eshop-sut/issues/460#issue-5227148291
