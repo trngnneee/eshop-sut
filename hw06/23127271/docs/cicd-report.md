@@ -64,6 +64,8 @@ Collection variable `ciFailDemo`: `false` (pass run) / `true` (fail demo run).
 | **Expected result** | 2 requests, 2 assertions, **0 failed** |
 | **ciFailDemo** | `false` |
 
+![Run A — GitHub Actions pass](../evidence/cicd/run-pass.png)
+
 ---
 
 ## 4. Run B — ONE FAIL (homework demo)
