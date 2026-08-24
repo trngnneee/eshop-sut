@@ -2,7 +2,7 @@ name: HW06 API Tests (Newman)
 
 on:
   push:
-    branches: [main]
+    branches: [HW6-Tram]
     paths:
       - "hw06/23127271/**"
       - "backend/**"
