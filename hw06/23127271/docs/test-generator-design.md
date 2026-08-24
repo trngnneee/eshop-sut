@@ -7,8 +7,8 @@
 | File | Purpose |
 |------|---------|
 | [`test-generator-diagram.mmd`](test-generator-diagram.mmd) | Flowchart (Mermaid source — self-authored) |
+| [`test-generator-diagram.png`](test-generator-diagram.png) | Self-drawn PNG for Moodle zip |
 | [`test-generator-pseudocode.md`](test-generator-pseudocode.md) | Pseudocode aligned with each diagram node |
-| `test-generator-diagram.png` | Export for Moodle zip *(generate from `.mmd` — see below)* |
 
 ## Export diagram to PNG
 
