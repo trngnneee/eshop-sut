@@ -21,7 +21,7 @@ The main HW06 suite (**280 TC / ~343 requests**) uses observe-only scripts and i
 
 | Item | Value |
 |------|--------|
-| **Trigger** | `push` to `main` (paths: `hw06/23127271/**`, `backend/**`, workflow file) + `workflow_dispatch` |
+| **Trigger** | `push` to `HW6-Tram` (paths: `hw06/23127271/**`, `backend/**`, workflow file) + `workflow_dispatch` |
 | **Runner** | `ubuntu-latest`, timeout 15 min |
 | **Node** | 20.x |
 | **Backend** | `backend/` → `npm ci` → `npm start` (background) |
@@ -57,9 +57,9 @@ Collection variable `ciFailDemo`: `false` (pass run) / `true` (fail demo run).
 
 | Field | Value |
 |-------|--------|
-| **Commit SHA** | _(fill after `git push`)_ |
-| **Commit message** | `HW06 CI: add GitHub Actions Newman pipeline (all tests pass)` |
-| **GitHub Actions URL** | https://github.com/trngnneee/eshop-sut/actions/runs/XXXX |
+| **Commit SHA** | `f156995` (workflow trigger); CI demo pass state from `53ff765` (`ciFailDemo=false`) |
+| **Commit message** | `HW06 CI: trigger GitHub Actions on HW6-Tram branch.` |
+| **GitHub Actions URL** | https://github.com/trngnneee/eshop-sut/actions/runs/32681951866 |
 | **Screenshot** | `evidence/cicd/run-pass.png` |
 | **Expected result** | 2 requests, 2 assertions, **0 failed** |
 | **ciFailDemo** | `false` |
