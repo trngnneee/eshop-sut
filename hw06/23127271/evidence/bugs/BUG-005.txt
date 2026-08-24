@@ -1,0 +1,15 @@
+BUG-005 — Admin can delete own account (FR-19 self-delete not enforced)
+Student: 23127271 | SUT: http://localhost:3000
+Source: Newman manual triage + Postman HW06 collection
+
+**HTTP 200 OK** on DELETE when path id equals the logged-in admin (`DELETE .../1` in Newman run).
+
+Newman log excerpt:
+
+```
+□ FR-19 — Admin Users / Security / TC-ADMINUSERS-SEC-003
+  DELETE http://localhost:3000/api/admin/users/1 [200 OK, 293B, 2ms]
+  '[TC-ADMINUSERS-SEC-003] primary status=', 200
+```
+
+Follow-up verify GET list also returned 200 (267B) — confirm whether admin row persists after re-test.

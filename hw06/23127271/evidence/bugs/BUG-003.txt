@@ -1,0 +1,13 @@
+BUG-003 — User can escalate to admin via PUT /api/users/me (role mass assignment)
+Student: 23127271 | SUT: http://localhost:3000
+Source: Newman manual triage + Postman HW06 collection
+
+**HTTP 200 OK** on PUT (Newman log). The SUT accepts `role` in the request body and persists it (confirmed in `server.js`: `if (role) { query += ", role = ?"; }`).
+
+Newman log excerpt:
+
+```
+□ FR-04 — Profile / Security / TC-PROFILE-SEC-007
+  PUT http://localhost:3000/api/users/me [200 OK, 296B, 16ms]
+  '[TC-PROFILE-SEC-007] primary status=', 200
+```

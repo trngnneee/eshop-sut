@@ -1,0 +1,13 @@
+BUG-007 — POST /api/cart accepts negative quantity
+Student: 23127271 | SUT: http://localhost:3000
+Source: Newman manual triage + Postman HW06 collection
+
+**HTTP 200 OK** on POST — cart accepts the payload without validation.
+
+Newman log excerpt:
+
+```
+□ FR-07 — Cart / Security / TC-CART-SEC-SUP-002
+  POST http://localhost:3000/api/cart [200 OK, 294B, 3ms]
+  '[TC-CART-SEC-SUP-002] primary status=', 200
+```

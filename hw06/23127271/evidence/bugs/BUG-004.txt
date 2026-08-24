@@ -1,0 +1,13 @@
+BUG-004 — GET /api/users/me exposes password hash (SEC-01 violation)
+Student: 23127271 | SUT: http://localhost:3000
+Source: Newman manual triage + Postman HW06 collection
+
+**HTTP 200 OK** with a **446-byte** JSON body (vs ~296B for simple PUT responses), consistent with full `SELECT *` row serialization including sensitive columns.
+
+Newman log excerpt:
+
+```
+□ FR-04 — Profile / SchemaValidation / TC-PROFILE-SCH-SUP-003
+  GET http://localhost:3000/api/users/me [200 OK, 446B, 2ms]
+  '[TC-PROFILE-SCH-SUP-003] primary status=', 200
+```

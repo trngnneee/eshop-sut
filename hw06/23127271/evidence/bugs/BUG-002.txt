@@ -1,0 +1,13 @@
+BUG-002 — Non-admin user receives HTTP 200 on DELETE /api/admin/users/:id
+Student: 23127271 | SUT: http://localhost:3000
+Source: Newman manual triage + Postman HW06 collection
+
+**HTTP 200 OK** with a JSON success-style body (~293B) when called with the **user** token.
+
+Newman log excerpt:
+
+```
+□ FR-19 — Admin Users / Security / TC-ADMINUSERS-SEC-002
+  DELETE http://localhost:3000/api/admin/users/<3> [200 OK, 293B, 3ms]
+  '[TC-ADMINUSERS-SEC-002] primary status=', 200
+```

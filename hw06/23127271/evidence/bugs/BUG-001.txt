@@ -1,0 +1,13 @@
+BUG-001 — Non-admin user can list all users via GET /api/admin/users
+Student: 23127271 | SUT: http://localhost:3000
+Source: Newman manual triage + Postman HW06 collection
+
+**HTTP 200 OK** — request succeeds with a JSON array of user records (Newman log ~267B response body).
+
+Newman log excerpt:
+
+```
+□ FR-19 — Admin Users / Security / TC-ADMINUSERS-SEC-SUP-002
+  GET http://localhost:3000/api/admin/users [200 OK, 267B, 3ms]
+  '[TC-ADMINUSERS-SEC-SUP-002] primary status=', 200
+```

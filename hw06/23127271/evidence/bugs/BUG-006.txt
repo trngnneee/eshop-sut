@@ -1,0 +1,15 @@
+BUG-006 — Profile PUT with Content-Type text/plain causes HTTP 500
+Student: 23127271 | SUT: http://localhost:3000
+Source: Newman manual triage + Postman HW06 collection
+
+**HTTP 500 Internal Server Error** (~1.84kB body).
+
+Newman log excerpt:
+
+```
+□ FR-04 — Profile / Security / TC-PROFILE-SEC-SUP-004
+  PUT http://localhost:3000/api/users/me [500 Internal Server Error, 1.84kB, 2ms]
+  '[TC-PROFILE-SEC-SUP-004] primary status=', 500
+```
+
+(TC-PROFILE-040 shows the same 500 pattern for `Content-Type: text/plain`.)
