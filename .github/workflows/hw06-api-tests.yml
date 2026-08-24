@@ -54,6 +54,7 @@ jobs:
 
       - name: Run Newman (CI demo folder)
         run: |
+          set -o pipefail
           mkdir -p hw06/23127271/reports
           newman run hw06/23127271/postman/eshop-hw06.postman_collection.json \
             --folder "CI — HW06 pipeline demo" \
