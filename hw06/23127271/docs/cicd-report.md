@@ -72,12 +72,16 @@ Collection variable `ciFailDemo`: `false` (pass run) / `true` (fail demo run).
 
 | Field | Value |
 |-------|--------|
-| **Commit SHA** | _(fill after second push)_ |
+| **Commit SHA** | `2d779e4` (`ciFailDemo=true`) |
 | **Commit message** | `HW06 CI: demo one failing test case for pipeline report` |
-| **GitHub Actions URL** | https://github.com/trngnneee/eshop-sut/actions/runs/XXXX |
+| **GitHub Actions URL** | https://github.com/trngnneee/eshop-sut/actions/runs/32682633159 |
 | **Screenshot** | `evidence/cicd/run-fail.png` |
 | **Expected result** | 2 requests, 2 assertions, **1 failed** — `INTENTIONAL CI FAIL DEMO` |
 | **ciFailDemo** | `true` |
+
+![Run B — GitHub Actions fail (intentional)](../evidence/cicd/run-fail.png)
+
+> Job fails red after workflow `set -o pipefail` fix (`38b091b`); Newman log on run `32682519811` already showed 1 assertion failure before pipefix.
 
 > Revert `ciFailDemo` to `false` after capturing screenshots (optional Commit 3).
 
