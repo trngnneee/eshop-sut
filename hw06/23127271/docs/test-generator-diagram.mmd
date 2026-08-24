@@ -1,0 +1,221 @@
+%% AI-Driven API Test Generator — HW06 G9.5
+%% Student: 23127271 | SUT: EShop (localhost:3000)
+%% Self-authored diagram. Export: Mermaid Live / VS Code → PNG for Moodle zip.
+%% Companion: docs/test-generator-pseudocode.md
+
+flowchart TB
+
+    INPUT["INPUT
+api_specification.md
+Feature ID + endpoint
+Student ID: 23127271
+SUT: localhost:3000
+Test design rules"]
+
+    PARSER["0. SPEC PARSER
+Extract:
+- HTTP method and path
+- Authentication
+- Request fields
+- Business rules
+- Applicable SEC rules
+- Response fields"]
+
+    CTX["SpecContext
+endpoint
+params[]
+sec[]
+rules[]"]
+
+    INPUT --> PARSER
+    PARSER --> CTX
+
+    ROUTER["1. PROMPT ROUTER
+Human-designed
+
+Split into 4 test categories:
+1. Domain partitions
+2. State transitions
+3. Security
+4. Schema validation
+
+Each prompt gets:
+- SpecContext
+- Category checklist
+- Output template"]
+
+    CTX --> ROUTER
+
+    GD["Gen-D
+Domain Partitions"]
+
+    GST["Gen-ST
+State Transitions"]
+
+    GSEC["Gen-SEC
+Security SEC-01..07"]
+
+    GSCH["Gen-SCH
+Schema Validation"]
+
+    ROUTER --> GD
+    ROUTER --> GST
+    ROUTER --> GSEC
+    ROUTER --> GSCH
+
+    AI["2. AI GENERATOR
+LLM
+
+For each category:
+Generate raw test cases
+
+Tools:
+Cursor / Grok / ChatGPT"]
+
+    GD --> AI
+    GST --> AI
+    GSEC --> AI
+    GSCH --> AI
+
+    LOG["AI AUDIT LOG
+ai_audit_log.md
+
+- Tool
+- Timestamp
+- Prompt
+- Output"]
+
+    AI -.-> LOG
+
+    AUDIT["3. HUMAN AUDIT GATE
+
+For each AI test case:
+VALID
+INVALID
+INCOMPLETE
+
+If needed:
+- Fix Expected Result
+- Fix Preconditions
+- Add reasoning
+
+Never delete silently"]
+
+    AI --> AUDIT
+
+    AUDITED["audited_test_cases.csv
+
+AuditStatus
+AuditReasoning"]
+
+    AUDIT --> AUDITED
+
+    EXTEND["4. HUMAN EXTEND
+At least 5 TC per API
+
+Add cases AI missed:
+- Concurrency
+- Privilege cases
+- Content-Type confusion
+- Encoding bypass
+
+Record Why AI missed"]
+
+    AUDITED --> EXTEND
+
+    SUP["Human Supplemental Cases
+TC-*-SUP-*
+Source = Human"]
+
+    EXTEND --> SUP
+
+    BUILDER["5. ARTIFACT BUILDER
+
+- Merge 4 categories
+- Export CSV and Excel
+- Build Summary tab
+- Build Postman collection
+- Setup login and tokens
+- One folder per test case
+- Add X-Student-Id
+- Observe-only scripts"]
+
+    SUP --> BUILDER
+
+    EXCEL["all-test-cases.xlsx"]
+    POSTMAN["Postman Collection JSON"]
+
+    BUILDER --> EXCEL
+    BUILDER --> POSTMAN
+
+    EXEC["6. EXECUTOR
+
+Run Newman
+343 requests
+
+Generate:
+- newman-report.html
+- newman-run.log
+
+Newman 0 failures
+does NOT mean SUT has no bugs"]
+
+    EXCEL --> EXEC
+    POSTMAN --> EXEC
+
+    REPORT["Newman Report
+Execution Log"]
+
+    EXEC --> REPORT
+
+    TRIAGE["7. BUG TRIAGE
+
+Compare:
+Actual Result
+vs
+Expected Result
+
+If genuine SUT bug:
+- Create BUG-00x.md
+- Create GitHub Issue
+- Attach evidence
+- Update PassFail
+- Update BugRef"]
+
+    REPORT --> TRIAGE
+    TRIAGE -.-> EXCEL
+
+    OUTPUT["OUTPUT
+
+- Test case sheet
+- Postman collection
+- Newman HTML report
+- Bug reports
+- AI Audit Log
+- Git commits"]
+
+    TRIAGE --> OUTPUT
+    LOG -.-> OUTPUT
+
+    MORE{"More APIs
+to test?"}
+
+    OUTPUT --> MORE
+
+    END["END
+Package and Submit"]
+
+    MORE -- No --> END
+    MORE -- Yes --> INPUT
+
+    classDef human fill:#dbeafe,stroke:#2563eb,stroke-width:2px
+    classDef ai fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    classDef data fill:#f3f4f6,stroke:#4b5563,stroke-width:2px
+    classDef io fill:#dcfce7,stroke:#16a34a,stroke-width:2px
+    classDef decision fill:#fce7f3,stroke:#db2777,stroke-width:2px
+
+    class PARSER,ROUTER,AUDIT,EXTEND,BUILDER,EXEC,TRIAGE human
+    class GD,GST,GSEC,GSCH,AI ai
+    class CTX,LOG,AUDITED,SUP,EXCEL,POSTMAN,REPORT data
+    class INPUT,OUTPUT,END io
+    class MORE decision

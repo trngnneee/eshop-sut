@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "bf1ce751-cc30-408e-b1a7-b39d100b1180",
     "name": "HW06 EShop API Tests — 23127271",
-    "description": "Combined execution collection for FR-04 / FR-07 / FR-19.\nStudent ID: 23127271\nRun Setup folder first, then category folders.\nNewman: newman run postman/eshop-hw06.postman_collection.json -e postman/eshop-hw06.postman_environment.json --folder \"00 — Setup (run first)\"",
+    "description": "Combined execution collection for FR-04 / FR-07 / FR-19.\nStudent ID: 23127271\nRun Setup folder first, then category folders.\nNewman: newman run postman/eshop-hw06.postman_collection.json -e postman/eshop-hw06.postman_environment.json --folder \"00 — Setup (run first)\"\nData-driven: folder \"99 — Data-driven Runner (CSV)\" + postman/runner-data-profile-phone.csv (5 phone partitions).\nCI: folder \"CI — HW06 pipeline demo\" for GitHub Actions (ciFailDemo variable).",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "event": [
@@ -54,6 +54,10 @@
     {
       "key": "lastStatus",
       "value": ""
+    },
+    {
+      "key": "ciFailDemo",
+      "value": "false"
     }
   ],
   "item": [
@@ -22257,6 +22261,245 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "99 — Data-driven Runner (CSV)",
+      "description": "FR-04 phone partition probe via Postman Collection Runner / Newman data file.\nStudent: 23127271\nData: postman/runner-data-profile-phone.csv (5 iterations)\nColumns: tc_id, test_phone, test_name, test_shipping_address, partition_note\nObserve-only — record status and GET /api/users/me phone after run; no invented HTTP codes.",
+      "item": [
+        {
+          "name": "1 — Login test user (per iteration)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = pm.iterationData.get('tc_id') || 'DD-PHONE-UNK';",
+                  "pm.test(`[${tcId}] login — response received`, function () {",
+                  "    pm.expect(pm.response.code).to.be.within(100, 599);",
+                  "});",
+                  "if (pm.response.code === 200) {",
+                  "    const body = pm.response.json();",
+                  "    if (body.token) pm.collectionVariables.set('userToken', body.token);",
+                  "}",
+                  "console.log(`[${tcId}] login status=`, pm.response.code);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@eshop.com\",\n  \"password\": \"Test1234!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/api/login"
+          }
+        },
+        {
+          "name": "2 — PUT /api/users/me ({{test_phone}})",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = pm.iterationData.get('tc_id') || 'DD-PHONE-UNK';",
+                  "const phone = pm.iterationData.get('test_phone') || '';",
+                  "const name = pm.iterationData.get('test_name') || 'Nguyen Van A';",
+                  "const addr = pm.iterationData.get('test_shipping_address') || '123 Le Loi';",
+                  "pm.variables.set('test_phone', phone);",
+                  "pm.variables.set('test_name', name);",
+                  "pm.variables.set('test_shipping_address', addr);",
+                  "console.log(`[${tcId}] iteration phone=`, phone);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tcId = pm.iterationData.get('tc_id') || 'DD-PHONE-UNK';",
+                  "const phone = pm.iterationData.get('test_phone') || '';",
+                  "const note = pm.iterationData.get('partition_note') || '';",
+                  "const step = 'data-driven-put';",
+                  "",
+                  "pm.test(`[${tcId}] ${step} — response received`, function () {",
+                  "    pm.expect(pm.response.code).to.be.within(100, 599);",
+                  "});",
+                  "",
+                  "pm.test(`[${tcId}] ${step} — JSON or empty body`, function () {",
+                  "    const ct = pm.response.headers.get('Content-Type') || '';",
+                  "    if (pm.response.text() && ct.includes('json')) {",
+                  "        pm.response.to.be.json;",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test(`[${tcId}] ${step} — response time < 10s`, function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(10000);",
+                  "});",
+                  "",
+                  "console.log(`[${tcId}] ${step} phone=${phone} status=`, pm.response.code);",
+                  "console.log(`[${tcId}] partition:`, note);",
+                  "console.log(`[${tcId}] oracle: record GET /api/users/me phone — FR-04 valid = 10-11 digits starting with 0`);",
+                  "pm.collectionVariables.set('lastTcId', tcId);",
+                  "pm.collectionVariables.set('lastStatus', String(pm.response.code));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"{{test_name}}\",\n  \"phone\": \"{{test_phone}}\",\n  \"shipping_address\": \"{{test_shipping_address}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/api/users/me",
+            "description": "Data-driven PUT from CSV iteration. Attach postman/runner-data-profile-phone.csv in Collection Runner."
+          }
+        }
+      ]
+    },
+    {
+      "name": "CI — HW06 pipeline demo",
+      "description": "GitHub Actions CI demo folder (2 requests).\nStudent: 23127271\nCollection variable ciFailDemo:\n  false / empty → all assertions pass (Run A)\n  true → exactly 1 failure on 'Fail demo — intentional' (Run B homework demo)\nRevert ciFailDemo after screenshot — homework fail demo only.",
+      "item": [
+        {
+          "name": "Pass — login 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('login 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const body = pm.response.json();",
+                  "pm.expect(body).to.have.property('token');",
+                  "console.log('[CI-PASS] login status=', pm.response.code);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@eshop.com\",\n  \"password\": \"Test1234!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/api/login"
+          }
+        },
+        {
+          "name": "Fail demo — intentional",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Revert ciFailDemo after screenshot — homework fail demo only",
+                  "const failDemo = pm.collectionVariables.get('ciFailDemo');",
+                  "if (failDemo === 'true') {",
+                  "    pm.test('INTENTIONAL CI FAIL DEMO', function () {",
+                  "        pm.response.to.have.status(404);",
+                  "    });",
+                  "} else {",
+                  "    pm.test('login 200', function () {",
+                  "        pm.response.to.have.status(200);",
+                  "    });",
+                  "}",
+                  "console.log('[CI-DEMO] ciFailDemo=', failDemo, 'status=', pm.response.code);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@eshop.com\",\n  \"password\": \"Test1234!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/api/login",
+            "description": "Same login as Setup. When ciFailDemo=true, asserts 404 to produce exactly one Newman failure for homework pipeline screenshot."
+          }
         }
       ]
     }

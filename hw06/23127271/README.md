@@ -1,29 +1,47 @@
-# HW06 API Testing — Student 23127271
+# HW06 — API Testing (23127271)
 
-**APIs:** FR-04 Profile · FR-07 Cart · FR-19 Admin Users  
-**SUT:** EShop backend (`http://localhost:3000`)
+**Student:** 23127271  
+**Scope:** FR-04 `PUT /api/users/me` · FR-07 `POST /api/cart` · FR-19 `DELETE /api/admin/users/:id`  
+**SUT:** `Repo/eshop-sut` · **280 test cases** · **8 bugs**
 
-## Layout
+## G9.5 — AI test generator (Agent Skills)
 
-| Path | Contents |
-|------|----------|
-| `tests/test-cases/` | Per-TC markdown (domain, state, security, schema) |
-| `sheets/` | CSV test-case sheets |
-| `postman/` | Newman/Postman collection + environment |
-| `reports/` | Newman CLI log + HTML report |
-| `bugs/` | Markdown bug reports |
-| `docs/` | Stage reports, audit, execution summary |
-| `scripts/` | Generators, audit helpers, Newman analysis |
-| `git-commit-log.txt` | Full git log for submission |
+| Path | What |
+|------|------|
+| `docs/test-generator-design.md` | Index + export instructions |
+| `docs/test-generator-diagram.mmd` | Flowchart (Mermaid — self-authored) |
+| `docs/test-generator-pseudocode.md` | Pseudocode mapped to diagram nodes |
+| `.cursor/skills/api-testing/SKILL.md` | Agent Skill implementation |
 
-## Newman
+Export `test-generator-diagram.mmd` → PNG for Moodle zip (see `test-generator-design.md`).
 
-```bash
-cd hw06/23127271
-newman run postman/eshop-hw06.postman_collection.json -r cli,htmlextra \
-  --reporter-htmlextra-export reports/newman-report.html
-```
+## Pipeline artifacts
 
-Do **not** pass `-e postman/eshop-hw06.postman_environment.json` when empty env tokens would override Setup tokens.
+| Path | What |
+|------|------|
+| `sheets/all-test-cases.csv` / `.xlsx` | Combined 280 TC + Summary |
+| `postman/eshop-hw06.postman_collection.json` | Postman collection |
+| `reports/newman-report.html` | Newman HTML report |
+| `bugs/BUG-*.md` | 8 product bug reports |
+| `ai_audit_log.md` | AI Audit Report appendix |
+| `git-commit-log.txt` | Git commit log per stage |
 
-Student header `X-Student-Id: 23127271` is injected via collection pre-request script.
+## Stage docs
+
+| Path | What |
+|------|------|
+| `docs/domain-testing-report.md` | Domain partitions (Skill-01) |
+| `docs/stage2-audit*.md` | Audit per category |
+| `docs/stage3-extend*.md` | Human SUP cases + why AI missed |
+| `docs/execution-artifacts.md` | Postman features + run instructions |
+| `docs/cicd-report.md` | GitHub Actions CI/CD + pass/fail run evidence |
+| `docs/data-driven-runner.md` | CSV Collection Runner (folder 99) |
+| `docs/newman-execution-summary.md` | Manual triage outcome |
+
+## CI/CD
+
+GitHub Actions workflow: `.github/workflows/hw06-api-tests.yml` (in `Repo/eshop-sut` root).
+
+Runs Newman folder **`CI — HW06 pipeline demo`** on push to `main`. See `docs/cicd-report.md`.
+
+Do not re-run Stage 1 generators after audit; they would overwrite corrected oracles.

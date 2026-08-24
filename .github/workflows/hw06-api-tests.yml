@@ -1,0 +1,80 @@
+name: HW06 API Tests (Newman)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "hw06/23127271/**"
+      - "backend/**"
+      - ".github/workflows/hw06-api-tests.yml"
+  workflow_dispatch:
+
+jobs:
+  newman:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    env:
+      BASE_URL: http://localhost:3000
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Start backend
+        working-directory: backend
+        run: |
+          npm start &
+          echo $! > ../backend.pid
+
+      - name: Wait for backend health
+        run: |
+          echo "Waiting for ${BASE_URL}/api/products ..."
+          for i in $(seq 1 60); do
+            if curl -sf "${BASE_URL}/api/products" -o /dev/null; then
+              echo "Backend ready after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Backend did not become ready within 60s"
+          exit 1
+
+      - name: Install Newman
+        run: npm install -g newman newman-reporter-htmlextra
+
+      - name: Run Newman (CI demo folder)
+        run: |
+          mkdir -p hw06/23127271/reports
+          newman run hw06/23127271/postman/eshop-hw06.postman_collection.json \
+            --folder "CI — HW06 pipeline demo" \
+            -r cli,htmlextra \
+            --reporter-htmlextra-export hw06/23127271/reports/newman-ci-report.html \
+            --timeout-request 30000 \
+            2>&1 | tee hw06/23127271/reports/newman-ci.log
+
+      - name: Upload Newman artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hw06-newman-reports
+          path: |
+            hw06/23127271/reports/newman-ci-report.html
+            hw06/23127271/reports/newman-ci.log
+          if-no-files-found: warn
+
+      - name: Stop backend
+        if: always()
+        run: |
+          if [ -f backend.pid ]; then
+            kill "$(cat backend.pid)" 2>/dev/null || true
+          fi

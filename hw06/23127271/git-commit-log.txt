@@ -1,3 +1,13 @@
+commit 181bcf4efcbf6b9a58e45fb11ef972581ac23b1e
+Author:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+AuthorDate: Mon Aug 24 01:10:34 2026 +0700
+Commit:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
+CommitDate: Mon Aug 24 01:10:34 2026 +0700
+
+    HW06: fix git-commit-log.txt UTF-8 encoding (author name and em dash).
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
 commit f444caacd2763717f9346e305cd9fdd07dd0c424
 Author:     Võ Ngọc Bích Trâm <23127271@student.hcmus.edu.vn>
 AuthorDate: Mon Aug 24 01:01:29 2026 +0700

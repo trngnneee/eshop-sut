@@ -1,0 +1,6 @@
+tc_id,test_phone,test_name,test_shipping_address,partition_note
+DD-PHONE-01,0912345678,Nguyen Van A,"123 Le Loi, Q1, TP.HCM",Valid — 10 digits starting with 0 (FR-04 on-point)
+DD-PHONE-02,09123456789,Nguyen Van A,"123 Le Loi, Q1, TP.HCM",Valid — 11 digits maximum (FR-04)
+DD-PHONE-03,0987654321,Nguyen Van A,"123 Le Loi, Q1, TP.HCM",Valid — alternate 10-digit partition
+DD-PHONE-04,1234567890,Nguyen Van A,"123 Le Loi, Q1, TP.HCM",Invalid — does not start with 0 (observe only)
+DD-PHONE-05,091234567,Nguyen Van A,"123 Le Loi, Q1, TP.HCM",Invalid — 9 digits too short (observe only)
